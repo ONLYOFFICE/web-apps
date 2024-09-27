@@ -13,11 +13,16 @@ apps/documenteditor/mobile/resources/sass/.sass-cache
 apps/spreadsheeteditor/mobile/resources/sass/.sass-cache
 apps/presentationeditor/mobile/resources/sass/.sass-cache
 apps/**/main/resources/**/iconssmall*.png
+apps/**/main/resources/**/iconssmall*.svg
 apps/**/main/resources/**/iconssmall*.less
 apps/**/main/resources/**/iconsbig*.png
+apps/**/main/resources/**/iconsbig*.svg
 apps/**/main/resources/**/iconsbig*.less
 apps/**/main/resources/**/iconshuge*.png
 apps/**/main/resources/**/iconshuge*.less
+apps/**/mobile/dist/*.*
+apps/**/mobile/hot/*.*
+apps/**/mobile/css/*.*
 
 
 # test documents

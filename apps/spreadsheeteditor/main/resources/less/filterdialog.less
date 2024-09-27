@@ -2,42 +2,75 @@
 
   .combo-values {
     width: 100%;
-    height: 100%;
+    display: flex;
     overflow: hidden;
 
-    .list-item {
-        word-break: break-all;
-    }
-
-    &.scroll-padding {
+    .treeview {
+      border: @scaled-one-px-value-ie solid @input-border;
+      border: @scaled-one-px-value solid @input-border;
       .item {
-        padding-right: 14px;
+        cursor: pointer;
+        &.selected {
+          background-color: @highlight-button-hover-ie;
+          background-color: @highlight-button-hover;
+          border-color: @highlight-button-hover-ie;
+          border-color: @highlight-button-hover;
+          color: @text-normal-ie;
+          color: @text-normal;
+          border-width: @scaled-one-px-value-ie 0;
+          border-width: @scaled-one-px-value 0;
+        }
+        .tree-item {
+          word-break: break-all;
+          min-height: 22px;
+          .padding-x(6px, 0);
+          &.date {
+            .padding-x(22px, 12px);
+          }
+          .name {
+            padding: 3px 0;
+            white-space: pre-wrap;
+          }
+          .btn-tree-caret {
+            display: inline-block;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            .rtl & {
+              left: unset;
+              right: 0;
+            }
+            &.up {
+              transform: rotate(270deg);
+              .rtl & {
+                transform: rotate(90deg);
+              }
+            }
+          }
+        }
       }
     }
-  }
-
-  .border-values {
-    border: @scaled-one-px-value-ie solid @input-border;
-    border: @scaled-one-px-value solid @input-border;
 
     .item {
-      &.selected {
-        background-color: @highlight-button-hover-ie;
-        background-color: @highlight-button-hover;
-        border-color: @highlight-button-hover-ie;
-        border-color: @highlight-button-hover;
-        color: @text-normal-ie;
-        color: @text-normal;
-        border-style: solid;
-        border-width: @scaled-one-px-value-ie 0;
-        border-width: @scaled-one-px-value 0;
+      .padding-right(12px);
+    }
+
+    &.shifted-right {
+      .treeview .item .tree-item {
+        .padding-left(22px);
       }
     }
   }
 
   .body {
-    height: auto;
-    top: 34px;
+    .autofilter& {
+      padding: 0;
+      .box {
+        padding: 0;
+      }
+    }
 
     & > div {
       width: 100%;
@@ -50,13 +83,8 @@
 
     .content-panel {
       vertical-align: top;
-      padding: 15px;
+      padding-bottom: 10px;
       width: 100%;
-
-      .inner-content {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
 
       label {
         .font-size-normal();
@@ -74,11 +102,18 @@
       }
 
       .autofilter& {
+        padding: 15px;
         border-right: 1px solid @border-divider-ie;
         border-right: @scaled-one-px-value solid @border-divider;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+
+        .rtl & {
+          border-right: 0;
+          border-left: 1px solid @border-divider-ie;
+          border-left: @scaled-one-px-value solid @border-divider;
+        }
       }
     }
 
@@ -116,20 +151,57 @@
     }
   }
 
-  .footer {
-    padding-top: 15px;
+  .combo-container-1 {
+    margin-top: 15px;
+  }
 
-    &.center {
-      text-align: center;
-    }
+  .combo-container-2 {
+    margin-top: 10px;
+  }
 
-    &.right {
-      text-align: right;
-    }
+  #id-search-begin-digital-combo,
+  #id-search-end-digital-combo {
+    width: 225px;
+    display: inline-block;
+    vertical-align: top;
+  }
 
-    &.justify {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
+  #id-sd-cell-search-begin,
+  #id-sd-cell-search-end {
+    width: 225px;
+    display: inline-block;
+  }
+
+  #id-and-radio {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  #id-or-radio {
+    display: inline-block;
+  }
+
+  .separator {
+    width:100%
+  }
+}
+
+.date-filter {
+  .combo-container-1,
+  .combo-container-2 {
+    display: flex;
+  }
+
+  #id-btn-date-picker-1,
+  #id-btn-date-picker-2 {
+    position: relative;
+  }
+
+  #date-picker-1,
+  #date-picker-2 {
+    position: absolute;
+    left: 0;
+    top : 100%;
+    z-index: 1;
   }
 }

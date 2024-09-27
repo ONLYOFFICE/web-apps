@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "모든 인수의 논리 '배타적 Or' 값을 구합니다."
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 문자를 구분하기 전의 텍스트를 반환합니다."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": " 문자를 구분한 후의 텍스트를 반환합니다."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "구분 기호를 사용하여 텍스트를 행 또는 열로 분할합니다."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "지정된 수의 값 뒤에 행 또는 열 벡터를 래핑합니다."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "수직으로 배열을 하나의 배열로 쌓습니다."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "수평으로 배열을 하나의 배열로 쌓습니다."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "배열이나 참조에서 행을 반환합니다."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "배열 또는 참조에서 열을 반환합니다."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "배열을 하나의 열로 반환합니다."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "배열을 하나의 행으로 반환합니다."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "지정된 수의 값 뒤에 행 또는 열 벡터를 래핑합니다."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "배열 시작 또는 끝에서 행 또는 열을 반환합니다."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "배열 시작 또는 끝에서 행 또는 열을 삭제합니다."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "숫자 시퀀스를 반환합니다"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "배열을 지정된 차원으로 확장합니다."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "배열에 있는 항목의 상대 위치를 반환합니다. 기본적으로 정확히 일치해야 합니다"
+	},
+	"FILTER": {
+		"a": "(배열, 포함, [if_empty])",
+		"d": "범위 또는 배열 필터링"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "배열의 텍스트 표현을 반환 합니다."
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "범위 또는 배열을 정렬"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "해당 범위 또는 배열의 값을 기준으로 범위 또는 배열을 정렬합니다"
 	}
 }

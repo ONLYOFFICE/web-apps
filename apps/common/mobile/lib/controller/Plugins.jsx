@@ -1,44 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { Device } from '../../utils/device';
 
 const PluginsController = inject('storeAppOptions')(observer(props => {
     const { storeAppOptions } = props;
-    let configPlugins = {autostart:[]},
-        serverPlugins = {autostart:[]},
-        modal,
-        iframe;
+    const refConfigPlugins = useRef({ autostart:[] });
+    const refServerPlugins = useRef({ autostart:[] });
+    let modal, iframe;
 
     useEffect(() => {
-        const onDocumentReady = () => {
-            Common.Notifications.on('engineCreated', api => {
-                api.asc_registerCallback("asc_onPluginShow", showPluginModal);
-                api.asc_registerCallback("asc_onPluginClose", pluginClose);
-                api.asc_registerCallback("asc_onPluginResize", pluginResize);
-                api.asc_registerCallback('asc_onPluginsInit', onPluginsInit);
+        if (storeAppOptions.customization && !!storeAppOptions.customization.plugins) {
+            const api = Common.EditorApi.get();
 
-                if(!storeAppOptions.customization || storeAppOptions.plugins !== false) {
-                    loadPlugins();
-                }
-            });
-    
-            Common.Gateway.on('init', loadConfig);
-        };
+            api.asc_registerCallback("asc_onPluginShow", showPluginModal);
+            api.asc_registerCallback("asc_onPluginClose", pluginClose);
+            api.asc_registerCallback("asc_onPluginResize", pluginResize);
+            api.asc_registerCallback('asc_onPluginsInit', onPluginsInit);
 
-        onDocumentReady();
+            loadPlugins();
+        }
+
+        Common.Gateway.on('init', loadConfig);
 
         return () => {
             const api = Common.EditorApi.get();
 
-            if ( api ) {
+            if (api) {
                 api.asc_unregisterCallback("asc_onPluginShow", showPluginModal);
                 api.asc_unregisterCallback("asc_onPluginClose", pluginClose);
                 api.asc_unregisterCallback("asc_onPluginResize", pluginResize);
                 api.asc_unregisterCallback('asc_onPluginsInit', onPluginsInit);
             }
         };
-    });
+    }, [storeAppOptions.customization]);
 
     const onDlgBtnClick = e => {
         const api = Common.EditorApi.get();
@@ -179,7 +174,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const loadConfig = data => {
-        configPlugins.config = data.config.plugins;
+        refConfigPlugins.current.config = data.config.plugins;
     };
 
     const onPluginsInit = pluginsdata => {
@@ -190,8 +185,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     const parsePlugins = pluginsdata => {
         let isEdit = storeAppOptions.isEdit;
         
-        if ( pluginsdata instanceof Array ) { 
-            let lang = storeAppOptions.lang.split(/[\-_]/)[0];
+        if (pluginsdata instanceof Array) { 
+            let lang = storeAppOptions.lang ? storeAppOptions.lang.split(/[\-_]/)[0] : 'en';
             pluginsdata.forEach((item) => {
                 item.variations.forEach( (itemVar) => { 
                     let description = itemVar.description;
@@ -225,15 +220,15 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const mergePlugins = () => {
-        if (serverPlugins.plugins !== undefined && configPlugins.plugins !== undefined) {
+        if (refServerPlugins.current.plugins !== undefined && refConfigPlugins.current.plugins !== undefined) {
             let arr = [],
-                plugins = configPlugins;
+                plugins = refConfigPlugins.current;
 
             if (plugins.plugins && plugins.plugins.length > 0) {
                 arr = plugins.plugins;
             }
 
-            plugins = serverPlugins;
+            plugins = refServerPlugins.current;
 
             if (plugins.plugins && plugins.plugins.length > 0) {
                 arr = arr.concat(plugins.plugins);
@@ -244,30 +239,34 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     };
 
     const loadPlugins = () => {
-        if (configPlugins.config) {
-            getPlugins(configPlugins.config.pluginsData)
+        if (refConfigPlugins.current.config) {
+            getPlugins(refConfigPlugins.current.config.pluginsData)
                 .then(function(loaded)
                 {
-                    configPlugins.plugins = loaded;
+                    refConfigPlugins.current.plugins = loaded;
                     mergePlugins();
                 });
+            if (configPlugins.config.options) {
+                const api = Common.EditorApi.get();
+                api && api.setPluginsOptions(configPlugins.config.options);
+            }
         } else {
-            configPlugins.plugins = false;
+            refConfigPlugins.current.plugins = false;
         }
 
         let server_plugins_url = '../../../../plugins.json';
 
         Common.Utils.loadConfig(server_plugins_url, function (obj) {
             if (obj != 'error') {
-                serverPlugins.config = obj;
-                getPlugins(serverPlugins.config.pluginsData)
+                refServerPlugins.current.config = obj;
+                getPlugins(refServerPlugins.current.config.pluginsData)
                     .then(function(loaded)
                     {
-                        serverPlugins.plugins = loaded;
+                        refServerPlugins.current.plugins = loaded;
                         mergePlugins();
                     });
             } else
-                serverPlugins.plugins = false;
+                refServerPlugins.current.plugins = false;
         });
     };
 

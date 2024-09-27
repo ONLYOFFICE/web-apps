@@ -4,7 +4,6 @@
         margin-bottom: 5px;
 
         &:before {
-            //content: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/about/logo.png')), ~"url('@{common-image-const-path}/about/logo.png')");
             content: ~"url('@{common-image-const-path}/about/logo_s.svg')";
 
             .theme-type-dark & {
@@ -19,6 +18,7 @@
     .asc-about-header {
         margin: 0 30px;
         font: 12px Tahoma;
+        .font-size-medium();
         letter-spacing: 1px;
         color: @text-normal-ie;
         color: @text-normal;
@@ -44,6 +44,7 @@
         &.asc-about-desc-name,
         &.asc-about-lic {
             font: 12px Tahoma;
+            .font-size-medium();
             color: @text-normal-ie;
             color: @text-normal;
         }
@@ -62,6 +63,7 @@
 
     a {
         font: 12px Tahoma;
+        .font-size-medium();
         color: @text-normal-ie;
         color: @text-normal;
     }

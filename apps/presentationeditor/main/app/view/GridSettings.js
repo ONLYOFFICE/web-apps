@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  GridSettings.js
  *
- *  Created by Julia Radzhabova on 09/30/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 09/30/22
  *
  */
 
@@ -60,14 +58,13 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 55px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="text">' + this.textSpacing + '</label>',
                     '</div>',
-                    '<div id="grid-spacing-combo" class="input-group-nr" style="display: inline-block;width:86px;"></div>',
-                    '<div id="grid-spacing-spin" style="display: inline-block;margin-left: 10px;"></div>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                    '<div id="grid-spacing-combo" class="input-group-nr" style="margin-bottom:10px;"></div>',
+                    '<div id="grid-spacing-spin" class="margin-left-10" style="margin-bottom:10px;"></div>',
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -133,7 +130,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGridSpacing, this.spnSpacing ];
+            return [ this.cmbGridSpacing, this.spnSpacing ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

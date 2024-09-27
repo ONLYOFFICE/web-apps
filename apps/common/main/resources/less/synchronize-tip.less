@@ -2,6 +2,12 @@
     position: fixed;
     z-index: @zindex-navbar + 2;
 
+    .tip-header {
+        .font-size-medium();
+        .font-weight-bold();
+        margin-bottom: 4px;
+    }
+
     &:not(.simple) {
         max-width: 300px;
     }
@@ -23,19 +29,16 @@
 
     &.closable {
         .asc-synchronizetip {
-            padding-right: 30px;
+            .padding-x(15px, 25px);
         }
     }
 
     &.theme-color {
         .asc-synchronizetip {
-            background-color: @header-background-color-ie;
-            background-color: @header-background-color;
+            .header-background-color();
             color: @text-toolbar-header-ie;
             color: @text-toolbar-header;
-            border-color: @header-background-color-ie;
-            border-color: @header-background-color;
-
+            .header-border-color();
             .close {
                 &:before, &:after {
                     background-color: @text-toolbar-header-ie;
@@ -45,14 +48,11 @@
         }
 
         .tip-arrow:before {
-            background-color: @header-background-color-ie;
-            background-color: @header-background-color;
-            border-color: @header-background-color-ie !important;
-            border-color: @header-background-color !important;
+            .header-background-color();
+            .header-border-color();
         }
         .tip-arrow:after {
-            border-color: @header-background-color-ie !important;
-            border-color: @header-background-color !important;
+            .header-border-color();
         }
     }
 
@@ -449,7 +449,7 @@
     }
 
     .box-shadow(0 4px 15px -2px rgba(0, 0, 0, 0.5));
-    font-size: 11px;
+    .font-size-normal();
 }
 
 .asc-synchronizetip .tip-arrow:before {
@@ -509,9 +509,13 @@
     height: 16px;
     margin: 5px;
     cursor: pointer;
-
     opacity: 0.7;
     transition: transform .3s;
+
+    .rtl & {
+        right: auto;
+        left: 0;
+    }
 
     &:hover {
         transform: scale(1.1);

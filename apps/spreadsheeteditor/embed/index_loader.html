@@ -184,13 +184,19 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
 
       <!-- debug begin -->
       <script type="text/javascript">var less=less||{};less.env='development';</script>
-      <script src="../../../vendor/less/dist/less-1.5.1.js" type="text/javascript"></script>
+      <script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
       <!-- debug end -->
 
       <script>
@@ -280,7 +286,15 @@
 
       <div class="viewer">
           <div id="editor_sdk" class="sdk-view" style="overflow: hidden;" tabindex="-1"></div>
-          <ul id="worksheets" class="worksheet-list"></ul>
+          <div id="worksheet-container" class="worksheet-list-container">
+              <div class="worksheet-list-buttons">
+                  <button id="worksheet-list-button-prev" class="control-btn svg-icon search-arrow-left" disabled>
+                  </button>
+                  <button id="worksheet-list-button-next" class="control-btn svg-icon search-arrow-right" disabled>
+                  </button>
+              </div>
+              <ul id="worksheets" class="worksheet-list"></ul>
+          </div>
       </div>
 
       <div class="overlay-controls" style="margin-left: -32px">
@@ -301,6 +315,7 @@
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
+              <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
           </div>
       </div>
 
@@ -314,7 +329,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>
@@ -347,6 +362,8 @@
       <script type="text/javascript" src="../../common/embed/lib/view/LoadMask.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
+      <script type="text/javascript" src="../../common/embed/lib/view/SearchBar.js"></script>
+      <script type="text/javascript" src="js/SearchBar.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
       <script type="text/javascript" src="js/application.js"></script>
@@ -356,6 +373,7 @@
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

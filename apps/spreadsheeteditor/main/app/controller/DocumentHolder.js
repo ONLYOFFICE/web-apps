@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,14 +28,13 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentHolder.js
  *
  *  DocumentHolder controller
  *
- *  Created by Julia Radzhabova on 3/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/28/14
  *
  */
 
@@ -62,19 +60,7 @@ define([
     'core',
     'common/main/lib/util/utils',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/ListSettingsDialog',
-    'spreadsheeteditor/main/app/view/DocumentHolder',
-    'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-    'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/SetValueDialog',
-    'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog',
-    'spreadsheeteditor/main/app/view/MacroDialog'
+    'spreadsheeteditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 
@@ -107,7 +93,11 @@ define([
                 input_msg: {},
                 foreignSelect: {
                     ttHeight: 20
-                }
+                },
+                eyedropper: {
+                    isHidden: true
+                },
+                placeholder: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -119,6 +109,8 @@ define([
             me._state = {wsLock: false, wsProps: []};
             me.fastcoauthtips = [];
             me._TtHeight = 20;
+            me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -129,23 +121,27 @@ define([
 
             this.addListeners({
                 'DocumentHolder': {
-                    'createdelayedelements': this.onCreateDelayedElements
+                    'createdelayedelements': this.onCreateDelayedElements,
+                    'equation:callback': this.equationCallback
                 }
             });
 
             var keymap = {};
-            this.hkComments = 'alt+h';
+            this.hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
             keymap[this.hkComments] = function() {
                 me.onAddComment();
                 return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
+
+            Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
         },
 
         onLaunch: function() {
             var me = this;
 
             me.documentHolder = this.createView('DocumentHolder');
+            me.documentHolder._currentTranslateObj = this;
 
 //            me.documentHolder.on('render:after', _.bind(me.onAfterRender, me));
 
@@ -182,15 +178,19 @@ define([
                     me.onCellsRange(status);
                 },
                 'tabs:dragend': _.bind(me.onDragEndMouseUp, me),
+                'pivot:dragend': _.bind(me.onDragEndMouseUp, me),
                 'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
-        onCreateDelayedElements: function(view) {
+        onCreateDelayedElements: function(view, type) {
             var me = this;
-            if (me.permissions.isEdit && !me._isDisabled) {
+            me.type = type;
+
+            if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
                 view.pmiPaste.on('click',                           _.bind(me.onCopyPaste, me));
@@ -213,8 +213,18 @@ define([
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
                 view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.mnuRefreshPivot.on('click',                    _.bind(me.onRefreshPivot, me));
+                view.mnuExpandCollapsePivot.menu.on('item:click',   _.bind(me.onExpandCollapsePivot, me));
                 view.mnuGroupPivot.on('click',                      _.bind(me.onGroupPivot, me));
                 view.mnuUnGroupPivot.on('click',                    _.bind(me.onGroupPivot, me));
+                view.mnuPivotSettings.on('click',                   _.bind(me.onPivotSettings, me));
+                view.mnuFieldSettings.on('click',                   _.bind(me.onFieldSettings, me));
+                view.mnuDeleteField.on('click',                     _.bind(me.onDeleteField, me));
+                view.mnuSubtotalField.on('click',                   _.bind(me.onSubtotalField, me));
+                view.mnuSummarize.menu.on('item:click',             _.bind(me.onSummarize, me));
+                view.mnuShowAs.menu.on('item:click',                _.bind(me.onShowAs, me));
+                view.mnuShowDetails.on('click',                     _.bind(me.onShowDetails, me));
+                view.mnuPivotSort.menu.on('item:click',             _.bind(me.onPivotSort, me));
+                view.mnuPivotFilter.menu.on('item:click',           _.bind(me.onPivotFilter, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -257,6 +267,7 @@ define([
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
                 view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
+                view.pmiCellFormat.on('click',                      _.bind(me.onCellFormat, me));
                 view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
@@ -266,30 +277,9 @@ define([
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
-
-
-                if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
-                    var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                            var command = message.data.command;
-                            var data = message.data.data;
-                            if (me.api) {
-                                if (oleEditor.isEditMode())
-                                    me.api.asc_editTableOleObject(data);
-                            }
-                        }, me));
-                        oleEditor.on('hide', _.bind(function(cmp, message) {
-                            if (me.api) {
-                                me.api.asc_enableKeyEvents(true);
-                                me.api.asc_onCloseChartFrame();
-                            }
-                            setTimeout(function(){
-                                view.fireEvent('editcomplete', view);
-                            }, 10);
-                        }, me));
-                    }
-                }
+                view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
+                view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
+                view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -298,6 +288,7 @@ define([
                 view.menuSignatureDetails.on('click',               _.bind(me.onSignatureClick, me));
                 view.menuSignatureViewSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
+                view.pmiViewGetRangeList.on('click',                _.bind(me.onGetLink, me));
             }
 
             var addEvent = function( elem, type, fn, options ) {
@@ -322,6 +313,10 @@ define([
                                     documentHolderEl.focus();
                             }
                         }
+                    },
+                    touchstart: function(e){
+                        if (e.target.localName == 'canvas')
+                            Common.UI.Menu.Manager.hideAll();
                     }
                 });
 
@@ -336,6 +331,41 @@ define([
             this.onChangeProtectSheet();
         },
 
+        createPostLoadElements: function() {
+            var me = this;
+
+            me.permissions.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
+            if (me.type !== 'edit') {
+                return;
+            }
+
+            if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
+                var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor) {
+                    oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                        var command = message.data.command;
+                        var data = message.data.data;
+                        if (me.api) {
+                            if (oleEditor.isEditMode())
+                                me.api.asc_editTableOleObject(data);
+                        }
+                    }, me));
+                    oleEditor.on('hide', _.bind(function(cmp, message) {
+                        if (me.api) {
+                            me.api.asc_enableKeyEvents(true);
+                            me.api.asc_onCloseChartFrame();
+                        }
+                        setTimeout(function(){
+                            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        }, 10);
+                    }, me));
+                }
+            }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+        },
+
         loadConfig: function(data) {
             this.editorConfig = data.config;
         },
@@ -347,6 +377,7 @@ define([
                 ? Common.util.Shortcuts.suspendEvents(this.hkComments)
                 : Common.util.Shortcuts.resumeEvents(this.hkComments);
             /** coauthoring end **/
+            this.documentHolder.setMode(permissions);
         },
 
         setApi: function(api) {
@@ -367,7 +398,7 @@ define([
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
                 this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
                 this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
-                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
+                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onApiFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
@@ -375,14 +406,22 @@ define([
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
                 this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
+                this.api.asc_registerCallback('asc_onShowPivotHeaderDetailsDialog', _.bind(this.onShowPivotHeaderDetailsDialog, this));
                 this.api.asc_registerCallback('asc_onShowPivotGroupDialog', _.bind(this.onShowPivotGroupDialog, this));
-                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle)
+                if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle) {
                     this.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(this.onDoubleClickOnTableOleObject, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
+                    this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(this.onInsertImageUrl, this));
+
+                }
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropperTip, this));
+                this.api.asc_SetMathInputType(Common.localStorage.getBool("sse-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
             }
             this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
             this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
+            this.api.asc_registerCallback('onPluginContextMenu',                _.bind(this.onPluginContextMenu, this));
 
             return this;
         },
@@ -394,6 +433,23 @@ define([
             this.api.asc_registerCallback('asc_onHideComment',      this.wrapEvents.apiHideComment);
 //            this.api.asc_registerCallback('asc_onShowComment',      this.wrapEvents.apiShowComment);
             /** coauthoring end **/
+        },
+
+        onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onCopyPaste: function(item) {
@@ -484,7 +540,7 @@ define([
                             title: this.txtSorting,
                             msg: this.txtExpandSort,
                             buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                {caption: this.txtSortSelected, value: 'sort'},
                                 'cancel'],
                             callback: _.bind(function(btn){
                                 if (btn == 'expand' || btn == 'sort') {
@@ -576,14 +632,54 @@ define([
 
         onRefreshPivot: function(){
             if (this.api) {
-                this.propsPivot.asc_refresh(this.api);
+                this.propsPivot.originalProps.asc_refresh(this.api);
             }
+        },
+
+        onExpandCollapsePivot: function(menu, item, e) {
+            this.propsPivot.originalProps.asc_setExpandCollapseByActiveCell(this.api, item.value.isAll, item.value.visible);
         },
 
         onGroupPivot: function(item) {
             item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
         },
 
+        onShowPivotHeaderDetailsDialog: function(isRow, isAll) {
+            var me = this,
+                pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo(),
+                cacheFields = pivotInfo.asc_getCacheFields(),
+                pivotFields = pivotInfo.asc_getPivotFields(),
+                fieldsNames = _.map(pivotFields, function(item, index) {
+                    return {
+                        index: index,
+                        name: item.asc_getName() || cacheFields[index].asc_getName()
+                    }
+                }),
+                excludedFields = [];
+
+            if(isRow) excludedFields = pivotInfo.asc_getRowFields();
+            else excludedFields = pivotInfo.asc_getColumnFields();
+            
+            excludedFields && (excludedFields = _.filter(excludedFields, function(item){
+                var pivotIndex = item.asc_getIndex();
+                return (pivotIndex>-1 || pivotIndex == -2);
+            }));
+
+            excludedFields.forEach(function(excludedItem) {
+                var indexInFieldsNames = _.findIndex(fieldsNames, function(item) { return excludedItem.asc_getIndex() == item.index});          
+                fieldsNames.splice(indexInFieldsNames, 1);
+            });
+
+            new SSE.Views.PivotShowDetailDialog({
+                handler: function(result, value) {
+                    if (result == 'ok' && value) {
+                        me.api.asc_pivotShowDetailsHeader(value.index, isAll) ;
+                    }
+                },
+                fieldsNames: fieldsNames,
+            }).show();
+        },
+        
         onShowPivotGroupDialog: function(rangePr, dateTypes, defRangePr) {
             var win, props,
                 me = this;
@@ -599,6 +695,291 @@ define([
             });
             win.show();
             win.setSettings(rangePr, dateTypes, defRangePr);
+        },
+
+        onPivotSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                (new SSE.Views.PivotSettingsAdvanced(
+                    {
+                        props: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok' && me.api && value) {
+                                props.asc_set(me.api, value);
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+            }
+        },
+
+        onFieldSettings: function(){
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var me = this;
+            if (me.api){
+                if (me.propsPivot.fieldType === 2) { // value field
+                    var field = me.propsPivot.field;
+                    (new SSE.Views.ValueFieldSettingsDialog(
+                        {
+                            props: props,
+                            field: field,
+                            showAsValue: me.propsPivot.showAsValue,
+                            api: me.api,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    field.asc_set(me.api, props, me.propsPivot.index, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                } else {
+                    (new SSE.Views.FieldSettingsDialog(
+                        {
+                            props: props,
+                            fieldIndex: me.propsPivot.pivotIndex,
+                            api: me.api,
+                            type: me.propsPivot.fieldType,
+                            handler: function(result, value) {
+                                if (result === 'ok' && me.api && value) {
+                                    me.propsPivot.field.asc_set(me.api, props, me.propsPivot.pivotIndex, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                                }
+
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                }
+            }
+        },
+
+        onDeleteField: function(){
+            if (this.api && this.propsPivot.originalProps && this.propsPivot.field) {
+                if (this.propsPivot.fieldType===2) { // value
+                    if (this.propsPivot.rowTotal || this.propsPivot.colTotal) {
+                        var props = new Asc.CT_pivotTableDefinition();
+                        props.asc_setRowGrandTotals(this.propsPivot.rowTotal ? false : this.propsPivot.originalProps.asc_getRowGrandTotals());
+                        props.asc_setColGrandTotals(this.propsPivot.colTotal ? false : this.propsPivot.originalProps.asc_getColGrandTotals());
+                        this.propsPivot.originalProps.asc_set(this.api, props);
+                    } else
+                        this.propsPivot.originalProps.asc_removeDataField(this.api, this.propsPivot.pivotIndex, this.propsPivot.index);
+                } else
+                    this.propsPivot.originalProps.asc_removeNoDataField(this.api, this.propsPivot.pivotIndex);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onSubtotalField: function(item){
+            if (this.api && this.propsPivot.originalProps) {
+                var props = new Asc.CT_pivotTableDefinition();
+                if (item.checked) {
+                    props.asc_setDefaultSubtotal(true);
+                    props.asc_setSubtotalTop(true);
+                } else {
+                    props.asc_setDefaultSubtotal(false);
+                }
+                this.propsPivot.originalProps.asc_set(this.api, props);
+            }
+        },
+
+        onSummarize: function(menu, item, e) {
+            if (!this.propsPivot.originalProps) return;
+
+            if (item.value===-1)
+                this.onFieldSettings();
+            else if (item.value!==undefined && item.value!==null) {
+                var field = new Asc.CT_DataField();
+                field.asc_setSubtotal(item.value);
+                this.propsPivot.fieldSourceName && field.asc_setName(this.txtByField.replace('%1', item.caption).replace('%2',  this.propsPivot.fieldSourceName));
+                this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onShowAs: function(menu, item, e) {
+            if (!this.propsPivot.originalProps) return;
+
+            if (item.value===-1 || item.options.showMore) {
+                if (item.options.showMore)
+                    this.propsPivot.showAsValue = item.value;
+                this.onFieldSettings();
+            } else if (item.value!==undefined && item.value!==null) {
+                var field = new Asc.CT_DataField();
+                field.asc_setShowDataAs(item.value);
+
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(item.options.numFormat);
+                info.asc_setDecimalPlaces(item.options.numFormat===Asc.c_oAscNumFormatType.Percent ? 2 : 0);
+                info.asc_setSeparator(false);
+                field.asc_setNumFormat(this.api.asc_getFormatCells(info)[0]);
+
+                this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, this.propsPivot.index, field);
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        showCustomFilterDlg: function(filter, type) {
+            var filterObj = filter.asc_getFilterObj();
+            if (filterObj.asc_getType() !== Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var newCustomFilter = new Asc.CustomFilters();
+                newCustomFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+
+                var newCustomFilters = newCustomFilter.asc_getCustomFilters();
+                newCustomFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.equals);
+                newCustomFilter.asc_setAnd(true);
+                newCustomFilters[0].asc_setVal('');
+
+                filterObj.asc_setFilter(newCustomFilter);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+            }
+
+            var me = this,
+                dlgDigitalFilter = new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: type}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+
+            dlgDigitalFilter.setSettings(filter);
+            dlgDigitalFilter.show();
+        },
+
+        onPivotFilter: function(menu, item, e) {
+            if (!this.propsPivot.filter) return;
+
+            var filter = this.propsPivot.filter,
+                me = this;
+            if (item.value==='value') {
+                var pivotObj = filter.asc_getPivotObj(),
+                    fields = pivotObj.asc_getDataFields();
+                if (fields.length<2) {
+                    Common.UI.warning({title: this.textWarning,
+                        msg: this.warnFilterError,
+                        callback: function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                } else {
+                    this.showCustomFilterDlg(filter, item.value);
+                }
+            } else if (item.value==='label') {
+                this.showCustomFilterDlg(filter, item.value);
+            } else if (item.value==='top10') {
+                var dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api, type: 'value'}).on({
+                    'close': function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }
+                });
+                dlgTop10Filter.setSettings(filter);
+                dlgTop10Filter.show();
+            } else if (item.value==='clear') {
+                this.api.asc_clearFilterColumn(filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onPivotSort: function(menu, item, e) {
+            if (!(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter)) return;
+
+            var me = this;
+            if (item.value==='advanced') {
+                var dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                        'close': function() {
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    });
+                dlgSort.setSettings({filter : this.propsPivot.filter, rowFilter: this.propsPivot.rowFilter, colFilter: this.propsPivot.colFilter});
+                dlgSort.show();
+            } else {
+                var filter = this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter;
+                this.api.asc_sortColFilter(item.value, filter.asc_getCellId(), filter.asc_getDisplayName());
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onShowDetails: function(item, e) {
+            this.propsPivot.originalProps && this.api && this.api.asc_pivotShowDetails(this.propsPivot.originalProps);
+        },
+
+        fillPivotProps: function() {
+            var props = this.propsPivot.originalProps;
+            if (!props) return;
+
+            var info = this.api.asc_getPivotInfo(),
+                pageFieldIndex = info.asc_getPageFieldIndex(),
+                colFieldIndex = info.asc_getColFieldIndex(),
+                rowFieldIndex = info.asc_getRowFieldIndex(),
+                dataFieldIndex = info.asc_getDataFieldIndex();
+
+            this.propsPivot.canExpandCollapse = info.asc_canExpandCollapse();
+            this.propsPivot.canGroup = info.asc_canGroup();
+            this.propsPivot.rowTotal = info.asc_getRowGrandTotals();
+            this.propsPivot.colTotal = info.asc_getColGrandTotals();
+            this.propsPivot.filter = info.asc_getFilter();
+            this.propsPivot.rowFilter = info.asc_getFilterRow();
+            this.propsPivot.colFilter = info.asc_getFilterCol();
+            this.propsPivot.showDetails = info.asc_showDetails();
+
+            if (colFieldIndex>-1) {
+                var fprops = props.asc_getColumnFields();
+                if (fprops) {
+                    var pivotIndex = fprops[colFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = colFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 0;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            } else if (rowFieldIndex>-1) {
+                var fprops = props.asc_getRowFields();
+                if (fprops) {
+                    var pivotIndex = fprops[rowFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = rowFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 1;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }  else if (pageFieldIndex>-1) {
+                var fprops = props.asc_getPageFields();
+                if (fprops) {
+                    var pivotIndex = fprops[pageFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = pageFieldIndex;
+                        this.propsPivot.field = props.asc_getPivotFields()[pivotIndex];
+                        this.propsPivot.fieldType = 3;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName() || props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }
+            if (dataFieldIndex>-1) {
+                var fprops = props.asc_getDataFields();
+                if (fprops) {
+                    var pivotIndex = fprops[dataFieldIndex].asc_getIndex();
+                    if (pivotIndex>-1) {
+                        this.propsPivot.pivotIndex = pivotIndex;
+                        this.propsPivot.index = dataFieldIndex;
+                        this.propsPivot.field = fprops[dataFieldIndex];
+                        this.propsPivot.fieldType = 2;
+                        this.propsPivot.fieldName = this.propsPivot.field.asc_getName();
+                        this.propsPivot.fieldSourceName = props.asc_getCacheFields()[pivotIndex].asc_getName();
+                    }
+                }
+            }
         },
 
         onClear: function(menu, item, e) {
@@ -696,7 +1077,7 @@ define([
                 win.setSettings({
                     sheets  : items,
                     ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
-                    currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
+                    currentSheet: me.api.asc_getActiveWorksheetIndex(),
                     props   : props,
                     text    : cell.asc_getText(),
                     isLock  : cell.asc_getLockText(),
@@ -968,21 +1349,17 @@ define([
             }
 
             if (rawData.type===0 && rawData.subtype===0x1000) {// custom bullet
-                var bullet = new Asc.asc_CBullet();
-                if (rawData.drawdata.type===Asc.asc_PreviewBulletType.char) {
-                    bullet.asc_putSymbol(rawData.drawdata.char);
-                    bullet.asc_putFont(rawData.drawdata.specialFont);
-                } else if (rawData.drawdata.type===Asc.asc_PreviewBulletType.image)
-                    bullet.asc_fillBulletImage(rawData.drawdata.imageId);
-
-                var props;
-                var selectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        props = selectedObjects[i].asc_getObjectValue();
-                        props.asc_putBullet(bullet);
-                        this.api.asc_setGraphicObjectProps(props);
-                        break;
+                var bullet = rawData.customBullet;
+                if (bullet) {
+                    var props;
+                    var selectedObjects = this.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            props.asc_putBullet(bullet);
+                            this.api.asc_setGraphicObjectProps(props);
+                            break;
+                        }
                     }
                 }
             } else
@@ -1232,6 +1609,26 @@ define([
             }
         },
 
+        hideEyedropperTip: function () {
+            if (!this.tooltips.eyedropper.isHidden && this.tooltips.eyedropper.color) {
+                this.tooltips.eyedropper.color.css({left: '-1000px', top: '-1000px'});
+                if (this.tooltips.eyedropper.ref) {
+                    this.tooltips.eyedropper.ref.hide();
+                    this.tooltips.eyedropper.ref = undefined;
+                }
+                this.tooltips.eyedropper.isHidden = true;
+            }
+        },
+
+        hidePlaceholderTip: function() {
+            if (!this.tooltips.placeholder.isHidden && this.tooltips.placeholder.ref) {
+                this.tooltips.placeholder.ref.hide();
+                this.tooltips.placeholder.ref = undefined;
+                this.tooltips.placeholder.text = '';
+                this.tooltips.placeholder.isHidden = true;
+            }
+        },
+
         onApiMouseMove: function(dataarray) {
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
@@ -1242,7 +1639,9 @@ define([
                         index_column, index_row,
                         index_filter,
                         index_slicer,
-                        index_foreign;
+                        index_foreign,
+                        index_eyedropper,
+                        index_placeholder;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -1271,6 +1670,12 @@ define([
                         case Asc.c_oAscMouseMoveType.ForeignSelect:
                             index_foreign = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Eyedropper:
+                            index_eyedropper = i;
+                            break;
+                        case Asc.c_oAscMouseMoveType.Placeholder:
+                            index_placeholder = i;
+                            break;
                     }
                 }
 
@@ -1285,9 +1690,11 @@ define([
                     filterTip       = me.tooltips.filter,
                     slicerTip       = me.tooltips.slicer,
                     foreignSelect   = me.tooltips.foreignSelect,
+                    eyedropperTip   = me.tooltips.eyedropper,
+                    placeholderTip   = me.tooltips.placeholder,
                     pos             = [
-                        me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                     ];
 
                 //close all tooltips
@@ -1333,6 +1740,9 @@ define([
                             slicerTip.isHidden = true;
                         }
                     }
+                    if (!index_placeholder) {
+                        me.hidePlaceholderTip();
+                    }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
                     if (!filterTip.isHidden && filterTip.ref) {
@@ -1341,6 +1751,9 @@ define([
                         filterTip.text = '';
                         filterTip.isHidden = true;
                     }
+                }
+                if (!index_eyedropper) {
+                    me.hideEyedropperTip();
                 }
                 // show tooltips
 
@@ -1524,6 +1937,59 @@ define([
                             }
                         }
                     }
+
+                    if (index_placeholder) {
+                        if (!placeholderTip.parentEl) {
+                            placeholderTip.parentEl = $('<div id="tip-container-placeholdertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(placeholderTip.parentEl);
+                        }
+
+                        var data  = dataarray[index_placeholder-1],
+                            phstr;
+
+                        switch (data.asc_getPlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                phstr = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                phstr = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
+
+                        if (placeholderTip.ref && placeholderTip.ref.isVisible()) {
+                            if (placeholderTip.text != phstr) {
+                                placeholderTip.ref.hide();
+                                placeholderTip.ref = undefined;
+                                placeholderTip.text = '';
+                                placeholderTip.isHidden = true;
+                            }
+                        }
+
+                        if (!placeholderTip.ref || !placeholderTip.ref.isVisible()) {
+                            placeholderTip.text = phstr;
+                            placeholderTip.ref = new Common.UI.Tooltip({
+                                owner   : placeholderTip.parentEl,
+                                html    : true,
+                                title   : phstr
+                            });
+
+                            placeholderTip.ref.show([-10000, -10000]);
+                            placeholderTip.isHidden = false;
+
+                            showPoint = [data.asc_getX(), data.asc_getY()];
+                            showPoint[0] += (pos[0] + 6);
+                            showPoint[1] += (pos[1] - 20);
+                            showPoint[1] -= placeholderTip.ref.getBSTip().$tip.height();
+                            var tipwidth = placeholderTip.ref.getBSTip().$tip.width();
+                            if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                                showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                            placeholderTip.ref.getBSTip().$tip.css({
+                                top : showPoint[1] + 'px',
+                                left: showPoint[0] + 'px'
+                            });
+                        }
+                    }
                 }
                 if (index_foreign && me.isUserVisible(dataarray[index_foreign-1].asc_getUserId())) {
                     data = dataarray[index_foreign-1];
@@ -1595,9 +2061,9 @@ define([
 
                         showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
 
-                        var tipheight = filterTip.ref.getBSTip().$tip.width();
-                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
-                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                        var tipheight = filterTip.ref.getBSTip().$tip.height();
+                        if (showPoint[1] + tipheight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - tipheight - 5;
                             showPoint[0] += 20;
                         }
 
@@ -1623,7 +2089,7 @@ define([
                     if (slicerTip.ref && slicerTip.ref.isVisible()) {
                         if (slicerTip.text != str) {
                             slicerTip.text = str;
-                            slicerTip.ref.setTitle(str);
+                            slicerTip.ref.setTitle(Common.Utils.String.htmlEncode(str));
                             slicerTip.ref.updateTitle();
                         }
                     }
@@ -1633,7 +2099,7 @@ define([
                         slicerTip.ref = new Common.UI.Tooltip({
                             owner   : slicerTip.parentEl,
                             html    : true,
-                            title   : str
+                            title   : Common.Utils.String.htmlEncode(str)
                         });
 
                         slicerTip.ref.show([-10000, -10000]);
@@ -1651,6 +2117,71 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
+                    }
+                }
+
+                if (index_eyedropper) {
+                    eyedropperTip.isHidden = false;
+                    if (eyedropperTip.ref) {
+                        eyedropperTip.ref.hide();
+                        eyedropperTip.ref = undefined;
+                    }
+
+                    var data  = dataarray[index_eyedropper-1],
+                        color = data.asc_getColor(),
+                        r = color.get_r(),
+                        g = color.get_g(),
+                        b = color.get_b();
+                    if (r !== undefined && r !== null) {
+                        var hex = Common.Utils.ThemeColor.getHexColor(r, g, b),
+                            name = color.asc_getName();
+
+                        if (!eyedropperTip.color) {
+                            var colorEl = $(document.createElement("div"));
+                            colorEl.addClass('eyedropper-color');
+                            colorEl.appendTo(document.body);
+                            eyedropperTip.color = colorEl;
+                        }
+                        eyedropperTip.color.css({
+                            backgroundColor: '#' + hex,
+                            left: (data.asc_getX() + pos[0] + 23) + 'px',
+                            top: (data.asc_getY() + pos[1] - 53) + 'px'
+                        });
+                        if (eyedropperTip.tipInterval) {
+                            clearInterval(eyedropperTip.tipInterval);
+                        }
+                        eyedropperTip.tipInterval = setInterval(function () {
+                            clearInterval(eyedropperTip.tipInterval);
+                            if (!me.tooltips.eyedropper.isHidden) {
+                                if (!eyedropperTip.parentEl) {
+                                    eyedropperTip.parentEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                                    me.documentHolder.cmpEl.append(eyedropperTip.parentEl);
+                                }
+
+                                var title = '<div>RGB (' + r + ',' + g + ',' + b + ')</div>' +
+                                    '<div>' + name + '</div>';
+                                if (!eyedropperTip.ref) {
+                                    eyedropperTip.ref = new Common.UI.Tooltip({
+                                        owner   : eyedropperTip.parentEl,
+                                        html    : true,
+                                        title   : title,
+                                        cls     : 'eyedropper-tooltip'
+                                    });
+                                }
+                                eyedropperTip.ref.show([-10000, -10000]);
+                                eyedropperTip.tipWidth = eyedropperTip.ref.getBSTip().$tip.width();
+                                showPoint = [data.asc_getX(), data.asc_getY()];
+                                showPoint[1] += (pos[1] - 57);
+                                showPoint[0] += (pos[0] + 58);
+                                if (showPoint[0] + eyedropperTip.tipWidth > me.tooltips.coauth.bodyWidth ) {
+                                    showPoint[0] = showPoint[0] - eyedropperTip.tipWidth - 40;
+                                }
+                                eyedropperTip.ref.getBSTip().$tip.css({
+                                    top: showPoint[1] + 'px',
+                                    left: showPoint[0] + 'px'
+                                });
+                            }
+                        }, 800);
                     }
                 }
             }
@@ -1684,7 +2215,11 @@ define([
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: function(btn) {
-                        (btn == 'yes') && window.open(url, '_blank');
+                        try {
+                            (btn == 'yes') && window.open(url, '_blank');
+                        } catch (err) {
+                            err && console.log(err.stack);
+                        }
                     }
                 });
         },
@@ -1716,7 +2251,7 @@ define([
 
                     Common.UI.Menu.Manager.hideAll();
                     me.dlgFilter.setSettings(config);
-                    var offset = me.documentHolder.cmpEl.offset(),
+                    var offset = Common.Utils.getOffset(me.documentHolder.cmpEl),
                         rect = config.asc_getCellCoord(),
                         x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
                         y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
@@ -1744,10 +2279,10 @@ define([
                 var customFilter = filterObj.asc_getFilter(),
                     customFilters = customFilter.asc_getCustomFilters();
 
-                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + Common.Utils.String.htmlEncode(customFilters[0].asc_getVal()) + "\"";
                 if (customFilters.length>1) {
                     str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
-                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
+                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + Common.Utils.String.htmlEncode(customFilters[1].asc_getVal()) + "\"";
                 }
             } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
                 var colorFilter = filterObj.asc_getFilter();
@@ -1771,7 +2306,7 @@ define([
                     if (item.asc_getVisible()) {
                         visibleItems++;
                         if (strlen<100 && item.asc_getText()) {
-                            str += item.asc_getText() + "; ";
+                            str += Common.Utils.String.htmlEncode(item.asc_getText()) + "; ";
                             strlen = str.length;
                         }
                     }
@@ -1793,7 +2328,11 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
+            var colName = props.asc_getColumnName();
+            colName && (colName = colName.replace(/\n/g, ' '));
+            if (colName.length>100)
+                colName = colName.substring(0, 100) + '...';
+            str = "<b>" + (Common.Utils.String.htmlEncode(colName) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -1832,12 +2371,12 @@ define([
             }
         },
 
-        onApiContextMenu: function(event) {
+        onApiContextMenu: function(event, type) {
             if (Common.UI.HintManager.isHintVisible())
                 Common.UI.HintManager.clearHints();
             var me = this;
             _.delay(function(){
-                me.showObjectMenu.call(me, event);
+                me.showObjectMenu.call(me, event, type);
             },10);
         },
 
@@ -1848,8 +2387,8 @@ define([
             var me = this;
             if (me.documentHolder) {
                 me.tooltips.coauth.XY = [
-                    me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
                 me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
@@ -1874,12 +2413,14 @@ define([
                         factor -= 0.1;
                         if (!(factor < .1)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     } else if (delta > 0) {
                         factor = Math.floor(factor * 10)/10;
                         factor += 0.1;
                         if (factor > 0 && !(factor > 5.)) {
                             this.api.asc_setZoom(factor);
+                            this._handleZoomWheel = true;
                         }
                     }
 
@@ -1928,7 +2469,7 @@ define([
                             event.stopPropagation();
                             return false;
                         }
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         if (!this.api.isCellEdited) {
                             this.api.asc_setZoom(1);
                             event.preventDefault();
@@ -1971,8 +2512,12 @@ define([
             }
         },
 
-        showObjectMenu: function(event){
+        showObjectMenu: function(event, type){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
+                if (type===Asc.c_oAscContextMenuTypes.changeSeries && this.permissions.isEdit && !this._isDisabled) {
+                    this.fillSeriesMenuProps(this.api.asc_GetSeriesSettings(), event, type);
+                    return;
+                }
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
@@ -2124,6 +2669,15 @@ define([
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
+                var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                documentHolder.menuEditObject.setVisible(pluginGuidAvailable);
+                documentHolder.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                if (pluginGuidAvailable) {
+                    var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    documentHolder.menuEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || isObjLocked);
+                }
+
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
                 documentHolder.menuImgRotate.menu.items[3].setDisabled(isSmartArtInternal);
@@ -2194,13 +2748,13 @@ define([
                         cls = '';
                         switch (direct) {
                             case Asc.c_oAscVertDrawingText.normal:
-                                cls = 'menu__icon text-orient-hor';
+                                cls = 'menu__icon btn-text-orient-hor';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert:
-                                cls = 'menu__icon text-orient-rdown';
+                                cls = 'menu__icon btn-text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon text-orient-rup';
+                                cls = 'menu__icon btn-text-orient-rup';
                                 break;
                         }
                         documentHolder.menuParagraphDirection.setIconCls(cls);
@@ -2223,9 +2777,14 @@ define([
                                 if (bullettype === Asc.asc_PreviewBulletType.char) {
                                     var symbol = bullet.asc_getChar();
                                     if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, char: symbol, specialFont: bullet.asc_getSpecialFont()});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2234,9 +2793,13 @@ define([
                                 } else if (bullettype === Asc.asc_PreviewBulletType.image) {
                                     var id = bullet.asc_getImageId();
                                     if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
                                         rec = defrec;
                                         rec.set('subtype', 0x1000);
-                                        rec.set('drawdata', {type: bullettype, imageId: id});
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
                                         rec.set('tip', '');
                                         documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], '');
                                         drawDefBullet = false;
@@ -2247,7 +2810,7 @@ define([
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                         if (drawDefBullet) {
                             defrec.set('subtype', 8);
-                            defrec.set('drawdata', documentHolder._markersArr[7]);
+                            defrec.set('numberingInfo', documentHolder._markersArr[7]);
                             defrec.set('tip', documentHolder.tipMarkersDash);
                             documentHolder.paraBulletsPicker.dataViewItems && this.updateBulletTip(documentHolder.paraBulletsPicker.dataViewItems[7], documentHolder.tipMarkersDash);
                         }
@@ -2282,16 +2845,20 @@ define([
                 var eqlen = 0;
                 this._currentParaObjDisabled = isObjLocked;
                 if (isEquation) {
-                    eqlen = this.addEquationMenu(4);
+                    eqlen = documentHolder.addEquationMenu(documentHolder.textInShapeMenu, 4);
                 } else
-                    this.clearEquationMenu(4);
+                    documentHolder.clearEquationMenu(documentHolder.textInShapeMenu, 4);
 
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
                 if (isEquation) {
-                    var eq = this.api.asc_GetMathInputType();
-                    documentHolder.menuParagraphEquation.menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    documentHolder.menuParagraphEquation.menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = this.api.asc_GetMathInputType(),
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -2302,17 +2869,22 @@ define([
                 seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText &&
                 seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
-                this.propsPivot = cellinfo.asc_getPivotTableInfo();
+                this.propsPivot = {
+                    originalProps: cellinfo.asc_getPivotTableInfo()
+                };
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getMultiselect(),
-                    inPivot = !!this.propsPivot;
+                    inPivot = !!this.propsPivot.originalProps,
+                    isUserProtected = cellinfo.asc_getUserProtected()===true;
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
 
+                documentHolder.pmiCut.setVisible(!inPivot);
+                documentHolder.pmiPaste.setVisible(!inPivot);
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
                 documentHolder.pmiDeleteEntire.setVisible(isrowmenu||iscolmenu);
@@ -2329,12 +2901,63 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.mnuRefreshPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.mnuUnGroupPivot.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot);
-                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
+
+                var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot;
+
+                needshow && this.fillPivotProps();
+                documentHolder.mnuRefreshPivot.setVisible(needshow);
+                documentHolder.mnuPivotRefreshSeparator.setVisible(needshow);
+                documentHolder.mnuPivotSort.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuPivotFilter.setVisible(!!this.propsPivot.filter);
+                documentHolder.mnuPivotFilterSeparator.setVisible(this.propsPivot.filter || this.propsPivot.rowFilter || this.propsPivot.colFilter);
+                documentHolder.mnuSubtotalField.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuPivotSubtotalSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===0 || this.propsPivot.fieldType===1));
+                documentHolder.mnuExpandCollapsePivot.setVisible(!!this.propsPivot.canExpandCollapse);
+                documentHolder.mnuPivotExpandCollapseSeparator.setVisible(!!this.propsPivot.canExpandCollapse);
+                documentHolder.mnuGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuUnGroupPivot.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuPivotGroupSeparator.setVisible(!!this.propsPivot.canGroup);
+                documentHolder.mnuDeleteField.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuPivotDeleteSeparator.setVisible(!!this.propsPivot.field);
+                documentHolder.mnuSummarize.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowAs.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2) && !this.propsPivot.rowTotal && !this.propsPivot.colTotal);
+                documentHolder.mnuPivotValueSeparator.setVisible(!!this.propsPivot.field && (this.propsPivot.fieldType===2));
+                documentHolder.mnuShowDetails.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuShowDetailsSeparator.setVisible(!!this.propsPivot.showDetails);
+                documentHolder.mnuPivotSettings.setVisible(needshow);
+                documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
+
+                if (this.propsPivot.field) {
+                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + this.propsPivot.fieldName + '"'));
+                    documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + this.propsPivot.fieldName + '"');
+                    documentHolder.mnuFieldSettings.setCaption(this.propsPivot.fieldType===2 ? documentHolder.txtValueFieldSettings : documentHolder.txtFieldSettings);
+                    if (this.propsPivot.fieldType===2) {
+                        var sumval = this.propsPivot.field.asc_getSubtotal();
+                        for (var i = 0; i < documentHolder.mnuSummarize.menu.items.length; i++) {
+                            var item = documentHolder.mnuSummarize.menu.items[i];
+                            (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                        }
+                        if (!this.propsPivot.rowTotal && !this.propsPivot.colTotal) {
+                            sumval = this.propsPivot.field.asc_getShowDataAs();
+                            for (var i = 0; i < documentHolder.mnuShowAs.menu.items.length; i++) {
+                                var item = documentHolder.mnuShowAs.menu.items[i];
+                                (item.value!==undefined) && item.setChecked(item.value===sumval, true);
+                            }
+                        }
+                    } else {
+                        documentHolder.mnuSubtotalField.setChecked(!!this.propsPivot.field.asc_getDefaultSubtotal(), true);
+                    }
+                }
+                if (this.propsPivot.filter) {
+                    documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + this.propsPivot.fieldName + '"') : documentHolder.txtClear); // clear filter
+                    documentHolder.mnuPivotFilter.menu.items[0].setDisabled(this.propsPivot.filter.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.None); // clear filter
+                }
+                if (inPivot) {
+                    documentHolder.mnuPivotSort.menu.items[2].setDisabled(!(this.propsPivot.filter || this.propsPivot.rowFilter && this.propsPivot.colFilter));
+                }
 
                 if (isintable) {
                     documentHolder.pmiInsertTable.menu.items[0].setDisabled(!formatTableInfo.asc_getIsInsertRowAbove());
@@ -2361,7 +2984,7 @@ define([
 
                 /** coauthoring begin **/
                 var celcomments = cellinfo.asc_getComments(); // celcomments===null - has comment, but no permissions to view it
-                documentHolder.ssMenu.items[20].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
+                documentHolder.pmiAddCommentSeparator.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && celcomments && (celcomments.length < 1));
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
@@ -2390,47 +3013,55 @@ define([
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 documentHolder.pmiNumFormat.setVisible(!iscelledit);
+                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')));
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
                 documentHolder.pmiGetRangeList.setVisible(!Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && !internaleditor && this.permissions.canMakeActionLink && !!navigator.clipboard);
 
                 _.each(documentHolder.ssMenu.items, function(item) {
-                    item.setDisabled(isCellLocked);
+                    item.setDisabled(isCellLocked || isUserProtected);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 documentHolder.pmiSelectTable.setDisabled(this._state.wsLock);
-                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns']);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns']);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock);
-                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock);
-                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
-                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock);
-                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort']);
-                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
-                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells']);
-                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks']);
-                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['InsertRows'] || iscolmenu && this._state.wsProps['InsertColumns'] || isUserProtected);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked || isrowmenu && this._state.wsProps['DeleteRows'] || iscolmenu && this._state.wsProps['DeleteColumns'] || isUserProtected);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot || this._state.wsLock || isUserProtected);
+                documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot || isUserProtected);
+                documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter || this._state.wsLock || isUserProtected);
+                documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter || this._state.wsProps['Sort'] || isUserProtected);
+                documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true) || isUserProtected);
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot || this._state.wsProps['InsertHyperlinks'] || isUserProtected);
+                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot || isUserProtected);
                 documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
                 documentHolder.pmiRowHeight.setDisabled(isCellLocked || this._state.wsProps['FormatRows']);
                 documentHolder.pmiColumnWidth.setDisabled(isCellLocked || this._state.wsProps['FormatColumns']);
                 documentHolder.pmiEntireHide.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] || isrowmenu && this._state.wsProps['FormatRows']);
                 documentHolder.pmiEntireShow.setDisabled(isCellLocked || iscolmenu && this._state.wsProps['FormatColumns'] ||isrowmenu && this._state.wsProps['FormatRows']);
-                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells']);
-                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock);
-                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock);
+                documentHolder.pmiNumFormat.setDisabled(isCellLocked || this._state.wsProps['FormatCells'] || isUserProtected);
+                documentHolder.pmiSparklines.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
+                documentHolder.pmiEntriesList.setDisabled(isCellLocked || this._state.wsLock || isUserProtected);
                 documentHolder.pmiAddNamedRange.setDisabled(isCellLocked || this._state.wsLock);
                 documentHolder.pmiAddComment.setDisabled(isCellLocked || this._state.wsProps['Objects']);
                 documentHolder.pmiGetRangeList.setDisabled(false);
 
                 if (inPivot) {
-                    var canGroup = this.api.asc_canGroupPivot();
-                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
-                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || !canGroup || this._state.wsLock);
+                    documentHolder.mnuGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuUnGroupPivot.setDisabled(isPivotLocked || this._state.wsLock);
                     documentHolder.mnuRefreshPivot.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuPivotSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuFieldSettings.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuDeleteField.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuSubtotalField.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuSummarize.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowAs.setDisabled(isPivotLocked || this._state.wsLock);
+                    documentHolder.mnuShowDetails.setDisabled(this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook());
+                    documentHolder.mnuPivotFilter.setDisabled(isPivotLocked || this._state.wsLock);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
@@ -2468,7 +3099,8 @@ define([
                 iscellmenu = (seltype==Asc.c_oAscSelectionType.RangeCells) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
                 iscelledit = this.api.isCellEdited,
                 isimagemenu = (seltype==Asc.c_oAscSelectionType.RangeShape || seltype==Asc.c_oAscSelectionType.RangeImage) && !this.permissions.isEditMailMerge && !this.permissions.isEditDiagram && !this.permissions.isEditOle,
-                signGuid;
+                signGuid,
+                ismultiselect = cellinfo.asc_getMultiselect();
 
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
@@ -2502,6 +3134,12 @@ define([
             documentHolder.menuViewAddComment.setVisible(canComment);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked || this._state.wsProps['Objects']);
+
+            var canGetLink = !Common.Utils.isIE && iscellmenu && !iscelledit && !ismultiselect && this.permissions.canMakeActionLink && !!navigator.clipboard;
+            documentHolder.pmiViewGetRangeList.setVisible(canGetLink);
+            documentHolder.pmiViewGetRangeList.setDisabled(false);
+            documentHolder.menuViewCommentSeparator.setVisible(canGetLink);
+
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
 
             if (isInSign) {
@@ -2512,13 +3150,28 @@ define([
             }
         },
 
-        showPopupMenu: function(menu, value, event){
+        fillSeriesMenuProps: function(seriesinfo, event, type){
+            if (!seriesinfo) return;
+            var documentHolder = this.documentHolder,
+                items = documentHolder.fillMenu.items,
+                props = seriesinfo.asc_getContextMenuAllowedProps();
+
+            for (var i = 0; i < items.length; i++) {
+                var val = props[items[i].value];
+                items[i].setVisible(val!==null);
+                items[i].setDisabled(!val);
+            }
+            documentHolder.fillMenu.seriesinfo = seriesinfo;
+            this.showPopupMenu(documentHolder.fillMenu, {}, event, type);
+        },
+
+        showPopupMenu: function(menu, value, event, type){
             if (!_.isUndefined(menu) && menu !== null && event){
                 Common.UI.Menu.Manager.hideAll();
 
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
-                    showPoint           = [event.pageX*Common.Utils.zoom() - documentHolderView.cmpEl.offset().left, event.pageY*Common.Utils.zoom() - documentHolderView.cmpEl.offset().top],
+                    showPoint           = [event.pageX*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).left, event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).top],
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
                 if (!menu.rendered) {
@@ -2555,6 +3208,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
+                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow(event);
             }
         },
 
@@ -2605,6 +3259,9 @@ define([
 
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 menu.menuAlign = validation ? 'tr-br' : 'tl-bl';
+                if (Common.UI.isRTL()) {
+                    menu.menuAlign = menu.menuAlign === 'tr-br' ? 'tl-bl' : 'tr-br';
+                }
 
                 me._preventClick = validation;
                 validation && menuContainer.attr('data-value', 'prevent-canvas-click');
@@ -2684,6 +3341,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
+        onApiFormulaCompleteMenu: function(funcarr, offset) {
+            const me = this;
+            setTimeout(function() {
+                me.onFormulaCompleteMenu(funcarr, offset);
+            }, 0);
+        },
+
         onFormulaCompleteMenu: function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
@@ -2726,7 +3390,12 @@ define([
                     switch (type) {
                         case Asc.c_oAscPopUpSelectorType.Func:
                             iconCls = 'menu__icon btn-function';
-                            hint = (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '';
+                            if (funcdesc && funcdesc[origname])
+                                hint = funcdesc[origname].d;
+                            else {
+                                var custom = me.api.asc_getCustomFunctionInfo(origname);
+                                hint = custom ? custom.asc_getDescription() || '' : '';
+                            }
                             break;
                         case Asc.c_oAscPopUpSelectorType.Table:
                             iconCls = 'menu__icon btn-menu-table';
@@ -2789,7 +3458,7 @@ define([
                                     li_focused = menuContainer.find('a.focus').closest('li'),
                                     innerHeight = innerEl.innerHeight(),
                                     padding = (innerHeight - innerEl.height())/2,
-                                    pos = li_focused.position().top,
+                                    pos = Common.Utils.getPosition(li_focused).top,
                                     itemHeight = li_focused.outerHeight(),
                                     newpos;
                                 if (pos<0)
@@ -2822,15 +3491,24 @@ define([
                 }
 
                 var infocus = me.cellEditor.is(":focus");
+                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
                     menu.menuAlignEl = me.cellEditor;
+                    menu.offset = [
+                        0,
+                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
                     me.focusInCellEditor = true;
                 } else {
                     menu.menuAlignEl = undefined;
+                    menu.offset = [0 ,0];
                     me.focusInCellEditor = false;
                     var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                        showPoint = [
+                            coord.asc_getX() + (offset ? offset[0] : 0),
+                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                        ];
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 }
                 menu.alignPosition();
@@ -2864,6 +3542,8 @@ define([
         },
 
         onFormulaInfo: function(name) {
+            if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
+
             var functip = this.tooltips.func_arg;
 
             if (name) {
@@ -2871,9 +3551,16 @@ define([
                     functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
-
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    hint = '';
+                if (funcdesc && funcdesc[name]) {
+                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                } else {
+                    var custom = this.api.asc_getCustomFunctionInfo(name),
+                        arr_args = custom ? custom.asc_getArg() || [] : [];
+                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
 
                 if (functip.ref && functip.ref.isVisible()) {
                     if (functip.text != hint) {
@@ -2902,15 +3589,15 @@ define([
                 var infocus = this.cellEditor.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
-                    var offset = this.cellEditor.offset();
+                    var offset = Common.Utils.getOffset(this.cellEditor);
                     showPoint = [offset.left, offset.top + this.cellEditor.height() + 3];
                 } else {
                     var pos = [
-                            this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                            this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
                 }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
@@ -2932,8 +3619,8 @@ define([
 
         changeInputMessagePosition: function (inputTip) {
             var pos = [
-                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ],
                 coord  = this.api.asc_getActiveCellCoord(),
                 showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
@@ -3005,6 +3692,8 @@ define([
         },
 
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
             var me                  = this,
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
@@ -3043,7 +3732,7 @@ define([
                     parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
-                    caption     : Common.Utils.String.platformKey('Ctrl', '({0})'),
+                    caption     : Common.Utils.String.format('({0})', Common.Utils.String.textCtrl),
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.initSpecialPasteEvents();
@@ -3156,13 +3845,22 @@ define([
             setTimeout(function() {
                 $(document).on('keyup', me.wrapEvents.onKeyUp);
             }, 10);
+            this.disableSpecialPaste();
         },
 
         onHideSpecialPasteOptions: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
             if (pasteContainer.is(':visible')) {
                 pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
+            }
+        },
+
+        disableSpecialPaste: function() {
+            var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container');
+            if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
+                this.btnSpecialPaste.setDisabled(!!this._isDisabled);
             }
         },
 
@@ -3210,10 +3908,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -3261,10 +3960,13 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
             Common.util.Shortcuts.suspendEvents(str, undefined, true);
 
+            var pasteContainer = me.documentHolder.cmpEl.find('#special-paste-container');
             me.btnSpecialPaste.menu.on('show:after', function(menu) {
                 Common.util.Shortcuts.resumeEvents(str);
+                pasteContainer.addClass('has-open-menu');
             }).on('hide:after', function(menu) {
                 Common.util.Shortcuts.suspendEvents(str, undefined, true);
+                pasteContainer.removeClass('has-open-menu');
             });
         },
 
@@ -3368,628 +4070,10 @@ define([
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
-        initEquationMenu: function() {
-            if (!this._currentMathObj) return;
-            var me = this,
-                type = me._currentMathObj.get_Type(),
-                value = me._currentMathObj,
-                mnu, arr = [];
 
-            switch (type) {
-                case Asc.c_oAscMathInterfaceType.Accent:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemoveAccentChar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_AccentCharacter'}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.BorderBox:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtBorderProps,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: value.get_HideTop() ? me.txtAddTop : me.txtHideTop,
-                                    equationProps: {type: type, callback: 'put_HideTop', value: !value.get_HideTop()}
-                                },
-                                {
-                                    caption: value.get_HideBottom() ? me.txtAddBottom : me.txtHideBottom,
-                                    equationProps: {type: type, callback: 'put_HideBottom', value: !value.get_HideBottom()}
-                                },
-                                {
-                                    caption: value.get_HideLeft() ? me.txtAddLeft : me.txtHideLeft,
-                                    equationProps: {type: type, callback: 'put_HideLeft', value: !value.get_HideLeft()}
-                                },
-                                {
-                                    caption: value.get_HideRight() ? me.txtAddRight : me.txtHideRight,
-                                    equationProps: {type: type, callback: 'put_HideRight', value: !value.get_HideRight()}
-                                },
-                                {
-                                    caption: value.get_HideHor() ? me.txtAddHor : me.txtHideHor,
-                                    equationProps: {type: type, callback: 'put_HideHor', value: !value.get_HideHor()}
-                                },
-                                {
-                                    caption: value.get_HideVer() ? me.txtAddVer : me.txtHideVer,
-                                    equationProps: {type: type, callback: 'put_HideVer', value: !value.get_HideVer()}
-                                },
-                                {
-                                    caption: value.get_HideTopLTR() ? me.txtAddLT : me.txtHideLT,
-                                    equationProps: {type: type, callback: 'put_HideTopLTR', value: !value.get_HideTopLTR()}
-                                },
-                                {
-                                    caption: value.get_HideTopRTL() ? me.txtAddLB : me.txtHideLB,
-                                    equationProps: {type: type, callback: 'put_HideTopRTL', value: !value.get_HideTopRTL()}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Bar:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemoveBar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_Bar'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? Asc.c_oAscMathInterfaceBarPos.Bottom : Asc.c_oAscMathInterfaceBarPos.Top}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Script:
-                    var scripttype = value.get_ScriptType();
-                    if (scripttype == Asc.c_oAscMathInterfaceScript.PreSubSup) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtScriptsAfter,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.SubSup}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtRemScripts,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.None}
-                        });
-                        arr.push(mnu);
-                    } else {
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtScriptsBefore,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.PreSubSup}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sub ) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtRemSubscript,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sup : Asc.c_oAscMathInterfaceScript.None }
-                            });
-                            arr.push(mnu);
-                        }
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sup ) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtRemSuperscript,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sub : Asc.c_oAscMathInterfaceScript.None }
-                            });
-                            arr.push(mnu);
-                        }
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Fraction:
-                    var fraction = value.get_FractionType();
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Skewed || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionStacked,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Bar}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionSkewed,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Skewed}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Skewed) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionLinear,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Linear}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.NoBar) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? Asc.c_oAscMathInterfaceFraction.NoBar : Asc.c_oAscMathInterfaceFraction.Bar}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Limit:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? Asc.c_oAscMathInterfaceLimitPos.Bottom : Asc.c_oAscMathInterfaceLimitPos.Top}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemLimit,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceLimitPos.None}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Matrix:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HidePlaceholder() ? me.txtShowPlaceholder : me.txtHidePlaceholder,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HidePlaceholder', value: !value.get_HidePlaceholder()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.insertText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.insertRowAboveText,
-                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: true}
-                                },
-                                {
-                                    caption: me.insertRowBelowText,
-                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: false}
-                                },
-                                {
-                                    caption: me.insertColumnLeftText,
-                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: true}
-                                },
-                                {
-                                    caption: me.insertColumnRightText,
-                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: false}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.deleteText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.deleteRowText,
-                                    equationProps: {type: type, callback: 'delete_MatrixRow'}
-                                },
-                                {
-                                    caption: me.deleteColumnText,
-                                    equationProps: {type: type, callback: 'delete_MatrixColumn'}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtMatrixAlign,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.txtTop,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center}
-                                },
-                                {
-                                    caption: me.txtBottom,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtColumnAlign,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.leftText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Left),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Left}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Center),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Center}
-                                },
-                                {
-                                    caption: me.rightText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Right),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Right}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.EqArray:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertEqBefore,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_Equation', value: true}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertEqAfter,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_Equation', value: false}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDeleteEq,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'delete_Equation'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.alignmentText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.txtTop,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Top),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Top}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Center),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Center}
-                                },
-                                {
-                                    caption: me.txtBottom,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Bottom),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Bottom}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.LargeOperator:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtLimitChange,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? Asc.c_oAscMathInterfaceNaryLimitLocation.SubSup : Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr}
-                    });
-                    arr.push(mnu);
-                    if (value.get_HideUpper() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideUpper() ? me.txtShowTopLimit : me.txtHideTopLimit,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideUpper', value: !value.get_HideUpper()}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (value.get_HideLower() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideLower() ? me.txtShowBottomLimit : me.txtHideBottomLimit,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideLower', value: !value.get_HideLower()}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Delimiter:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertArgBefore,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: true}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertArgAfter,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: false}
-                    });
-                    arr.push(mnu);
-                    if (value.can_DeleteArgument()) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteArg,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'delete_DelimiterArgument'}
-                        });
-                        arr.push(mnu);
-                    }
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.has_Separators() ? me.txtDeleteCharsAndSeparators : me.txtDeleteChars,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_DelimiterCharacters'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HideOpeningBracket() ? me.txtShowOpenBracket : me.txtHideOpenBracket,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HideOpeningBracket', value: !value.get_HideOpeningBracket()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HideClosingBracket() ? me.txtShowCloseBracket : me.txtHideCloseBracket,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HideClosingBracket', value: !value.get_HideClosingBracket()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtStretchBrackets,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        checkable   : true,
-                        checked     : value.get_StretchBrackets(),
-                        equationProps: {type: type, callback: 'put_StretchBrackets', value: !value.get_StretchBrackets()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtMatchBrackets,
-                        equation    : true,
-                        disabled    : (!value.get_StretchBrackets() || me._currentParaObjDisabled),
-                        checkable   : true,
-                        checked     : value.get_StretchBrackets() && value.get_MatchBrackets(),
-                        equationProps: {type: type, callback: 'put_MatchBrackets', value: !value.get_MatchBrackets()}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.GroupChar:
-                    if (value.can_ChangePos()) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? Asc.c_oAscMathInterfaceGroupCharPos.Bottom : Asc.c_oAscMathInterfaceGroupCharPos.Top}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteGroupChar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceGroupCharPos.None}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Radical:
-                    if (value.get_HideDegree() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideDegree() ? me.txtShowDegree : me.txtHideDegree,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideDegree', value: !value.get_HideDegree()}
-                        });
-                        arr.push(mnu);
-                    }
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDeleteRadical,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_Radical'}
-                    });
-                    arr.push(mnu);
-                    break;
-            }
-            if (value.can_IncreaseArgumentSize()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtIncreaseArg,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'increase_ArgumentSize'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_DecreaseArgumentSize()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtDecreaseArg,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'decrease_ArgumentSize'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_InsertManualBreak()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtInsertBreak,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'insert_ManualBreak'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_DeleteManualBreak()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtDeleteBreak,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'delete_ManualBreak'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_AlignToCharacter()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtAlignToChar,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'align_ToCharacter'}
-                });
-                arr.push(mnu);
-            }
-            return arr;
-        },
-
-        addEquationMenu: function(insertIdx) {
-            var me = this;
-            
-            me.clearEquationMenu(insertIdx);
-
-            var equationMenu = me.documentHolder.textInShapeMenu,
-                menuItems = me.initEquationMenu();
-
-            if (menuItems.length > 0) {
-                _.each(menuItems, function(menuItem, index) {
-                    if (menuItem.menu) {
-                        _.each(menuItem.menu.items, function(item) {
-                            item.on('click', _.bind(me.equationCallback, me, item.options.equationProps));
-                        });
-                    } else
-                        menuItem.on('click', _.bind(me.equationCallback, me, menuItem.options.equationProps));
-                    equationMenu.insertItem(insertIdx, menuItem);
-                    insertIdx++;
-                });
-            }
-            return menuItems.length;
-        },
-
-        clearEquationMenu: function(insertIdx) {
-            var me = this;
-            var equationMenu = me.documentHolder.textInShapeMenu;
-            for (var i = insertIdx; i < equationMenu.items.length; i++) {
-                if (equationMenu.items[i].options.equation) {
-                    if (equationMenu.items[i].menu) {
-                        _.each(equationMenu.items[i].menu.items, function(item) {
-                            item.off('click');
-                        });
-                    } else
-                        equationMenu.items[i].off('click');
-                    equationMenu.removeItem(equationMenu.items[i]);
-                    i--;
-                } else
-                    break;
-            }
-        },
-
-        equationCallback: function(eqProps) {
-            var me = this;
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    me.api.asc_SetMathProps(eqObj);
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
         onTextInShapeAfterRender:function(cmp) {
@@ -4017,12 +4101,10 @@ define([
             var store = this.documentHolder.paraBulletsPicker.store;
             var arrNum = [], arrMarker = [];
             store.each(function(item){
-                var data = item.get('drawdata');
-                data['divId'] = item.get('id');
-                if (item.get('group')==='menu-list-bullet-group')
-                    arrMarker.push(data);
-                else
-                    arrNum.push(data);
+                (item.get('group')==='menu-list-bullet-group' ? arrMarker : arrNum).push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
             });
 
             if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
@@ -4118,10 +4200,22 @@ define([
             }
         },
 
+        isPivotNumberFormat: function() {
+            if (this.propsPivot && this.propsPivot.originalProps && this.propsPivot.field) {
+                return (this.propsPivot.originalProps.asc_getFieldGroupType(this.propsPivot.pivotIndex) !== Asc.c_oAscGroupType.Text);
+            }
+            return false;
+        },
+
         onNumberFormatSelect: function(menu, item) {
             if (item.value !== undefined && item.value !== 'advanced') {
                 if (this.api)
-                    this.api.asc_setCellFormat(item.options.format);
+                    if (this.isPivotNumberFormat()) {
+                        var field = (this.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                        field.asc_setNumFormat(item.options.format);
+                        this.propsPivot.field.asc_set(this.api, this.propsPivot.originalProps, (this.propsPivot.fieldType === 2) ? this.propsPivot.index : this.propsPivot.pivotIndex, field);
+                    } else
+                        this.api.asc_setCellFormat(item.options.format);
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
@@ -4135,7 +4229,12 @@ define([
                 api: me.api,
                 handler: function(result, settings) {
                     if (settings) {
-                        me.api.asc_setCellFormat(settings.format);
+                        if (me.isPivotNumberFormat()) {
+                            var field = (me.propsPivot.fieldType === 2) ? new Asc.CT_DataField() : new Asc.CT_PivotField();
+                            field.asc_setNumFormat(settings.format);
+                            me.propsPivot.field.asc_set(me.api, me.propsPivot.originalProps, (me.propsPivot.fieldType === 2) ? me.propsPivot.index : me.propsPivot.pivotIndex, field);
+                        } else
+                            me.api.asc_setCellFormat(settings.format);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 },
@@ -4162,13 +4261,10 @@ define([
                     }
                 }
 
-                var val = menu.options.numformatinfo;
-                val = (val) ? val.asc_getType() : -1;
                 for (var i=0; i<menu.items.length-2; i++) {
                     var mnu = menu.items[i];
                     mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
                     $(mnu.el).find('label').text(mnu.options.exampleval);
-                    mnu.setChecked(val == mnu.value);
                 }
             }
         },
@@ -4251,6 +4347,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(obj) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.permissions.isEdit && !this._isDisabled) {
                 var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && obj) {
@@ -4262,7 +4359,15 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
-            if (bounds[3] < 0) {
+            if (this.permissions && !this.permissions.isEdit) return;
+
+            this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
+            if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
             }
@@ -4279,11 +4384,10 @@ define([
 
                 me.equationBtns = [];
                 for (var i = 0; i < equationsStore.length; ++i) {
-                    var style = 'margin-right: 8px;' + (i==0 ? 'margin-left: 5px;' : '');
-                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '" style="' + style +'"></span>';
+                    eqStr += '<span id="id-document-holder-btn-equation-' + i + '"></span>';
                 }
                 eqStr += '<div class="separator"></div>';
-                eqStr += '<span id="id-document-holder-btn-equation-settings" style="margin-right: 5px; margin-left: 8px;"></span>';
+                eqStr += '<span id="id-document-holder-btn-equation-settings"></span>';
                 eqStr += '</div>';
                 eqContainer = $(eqStr);
                 documentHolder.cmpEl.append(eqContainer);
@@ -4328,8 +4432,8 @@ define([
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
-                                        '" class="menu-shape" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
-                                        equationGroup.get('groupHeightStr') + 'margin-left:5px;"></div>') }
+                                        '" class="menu-shape margin-left-5" style="width:' + (equationGroup.get('groupWidth') + 8) + 'px; ' +
+                                        equationGroup.get('groupHeightStr') + '"></div>') }
                             ]
                         })
                     });
@@ -4342,33 +4446,45 @@ define([
                 me.equationSettingsBtn = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-equation-settings', documentHolder.cmpEl),
                     cls         : 'btn-toolbar no-caret',
-                    iconCls     : 'toolbar__icon more-vertical',
+                    iconCls     : 'toolbar__icon btn-more-vertical',
                     hint        : me.documentHolder.advancedEquationText,
                     menu        : me.documentHolder.createEquationMenu('popuptbeqinput', 'tl-bl')
                 });
                 me.equationSettingsBtn.menu.options.initMenu = function() {
-                    var eq = me.api.asc_GetMathInputType();
-                    var menu = me.equationSettingsBtn.menu;
-                    menu.items[0].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
-                    menu.items[1].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    var eq = me.api.asc_GetMathInputType(),
+                        menu = me.equationSettingsBtn.menu,
+                        isEqToolbarHide = Common.Utils.InternalSettings.get('sse-equation-toolbar-hide');
+
+                    menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
+                    menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
+                    menu.items[8].options.isToolbarHide = isEqToolbarHide;
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
+                    bringForward();
                     menu.options.initMenu();
                 });
+                me.equationSettingsBtn.menu.on('hide:after', sendBackward);
             }
 
             if (!me.tooltips.coauth.XY)
                 me.onDocumentResize();
 
             var showPoint = [(bounds[0] + bounds[2])/2 - eqContainer.outerWidth()/2, bounds[1] - eqContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
             }
             showPoint[1] = Math.min(me.tooltips.coauth.apiHeight - eqContainer.outerHeight(), Math.max(0, showPoint[1]));
             eqContainer.css({left: showPoint[0], top : showPoint[1]});
 
-            var menuAlign = (me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight() < 220) ? 'bl-tl' : 'tl-bl';
+            var diffDown = me.tooltips.coauth.apiHeight - showPoint[1] - eqContainer.outerHeight(),
+                diffUp = me.tooltips.coauth.XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
             me.equationBtns.forEach(function(item){
                 item && (item.menu.menuAlign = menuAlign);
             });
@@ -4385,6 +4501,13 @@ define([
         },
 
         onHideMathTrack: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
+
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -4405,10 +4528,18 @@ define([
 
         convertEquation: function(menu, item, e) {
             if (this.api) {
-                if (item.options.type=='input')
+                if (item.options.type=='input') {
                     this.api.asc_SetMathInputType(item.value);
-                else if (item.options.type=='view')
+                    Common.localStorage.setBool("sse-equation-input-latex", item.value===Asc.c_oAscMathInputType.LaTeX)
+                } else if (item.options.type=='view')
                     this.api.asc_ConvertMathView(item.value.linear, item.value.all);
+                else if(item.options.type=='hide') {
+                    item.options.isToolbarHide = !item.options.isToolbarHide;
+                    Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    Common.localStorage.setBool('sse-equation-toolbar-hide', item.options.isToolbarHide);
+                    if(item.options.isToolbarHide) this.onHideMathTrack();
+                    else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
             }
         },
 
@@ -4416,6 +4547,64 @@ define([
             if(this.api) {
                 this.api.asc_SaveDrawingAsPicture();
             }
+        },
+
+        onInsertImage: function(obj, x, y) {
+            if (this.api)
+                this.api.asc_addImage(obj);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onInsertImageUrl: function(obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.api.AddImageUrl([checkUrl], undefined, undefined, obj);
+                            }
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                }
+            })).show();
+        },
+
+        onFillSeriesClick: function(menu, item) {
+            this._state.fillSeriesItemClick = true;
+            if (this.api) {
+                if (item.value===Asc.c_oAscFillType.series) {
+                    var me = this,
+                        res,
+                        win = (new SSE.Views.FillSeriesDialog({
+                            handler: function(result, settings) {
+                                if (result == 'ok' && settings) {
+                                    res = result;
+                                    me.api.asc_FillCells(item.value, settings);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            },
+                            props: menu.seriesinfo
+                        })).on('close', function() {
+                            (res!=='ok') && me.api.asc_CancelFillCells();
+                        });
+                    win.show();
+                } else {
+                    this.api.asc_FillCells(item.value, menu.seriesinfo);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                }
+            }
+        },
+
+        onFillSeriesHideAfter: function() {
+            this.api && !this._state.fillSeriesItemClick && this.api.asc_CancelFillCells();
+            this._state.fillSeriesItemClick = false;
+        },
+
+        onCellFormat: function() {
+            this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
         },
 
         getUserName: function(id){
@@ -4440,8 +4629,21 @@ define([
 
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
-            this._canProtect = canProtect;
+            this._canProtect = state ? canProtect : true;
             this.disableEquationBar();
+            this.disableSpecialPaste();
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideSpecialPasteOptions();
+        },
+
+        onPluginContextMenu: function(data) {
+            if (data && data.length>0 && this.documentHolder && this.currentMenu && (this.currentMenu !== this.documentHolder.copyPasteMenu) &&
+                                                                (this.currentMenu !== this.documentHolder.fillMenu) && this.currentMenu.isVisible()){
+                this.documentHolder.updateCustomItems(this.currentMenu, data);
+            }
         },
 
         guestText               : 'Guest',
@@ -4601,7 +4803,9 @@ define([
         txtDataTableHint: 'Returns the data cells of the table or specified table columns',
         txtHeadersTableHint: 'Returns the column headers for the table or specified table columns',
         txtTotalsTableHint: 'Returns the total rows for the table or specified table columns',
-        txtCopySuccess: 'Link copied to the clipboard'
+        txtCopySuccess: 'Link copied to the clipboard',
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtByField: '%1 of %2'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

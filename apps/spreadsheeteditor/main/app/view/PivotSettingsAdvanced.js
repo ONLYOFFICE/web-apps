@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,24 +33,19 @@
 /**
  *  PivotSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 17.07.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 17.07.2017
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.PivotSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 440,
+            contentHeight: 355,
             toggleGroup: 'pivot-adv-settings-group',
             storageName: 'sse-pivot-adv-settings-category'
         },
@@ -187,11 +181,11 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputName, this.chRows, this.chCols, this.radioDown, this.radioOver, this.numWrap, this.chHeaders, this.chAutofitColWidth, // 0 tab
                 this.txtDataRange,  // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -228,7 +222,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         _setDefaults: function (props) {
             if (props) {
                 var me = this;
-                this.inputName.setValue(Common.Utils.String.htmlEncode(props.asc_getName()));
+                this.inputName.setValue(props.asc_getName());
 
                 this.chCols.setValue(props.asc_getRowGrandTotals(), true);
                 this.chRows.setValue(props.asc_getColGrandTotals(), true);
@@ -315,9 +309,9 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,

@@ -1,10 +1,16 @@
 [dir="rtl"].device-android {
-
     .app-layout {
-        .searchbar input {
-            padding-right: 24px;
-            padding-left: 36px;
-            background-position: right;
+        .searchbar {
+            input {
+                padding-right: 24px;
+                padding-left: 36px;
+                background-position: right;
+            }
+
+            .number-search-results {
+                right: auto;
+                left: 26px;
+            }
         }
     }
 
@@ -29,8 +35,7 @@
     }
 }
 
-[dir="rtl"].device-ios .app-layout{
-    
+[dir="rtl"].device-ios .app-layout {
     .subnavbar,.navbar .left a + a {
         margin-right: 0;
     }
@@ -47,6 +52,11 @@
         .tab-link:last-child {
             border-radius: 5px 0px 0px 5px;
         }
+    }
+
+    .searchbar .number-search-results {
+        right: auto;
+        left: 26px;
     }
 
     .popover {
@@ -194,8 +204,15 @@
         margin-right: 20px;
     }
 
-    .list li.no-indicator .item-link .item-inner {
+    .view .list li.no-indicator .item-link .item-inner {
         padding-right: 0;
+        padding-left: 15px;
+    }
+
+    // Dialog with password
+    .dialog .modal-password .modal-password__icon {
+        right: auto;
+        left: 4px;
     }
 }
 

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DropcapSettingsAdvanced.js
  *
- *  Created by Alexander Yuzhin on 2/24/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/24/14
  *
  */
 
@@ -46,21 +44,15 @@ var c_oAscFrameWrap = {
 
 define([
     'text!documenteditor/main/app/template/DropcapSettingsAdvanced.template',
-    'core',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/ComboBoxFonts',
-    'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/TableStyler',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 
     DE.Views.DropcapSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height      : 380,
+            contentHeight: 295,
             toggleGroup : 'dropcap-adv-settings-group',
             storageName: 'de-dropcap-settings-adv-category'
         },
@@ -114,22 +106,22 @@ define([
 
             this._btnsBorderPosition = [];
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'toolbar__icon toolbar__icon-big btn-paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'toolbar__icon toolbar__icon-big btn-paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'toolbar__icon toolbar__icon-big btn-paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
-                    style   : 'margin-left: 5px; margin-bottom: 4px;',
-                    cls     : 'btn-options large border-off'
+                    style   : 'margin-bottom: 4px;',
+                    cls     : 'btn-options large border-off margin-left-5'
                 });
 
                 _btn.on('click', function(btn) {
@@ -142,18 +134,7 @@ define([
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
-                store       : new Backbone.Collection(),
-                takeFocusOnClose: true,
-                data: [
-                    {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
-                    {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
-                    {id: Common.UI.getId(), displayValue: '1 ' + txtPt,              value: 1,    pxValue: 1,     offsety: 20},
-                    {id: Common.UI.getId(), displayValue: '1.5 ' + txtPt,            value: 1.5,  pxValue: 2,     offsety: 40},
-                    {id: Common.UI.getId(), displayValue: '2.25 ' + txtPt,           value: 2.25, pxValue: 3,     offsety: 60},
-                    {id: Common.UI.getId(), displayValue: '3 ' + txtPt,              value: 3,    pxValue: 4,     offsety: 80},
-                    {id: Common.UI.getId(), displayValue: '4.5 ' + txtPt,            value: 4.5,  pxValue: 6,     offsety: 100},
-                    {id: Common.UI.getId(), displayValue: '6 ' + txtPt,              value: 6,    pxValue: 8,     offsety: 120}
-                ]
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.BorderSize = {ptValue: record.value, pxValue: record.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
@@ -167,7 +148,6 @@ define([
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
@@ -182,7 +162,6 @@ define([
                 parentEl: $('#drop-advanced-button-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(function(btn, color) {
@@ -297,7 +276,7 @@ define([
             this.btnInText = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text icon-rtl',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -377,7 +356,7 @@ define([
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge none',
+                iconCls     : 'options__icon options__icon-huge btn-none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -393,7 +372,7 @@ define([
             this.btnFrameInline = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-inline'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-align-center',
+                iconCls     : 'options__icon options__icon-huge btn-table-align-center',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -409,7 +388,7 @@ define([
             this.btnFrameFlow = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-flow'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-flow',
+                iconCls     : 'options__icon options__icon-huge btn-table-flow',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -669,6 +648,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -680,8 +661,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
@@ -714,7 +693,7 @@ define([
             }, this);
 
             if (this.isFrame)
-                this.setHeight(500);
+                this.setInnerHeight(415);
 
             this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
             if (this.storageName) {
@@ -724,12 +703,12 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [
-                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
-                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+            return this.btnsCategory.concat([
+                this.btnFrameNone, this.btnFrameInline, this.btnFrameFlow, this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
+                this.btnNone, this.btnInText, this.btnInMargin, this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -975,19 +954,7 @@ define([
                         this.paragraphShade = 'transparent';
                     }
                     this.btnBackColor.setColor(this.paragraphShade);
-                    if (_.isObject(this.paragraphShade)) {
-                         var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.paragraphShade.effectValue ) {
-                                this.colorsBack.select(this.paragraphShade,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.paragraphShade,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.paragraphShade, this.colorsBack);
                     this._UpdateBorders();
                 }
 
@@ -1170,7 +1137,6 @@ define([
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        txtNoBorders:           'No borders',
         textPosition: 'Position',
         textAlign: 'Alignment',
         textTop:            'Top',

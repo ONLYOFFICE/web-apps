@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,20 +28,17 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  OpenDialog.js
  *
  *  Select Codepage for open CSV/TXT format file.
  *
- *  Created by Alexey.Musinov on 29/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 29/04/14
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     Common.Views.PasswordDialog = Common.UI.Window.extend(_.extend({
@@ -55,7 +51,6 @@ define([
 
             _.extend(_options,  {
                 width           : 395,
-                height          : 270,
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
@@ -112,13 +107,14 @@ define([
                         style       : 'width: 100%;',
                         maxLength: 255,
                         validateOnBlur: false,
-                        repeatInput: this.repeatPwd
+                        repeatInput: this.repeatPwd,
+                        showPwdOnClick: false
                     });
             }
         },
 
         getFocusedComponents: function() {
-            return [this.inputPwd, this.repeatPwd];
+            return [this.inputPwd, this.repeatPwd].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

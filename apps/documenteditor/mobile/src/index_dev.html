@@ -23,10 +23,18 @@
   <!-- built styles file will be auto injected -->
 </head>
 <body>
+    <script>
+        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
+    </script>
     <% if ( htmlWebpackPlugin.options.skeleton.htmlscript ) { %>
     <script>
         window.asceditor = 'word';
         <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
+    </script>
+    <% } %>
+    <% if ( htmlWebpackPlugin.options.skeleton.checkerscript ) { %>
+    <script>
+        <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
     </script>
     <% } %>
     <section class="skl-container">
@@ -79,12 +87,14 @@
 
             return urlParams;
         };
+        function encodeUrlParam(str) {
+            return str.replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
 
-        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
-        let params = getUrlParams(),
-            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
-
-        window.Common.Locale.currentLang = lang;
+        let params = getUrlParams();
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
     </script>

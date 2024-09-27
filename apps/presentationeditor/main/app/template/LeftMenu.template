@@ -1,21 +1,21 @@
 <div id="view-left-menu" class="tool-menu left">
-    <div class="tool-menu-btns">
+    <div class="tool-menu-btns" role="menubar" aria-orientation="vertical" aria-label="<%= scope.ariaLeftMenu %>">
         <button id="left-btn-searchbar" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target="left-panel-search"><i class="icon toolbar__icon btn-menu-search">&nbsp;</i></button>
         <button id="left-btn-thumbs" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-thumbs">&nbsp;</i></button>
         <!-- /** coauthoring begin **/ -->
         <button id="left-btn-comments" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target="left-panel-comments"><i class="icon toolbar__icon btn-menu-comments">&nbsp;</i></button>
         <button id="left-btn-chat" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target="left-panel-chat"><i class="icon toolbar__icon btn-menu-chat">&nbsp;</i></button>
         <!-- /** coauthoring end **/ -->
-        <button id="left-btn-plugins" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-plugin">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
+        <div class="separator horizontal separator-plugins" style="display: none;"></div>
+        <div id="slot-left-menu-more"></div>
     </div>
-    <div class="left-panel" style="">
+    <div class="left-panel side-panel" style="">
         <div id="left-panel-search" class="" style="display: none;"></div>
         <!-- /** coauthoring begin **/ -->
         <div id="left-panel-comments" class="" style="display: none;"></div>
         <div id="left-panel-chat" class="" style="display: none;"></div>
         <!-- /** coauthoring end **/ -->
-        <div id="left-panel-plugins" class="" style="display: none; height: 100%;"></div>
     </div>
 </div>

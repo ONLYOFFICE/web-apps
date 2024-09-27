@@ -1,5 +1,5 @@
 <div id="view-right-menu" class="tool-menu right">
-    <div class="right-panel">
+    <div class="right-panel side-panel">
         <div id="id-table-settings" class="settings-panel">
         </div>
         <div id="id-shape-settings" class="settings-panel">
@@ -21,7 +21,7 @@
         <div id="id-slicer-settings" class="settings-panel">
         </div>
     </div>
-    <div class="tool-menu-btns">
+    <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
         <div class="ct-btn-category arrow-left"></div>
         <button id="id-right-menu-cell" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-cell-settings"><i class="icon toolbar__icon btn-menu-cell">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-table-settings"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>
@@ -33,5 +33,6 @@
         <button id="id-right-menu-pivot" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-pivot-settings"><i class="icon toolbar__icon btn-pivot-sum">&nbsp;</i></button>
         <button id="id-right-menu-slicer" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-slicer-settings"><i class="icon toolbar__icon btn-slicer">&nbsp;</i></button>
         <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
+        <div id="slot-right-menu-more"></div>
     </div>
 </div>

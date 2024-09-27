@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,22 +33,18 @@
 /**
  *  SpecialPasteDialog.js
  *
- *  Created by Julia Radzhabova on 27.02.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 27.02.2020
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     SSE.Views.SpecialPasteDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 350,
-            height: 385
+            separator: false
         },
 
         initialize : function(options) {
@@ -57,10 +52,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="2" style="width: 100%;">',
                                 '<tr>',
                                     '<td colspan=2 class="padding-small">',
@@ -159,10 +154,8 @@ define([
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -354,7 +347,7 @@ define([
         getFocusedComponents: function() {
             return [this.radioAll, this.radioFormulas, this.radioValues, this.radioFormats, this.radioComments, this.radioColWidth,
                 this.radioWBorders, this.radioFFormat, this.radioFWidth, this.radioFNFormat, this.radioVNFormat, this.radioVFormat,
-                this.radioNone, this.radioAdd, this.radioMult, this.radioSub, this.radioDiv, this.chBlanks, this.chTranspose];
+                this.radioNone, this.radioAdd, this.radioMult, this.radioSub, this.radioDiv, this.chBlanks, this.chTranspose].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

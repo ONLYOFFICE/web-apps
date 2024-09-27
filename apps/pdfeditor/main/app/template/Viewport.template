@@ -1,0 +1,18 @@
+<div class="layout-region">
+    <div id="viewport-vbox-layout" class="layout-ct vbox">
+        <section class="layout-ct">
+            <div id="file-menu-panel" class="toolbar-fullview-panel hint-section" style="display:none;"></div>
+        </section>
+        <section id="app-title" class="layout-item"></section>
+        <div id="toolbar" class="layout-item hint-section" data-layout-name="toolbar" role="toolbar"></div>
+        <div class="layout-item middle">
+            <div id="viewport-hbox-layout" class="layout-ct hbox">
+                <div id="left-menu" class="layout-item hint-section" data-layout-name="leftMenu" style="width: 40px;"></div>
+                <div id="about-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
+                <div id="editor-container" class="layout-item"><div id="editor_sdk"></div></div>
+                <div id="right-menu" class="layout-item hint-section" data-layout-name="rightMenu"></div>
+            </div>
+        </div>
+        <div id="statusbar" class="layout-item" data-layout-name="statusBar"></div>
+    </div>
+</div>

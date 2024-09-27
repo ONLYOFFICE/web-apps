@@ -5,14 +5,15 @@
     </div>
     <div style="display: none;" class="layout-item new-comment-ct">
         <div class="inner-ct">
-            <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>" data-hint="1" data-hint-direction="left-top"></textarea>
+            <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>" data-hint="1" data-hint-direction="left-top" aria-label="<%=textEnterCommentHint%>"></textarea>
         </div>
         <button class="btn add normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big" style="width: auto;min-width: 86px;"><%=textAddComment%></button>
         <button class="btn cancel normal dlg-btn" data-hint="1" data-hint-direction="bottom" data-hint-offset="big" style="width: auto;min-width: 86px;"><%=textCancel%></button>
     </div>
     <div id="comments-header" class="">
-        <label><%=textComments%></label>
-        <div id="comments-btn-close" style="float:right;margin-left: 4px;"></div>
-        <div id="comments-btn-sort" style="float:right;"></div>
+        <label role="heading"><%=textComments%></label>
+        <div id="comments-btn-close" class="float-right margin-left-4"></div>
+        <div id="comments-btn-sort" class="float-right margin-left-4"></div>
+        <div id="comments-btn-add" class="float-right"></div>
     </div>
 </div>

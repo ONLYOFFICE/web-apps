@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 22.02.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 22.02.2022
  *
  */
 
@@ -148,6 +146,13 @@ define([
             this.view.inputSelectRange.on('button:click', _.bind(this.onRangeSelect, this));
         },
 
+        changeWithinSheet: function (value) {
+            this._state.withinSheet = value;
+            this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+            this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
+            this.view.updateResultsContainerHeight();
+        },
+
         onChangeSearchOption: function (option, value, noSearch) {
             var runSearch = true;
             switch (option) {
@@ -161,13 +166,10 @@ define([
                     this._state.useRegExp = value;
                     break;
                 case 'within':
-                    this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
-                    this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+                    this.changeWithinSheet(value);
                     if (value === Asc.c_oAscSearchBy.Range) {
                         runSearch = this._state.isValidSelectedRange && !!this._state.selectedRange;
                     }
-                    this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
-                    this.view.updateResultsContainerHeight();
                     break;
                 case 'range':
                     this._state.selectedRange = value;
@@ -186,6 +188,7 @@ define([
         },
 
         onRangeSelect: function () {
+            if (this.rangeSelectDlg) return;
             var me = this;
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
@@ -196,15 +199,16 @@ define([
                 }
             };
 
-            var win = new SSE.Views.CellRangeDialog({
+            this.rangeSelectDlg = new SSE.Views.CellRangeDialog({
                 handler: handlerDlg
             }).on('close', function() {
+                me.rangeSelectDlg = undefined;
                 _.delay(function(){
                     me.view.inputSelectRange.focus();
                 },1);
             });
-            win.show();
-            win.setSettings({
+            this.rangeSelectDlg.show();
+            this.rangeSelectDlg.setSettings({
                 api: me.api,
                 range: (!_.isEmpty(me.view.inputSelectRange.getValue()) && (me.view.inputSelectRange.checkValidate()==true)) ? me.view.inputSelectRange.getValue() : me._state.selectedRange,
                 type: Asc.c_oAscSelectionDialogType.PrintTitles
@@ -262,6 +266,7 @@ define([
             }
 
             this.hideResults();
+            this.api.asc_closeCellEditor();
 
             var options = new Asc.asc_CFindOptions();
             options.asc_setFindWhat(this._state.searchText);
@@ -276,7 +281,7 @@ define([
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
             if (this._state.isContentChanged) {
-                options.asc_setLastSearchElem(this._state.lastSelectedItem);
+                options.asc_setLastSearchElem(this._state.lastSelectedItem ? this._state.lastSelectedItem : options.asc_getLastSearchElem(true));
                 this.view.disableReplaceButtons(false);
                 this._state.isContentChanged = false;
                 if (!this.view.$el.is(':visible')) {
@@ -292,6 +297,7 @@ define([
                 } else {
                     this.removeResultItems();
                 }
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
             this._state.isResults = true;
@@ -341,33 +347,38 @@ define([
             var me = this;
             if (this.api.isReplaceAll) {
                 if (!found) {
-                    this.removeResultItems();
+                    this.removeResultItems('replace-all', true);
                 } else {
-                    !(found-replaced) && this.removeResultItems();
-                    Common.UI.info({
+                    !(found-replaced) && this.removeResultItems('replace-all');
+                    /*Common.UI.info({
                         msg: (!(found-replaced) || replaced > found) ? Common.Utils.String.format(this.textReplaceSuccess,replaced) : Common.Utils.String.format(this.textReplaceSkipped,found-replaced),
                         callback: function() {
                             me.view.focus();
                         }
-                    });
+                    });*/
+                    !(found - replaced) || replaced > found ?
+                        this.view.updateResultsNumber('replace-all', replaced) :
+                        this.view.updateResultsNumber('replace', [replaced, found, found-replaced]);
                 }
             } else {
                 this.onQuerySearch();
             }
         },
 
-        removeResultItems: function (type) {
+        removeResultItems: function (type, noHide) {
             this.resultItems = [];
-            this.hideResults();
-            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
-            this._state.currentResult = 0;
-            this._state.resultsNumber = 0;
-            this.view.disableNavButtons();
-            Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
+            type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
+            if (!noHide) {
+                this.hideResults();
+                this._state.currentResult = 0;
+                this._state.resultsNumber = 0;
+                this.view.disableNavButtons();
+                Common.NotificationCenter.trigger('search:updateresults', undefined, 0);
+            }
         },
 
         onApiRemoveTextAroundSearch: function (arr) {
-            if (!this.resultItems) return;
+            if (!this.resultItems || this.resultItems && this.resultItems.length === 0) return;
             var me = this;
             arr.forEach(function (id) {
                 var ind = _.findIndex(me.resultItems, {id: id});
@@ -408,7 +419,7 @@ define([
             if (index !== -1) {
                 var item = this.resultItems[index].$el,
                     itemHeight = item.outerHeight(),
-                    itemTop = item.position().top,
+                    itemTop = Common.Utils.getPosition(item).top,
                     container = this.view.$resultsContainer.find('.search-items'),
                     containerHeight = container.outerHeight(),
                     containerTop = container.scrollTop();
@@ -429,7 +440,7 @@ define([
         onEndTextAroundSearch: function () {
             if (this.view) {
                 this._state.isStartedAddingResults = false;
-                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.view.updateScrollers();
             }
         },
 
@@ -442,12 +453,12 @@ define([
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
-                    var tr = '<div class="item" style="width: 100%;">' +
-                        '<div class="sheet">' + (item[1] ? item[1] : '') + '</div>' +
-                        '<div class="name">' + (item[2] ? item[2] : '') + '</div>' +
-                        '<div class="cell">' + (item[3] ? item[3] : '') + '</div>' +
-                        '<div class="value">' + (item[4] ? item[4] : '') + '</div>' +
-                        '<div class="formula">' + (item[5] ? item[5] : '') + '</div>' +
+                    var tr = '<div role="row" class="item" style="width: 100%;">' +
+                        '<div role="cell" class="sheet">' + (item[1] ? Common.Utils.String.htmlEncode(item[1]) : '') + '</div>' +
+                        '<div role="cell" class="name">' + (item[2] ? Common.Utils.String.htmlEncode(item[2]) : '') + '</div>' +
+                        '<div role="cell" class="cell">' + (item[3] ? Common.Utils.String.htmlEncode(item[3]) : '') + '</div>' +
+                        '<div role="cell" class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
+                        '<div role="cell" class="formula">' + (item[5] ? Common.Utils.String.htmlEncode(item[5]) : '') + '</div>' +
                         '</div>';
                     var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {
@@ -498,7 +509,9 @@ define([
 
         hideResults: function () {
             if (this.view) {
-                this.view.$resultsContainer.hide();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.view.$resultsContainer.hide();
+                }
                 this.view.$resultsContainer.find('.search-items').empty();
             }
         },
@@ -510,6 +523,18 @@ define([
                 viewport.searchBar.hide();
             }
 
+            var activeRange = this.api.asc_getActiveRangeStr(Asc.referenceType.A, null, null, true),
+                isRangeChanged = false;
+            if (activeRange !== null) {
+                this.changeWithinSheet(Asc.c_oAscSearchBy.Range);
+                this._state.selectedRange = activeRange;
+
+                this.view.cmbWithin.setValue(Asc.c_oAscSearchBy.Range);
+                this.view.inputSelectRange.setValue(activeRange);
+
+                isRangeChanged = true;
+            }
+
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 || (!text && this._state.isResults)) {
@@ -518,8 +543,8 @@ define([
                     this.onQuerySearch();
                     return;
                 }
-                if (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
-                    this._state.matchCase && text === this.view.inputText.getValue()) { // show old results
+                if (!isRangeChanged && (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                     return;
                 }
             }
@@ -533,7 +558,7 @@ define([
             }
 
             this.hideResults();
-            if (this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
+            if (!isRangeChanged && this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
                 this.api.asc_StartTextAroundSearch();
             } else if (this._state.searchText) { // search wasn't made
                 this._state.searchText = text;
@@ -596,6 +621,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         onApiUpdateSearchElem: function (data) { // [id, sheet, name, cell, value, formula]

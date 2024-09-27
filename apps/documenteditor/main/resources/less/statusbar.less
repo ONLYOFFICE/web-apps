@@ -6,32 +6,24 @@
         position: relative;
     }
 
+    #label-pages {
+        .margin-left(40px);
+    }
+
+    #btn-zoom-up {
+        .margin-right(40px);
+    }
+
     #label-pages, #label-zoom {
         cursor: pointer;
-    }
-
-    #users-icon,#status-users-count {
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    #users-icon {
-        background-position: -14px -197px;
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
     }
 
     #label-zoom {
         text-align: center;
     }
 
-    #btn-zoom-topage {
-        margin-right: 8px;
-    }
-
-    #btn-zoom-towidth {
-        margin-right: 8px;
+    #btn-zoom-topage, #btn-zoom-towidth {
+        .margin-right-8();
     }
 
     .status-group {
@@ -66,9 +58,14 @@
         }
     }
 
-    #btn-cnt-lang {
+    #btn-cnt-lang,
+    #slot-status-btn-info {
         button {
             font-weight: 700;
+            .pixel-ratio__2_5 & {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 
@@ -78,12 +75,11 @@
         margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
-            margin-left: -4px;
+            .margin-left(-4px);
 
             li {
-                text-align: center;
-
                 > a {
+                    text-align: center;
                     padding-left: 15px;
                     padding-right: 15px;
                 }
@@ -95,19 +91,20 @@
         margin-bottom: 6px;
 
         li {
-            text-align: left;
+            .text-align-left();
         }
     }
 
     #status-goto-box {
         padding: 10px;
-        margin-left: 40px;
+        .margin-left(40px);
         margin-bottom: 2px;
         min-width: 130px;
 
         > label {
             display: inline-block;
-            margin-right: 10px;
+            .margin-right-10();
+            line-height:22px;
         }
 
         > input[type=text] {
@@ -116,65 +113,13 @@
         }
     }
 
-
-    #status-users-menu {
-        padding: 14px 0 14px 14px;
-        margin-left: 137px;
-        margin-bottom: 2px;
-        width: 285px;
-        font-size: 12px;
-
-        > label {
-            white-space: normal;
-        }
-
-        #status-users-list {
-            margin-top: 15px;
-            
-            ul {
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                max-height: 190px;
-                position: relative;
-
-                li {
-                    list-style: none;
-                    padding: 2px 0;
-                    margin-right: 15px;
-                    overflow: hidden;
-
-                    &.offline, &.viewmode {
-                        display: none;
-                    }
-                }
-            }
-
-            .color {
-                width: 12px;
-                height: 12px;
-                display: inline-block;
-                vertical-align: middle;
-                border: @scaled-one-px-value-ie solid @border-toolbar-ie;
-                border: @scaled-one-px-value solid @border-toolbar;
-            }
-
-            .name {
-                display: block;
-                padding-left: 16px;
-                margin-top: -3px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                vertical-align: middle;
-            }
-        }
-    }
-
     .hide-select-tools {
         display: none;
     }
 
-    #btn-select-tool {
-        margin-right: 8px;
+    .lang-menu {
+        li a {
+            .padding-x(28px, 20px);
+        }
     }
 }

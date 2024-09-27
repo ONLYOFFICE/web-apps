@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,36 +28,28 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 15.04.15
- * Time: 16:47
  */
 
-define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
+define([
+    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField'
 ], function (contentTemplate) {
     'use strict';
 
     DE.Views.MailMergeEmailDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'MailMergeEmail',
-            contentWidth: 500,
-            height: 435
+            contentWidth: 500
         },
 
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -74,6 +65,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFrom
             });
 
@@ -84,6 +76,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrTo
             });
 
@@ -105,6 +98,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFormat
             });
             this.cmbFormat.setValue(Asc.c_oAscFileType.HTML);
@@ -137,6 +131,14 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
             this.mergedFileUrl = this.options.mergedFileUrl || '';
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFrom, this.cmbTo, this.inputSubject, this.cmbFormat, this.inputFileName, this.textareaMessage].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbFrom;
         },
 
         _bindWindowEvents: function() {

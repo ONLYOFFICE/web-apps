@@ -9,11 +9,11 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 4px;
+            .margin-right-4();
         }
 
         > .btn-slot:not(:last-child).split {
-            margin-right: 2px;
+            .margin-right-2();
         }
     }
 }
@@ -48,6 +48,31 @@
     }
 }
 
+#id-toolbar-menu-symbols {
+    display: inline-block;
+    width: 158px;
+    .padding-left(3px);
+    .item {
+        .box-shadow(none);
+        .margin-x(6px, 4px);
+        &:hover, &.selected{
+            .box-shadow( 0 0 0 2px @border-preview-select-ie);
+            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
+        }
+    }
+    .item-symbol {
+        display: block;
+        font-family: @font-family-base;
+        font-size: 14px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        vertical-align: middle;
+
+    }
+}
+
 .item-markerlist {
     width: 40px;
     height: 40px;
@@ -56,25 +81,6 @@
 .item-multilevellist {
     width: 80px;
     height: 80px;
-}
-
-// menu zoom
-.menu-zoom {
-    line-height: @line-height-base;
-    .title {
-        padding: 5px 5px 5px 20px;
-        float: left;
-        max-width: 95px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .zoom {
-        padding: 5px 3px;
-        float: right;
-        min-width: 40px;
-        text-align: center;
-    }
 }
 
 .username-tip {
@@ -104,25 +110,51 @@
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+    .ie &,
+    .winxp & {
+        overflow: visible;
+    }
 }
 
 #equation-container {
-    padding: 4px;
     .separator {
-        height: 20px;
+        height: 30px;
     }
     &.has-open-menu {
-        z-index: @zindex-navbar + 1;
+        z-index: @zindex-navbar + 3;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
     }
 }
 
 .item-theme {
     width: 88px;
     height: 40px;
-    .background-ximage-all('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
+    .background-ximage-all-scale('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
     background-size: cover
 }
 
-#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
-    margin-left: 2px;
+#slot-field-fontname {
+    width: 111px;
+}
+
+#slot-field-fontsize {
+    width: 40px;
+}
+
+.menu-insert-placeholder {
+    min-width: auto;
+    &.dropdown-menu li > a {
+        line-height: 22px;
+    }
 }

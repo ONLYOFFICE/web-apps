@@ -1,9 +1,10 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Swiper, View, SwiperSlide, List, ListItem, ListButton, ListInput, Icon, Row,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
+import {f7, View, List, ListItem, ListButton, ListInput, Icon,  Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import HighlightColorPalette from '../../../../../common/mobile/lib/component/HighlightColorPalette.jsx';
 
@@ -14,6 +15,7 @@ const EditText = props => {
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
@@ -67,12 +69,12 @@ const EditText = props => {
                     changeFontFamily: props.changeFontFamily
                 }}/>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem title={_t.textFontColor} link="/edit-text-font-color/" routeProps={{
                     onTextColor: props.onTextColor
@@ -102,7 +104,7 @@ const EditText = props => {
                 <Fragment>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
                                     <Icon slot="media" icon="icon-text-align-left"></Icon>
                                 </a>
@@ -115,10 +117,10 @@ const EditText = props => {
                                 <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
                                     <Icon slot="media" icon="icon-text-align-just"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphValign === 'top' ? ' active' : '')} onClick={() => {props.onParagraphValign('top')}}>
                                     <Icon slot="media" icon="icon-text-valign-top"></Icon>
                                 </a>
@@ -128,18 +130,26 @@ const EditText = props => {
                                 <a className={'button' + (paragraphValign === 'bottom' ? ' active' : '')} onClick={() => {props.onParagraphValign('bottom')}}>
                                     <Icon slot="media" icon="icon-text-valign-bottom"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button item-link' + (!canDecreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('left')}}>
                                     <Icon slot="media" icon="icon-de-indent"></Icon>
                                 </a>
                                 <a className={'button item-link' + (!canIncreaseIndent ? ' disabled' : '') } onClick={() => {props.onParagraphMove('right')}}>
                                     <Icon slot="media" icon="icon-in-indent"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
+                        {shapeObject &&
+                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                                setOrientationTextShape: props.setOrientationTextShape,
+                                shapeObject
+                            }}>
+                                {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
+                            </ListItem>
+                        }
                         <ListItem title={_t.textBulletsAndNumbers} link='/edit-bullets-and-numbers/' routeProps={{
                             onBullet: props.onBullet,
                             onNumber: props.onNumber,
@@ -193,6 +203,56 @@ const EditText = props => {
         </Fragment>
     );
 };
+
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const shapeObject = props.shapeObject;
+    const [directionTextShape, setDirectionTextShape] = useState(shapeObject.get_Vert());
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -555,14 +615,14 @@ const PageBullets = observer(props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     const bulletArrays = [
-        {id: 'id-markers-0', type: 0, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'} },
-        {id: 'id-markers-1', type: 0, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00B7), specialFont: 'Symbol'} },
-        {id: 'id-markers-2', type: 0, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.char, char: 'o', specialFont: 'Courier New'} },
-        {id: 'id-markers-3', type: 0, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A7), specialFont: 'Wingdings'} },
-        {id: 'id-markers-4', type: 0, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x0076), specialFont: 'Wingdings'} },
-        {id: 'id-markers-5', type: 0, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00D8), specialFont: 'Wingdings'} },
-        {id: 'id-markers-6', type: 0, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00FC), specialFont: 'Wingdings'} },
-        {id: 'id-markers-7', type: 0, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.char, char: String.fromCharCode(0x00A8), specialFont: 'Symbol'} }
+        {id: 'id-markers-0', type: 0, subtype: -1, numberingInfo: 'undefined'},
+        {id: 'id-markers-1', type: 0, subtype: 1, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}' },
+        {id: 'id-markers-2', type: 0, subtype: 2, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}'},
+        {id: 'id-markers-3', type: 0, subtype: 3, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}' },
+        {id: 'id-markers-4', type: 0, subtype: 4, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}' },
+        {id: 'id-markers-5', type: 0, subtype: 5, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}' },
+        {id: 'id-markers-6', type: 0, subtype: 6, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}' },
+        {id: 'id-markers-7', type: 0, subtype: 7, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}' }
     ];
 
     useEffect(() => {
@@ -607,14 +667,14 @@ const PageNumbers = observer(props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     const numberArrays = [
-            {id: 'id-numbers-0', type: 1, subtype: -1, drawdata: {type: Asc.asc_PreviewBulletType.text, text: 'None'}},
-            {id: 'id-numbers-4', type: 1, subtype: 4, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperLetterDot_Left}},
-            {id: 'id-numbers-5', type: 1, subtype: 5, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterBracket_Left}},
-            {id: 'id-numbers-6', type: 1, subtype: 6, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerLetterDot_Left}},
-            {id: 'id-numbers-1', type: 1, subtype: 1, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalDot_Right}},
-            {id: 'id-numbers-2', type: 1, subtype: 2, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.DecimalBracket_Right}},
-            {id: 'id-numbers-3', type: 1, subtype: 3, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.UpperRomanDot_Right}},
-            {id: 'id-numbers-7', type: 1, subtype: 7, drawdata: {type: Asc.asc_PreviewBulletType.number, numberingType: Asc.asc_oAscNumberingLevel.LowerRomanDot_Right}}
+            {id: 'id-numbers-0', type: 1, subtype: -1, numberingInfo: 'undefined'},
+            {id: 'id-numbers-4', type: 1, subtype: 4, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}'},
+            {id: 'id-numbers-5', type: 1, subtype: 5, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}'},
+            {id: 'id-numbers-6', type: 1, subtype: 6, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}'},
+            {id: 'id-numbers-1', type: 1, subtype: 1, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}'},
+            {id: 'id-numbers-2', type: 1, subtype: 2, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}'},
+            {id: 'id-numbers-3', type: 1, subtype: 3, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}'},
+            {id: 'id-numbers-7', type: 1, subtype: 7, numberingInfo: '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'}
     ];
 
     useEffect(() => {
@@ -753,5 +813,6 @@ export {
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,
     PageTextLineSpacing,
-    PageTextBulletsLinkSettings
+    PageTextBulletsLinkSettings,
+    PageOrientationTextShape
 };

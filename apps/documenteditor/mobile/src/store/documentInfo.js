@@ -9,7 +9,9 @@ export class storeDocumentInfo {
       switchIsLoaded: action,
       changeCount: action,
       setDataDoc: action,
-      changeTitle: action
+      changeTitle: action,
+      docInfo: observable,
+      setDocInfo: action
     });
   }
 
@@ -23,6 +25,11 @@ export class storeDocumentInfo {
 
   isLoaded = true;
   dataDoc;
+  docInfo;
+
+  setDocInfo(docInfo) {
+    this.docInfo = docInfo;
+  }
 
   switchIsLoaded(value) {
     this.isLoaded = value;

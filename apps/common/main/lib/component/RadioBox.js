@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  RadioBox.js
  *
- *  Created by Julia Radzhabova on 2/26/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/26/14
  *
  */
 /**
@@ -71,7 +69,7 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<div class="radiobox" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+        template    : _.template('<div class="radiobox canfocused" role="radio" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
                                     '<input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
                                     '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
                                         '<circle class="rb-circle" cx="8" cy="8" r="6.5" />' +
@@ -99,6 +97,11 @@ define([
                 this.setValue(this.options.checked, true);
 
             this.setCaption(this.options.labelText);
+
+            if (this.options.ariaLabel || this.options.labelText) {
+                var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.options.labelText;
+                this.$label.attr('aria-label', ariaLabel);
+            }
 
             // handle events
         },
@@ -157,9 +160,15 @@ define([
 
         setRawValue: function(value) {
             var value = (value === true || value === 'true' || value === '1' || value === 1 );
-            value && $('input[type=radio][name=' + this.name + ']').removeClass('checked');
+            if (value) {
+                var input = $('input[type=radio][name=' + this.name + ']');
+                input.removeClass('checked');
+                input.parent().attr('aria-checked', false);
+            }
             this.$radio.toggleClass('checked', value);
             this.$radio.prop('checked', value);
+
+            this.$label.attr('aria-checked', value);
         },
 
         setValue: function(value, suspendchange) {

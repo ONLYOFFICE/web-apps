@@ -1,10 +1,11 @@
-<div id="search-box" class="layout-ct vbox search-panel">
+<div id="search-box" class="layout-ct vbox search-panel" role="search">
     <div id="search-header">
-        <label id="search-adv-title"></label>
-        <div id="search-btn-close"></div>
+        <label id="search-adv-title" role="heading"></label>
+        <div id="search-btn-close" class="float-right"></div>
     </div>
+    <div id="search-container">
     <div id="search-adv-settings">
-        <table cols="1">
+        <table cols="1" role="presentation">
             <tbody>
                 <tr>
                     <td class="padding-small"><div id="search-adv-text"></div></td>
@@ -17,7 +18,7 @@
                         <label id="search-adv-results-number" style="display: inline-block;">
                             <%= scope.textSearchResults %>
                         </label>
-                        <div class="search-nav-btns">
+                        <div class="search-nav-btns float-right">
                             <div id="search-adv-back"></div>
                             <div id="search-adv-next"></div>
                         </div>
@@ -59,5 +60,6 @@
         </table>
     </div>
     <div id="search-results" class="ps-container oo">
+    </div>
     </div>
 </div>

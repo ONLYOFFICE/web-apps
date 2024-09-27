@@ -28,12 +28,12 @@
 html {
     height: 100%;
     width: 100%;
+    font-family: Arial, Helvetica, "Helvetica Neue", sans-serif;
 }
 
 body {
     background: #fff;
     color: #333;
-    font-family: Arial, Tahoma,sans-serif;
     font-size: 12px;
     font-weight: normal;
     height: 100%;
@@ -45,58 +45,157 @@ body {
 
 .form {
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-div {
-    margin: 0;
-    padding: 0;
-}
-
-.app-error-panel {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: #f4f4f4;
-    z-index: 10;
-}
-
-.message-block {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100%;
-}
-
-.message-inner {
-    width: 550px;
-    margin: auto;
-    padding: 30px;
-    background-color: #e3e3e3;
-    text-align: center;
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .title {
-    font-size: 24px;
-    margin: 0 0 14px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #333333;
 }
 
-.text {
-    font-size: 16px;
+.description {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 160%;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    margin-top: 8px;
+
+    color: #333333;
 }
+
+.icon {
+    margin-top: 49px;
+    width: 34px;
+    height: 48px;
+}
+
+.icon-succes {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAENSURBVHgB7ZnBDYJAEEX/oN4pQTvQmxcTO7EEsQLtQKyA2AF2QOLFm5ZAB3InZB0WRDOJXCQbNPMSkmX3wGMyn8NAYEywHMMUES+nfPlwRwzKNxReUqolro4F3slYZjZkib2VIByBQUBhksEBtgAodjBYwYwiMuuFsSeUT8oSwSEs43Mh7rzMvOema4nqmU31fQ89QUUkKiLpjciw7bD5xnQEHc706ew3KtL2Bl2jzSrR1Eg0NRJtVommRqKpkWizSjQ1Ek2NRJtV8n+p+bafNDUSbVaJikhURFKK2FmnHb46ppo+v0Ru1W6xN8F8DEfUU+dtdYNTb34KeDyGTkGDGWvFcAu3hElKiXL8/gBwm2fFT+wjuQAAAABJRU5ErkJggg==");
+
+}
+
+.icon-error {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAwCAYAAAB0WahSAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEBSURBVHgB7ZfRDYIwEIavtAM4QkfpA3uoE6gTiJswCIl99NEJSNyAAUhqz0BiGoOoVyjmvoTk6EP7c/ffAQDM0snz3OEFkciAiQBF2bg0DBmfGPIb8yZjVgEz02cuo5gBFHsomJmqqt5XhepFN2YfnqzMYhC9m1+1EfWn4dAZyXTN4EAbNWyISCYjLCRk0CNTdE0Pd00ImzXk/7rmVz9x14SwWUNYSAgLCUEhDQbGmBVMzPOZKOSKgVJqDxMjpVx3ocXfCeODc7dwaNu2tNY2EBHMhH/wnQ8LvHfObR6T04vBhSPMw8lP8EJiVNe11VrfhBBYMw3xwYxf/LX1IkpcuAMGtltNGCBFYAAAAABJRU5ErkJggg==");
+}
+
+#error .icon {
+    margin-bottom: 107px;
+}
+
+.spiner-image {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==");
+    margin-top: 49px;
+    width: 48px;
+    height: 48px;
+}
+
+#spiner {
+    animation-duration: .8s;
+    animation-name: rotation;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.button {
+    margin-top: 50px;
+    cursor: pointer;
+    display: inline-block;
+    border-width: 0px;
+    border-radius: 3px;
+    font-weight: 600;
+    line-height: 133%;
+    letter-spacing: 0.04em;
+    padding: 19px 24px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+button:disabled, button[disabled]{
+    cursor: default;
+}
+
+.button.gray {
+    color: #AAAAAA;
+    background: #444444;
+}
+
+
+.button.orange {
+    color: #FFFFFF;
+    border: 1px solid #FF6F3D;
+    background: #FF6F3D;
+}
+
+.button.orange:not(:disabled):hover {
+    background: #ff7a4b;
+}
+
+.button.orange:disabled, .button.orange[disabled]{
+    background: #EDC2B3;
+    border: 1px solid #EDC2B3;
+    cursor: default;
+}
+
+
 
 </style>
 </head>
 <body>
-    <div id="progress">
-		Converting your file so you can edit it...
-        <a id="btn_end" style="display: none;">
-            <button type="button">Click here to open the converted file</button>
-        </a>
+    <div class="form">
+        <div id="progress">
+            <div class="content">
+                <div class="title">Converting your file so you can edit it...</div>
+                <i id="spiner" class="spiner-image"></i>
+                <button class="button orange" disabled>Open converted file</button>
+            </div>
+        </div>
+        <div id="success" style="display: none;">
+            <div class="content">
+                <div class="title">Converting your file so you can edit it...</div>
+                <i class="icon icon-succes"></i>
+                <button class="button orange" id="btn_end">Open converted file</button>
+            </div>
+        </div>
+        <div id="error" style="display: none;">
+            <div class="content">
+                <div class="title">Conversion failed</div>
+                <div class="description">Sorry, we weren't able to convert the file for editing.</div>
+                <i class="icon icon-error"></i>
+            </div>
+        </div>
+    </div>
 
-    </div>
-	<div id="error" style="display: none;">
-		Conversion failed<br/>Sorry, we weren't able to convert the file for editing.<br/>Try again Go back
-    </div>
     <script type="text/javascript" language="javascript">
 
 		function redirect(url) {
@@ -140,10 +239,9 @@ div {
 		}
 		
 		function success(url) {
-//            redirect(url);
-            let btn = document.getElementById('btn_end');
-            btn.style.display = 'block';
-            btn.onclick = function() {
+            document.getElementById('progress').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('btn_end').onclick = function() {
                 redirect(url);
             };
 		}

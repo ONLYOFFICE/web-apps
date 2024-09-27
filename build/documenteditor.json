@@ -1,7 +1,7 @@
 {
     "name": "documenteditor",
     "version": "4.3.0",
-    "build": 1149,
+    "build": 1150,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -26,7 +26,6 @@
                         "underscore": "../vendor/underscore/underscore",
                         "backbone": "../vendor/backbone/backbone",
                         "text": "../vendor/requirejs-text/text",
-                        "bootstrap": "../vendor/bootstrap/dist/js/bootstrap",
                         "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
@@ -54,11 +53,6 @@
                                 "jquery"
                             ],
                             "exports": "Backbone"
-                        },
-                        "bootstrap": {
-                            "deps": [
-                                "jquery"
-                            ]
                         },
                         "perfectscrollbar": {
                             "deps": [
@@ -98,6 +92,30 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "options":{
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/documenteditor/main/app_pack.js",
+                    "out": "../deploy/web-apps/apps/documenteditor/main/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
+            },
+            "babel": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../deploy/web-apps/apps/documenteditor/main/",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/documenteditor/main/ie"
+                    }
+                ]
             }
         },
         "less": {
@@ -152,6 +170,12 @@
                     "cwd": "../apps/documenteditor/main/resources/watermark",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/watermark"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/main/resources/numbering",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/numbering"
                 },
                 {
                     "expand": true,
@@ -322,6 +346,9 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/main/lib/mods/dropdown.js",
+                "../apps/common/main/lib/mods/modal.js",
+                "../apps/common/main/lib/mods/tooltip.js",
                 "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
                 "../apps/common/embed/lib/view/LoadMask.js",
@@ -350,10 +377,17 @@
                     "dest": "../deploy/web-apps/apps/documenteditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/documenteditor/embed/index_loader.html": "../apps/documenteditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/documenteditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,

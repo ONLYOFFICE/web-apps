@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,32 +28,25 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  TableSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 2/27/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/27/14
  *
  */
 
-define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
+define([
+    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
+    'common/main/lib/component/TableStyler',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';
 
     DE.Views.TableSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 436,
+            contentHeight: 351,
             toggleGroup: 'table-adv-settings-group',
             storageName: 'de-table-settings-adv-category'
         },
@@ -509,7 +501,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapNone = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-none'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableWrap.TABLE_WRAP_NONE,
                 hint: this.textWrapNoneTooltip,
                 enableToggle: true,
@@ -521,7 +513,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnWrapParallel = new Common.UI.Button({
                 parentEl: $('#tableadv-button-wrap-parallel'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-flow',
+                iconCls: 'options__icon options__icon-huge btn-table-flow',
                 posId: c_tableWrap.TABLE_WRAP_PARALLEL,
                 hint: this.textWrapParallelTooltip,
                 enableToggle: true,
@@ -533,7 +525,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignLeft = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-left'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-left',
+                iconCls: 'options__icon options__icon-huge btn-table-align-left',
                 posId: c_tableAlign.TABLE_ALIGN_LEFT,
                 hint: this.textLeftTooltip,
                 enableToggle: true,
@@ -552,7 +544,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignCenter = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-center'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-center',
+                iconCls: 'options__icon options__icon-huge btn-table-align-center',
                 posId: c_tableAlign.TABLE_ALIGN_CENTER,
                 hint: this.textCenterTooltip,
                 enableToggle: true,
@@ -571,7 +563,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnAlignRight = new Common.UI.Button({
                 parentEl: $('#tableadv-button-align-right'),
                 cls: 'btn-options huge-1',
-                iconCls: 'options__icon options__icon-huge table-align-right',
+                iconCls: 'options__icon options__icon-huge btn-table-align-right',
                 posId: c_tableAlign.TABLE_ALIGN_RIGHT,
                 hint: this.textRightTooltip,
                 enableToggle: true,
@@ -892,7 +884,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
@@ -903,7 +894,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
@@ -913,7 +903,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-table-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));
@@ -938,17 +927,16 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
 
             var _arrBorderPresets = [
-                ['cm',      'btn-borders-large toolbar__icon toolbar__icon-big borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
-                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
-                ['lrtbcm',  'btn-borders-large toolbar__icon toolbar__icon-big borders-all',   'tableadv-button-border-all',       this.tipAll],
-                ['',        'btn-borders-large toolbar__icon toolbar__icon-big borders-none',  'tableadv-button-border-none',      this.tipNone]
+                ['cm',      'toolbar__icon toolbar__icon-big btn-borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
+                ['lrtb',    'toolbar__icon toolbar__icon-big btn-borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
+                ['lrtbcm',  'toolbar__icon toolbar__icon-big btn-borders-all',   'tableadv-button-border-all',       this.tipAll],
+                ['',        'toolbar__icon toolbar__icon-big btn-borders-none',  'tableadv-button-border-none',      this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
@@ -960,22 +948,22 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
 
             var _arrTableBorderPresets = [
-                ['cm', '',          'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
-                ['lrtb', '',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
-                ['lrtbcm', '',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
-                ['', '',            'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
-                ['lrtbcm', 'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
-                ['', 'lrtb',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
-                ['cm', 'lrtb',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
-                ['lrtb', 'lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
+                ['cm', '',          'toolbar__icon toolbar__icon-big btn-borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
+                ['lrtb', '',        'toolbar__icon toolbar__icon-big btn-borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
+                ['lrtbcm', '',      'toolbar__icon toolbar__icon-big btn-borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
+                ['', '',            'toolbar__icon toolbar__icon-big btn-borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
+                ['lrtbcm', 'lrtb',  'toolbar__icon toolbar__icon-big btn-borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
+                ['', 'lrtb',        'toolbar__icon toolbar__icon-big btn-borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
+                ['cm', 'lrtb',      'toolbar__icon toolbar__icon-big btn-borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
+                ['lrtb', 'lrtb',    'toolbar__icon toolbar__icon-big btn-borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
             ];
 
             this._btnsTableBorderPosition = [];
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
-                    cls: 'btn-options large border-off',
+                    style: 'margin-bottom: 4px;',
+                    cls: 'btn-options large border-off  margin-left-4',
                     iconCls: item[2],
                     strCellId  :item[0],
                     strTableId :item[1],
@@ -1016,15 +1004,15 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.chWidth, this.nfWidth, this.cmbUnit, this.chAutofit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.chAllowSpacing, this.nfSpacing, // 0 tab
                 this.chPrefWidth, this.nfPrefWidth, this.cmbPrefWidthUnit, this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, this.chWrapText, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat(this._btnsTableBorderPosition).concat([this.btnBackColor, this.btnTableBackColor,
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat(this._btnsTableBorderPosition).concat([this.btnBackColor, this.btnTableBackColor,
                 this.radioHAlign, this.cmbHAlign , this.radioHPosition, this.cmbHRelative, this.spnX, this.cmbHPosition,
                 this.radioVAlign, this.cmbVAlign , this.radioVPosition, this.cmbVRelative, this.spnY, this.cmbVPosition, this.chMove, this.chOverlap, // 3 tab
-                this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
+                this.btnWrapNone, this.btnWrapParallel, this.btnAlignLeft, this.btnAlignCenter, this.btnAlignRight, this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
                 this.inputAltTitle, this.textareaAltDescription  // 5 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -1056,9 +1044,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                             me.spnX.focus();
                         break;
                     case 4:
-                        if (me.spnIndentLeft.isVisible())
-                            me.spnIndentLeft.focus();
-                        else
+                        if (me.spnIndentLeft.isVisible()) {
+                            if (!me.spnIndentLeft.isDisabled())
+                                me.spnIndentLeft.focus();
+                            else
+                                me.btnWrapNone.focus();
+                        } else
                             me.spnDistanceTop.focus();
                         break;
                     case 5:
@@ -1069,6 +1060,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         afterRender: function() {
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             this._setDefaults(this._originalProps);
             var cellcolorstr = (typeof(this.CellColor.Color) == 'object') ? this.CellColor.Color.color : this.CellColor.Color,
@@ -1081,9 +1074,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.tableBordersImage.redrawTable();
                 this.tableBordersImageSpacing.redrawTable();
             }
-
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
@@ -1415,32 +1405,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.CellColor = {Value: 0, Color: 'transparent'};
 
                 this.btnBackColor.setColor(this.CellColor.Color);
-                if ( typeof(this.CellColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                            this.colorsBack.select(this.CellColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.CellColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
 
                 this.btnTableBackColor.setColor(this.TableColor.Color);
-                if ( typeof(this.TableColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.TableColor.Color.effectValue ) {
-                            this.colorsTableBack.select(this.TableColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsTableBack.clearSelection();
-                } else
-                    this.colorsTableBack.select(this.TableColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.TableColor.Color, this.colorsTableBack);
 
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 
@@ -2125,9 +2093,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         ShowHideSpacing: function(spacing) {
             this.BordersContainer.toggleClass('settings-hidden', spacing);
             this.BordersSpacingContainer.toggleClass('settings-hidden', !spacing);
-            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'inline-block');
-            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'inline-block');
-            this.TableBackContainer.css('float', (!spacing && this._allTable) ? 'none' : 'right');
+            this.TableBackContainer.css('display', (!spacing && !this._allTable) ? 'none' : 'flex');
+            this.CellBackContainer.css('display', (!spacing && this._allTable) ? 'none' : 'flex');
+            this.TableBackContainer.toggleClass('float-right', spacing || !this._allTable);
             (spacing) ? this._UpdateBordersSpacing_() : this._UpdateBordersNoSpacing_();
         },
 

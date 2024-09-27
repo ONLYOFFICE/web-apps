@@ -285,8 +285,8 @@
                 '</div>');
     </script>
 
-    <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
@@ -323,10 +323,14 @@
     <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
     <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
     <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
+    <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
 
     <div id="viewport"></div>
+    <div class="inlined-svg"></div>
 
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 
+    <link rel="stylesheet" href="../../../apps/presentationeditor/main/resources/css/app.css" media="print" onload="this.media='all'">
 </body>
 </html>

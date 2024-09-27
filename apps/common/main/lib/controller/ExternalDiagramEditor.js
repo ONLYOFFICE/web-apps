@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ExternalDiagramEditor.js
  *
- *  Created by Julia Radzhabova on 4/08/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/08/14
  *
  */
 
@@ -44,8 +42,7 @@ if (Common === undefined)
 Common.Controllers = Common.Controllers || {};
 
 define([
-    'core',
-    'common/main/lib/view/ExternalDiagramEditor'
+    'core'
 ], function () { 'use strict';
     Common.Controllers.ExternalDiagramEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = '{{DEFAULT_LANG}}',
@@ -56,6 +53,7 @@ define([
 
 
         var createExternalEditor = function() {
+            Common.UI.HintManager.setInternalEditorLoading(true);
             !!customization && (customization.uiTheme = Common.localStorage.getItem("ui-theme-id", "theme-light"));
             externalEditor = new DocsAPI.DocEditor('id-diagram-editor-placeholder', {
                 width       : '100%',
@@ -89,7 +87,7 @@ define([
         };
 
         return {
-            views: ['Common.Views.ExternalDiagramEditor'],
+            views: [],
 
             initialize: function() {
                 this.addListeners({
@@ -132,15 +130,19 @@ define([
                                 externalEditor.detachMouseEvents();
                                 this.isExternalEditorVisible = false;
                             }
+                            Common.UI.HintManager.setInternalEditorLoading(false);
                         }, this)
                     }
                 });
 
-
+                Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
             },
 
-            onLaunch: function() {
-                this.diagramEditorView = this.createView('Common.Views.ExternalDiagramEditor', {handler: _.bind(this.handler, this)});
+            onLaunch: function() {},
+
+            onPostLoadComplete: function() {
+                this.views = this.getApplication().getClasseRefs('view', ['Common.Views.ExternalDiagramEditor']);
+                this.diagramEditorView = this.createView('Common.Views.ExternalDiagramEditor',{handler: this.handler.bind(this)});
             },
 
             setApi: function(api) {

@@ -1,35 +1,20 @@
 <div class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
-                <td colspan=2 class="padding-small">
+                <td class="padding-small">
                     <label class="header"><%= scope.textFilter %></label>
-                    <div id="name-manager-combo-filter" class="input-group-nr" style="width:210px;"></div>
+                    <div id="name-manager-combo-filter" class="input-group-nr" style="width:180px;"></div>
+                </td>
+                <td id="name-manager-group-btn" class="padding-small text-align-right">
+                    <button type="button" class="btn btn-text-default margin-right-5" id="name-manager-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
+                    <button type="button" class="btn btn-text-default margin-right-15" id="name-manager-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
+                    <button type="button" class="btn btn-text-default" id="name-manager-btn-delete" style="min-width: 80px;"><%= scope.textDelete %></button>
                 </td>
             </tr>
             <tr>
-                <td colspan=2>
-                    <div style="width: 169px;display: inline-block;"><span id="name-manager-sort-name" class="header-sorted">
-                        <label class="header"><%= scope.textRanges %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-name-span" class="sort-direction  caret"></span>
-                    </span></div>
-                    <div style="width: 115px;display: inline-block;"><span id="name-manager-sort-scope" class="header-sorted">
-                        <label class="header"><%= scope.textScope %></label><div style="width: 6px;height: 6px;"></div><span id="name-manager-sort-scope-span" class="sort-direction  caret"></span>
-                    </span></div>
-                    <label class="header" style=""><%= scope.textDataRange %></label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=2 class="padding-small">
-                    <div id="name-manager-range-list" class="range-tableview" style="width:100%; height: 141px;"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-large">
-                    <button type="button" class="btn btn-text-default" id="name-manager-btn-new" style="min-width: 100px;margin-right:5px;"><%= scope.textNew %></button>
-                    <button type="button" class="btn btn-text-default" id="name-manager-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
-                </td>
-                <td class="padding-large" style="text-align: right;width:90px;">
-                    <button type="button" class="btn btn-text-default" id="name-manager-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>
+                <td colspan=2">
+                    <div id="name-manager-range-list" class="range-tableview" style="width:100%; height: 191px;"></div>
                 </td>
             </tr>
         </table>

@@ -2,7 +2,7 @@
 @import '../../../../common/mobile/resources/less/_mixins.less';
 @import '../../../../common/mobile/resources/less/colors-table.less';
 @import '../../../../common/mobile/resources/less/colors-table-dark.less';
-@import './app.rtl.less';
+@import './app-rtl.less';
 
 @brandColor: var(--brand-word);
 
@@ -69,19 +69,30 @@
     }
 }
 
+.page.page-with-subnavbar {
+    .page-content, &.page-with-logo .page-content {
+        --f7-page-subnavbar-offset: 0;
+        padding-top: 0;
+    }
+}
+
+.page.editor > .page-content {
+    --f7-page-navbar-offset: 0;
+}
+
 // Review
 .page-review {
     --f7-toolbar-link-color: @brandColor;
+    
     .toolbar {
         background-color: @background-secondary;
         box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
         position: absolute;
-        #btn-reject-change {
-            margin-left: 20px;
-        }
+
         #btn-goto-change {
             margin-left: 10px;
         }
+
         .next-prev {
             .link {
                 width: 44px;
@@ -249,6 +260,7 @@
         z-index: 100;
         top: 40px;
         z-index: 1000;
+        right: 0;
     }
 }
 
@@ -274,9 +286,12 @@
         color: @text-normal;
         font-size: 16px;
     }
-    .calendar-day-selected .calendar-day-number {
+    .calendar-day-selected .calendar-day-number, .calendar-day-today.calendar-day-selected .calendar-day-number {
         border: 1px solid transparent;
         background-color: @brandColor;
+        color: @fill-white;
+    }
+    .calendar-day-selected.calendar-day-weekend .calendar-day-number {
         color: @fill-white;
     }
     .calendar-day-today .calendar-day-number {
@@ -284,7 +299,7 @@
         background-color: transparent;
     }
     .calendar-day-weekend .calendar-day-number {
-       color: #D25252;
+        color: @text-secondary;
     }
     .calendar-day-number {
         color: @text-normal;
@@ -338,28 +353,33 @@
     }
 }
 
-// Snackbar animation
-.snackbar-enter {
-    opacity: 0;
-}
-.snackbar-enter-active {
-    opacity: 1;
-    transition: opacity 300ms;
-}
-.snackbar-exit {
-    opacity: 1;
-}
-.snackbar-exit-active {
-    opacity: 0;
-    transition: opacity 300ms;
+// FAB
+.fab {
+    z-index: 10000;
+    a {
+        background-color: @background-primary;
+        border-radius: 50%;
+
+        &:focus, &:focus-within, &:active, &.active-state {
+            background-color: @background-primary;
+        }
+    }
 }
 
-// FAB
-.fab a {
-    background-color: @background-primary;
-    &:focus, &:focus-within, &:active, &.active-state {
-        background-color: @background-primary;
-    }
+// Snackbar and FAB animation
+.snackbar-enter, .fab-enter {
+    opacity: 0;
+}
+.snackbar-enter-active, .fab-enter-active {
+    opacity: 1;
+    transition: opacity 300ms;
+}
+.snackbar-exit, .fab-exit {
+    opacity: 1;
+}
+.snackbar-exit-active, .fab-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
 }
 
 

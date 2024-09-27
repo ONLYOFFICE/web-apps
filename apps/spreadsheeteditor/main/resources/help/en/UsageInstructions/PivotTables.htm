@@ -4,10 +4,10 @@
 		<title>Create and edit pivot tables</title>
 		<meta charset="utf-8" />
         <meta name="description" content="Create and edit pivot tables. Apply filters, change the appearance of pivot tables in a spreadsheet." />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
     <div class="mainpart">
@@ -48,7 +48,7 @@
                 </li>
             </ol>
             <p>An empty pivot table will be inserted in the selected location.</p>
-            <p>The <b>Pivot table settings</b> tab on the right sidebar will be opened. You can hide or display this tab by clicking the <span class="icon icon-pivot_settings"></span> icon.</p>
+            <p>The <b>Pivot table settings</b> tab on the right sidebar will be opened. You can hide or display this tab by clicking the <span class="icon icon-pivot_settings"></span> icon. Pivot table settings are also available in the context menu that appears when you right click the table. The context menu options depend on the field you click.</p>
             <p><img alt="Pivot table settings tab" src="../images/right_pivot.png" /></p>
 
             <h4>Select fields to display</h4>
@@ -76,6 +76,7 @@
                     <p><img alt="Pivot Values" src="../images/pivot_values.png" /></p>
                 </li>
             </ul>
+        <p>To see more information regarding any value field, click it with the right mouse button to open the context menu and choose the <b>Show details</b> option, or double click the required value field with the left mouse button. The data that the value field is based on will open in a new sheet.</p>
 
             <h4>Rearrange fields and adjust their properties</h4>
             <p>Once the fields are added to the necessary sections, you can manage them to change the layout and format of the pivot table. Click the black arrow to the right of a field within the <b>Filters</b>, <b>Columns</b>, <b>Rows</b>, or <b>Values</b> sections to access the field context menu.</p>
@@ -95,29 +96,30 @@
                 <li>The <b>Custom name</b> option allows you to change the name of the selected field displayed in the pivot table.</li>
                 <li>
                     The <b>Report Form</b> section allows you to change the way the selected field is displayed in the pivot table:
-                    <ul>
-                        <li>
-                            Choose the necessary layout for the selected field in the pivot table:
-                            <ul>
-                                <li>
-                                    The <b>Tabular</b> form displays one column for each field and provides space for field headers.
-                                    <!--<p><img alt="Pivot table Tabular form" src="../images/pivot_tabular.png" /></p>-->
-                                </li>
-                                <li>
-                                    The <b>Outline</b> form displays one column for each field and provides space for field headers. It also allows you to display subtotals at the top of groups.
-                                    <!--<p><img alt="Pivot table Outline form" src="../images/pivot_outline.png" /></p>-->
-                                </li>
-                                <li>
-                                    The <b>Compact</b> form displays items from different row section fields in a single column.
-                                    <!--<p><img alt="Pivot table Compact form" src="../images/pivot_compact.png" /></p>-->
-                                </li>
-                            </ul>
-                        </li>
-                        <li>The <b>Repeat items labels at each row</b> option allows you to visually group rows or columns together if you have multiple fields in the tabular form.</li>
-                        <li>The <b>Insert blank rows after each item</b> option allows you to add blank lines after items of the selected field.</li>
-                        <li>The <b>Show subtotals</b> option allows you to choose if you want to display subtotals for the selected field. You can select one of the options: <em>Show at top of group</em> or <em>Show at bottom of group</em>.</li>
-                        <li>The <b>Show items with no data</b> option allows you to show or hide blank items in the selected field.</li>
-                    </ul>
+                        <ul>
+                            <li>
+                                Choose the necessary layout for the selected field in the pivot table:
+                                <ul>
+                                    <li>
+                                        The <b>Tabular</b> form displays one column for each field and provides space for field headers.
+                                        <!--<p><img alt="Pivot table Tabular form" src="../images/pivot_tabular.png" /></p>-->
+                                    </li>
+                                    <li>
+                                        The <b>Outline</b> form displays one column for each field and provides space for field headers. It also allows you to display subtotals at the top of groups.
+                                        <!--<p><img alt="Pivot table Outline form" src="../images/pivot_outline.png" /></p>-->
+                                    </li>
+                                    <li>
+                                        The <b>Compact</b> form displays items from different row section fields in a single column.
+                                        <!--<p><img alt="Pivot table Compact form" src="../images/pivot_compact.png" /></p>-->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>The <b>Number format</b> option allows you to choose the required number format for the value field. Click this button, choose the required format from the <b>Category</b> list, then click <b>OK</b> when ready. To learn more about number formats, please refer to <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">the following article</a>.</li>
+                            <li>The <b>Repeat items labels at each row</b> option allows you to visually group rows or columns together if you have multiple fields in the tabular form.</li>
+                            <li>The <b>Insert blank rows after each item</b> option allows you to add blank lines after items of the selected field.</li>
+                            <li>The <b>Show subtotals</b> option allows you to choose if you want to display subtotals for the selected field. You can select one of the options: <em>Show at top of group</em> or <em>Show at bottom of group</em>.</li>
+                            <li>The <b>Show items with no data</b> option allows you to show or hide blank items in the selected field.</li>
+                        </ul>
                 </li>
             </ul>
             <p><img alt="Pivot table Filters field settings" src="../images/pivot_filter_field_subtotals.png" /></p>
@@ -127,7 +129,9 @@
             <ul>
                 <li>The <b>Source name</b> option allows you to view the field name corresponding to the column header from the source data set.</li>
                 <li>The <b>Custom name</b> option allows you to change the name of the selected field displayed in the pivot table.</li>
-                <li>The <b>Summarize value field by</b> list allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
+                <li>The <b>Summarize value field by</b> option allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
+                <li>The <b>Show values as </b> option allows you to show instant custom calculations instead of adding a formula and creating a calculated field. <b>No calculation</b> is the default option that displays the actual value in the field. Other calculation options: <em>% of grand total</em>, <em>% of column total</em>, <em>% of row total</em>, <em>% of</em>, <em>% of parent row total</em>, <em>% of parent column total</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>, <em>Rank smallest to largest</em>, <em>Rank largest to smallest</em>, <em>Index</em>. Use <b>Base field</b> and <b>Base item</b> when these options are available for the calculation you selected (<em>% of</em>, <em>% of parent total</em>, <em>Difference from</em>, <em>% difference from</em>, <em>Running total in</em>, <em>% running total in</em>).</li>
+                <li>The <b>Number format</b> option allows you to choose the required number format for the value field. Click this button, choose the required format from the <b>Category</b> list, then click <b>OK</b> when ready. To learn more about number formats, please refer to <a href="../UsageInstructions/ChangeNumberFormat.htm" onclick="onhyperlinkclick(this)">the following article</a>.</li>
             </ul>
 
             <h3>Group and ungroup data</h3>
@@ -210,6 +214,18 @@
             </ul>
             <p>The <span class = "icon icon-pivotselecticon"></span> <b>Select</b> button allows you to select the entire pivot table.</p>
             <p>If you change the data in your source data set, select the pivot table and click the <span class="icon icon-pivot_refresh"></span> <b>Refresh</b> button to update the pivot table.</p>
+            
+            <h3>Expand or collapse fields</h3>
+            <p>To expand or collapse data details, click a field with the right mouse button to open the context menu, choose the <b>Expand/Collapse</b> menu item, then select the necessary option:</p>
+            <ul>
+                <li><b>Expand</b> - to show details for the currently selected item.</li>
+                <li><b>Collapse</b> - to hide details for the currently selected item.</li>
+                <li><b>Expand Entire Field</b> - to show details for all items in a field. The similar setting is also available at the top toolbar.</li>
+                <li><b>Collapse Entire Field</b> - to hide details for all items in a field. The similar setting is also available at the top toolbar.</li>
+            </ul>
+            <p>The groups are hidden behind the plus/minus icons. You can also expand/collapse fields by double-clicking the pivot table headers.</p>
+            <p>The <b>Expand</b> option, when the last field of rows or columns is selected, opens a dialog window for adding a new field to the row or column. Choose the necessary field and click <b>OK</b>.</p>
+            <p><img alt="Pivot Table" src="../images/expand_last.png" /></p>
 
             <h3>Change the style of pivot tables</h3>
             <p>You can change the appearance of pivot tables in a spreadsheet using the style editing tools available on the top toolbar.</p>
@@ -224,7 +240,7 @@
             </ul>
             <p>
                 The template list allows you to choose one of the predefined pivot table styles. Each template combines certain formatting parameters, such as a background color, border style, row/column banding, etc.
-                Depending on the options checked for rows and columns, the templates set will be displayed differently. For example, if you've checked the <b>Row Headers</b> and <b>Banded Columns</b> options, the displayed templates list will include only templates with the row headers highlighted and banded columns enabled.
+                Depending on the options checked for rows and columns, the templates set will be displayed differently. For example, if you've checked the <b>Row Headers</b> and <b>Banded Columns</b> options, the visible part of the templates list will include templates with the row headers highlighted and banded columns enabled, but you can expand the full list by clicking the arrow to see all the available templates.
             </p>
 
             <h3>Filter, sort and add slicers in pivot tables</h3>

@@ -2,18 +2,51 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import {observer, inject} from "mobx-react";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
-import {FunctionGroups} from '../../controller/add/AddFunction';
+import { withTranslation } from 'react-i18next';
+import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
+import { f7 } from "framework7-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
+
         this.onFormulaLangChange = this.onFormulaLangChange.bind(this);
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
+        this.changeDirectionMode = this.changeDirectionMode.bind(this);
+        this.initFormulaLangsCollection = this.initFormulaLangsCollection.bind(this);
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
+        this.props.storeApplicationSettings.setFormulaLangsCollection(this.initFormulaLangsCollection());
+    }
+
+    static contextType = ThemesContext;
+
+    initFormulaLangsCollection() {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+        const storeApplicationSettings = this.props.storeApplicationSettings;
+        const formulaLangsExamples = storeApplicationSettings.formulaLangsExamples;
+        const formulaLangs = storeApplicationSettings.formulaLangs;
+        const formulaLangsCollection = formulaLangs.map(lang => {
+            let str = lang.replace(/[\-_]/, '');
+            str = str.charAt(0).toUpperCase() + str.substring(1, str.length);
+
+            return {
+                value: lang, 
+                displayValue: _t[`txt${str}lang`] ? t(`View.Settings.txt${str}lang`) : t(`View.Settings.txt${str}`), exampleValue: formulaLangsExamples[`txtExample${str}`] || formulaLangsExamples['txtExampleEn']
+            }
+        });
+
+        formulaLangsCollection.sort(function(a, b) {
+            if (a.displayValue < b.displayValue) return -1;
+            if (a.displayValue > b.displayValue) return 1;
+            return 0;
+        });
+
+        return formulaLangsCollection;
     }
 
     initRegSettings() {
@@ -26,8 +59,8 @@ class ApplicationSettingsController extends Component {
 
         const arr = api.asc_getFormatCells(info);
         const text4 = api.asc_getLocaleExample(arr[4], 1000.01, regCode),
-              text5 = api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), regCode),
-              text6 = api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), regCode);
+              text5 = api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(true), regCode),
+              text6 = api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(true), regCode);
 
         this.props.storeApplicationSettings.setRegExample(`${text4} ${text5} ${text6}`);
     }
@@ -88,8 +121,22 @@ class ApplicationSettingsController extends Component {
         Common.Notifications.trigger('changeRegSettings');
     }
 
-    changeDirection(value) {
-        LocalStorage.setItem('mode-direction', value);
+    changeDirectionMode(direction) {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+
+        this.props.storeApplicationSettings.changeDirectionMode(direction);
+        LocalStorage.setItem('mode-direction', direction);
+
+        f7.dialog.create({
+            title: _t.notcriticalErrorTitle,
+            text: t('View.Settings.textRestartApplication'),
+            buttons: [
+                {
+                    text: _t.textOk
+                }
+            ]
+        }).open();
     }
 
     render() {
@@ -104,11 +151,12 @@ class ApplicationSettingsController extends Component {
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
                 onRegSettings={this.onRegSettings}   
-                changeDirection={this.changeDirection}
+                changeDirectionMode={this.changeDirectionMode}
+                changeTheme={this.context.changeTheme}
             />
         )
     }
 }
 
 
-export default inject("storeApplicationSettings", "storeAppOptions")(observer(ApplicationSettingsController));
+export default inject("storeApplicationSettings", "storeAppOptions")(observer(withTranslation()(ApplicationSettingsController)));

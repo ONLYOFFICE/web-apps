@@ -6,26 +6,19 @@
 
 #history-header {
     position: absolute;
-    height: 53px;
+    height: 45px;
     left: 0;
     top: 0;
     right: 0;
+    padding: 12px;
     overflow: hidden;
     border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-bottom: @scaled-one-px-value solid @border-toolbar;
 
-    #history-btn-back {
-        height: 27px;
-        margin-top: 15px;
-        padding-top: 4px;
-        padding-left: 20px;
-        font-size: 13px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: @highlight-button-hover-ie;
-            background-color: @highlight-button-hover;
-        }
+    label {
+        .font-size-medium();
+        .font-weight-bold();
+        margin-top: 2px;
     }
 }
 
@@ -43,8 +36,8 @@
         height: 27px;
         margin-top: 8px;
         padding-top: 4px;
-        padding-left: 20px;
-        font-size: 13px;
+        .padding-left-20();
+        .font-size-large();
         cursor: pointer;
 
         &:hover {
@@ -57,122 +50,110 @@
 #history-list {
     height: 100%;
     overflow: hidden;
-    padding: 53px 0 45px 0;
+    padding-top: 45px;
 
-    .item {
-        display: block;
-        border: none;
-        width: 100%;
-        .box-shadow(none);
-        margin: 0;
-        font-size: 12px;
+    .tree-item {
+        display: flex;
+        padding: 12px 15px 12px 0px;
 
-        &:hover:not(.selected),
-        &.over {
-            background-color: @highlight-button-hover-ie;
-            background-color: @highlight-button-hover;
+        .rtl & {
+            padding: 12px 0px 12px 15px;
         }
 
-        &.selected {
-            background-color: @highlight-button-pressed-ie;
-            background-color: @highlight-button-pressed;
+        .caret-wrap {
+            width: 24px;
 
-            .user-name,
-            .user-date {
+            .tree-caret {
+                margin-top: 4px;
+            }
+        }
+
+        .content-wrap {
+            flex: 1;
+            overflow: hidden;
+
+            .item-internal {
+                display: flex;
+                align-items: center;
+
+                .color {
+                    display: inline-block;
+                    width: 26px;
+                    height: 26px;
+                    margin-top: 2px;
+                    border-radius: 20px;
+                    border-width: @scaled-two-px-value;
+                    .margin-right-8();
+                    vertical-align: middle;
+                    background-color: #ffffff;
+                    background-size: cover;
+                    background-position: center;
+        
+                    color: #ffffff;
+                    line-height: 26px;
+                    text-align: center;
+                }
+
+                .item-content {
+                    flex: 1;
+                    line-height: 12.65px;
+                    overflow: hidden;
+
+                    .item-title {
+                        display: flex;
+                        align-items: center;
+
+                        .user-date {
+                            line-height: 18px;
+                            display: inline-block;
+                            .font-size-medium();
+                            .font-weight-bold();
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                
+                        .user-version {
+                            display: inline-block;
+                            max-width: 60px;
+                            line-height: 12px;
+                            color: @highlight-button-pressed-ie;
+                            color: @highlight-button-pressed;
+                            font-size: 10px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            color: @text-tertiary-ie;
+                            color: @text-tertiary;
+                            background-color: @background-normal-ie;
+                            background-color: @background-normal;
+                            text-align: center;
+                            padding: 3px 5px;
+                            border-radius: 2px;
+                            .margin-left-8();
+                        }
+                    }
+
+                    .user-name {
+                        width: 100%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        .font-size-medium();
+                        text-overflow: ellipsis;
+                    }
+                }         
+            }
+    
+            .revision-restore {
                 color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
+                border-bottom: @scaled-one-px-value-ie dotted @text-normal-pressed-ie;
+                border-bottom: @scaled-one-px-value dotted @text-normal-pressed;
+                height: 16px;
+                margin-top: 5px;
+                white-space: pre-wrap;
+                width: auto;
+                cursor: pointer;
             }
-
-            .revision-expand {
-                border-color: @icon-normal-pressed-ie;
-                border-color: @icon-normal-pressed;
-            }
-        }
-    }
-
-    .history-item-wrap {
-        padding: 10px 2px 15px 20px;
-        color: @text-normal-ie;
-        color: @text-normal;
-        text-overflow: ellipsis;
-
-        .user-date {
-            display: inline-block;
-            font-size: 12px;
-            .font-weight-bold();
-            margin-right: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .user-version {
-            display: inline-block;
-            max-width: 60px;
-            height: 18px;
-            color: @highlight-button-pressed-ie;
-            color: @highlight-button-pressed;
-            font-size: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            color: @text-tertiary-ie;
-            color: @text-tertiary;
-            background-color: @background-normal-ie;
-            background-color: @background-normal;
-            text-align: center;
-            padding: 1px 5px;
-            border-radius: 2px;
-        }
-
-        .user-name {
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: 12px;
-            .font-weight-bold();
-            cursor: pointer;
-            text-overflow: ellipsis;
-            padding-right: 35px;
-        }
-
-        .color {
-            width: 12px;
-            height: 12px;
-            border: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border: @scaled-one-px-value solid @border-toolbar;
-            margin: 0 5px 3px 0;
-            vertical-align: middle;
-        }
-
-        .revision-expand {
-            width: 8px;
-            height: 8px;
-            border: solid 2px @icon-normal-ie;
-            border: solid 2px @icon-normal;
-            border-bottom: none;
-            border-right: none;
-            background-image: none;
-            display: inline-block;
-            position: absolute;
-            right: 2px;
-            margin: 15px;
-            //transition: transform 0.2s ease;
-            transform: rotate(-135deg) ;
-
-            &.up {
-                transform: rotate(45deg);
-            }
-        }
-
-        .revision-restore {
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
-            border-bottom: @scaled-one-px-value-ie dotted @text-normal-pressed-ie;
-            border-bottom: @scaled-one-px-value dotted @text-normal-pressed;
-            height: 16px;
-            margin-top: 5px;
-            white-space: pre-wrap;
-            width: auto;
-            cursor: pointer;
         }
     }
 }

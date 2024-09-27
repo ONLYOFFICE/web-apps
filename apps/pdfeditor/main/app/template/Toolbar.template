@@ -1,0 +1,188 @@
+<div class="toolbar">
+    <div class="box-tabs">
+        <div class="extra left"></div>
+        <%= tabsmarkup %>
+        <div class="extra right"></div>
+    </div>
+    <section class="box-controls" role="tabpanel">
+        <section class="panel static">
+            <div class="group no-mask small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-print"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot" id="slot-btn-paste"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot" id="slot-btn-redo"></span>
+                </div>
+            </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-tb-edit-mode"></span>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>
+                <span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>
+            </div>
+            <div class="separator long"></div>
+        </section>
+        <section class="box-panels">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
+                <div class="group small annotate">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-pages" style="width: 95px"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-first-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-prev-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-next-page"></span>
+                        <span class="btn-slot margin-left-5" id="slot-btn-last-page"></span>
+                    </div>
+                </div>
+<!--                <div class="separator long"></div>-->
+<!--                <div class="group">-->
+<!--                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>-->
+<!--                </div>-->
+                <div class="separator long annotate"></div>
+                <div class="group small annotate">
+                <div class="elset annotate" style="display: flex;">
+                    <span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>
+                    </div>
+                <div class="elset annotate" style="text-align: center;">
+                    <span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>
+                    </div>
+                </div>
+                <div class="group small annotate">
+                <div class="elset annotate">
+                    <span class="btn-slot text slot-btn-ftp" style="text-align: center;"></span>
+                    </div>
+                <div class="elset annotate">
+                    <span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>
+                    </div>
+                </div>
+                <% if ( config.isRestrictedEdit) { %>
+                <div class="separator long"></div>
+                <div class="group" style="">
+                    <span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-next"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group" style="">
+                    <span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-save"></span>
+                </div>
+                <% } else { %>
+                <div class="group small pdfedit">
+                    <div class="elset" style="width:230px;">
+                        <span class="btn-slot float-left" id="slot-field-fontname"></span>
+                        <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
+                        <span class="btn-slot margin-left-2" id="slot-btn-decfont"></span>
+                        <span class="btn-slot margin-left-2 split" id="slot-btn-changecase"></span>
+                    </div>
+                    <div class="elset font-attr">
+                        <span class="btn-slot" id="slot-btn-bold"></span>
+                        <span class="btn-slot" id="slot-btn-italic"></span>
+                        <span class="btn-slot" id="slot-btn-text-underline"></span>
+                        <span class="btn-slot" id="slot-btn-text-strikeout"></span>
+                        <span class="btn-slot" id="slot-btn-superscript"></span>
+                        <span class="btn-slot" id="slot-btn-subscript"></span>
+                        <span class="btn-slot split" id="slot-btn-text-highlight"></span>
+                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
+                    </div>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group small pdfedit">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-markers"></span>
+                        <span class="btn-slot split" id="slot-btn-numbering"></span>
+                        <span class="btn-slot split" id="slot-btn-decoffset"></span>
+                        <span class="btn-slot split" id="slot-btn-incoffset"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-halign"></span>
+                        <span class="btn-slot split" id="slot-btn-valign"></span>
+                        <span class="btn-slot split" id="slot-btn-linespace"></span>
+                        <span class="btn-slot split" id="slot-btn-columns"></span>
+                    </div>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group pdfedit">
+                    <span class="btn-slot text x-huge" id="slot-btn-edittext"></span>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group pdfedit">
+                    <span class="btn-slot text x-huge slot-inspage"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group pdfedit">
+                    <span class="btn-slot text x-huge slot-instext"></span>
+                    <span class="btn-slot text x-huge slot-insertimg"></span>
+                    <span class="btn-slot text x-huge slot-insertshape"></span>
+                </div>
+                <div class="group small pdfedit">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-align-shape"></span>
+                    </div>
+                </div>
+                <% } %>
+            </section>
+            <section class="panel" data-tab="comment" role="tabpanel" aria-labelledby="comment">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-comment"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text-comment"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-highlight"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-strikeout"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-underline"></span>
+                    </div>
+                </div>
+                <div class="separator long draw-groups"></div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-showcomment"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</div>

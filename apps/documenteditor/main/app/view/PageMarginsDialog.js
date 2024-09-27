@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,19 +28,15 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PageMarginsDialog.js
  *
- *  Created by Julia Radzhabova on 2/12/16
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/12/16
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.PageMarginsDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -60,14 +55,14 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 245px;">',
-                    '<div style="float: left;">',
-                        '<label style="font-weight: bold;">' + this.textTitle + '</label>',
+                    '<div class="float-left">',
+                        '<label class="font-weight-bold">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
                             '</div>',
-                            '<div style="display: inline-block; margin-left: 8px;">',
+                            '<div class="margin-left-8" style="display: inline-block;">',
                                 '<label class="input-label">' + this.textBottom + '</label>',
                                 '<div id="page-margins-spin-bottom"></div>',
                             '</div>',
@@ -77,29 +72,29 @@ define([
                                 '<label class="input-label" id="margin-left-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
                             '</div>',
-                            '<div style="display: inline-block; margin-left: 8px;">',
+                            '<div class="margin-left-8" style="display: inline-block;">',
                                 '<label class="input-label" id="margin-right-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textGutterPosition + '</label>',
+                            '<label class="font-weight-bold">' + this.textGutterPosition + '</label>',
                             '<div>',
                                 '<div style="display: inline-block;" id="page-margins-spin-gutter"></div>',
-                                '<div style="display: inline-block; margin-left: 8px;" id="page-margins-spin-gutter-position"></div>',
+                                '<div style="display: inline-block;" id="page-margins-spin-gutter-position" class="margin-left-8"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textOrientation + '</label>',
+                            '<label class="font-weight-bold">' + this.textOrientation + '</label>',
                             '<div id="page-margins-cmb-orientation"></div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textMultiplePages + '</label>',
+                            '<label class="font-weight-bold">' + this.textMultiplePages + '</label>',
                             '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
-                    '<div style="float: right;">',
-                        '<label style="font-weight: bold;">' + this.textPreview + '</label>',
+                    '<div class="float-right">',
+                        '<label class="font-weight-bold">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
                 '</div>'
@@ -311,7 +306,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

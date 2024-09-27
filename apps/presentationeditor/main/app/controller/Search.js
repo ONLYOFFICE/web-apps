@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 25.02.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 25.02.2022
  *
  */
 
@@ -138,7 +136,7 @@ define([
                 for (var l = 0; l < text.length; l++) {
                     var charCode = text.charCodeAt(l),
                         char = text.charAt(l);
-                    if (AscCommon.IsPunctuation(charCode) !== undefined || char.trim() === '') {
+                    if (AscCommon.IsPunctuation(charCode) || char.trim() === '') {
                         isPunctuation = true;
                         break;
                     }
@@ -177,12 +175,14 @@ define([
                         me._state.searchText = me._state.newSearchText;
                         if (!(me._state.newSearchText !== '' && me.onQuerySearch()) && me._state.newSearchText === '') {
                             me.api.asc_endFindText();
-                            me.hideResults();
                             me.view.updateResultsNumber('no-results');
+                            me.hideResults();
                             me.view.disableNavButtons();
                             me.view.disableReplaceButtons(true);
                             clearInterval(me.searchTimer);
                             me.searchTimer = undefined;
+
+                            Common.NotificationCenter.trigger('search:updateresults');
                         }
                     }, 10);
                 }
@@ -203,14 +203,17 @@ define([
             if (!this.api.asc_findText(searchSettings, d != 'back')) {
                 this.resultItems = [];
                 this.view.updateResultsNumber(undefined, 0);
+                this.hideResults();
                 this.view.disableReplaceButtons(true);
                 this._state.currentResult = 0;
                 this._state.resultsNumber = 0;
                 this.view.disableNavButtons();
+
+                Common.NotificationCenter.trigger('search:updateresults');
                 return false;
             }
 
-            if (update && this.view.$el.is(':visible')) {
+            if (update && this.view.$el.is(':visible') && this.view.$resultsContainer.find('.many-results').length === 0) {
                 this.api.asc_StartTextAroundSearch();
             }
             this.view.disableReplaceButtons(false);
@@ -237,14 +240,14 @@ define([
                 searchSettings.put_WholeWords(this._state.matchWord);
                 this.api.asc_replaceText(searchSettings, textReplace, true);
 
-                this.removeResultItems();
+                this.removeResultItems('replace-all');
             }
         },
 
         removeResultItems: function (type) {
             this.resultItems = [];
+            type !== 'replace-all' && this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.hideResults();
-            this.view.updateResultsNumber(type, 0); // type === undefined, count === 0 -> no matches
             this.view.disableReplaceButtons(true);
             this._state.currentResult = 0;
             this._state.resultsNumber = 0;
@@ -278,7 +281,7 @@ define([
             if (index !== -1) {
                 var item = this.resultItems[index].$el,
                     itemHeight = item.outerHeight(),
-                    itemTop = item.position().top,
+                    itemTop = Common.Utils.getPosition(item).top,
                     container = this.view.$resultsContainer,
                     containerHeight = container.outerHeight(),
                     containerTop = container.scrollTop();
@@ -298,13 +301,13 @@ define([
 
         onEndTextAroundSearch: function () {
             if (this.view) {
-                this._state.isStartedAddingResults = false;
-                this.view.$resultsContainer.scroller.update({alwaysVisibleY: true});
+                this.view.updateScrollers();
             }
         },
 
         onApiGetTextAroundSearch: function (data) {
             if (this.view && this._state.isStartedAddingResults) {
+                this._state.isStartedAddingResults = false;
                 if (data.length > 300 || !data.length) return;
                 var me = this,
                     selectedInd;
@@ -313,7 +316,15 @@ define([
                     var el = document.createElement("div"),
                         isSelected = ind === me._state.currentResult;
                     el.className = 'item';
-                    el.innerHTML = item[1].trim();
+                    var innerHtml = "";
+                    for (var i = 0, count = item[1].length; i < count; ++i) {
+                        if (1 == i)
+                            innerHtml += "<b>" + Common.Utils.String.htmlEncode(item[1][i]) + "</b>";
+                        else
+                            innerHtml += Common.Utils.String.htmlEncode(item[1][i]);
+                    }
+                    el.innerHTML = innerHtml.trim();
+                    el.setAttribute('role', 'listitem');
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');
@@ -350,8 +361,10 @@ define([
 
         hideResults: function () {
             if (this.view) {
-                this.view.$resultsContainer.hide();
-                this.view.$resultsContainer.empty();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.view.$resultsContainer.hide();
+                }
+                this.view.$resultsContainer.find('.item').remove();
             }
         },
 
@@ -374,7 +387,9 @@ define([
             this.hideResults();
             if (text && text !== '' && text === this._state.searchText) { // search was made
                 this.view.disableReplaceButtons(false);
-                this.api.asc_StartTextAroundSearch();
+                if (this.view.$resultsContainer.find('.many-results').length === 0) {
+                    this.api.asc_StartTextAroundSearch();
+                }
             } else if (text && text !== '') { // search wasn't made
                 this.onInputSearchChange(text);
             } else {
@@ -417,8 +432,10 @@ define([
         onApiTextReplaced: function(found, replaced) {
             if (found) {
                 !(found - replaced > 0) ?
-                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
-                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+                    /*Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );*/
+                    this.view.updateResultsNumber('replace-all', replaced) :
+                    this.view.updateResultsNumber('replace', [replaced, found, found-replaced]);
             } else {
                 Common.UI.info({msg: this.textNoTextFound});
             }
@@ -426,6 +443,10 @@ define([
 
         getSearchText: function () {
             return this._state.searchText;
+        },
+
+        getResultsNumber: function () {
+            return [this._state.currentResult, this._state.resultsNumber];
         },
 
         notcriticalErrorTitle: 'Warning',

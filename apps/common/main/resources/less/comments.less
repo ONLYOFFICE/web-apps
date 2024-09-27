@@ -19,7 +19,7 @@
         border-bottom: @scaled-one-px-value solid @border-toolbar;
 
         label {
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             margin-top: 2px;
         }
@@ -43,7 +43,12 @@
         .ps-scrollbar-y-rail {
             margin-top: 5px;
             margin-bottom: 5px;
-            right: 4px !important;
+            right: 4px;
+
+            .rtl & {
+                right: unset !important;
+                left: 4px;
+            }
         }
 
         .dataview-ct.inner {
@@ -70,7 +75,7 @@
         label {
             color: @text-normal-ie;
             color: @text-normal;
-            font-size: 12px;
+            .font-size-medium();
             line-height: normal;
             border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
             border-bottom: @scaled-one-px-value dotted @text-normal;
@@ -93,7 +98,7 @@
         }
 
         textarea {
-            font-size: 12px;
+            .font-size-medium();
             width: 100%;
             resize: none;
             margin-bottom: 5px;
@@ -109,18 +114,18 @@
 
     .btn {
         &.add {
-            margin-left: 20px;
+            .margin-left-20();
         }
         &.cancel {
-            margin-left: 7px;
+            .margin-left-7();
         }
     }
 }
 
-.dataview-ct {
+.dataview-ct  {
     width: 100%;
     height: 100%;
-    font-size: 12px;
+    .font-size-medium();
     line-height: normal;
     position: relative;
     overflow: hidden;
@@ -164,26 +169,54 @@
         padding: 0px 20px 10px 20px;
     }
 
+    .user-info {
+        display: flex;
+        padding-top: 10px;
+        .padding-right(65px);
+    }
+
+    .user-info-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
     .user-name {
         color: @text-normal-ie;
         color: @text-normal;
-        font-size: 12px;
+        .font-size-medium();
         .font-weight-bold();
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: 10px 65px 0 0px;
-        height: 26px;
         cursor: default;
     }
 
     .color {
-        width: 12px;
-        height: 12px;
-        border: @scaled-one-px-value-ie solid @border-toolbar-ie;
-        border: @scaled-one-px-value solid @border-toolbar;
-        margin: 0 5px 3px 0;
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        border-radius: 20px;
+        border-width: @scaled-two-px-value;
+        margin-right: 8px;
         vertical-align: middle;
+        background-color: #ffffff;
+        background-size: cover;
+        background-position: center;
+
+        text-align: center;
+        line-height: 26px;
+        color: #ffffff;
+        font-weight: 700;
+
+        .rtl & {
+            margin-right: 0px;
+            margin-left: 8px;
+        }
     }
 
     .user-name-colored {
@@ -197,7 +230,8 @@
             background-color: #ee3525;
             padding: 3px 10px;
             color: #ffffff;
-            font: 11px arial;
+            //font: 11px arial;
+            .font-size-normal();
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -205,10 +239,10 @@
     }
 
     .user-date {
-        font-size: 11px;
+        .font-size-normal();
         white-space: nowrap;
         padding: 0;
-        height: 12px;
+        //height: 12px;
         overflow: hidden;
         text-overflow: ellipsis;
         cursor: default;
@@ -220,9 +254,15 @@
         padding: 0px 5px 5px 5px;
         border-left: @scaled-one-px-value-ie solid #939393;
         border-left: @scaled-one-px-value solid #939393;
+        border-right: none;
         word-break: break-all;
         white-space: pre-wrap;
         cursor: pointer;
+        .rtl & {
+            border-left: none;
+            border-right: @scaled-one-px-value-ie solid #939393;
+            border-right: @scaled-one-px-value solid #939393;
+        }
     }
 
     .user-message {
@@ -259,6 +299,11 @@
         border-bottom: @scaled-one-px-value dotted @text-normal;
         height: 16px;
         cursor: pointer;
+
+        &.with-reply {
+            margin-top: 5px;
+            .margin-left-20();
+        }
     }
 
     .msg-reply {
@@ -272,6 +317,12 @@
         top: 0;
         margin: 11px 21px 10px 10px;
         height: 20px;
+
+        .rtl & {
+            right: unset;
+            left: 0;
+            margin: 11px 10px 10px 21px;
+        }
     }
 
     .btns-reply-ct {
@@ -280,16 +331,21 @@
         top: 0;
         height: 30px;
         margin-top: 11px;
+
+        .rtl & {
+            right: unset;
+            left: 0;
+        }
     }
 
     .reply-item-ct {
         position: relative;
         padding-bottom: 10px;
-        padding-left: 20px;
+        .padding-left-20();
     }
 
     div[class^=btn-] {
-        float: left;
+        .float-left();
         cursor: pointer;
     }
 
@@ -298,6 +354,10 @@
         height: 16px;
         margin: 0 0 0 5px;
         background-color: transparent;
+
+        .rtl & {
+            margin: 0 5px 0 0;
+        }
     }
 
     .icon-resolve {
@@ -305,11 +365,11 @@
     }
 
     .btn-edit {
-        background-position: -2px -232px;
+        background-position: 0px -4px;
     }
 
     .btn-delete {
-        background-position: -22px -232px;
+        background-position: -20px -4px;
     }
 
     
@@ -380,7 +440,7 @@
             border: solid @text-normal-ie;
             border: solid @text-normal;
             border-width: 0 2px 2px 0;
-            transform: rotate(40deg);
+            transform: rotate(45deg);
             width: 7px;
             height: 12px;
             left: 6px;
@@ -391,7 +451,13 @@
             &:after {
                 border-color: @icon-success-ie;
                 border-color: @icon-success;
+                width: 5px;
+                height: 9px;
+                top: 3px;
             }
+            .box-shadow(0 0 0 1px @icon-success-ie);
+            .box-shadow(0 0 0 1px @icon-success);
+            border-radius: 18px;
         }
     }
 
@@ -400,14 +466,14 @@
     }
 
     .btn-goto {
-        background-position: -22px -272px;
+        background-position: -20px -44px;
     }
 
     .inner-edit-ct {
-        padding: 7px 0px 0px 0px;
+        padding: 10px 0px 0px 0px;
 
         .btn-inner-close {
-            margin-left: 7px;
+            .margin-left-7();
         }
     }
 
@@ -415,7 +481,7 @@
         padding: 10px 0px 0px 0px;
 
         .btn-close {
-            margin-left: 7px;
+            .margin-left-7();
         }
     }
     .reply-inner-ct {
@@ -424,11 +490,15 @@
 
     .reply-arrow {
         background-color: transparent;
-        background-position: -60px -232px;
+        background-position: -4px -28px;
         width: 16px;
         height: 16px;
         margin-top: 10px;
         position: absolute;
+
+        .rtl & {
+            transform: scale(-1, 1);
+        }
     }
 
     .lock-area {
@@ -439,8 +509,7 @@
         right: 0;
         bottom: 0;
         background-color: #F4F4F4;
-        margin-top: 2px;
-        margin-bottom: -2px;
+        margin: 1px 1px -1px;
         opacity: .5;
         cursor: pointer;
     }
@@ -463,7 +532,7 @@
         min-width: 100px;
         text-align: center;
         cursor: pointer;
-        font-size: 11px;
+        .font-size-normal();
         font-family: @font-family-base;
     }
 
@@ -481,7 +550,7 @@
     width: 7px;
     height: 7px;
     border: 0;
-    background-position: @arrow-small-offset-x @arrow-small-offset-y;
+    //background-position: @arrow-small-offset-x @arrow-small-offset-y;
     margin: 10px 8px 0 -2px;
     display: inline-block;
     vertical-align: middle;
@@ -520,6 +589,11 @@
         transform: rotate(45deg);
         border: solid @scaled-one-px-value-ie @border-toolbar-ie;
         border: solid @scaled-one-px-value @border-toolbar;
+
+        .rtl & {
+            left: auto;
+            right: 2px;
+        }
     }
 
     &.left {
@@ -527,6 +601,11 @@
         top: 20px;
         width: 10px;
         height: 30px;
+
+        .rtl & {
+            left: auto;
+            right: -10px;
+        }
     }
 
     &.right {
@@ -535,9 +614,19 @@
         width: 10px;
         height: 30px;
 
+        .rtl & {
+            left: auto;
+            right: 100%;
+        }
+
         &:after {
             left: -8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+            .rtl & {
+                left: auto;
+                right: -8px;
+            }
 
             body.safari &,
             body.chrome & {
@@ -552,9 +641,19 @@
         height: 10px;
         width: 30px;
 
+        .rtl & {
+            left: auto;
+            right: 20px;
+        }
+
         &:after {
             top: 2px;
             left: 5px;
+
+            .rtl & {
+                left: auto;
+                right: 5px;
+            }
         }
     }
 
@@ -565,9 +664,19 @@
         height: 10px;
         width: 30px;
 
+        .rtl & {
+            left: auto;
+            right: 20px;
+        }
+
         &:after {
             top: -7px;
             left: 5px;
+
+            .rtl & {
+                left: auto;
+                right: 5px;
+            }
         }
     }
 }

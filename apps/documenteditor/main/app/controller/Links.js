@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,22 +33,13 @@
 /**
  *  Links.js
  *
- *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 22.12.2017
  *
  */
 
 define([
     'core',
-    'documenteditor/main/app/view/Links',
-    'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog',
-    'documenteditor/main/app/view/CaptionDialog',
-    'documenteditor/main/app/view/NotesRemoveDialog',
-    'documenteditor/main/app/view/CrossReferenceDialog',
-    'common/main/lib/view/OptionsDialog'
+    'documenteditor/main/app/view/Links'
 ], function () {
     'use strict';
 
@@ -234,6 +224,7 @@ define([
                 if (text !== false) {
                     win = new DE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.toolbar.appOptions,
                         handler: handlerDlg
                     });
 
@@ -253,6 +244,7 @@ define([
                     if (props) {
                         win = new DE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.toolbar.appOptions,
                             handler: handlerDlg
                         });
                         win.show();
@@ -515,6 +507,7 @@ define([
             });
             me.dlgCrossRefDialog.on('close', function(obj){
                 me.crossRefProps = me.dlgCrossRefDialog.getSettings();
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
             });
             me.dlgCrossRefDialog.show();
         },

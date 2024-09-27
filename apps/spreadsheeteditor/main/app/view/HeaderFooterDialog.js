@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System Limited 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +12,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -29,22 +28,16 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  HeaderFooterDialog.js
  *
- *  Created by Julia Radzhabova on 10/11/18
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 10/11/18
  *
  */
 
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBoxFonts'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -52,7 +45,8 @@ define([
             style: 'min-width: 350px;',
             cls: 'modal-dlg enable-key-events',
             animate: {mask: false},
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            id: 'window-header-footer'
         },
 
         initialize : function(options) {
@@ -81,7 +75,7 @@ define([
             };
 
             this.template = [
-                '<div class="box" style="height: 400px;">',
+                '<div class="box">',
                     '<table cols="2" style="width: 450px;margin-bottom: 30px;">',
                         '<tr>',
                             '<td style="padding-bottom: 8px;">',
@@ -100,27 +94,27 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
+                    '<div class="input-row input-row-tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
-                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0; margin-left:-1px;">', this.textEven,'</button>',
-                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-first" style="border-radius: 0; margin-left:-1px;">', this.textFirst,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0;">', this.textEven,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-first" style="border-radius: 0;">', this.textFirst,'</button>',
                     '</div>',
                     '<label style="display: block; margin-bottom: 3px;">' + this.textHeader + '</label>',
                     '<div id="id-dlg-h-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-h-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-h-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-h-textcolor" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                    '<div id="id-dlg-h-insert" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-h-fonts" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-h-font-size" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-h-textcolor" class="margin-left-6" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-h-bold" class="margin-left-2" style="display: inline-block;"></div>','<div id="id-dlg-h-italic" class="margin-left-6" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-h-underline" class="margin-left-6" style="display: inline-block;"></div>','<div id="id-dlg-h-strikeout" class="margin-left-6" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-h-subscript" class="margin-left-6" style="display: inline-block;"></div>','<div id="id-dlg-h-superscript" class="margin-left-6" style="display: inline-block;"></div>',
+                        '<div class="preview-container" style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
                             '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                        '<div class="preview-container" style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
                             '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
@@ -132,19 +126,19 @@ define([
                         '</div>',
                     '<label style="display: block; margin-top: 10px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-f-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-f-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
-                    '<div id="id-dlg-f-textcolor" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                    '<div id="id-dlg-f-insert" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-f-fonts" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-f-font-size" class="input-row margin-left-2" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-f-textcolor" class="margin-left-6" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-f-bold" class="margin-left-2" style="display: inline-block;"></div>','<div id="id-dlg-f-italic" class="margin-left-6" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-f-underline" class="margin-left-6" style="display: inline-block;"></div>','<div class="margin-left-6" id="id-dlg-f-strikeout" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-f-subscript" class="margin-left-6" style="display: inline-block;"></div>','<div id="id-dlg-f-superscript" class="margin-left-6" style="display: inline-block;"></div>',
+                        '<div class="preview-container" style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
                             '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                        '<div class="preview-container" style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
                             '<div class="preview-canvas-container" style="width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
@@ -274,7 +268,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -282,7 +276,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -292,16 +286,17 @@ define([
                 {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
                 {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
                 {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName},
+                {caption: this.textImage, value: Asc.c_oAscHeaderFooterField.picture}
             ];
 
             this.btnInsertH = new Common.UI.Button({
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -314,9 +309,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -329,7 +324,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-h-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -343,7 +338,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-f-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -573,9 +568,9 @@ define([
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1]));
             this.footerControls.push(this.btnTextColor[1]);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -982,19 +977,7 @@ define([
                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                 }
             }
-            if (_.isObject(clr)) {
-                var isselected = false;
-                for (var i = 0; i < 10; i++) {
-                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                        fontColorPicker.select(clr, true);
-                        isselected = true;
-                        break;
-                    }
-                }
-                if (!isselected) fontColorPicker.clearSelection();
-            } else {
-                fontColorPicker.select(clr, true);
-            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
         },
 
         tipFontName: 'Font',
@@ -1029,7 +1012,8 @@ define([
         textOdd: 'Odd page',
         textEven: 'Even page',
         textAll: 'All pages',
-        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.'
+        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.',
+        textImage: 'Picture'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });

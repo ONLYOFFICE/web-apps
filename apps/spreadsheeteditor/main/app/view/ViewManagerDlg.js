@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,22 +28,17 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  ViewManagerDlg.js
  *
- *  Created by Julia.Radzhabova on 09.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 09.07.2020
  *
  */
 
 define([
-    'common/main/lib/view/EditNameDialog',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField'
 ], function () {
     'use strict';
 
@@ -53,46 +47,45 @@ define([
     SSE.Views.ViewManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ViewManagerDlg',
-            contentWidth: 460,
-            height: 330,
-            buttons: null
+            separator: false,
+            contentWidth: 460
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;">',
-                        '<div class="settings-panel active">',
+                buttons: [
+                    {value: 'ok', caption: this.textGoTo, primary: true},
+                    'close'
+                ],
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
                         '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + this.textViews + '</label>',
-                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
+                                        '<label>' + this.textViews + '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-new" style="min-width: 80px;margin-right:5px;">' + this.textNew + '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-rename" style="min-width: 80px;margin-right:5px;">' + this.textRename + '</button>',
+                                    '<td class="padding-small">',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-new" style="min-width: 80px;">' + this.textNew + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-rename" style="min-width: 80px;">' + this.textRename + '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-duplicate" style="min-width: 80px;">' + this.textDuplicate + '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-delete" style="min-width: 80px;float: right;">' + this.textDelete + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto float-right" id="view-manager-btn-delete" style="min-width: 80px;">' + this.textDelete + '</button>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td>',
+                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
                         '</div>',
-                        '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="min-width: 86px;width: auto;">' + this.textGoTo + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
-                ].join('')
+                ].join(''))({scope: this})
             }, options);
 
             this.api       = options.api;
@@ -119,7 +112,7 @@ define([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;height: 20px;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div style="width:100%;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                             '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
+                                '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                             '<% } %>',
                         '</div>'
                 ].join('')),
@@ -150,16 +143,15 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this));
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
-            
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ];
+            return [ this.btnNew, this.btnRename, this.btnDuplicate, this.viewList, this.btnDelete ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -263,7 +255,7 @@ define([
             if (rec) {
                 if (rec.get('active')) {
                     Common.UI.warning({
-                        msg: this.warnDeleteView.replace('%1', rec.get('name')),
+                        msg: this.warnDeleteView.replace('%1', Common.Utils.String.htmlEncode(rec.get('name'))),
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
@@ -282,12 +274,15 @@ define([
             var rec = this.viewList.getSelectedRec();
             if (rec) {
                 var me = this;
-                (new Common.Views.EditNameDialog({
-                    label: this.textRenameLabel,
-                    error: this.textRenameError,
+                (new Common.Views.TextInputDialog({
+                    label: me.textRenameLabel,
                     value: rec.get('name'),
-                    validation: function(value) {
-                        return value.length<128 ? true : me.textLongName;
+                    inputConfig: {
+                        allowBlank  : false,
+                        blankError  : me.textRenameError,
+                        validation: function(value) {
+                            return value.length<128 ? true : me.textLongName;
+                        }
                     },
                     handler: function(result, value) {
                         if (result == 'ok') {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import { LocalStorage } from '../../utils/LocalStorage.mjs';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeColors, isTypeCustomColors }) => {
     return (
@@ -28,15 +29,15 @@ const StandartColors = ({ options, standartColors, onColorClick, curColor }) => 
     return (
         <div className='palette'>
             {standartColors?.length && standartColors.map((color, index) => {
-                return(
+                return (
                     index === 0 && options.transparent ?
                         <a key={`sc-${index}`}
                            className={`transparent ${'transparent' === curColor ? 'active' : ''}`}
                            onClick={() => {onColorClick('transparent')}}
                         ></a> :
                         <a key={`sc-${index}`}
-                           className={curColor && curColor === color ? ' active' : ''}
-                           style={{ background: `#${color}` }}
+                           className={curColor && (curColor?.color === color?.color || curColor === color?.color) ? ' active' : ''}
+                           style={{ background: `#${color?.color}` }}
                            onClick={() => {onColorClick(color)}}
                         ></a>
                 )
@@ -110,7 +111,7 @@ const ThemeColorPalette = props => {
     let customColors = props.customColors;
 
     if (customColors.length < 1) {
-        customColors = localStorage.getItem('mobile-custom-colors');
+        customColors = LocalStorage.getItem('mobile-custom-colors');
         customColors = customColors ? customColors.toLowerCase().split(',') : [];
     }
 
@@ -177,11 +178,11 @@ const CustomColorPicker = props => {
     });
 
     const addNewColor = (color) => {
-        let colors = localStorage.getItem('mobile-custom-colors');
+        let colors = LocalStorage.getItem('mobile-custom-colors');
         colors = colors ? colors.split(',') : [];
         const newColor = color.slice(1);
         if (colors.push(newColor) > countDynamicColors) colors.shift(); // 10 - dynamiccolors
-        localStorage.setItem('mobile-custom-colors', colors.join().toLowerCase());
+        LocalStorage.setItem('mobile-custom-colors', colors.join().toLowerCase());
         props.onAddNewColor && props.onAddNewColor(colors, newColor);
     };
 

@@ -23,13 +23,14 @@
     }
   }
 
-  &:not(.no-focus):focus:not(.disabled) {
+  &:not(.no-focus):focus:not(.disabled),
+  &:not(.no-focus).focused:not(.disabled){
     border-color: @border-control-focus-ie;
     border-color: @border-control-focus;
   }
 
   & > .item {
-//    display: block;
+  //    display: block;
     text-overflow: ellipsis;
     padding: 3px 6px;
     cursor: pointer;
@@ -46,7 +47,12 @@
   }
 
   &:not(.disabled) > .item {
-    &:hover {
+    &.disabled {
+      opacity: @component-disabled-opacity-ie;
+      opacity: @component-disabled-opacity;
+    }
+
+    &:hover:not(.disabled) {
       background-color: @highlight-button-hover-ie;
       background-color: @highlight-button-hover;
       border-color: @highlight-button-hover-ie;
@@ -56,7 +62,7 @@
       border-width: @scaled-one-px-value 0;
     }
 
-    &.selected {
+    &.selected:not(.disabled) {
       background-color: @highlight-button-pressed-ie;
       background-color: @highlight-button-pressed;
       color: @text-normal-pressed-ie;
@@ -85,6 +91,75 @@
     pointer-events: none;
   }
 }
+
+.listview-table-header-wrapper {
+  width: 100%;
+  position: relative;
+
+  .listview-table-header {
+    z-index: 1;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border-bottom: @scaled-one-px-value solid @border-regular-control;
+    padding: 3px 6px;
+    position: absolute;
+    left: 1px;
+    left: @scaled-one-px-value;
+    top: 1px;
+    top: @scaled-one-px-value;
+    width: calc(100% - 2px);
+    width: calc(100% - @scaled-two-px-value);
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    display: flex;
+    align-items: center;
+
+    .pixel-ratio__2_5 & {
+      left: calc(@scaled-one-px-value + 0.05px);
+      top: calc(@scaled-one-px-value + 0.05px);
+    }
+
+    label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table-header-item {
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
+      display: inline-block;
+      
+      .header-sorted-wrapper {
+        display: flex;
+
+        .header-sorted {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          .padding-right-1();
+          cursor: pointer;
+  
+          label {
+            .padding-right-6();
+          }
+  
+          .caret {
+            border-color: @text-tertiary-ie;
+            border-color: @text-tertiary;
+            min-width: 4px;
+            min-height: 4px;
+    
+            &.caret-hidden {
+              visibility: hidden;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 
 .no-borders > .listview .item {
   border-color: transparent;

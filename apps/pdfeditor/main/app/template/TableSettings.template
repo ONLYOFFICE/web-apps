@@ -1,0 +1,147 @@
+<table cols="2">
+    <tr>
+        <td width="50%">
+            <label class="header"><%= scope.textRows %></label>
+        </td>
+        <td width="50%">
+            <label class="header"><%= scope.textColumns %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-header"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-first"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-total"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-last"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="table-checkbox-banded"></div>
+        </td>
+        <td class="padding-small">
+            <div id="table-checkbox-col-banded"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textTemplate %></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div class="" id="table-btn-template" style="width: 100%; height: 58px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <label class="header"><%= scope.textBorders %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="table-combo-border-size" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
+            <div class="border-color color-btn-wrap float-right">
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
+                <div id="table-border-color-btn" style="display: inline-block;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="input-label"><%= scope.textSelectBorders %></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div id="table-button-border-all" style="display: inline-block;"></div>
+            <div id="table-button-border-none" style="display: inline-block;"></div>
+            <div id="table-button-border-inner" style="display: inline-block;"></div>
+            <div id="table-button-border-outer" style="display: inline-block;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div id="table-button-border-left" style="display: inline-block;"></div>
+            <div id="table-button-border-inner-vert" style="display: inline-block;"></div>
+            <div id="table-button-border-right" style="display: inline-block;"></div>
+            <div id="table-button-border-top" style="display: inline-block;"></div>
+            <div id="table-button-border-inner-hor" style="display: inline-block;"></div>
+            <div id="table-button-border-bottom" style="display: inline-block;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2 align="right">
+            <div class="color-btn-wrap">
+                <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
+                <div id="table-back-color-btn" style="display: inline-block;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="table-btn-edit" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textCellSize %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label style="margin-top: 3px;"><%= scope.textHeight %></label>
+            <div id="table-spin-cell-height" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label style="margin-top: 3px;"><%= scope.textWidth %></label>
+            <div id="table-spin-cell-width" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textDistributeRows %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textDistributeCols %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan=2>
+            <label class="link canfocused" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

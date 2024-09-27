@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,22 +28,20 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Statusbar.js
  *
  *  Statusbar controller
  *
- *  Created by Maxim Kadushkin on 8 April 2014
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 8 April 2014
  *
  */
 
 define([
     'core',
     'presentationeditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/util/LanguageInfo'
 ], function () {
     'use strict';
 
@@ -62,13 +59,16 @@ define([
                     'langchanged': this.onLangMenu
                 },
                 'ViewTab': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me),
+                    'viewmode:change': _.bind(me.onChangeViewMode, me)
                 }
             });
             this._state = {
                 zoom_type: undefined,
-                zoom_percent: undefined
+                zoom_percent: undefined,
+                slideMasterMode: false
             };
+            this._isZoomRecord = (Common.localStorage.getItem("pe-settings-zoom") != -3);
         },
 
         events: function() {
@@ -119,7 +119,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
             this.api.asc_registerCallback('asc_onTextLanguage', _.bind(this._onTextLanguage, this));
-
+            this.api.asc_registerCallback('asc_onDocumentContentReady', _.bind(function (){this._isZoomRecord = true;}, this));
             this.statusbar.setApi(api);
         },
 
@@ -150,7 +150,8 @@ define([
         },
 
         onPreview: function(slidenum, presenter) {
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+            var slideNum = this._state.slideMasterMode ? 0 : (_.isNumber(slidenum) ? slidenum : 0);
+            Common.NotificationCenter.trigger('preview:start', slideNum, presenter);
         },
 
         onPreviewBtnClick: function(btn, e) {
@@ -184,14 +185,19 @@ define([
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
+                 if(!this._isZoomRecord ) return;
+                 var value = this._state.zoom_type !== undefined ? this._state.zoom_type == 2 ? -1 : (this._state.zoom_type == 1 ? -2 : percent) : percent;
+                 Common.localStorage.setItem('pe-last-zoom', value);
+                 Common.Utils.InternalSettings.set('pe-last-zoom', value);
              }
         },
 
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(langId);
             this.statusbar.setLanguage({
                 value:    info[0],
-                displayValue:  info[1],
+                displayValue: (displayName ? displayName.native : ''),
                 code:   langId
             });
         },
@@ -264,6 +270,12 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onChangeViewMode: function (mode) {
+             var isSlideMaster = mode === 'master';
+             this._state.slideMasterMode = isSlideMaster;
+             this.statusbar.showSlideMasterStatus(isSlideMaster);
         },
 
         zoomText        : 'Zoom {0}%',

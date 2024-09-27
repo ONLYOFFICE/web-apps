@@ -4,23 +4,26 @@
         --toolbar-header-document: #2a2a2a;
         --toolbar-header-spreadsheet: #2a2a2a;
         --toolbar-header-presentation: #2a2a2a;
+        --toolbar-header-pdf: #2a2a2a;
 
         --text-toolbar-header-on-background-document: #2a2a2a;
         --text-toolbar-header-on-background-spreadsheet: #2a2a2a;
         --text-toolbar-header-on-background-presentation: #2a2a2a;
+        --text-toolbar-header-on-background-pdf: #2a2a2a;
 
         --background-normal: #333;
         --background-toolbar: #404040;
+        --background-toolbar-tab: var(--background-toolbar);
         --background-toolbar-additional: #505050;
         --background-primary-dialog-button: #ddd;
         --background-accent-button: #486F9E;
-        --background-tab-underline: #ddd;
         --background-notification-popover: #3e5968;
         --background-notification-badge: #ffd112;
         --background-scrim: fade(black, 60%);
         --background-loader: fade(#181818, 90%);
         --background-alt-key-hint: #FFD938;
         --background-contrast-popover: #313131;
+        --background-fill-button: #ffd112;
 
         --highlight-button-hover: #555;
         --highlight-button-pressed: #707070;
@@ -28,13 +31,15 @@
         --highlight-primary-dialog-button-hover: #fcfcfc;
         --highlight-accent-button-hover: #75a2d6;
         --highlight-accent-button-pressed: #89afdc;
-        --highlight-header-button-hover: fade(#fff, 5%);
-        --highlight-header-button-pressed: fade(#fff, 15%);
-        --highlight-toolbar-tab-underline: #ddd;
+        --highlight-header-button-hover: fade(#fff, 15%);
+        --highlight-header-button-pressed: fade(#fff, 25%);
         --highlight-text-select: #96c8fd;
+        --highlight-fill-button-hover: #ffe165;
+        --highlight-fill-button-pressed: #dfb500;
 
         --border-toolbar: #616161;
         --border-toolbar-active-panel-top: var(--background-toolbar);
+        --border-toolbar-active-tab: var(--background-toolbar);
         --border-divider: #505050;
         --border-regular-control: #666;
         --border-toolbar-button-hover: #5a5a5a;
@@ -44,6 +49,7 @@
         --border-color-shading: fade(#fff, 10%);
         --border-error: #f62211;
         --border-contrast-popover: #666;
+        --border-button-pressed-focus: #ccc;
 
         --text-normal: fade(#fff, 80%);
         --text-normal-pressed: fade(#fff, 80%);
@@ -66,14 +72,24 @@
         --icon-contrast-popover: #fff;
         --icon-success: #090;
 
+        --highlight-header-tab-underline-document: #446995;
+        --highlight-header-tab-underline-spreadsheet: #40865c;
+        --highlight-header-tab-underline-presentation: #BE664F;
+        --highlight-header-tab-underline-pdf: #AA5252;
+
+        --highlight-toolbar-tab-underline-document: #446995;
+        --highlight-toolbar-tab-underline-spreadsheet: #40865c;
+        --highlight-toolbar-tab-underline-presentation: #BE664F;
+        --highlight-toolbar-tab-underline-pdf: #AA5252;
+
         // Canvas
 
         --canvas-background: #555;
         --canvas-content-background: #fff;
-        --canvas-page-border: #555;
+        --canvas-page-border: #616161;
 
         --canvas-ruler-background: #555;
-        --canvas-ruler-border: #2A2A2A;
+        --canvas-ruler-border: #616161;
         --canvas-ruler-margins-background: #444;
         --canvas-ruler-mark: #b6b6b6;
         --canvas-ruler-handle-border: #b6b6b6;
@@ -83,15 +99,17 @@
         --canvas-high-contrast-disabled: #ccc;
 
         --canvas-cell-border: fade(#000, 10%);
+        --canvas-cell-title-text: #d9d9d9;
+        --canvas-cell-title-background: #555;
+        --canvas-cell-title-background-hover: #787878;
+        --canvas-cell-title-background-selected: #888;
         --canvas-cell-title-border: #757575;
         --canvas-cell-title-border-hover: #858585;
         --canvas-cell-title-border-selected: #9e9e9e;
-        --canvas-cell-title-hover: #787878;
-        --canvas-cell-title-selected: #939393;
 
-        --canvas-dark-cell-title: #111;
-        --canvas-dark-cell-title-hover: #000;
-        --canvas-dark-cell-title-selected: #333;
+        --canvas-dark-cell-title: #55B27B;
+        --canvas-dark-cell-title-hover: #7AFFAF;
+        --canvas-dark-cell-title-selected: #6EE59F;
         --canvas-dark-cell-title-border: #282828;
         --canvas-dark-cell-title-border-hover: #191919;
         --canvas-dark-cell-title-border-selected: #474747;
@@ -99,7 +117,7 @@
         --canvas-scroll-thumb: #404040;
         --canvas-scroll-thumb-hover: #999;
         --canvas-scroll-thumb-pressed: #adadad;
-        --canvas-scroll-thumb-border: #2a2a2a;
+        --canvas-scroll-thumb-border: #616161;
         --canvas-scroll-thumb-border-hover: #999;
         --canvas-scroll-thumb-border-pressed: #adadad;
         --canvas-scroll-arrow: #999;
@@ -108,6 +126,41 @@
         --canvas-scroll-thumb-target: #999;
         --canvas-scroll-thumb-target-hover: #404040;
         --canvas-scroll-thumb-target-pressed: #404040;
+
+        --canvas-sheet-view-cell-background: #73bf91;
+        --canvas-sheet-view-cell-background-hover: #97e3b6;
+        --canvas-sheet-view-cell-background-pressed: #aaffcc;
+        --canvas-sheet-view-cell-title-label: #121212;
+        --canvas-sheet-view-select-all-icon: #3d664e;
+
+        --canvas-freeze-line-1px: #818183;
+        --canvas-freeze-line-2px: #aaaaaa;
+        --canvas-select-all-icon: #888;
+
+        --canvas-anim-pane-background: #404040;
+        --canvas-anim-pane-item-fill-selected: #606060;
+        --canvas-anim-pane-item-fill-hovered: #555;
+        --canvas-anim-pane-button-fill: #555;
+        --canvas-anim-pane-button-fill-hovered: #555;
+        --canvas-anim-pane-button-fill-disabled: fade(#555, 40%);
+        --canvas-anim-pane-play-button-fill: #fff;
+        --canvas-anim-pane-play-button-outline: #666666;
+        --canvas-anim-pane-effect-bar-entrance-fill: #77b583;
+        --canvas-anim-pane-effect-bar-entrance-outline: #0e8a26;
+        --canvas-anim-pane-effect-bar-emphasis-fill: #fbc37c;
+        --canvas-anim-pane-effect-bar-emphasis-outline: #ff8e00;
+        --canvas-anim-pane-effect-bar-exit-fill: #f59a9a;
+        --canvas-anim-pane-effect-bar-exit-outline: #f23d3d;
+        --canvas-anim-pane-effect-bar-path-fill: #a1cee3;
+        --canvas-anim-pane-effect-bar-path-outline: #254662;
+        --canvas-anim-pane-timeline-ruler-outline: #616161;
+        --canvas-anim-pane-timeline-ruler-tick: #505050;
+
+        --canvas-anim-pane-timeline-scroller-fill: #606060;
+        --canvas-anim-pane-timeline-scroller-outline: fade(#fff, 80%);
+        --canvas-anim-pane-timeline-scroller-opacity: 0;
+        --canvas-anim-pane-timeline-scroller-opacity-hovered: .4;
+        --canvas-anim-pane-timeline-scroller-opacity-active: 1;
 
         // Others
 

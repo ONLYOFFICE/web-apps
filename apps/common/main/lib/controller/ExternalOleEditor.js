@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ExternalOleEditor.js
  *
- *  Created by Julia Radzhabova on 3/10/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 3/10/22
  *
  */
 
@@ -44,8 +42,7 @@ if (Common === undefined)
 Common.Controllers = Common.Controllers || {};
 
 define([
-    'core',
-    'common/main/lib/view/ExternalOleEditor'
+    'core'
 ], function () { 'use strict';
     Common.Controllers.ExternalOleEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = '{{DEFAULT_LANG}}',
@@ -56,6 +53,7 @@ define([
 
 
         var createExternalEditor = function() {
+            Common.UI.HintManager.setInternalEditorLoading(true);
             !!customization && (customization.uiTheme = Common.localStorage.getItem("ui-theme-id", "theme-light"));
             externalEditor = new DocsAPI.DocEditor('id-ole-editor-placeholder', {
                 width       : '100%',
@@ -89,7 +87,7 @@ define([
         };
 
         return {
-            views: ['Common.Views.ExternalOleEditor'],
+            views: [],
 
             initialize: function() {
                 this.addListeners({
@@ -132,13 +130,19 @@ define([
                                 externalEditor.detachMouseEvents();
                                 this.isExternalEditorVisible = false;
                             }
+                            Common.UI.HintManager.setInternalEditorLoading(false);
                         }, this)
                     }
                 });
+
+                Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
             },
 
-            onLaunch: function() {
-                this.oleEditorView = this.createView('Common.Views.ExternalOleEditor', {handler: _.bind(this.handler, this)});
+            onLaunch: function() {},
+
+            onPostLoadComplete: function() {
+                this.views = this.getApplication().getClasseRefs('view', ['Common.Views.ExternalOleEditor']);
+                this.oleEditorView = this.createView('Common.Views.ExternalOleEditor',{handler: this.handler.bind(this)});
             },
 
             setApi: function(api) {

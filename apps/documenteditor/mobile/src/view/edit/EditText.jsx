@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
+import { f7, View, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -187,33 +187,23 @@ const PageAdditionalFormatting = props => {
 
 const PageBullets = observer( props => {
     const storeTextSettings = props.storeTextSettings;
+    const bulletArrays = storeTextSettings.getBulletsList();
     const typeBullets = storeTextSettings.typeBullets;
-    const bulletArrays = [
-        { type: 0, subtype: -1 },
-        { type: 0, subtype: 1 },
-        { type: 0, subtype: 2 },
-        { type: 0, subtype: 3 },
-        { type: 0, subtype: 4 },
-        { type: 0, subtype: 5 },
-        { type: 0, subtype: 6 },
-        { type: 0, subtype: 7 }
-    ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-marker'), 0);
+        props.updateBulletsNumbers(0);
+        props.getIconsBulletsAndNumbers(bulletArrays, 0);
     }, []);
     
     return(
         <View className='bullets dataview'>
             <List className="row" style={{listStyle: 'none'}}>
                 {bulletArrays.map( bullet => (
-                    <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) && 
-                        (storeTextSettings.listType === 0 || storeTextSettings.listType === -1) ? 'active' : ''}
+                    <ListItem key={'bullet-' + bullet.subtype} data-type={bullet.subtype} className={(bullet.subtype === typeBullets) ? 'active' : ''}
                         onClick={() => {
-                            storeTextSettings.resetBullets(bullet.subtype);
-                            props.onBullet(bullet.subtype);
+                            props.onBullet(bullet.numberingInfo);
                         }}>
-                        <div id={`id-markers-${bullet.subtype}`} className='item-marker'></div>
+                        <div id={bullet.id} className='item-marker'></div>
                     </ListItem>
                 ))}
             </List>
@@ -223,35 +213,25 @@ const PageBullets = observer( props => {
 
 const PageNumbers = observer( props => {
     const storeTextSettings = props.storeTextSettings;
+    const numberArrays = storeTextSettings.getNumbersList();
     const typeNumbers = storeTextSettings.typeNumbers;
-    const numberArrays = [
-        { type: 1, subtype: -1},
-        { type: 1, subtype: 4 },
-        { type: 1, subtype: 5 },
-        { type: 1, subtype: 6 },
-        { type: 1, subtype: 1 },
-        { type: 1, subtype: 2 },
-        { type: 1, subtype: 3 },
-        { type: 1, subtype: 7 }
-    ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-number'), 1);
+        props.updateBulletsNumbers(1);
+        props.getIconsBulletsAndNumbers(numberArrays, 1);
     }, []);
     
     return (
         <View className='numbers dataview'>
             <List className="row" style={{listStyle: 'none'}}>
-            {numberArrays.map( number => (
-                        <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) && 
-                            (storeTextSettings.listType === 1 || storeTextSettings.listType === -1) ? 'active' : ''}
-                            onClick={() => {
-                                storeTextSettings.resetNumbers(number.subtype);
-                                props.onNumber(number.subtype);
-                            }}>
-                            <div id={`id-numbers-${number.subtype}`} className='item-number'></div>
-                        </ListItem>
-                    ))}
+                {numberArrays.map( number => (
+                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) ? 'active' : ''}
+                        onClick={() => {
+                            props.onNumber(number.numberingInfo);
+                        }}>
+                        <div id={number.id} className='item-number'></div>
+                    </ListItem>
+                ))}
             </List>
         </View>
     );
@@ -259,33 +239,29 @@ const PageNumbers = observer( props => {
 
 const PageMultiLevel = observer( props => {
     const storeTextSettings = props.storeTextSettings;
+    const arrayMultiLevel = storeTextSettings.getMultiLevelList();
     const typeMultiLevel = storeTextSettings.typeMultiLevel;
-    const arrayMultiLevel = [
-        { type: 2, subtype: -1 },
-        { type: 2, subtype: 1 },
-        { type: 2, subtype: 2 },
-        { type: 2, subtype: 3 },
-    ];
 
     useEffect(() => {
-        props.getIconsBulletsAndNumbers($$('.item-multilevellist'), 2);
+        props.updateBulletsNumbers(2);
+        props.getIconsBulletsAndNumbers(arrayMultiLevel, 2);
     }, []);
 
     return(
         <View className='multilevels dataview'>
-                <List className="row" style={{listStyle: 'none'}}>
-                    {arrayMultiLevel.map((item) => (
-                        <ListItem
-                        key={'multi-level-' + item.subtype} 
-                        data-type={item.subtype} 
-                        className={item.subtype === typeMultiLevel && storeTextSettings.listType === -1  ? 'active' : ''}
-                        onClick={() => props.onMultiLevelList(item.subtype)}>
-                            <div id={`id-multilevellists-${item.subtype}`} className='item-multilevellist'>
+            <List className="row" style={{listStyle: 'none'}}>
+                {arrayMultiLevel.map((item) => (
+                    <ListItem
+                    key={'multi-level-' + item.subtype} 
+                    data-type={item.subtype} 
+                    className={item.subtype === typeMultiLevel ? 'active' : ''}
+                    onClick={() => props.onMultiLevelList(item.numberingInfo)}>
+                        <div id={item.id} className='item-multilevellist'>
 
-                            </div>
-                        </ListItem>
-                    ))}
-                </List>
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
         </View>
     )
         
@@ -306,29 +282,35 @@ const PageBulletsAndNumbers = props => {
                     </NavRight>
                 }
             </Navbar>
-            <Swiper pagination>
-                <SwiperSlide>
-                    <PageNumbers 
-                        storeTextSettings={storeTextSettings} 
-                        onNumber={props.onNumber} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers} 
-                    />
-                </SwiperSlide> 
-                <SwiperSlide>
-                    <PageBullets 
-                        storeTextSettings={storeTextSettings} 
-                        onBullet={props.onBullet} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
-                    />
-                </SwiperSlide>
-                <SwiperSlide> 
-                    <PageMultiLevel 
-                        storeTextSettings={storeTextSettings} 
-                        onMultiLevelList={props.onMultiLevelList} 
-                        getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
-                    />
-                </SwiperSlide>
-            </Swiper>
+            <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
+                <div className="swiper-wrapper">
+                    <div className="swiper-slide">
+                        <PageNumbers 
+                            storeTextSettings={storeTextSettings} 
+                            onNumber={props.onNumber} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                    <div className="swiper-slide">
+                        <PageBullets 
+                            storeTextSettings={storeTextSettings} 
+                            onBullet={props.onBullet} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                    <div className="swiper-slide">
+                        <PageMultiLevel 
+                            storeTextSettings={storeTextSettings} 
+                            onMultiLevelList={props.onMultiLevelList} 
+                            getIconsBulletsAndNumbers={props.getIconsBulletsAndNumbers}
+                            updateBulletsNumbers={props.updateBulletsNumbers}
+                        />
+                    </div>
+                </div>
+                <div className="swiper-pagination"></div>
+            </div>
         </Page>
     )
 };
@@ -337,7 +319,8 @@ const PageLineSpacing = props => {
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const lineSpacing = storeTextSettings.lineSpacing;
-    return(
+
+    return (
         <Page>
             <Navbar title={t('Edit.textLineSpacing')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
@@ -496,6 +479,56 @@ const PageHighlightColor = props => {
     )
 };
 
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const shapePr = props.shapePr;
+    const [directionTextShape, setDirectionTextShape] = useState(shapePr.get_Vert());
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> 
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -516,6 +549,10 @@ const EditText = props => {
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
 
+    useEffect(() => {
+        props.updateListType();
+    }, [])
+   
     let previewList;
     switch(storeTextSettings.listType) {
         case -1: 
@@ -545,12 +582,12 @@ const EditText = props => {
                     changeFontFamily: props.changeFontFamily
                 }}/>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className='row'>
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem title={t("Edit.textFontColor")} link="/edit-text-font-color/" routeProps={{
                     onTextColorAuto: props.onTextColorAuto,
@@ -579,7 +616,7 @@ const EditText = props => {
             </List>
             <List>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
                             <Icon slot="media" icon="icon-text-align-left"></Icon>
                         </a>
@@ -592,11 +629,11 @@ const EditText = props => {
                         <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
                             <Icon slot="media" icon="icon-text-align-just"></Icon>
                         </a>
-                    </Row>
+                    </div>
                 </ListItem>
                 {!inSmartArtInternal &&
                     <ListItem className='buttons'>
-                        <Row>
+                        <div className="row">
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(true)
                             }}>
@@ -607,7 +644,15 @@ const EditText = props => {
                             }}>
                                 <Icon slot="media" icon="icon-in-indent"></Icon>
                             </a>
-                        </Row>
+                        </div>
+                    </ListItem>
+                }
+                {shapePr &&
+                    <ListItem title={t('Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                        setOrientationTextShape: props.setOrientationTextShape,
+                        shapePr
+                    }}>
+                        {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
                     </ListItem>
                 }
                 {!inSmartArt && !inSmartArtInternal &&
@@ -616,6 +661,7 @@ const EditText = props => {
                         onNumber: props.onNumber,
                         onMultiLevelList: props.onMultiLevelList,
                         getIconsBulletsAndNumbers: props.getIconsBulletsAndNumbers,
+                        updateBulletsNumbers: props.updateBulletsNumbers
                     }}>
                         <div className="preview">{previewList}</div>
                         {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
@@ -639,6 +685,7 @@ const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
+// const PageTextOrientation = observer(TextOrientation);
 
 export {
     EditTextContainer as EditText,
@@ -649,5 +696,7 @@ export {
     PageTextFontColor,
     PageTextCustomFontColor,
     PageTextHighlightColor,
+    // PageTextOrientation,
+    PageOrientationTextShape
     // PageTextCustomBackColor
 };

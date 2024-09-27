@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(lògica1; [lògica2]; ...)",
 		"d": "Torna una lògica \"Exclusiu o\" de tots els arguments"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimitador, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna text que és abans de delimitar caràcters."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimitador, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Retorna text que és després de delimitar caràcters."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": " Divideix el text en files o columnes utilitzant delimitadors."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Ajusta un vector de fila o columna després d’un nombre de valors especificat."
+	},
+	"VSTACK": {
+		"a": "(array1, [matriu2], ...)",
+		"d": "Apila les matrius verticalment en una sola matriu."
+	},
+	"HSTACK": {
+		"a": "(array1, [matriu2], ...)",
+		"d": "Apila les matrius horitzontalment en una sola matriu."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Retorna files d'una matriu o una referència."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Retorna columnes d'una matriu o una referència."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Retorna la matriu com una columna."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Retorna la matriu com una fila."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Ajusta un vector de fila o columna després d’un nombre de valors especificat."
+	},
+	"TAKE": {
+		"a": "(array, files, [columnes])",
+		"d": "Retorna files o columnes des de l'inici o el final de la matriu."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Deixa anar files o columnes de l'inici o el final de la matriu."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Retorna una seqüència de nombres"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expandeix una matriu a les dimensions especificades"
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Retorna la posició relativa d'un element que forma part d'una matriu. Per defecte, cal una coincidència exacta"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtra un interval o una matriu"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matriu, [format])",
+		"d": "Retorna una representació de text d'una matriu"
+	},
+	"SORT": {
+		"a": "(matriu, [índex_ordenació], [criteri_ordenació], [per_columna])",
+		"d": "Ordena un interval o una matriu"
+	},
+	"SORTBY": {
+		"a": "(matriu, per_matriu, [criteri_ordenació], ...)",
+		"d": "Ordena un interval o una matriu segons els valors d'un interval o d'una matriu corresponent"
 	}
 }

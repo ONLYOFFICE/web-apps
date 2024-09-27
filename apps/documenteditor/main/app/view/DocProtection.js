@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,15 +33,15 @@
 /**
  *  DocProtection.js
  *
- *  Created by Julia Radzhabova on 21.09.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 21.09.2022
  *
  */
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/view/OpenDialog'
 ], function (template) {
     'use strict';
 
@@ -76,10 +75,10 @@ define([
 
                 this.btnProtectDoc = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon restrict-editing',
+                    iconCls: 'toolbar__icon btn-restrict-editing',
                     enableToggle: true,
                     caption: this.txtProtectDoc,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock, _set.viewMode],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -141,7 +140,8 @@ define([
             txtDocProtectedComment: 'Document is protected.<br>You may only insert comments to this document.',
             txtDocProtectedForms: 'Document is protected.<br>You may only fill in forms in this document.',
             hintProtectDoc: 'Protect document',
-            txtDocUnlockDescription: 'Enter a password to unprotect document'
+            txtDocUnlockDescription: 'Enter a password to unprotect document',
+            txtUnlockTitle: 'Unprotect Document'
         }
     }()), DE.Views.DocProtection || {}));
 });

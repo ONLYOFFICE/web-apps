@@ -1,0 +1,230 @@
+
+.right-panel .settings-panel {
+    label.input-label{
+        vertical-align: baseline;
+    }
+
+    .btn.align-left {
+        .pixel-ratio__2_5 & {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &#id-shape-settings {
+        #shape-spin-transparency, #shape-line-spin-transparency {
+            display: inline-block;
+        }
+
+        #shape-button-270, #shape-button-fliph,
+        #shape-button-90, #shape-button-flipv {
+            display: inline-block;
+        }
+
+        #id-shape-menu-direction {
+            .dataview .item {
+                .rtl & {
+                    float: left;
+                }
+            }
+        }
+
+        .angle-label {
+            .margin-right-5();
+            margin-bottom: 3px;
+        }
+
+        .texture-img {
+            padding: 14px 20px;
+            border: 1px solid #AFAFAF;
+            border-radius: 2px;
+            background: #ffffff;
+        }
+
+        #shape-foreground-color-btn, #shape-background-color-btn {
+            display: inline-block;
+        }
+    }
+
+    &#id-image-settings {
+        #image-button-270, #image-button-fliph,
+        #image-button-90, #image-button-flipv {
+            display: inline-block;
+        }
+    }
+
+    &#id-table-settings {
+        #id-table-menu-template {
+            margin: 5px 5px 5px 10px;
+
+            .rtl & {
+                margin: 5px 10px 5px 5px;
+            }
+
+            .group-description {
+                padding: 3px 0 3px 10px;
+                .font-weight-bold();
+
+                .rtl & {
+                    padding: 3px 10px 3px 0;
+                }
+            }
+        }
+
+        .border-color {
+            vertical-align: middle;
+        }
+
+        #table-spin-cell-height, #table-spin-cell-width {
+            display: inline-block;
+        }
+    }
+
+    &#id-textart-settings {
+        #textart-spin-transparency, #textart-line-spin-transparency {
+            display: inline-block;
+        }
+
+        #id-textart-menu-direction {
+            .dataview .item {
+                .rtl & {
+                    float: left;
+                }
+            }
+        }
+
+        .angle-label {
+            .margin-right-5();
+            margin-bottom: 3px;
+        }
+
+        .texture-img {
+            padding: 14px 20px;
+            border: 1px solid #AFAFAF;
+            border-radius: 2px;
+            background: #ffffff;
+        }
+
+        #textart-foreground-color-btn, #textart-background-color-btn {
+            display: inline-block;
+        }
+    }
+}
+
+.item-wrap {
+    width:50px;
+    height:50px;
+    background-size: cover;
+}
+
+.combo-pattern-item {
+    .background-ximage-all('right-panels/patterns.png', 112px);
+}
+
+.combo-dataview-menu {
+    .form-control {
+        cursor: pointer;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
+
+        &.text {
+            background: @background-normal-ie;
+            background: @background-normal;
+            vertical-align: bottom;
+        }
+    }
+}
+
+.item-gradient {
+    width:50px;
+    height:50px;
+}
+
+.item-gradient-separator {
+    margin-right: 62px !important;
+}
+
+.item-shadow {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 1px;
+        border: 1px @icon-normal-ie solid;
+        border: 1px @icon-normal solid;
+    }
+}
+
+
+#signature-requested-sign,
+#signature-valid-sign,
+#signature-invalid-sign {
+    height: 100%;
+    overflow: hidden;
+    margin: 0 -10px 0 -15px;
+
+    .item {
+        display: block;
+        border: none;
+        width: 100%;
+        .box-shadow(none);
+        margin: 0;
+
+        &:hover,
+        &.over {
+            background-color: @highlight-button-hover-ie;
+            background-color: @highlight-button-hover;
+
+            .caret {
+                display: inline-block;
+            }
+        }
+    }
+
+    .signature-item {
+        padding: 5px 2px 5px 15px;
+        text-overflow: ellipsis;
+        min-height: 25px;
+
+        .name {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            cursor: pointer;
+            max-width: 160px;
+            text-overflow: ellipsis;
+        }
+
+        .caret {
+            margin: 9px;
+            display: none;
+            position: absolute;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            border: solid 1px @icon-normal-ie;
+            border: solid 1px @icon-normal;
+            opacity: 0.6;
+            border-bottom: none;
+            border-right: none;
+            background-image: none;
+            transform: rotate(-135deg);
+            filter: none;
+
+            &.nomargin {
+                margin: 2px;
+                right: 26px;
+            }
+        }
+
+        .rtl & {
+            padding: 5px 15px 5px 2px;
+        }
+    }
+}

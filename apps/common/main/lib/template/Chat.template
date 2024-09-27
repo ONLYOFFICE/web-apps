@@ -7,8 +7,12 @@
     </div>
     <div id="chat-options" class="layout-item">
         <div id="chat-options-ct">
-            <textarea id="chat-msg-text" class="user-select textarea-control" maxlength="<%=maxMsgLength%>" data-hint="1" data-hint-direction="left-top"></textarea>
+            <textarea id="chat-msg-text" class="user-select textarea-control" maxlength="<%=maxMsgLength%>" data-hint="1" data-hint-direction="left-top" placeholder="<%=textEnterMessage%>" aria-label="<%=textEnterMessage%>"></textarea>
             <button id="chat-msg-btn-add" class="btn normal dlg-btn primary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%=scope.textSend%></button>
         </div>
     </div>
+    <div id="chat-header" class="">
+            <label role="heading"><%=textChat%></label>
+            <div id="chat-btn-close" class="float-right margin-left-4"></div>
+        </div>
 </div>

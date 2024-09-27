@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  SignDialog.js
  *
- *  Created by Julia Radzhabova on 5/19/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 5/19/17
  *
  */
 
@@ -42,12 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBoxFonts'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.SignDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -91,21 +84,21 @@ define([
                         '</div>',
                         '<div id="id-dlg-sign-name" class="input-row" style="margin-bottom: 5px;"></div>',
                         '<div id="id-dlg-sign-fonts" class="input-row" style="display: inline-block;"></div>',
-                        '<div id="id-dlg-sign-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
-                        '<div id="id-dlg-sign-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-italic" style="display: inline-block;margin-left: 3px;"></div>',
+                        '<div id="id-dlg-sign-font-size" class="input-row margin-left-3" style="display: inline-block;"></div>',
+                        '<div id="id-dlg-sign-bold" class="margin-left-3" style="display: inline-block;"></div>','<div id="id-dlg-sign-italic" class="margin-left-3" style="display: inline-block;"></div>',
                         '<div style="margin: 10px 0 5px 0;">',
                             '<label>' + this.textUseImage + '</label>',
                         '</div>',
                         '<button id="id-dlg-sign-image" class="btn btn-text-default auto">' + this.textSelectImage + '</button>',
                         '<div class="input-row" style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textSignature + '</label>',
+                            '<label class="font-weight-bold">' + this.textSignature + '</label>',
                         '</div>',
                         '<div style="border: 1px solid #cbcbcb;"><div id="signature-preview-img" style="width: 100%; height: 50px;position: relative;"></div></div>',
                     '</div>',
                     '<table style="margin-top: 30px;">',
                         '<tr>',
-                            '<td><label style="font-weight: bold;margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
-                            '<td rowspan="2" style="vertical-align: top; padding-left: 20px;"><button id="id-dlg-sign-change" class="btn btn-text-default" style="float:right;">' + this.textSelect + '</button></td>',
+                            '<td><label class="font-weight-bold" style="margin-bottom: 3px;">' + this.textCertificate + '</label></td>' +
+                            '<td rowspan="2" class="padding-left-20" style="vertical-align: top;"><button id="id-dlg-sign-change" class="btn btn-text-default float-right">' + this.textSelect + '</button></td>',
                         '</tr>',
                         '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 240px;overflow: hidden;white-space: nowrap;"></td></tr>',
                     '</table>',
@@ -231,10 +224,10 @@ define([
             });
             me.btnChangeCertificate.on('click', _.bind(me.onChangeCertificate, me));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary'),
-                disabled: true
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
+            me.btnOk.setDisabled(true);
 
             me.cntCertificate = $('#id-dlg-sign-certificate');
             me.cntVisibleSign = $('#id-dlg-sign-visible');
@@ -248,7 +241,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize];
+            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnSelectImage, this.btnChangeCertificate].concat(this.getFooterButtons());
         },
 
         show: function() {

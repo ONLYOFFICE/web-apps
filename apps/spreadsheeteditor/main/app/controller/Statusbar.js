@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,14 +28,13 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Statusbar.js
  *
  *  Statusbar controller
  *
- *    Created by Maxim Kadushkin on 27 March 2014
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 27 March 2014
  *
  */
 
@@ -92,6 +90,87 @@ define([
             this.bindViewEvents(this.statusbar, this.events);
 
             $('#id-tab-menu-new-color', this.statusbar.$el).on('click', _.bind(this.onNewBorderColor, this));
+
+            this.statusbar.tabbar.on({
+                'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                    Common.Utils.isIE && (this.isDrop = false);
+                    Common.UI.Menu.Manager.hideAll();
+                    this.api.asc_closeCellEditor();
+                    var arrTabs = [],
+                        arrName = [],
+                        me = this;
+                    var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
+                    while (++i < wc) {
+                        if (!this.api.asc_isWorksheetHidden(i)) {
+                            items.push({
+                                value: me.api.asc_getWorksheetName(i),
+                                inindex: i
+                            });
+                        }
+                    }
+                    var arrSelectIndex = [];
+                    selectTabs.forEach(function (item) {
+                        arrSelectIndex.push(item.sheetindex);
+                    });
+                    items.forEach(function (item) {
+                        if (arrSelectIndex.indexOf(item.inindex) !== -1) {
+                            arrTabs.push(item.inindex);
+                            arrName.push(item.value);
+                        }
+                    });
+                    var stringSheet, arr = [];
+                    stringSheet = this.api.asc_StartMoveSheet(_.clone(arrTabs));
+                    arr.push({type: 'onlyoffice', value: stringSheet});
+                    arr.push({type: 'indexes', value: arrTabs});
+                    arr.push({type: 'names', value: arrName});
+                    arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
+                    var json = JSON.stringify(arr);
+                    if (!Common.Utils.isIE) {
+                        dataTransfer.setData('onlyoffice', json);
+                    } else {
+                        dataTransfer.setData('text', 'sheet');
+                        this.dataTransfer = json;
+                    }
+                    this.dropTabs = selectTabs;
+                }, this),
+                'tab:drop': _.bind(function (dataTransfer, index, copy) {
+                    if (this.isEditFormula || (Common.Utils.isIE && this.dataTransfer === undefined)) return;
+                    Common.Utils.isIE && (this.isDrop = true);
+                    var data = !Common.Utils.isIE ? dataTransfer.getData('onlyoffice') : this.dataTransfer;
+                    if (data) {
+                        var arrData = JSON.parse(data);
+                        if (arrData) {
+                            var key = _.findWhere(arrData, {type: 'key'}).value;
+                            if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
+                                this.statusbar.fireEvent('sheet:move', [_.findWhere(arrData, {type: 'indexes'}).value, !copy, true, _.isNumber(index) ? index : this.api.asc_getWorksheetsCount()]);
+                                Common.NotificationCenter.trigger('tabs:dragend', this);
+                            } else {
+                                var arrNames = _.findWhere(arrData, {type: 'names'}).value;
+                                var newNames = this.generateSheetNames(false, undefined, arrNames);
+                                var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
+                                this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
+                            }
+                        }
+                    }
+                }, this),
+                'tab:dragend':  _.bind(function (cut) {
+                    if (cut && !(Common.Utils.isIE && this.isDrop === false)) {
+                        if (this.dropTabs.length > 0) {
+                            var arr = [];
+                            this.dropTabs.forEach(function (tab) {
+                                arr.push(tab.sheetindex);
+                            });
+                            this.api.asc_deleteWorksheet(arr);
+                        }
+                    }
+                    this.dropTabs = undefined;
+                    if (Common.Utils.isIE) {
+                        this.isDrop = undefined;
+                        this.dataTransfer = undefined;
+                    }
+                    Common.NotificationCenter.trigger('tabs:dragend', this);
+                }, this)
+            });
         },
 
         setApi: function(api) {
@@ -111,6 +190,9 @@ define([
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
             this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', _.bind(this.onRefreshNamedSheetViewList, this));
+            this.api.asc_registerCallback('asc_generateNewSheetNames', _.bind(function (arrNames, callback) {
+                callback(this.generateSheetNames(false, undefined, arrNames));
+            }, this));
 
             this.statusbar.setApi(api);
         },
@@ -143,7 +225,9 @@ define([
         * */
 
         onZoomChange: function(percent, type) {
-            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, Math.floor((percent +.005)*100)));
+            var pr = Math.floor((percent +.005)*100);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, pr));
+            Common.localStorage.setItem('sse-last-zoom', pr);
         },
 
         onApiDisconnect: function() {
@@ -188,7 +272,7 @@ define([
                 }
             }
             var listItem =this.statusbar.sheetListMenu.items[index];
-            if (listItem.$el.children().first().data('hidden')) {
+            if (listItem && listItem.$el && listItem.$el.children().first().data('hidden')) {
                 listItem.setDisabled(locked);
             }
         },
@@ -313,11 +397,8 @@ define([
                 case 'ren':
                     this.renameWorksheet();
                     break;
-                case 'copy':
-                    this.moveWorksheet(arrIndex, false);
-                    break;
-                case 'move':
-                    this.moveWorksheet(arrIndex, true);
+                case 'move-copy':
+                    this.moveWorksheet(arrIndex);
                     break;
                 case 'hide':
                     setTimeout(function () {
@@ -357,25 +438,23 @@ define([
             return name;
         },
 
-        createCopyName: function(orig, curArrNames) {
-            var wc = this.api.asc_getWorksheetsCount(), names = [];
-            while (wc--) {
-                names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
-            }
-
+        createCopyName: function(copy, orig, curNames, names) {
             var re = /^(.*)\((\d)\)$/.exec(orig);
             var first = re ? re[1] : orig + ' ';
 
-            var index = 1, name;
-            while(true) {
+            var index = 1, name = orig;
+            if (copy) {
                 index++;
                 name = first + '(' + index + ')';
-                if (names.indexOf(name.toLowerCase()) < 0) break;
+            }
+            while(names.indexOf(name.toLowerCase()) !== -1) {
+                index++;
+                name = first + '(' + index + ')';
             }
 
-            if (curArrNames && curArrNames.length > 0) {
+            if (curNames && curNames.length > 0) {
                 var arr = [];
-                curArrNames.forEach(function (item) {
+                curNames.forEach(function (item) {
                     arr.push(item.toLowerCase());
                 });
                 while(arr.indexOf(name.toLowerCase()) !== -1) {
@@ -385,6 +464,27 @@ define([
             }
 
             return name;
+        },
+
+        generateSheetNames: function (copy, arrIndexes, arrNames) {
+            var me = this,
+                names = [];
+            var wc = this.api.asc_getWorksheetsCount();
+            while (wc--) {
+                names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+            }
+
+            var newNames = [];
+            if (arrIndexes) {
+                arrIndexes.forEach(function (item) {
+                    newNames.push(me.createCopyName(copy, me.api.asc_getWorksheetName(item), newNames, names));
+                });
+            } else if (arrNames) {
+                arrNames.forEach(function (item) {
+                    newNames.push(me.createCopyName(copy, item, newNames, names));
+                });
+            }
+            return newNames;
         },
 
         deleteWorksheet: function(selectTabs) {
@@ -442,8 +542,8 @@ define([
                 }
 
                 var tab = me.statusbar.tabbar.tabs[me.statusbar.tabbar.getActive()];
-                var top = me.statusbar.$el.position().top - 115,
-                    left = tab.$el.offset().left;
+                var top = Common.Utils.getPosition(me.statusbar.$el).top - 115,
+                    left = Common.Utils.getOffset(tab.$el).left;
 
                 var current = me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex());
                 var win = (new SSE.Views.Statusbar.RenameDialog({
@@ -490,34 +590,60 @@ define([
                     me.api.asc_moveWorksheet(indTo, arrIndex);
                     me.api.asc_enableKeyEvents(true);
                 } else {
-                    var arrNames = [];
-                    arrIndex.forEach(function (item) {
-                        arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
-                    });
+                    var arrNames = me.generateSheetNames(!cut, arrIndex);
                     me.api.asc_copyWorksheet(indTo, arrNames, arrIndex);
                 }
                 return;
             }
 
-            (new SSE.Views.Statusbar.CopyDialog({
-                title   : cut ? me.statusbar.itemMove : me.statusbar.itemCopy,
-                ismove  : cut,
-                names   : items,
-                handler : function(btn, i) {
+            var btn,
+                supportBooks = me.api.asc_isSupportCopySheetsBetweenBooks();
+            me.copyDialog = new SSE.Views.Statusbar.CopyDialog({
+                title   : me.statusbar.itemMoveOrCopy,
+                sheets  : items,
+                supportBooks: supportBooks,
+                spreadsheetName: me.api.asc_getDocumentName(),
+                isDesktopApp: me.statusbar.mode.isDesktopApp,
+                handler : function(result, i, copy, workbook) {
+                    btn = result;
                     if (btn == 'ok') {
-                        if (cut) {
-                            me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex);
-                        } else {
-                            var arrNames = [];
+                        var arrBooks,
+                            arrNames;
+                        if (workbook === 'new')
+                            arrBooks = [];
+                        else if (workbook !== 'current')
+                            arrBooks = [workbook];
+                        if (workbook !== 'current') {
+                            arrNames = [];
                             arrIndex.forEach(function (item) {
-                                arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
+                                arrNames.push(me.api.asc_getWorksheetName(item));
                             });
-                            me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex);
                         }
+                        if (!copy) {
+                            me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex, arrNames, arrBooks);
+                        } else {
+                            if (!arrNames)
+                                arrNames = me.generateSheetNames(copy, arrIndex);
+                            me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
+                        }
+                    } else {
+                        me.api.asc_cancelMoveCopyWorksheet();
                     }
                     me.api.asc_enableKeyEvents(true);
                 }
-            })).show();
+            });
+            me.copyDialog.on('close', function () {
+                if (!btn) me.api.asc_cancelMoveCopyWorksheet();
+                me.copyDialog = undefined;
+            });
+            me.copyDialog.show();
+
+            var callback = function (workbooks) {
+                if (workbooks) {
+                    me.copyDialog.changeSpreadsheets(workbooks);
+                }
+            };
+            supportBooks && me.api.asc_getOpeningDocumentsList(callback);
         },
 
         onAddWorksheetClick: function(o, index, opts) {
@@ -642,21 +768,9 @@ define([
                         } else {
                             clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                         }
-                    }
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] === clr.effectValue) {
-                                this.statusbar.mnuTabColor.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.statusbar.mnuTabColor.clearSelection();
-                    } else {
-                        this.statusbar.mnuTabColor.select(clr || 'transparent', true);
-                    }
+                    } else
+                        clr = 'transparent';
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.statusbar.mnuTabColor);
                 }
             }
 

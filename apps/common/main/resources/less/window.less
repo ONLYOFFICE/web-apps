@@ -3,8 +3,7 @@
  *
  *      Describes styles for base class 'Window'
  *
- *      Created by Maxim Kadushkin on 24 January 2014
- *      Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *      Created on 24 January 2014
  *
  */
 
@@ -23,13 +22,13 @@
     }
 }
 .tool {
-    float: right;
-    width: 16px;
-    height: 16px;
+    .float-right();
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     overflow: hidden;
     padding: 0px;
-    margin: 4px 3px 0px 0px;
+    margin: 0;
 
     &.close {
         position: relative;
@@ -46,8 +45,7 @@
         &:before, &:after {
             content: ' ';
             position: absolute;
-            left: 8px;
-            left: calc(8px / @pixel-ratio-factor);
+            left: 9px;
             top: @scaled-one-px-value-ie;
             top: @scaled-one-px-value;
             height: 14px;
@@ -55,6 +53,7 @@
             width: @scaled-one-px-value;
             background-color: @icon-normal-ie;
             background-color: @icon-normal;
+            margin-top: 4px;
         }
 
         &:before {
@@ -99,9 +98,8 @@
         color: @text-normal-ie;
         color: @text-normal;
         text-align: center;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.01em;
+        .font-size-medium();
+        .font-weight-bold();
         vertical-align: bottom;
         line-height: 26px;
 
@@ -115,36 +113,62 @@
         .tools {
             position: absolute;
             right: 0;
-            padding-right: 6px;
+            .padding-right-8();
+
+            .rtl & {
+                right: auto;
+                left: 0;
+            }
 
             &.left {
                 left: 0;
                 right: auto;
-                padding-left: 6px;
+                .padding-left-6();
+
+                .rtl & {
+                    left: auto;
+                    right: 0;
+                }
+            }
+
+            .tool {
+                &.help {
+                    line-height: 14px;
+                    font-size: 14px;
+                    .font-weight-bold();
+                    color: @text-normal-ie;
+                    color: @text-normal;
+                    opacity: 0.7;
+                    margin-top: 4px;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+
+                    &.disabled {
+                        opacity: @component-disabled-opacity-ie;
+                        opacity: @component-disabled-opacity;
+                        cursor: default;
+                    }
+                }
+
+                &.custom {
+                    opacity: 0.6;
+                    margin-top: 2px;
+                    .margin-right-2();
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+
+                    &.disabled {
+                        opacity: @component-disabled-opacity-ie;
+                        opacity: @component-disabled-opacity;
+                        cursor: default;
+                    }
+                }
             }
         }
-
-        .tool.help {
-            width: 20px;
-            margin-right:0;
-            line-height: 14px;
-            font-size: 14px;
-            .font-weight-bold();
-            color: @text-normal-ie;
-            color: @text-normal;
-            opacity: 0.7;
-
-            &:hover {
-                opacity: 1;
-            }
-
-            &.disabled {
-                opacity: @component-disabled-opacity-ie;
-                opacity: @component-disabled-opacity;
-                cursor: default;
-            }
-        }
-
 
         &.resizing {
             cursor: inherit !important;
@@ -203,8 +227,12 @@
 
     &.alert {
         .icon {
-            float: left;
+            .float-left();
             margin: 0 0 0 10px;
+
+            .rtl & {
+                margin: 0 10px 0 10px;
+            }
         }
 
         min-height: 90px;
@@ -215,11 +243,15 @@
                 padding: 20px 20px 20px 10px;
                 height: 50px;
 
+                .rtl & {
+                    padding: 20px 10px 20px 20px;
+                }
+
                 .text {
-                    padding-left: 60px;
+                    .padding-left(60px);
 
                     span {
-                        font-size: 12px;
+                        .font-size-medium();
                         white-space: nowrap;
 
                         a {
@@ -235,7 +267,8 @@
                     }
 
                     .dont-show-checkbox {
-                        margin-top: 13px; text-align: left;
+                        margin-top: 13px;
+                        .text-align-left();
                     }
                 }
             }
@@ -255,7 +288,7 @@
             
             button {
                 &:not(:first-child) {
-                    margin-left: 10px;
+                    .margin-left-10();
                 }
             }
         }
@@ -310,10 +343,17 @@
         }
     }
 
+    &.invisible-borders {
+        .resize-border {
+            background: none !important;
+            border: none !important;
+        }
+    }
+
     .footer {
         button {
             &:not(:first-child) {
-                margin-left: 10px;
+                .margin-left-10();
             }
         }
     }
@@ -322,7 +362,7 @@
 .modal-dlg {
     .body {
         height: auto;
-        padding: 15px;
+        padding: 15px 0;
 
         .input-row {
             height: @input-height-base;
@@ -335,18 +375,30 @@
                 display: inline-block;
             }
         }
+        label {
+            .font-size-normal();
+        }
+
+        .box {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
     }
 
     .footer {
-        padding-top: 15px;
+        padding: 15px 15px 0;
 
         &.center {
             text-align: center;
         }
 
         &.right {
-            text-align: right;
+            .text-align-right();
         }
+    }
+
+    .separator.horizontal {
+        width: 100%;
     }
 }
 
@@ -354,16 +406,12 @@
 
 .copy-warning {
     .body {
-        padding: 15px 0;
-
         & > div {
             width: 100%;
-            padding: 0 20px;
         }
 
         .box {
             text-align: center;
-            padding-bottom: 15px;
         }
         .message{
             text-align: justify;
@@ -376,11 +424,11 @@
             }
 
             > div:first-child {
-                margin-right: 35px;
+                .margin-right(35px);
             }
 
             > div:last-child {
-                margin-left: 35px;
+                .margin-left(35px);
             }
 
             .hotkey {
@@ -390,10 +438,6 @@
             .message {
                 text-align: center;
             }
-        }
-
-        .footer {
-            padding: 20px;
         }
     }
 }

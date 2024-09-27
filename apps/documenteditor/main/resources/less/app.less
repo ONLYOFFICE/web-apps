@@ -13,6 +13,7 @@
 @import "../../../../common/main/resources/less/colors-table-classic.less";
 @import "../../../../common/main/resources/less/colors-table-dark.less";
 @import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
+@import "../../../../common/main/resources/less/colors-table-gray.less";
 
 //
 // Bootstrap
@@ -20,27 +21,27 @@
 
 // Core variables and mixins
 //@import "../../../../vendor/bootstrap/less/variables.less";
-@import "../../../../../vendor/bootstrap/less/mixins.less";
+@import "../../../../common/main/resources/mods/less/mixins";
 
 // Reset
-@import "../../../../../vendor/bootstrap/less/normalize.less";
+@import "../../../../common/main/resources/mods/less/normalize";
 //@import "print.less";
 
 // Core CSS
-@import "../../../../../vendor/bootstrap/less/scaffolding.less";
-@import "../../../../../vendor/bootstrap/less/type.less";
+@import "../../../../common/main/resources/mods/less/scaffolding";
+@import "../../../../common/main/resources/mods/less/type";
 //@import "code.less";
 //@import "grid.less";
 //@import "tables.less";
-@import "../../../../../vendor/bootstrap/less/forms.less";
-@import "../../../../../vendor/bootstrap/less/buttons.less";
+@import "../../../../common/main/resources/mods/less/forms.less";
+@import "../../../../common/main/resources/mods/less/buttons.less";
 
 // Components
-@import "../../../../../vendor/bootstrap/less/component-animations.less";
+@import "../../../../common/main/resources/mods/less/component-animations.less";
 //@import "glyphicons.less";
-@import "../../../../../vendor/bootstrap/less/dropdowns.less";
-@import "../../../../../vendor/bootstrap/less/button-groups.less";
-@import "../../../../../vendor/bootstrap/less/input-groups.less";
+@import "../../../../common/main/resources/mods/less/dropdowns.less";
+@import "../../../../common/main/resources/mods/less/button-groups.less";
+@import "../../../../common/main/resources/mods/less/input-groups.less";
 //@import "navs.less";
 //@import "navbar.less";
 //@import "breadcrumbs.less";
@@ -60,13 +61,13 @@
 
 // Components w/ JavaScript
 //@import "modals.less";
-@import "../../../../../vendor/bootstrap/less/tooltip.less";
+@import "../../../../common/main/resources/mods/less/tooltip.less";
 //@import "popovers.less";
 //@import "carousel.less";
 
 // Utility classes
-@import "../../../../../vendor/bootstrap/less/utilities.less";
-@import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
+@import "../../../../common/main/resources/mods/less/utilities.less";
+@import "../../../../common/main/resources/mods/less/responsive-utilities.less";
 
 //
 // Perfect scrollbar
@@ -125,6 +126,8 @@
 @import "../../../../common/main/resources/less/calendar.less";
 @import "../../../../common/main/resources/less/symboltable.less";
 @import "../../../../common/main/resources/less/hint-manager.less";
+@import "../../../../common/main/resources/less/bigscaling.less";
+@import "../../../../common/main/resources/less/updown-picker.less";
 
 // App
 // --------------------------------------------------
@@ -191,16 +194,39 @@
     @huge-icon-background-image: var(--huge-icon-background-image);
 }
 
+.font-size-tiny {
+    .fontsize(9px); // 9px
+    .fontsize(calc(@font-size-base-app - 2px)); // 9px
+}
+
 .font-size-small {
-    .fontsize(@font-size-small);
+    .fontsize(10px); // 10px
+    .fontsize(calc(@font-size-base-app - 1px)); // 10px
 }
 
 .font-size-normal {
-    .fontsize(@font-size-base);
+    .fontsize(11px); // 11px
+    .fontsize(@font-size-base-app); // 11px
+}
+
+.font-size-medium {
+    .fontsize(12px); // 12px
+    .fontsize(calc(@font-size-base-app + 1px)); // 12px
 }
 
 .font-size-large {
-    .fontsize(@font-size-large);
+    .fontsize(13px); // 13px
+    .fontsize(calc(@font-size-base-app + 2px)); // 13px
+}
+
+.font-size-huge {
+    .fontsize(14px); // 14px
+    .fontsize(calc(@font-size-base-app + 3px)); // 14px
+}
+
+.font-size-very-huge {
+    .fontsize(16px); // 16px
+    .fontsize(calc(@font-size-base-app + 5px)); // 16px
 }
 
 // Skeleton of document
@@ -213,7 +239,7 @@
     background: @canvas-content-background;
     width: 794px;
     margin: 46px auto;
-    height: 100%;
+    height: 1123px;
     border: 1px solid @canvas-page-border;
     padding-top: 50px;
     position: absolute;
@@ -233,7 +259,7 @@
 
     .content-theme-dark & {
         @canvas-content-dark-background: #3a3a3a;
-        @canvas-content-dark-page-border: #2a2a2a;
+        @canvas-content-dark-page-border: #616161;
         background-color: @canvas-content-dark-background;
         border-color: @canvas-content-dark-page-border;
 

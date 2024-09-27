@@ -43,7 +43,7 @@
                     {
                         "expand": true,
                         "cwd": "../../sdkjs/slide/themes/",
-                        "src": "**/**",
+                        "src": "**/*.*",
                         "dest": "../deploy/sdkjs/slide/themes/"
                     },
                     {
@@ -100,9 +100,17 @@
                 "src": [
                     "**/*.{png,jpg,gif,html,css}",
                     "!*_/**",
-                    "!**/src/**"
+                    "!**/src/**",
+                    "search/js/**/*.js"
                 ],
                 "dest": "../deploy/web-apps/apps/common/main/resources/help/"
+            },
+            "indexhtml": {
+                "expand": true,
+                "cwd": "../apps/common",
+                "src": "*.html.deploy",
+                "ext": ".html",
+                "dest": "../deploy/web-apps/apps/common"
             }
         },
         "imagemin": {
@@ -127,27 +135,6 @@
                     "dest": "../deploy/web-apps/apps/common/main/resources/img"
                 }
             ]
-        }
-    },
-    "bootstrap": {
-        "clean": [
-            "../deploy/web-apps/vendor/bootstrap"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/bootstrap/dist/js/bootstrap.min.js",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/js/bootstrap.min.js"
-            },
-            "font": {
-                "expand": true,
-                "cwd": "../vendor/bootstrap/dist/fonts/",
-                "src": "*",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/fonts/"
-            },
-            "css": {
-                "src": "../vendor/bootstrap/dist/css/bootstrap.min.css",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/css/bootstrap.min.css"
-            }
         }
     },
     "jquery": {
@@ -278,7 +265,6 @@
             "deploy-megapixel",
             "deploy-jquery",
             "deploy-underscore",
-            "deploy-bootstrap",
             "deploy-iscroll",
             "deploy-fetch",
             "deploy-es6-promise",

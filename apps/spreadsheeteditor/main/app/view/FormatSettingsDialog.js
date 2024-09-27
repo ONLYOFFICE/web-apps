@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,22 +33,18 @@
 /**
  *  FormatSettingsDialog.js
  *
- *  Created by Julia Radzhabova on 13.01.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 13.01.2017
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 340
+            contentHeight: 255
         },
 
         initialize : function(options) {
@@ -89,14 +84,14 @@ define([
             this.props      = options.props;
             this.linked     = options.linked || false;
 
-            var height = this.linked ? 360 : 340;
+            var height = this.linked ? 275 : 255;
             _.extend(this.options, {
                 title: this.textTitle,
-                height: height,
-                template: [
-                    '<div class="box" style="height:' + (height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
+                contentHeight: height,
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
                     '<div class="settings-panel active">',
+                    '<div class="inner-content">',
                     '<table cols="1" style="width: 100%;">',
                         '<tr>',
                             '<td style="width:170px;padding-bottom: 3px;">',
@@ -106,7 +101,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
-                                '<label class="format-sample" style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
+                                '<label class="format-sample margin-right-4" style="vertical-align: middle;">' + me.txtSample + '</label>',
                                 '<label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
@@ -156,11 +151,8 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '</div></div>',
-                    '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                    '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -168,6 +160,7 @@ define([
             this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
             this.FormatType = Asc.c_oAscNumFormatType.General;
             this.Format = "General";
+            this.FormatInfo =  new Asc.asc_CFormatCellsInfo();
             this.CustomFormat = null;
         },
 
@@ -242,7 +235,7 @@ define([
                 el: $('#format-settings-list-code'),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.codesList.on('item:select', _.bind(this.onCodeSelect, this));
             this.codesList.on('entervalue', _.bind(this.onPrimary, this));
@@ -292,7 +285,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked];
+            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -313,6 +306,7 @@ define([
                     this.langId = props.langId;
                 this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
 
+                this.FormatInfo = props.formatInfo;
                 if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
@@ -355,7 +349,7 @@ define([
         },
 
         getSettings: function () {
-            return {format: this.Format, linked: this.chLinked.getValue()==='checked'};
+            return {format: this.Format, formatInfo: this.FormatInfo, linked: this.chLinked.getValue()==='checked'};
         },
 
         onDlgBtnClick: function(event) {
@@ -396,6 +390,7 @@ define([
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -426,6 +421,7 @@ define([
             } else {
                 this.Format = format[0];
             }
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -447,6 +443,7 @@ define([
             this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
             this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
             this.Format = format[0];
+            this.FormatInfo = info;
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
@@ -540,11 +537,12 @@ define([
                 } else {
                     this.Format = this.api.asc_getFormatCells(info)[0];
                 }
-
+                this.FormatInfo = info;
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.Custom);
                 info.asc_setSymbol(valSymbol);
+                this.FormatInfo = info;
 
                 var formatsarr = this.api.asc_getFormatCells(info),
                     data = [],

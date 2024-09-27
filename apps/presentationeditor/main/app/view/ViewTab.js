@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,8 +32,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 07.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 07.12.2021
  *
  */
 
@@ -47,21 +45,26 @@ define([
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section class="panel" data-tab="view">' +
+            '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
+                '<div class="group small">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
+                '</div>' +
+                '<div class="separator long slide-master-separator"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
                     '</div>' +
                     '<div class="elset" style="text-align: center;">' +
-                        '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                        '<span class="btn-slot text font-size-normal" id="slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text" id="slot-btn-fts" style="font-size: 11px;text-align: center;"></span>' +
+                        '<span class="btn-slot text" id="slot-btn-fts" style="text-align: center;"></span>' +
                     '</div>' +
                     '<div class="elset">' +
-                        '<span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>' +
+                        '<span class="btn-slot text" id="slot-btn-ftw" style="text-align: center;"></span>' +
                     '</div>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
@@ -104,6 +107,12 @@ define([
 
             setEvents: function () {
                 var me = this;
+                me.btnNormal.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:normal', [state]);
+                }, me));
+                me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:master', [state]);
+                }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
                 });
@@ -185,6 +194,34 @@ define([
 
                 var me = this;
 
+                this.btnNormal = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-normal',
+                    caption: this.textNormal,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnNormal);
+
+                this.btnSlideMaster = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-slide-master',
+                    caption: this.textSlideMaster,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: false,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnSlideMaster);
+
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
@@ -237,7 +274,7 @@ define([
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     caption: this.textInterfaceTheme,
                     lock: [_set.disableOnStart],
                     menu: true,
@@ -289,7 +326,7 @@ define([
 
                 this.btnGuides = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon guides',
+                    iconCls: 'toolbar__icon btn-guides',
                     caption: this.textGuides,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -305,7 +342,7 @@ define([
 
                 this.btnGridlines = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon gridlines',
+                    iconCls: 'toolbar__icon btn-gridlines',
                     caption: this.textGridlines,
                     lock: [_set.disableOnStart],
                     enableToggle: true,
@@ -321,7 +358,7 @@ define([
 
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
-                    labelText: this.textRightMenu,
+                    labelText: !Common.UI.isRTL() ? this.textRightMenu : this.textLeftMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -330,7 +367,7 @@ define([
 
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
-                    labelText: this.textLeftMenu,
+                    labelText: !Common.UI.isRTL() ? this.textLeftMenu : this.textRightMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -350,6 +387,8 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
+                this.btnNormal.render($host.find('#slot-btn-normal'));
+                this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
                 this.cmbZoom.render($host.find('#slot-field-zoom'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnFitToSlide.render($host.find('#slot-btn-fts'));
@@ -371,6 +410,8 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
+                    me.btnNormal.updateHint(me.tipNormal);
+                    me.btnSlideMaster.updateHint(me.tipSlideMaster);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
@@ -382,8 +423,8 @@ define([
                         items: [
                             { caption: me.textShowGuides, value: 'show', checkable: true },
                             { caption: '--'},
-                            { caption: me.textAddVGuides, iconCls: 'menu__icon vertical-guide', value: 'add-vert' },
-                            { caption: me.textAddHGuides, iconCls: 'menu__icon horizontal-guide', value: 'add-hor' },
+                            { caption: me.textAddVGuides, iconCls: 'menu__icon btn-vertical-guide', value: 'add-vert' },
+                            { caption: me.textAddHGuides, iconCls: 'menu__icon btn-horizontal-guide', value: 'add-hor' },
                             { caption: '--'},
                             { caption: me.textSmartGuides, value: 'smart', checkable: true },
                             { caption: me.textClearGuides, value: 'clear' }
@@ -433,14 +474,40 @@ define([
 
                     if (!config.isEdit) {
                         me.chRulers.hide();
-                    }
-                    if (!config.isEdit) {
                         me.btnGuides.$el.closest('.group').remove();
+                        me.btnSlideMaster.$el.closest('.group').remove();
+                        me.$el.find('.slide-master-separator').remove();
                     }
 
                     if (Common.UI.Themes.available()) {
+                        function _add_tab_styles() {
+                            let btn = me.btnInterfaceTheme;
+                            if ( typeof(btn.menu) === 'object' )
+                                btn.menu.addItem({caption: '--'});
+                            else
+                                btn.setMenu(new Common.UI.Menu());
+                            let mni = new Common.UI.MenuItem({
+                                value: -1,
+                                caption: me.textTabStyle,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    items: [
+                                        {value: 'fill', caption: me.textFill, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
+                                    ]
+                                })
+                            });
+                            _.each(mni.menu.items, function(item){
+                                item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                            });
+                            mni.menu.on('item:click', _.bind(function (menu, item) {
+                                Common.UI.TabStyler.setStyle(item.value);
+                            }, me));
+                            btn.menu.addItem(mni);
+                            me.menuTabStyle = mni.menu;
+                        }
                         function _fill_themes() {
-                            var btn = this.btnInterfaceTheme;
+                            let btn = this.btnInterfaceTheme;
                             if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
                             else btn.setMenu(new Common.UI.Menu());
 
@@ -454,6 +521,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
+                            // Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -498,7 +566,8 @@ define([
                 }, this);
             },
 
-            onComboOpen: function (needfocus, combo) {
+            onComboOpen: function (needfocus, combo, e, params) {
+                if (params && params.fromKeyDown) return;
                 _.delay(function() {
                     var input = $('input', combo.cmpEl).select();
                     if (needfocus) input.focus();
@@ -531,8 +600,14 @@ define([
             textCm: 'cm',
             textCustom: 'Custom',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
-
+            textRightMenu: 'Right panel',
+            textNormal: 'Normal',
+            textSlideMaster: 'Slide Master',
+            tipNormal: 'Normal',
+            tipSlideMaster: 'Slide master',
+            textTabStyle: 'Tab style',
+            textFill: 'Fill',
+            textLine: 'Line'
         }
     }()), PE.Views.ViewTab || {}));
 });

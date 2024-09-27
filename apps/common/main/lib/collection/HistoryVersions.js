@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,11 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 05.03.15
- * Time: 17:05
  */
 
 if (Common === undefined)
@@ -44,27 +41,29 @@ Common.Collections = Common.Collections || {};
 define([
     'underscore',
     'backbone',
-    'common/main/lib/model/HistoryVersion'
+    'common/main/lib/model/HistoryVersion',
+    'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
 
-    Common.Collections.HistoryVersions = Backbone.Collection.extend({
-        model: Common.Models.HistoryVersion,
+    Common.Collections.HistoryVersions = Common.UI.TreeViewStore.extend(_.extend({
+             model: Common.Models.HistoryVersion,
 
-        findRevision: function(revision) {
-            return this.findWhere({revision: revision});
-        },
+            findRevision: function(revision) {
+                return this.findWhere({revision: revision});
+            },
 
-        findRevisions: function(revision) {
-            return this.where({revision: revision});
-        },
+            findRevisions: function(revision) {
+                return this.where({revision: revision});
+            },
 
-        hasChanges: function() {
-            return !!this.findWhere({isRevision: false});
-        },
+            hasChanges: function() {
+                return !!this.findWhere({hasParent: true});
+            },
 
-        hasCollapsed: function() {
-            return !!this.findWhere({isRevision: true, hasChanges: true, isExpanded: false});
-        }
-    });
+            hasCollapsed: function() {
+                return !!this.findWhere({hasSubItems: true, isExpanded: false});
+            }
+        }, Common.UI.TreeViewStore || {})
+    );
 });

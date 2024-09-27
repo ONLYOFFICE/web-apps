@@ -39,7 +39,7 @@
 }
 
 .tooltip-inner {
-    font-size: 11px;
+    .font-size-normal();
     background-color: @background-normal-ie;
     background-color: @background-normal;
     color: @text-normal-ie;
@@ -51,15 +51,39 @@
     background-clip: padding-box;
 
     white-space: pre-wrap;
-    text-align: left;
+    .text-align-left();
     word-wrap: break-word;
     max-width: 300px;
 }
 
 .link-tooltip .tooltip-inner {
     max-width: 500px;
+    .review-date {
+        .font-size-small();
+        opacity: 0.7;
+    }
 }
 
 .auto-tooltip .tooltip-inner {
     max-width: none;
+}
+
+.eyedropper-color {
+    width: 30px;
+    height: 30px;
+    border: @scaled-one-px-value-ie solid @background-normal;
+    border: @scaled-one-px-value solid @background-normal;
+    outline: @scaled-one-px-value-ie solid @border-regular-control;
+    outline: @scaled-one-px-value solid @border-regular-control;
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    z-index: 1001;
+}
+
+.eyedropper-tooltip {
+    .tooltip-inner {
+        padding: 2px;
+        line-height: 16px;
+    }
 }

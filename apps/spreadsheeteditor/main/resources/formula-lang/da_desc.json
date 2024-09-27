@@ -1890,5 +1890,41 @@
 	"DROP": {
 		"a": "(matrix, rækker, [kolonner])",
 		"d": "Sletter rækker eller kolonner fra matrixens start eller slutning."
+	},
+	"SEQUENCE": {
+		"a": "(rækker, [kolonner], [start], [trin])",
+		"d": "Returnerer en sekvens af tal"
+	},
+	"EXPAND": {
+		"a": "(matrix, rækker, [kolonner], [udfyld_med])",
+		"d": "Udvider en matrix til de angivne dimensioner."
+	},
+	"XMATCH": {
+		"a": "(opslagsværdi, opslagsmatrix, [matchtilstand], [søgetilstand])",
+		"d": "Returnerer den relative placering af et element i en matrix. Som standard kræves en nøjagtig match"
+	},
+	"FILTER": {
+		"a": "(matrix, inkluder, [hvis_tom])",
+		"d": "Filtrer et område eller en matrix"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returnerer en tekstrepræsentation af arrayet"
+	},
+	"SORT": {
+		"a": "(matrix, [sortér_indeks], [sorteringsrækkefølge], [efter_kolonne])",
+		"d": "Sorterer et område eller en matrix"
+	},
+	"SORTBY": {
+		"a": "(matrix, efter_matrix, [sorteringsrækkefølge], ...)",
+		"d": "Sorterer et område eller en matrix baseret på værdierne i et tilsvarende område eller en tilsvarende matrix"
+	},
+	"GETPIVOTDATA": {
+		"a": "(datafelt; pivottabel; [felt]; [element]; ...)",
+		"d": "Uddrager data, der er gemt i en pivottabel"
+	},
+	"IMPORTRANGE": {
+		"a": "(regneark_webadresse, område_streng)",
+		"d": "Importerer et celleområde fra et angivet regneark."
 	}
 }

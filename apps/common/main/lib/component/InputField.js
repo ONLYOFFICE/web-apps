@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  InputField.js
  *
- *  Created by Alexander Yuzhin on 4/10/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/10/14
  *
  */
 
@@ -75,7 +73,8 @@ define([
                 validateOnChange: false,
                 validateOnBlur: true,
                 disabled: false,
-                editable: true
+                editable: true,
+                hideErrorOnInput: false
             },
 
             template: _.template([
@@ -112,10 +111,11 @@ define([
                 this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
-                this.blankError     = me.options.blankError || 'This field is required';
+                this.blankError     = me.options.blankError || me.txtEmpty;
                 this.validateOnChange = me.options.validateOnChange;
                 this.validateOnBlur = me.options.validateOnBlur;
                 this.maxLength      = me.options.maxLength;
+                this.hideErrorOnInput = me.options.hideErrorOnInput;
 
                 me.rendered         = me.options.rendered || false;
 
@@ -156,7 +156,7 @@ define([
                 if (!me.rendered) {
                     var el = this.cmpEl;
 
-                    this._input = this.cmpEl.find('input').addBack().filter('input');
+                    this._input = this.cmpEl.find('input').addBack().filter('input').first();
 
                     if (this.editable) {
                         this._input.on('blur',   _.bind(this.onInputChanged, this));
@@ -178,6 +178,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                         Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -291,9 +295,11 @@ define([
                 disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
-                disabled
-                    ? this._input.attr('disabled', true)
-                    : this._input.removeAttr('disabled');
+                if (this._input) {
+                    disabled
+                        ? this._input.attr('disabled', true)
+                        : this._input.removeAttr('disabled');
+                }
             },
 
             isDisabled: function() {
@@ -357,7 +363,12 @@ define([
                         if (modalParents.length > 0) {
                             errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         }
-
+                        if (me.hideErrorOnInput) {
+                            var onInputChanging = function() {
+                                me.showError();
+                            };
+                            me._input.one('input', onInputChanging);
+                        }
                         return errors;
                     }
                 } else {
@@ -387,6 +398,12 @@ define([
                     if (modalParents.length > 0) {
                         errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                     }
+                    if (me.hideErrorOnInput) {
+                        var onInputChanging = function() {
+                            me.showError();
+                        };
+                        me._input.one('input', onInputChanging);
+                    }
                 } else {
                     me.cmpEl.removeClass('error');
                     me.cmpEl.removeClass('warning');
@@ -395,7 +412,9 @@ define([
 
             showWarning: function(errors) {
                 this.showError(errors, true);
-            }
+            },
+
+            txtEmpty: 'This field is required'
         }
     })());
 
@@ -505,6 +524,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                     Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -561,7 +584,7 @@ define([
                 disabled: false,
                 editable: true,
                 showCls: 'toolbar__icon btn-sheet-view',
-                hideCls: 'toolbar__icon hide-password',
+                hideCls: 'toolbar__icon btn-hide-password',
                 btnHint: '',
                 repeatInput: null,
                 showPwdOnClick: true
@@ -569,7 +592,7 @@ define([
 
             initialize : function(options) {
                 options = options || {};
-                options.btnHint = options.btnHint || this.textHintShowPwd;
+                options.btnHint = options.btnHint || (options.showPwdOnClick ? this.textHintShowPwd : this.textHintHold);
                 options.iconCls = options.showCls || this.options.showCls;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
@@ -657,7 +680,8 @@ define([
                 }
             },
             textHintShowPwd: 'Show password',
-            textHintHidePwd: 'Hide password'
+            textHintHidePwd: 'Hide password',
+            textHintHold: 'Press and hold to show password'
         }
     })(), Common.UI.InputFieldBtnPassword || {}));
 
@@ -668,7 +692,7 @@ define([
                 cls: '',
                 style: '',
                 value: '',
-                type: 'date',
+                type: 'text',
                 name: '',
                 validation: null,
                 allowBlank: true,
@@ -680,9 +704,18 @@ define([
                 validateOnBlur: true,
                 disabled: false,
                 editable: true,
-                iconCls: 'toolbar__icon btn-datetime',
+                iconCls: 'toolbar__icon btn-date',
                 btnHint: '',
                 menu: true
+            },
+
+            initialize : function(options) {
+                options = options || {};
+                options.btnHint = options.btnHint || this.textDate;
+
+                Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.dateValue = undefined;
             },
 
             render: function (parentEl) {
@@ -707,19 +740,120 @@ define([
                             firstday: 1
                         });
                         me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.dateValue = date;
                             me.trigger('date:click', me, date);
                             menu.hide();
                         });
+                        me.dateValue && me.cmpCalendar.setDate(me.dateValue);
                         menu.alignPosition();
                     }
                     me.cmpCalendar.focus();
-                })
+                });
+                this._input.on('input', function() {
+                    me.dateValue = undefined;
+                });
             },
 
             setDate: function(date) {
-                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                if (date && date instanceof Date && !isNaN(date)) {
                     this.cmpCalendar && this.cmpCalendar.setDate(date);
-            }
+                    this.dateValue = date;
+                }
+            },
+
+            getDate: function() {
+                return this.dateValue;
+            },
+
+            textDate: 'Select date'
+        }
+    })());
+
+    Common.UI.InputFieldFixed = Common.UI.InputField.extend((function() {
+        return {
+            options : {
+                id          : null,
+                cls         : '',
+                style       : '',
+                value       : '',
+                fixedValue  : '',
+                fixedWidth  : '',
+                fixedCls    : '',
+                type        : 'text',
+                name        : '',
+                validation  : null,
+                allowBlank  : true,
+                placeHolder : '',
+                blankError  : null,
+                spellcheck  : false,
+                maskExp     : '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                btnHint: ''
+            },
+
+            template: _.template([
+                '<div class="input-field input-field-fixed" style="<%= style %>">',
+                    '<input ',
+                    'type=<%= type %> ',
+                    'name="<%= name %>" ',
+                    'spellcheck="<%= spellcheck %>" ',
+                    'class="form-control <%= cls %>" ',
+                    'placeholder="<%= placeHolder %>" ',
+                    'value="<%= value %>"',
+                    'data-hint="<%= dataHint %>"',
+                    'data-hint-offset="<%= dataHintOffset %>"',
+                    'data-hint-direction="<%= dataHintDirection %>"',
+                    '>',
+                '<span class="input-error"></span>',
+                '<input class="fixed-text form-control" type="text" readonly="readonly">' +
+                '</div>'
+            ].join('')),
+
+            initialize : function(options) {
+                this.fixedValue = options.fixedValue;
+                this.fixedWidth = options.fixedWidth || 'calc(50% + 4px)';
+                this.fixedCls = options.fixedCls || '';
+
+                Common.UI.InputField.prototype.initialize.call(this, options);
+            },
+
+            render : function(parentEl) {
+                Common.UI.InputField.prototype.render.call(this, parentEl);
+
+                this._input.css({
+                    'padding-left': Common.UI.isRTL() ? this.fixedWidth : 0,
+                    'padding-right': Common.UI.isRTL() ? 0: this.fixedWidth,
+                });
+                this.cmpEl.find('input.fixed-text').css({'width': this.fixedWidth}).addClass(this.fixedCls);
+
+                if (this.fixedValue)
+                    this.setFixedValue(this.fixedValue);
+
+                return this;
+            },
+
+            setFixedValue: function(value) {
+                this.fixedValue = value;
+
+                if (this.rendered){
+                    this.cmpEl.find('input.fixed-text').addBack().filter('input.fixed-text').val(value);
+                }
+            },
+
+            setDisabled: function(disabled) {
+                disabled = !!disabled;
+                this.disabled = disabled;
+                $(this.el).toggleClass('disabled', disabled);
+                if (this.cmpEl) {
+                    var inputs = this.cmpEl.find('input').addBack().filter('input')
+                    disabled
+                        ? inputs.attr('disabled', true)
+                        : inputs.removeAttr('disabled');
+                }
+            },
         }
     })());
 });

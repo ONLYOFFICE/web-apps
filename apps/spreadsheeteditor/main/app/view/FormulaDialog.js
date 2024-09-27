@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,14 +28,13 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  FormulaDialog.js
  *
  *  Add formula to cell dialog
  *
- *  Created by Alexey.Musinov on 11/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 11/04/14
  *
  */
 
@@ -57,17 +55,19 @@ define([
 
             _.extend(_options,  {
                 width           : 375,
-                height          : 490,
                 header          : true,
-                cls             : 'formula-dlg',
+                cls             : 'modal-dlg formula-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: null
+                buttons: [
+                    {value: 'ok', caption: this.okButtonText, primary: true, id: 'formula-dlg-btn-ok'},
+                    'cancel'
+                ],
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box" style="height:405px;">',
                     '<div class="content-panel" >',
                         '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',
@@ -78,11 +78,7 @@ define([
                         '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button id="formula-dlg-btn-ok" class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.api            =   options.api;
@@ -115,9 +111,9 @@ define([
                 me.filterFormulas();
             });
 
-            this.btnOk = new Common.UI.Button({
-                el: $('#formula-dlg-btn-ok')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#formula-dlg-btn-ok').addBack().filter('#formula-dlg-btn-ok').length>0);
+            }) || new Common.UI.Button({ el: $('#formula-dlg-btn-ok') });
 
             this.syntaxLabel = $('#formula-dlg-args');
             this.descLabel = $('#formula-dlg-desc');
@@ -125,7 +121,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputSearch, this.cmbFuncGroup, this.cmbListFunctions];
+            return [this.inputSearch, this.cmbFuncGroup, this.cmbListFunctions].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -199,6 +195,7 @@ define([
         },
         onPrimary: function(list, record, event) {
             this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {
@@ -345,7 +342,7 @@ define([
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
-            this.cmbFuncGroup.setValue('Recommended');
+            this.cmbFuncGroup.setValue('Recommended', this.txtRecommended);
             this.recommended = arr;
             this.fillFunctions('Recommended');
         },
@@ -421,9 +418,9 @@ define([
 
         onScrollToRecordCustom: function (record) {
             var innerEl = $(this.el).find('.inner');
-            var inner_top = innerEl.offset().top;
+            var inner_top = Common.Utils.getOffset(innerEl).top;
             var div = innerEl.find('#' + record.get('id')).parent();
-            var div_top = div.offset().top;
+            var div_top = Common.Utils.getOffset(div).top;
 
             if (div_top < inner_top || div_top+div.height() > inner_top + innerEl.height()) {
                 if (this.scroller) {

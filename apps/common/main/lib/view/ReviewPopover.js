@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -35,8 +34,7 @@
  *
  *  View
  *
- *  Created by Julia Radzhabova on 06.06.2018
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 06.06.2018
  *
  */
 
@@ -85,6 +83,7 @@ define([
                 height: 120,
                 header: false,
                 modal: false,
+                automove: false,
                 alias: 'Common.Views.ReviewPopover'
             }, options);
 
@@ -104,7 +103,6 @@ define([
             this.canRequestSendNotify = options.canRequestSendNotify;
             this.mentionShare = options.mentionShare;
             this.api = options.api;
-            this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
             _options.tpl = _.template(this.template)(_options);
@@ -115,8 +113,7 @@ define([
             Common.UI.Window.prototype.initialize.call(this, _options);
 
             if (this.canRequestUsers) {
-                Common.Gateway.on('setusers', _.bind(this.setUsers, this));
-                Common.NotificationCenter.on('mentions:clearusers',   _.bind(this.clearUsers, this));
+                Common.NotificationCenter.on('mentions:setusers',   _.bind(this.onEmailListMenuCallback, this));
             }
 
             return this;
@@ -265,6 +262,7 @@ define([
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
+                                textComment: me.textComment,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
                                 textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
@@ -512,6 +510,7 @@ define([
                     this.emailMenu = new Common.UI.Menu({
                         maxHeight: 200,
                         cyclic: false,
+                        cls: 'font-size-medium',
                         items: []
                     }).on('render:after', function(mnu) {
                         this.scroller = new Common.UI.Scroller({
@@ -766,7 +765,7 @@ define([
                 sdkBoundsTopPos = 0;
 
             if (commentsView && arrowView && editorView && editorView.get(0)) {
-                editorBounds = editorView.get(0).getBoundingClientRect();
+                editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                 if (editorBounds) {
                     sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
 
@@ -801,8 +800,13 @@ define([
                             this.sdkBounds.width -= sdkPanelThumbsWidth;
                         }
 
-                        leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
-                        leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
+                        if (!Common.UI.isRTL()) {
+                            leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
+                        } else {
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + 25, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - posX + 7);
+                            leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
+                        }
 
                         arrowView.removeClass('right top bottom').addClass('left');
                         arrowView.css({left: ''});
@@ -810,8 +814,8 @@ define([
                         if (!_.isUndefined(leftX)) {
                             windowWidth = this.$window.outerWidth();
                             if (windowWidth) {
-                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth)) {
-                                    leftPos = this.leftX - windowWidth + sdkBoundsLeft - this.arrow.width;
+                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth) || (Common.UI.isRTL() && sdkBoundsLeft + this.leftX > windowWidth + this.arrow.width)) {
+                                    leftPos = sdkBoundsLeft + this.leftX - windowWidth - this.arrow.width;
                                     arrowView.removeClass('left').addClass('right');
                                 } else {
                                     leftPos = sdkBoundsLeft + posX + this.arrow.width;
@@ -883,11 +887,11 @@ define([
 
                 commentsView.css({height: '100%'});
 
-                contentBounds = commentsView.get(0).getBoundingClientRect();
+                contentBounds = Common.Utils.getBoundingClientRect(commentsView.get(0));
                 if (contentBounds) {
                     editorView = $('#editor_sdk');
                     if (editorView && editorView.get(0)) {
-                        editorBounds = editorView.get(0).getBoundingClientRect();
+                        editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                         if (editorBounds) {
                             sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
                             sdkBoundsTopPos = sdkBoundsTop;
@@ -947,7 +951,7 @@ define([
                                 arrowView.toggleClass('top', isMoveDown);
                                 arrowView.toggleClass('bottom', !isMoveDown);
                                 arrowView.removeClass('left right');
-                            } else if (sdkBoundsHeight <= outerHeight) {
+                            } else if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight)) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'
@@ -1164,17 +1168,6 @@ define([
                 this.commentsView.setStore(this.commentsStore);
         },
 
-        setUsers: function(data) {
-            this.externalUsers = data.users || [];
-            this.isUsersLoading = false;
-            this._state.emailSearch && this.onEmailListMenu(this._state.emailSearch.str, this._state.emailSearch.left, this._state.emailSearch.right);
-            this._state.emailSearch = null;
-        },
-
-        clearUsers: function() {
-            this.externalUsers = [];
-        },
-
         getPopover: function(options) {
             if (!this.popover)
                 this.popover = new Common.Views.ReviewPopover(options);
@@ -1184,12 +1177,12 @@ define([
         autoScrollToEditButtons: function () {
             var button = $('#id-comments-change-popover'),  // TODO: add to cache
                 btnBounds = null,
-                contentBounds = this.$window[0].getBoundingClientRect(),
+                contentBounds = Common.Utils.getBoundingClientRect(this.$window[0]),
                 moveY = 0,
                 padding = 7;
 
             if (button.length) {
-                btnBounds = button.get(0).getBoundingClientRect();
+                btnBounds = Common.Utils.getBoundingClientRect(button.get(0));
                 if (btnBounds && contentBounds) {
                     moveY = contentBounds.bottom - (btnBounds.bottom + padding);
                     if (moveY < 0) {
@@ -1199,96 +1192,99 @@ define([
             }
         },
 
-        onEmailListMenu: function(str, left, right, show) {
-            var me   = this,
-                users = me.externalUsers,
-                menu = me.emailMenu;
-
-            if (users.length<1) {
+        onEmailListMenu: function(str, left, right) {
+            if (typeof str == 'string') {
                 this._state.emailSearch = {
                     str: str,
                     left: left,
                     right: right
                 };
-
-                if (this.isUsersLoading) return;
-
-                this.isUsersLoading = true;
-                Common.Gateway.requestUsers();
-                return;
+                Common.UI.ExternalUsers.get('mention');
+            } else {
+                this._state.emailSearch = null;
+                this.emailMenu.rendered && this.emailMenu.cmpEl.css('display', 'none');
             }
-            if (typeof str == 'string') {
-                var menuContainer = me.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
-                    textbox = this.commentsView.getTextBox(),
-                    textboxDom = textbox ? textbox[0] : null,
-                    showPoint = textboxDom ? [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3] : [0, 0];
+        },
 
-                if (!menu.rendered) {
-                    // Prepare menu container
-                    if (menuContainer.length < 1) {
-                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                        me.$window.append(menuContainer);
-                    }
+        onEmailListMenuCallback: function(type, users) {
+            if (!this._state.emailSearch || users.length<1 || type && type!=='mention') return;
 
-                    menu.render(menuContainer);
-                    menu.cmpEl.css('min-width', textboxDom ? textboxDom.clientWidth : 220);
-                    menu.cmpEl.attr({tabindex: "-1"});
-                    menu.on('hide:after', function(){
-                        setTimeout(function(){
-                            var tb = me.commentsView.getTextBox();
-                            tb && tb.focus();
-                        }, 10);
+            var me   = this,
+                menu = me.emailMenu,
+                str = this._state.emailSearch.str,
+                left = this._state.emailSearch.left,
+                right = this._state.emailSearch.right;
+
+            this._state.emailSearch = null;
+
+            var menuContainer = me.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
+                textbox = this.commentsView.getTextBox(),
+                textboxDom = textbox ? textbox[0] : null,
+                showPoint = textboxDom ? [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3] : [0, 0];
+
+            if (!menu.rendered) {
+                // Prepare menu container
+                if (menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    me.$window.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.css('min-width', textboxDom ? textboxDom.clientWidth : 220);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    setTimeout(function(){
+                        var tb = me.commentsView.getTextBox();
+                        tb && tb.focus();
+                    }, 10);
+                });
+            }
+
+            for (var i = 0; i < menu.items.length; i++) {
+                menu.removeItem(menu.items[i]);
+                i--;
+            }
+
+            if (users.length>0) {
+                str = str.toLowerCase();
+                if (str.length>0) {
+                    users = _.filter(users, function(item) {
+                        return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                     });
                 }
-
-                for (var i = 0; i < menu.items.length; i++) {
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
-
-                if (users.length>0) {
-                    str = str.toLowerCase();
-                    if (str.length>0) {
-                        users = _.filter(users, function(item) {
-                            return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
-                        });
-                    }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;">' +
-                                            '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px;"><%= Common.Utils.String.htmlEncode(caption) %></div>' +
-                                            '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px; color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div>' +
-                                        '</a>'),
+                var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">' +
+                                        '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px;"><%= Common.Utils.String.htmlEncode(caption) %></div>' +
+                                        '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px; color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div>' +
+                                    '</a>'),
+                    divider = false;
+                _.each(users, function(menuItem, index) {
+                    if (divider && !menuItem.hasAccess) {
                         divider = false;
-                    _.each(users, function(menuItem, index) {
-                        if (divider && !menuItem.hasAccess) {
-                            divider = false;
-                            menu.addItem(new Common.UI.MenuItem({caption: '--'}));
-                        }
+                        menu.addItem(new Common.UI.MenuItem({caption: '--'}));
+                    }
 
-                        if (menuItem.email && menuItem.name) {
-                            var mnu = new Common.UI.MenuItem({
-                                caption     : menuItem.name,
-                                value       : menuItem.email,
-                                template    : tpl
-                            }).on('click', function(item, e) {
-                                me.insertEmailToTextbox(item.options.value, left, right);
-                            });
-                            menu.addItem(mnu);
-                            if (menuItem.hasAccess)
-                                divider = true;
-                        }
-                    });
-                }
+                    if (menuItem.email && menuItem.name) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption     : menuItem.name,
+                            value       : menuItem.email,
+                            template    : tpl
+                        }).on('click', function(item, e) {
+                            me.insertEmailToTextbox(item.options.value, left, right);
+                        });
+                        menu.addItem(mnu);
+                        if (menuItem.hasAccess)
+                            divider = true;
+                    }
+                });
+            }
 
-                if (menu.items.length>0) {
-                    menuContainer.css({left: showPoint[0], top : showPoint[1]});
-                    menu.menuAlignEl = textbox;
-                    menu.show();
-                    menu.cmpEl.css('display', '');
-                    menu.alignPosition('bl-tl', -5);
-                    menu.scroller.update({alwaysVisibleY: true});
-                } else {
-                    menu.rendered && menu.cmpEl.css('display', 'none');
-                }
+            if (menu.items.length>0) {
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+                menu.menuAlignEl = textbox;
+                menu.show();
+                menu.cmpEl.css('display', '');
+                menu.alignPosition('bl-tl', -5);
+                menu.scroller.update({alwaysVisibleY: true});
             } else {
                 menu.rendered && menu.cmpEl.css('display', 'none');
             }
@@ -1321,6 +1317,7 @@ define([
         txtAccept: 'Accept',
         txtReject: 'Reject',
         txtEditTip: 'Edit',
-        txtDeleteTip: 'Delete'
+        txtDeleteTip: 'Delete',
+        textComment: 'Comment'
     }, Common.Views.ReviewPopover || {}))
 });

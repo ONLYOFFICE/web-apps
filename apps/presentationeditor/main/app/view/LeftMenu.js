@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    LeftMenu.js
  *
- *    Created by Maxim Kadushkin on 10 April 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 10 April 2014
  *
  */
 
@@ -43,6 +41,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
     /** coauthoring begin **/
@@ -51,7 +50,6 @@ define([
     'common/main/lib/view/History',
     /** coauthoring end **/
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/SearchDialog',
     'presentationeditor/main/app/view/FileMenu'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -59,22 +57,10 @@ define([
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    PE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    PE.Views.LeftMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
-
-        // Delegated events for creating new items, and clearing completed ones.
-        events: function() {
-            return {
-                'click #left-btn-support': function() {
-                    var config = this.mode.customization;
-                    config && !!config.feedback && !!config.feedback.url ?
-                        window.open(config.feedback.url) :
-                        window.open('{{SUPPORT_URL}}');
-                }
-            }
-        },
 
         initialize: function () {
             this.minimizedMode = true;
@@ -82,17 +68,26 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
+
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tl-tr';
 
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
                 el: $markup.elementById('#left-btn-searchbar'),
                 hint: this.tipSearch,
                 disabled: true,
+                iconCls: 'btn-menu-search',
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
+            this.btnSearchBar.on('click', _.bind(function () {
+                this.onBtnMenuClick(this.btnSearchBar);
+                if (this.btnSearchBar.pressed)
+                    this.fireEvent('search:aftershow');
+            }, this));
 
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
@@ -100,6 +95,7 @@ define([
                 hint: this.tipSlides,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-thumbs',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
@@ -110,6 +106,7 @@ define([
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-about',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
@@ -119,8 +116,15 @@ define([
                 action: 'support',
                 el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
-                disabled: true
+                disabled: true,
+                iconCls: 'btn-menu-support'
             });
+            this.btnSupport.on('click', _.bind(function() {
+                var config = this.mode.customization;
+                config && !!config.feedback && !!config.feedback.url ?
+                    window.open(config.feedback.url) :
+                    window.open('{{SUPPORT_URL}}');
+            }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
@@ -128,15 +132,17 @@ define([
                 hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
@@ -146,18 +152,9 @@ define([
 
             /** coauthoring end **/
 
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
-
             this.menuFile = new PE.Views.FileMenu({});
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
+
             this.$el.html($markup);
 
             return this;
@@ -204,7 +201,6 @@ define([
             }
 
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
-            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -240,12 +236,16 @@ define([
                     this.panelSearch.hide();
                 }
             }
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
+        },
+
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
         },
 
         setOptionsPanel: function(name, panel) {
@@ -255,9 +255,7 @@ define([
             } else if (name == 'comment') {
                 this.panelComments = panel;
             } else /** coauthoring end **/
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render('#left-panel-plugins');
-            } else if (name == 'history') {
+            if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
             } else
             if (name == 'advancedsearch') {
@@ -297,15 +295,12 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                this.panelPlugins['hide']();
-                this.btnPlugins.toggle(false, true);
-            }
             if (this.panelSearch) {
                 this.panelSearch['hide']();
                 this.btnSearchBar.toggle(false, true);
             }
             this.fireEvent('panel:show', [this, '', false]);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {
@@ -324,12 +319,12 @@ define([
             /** coauthoring begin **/
             this.btnChat.setDisabled(disable);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(disable);
         },
 
         showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 /** coauthoring begin **/
@@ -352,7 +347,7 @@ define([
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
-                        !suspendAfter && this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow');
                     }
                 }
                 /** coauthoring end **/
@@ -411,7 +406,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -429,7 +424,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -459,6 +454,11 @@ define([
             return this.$el && this.$el.is(':visible');
         },
 
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnThumbs, this.btnComments, this.btnChat, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
         /** coauthoring begin **/
         tipComments : 'Comments',
         tipChat     : 'Chat',
@@ -472,6 +472,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         txtLimit: 'Limit Access',
-        txtEditor: 'Presentation Editor'
+        txtEditor: 'Presentation Editor',
+        ariaLeftMenu: 'Left menu'
     }, PE.Views.LeftMenu || {}));
 });

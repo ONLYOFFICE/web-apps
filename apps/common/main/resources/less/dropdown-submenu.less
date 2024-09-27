@@ -8,6 +8,10 @@
         margin-left: -1px;
       	border-radius:@border-radius-base;
 
+        .rtl & {
+            margin-left: 1px;
+        }
+
         &.pull-right {
             right: 100%;
             left: auto;
@@ -17,7 +21,7 @@
     & > a:after {
         display: block;
         content: " ";
-        float: right;
+        .float-right();
         width: 0;
         height: 0;
         border-color: transparent;
@@ -26,7 +30,14 @@
         border-left-color: @icon-normal-ie;
         border-left-color: @icon-normal;
         margin-top: 5px;
-        margin-right: -7px;
+        .margin-right(-7px);
+
+        .rtl & {
+            border-color: transparent;
+            border-width: 3px 3px 3px 0;
+            border-right-color: @icon-normal-ie;
+            border-right-color: @icon-normal;
+        }
     }
 
     &.over:not(.disabled) > .dropdown-menu {

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,15 +32,11 @@
 /**
  *  SlicerAddDialog.js
  *
- *  Created by Julia Radzhabova on 10.04.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 10.04.2020
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.SlicerAddDialog = Common.UI.Window.extend(_.extend({
@@ -58,9 +53,9 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 195px;">',
+                '<div class="box">',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textColumns + '</label>',
+                        '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
                     '<div id="add-slicers-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'
@@ -87,11 +82,12 @@ define([
                     '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                     '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
                     '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                    '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '</div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.columnsList.on({
                 'item:change': this.onItemChanged.bind(this),
@@ -103,6 +99,14 @@ define([
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.columnsList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.columnsList;
         },
 
         updateColumnsList: function(props) {
@@ -141,7 +145,7 @@ define([
                 target = $(event.currentTarget).find('.list-item');
 
                 if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
+                    bound = Common.Utils.getBoundingClientRect(target.get(0));
                     var _clientX = event.clientX*Common.Utils.zoom(),
                         _clientY = event.clientY*Common.Utils.zoom();
                     if (bound.left < _clientX && _clientX < bound.right &&

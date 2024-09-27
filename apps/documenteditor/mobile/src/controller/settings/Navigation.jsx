@@ -105,6 +105,11 @@ class NavigationController extends Component {
         }
     };
 
+    componentDidMount() {
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(false);
+    }
+
     render() {
         return (
             !Device.phone ? 
@@ -118,7 +123,6 @@ class NavigationController extends Component {
                     onSelectItem={this.onSelectItem} 
                     updateNavigation={this.updateNavigation}
                     updateViewerNavigation={this.updateViewerNavigation}
-                    onclosed={this.props.onclosed}
                 /> 
         );
     }

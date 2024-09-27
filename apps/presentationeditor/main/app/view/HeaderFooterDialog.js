@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,51 +33,52 @@
 /**
  *  HeaderFooterDialog.js
  *
- *  Created by Julia Radzhabova on 09.07.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 09.07.2019
  *
  */
-define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!presentationeditor/main/app/template/HeaderFooterDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (template) { 'use strict';
 
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            height: 380,
-            buttons: null
+            contentHeight: 330,
+            id: 'window-header-footer'
         },
 
         initialize : function(options) {
             var me = this;
 
             _.extend(this.options, {
-                title: this.textTitle,
+                title: this.textHFTitle,
+                buttons: [
+                    {value: 'all', caption: this.applyAllText, id: 'hf-dlg-btn-apply-to-all'},
+                    {value: 'ok', caption: this.applyText, id: 'hf-dlg-btn-apply'},
+                    'cancel'
+                ],
+                primary: 'all',
                 template: _.template(
                     [
-                        '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                            '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                                '<div class="settings-panel active">',
+                        '<div class="box">',
+                            '<div class="content-panel" style="padding: 10px 5px;">',
+                                '<div class="settings-panel active"><div class="inner-content">',
                                 template,
                                 '</div></div>',
                             '</div>',
                             '<div class="separator"></div>',
                             '<div class="menu-panel" style="width: 130px; padding-top: 17px;">',
-                                '<label  style="display:block; margin-left: 15px;" class="input-label">' + me.textPreview + '</label>',
-                                '<div style="width: 100px; height: 80px; padding: 5px; margin-left: 15px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
+                                '<label  style="display:block;" class="input-label margin-left-15">' + me.textPreview + '</label>',
+                                '<div class="margin-left-15 slides" style="width: 100px; height: 80px; padding: 5px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
                                     '<div id="hf-dlg-canvas-preview" style="width: 100%;height: 100%;"></div>',
+                                '</div>',
+                                '<div class="margin-left-15 hidden notes" style="width: 100px; height: 122px; padding: 5px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;">',
+                                    '<div id="hf-dlg-canvas-preview-notes" style="width: 100%;height: 100%;"></div>',
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div class="separator horizontal"></div>',
-                        '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="all" style="width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
-                            '<button class="btn normal dlg-btn" result="ok" style="width: auto; min-width: 86px;">' + me.applyText + '</button>',
-                            '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
-                        '</div>'
+                        '<div class="separator horizontal"></div>'
                     ].join('')
                 )({
                     scope: this
@@ -89,7 +89,10 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.handler    = options.handler;
             this.hfProps    = options.props;
             this.api        = options.api;
+            this.type       = options.type || 0;// 0 - slide, 1 - notes
+            this.isLockedApplyToAll = options.isLockedApplyToAll || false;
             this.dateControls = [];
+            this.inited = [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -97,6 +100,24 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
+
+            this.btnSlide = new Common.UI.Button({
+                el: $('#hf-dlg-btn-slide'),
+                enableToggle: true,
+                toggleGroup: 'list-type',
+                allowDepress: false,
+                pressed: true
+            });
+            this.btnSlide.on('click', _.bind(this.onHFTypeClick, this, 0));
+
+            this.btnNotes = new Common.UI.Button({
+                el: $('#hf-dlg-btn-notes'),
+                enableToggle: true,
+                toggleGroup: 'list-type',
+                allowDepress: false
+            });
+            this.btnNotes.setDisabled(this.isLockedApplyToAll);
+            this.btnNotes.on('click', _.bind(this.onHFTypeClick, this, 1));
 
             this.chDateTime = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-datetime'),
@@ -112,7 +133,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
 
             this.chFooter = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-text'),
-                labelText: this.textFooter
+                labelText: this.txtFooter
             });
             this.chFooter.on('change', _.bind(this.setType, this, 'footer'));
 
@@ -122,12 +143,26 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 style       : 'width: 100%;'
             });
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
+            this.chHeader = new Common.UI.CheckBox({
+                el: $('#hf-dlg-chb-text-header'),
+                labelText: this.txtHeader
+            });
+            this.chHeader.on('change', _.bind(this.setType, this, 'header'));
+
+            this.inputHeader = new Common.UI.InputField({
+                el          : $('#hf-dlg-text-header'),
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            });
+
+            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                item.displayValue = langinfo[1];
+                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
+                item.displayValue = displayName.native;
+                item.displayValueEn = displayName.english;
                 item.langName = langinfo[0];
             });
 
@@ -136,8 +171,21 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
                 data        : data,
                 search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 scrollAlwaysVisible: true,
                 takeFocusOnClose: true
             });
@@ -183,12 +231,27 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 el: $('#hf-dlg-chb-not-title'),
                 labelText: this.textNotTitle
             });
+            this.chNotTitle.on('change', _.bind(this.setNotTitle, this));
+
+            this.btnApplyToAll = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#hf-dlg-btn-apply-to-all').addBack().filter('#hf-dlg-btn-apply-to-all').length>0);
+            }) || new Common.UI.Button({ el: $('#hf-dlg-btn-apply-to-all') });
+            this.btnApplyToAll.setDisabled(this.isLockedApplyToAll);
+
+            this.btnApply = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#hf-dlg-btn-apply').addBack().filter('#hf-dlg-btn-apply').length>0);
+            }) || new Common.UI.Button({ el: $('#hf-dlg-btn-apply') });
+
+
+            this.headerControls = this.$window.find('.notes');
+            this.slideControls = this.$window.find('.slides');
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide, this.chFooter, this.inputFooter, this.chNotTitle ];
+            return [ this.btnSlide, this.btnNotes, this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide,
+                     this.chHeader, this.inputHeader, this.chFooter, this.inputFooter, this.chNotTitle ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -222,6 +285,10 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this._setDefaults(this.hfProps);
         },
 
+        setNotTitle: function(field, newValue) {
+            (this.type===0) && this.props.put_ShowOnTitleSlide(field.getValue()!=='checked');
+        },
+
         setType: function(type, field, newValue) {
             var me = this;
             newValue = (newValue=='checked');
@@ -240,6 +307,12 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 newValue && setTimeout(function(){
                                 me.inputFooter.cmpEl.find('input').focus();
                             },50);
+            } else if (type == 'header') {
+                this.inputHeader.setDisabled(!newValue);
+                this.props.put_ShowHeader(newValue);
+                newValue && setTimeout(function(){
+                    me.inputHeader.cmpEl.find('input').focus();
+                },50);
             }
             this.props.updateView();
         },
@@ -278,68 +351,100 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 this.props.get_DateTime().put_DateTime(format);
             } else {
                 this.props.get_DateTime().put_DateTime(null);
-                this.props.get_DateTime().put_CustomDateTime(this.inputFixed.getValue());
             }
+            this.props.get_DateTime().put_CustomDateTime(this.inputFixed.getValue());
         },
 
-        _setDefaults: function (props) {
-            if (props) {
-                var slideprops = props.get_Slide() || new AscCommonSlide.CAscHFProps();
+        onHFTypeClick: function(type, btn, event) {
+            this.saveTempHFSettings();
+            this.type = type;
+            this.ShowHideElem();
+            this.fillHFSettings();
+        },
 
-                var val = slideprops.get_ShowDateTime();
-                this.chDateTime.setValue(val, true);
-                _.each(this.dateControls, function(item) {
-                    item.setDisabled(!val);
-                });
+        ShowHideElem: function() {
+            var isSlide = this.type===0;
+            this.slideControls.toggleClass('hidden', !isSlide);
+            this.headerControls.toggleClass('hidden', isSlide);
+            this.chSlide.setCaption(isSlide ? this.textSlideNum : this.textPageNum);
+            this.btnApply.setVisible(isSlide);
+        },
 
-                var format, fixed,
-                    datetime = slideprops.get_DateTime(),
-                    item = this.cmbLang.store.findWhere({value: datetime ? (datetime.get_Lang() || this.lang) : this.lang});
-                this._originalLang = item ? item.get('value') : 0x0409;
-                this.cmbLang.setValue(this._originalLang);
+        fillHFSettings: function() {
+            var isSlide = this.type===0;
+            this.props = isSlide ? this.slideprops : this.notesprops;
 
-                if (val) {
-                    format = datetime.get_DateTime();
-                    !format ? this.radioFixed.setValue(true) : this.radioUpdate.setValue(true);
-                    !format && (fixed = datetime.get_CustomDateTime() || '');
-                    this.setDateTimeType(!format ? 'fixed' : 'update', null, true);
-                }
-                this.updateFormats(this.cmbLang.getValue(), format);
-                this.inputFixed.setValue((fixed!==undefined) ? fixed : this.cmbFormat.getRawValue());
+            var val = this.props.get_ShowDateTime();
+            this.chDateTime.setValue(val, true);
+            _.each(this.dateControls, function(item) {
+                item.setDisabled(!val);
+            });
 
-                val = slideprops.get_ShowSlideNum();
-                this.chSlide.setValue(val, true);
+            var format,
+                datetime = this.props.get_DateTime(),
+                item = this.cmbLang.store.findWhere({value: datetime ? (datetime.get_Lang() || this.lang) : this.lang});
+            this._originalLang = item ? item.get('value') : 0x0409;
+            this.cmbLang.setValue(this._originalLang);
 
-                val = slideprops.get_ShowFooter();
-                this.chFooter.setValue(val, true);
-                this.inputFooter.setDisabled(!val);
-                val && this.inputFooter.setValue(slideprops.get_Footer() || '');
+            if (val || this.inited[this.type]) {
+                format = datetime.get_DateTime();
+                !format ? this.radioFixed.setValue(true, true) : this.radioUpdate.setValue(true, true);
+                // !format && (fixed = datetime.get_CustomDateTime() || '');
+                val && this.setDateTimeType(!format ? 'fixed' : 'update', null, true);
+            }
+            this.updateFormats(this.cmbLang.getValue(), format);
+            this.inputFixed.setValue(datetime.get_CustomDateTime() || (this.inited[this.type] ? '' : this.cmbFormat.getRawValue()));
 
-                val = slideprops.get_ShowOnTitleSlide();
+            val = this.props.get_ShowSlideNum();
+            this.chSlide.setValue(val, true);
+
+            val = this.props.get_ShowFooter();
+            this.chFooter.setValue(val, true);
+            this.inputFooter.setDisabled(!val);
+            this.inputFooter.setValue(this.props.get_Footer() || '');
+
+            if (isSlide) {
+                val = this.props.get_ShowOnTitleSlide();
                 this.chNotTitle.setValue(!val, true);
+            } else {
+                val = this.props.get_ShowHeader();
+                this.chHeader.setValue(val, true);
+                this.inputHeader.setDisabled(!val);
+                this.inputHeader.setValue(this.props.get_Header() || '');
+            }
+            this.inited[this.type] = true;
 
-                this.props = slideprops;
-            } else
-                this.props = new AscCommonSlide.CAscHFProps();
-
-            this.props.put_DivId('hf-dlg-canvas-preview');
+            this.props.put_DivId(isSlide ? 'hf-dlg-canvas-preview' : 'hf-dlg-canvas-preview-notes');
             this.props.put_Api(this.api);
             this.props.updateView();
         },
 
-        getSettings: function () {
-            var props = this.props;
-            if (props.get_ShowDateTime()) {
-                !props.get_DateTime() && props.put_DateTime(new AscCommonSlide.CAscDateTime());
-                props.get_DateTime().put_Lang(this.cmbLang.getValue());
-                this.onSelectFormat();
+        _setDefaults: function (props) {
+            if (props) {
+                this.slideprops = props.get_Slide() || new AscCommonSlide.CAscHFProps();
+                this.notesprops = props.get_Notes() || new AscCommonSlide.CAscHFProps();
+            } else {
+                this.slideprops = new AscCommonSlide.CAscHFProps();
+                this.notesprops = new AscCommonSlide.CAscHFProps();
             }
-            if (props.get_ShowFooter()) {
-                props.put_Footer(this.inputFooter.getValue());
-            }
-            props.put_ShowOnTitleSlide(this.chNotTitle.getValue()!='checked');
+            (this.type == 1) ? this.btnNotes.toggle(true) : this.btnSlide.toggle(true);
+            this.ShowHideElem();
+            this.fillHFSettings();
+        },
 
-            this.hfProps.put_Slide(this.props);
+        saveTempHFSettings: function() {
+            var props = this.props;
+            !props.get_DateTime() && props.put_DateTime(new AscCommonSlide.CAscDateTime());
+            props.get_DateTime().put_Lang(this.cmbLang.getValue());
+            this.onSelectFormat();
+            props.put_Footer(this.inputFooter.getValue());
+            (this.type===1) && props.put_Header(this.inputHeader.getValue());
+        },
+
+        getSettings: function () {
+            this.saveTempHFSettings();
+            this.hfProps.put_Slide(this.slideprops);
+            this.hfProps.put_Notes(this.notesprops);
             return this.hfProps;
         },
 
@@ -370,7 +475,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.close();
         },
 
-        textTitle: 'Footer Settings',
         applyAllText: 'Apply to all',
         applyText: 'Apply',
         textLang: 'Language',
@@ -378,12 +482,17 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         textUpdate: 'Update automatically',
         textDateTime: 'Date and time',
         textSlideNum: 'Slide number',
-        textFooter: 'Text in footer',
         textNotTitle: 'Don\'t show on title slide',
         textPreview: 'Preview',
         diffLanguage: 'You can’t use a date format in a different language than the slide master.\nTo change the master, click \'Apply to all\' instead of \'Apply\'',
         notcriticalErrorTitle: 'Warning',
-        textFixed: 'Fixed'
+        textFixed: 'Fixed',
+        textSlide: 'Slide',
+        textNotes: 'Notes and Handouts',
+        textPageNum: 'Page number',
+        txtHeader: 'Header',
+        txtFooter: 'Footer',
+        textHFTitle: 'Header/Footer settings'
 
     }, PE.Views.HeaderFooterDialog || {}))
 });

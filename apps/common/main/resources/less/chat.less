@@ -9,6 +9,26 @@
         display: table-row;
     }
 
+    #chat-header {
+        position: absolute;
+        height: 45px;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
+
+        label {
+            .font-size-medium();
+            .font-weight-bold();
+            margin-top: 2px;
+        }
+    }
+
     .area {
         position: absolute;
         border-bottom: 1px solid @border-toolbar-ie;
@@ -19,13 +39,18 @@
     .ps-scrollbar-y-rail {
         margin-top: 5px;
         margin-bottom: 5px;
-        right: 4px !important;
+        right: 4px;
+
+        .rtl & {
+            right: unset !important;
+            left: 4px;
+        }
     }
 
     #chat-title {
         label {
             padding: 18px 20px;
-            font-size: @font-size-large;
+            .font-size-large();
         }
     }
 
@@ -33,9 +58,12 @@
         left: 0;
         top: 0;
         right: 0;
-        height: 70px;
-        padding: 5px 0;
-
+        height: 125px;
+        padding-bottom: 5px;
+        padding-top: 50px;
+        .ps-scrollbar-y-rail {
+            margin-top: 50px;
+        }
         ul {
             margin: 0;
             padding: 0;
@@ -49,21 +77,27 @@
                 &.offline {
                     display: none;
                 }
+                .rtl & {
+                    padding: 2px 20px 2px 0;
+                }
             }
         }
 
         .color {
             display: inline-block;
             vertical-align: middle;
-            margin: 0 5px 3px 0;
-            width: 12px;
-            height: 12px;
-            border: 1px solid @border-toolbar-ie;
-            border: 1px solid @border-toolbar;
+            margin: 0 10px 3px 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 6px;
+
+            .rtl & {
+                margin: 0 0 3px 10px;
+            }
         }
 
         .name {
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
             display: block;
             padding: 0 10px 0 0;
@@ -72,6 +106,9 @@
             overflow: hidden;
             line-height: normal;
             height: 16px;
+            .rtl & {
+                padding: 0 0 0 10px;
+            }
         }
     }
 
@@ -80,13 +117,14 @@
         top: 70px;
         right: 0;
         bottom: 110px;
-        font-size: 12px;
+        .font-size-medium();
 
         ul {
             margin: 0;
             padding: 0;
 
             li {
+                display: flex;
                 list-style: none;
 
                 padding: 5px 10px 8px 20px;
@@ -94,6 +132,10 @@
                 white-space: -moz-pre-wrap;
                 white-space: -o-pre-wrap;
                 word-wrap: break-word;
+
+                .rtl & {
+                    padding: 5px 20px 8px 10px;
+                }
 
                 .user {
                     .font-weight-bold();
@@ -105,7 +147,7 @@
                 .user-name {
                     color: @text-normal-ie;
                     color: @text-normal;
-                    font-size: 12px;
+                    .font-size-medium();
                     .font-weight-bold();
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -113,12 +155,32 @@
                 }
 
                 .color {
-                    width: 12px;
-                    height: 12px;
-                    border: 1px solid @border-toolbar-ie;
-                    border: 1px solid @border-toolbar;
-                    margin: 0 5px 3px 0;
+                    display: inline-block;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 20px;
+                    border-width: @scaled-two-px-value;
+                    margin-right: 8px;
                     vertical-align: middle;
+                    background-color: #ffffff;
+                    background-size: cover;
+                    background-position: center;
+            
+                    text-align: center;
+                    line-height: 26px;
+                    color: #ffffff;
+                    font-weight: 700;
+            
+                    .rtl & {
+                        margin-right: 0px;
+                        margin-left: 8px;
+                    }
+                }
+
+                .user-content {
+                    flex: 1;
+                    overflow: hidden;
+                    line-height: 12.65px;
                 }
 
                 .message {
@@ -151,7 +213,7 @@
             margin-bottom: 5px;
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
-            font-size: 12px;
+            .font-size-medium();
 
             &:focus {
                 border-color: @border-control-focus-ie;

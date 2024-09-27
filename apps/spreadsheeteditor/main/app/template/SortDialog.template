@@ -1,26 +1,26 @@
 <div class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
-            <tr>
-                <td class="padding-small">
-                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-add"><%= scope.textAdd %></button>
-                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-delete"><%= scope.textDelete %></button>
-                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-copy"><%= scope.textCopy %></button>
-                    <div id="sort-dialog-btn-up" style="display: inline-block;"></div>
-                    <div id="sort-dialog-btn-down" style="display: inline-block;"></div>
-                    <button type="button" class="btn btn-text-default" id="sort-dialog-btn-options" style="min-width: 100px;"><%= scope.textOptions %></button>
-                </td>
-            </tr>
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td>
-                    <label id="sort-dialog-label-column" class="header" style="width: 243px;"><%= scope.textColumn %></label>
-                    <label id="sort-dialog-label-sort" class="header" style="width: 141px;"><%= scope.textSort %></label>
-                    <label class="header" style=""><%= scope.textOrder %></label>
+                    <label style="margin-bottom: 4px;"><%= scope.textLevels %></label>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="sort-dialog-list" class="" style="width:100%; height: 151px;"></div>
+                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-add"><%= scope.textBtnNew %></button>
+                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-copy"><%= scope.textBtnCopy %></button>
+                    <button type="button" class="btn btn-text-default auto sort-dialog-btn-text" id="sort-dialog-btn-options"><%= scope.textOptions %></button>
+                    <div id="sort-dialog-btn-up" style="display: inline-block;"></div>
+                    <div id="sort-dialog-btn-down" style="display: inline-block;"></div>
+                </td>
+                <td style="width:80px;" class="padding-small">
+                    <button type="button" class="btn btn-text-default auto" id="sort-dialog-btn-delete" style="min-width: 80px;"><%= scope.textBtnDelete %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="sort-dialog-list" class="" style="width:100%; height: 173px;"></div>
                 </td>
             </tr>
         </table>

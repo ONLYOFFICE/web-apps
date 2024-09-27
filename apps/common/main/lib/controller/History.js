@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,11 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 06.03.15
- * Time: 12:13
  */
 
 define([
@@ -59,6 +56,11 @@ define([
             this.currentDocIdPrev = '';
             this.currentRev = 0;
             this.currentServerVersion = 0;
+            this.currentUserId = '';
+            this.currentUserName = '';
+            this.currentUserColor = '';
+            this.currentDateCreated = '';
+            this.currentDocumentSha256 = undefined;
         },
 
         events: {
@@ -71,6 +73,7 @@ define([
             this.panelHistory.storeHistory.on('reset', _.bind(this.onResetStore, this));
             this.panelHistory.on('render:after', _.bind(this.onAfterRender, this));
             Common.Gateway.on('sethistorydata', _.bind(this.onSetHistoryData, this));
+            Common.NotificationCenter.on('mentions:setusers', _.bind(this.avatarsUpdate, this));
         },
 
         setApi: function(api) {
@@ -92,12 +95,18 @@ define([
             historyView.viewHistoryList.on('item:click', _.bind(this.onSelectRevision, this));
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
             historyView.btnExpand.on('click', _.bind(this.onClickExpand, this));
+            historyView.buttonMenu.menu.on('show:before', _.bind(this.onShowBeforeButtonMenu, this));
+            historyView.buttonMenu.menu.on('item:toggle', _.bind(this.onItemToggleButtonMenu, this));
         },
 
         onResetStore: function() {
             var hasChanges = this.panelHistory.storeHistory.hasChanges();
-            this.panelHistory.$el.find('#history-expand-changes')[hasChanges ? 'show' : 'hide']();
-            this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
+            this.panelHistory.btnExpand.setDisabled(!hasChanges);
+            
+            //If in menu only button expand and it disabled then menu hide
+            if(!this.panelHistory.chHighlightDeleted) {
+                this.panelHistory.buttonMenu.setVisible(hasChanges);
+            }
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -111,7 +120,7 @@ define([
             if (e) {
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
-                    if (record.get('isRevision'))
+                    if (!record.get('hasParent'))
                         Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
@@ -135,6 +144,11 @@ define([
             this.currentDocIdPrev = record.get('docIdPrev');
             this.currentRev = rev;
             this.currentServerVersion = record.get('serverVersion');
+            this.currentUserId = record.get('userid');
+            this.currentUserName = record.get('username');
+            this.currentUserColor = record.get('usercolor');
+            this.currentDateCreated = record.get('created');
+            this.currentDocumentSha256 = record.get('documentSha256');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                 var me = this;
@@ -164,6 +178,11 @@ define([
                 hist.asc_setToken(token);
                 hist.asc_setIsRequested(false);
                 hist.asc_setServerVersion(this.currentServerVersion);
+                hist.asc_SetUserId(this.currentUserId);
+                hist.asc_SetUserName(this.currentUserName);
+                hist.asc_SetUserColor(this.currentUserColor);
+                hist.asc_SetDateOfRevision(this.currentDateCreated);
+                hist.asc_setDocumentSha256(this.currentDocumentSha256);
                 this.api.asc_showRevision(hist);
 
                 var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
@@ -180,10 +199,10 @@ define([
                 this.timerId = 0;
             }
 
-            if (opts.data.error) {
+            if (!opts.data || opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
-                    msg: opts.data.error,
+                    msg: opts.data && opts.data.error ? opts.data.error : this.txtErrorLoadHistory,
                     iconCls: 'warn',
                     buttons: ['ok']
                 };
@@ -230,6 +249,11 @@ define([
                     hist.asc_setToken(token);
                     hist.asc_setIsRequested(true);
                     hist.asc_setServerVersion(this.currentServerVersion);
+                    hist.asc_SetUserId(this.currentUserId);
+                    hist.asc_SetUserName(this.currentUserName);
+                    hist.asc_SetUserColor(this.currentUserColor);
+                    hist.asc_SetDateOfRevision(this.currentDateCreated);
+                    hist.asc_setDocumentSha256(this.currentDocumentSha256);
                     this.api.asc_showRevision(hist);
                     this.currentRev = data.version;
 
@@ -256,17 +280,62 @@ define([
             var store = this.panelHistory.storeHistory,
                 needExpand = store.hasCollapsed();
 
-            store.where({isRevision: true, hasChanges: true, isExpanded: !needExpand}).forEach(function(item){
-                item.set('isExpanded', needExpand);
-            });
-            store.where({isRevision: false}).forEach(function(item){
-                item.set('isVisible', needExpand);
-            });
-            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: this.panelHistory.viewHistoryList.minScrollbarLength});
-            this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+            if(needExpand) {
+                this.panelHistory.viewHistoryList.expandAll();
+            } else {
+                this.panelHistory.viewHistoryList.collapseAll();
+            }
+            this.panelHistory.btnExpand.setCaption(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
         },
 
-        notcriticalErrorTitle: 'Warning'
+        onShowBeforeButtonMenu: function() {
+            if(this.api && this.panelHistory.chHighlightDeleted) {
+                this.panelHistory.chHighlightDeleted.setChecked(this.api.asc_isShowedDeletedTextInVersionHistory(), true);
+            }
+        },
+
+        onItemToggleButtonMenu: function(menu, item, state) {
+            if(this.api && item.value == 'highlight') {
+                if(state) {
+                    this.api.asc_showDeletedTextInVersionHistory();
+                } else {
+                    this.api.asc_hideDeletedTextInVersionHistory();
+                }
+            }
+        },
+
+        avatarsUpdate: function(type, users) {
+            if (type!=='info') return;
+
+            if (users && users.length>0 ){
+                this.panelHistory.storeHistory.each(function(item){
+                    var user = _.findWhere(users, {id: item.get('userid')});
+                    if (user && (user.image!==undefined)) {
+                        if (user.image !== item.get('avatar')) {
+                            item.set('avatar', user.image);
+                        }
+                    }
+                });
+            }
+        },
+
+        onHashError: function() {
+            if (!this.panelHistory || !this.panelHistory.storeHistory) return;
+
+            var store = this.panelHistory.storeHistory;
+            store.remove(store.where({revision: this.currentRev, level: 1}));
+
+            var rec = store.findWhere({revision: this.currentRev});
+            if (rec && this.panelHistory.viewHistoryList) {
+                rec.set('hasSubItems', false);
+                rec.set('changeid', undefined);
+                rec.set('documentSha256', undefined);
+                rec.set('url', '');
+                this.panelHistory.viewHistoryList.selectRecord(rec);
+                this.onSelectRevision(null, null, rec);
+            }
+            console.log('Received changes that are incompatible with the file version');
+        }
 
     }, Common.Controllers.History || {}));
 });

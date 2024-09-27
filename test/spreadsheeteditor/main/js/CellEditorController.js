@@ -1,3 +1,34 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2024
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
 !window.common && (window.common = {});
 !common.controller && (common.controller = {});
 if (SSE === undefined) {
@@ -11,49 +42,9 @@ SSE.CellEditorController = new(function(){
         editor,
         created=false;
 
-    function onCellName(e){
-        if (e.keyCode == SSE.Keys.RETURN){
-            var name = editor.$cellname.val();
-            if (name && name.length) {
-                api.asc_findCell(name);
-            }
-        }
-    }
-
-    function onKeyupCellEditor(e) {
-        if(e.keyCode == SSE.Keys.RETURN && !e.altKey){
-            api.isCEditorFocused = 'clear';
-        }
-    }
-
-    function onBlurCellEditor() {
-        if (api.isCEditorFocused == 'clear')
-            api.isCEditorFocused = undefined;
-        else if (api.isCellEdited)
-            api.isCEditorFocused = true;
-    }
-
-
-
-    function events() {
-           editor.$el.find('#ce-cell-name').on( 'keyup', onCellName);
-           editor.$el.find('textarea#ce-cell-content').on( 'keyup', onKeyupCellEditor);
-           editor.$el.find('textarea#ce-cell-content').on('blur',  onBlurCellEditor);
-    }
-
     function  onLaunch(){
         SSE.CellEditorView.create();
         editor = SSE.CellEditorView;
-        events();
-
-        editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
-
-        var val = common.localStorage.getItem('sse-celleditor-height');
-        editor.keep_height = 19;//(val!==null && parseInt(val)>0) ? parseInt(val) : 19;
-        if (common.localStorage.getBool('sse-celleditor-expand')) {
-            editor.$el.height(editor.keep_height);
-        }
-        this.namedrange_locked = false;
     }
 
     function createController() {
@@ -65,32 +56,9 @@ SSE.CellEditorController = new(function(){
         return me;
     }
 
-    function onApiCellSelection(info){
-        editor.cell.updateInfo(info);
-    }
-
-    function onApiEditCell(state) {
-        if (state == Asc.c_oAscCellEditorState.editStart){
-            api.isCellEdited = true;
-            editor.cell.nameDisabled(true);
-        } else if (state == Asc.c_oAscCellEditorState.editInCell) {
-            api.isCEditorFocused = 'clear';
-        } else if (state == Asc.c_oAscCellEditorState.editEnd) {
-            api.isCellEdited = false;
-            api.isCEditorFocused = false;
-            editor.cell.nameDisabled(false);
-        }
-    }
-
     function setApi(apiF){
         api=apiF;
-
-        api.isCEditorFocused = false;
-        api.asc_registerCallback('asc_onSelectionNameChanged', onApiCellSelection);
-        api.asc_registerCallback('asc_onEditCell', onApiEditCell);
     }
-
-
 
     return {
         create: createController,

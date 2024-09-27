@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    CellEdit.js
  *
- *    Created by Maxim Kadushkin on 04 April 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 04 April 2014
  *
  */
 
@@ -66,11 +64,13 @@ define([
                 })
             });
             this.btnNamedRanges.setVisible(false);
-            this.btnNamedRanges.menu.setOffset(-81);
+            this.btnNamedRanges.menu.setOffset(Common.UI.isRTL() ? 81 : -81);
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
+            this.$cellcontent = $('#ce-cell-content', this.el);
+            this.$cellgroupname = this.$btnexpand.parent();
 
             var me = this;
             this.$cellname.on('focus', function(e){
@@ -85,6 +85,11 @@ define([
                 title       : this.tipFormula,
                 placement   : 'cursor'
             });
+            this.$btnfunc.attr('ratio', 'ratio');
+            this.applyScaling(Common.UI.Scaling.currentRatio());
+            this.$btnfunc.on('app:scaling', function (e, info) {
+                me.applyScaling(info.ratio);
+            });
 
             return this;
         },
@@ -98,6 +103,36 @@ define([
         cellNameDisabled: function(disabled){
             (disabled) ? this.$cellname.attr('disabled', 'disabled') : this.$cellname.removeAttr('disabled');
             this.btnNamedRanges.setDisabled(disabled);
+        },
+
+        applyScaling: function (ratio) {
+            if (ratio > 2 && !this.$btnfunc.find('svg.icon').length) {
+                var icon_name = 'btn-function',
+                    svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                this.$btnfunc.find('i.icon').after(svg_icon);
+            }
+        },
+
+        cellEditorTextChange: function (){
+            if (!this.$cellcontent) return;
+
+            var cellcontent = this.$cellcontent[0];
+
+            if (cellcontent.clientHeight != cellcontent.scrollHeight) {
+                if ( !this._isScrollShow ) {
+                    this._isScrollShow = true;
+                    var scrollBarWidth = cellcontent.offsetWidth - cellcontent.clientWidth;
+                    this.$cellgroupname.css({
+                        'right': Common.UI.isRTL() ? '' : scrollBarWidth + "px",
+                        'left': Common.UI.isRTL() ? scrollBarWidth + "px" : ''
+                    });
+                }
+            } else {
+                if ( this._isScrollShow ) {
+                    this._isScrollShow = false;
+                    this.$cellgroupname.css({'right': '', 'left': ''});
+                }
+            }
         },
 
         tipFormula: 'Insert Function',

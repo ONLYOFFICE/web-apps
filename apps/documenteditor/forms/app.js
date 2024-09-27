@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 
 'use strict';
 var reqerr;
@@ -41,7 +40,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -62,20 +60,12 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -118,17 +108,18 @@ require.config({
 
 require([
     'backbone',
-    'bootstrap',
+    'underscore',
     'core',
     'sdk',
     'api',
     'analytics',
     'gateway',
     'locale'
-], function (Backbone, Bootstrap, Core) {
+], function (Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with DE namespace defined
@@ -140,23 +131,31 @@ require([
             'ApplicationController',
             'Plugins',
             'SearchBar'
-        ]
+        ],
+        features: {
+            uitype: 'fillform',
+        },
     });
 
     Common.Locale.apply(
         function() {
             require([
+                'common/main/lib/mods/dropdown',
+                'common/main/lib/mods/tooltip',
                 'documenteditor/forms/app/controller/ApplicationController',
                 'documenteditor/forms/app/controller/Plugins',
                 'documenteditor/forms/app/controller/SearchBar',
                 'documenteditor/forms/app/view/ApplicationView',
                 'common/main/lib/util/utils',
                 'common/main/lib/util/LocalStorage',
+                'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
-                'common/main/lib/view/PluginDlg',
+                'common/main/lib/controller/Desktop',
                 'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
             ], function() {
+                app.postLaunchScripts = ['documenteditor/forms/code'];
+
                 app.start();
             });
         }

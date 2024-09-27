@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,8 +32,7 @@
 /**
  *  FormulaTab.js
  *
- *  Created by Julia Radzhabova on 14.06.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 14.06.2019
  *
  */
 
@@ -72,6 +70,22 @@ define([
             me.btnWatch.on('click', function(b, e){
                 me.fireEvent('function:watch', [b.pressed]);
             });
+
+            me.btnTracePrec.on('click', function (b, e) {
+                me.fireEvent('function:precedents');
+            });
+            me.btnTraceDep.on('click', function (b, e) {
+                me.fireEvent('function:dependents');
+            });
+            me.btnRemArrows.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('function:remove-arrows', [item.value]);
+            });
+            me.btnRemArrows.on('click', function (b, e) {
+                me.fireEvent('function:remove-arrows', [Asc.c_oAscRemoveArrowsType.all]);
+            });
+            me.btnShowFormulas && this.btnShowFormulas.on('click', function (btn, e) {
+                me.fireEvent('function:showformula', [btn.pressed]);
+            });
         }
         return {
             options: {},
@@ -99,7 +113,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -116,7 +130,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -133,7 +147,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -150,7 +164,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -167,7 +181,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -184,7 +198,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -201,7 +215,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -217,7 +231,7 @@ define([
                     hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')],
                     split: true,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.userProtected],
                     menu: new Common.UI.Menu({
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
@@ -247,7 +261,7 @@ define([
                     caption: this.txtFormula,
                     hint: this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3'),
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -258,13 +272,13 @@ define([
                 this.btnMore = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-more'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-more',
+                    iconCls: 'toolbar__icon btn-big-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems],
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -291,7 +305,7 @@ define([
                 this.btnNamedRange = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-named-range-huge'),
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-named-range',
+                    iconCls     : 'toolbar__icon btn-big-named-range',
                     caption: this.toolbar.txtNamedRange,
                     hint: this.toolbar.txtNamedRange,
                     split: false,
@@ -311,6 +325,7 @@ define([
                             },
                             {
                                 caption: me.toolbar.txtPasteRange,
+                                lock: [_set.userProtected],
                                 value: 'paste'
                             }
                         ]
@@ -324,7 +339,7 @@ define([
                 this.btnWatch = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-watch-window'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon watch-window',
+                    iconCls: 'toolbar__icon btn-watch-window',
                     caption: this.txtWatch,
                     hint: this.tipWatch,
                     disabled: true,
@@ -335,6 +350,58 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnWatch);
+
+                this.btnTracePrec = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-trace-prec'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-trace-precedents',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnTracePrec,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnTracePrec);
+
+                this.btnTraceDep = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-trace-dep'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-trace-dependents',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnTraceDep,
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnTraceDep);
+
+                this.btnRemArrows = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-remove-arrows'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-remove-trace-arrows',
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    caption: this.capBtnRemoveArr,
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -8'
+                });
+                this.lockedControls.push(this.btnRemArrows);
+
+                this.btnShowFormulas = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-show-formulas'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-show-formulas',
+                    caption: this.txtShowFormulas,
+                    disabled: true,
+                    enableToggle: true,
+                    lock: [_set.sheetLock, _set.editCell, _set.lostConnect, _set.coAuth],
+                    dataHint: '1',
+                    dataHintDirection: 'left',
+                    dataHintOffset: 'medium'
+                });
+                this.lockedControls.push(this.btnShowFormulas);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -359,6 +426,19 @@ define([
                         ]
                     });
                     me.btnCalculate.setMenu(_menu);
+
+                    me.btnShowFormulas.updateHint(me.tipShowFormulas + Common.Utils.String.format(' ({0}+`)', Common.Utils.String.textCtrl));
+                    me.btnTracePrec.updateHint(me.tipTracePrec);
+                    me.btnTraceDep.updateHint(me.tipTraceDep);
+                    me.btnRemArrows.updateHint(me.tipRemoveArr);
+                    me.btnRemArrows.setMenu(new Common.UI.Menu({
+                        items: [
+                            {caption: me.capBtnRemoveArr, value: Asc.c_oAscRemoveArrowsType.all},
+                            {caption: me.txtRemPrec, value: Asc.c_oAscRemoveArrowsType.precedent},
+                            {caption: me.txtRemDep, value: Asc.c_oAscRemoveArrowsType.dependent}
+                        ]
+                    }));
+
                     setEvents.call(me);
                 });
             },
@@ -461,22 +541,42 @@ define([
                     formulaDialog = SSE.getController('FormulaDialog'),
                     group = me.formulasGroups.findWhere({name : name});
 
-                if (group) {
-                    var functions = group.get('functions');
+                    var functions = group ? group.get('functions') : [];
                     functions && functions.forEach(function(item) {
                         arr.push(new Common.UI.MenuItem({
                             caption: item.get('name'),
                             value: item.get('origin')
                         }));
                     });
-                    if (arr.length) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption : formulaDialog['sCategory' + name] || name,
+                    var btn = this.btnMore,
+                        mnu;
+                    if (btn.menu && btn.menu.rendered) {
+                        for (var i = 0; i < btn.menu.items.length; i++) {
+                            if (btn.menu.items[i].options.value===name) {
+                                mnu = btn.menu.items[i];
+                                break;
+                            }
+                        }
+                    }
+                    if (mnu) {
+                        var menu = mnu.menu._innerMenu;
+                        if (menu) {
+                            menu.removeAll();
+                            arr.forEach(function(item){
+                                menu.addItem(item);
+                            });
+                        }
+                        mnu.setVisible(arr.length>0);
+                    } else {
+                        mnu = new Common.UI.MenuItem({
+                            caption: formulaDialog['sCategory' + name] || name,
+                            value: name,
+                            visible: arr.length>0,
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 items: [
-                                    {template: _.template('<div id="id-toolbar-formula-menu-'+ name +'" style="display: flex;" class="open"></div>')},
-                                    { caption: '--' },
+                                    {template: _.template('<div id="id-toolbar-formula-menu-' + name + '" style="display: flex;" class="open"></div>')},
+                                    {caption: '--'},
                                     {
                                         caption: me.txtAdditional,
                                         value: 'more',
@@ -491,17 +591,17 @@ define([
                         mnu.menu.on('show:after', function (menu, e) {
                             var internalMenu = menu._innerMenu;
                             internalMenu.scroller.update({alwaysVisibleY: true});
-                            _.delay(function() {
+                            _.delay(function () {
                                 menu._innerMenu && menu._innerMenu.items[0].cmpEl.find('> a').focus();
                             }, 10);
-                        }).on('keydown:before', function(menu, e) {
-                                if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
-                                    var $parent = menu.cmpEl.parent();
-                                    if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
-                                        $parent.removeClass('over');
-                                        $parent.find('> a').focus();
-                                    }
+                        }).on('keydown:before', function (menu, e) {
+                            if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
+                                var $parent = menu.cmpEl.parent();
+                                if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
+                                    $parent.removeClass('over');
+                                    $parent.find('> a').focus();
                                 }
+                            }
                         });
 
                         // internal menu
@@ -509,17 +609,15 @@ define([
                             maxHeight: 300,
                             cls: 'internal-menu',
                             items: arr,
-                            outerMenu:  {menu: mnu.menu, index: 0}
+                            outerMenu: {menu: mnu.menu, index: 0}
                         });
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
                         mnu.menu._innerMenu = menu;
                         mnu.menu.setInnerMenu([{menu: menu, index: 0}]);
-
-                        return mnu;
                     }
-                }
+                    return mnu;
             },
 
             fillFunctions: function () {
@@ -539,16 +637,21 @@ define([
 
                     // more button
                     var me = this,
-                        morearr = [];
-                    ['Cube', 'Database', 'Engineering',  'Information', 'Statistical'].forEach(function(name) {
-                        var mnu = me.setMenuItemMenu(name);
-                        mnu && morearr.push(mnu);
+                        btn = this.btnMore,
+                        morearr = [],
+                        visiblecount = 0;
 
+                    btn.menu && btn.menu.rendered && btn.menu.removeAll();
+
+                    ['Cube', 'Database', 'Engineering',  'Information', 'Statistical', 'Custom'].forEach(function(name) {
+                        var mnu = me.setMenuItemMenu(name);
+                        if (mnu) {
+                            morearr.push(mnu);
+                            mnu.visible && (visiblecount++);
+                        }
                     });
-                    var btn = this.btnMore;
                     if (morearr.length) {
                         if (btn.menu && btn.menu.rendered) {
-                            btn.menu.removeAll();
                             morearr.forEach(function(item){
                                 btn.menu.addItem(item);
                             });
@@ -570,12 +673,29 @@ define([
                             menu.cmpEl.attr({tabindex: "-1"});
                         });
                     }
-                    Common.Utils.lockControls(Common.enumLock.noSubitems, morearr.length<1, {array: [btn]});
+                    Common.Utils.lockControls(Common.enumLock.noSubitems, visiblecount<1, {array: [btn]});
                 }
             },
 
             updateRecent: function() {
                 this.formulasGroups && this.setButtonMenu(this.btnRecent, 'Last10');
+            },
+
+            updateCustom: function() {
+                var btn = this.btnMore,
+                    mnu = this.formulasGroups ? this.setMenuItemMenu('Custom') : null;
+                if (mnu) {
+                    var hasvisible = false;
+                    if (btn.menu && btn.menu.rendered) {
+                        for (var i = 0; i < btn.menu.items.length; i++) {
+                            if (btn.menu.items[i].visible) {
+                                hasvisible = true;
+                                break;
+                            }
+                        }
+                    }
+                    Common.Utils.lockControls(Common.enumLock.noSubitems, !hasvisible, {array: [btn]});
+                }
             },
 
             setApi: function (api) {
@@ -597,7 +717,17 @@ define([
             textManual: 'Manual',
             tipCalculateTheEntireWorkbook: 'Calculate the entire workbook',
             txtWatch: 'Watch Window',
-            tipWatch: 'Add cells to the Watch Window list'
+            tipWatch: 'Add cells to the Watch Window list',
+            capBtnTracePrec: 'Trace Precedents',
+            tipTracePrec: 'Show arrows that indicate which cells affect the value of the selected cell',
+            capBtnTraceDep: 'Trace Dependents',
+            tipTraceDep: 'Show arrows that indicate which cells are affected by the value of the selected cell',
+            capBtnRemoveArr: 'Remove Arrows',
+            tipRemoveArr: 'Remove the arrows drawn by Trace Precedents or Trace Dependents',
+            txtRemPrec: 'Remove Precedents Arrows',
+            txtRemDep: 'Remove Dependents Arrows',
+            txtShowFormulas: 'Show Formulas',
+            tipShowFormulas: 'Display the formula in each cell instead of the resulting value'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

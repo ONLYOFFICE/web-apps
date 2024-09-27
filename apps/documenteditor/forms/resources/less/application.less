@@ -3,8 +3,28 @@
 
 @header-background-color-ie: @toolbar-header-document-ie;
 @header-background-color: var(--toolbar-header-document);
+@tab-header-ie: @tab-header-document-ie;
+@tab-header: var(--highlight-header-tab-underline-document);
+@tab-toolbar-ie: @tab-toolbar-document-ie;
+@tab-toolbar: var(--highlight-toolbar-tab-underline-document);
 
 #editor_sdk {
     background-color: #fff;
     background-color: var(--background-normal);
+}
+
+@media only screen {
+    @media (max-width: 767px) {
+        .big-resolution {
+            display: none !important;
+        }
+        #id-btn-prev-field {
+            margin-left: 0;
+        }
+    }
+    @media (min-width: 768px) {
+        .small-resolution {
+            display: none !important;
+        }
+    }
 }

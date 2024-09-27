@@ -8,6 +8,8 @@
     height: 35px;
     z-index: 10;
     opacity: 0.2;
+    position: absolute;
+    bottom: 0;
 
     &:hover {
         opacity: 1 !important;
@@ -19,7 +21,8 @@
     }
 
     #preview-label-slides {
-        font: bold 11px Helvetica, Arial, Verdana, sans-serif;
+        //font: bold 11px Helvetica, Arial, Verdana, sans-serif;
+        .font-size-normal();
         color: @text-normal-ie;
         color: @text-normal;
         text-shadow: none;
@@ -29,9 +32,17 @@
 
     #btn-preview-prev {
         margin-left: 10px;
+        .rtl & {
+            margin-left: 0;
+        }
+    }
+    #btn-preview-next {
+        .rtl & {
+            margin-right: 10px;
+        }
     }
     #btn-preview-close {
-        margin-right: 10px;
+        .margin-right-10();
     }
 
     .separator {
@@ -43,13 +54,13 @@
         position: fixed;
         bottom: 33px;
         padding: 10px;
-        margin-left: 80px;
+        .margin-left(80px);
         margin-bottom: 2px;
         min-width: 130px;
 
         > label {
-              display: inline-block;
-              margin-right: 10px;
+            display: inline-block;
+            line-height:22px;
           }
 
         > input[type=text] {

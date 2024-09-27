@@ -21,8 +21,10 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
-import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
+import '../../../../common/main/lib/util/LanguageInfo.js'
 
 @inject(
     "users",
@@ -46,6 +48,98 @@ class MainController extends Component {
         this.ApplyEditRights = -255;
         this.InitApplication = -254;
         this.isShowOpenDialog = false;
+        this.fallbackSdkTranslations = {
+            "Accent": "Accent",
+            "Accent1": "Accent1",
+            "Accent2": "Accent2",
+            "Accent3": "Accent3",
+            "Accent4": "Accent4",
+            "Accent5": "Accent5",
+            "Accent6": "Accent6",
+            "20% - Accent1": "20% - Accent1",
+            "20% - Accent2": "20% - Accent2",
+            "20% - Accent3": "20% - Accent3",
+            "20% - Accent4": "20% - Accent4",
+            "20% - Accent5": "20% - Accent5",
+            "20% - Accent6": "20% - Accent6",
+            "40% - Accent1": "40% - Accent1",
+            "40% - Accent2": "40% - Accent2",
+            "40% - Accent3": "40% - Accent3",
+            "40% - Accent4": "40% - Accent4",
+            "40% - Accent5": "40% - Accent5",
+            "40% - Accent6": "40% - Accent6",
+            "60% - Accent1": "60% - Accent1",
+            "60% - Accent2": "60% - Accent2",
+            "60% - Accent3": "60% - Accent3",
+            "60% - Accent4": "60% - Accent4",
+            "60% - Accent5": "60% - Accent5",
+            "60% - Accent6": "60% - Accent6",
+            "(All)": "(All)",
+            "Your text here": "Your text here",
+            "(blank)": "(blank)",
+            "%1 of %2": "%1 of %2",
+            "Clear Filter (Alt+C)": "Clear Filter (Alt+C)",
+            "Column Labels": "Column Labels",
+            "Column": "Column",
+            "Confidential": "Confidential",
+            "Date": "Date",
+            "Days": "Days",
+            "Diagram Title": "Chart Title",
+            "File": "File",
+            "Grand Total": "Grand Total",
+            "Group": "Group",
+            "Hours": "Hours",
+            "Minutes": "Minutes",
+            "Months": "Months",
+            "Multi-Select (Alt+S)": "Multi-Select (Alt+S)",
+            "%1 or %2": "%1 or %2",
+            "Page": "Page",
+            "Page %1 of %2": "Page %1 of %2",
+            "Pages": "Pages",
+            "Prepared by": "Prepared by",
+            "Print_Area": "Print_Area",
+            "Qtr": "Qtr",
+            "Quarters": "Quarters",
+            "Row": "Row",
+            "Row Labels": "Row Labels",
+            "Seconds": "Seconds",
+            "Series": "Series",
+            "Bad": "Bad",
+            "Calculation": "Calculation",
+            "Check Cell": "Check Cell",
+            "Comma": "Comma",
+            "Comma [0]": "Comma [0]",
+            "Currency": "Currency",
+            "Currency [0]": "Currency [0]",
+            "Explanatory Text": "Explanatory Text",
+            "Good": "Good",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Input": "Input",
+            "Linked Cell": "Linked Cell",
+            "Neutral": "Neutral",
+            "Normal": "Normal",
+            "Note": "Note",
+            "Output": "Output",
+            "Percent": "Percent",
+            "Title": "Title",
+            "Total": "Total",
+            "Warning Text": "Warning Text",
+            "Tab": "Tab",
+            "Table": "Table",
+            "Time": "Time",
+            "Values": "Values",
+            "X Axis": "X Axis",
+            "Y Axis": "Y Axis",
+            "Years": "Years"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -68,7 +162,6 @@ class MainController extends Component {
                                                            '../../../../sdkjs/cell/sdk-all-min.js']);
             let dep_scripts = [
                 '../../../vendor/jquery/jquery.min.js',
-                '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
                 '../../../vendor/underscore/underscore-min.js',
                 '../../../vendor/xregexp/xregexp-all-min.js',
                 '../../../vendor/socketio/socket.io.min.js'];
@@ -96,7 +189,7 @@ class MainController extends Component {
                 EditorUIController.isSupportEditFeature();
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
-                this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.lang = this.editorConfig.lang;
 
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setConfigOptions(this.editorConfig, _t);
@@ -112,33 +205,30 @@ class MainController extends Component {
                 if (value !== null) {
                     this.api.asc_setLocale(parseInt(value));
                 } else {
-                     value = appOptions.region;
-                     value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                     if (value !== null) {
-                         value = parseInt(value);
-                     } else {
-                         value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
-                     }
-                     this.api.asc_setLocale(value);
+                    value = appOptions.region;
+                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                    if (value !== null) {
+                        value = parseInt(value);
+                    } else {
+                        value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
+                    }
+                    this.api.asc_setLocale(value);
                 }
 
-                if (appOptions.location == 'us' || appOptions.location == 'ca') {
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-                }
-
-                //if (!appOptions.customization || !(appOptions.customization.loaderName || appOptions.customization.loaderLogo))
-                    //$('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+                this.loadDefaultMetricSettings();
 
                 value = LocalStorage.getItem("sse-mobile-macros-mode");
+
                 if (value === null) {
-                     value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
-                     value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
+                    value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
+                    value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
                 } else {
                     value = parseInt(value);
                 }
+
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
-                value = localStorage.getItem("sse-mobile-allow-macros-request");
+                value = LocalStorage.getItem("sse-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
             };
 
@@ -174,6 +264,8 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -211,18 +303,16 @@ class MainController extends Component {
                
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
-                    Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                    Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType ||
+                    Asc.c_oLicenseResult.ExpiredLimited === licType) {
 
                     f7.dialog.create({
-                        title: t('Controller.Main.titleLicenseExp'),
-                        text: t('Controller.Main.warnLicenseExp')
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
+                        text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
 
                     return;
-                }
-
-                if (Asc.c_oLicenseResult.ExpiredLimited === licType) {
-                    this._state.licenseType = licType;
                 }
 
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -240,80 +330,20 @@ class MainController extends Component {
                 //}
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
-            };
+            processArrayScripts(dep_scripts, promise_get_script)
+                .then(() => {
+                    const { t } = this.props;
+                    let _translate = t('Controller.Main.SDK', { returnObjects:true })
 
-            _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
-                    const {t} = this.props;
-                    const _t = t('Controller.Main.SDK', {returnObjects:true})
-                    const styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
-                            'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'];
-                    const translate = {
-                        'Series': _t.txtSeries,
-                        'Diagram Title': _t.txtDiagramTitle,
-                        'X Axis': _t.txtXAxis,
-                        'Y Axis': _t.txtYAxis,
-                        'Your text here': _t.txtArt,
-                        'Table': _t.txtTable,
-                        'Print_Area': _t.txtPrintArea,
-                        'Confidential': _t.txtConfidential,
-                        'Prepared by ': _t.txtPreparedBy + ' ',
-                        'Page': _t.txtPage,
-                        'Page %1 of %2': _t.txtPageOf,
-                        'Pages': _t.txtPages,
-                        'Date': _t.txtDate,
-                        'Time': _t.txtTime,
-                        'Tab': _t.txtTab,
-                        'File': _t.txtFile,
-                        'Column': _t.txtColumn,
-                        'Row': _t.txtRow,
-                        '%1 of %2': _t.txtByField,
-                        '(All)': _t.txtAll,
-                        'Values': _t.txtValues,
-                        'Grand Total': _t.txtGrandTotal,
-                        'Row Labels': _t.txtRowLbls,
-                        'Column Labels': _t.txtColLbls,
-                        'Multi-Select (Alt+S)': _t.txtMultiSelect,
-                        'Clear Filter (Alt+C)':  _t.txtClearFilter,
-                        '(blank)': _t.txtBlank,
-                        'Group': _t.txtGroup,
-                        'Seconds': _t.txtSeconds,
-                        'Minutes': _t.txtMinutes,
-                        'Hours': _t.txtHours,
-                        'Days': _t.txtDays,
-                        'Months': _t.txtMonths,
-                        'Quarters': _t.txtQuarters,
-                        'Years': _t.txtYears,
-                        '%1 or %2': _t.txtOr,
-                        'Qtr': _t.txtQuarter
-                    };
-                    styleNames.forEach(function(item){
-                        translate[item] = _t['txtStyle_' + item.replace(/ /g, '_')] || item;
-                    });
-                    translate['Currency [0]'] = _t.txtStyle_Currency + ' [0]';
-                    translate['Comma [0]'] = _t.txtStyle_Comma + ' [0]';
-
-                    for (let i=1; i<7; i++) {
-                        translate['Accent'+i] = _t.txtAccent + i;
-                        translate['20% - Accent'+i] = '20% - ' + _t.txtAccent + i;
-                        translate['40% - Accent'+i] = '40% - ' + _t.txtAccent + i;
-                        translate['60% - Accent'+i] = '60% - ' + _t.txtAccent + i;
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
                     }
+
                     this.api = new Asc.spreadsheet_api({
                         'id-view': 'editor_sdk',
                         'id-input': 'idx-cell-content',
                         'mobile': true,
-                        'translate': translate
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -364,17 +394,43 @@ class MainController extends Component {
         }
     }
 
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+        }
+    }
+
     bindEvents() {
         $$(window).on('resize', () => {
             this.api.asc_Resize();
         });
 
-        $$(window).on('popover:open popup:open sheet:open actions:open', () => {
+        $$(window).on('popover:open popup:open sheet:open actions:open searchbar:enable', () => {
             this.api.asc_enableKeyEvents(false);
-        });
-
-        $$(window).on('popover:close popup:close sheet:close actions:close', () => {
-            this.api.asc_enableKeyEvents(true);
         });
 
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
@@ -383,6 +439,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
+
+        Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -469,6 +527,11 @@ class MainController extends Component {
                 const sdk = document.querySelector('#editor_sdk');
                 const rect = sdk.getBoundingClientRect();
 
+                if(document.querySelector('.tooltip-cell-data')) {
+                    document.querySelector('.tooltip-cell-data').remove();
+                    document.querySelector('.popover-backdrop')?.remove();
+                }
+
                 f7.popover.create({
                     targetX: -10000,
                     targetY: -10000,
@@ -517,8 +580,37 @@ class MainController extends Component {
             }
         });
 
+        this.api.asc_registerCallback('asc_onNeedUpdateExternalReferenceOnOpen', this.onNeedUpdateExternalReference.bind(this));
+
         const storeAppOptions = this.props.storeAppOptions;
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
+    }
+
+    insertImageFromStorage (data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.asc_addImageDrawingObject(data._urls, undefined, data.token);
+        }
+    }
+
+    onNeedUpdateExternalReference() {
+        const { t } = this.props;
+
+        f7.dialog.create({
+            title: t('Controller.Main.notcriticalErrorTitle'),
+            text: t('Controller.Main.textWarnUpdateExternalData'),
+            buttons: [
+                {
+                    text: t('Controller.Main.textUpdate'),
+                    onClick: () => {
+                        const links = this.api.asc_getExternalReferences();
+                        (links && links.length) && this.api.asc_updateExternalReferences(links);
+                    } 
+                },
+                {
+                    text: t('Controller.Main.textDontUpdate')
+                }
+            ]
+        }).open();
     }
 
     onEntriesListMenu(validation, textArr, addArr) {
@@ -563,7 +655,7 @@ class MainController extends Component {
         const { t } = this.props;
 
         if (this.api.isReplaceAll) { 
-            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoTextFound'));
+            f7.dialog.alert(null, (found) ? ((!found - replaced) ? t('Controller.Main.textReplaceSuccess').replace(/\{0\}/, `${replaced}`) : t('Controller.Main.textReplaceSkipped').replace(/\{0\}/, `${found - replaced}`)) : t('Controller.Main.textNoMatches'));
         }
     }
 
@@ -647,6 +739,7 @@ class MainController extends Component {
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
+        Common.Gateway.on('insertimage',            this.insertImage.bind(this));
 
         Common.Gateway.sendInfo({
             mode: appOptions.isEdit ? 'edit' : 'view'
@@ -663,6 +756,30 @@ class MainController extends Component {
         f7.emit('resize');
 
         appOptions.changeDocReady(true);
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) { 
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        this.insertImageFromStorage(data);
     }
 
     applyMode (appOptions) {
@@ -743,20 +860,30 @@ class MainController extends Component {
 
         if (appOptions.config.mode === 'view') {
             if (appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
+                                            this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
+                                            !appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous)) {
                 appOptions.canLiveView = false;
                 this.api.asc_SetFastCollaborative(false);
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
+        } else if (!appOptions.isAnonymousSupport && !!appOptions.config.user.anonymous) {
+            Common.Notifications.trigger('toolbar:activatecontrols');
+            Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+            this.api.asc_coAuthoringDisconnect();
+            Common.Notifications.trigger('api:disconnect');
+            f7.dialog.create({
+                title: _t.notcriticalErrorTitle,
+                text : _t.warnLicenseAnonymous,
+                buttons: [{text: 'OK'}]
+            }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
             let buttons = [{text: 'OK'}];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
-                    license === Asc.c_oLicenseResult.ExpiredLimited ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
             ) {
-                license = (license === Asc.c_oLicenseResult.ExpiredLimited) ? _t.warnLicenseLimitedNoAccess : _t.warnLicenseLimitedRenewed;
+                license = _t.warnLicenseLimitedRenewed;
             } else if (license === Asc.c_oLicenseResult.Connections || license === Asc.c_oLicenseResult.UsersCount) {
                 license = (license===Asc.c_oLicenseResult.Connections) ? warnLicenseExceeded : warnLicenseUsersExceeded;
             } else {
@@ -780,6 +907,7 @@ class MainController extends Component {
             } else {
                 Common.Notifications.trigger('toolbar:activatecontrols');
                 Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                this.api.asc_coAuthoringDisconnect();
                 Common.Notifications.trigger('api:disconnect');
             }
 
@@ -1107,19 +1235,81 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
-        if ( this.props.storeAppOptions.canDownload) {
+    onDownloadCancel() {
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onDownloadAs(format) {
+        const appOptions = this.props.storeAppOptions;
+
+        if(!appOptions.canDownload) {
             const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
+            const _t = t('Controller.Main', { returnObjects:true });
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
+
         this._state.isFromGatewayDownloadAs = true;
-        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _supported = [
+                Asc.c_oAscFileType.XLSX,
+                Asc.c_oAscFileType.ODS,
+                Asc.c_oAscFileType.CSV,
+                Asc.c_oAscFileType.PDF,
+                Asc.c_oAscFileType.PDFA,
+                Asc.c_oAscFileType.XLTX,
+                Asc.c_oAscFileType.OTS,
+                Asc.c_oAscFileType.XLSM,
+                Asc.c_oAscFileType.XLSB,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
+
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = Asc.c_oAscFileType.XLSX;
+
+        if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA) {
+            Common.Notifications.trigger('download:settings', this, _format, true);
+        } else {
+            const options = new Asc.asc_CDownloadOptions(_format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+        }
     }
 
     onRequestClose () {
-        Common.Gateway.requestClose();
+        const { t } = this.props;
+        const _t = t("Toolbar", { returnObjects: true });
+
+        if (this.api.isDocumentModified()) {
+            this.api.asc_stopSaving();
+
+            f7.dialog.create({
+                title: _t.dlgLeaveTitleText,
+                text: _t.dlgLeaveMsgText,
+                verticalButtons: true,
+                buttons : [
+                    {
+                        text: _t.leaveButtonText,
+                        onClick: () => {
+                            this.api.asc_undoAllChanges();
+                            this.api.asc_continueSaving();
+                            Common.Gateway.requestClose();
+                        }
+                    },
+                    {
+                        text: _t.stayButtonText,
+                        bold: true,
+                        onClick: () => {
+                            this.api.asc_continueSaving();
+                        }
+                    }
+                ]
+            }).open();
+        } else {
+            Common.Gateway.requestClose();
+        }
     }
 
     render() {
@@ -1136,6 +1326,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <Themes />
             </Fragment>
         )
     }

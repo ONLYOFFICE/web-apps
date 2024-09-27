@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,19 +28,16 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ExternalEditor.js
  *
- *  Created by Julia Radzhabova on 22/06/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 22/06/22
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
-
+define([], function () {
+    'use strict';
     Common.Views.ExternalEditor = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var filter = Common.localStorage.getKeysFilter(),
@@ -56,26 +52,24 @@ define([
             value = Common.localStorage.getItem(this.storageName + '-height');
             value && (height = parseInt(value));
 
-            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
             _.extend(_options,  {
                 width: width,
-                height: (_inner_height - height)<0 ? _inner_height : height,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
                 toolcallback: _.bind(this.onToolClose, this),
                 resizable: true
             }, options);
-
-            this._headerFooterHeight = 85;
+            // (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
+            _options.contentHeight = height;
 
             this.template = [
-                '<div id="id-editor-container" class="box" style="height:' + (_options.height-this._headerFooterHeight) + 'px; padding: 0 5px;">',
+                '<div id="id-editor-container" class="box" style="height:' + _options.contentHeight + 'px; padding: 0 5px;">',
                     '<div id="' + (_options.sdkplaceholder || '') + '" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
+                    '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary auto" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
                     '<button id="id-btn-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
                 '</div>'
             ].join('');
@@ -91,6 +85,16 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
             this.boxEl = this.$window.find('.body > .box');
+            var bodyEl = this.$window.find('> .body');
+            this._headerFooterHeight = this.initConfig.header ? parseInt(this.$window.find('.header').css('height')) : 0;
+            this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
+            this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
+            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
+            if (_inner_height < this.initConfig.contentHeight + this._headerFooterHeight) {
+                this.initConfig.contentHeight = _inner_height - this._headerFooterHeight;
+                this.boxEl.css('height', this.initConfig.contentHeight);
+            }
 
             this.btnSave = new Common.UI.Button({
                 el: this.$window.find('#id-btn-editor-apply'),

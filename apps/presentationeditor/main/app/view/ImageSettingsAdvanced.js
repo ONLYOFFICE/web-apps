@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,19 +28,17 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ImageSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 4/16/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/16/14
  *
  */
 
-define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.template',
+define([
+    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
 ], function (contentTemplate) {
     'use strict';
 
@@ -49,7 +46,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         options: {
             alias: 'ImageSettingsAdvanced',
             contentWidth: 340,
-            height: 342,
+            contentHeight: 257,
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
             storageName: 'pe-img-settings-adv-category'
@@ -59,6 +56,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
+                    {panelId: 'id-adv-image-general',    panelCaption: this.textGeneral},
                     {panelId: 'id-adv-image-size',       panelCaption: this.textPlacement},
                     {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
@@ -82,6 +80,17 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
             var me = this;
 
+            // General
+            this.inputImageName = new Common.UI.InputField({
+                el          : $('#image-general-name'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isImgNameChanged = true;
+            });
+
+            // Placement
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#image-advanced-spin-width'),
                 step: .1,
@@ -144,7 +153,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#image-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -249,11 +258,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
-                this.spnWidth, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 0 tab
-                this.spnAngle, this.chFlipHor, this.chFlipVert, // 1 tab
-                this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            return this.btnsCategory.concat([
+                this.inputImageName, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 1 tab
+                this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
+                this.inputAltTitle, this.textareaAltDescription  // 3 tab
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -263,12 +273,15 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnWidth.focus();
+                        me.inputImageName.focus();
                         break;
                     case 1:
-                        me.spnAngle.focus();
+                        me.spnWidth.focus();
                         break;
                     case 2:
+                        me.spnAngle.focus();
+                        break;
+                    case 3:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -286,14 +299,19 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
         _setDefaults: function(props) {
             if (props ){
+                var value = props.asc_getName();
+                this.inputImageName.setValue(value ? value : '');
+
                 this.spnWidth.setMaxValue(this.sizeMax.width);
                 this.spnHeight.setMaxValue(this.sizeMax.height);
-                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
-                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
+                value = props.get_Width();
+                this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                value = props.get_Height();
+                this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
 
-                var value = props.asc_getLockAspect();
+                value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value);
                 if (props.get_Height()>0)
                     this._nRatio = props.get_Width()/props.get_Height();
@@ -322,12 +340,14 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 this.textareaAltDescription.val(value ? value : '');
 
                 var pluginGuid = props.asc_getPluginGuid();
-                this.btnsCategory[1].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
+                this.btnsCategory[2].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
             }
         },
 
         getSettings: function() {
             var properties = new Asc.asc_CImgProperty();
+            if (this.isImgNameChanged)
+                properties.asc_putName(this.inputImageName.getValue());
             if (this.spnHeight.getValue()!=='')
                 properties.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
             if (this.spnWidth.getValue()!=='')
@@ -405,7 +425,9 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textVertical: 'Vertical',
         textFrom: 'From',
         textTopLeftCorner: 'Top Left Corner',
-        textCenter: 'Center'
+        textCenter: 'Center',
+        textGeneral: 'General',
+        textImageName: 'Image name'
 
     }, PE.Views.ImageSettingsAdvanced || {}));
 });

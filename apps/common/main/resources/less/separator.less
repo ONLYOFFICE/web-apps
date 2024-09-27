@@ -1,8 +1,7 @@
 /**
  *  description of styles for the '.separator' element
  *
- *  Created by Maxim Kadushkin 1/22/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created 1/22/14
  *
 */
 
@@ -14,6 +13,12 @@
     vertical-align: top;
     padding: 0;
     width: 0;
+
+    .rtl & {
+        border-left: none;
+        border-right: @scaled-one-px-value-ie solid @border-divider-ie;
+        border-right: @scaled-one-px-value solid @border-divider;
+    }
 
     &.horizontal {
         height: 0;

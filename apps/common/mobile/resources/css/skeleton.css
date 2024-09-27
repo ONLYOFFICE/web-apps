@@ -2,6 +2,13 @@ body {
     margin: 0;
 }
 
+body.theme-type-light {
+    --background-navbar-ios: #ffffff;
+    --background-navbar-word: #446995;
+    --background-navbar-cell: #40865c;
+    --background-navbar-slide: #BE664F;
+}
+
 body.theme-type-dark {
     --background-navbar-ios: #232323;
     --background-navbar-word: #232323;
@@ -10,7 +17,7 @@ body.theme-type-dark {
 }
 
 .skl-navbar {
-    --box-logo-height: 26px;
+    --box-logo-height: 0;
     --skl-navbar-height: 44px;
     --skl-pixel-ratio: 1;
 }
@@ -27,6 +34,10 @@ body.theme-type-dark {
     height: calc(var(--skl-navbar-height) + var(--box-logo-height));
     width: 100%;
     position: relative;
+}
+
+.navbar.main-navbar {
+    height: 0;
 }
 
 .skl-navbar.skl-navbar--md {
@@ -46,7 +57,7 @@ body.theme-type-dark {
 }
 
 .skl-navbar.skl-navbar--slide.skl-navbar--md {
-    background-color: var(--background-navbar-slide, #aa5252);
+    background-color: var(--background-navbar-slide, #BE664F);
 }
 
 .skl-navbar::before {
@@ -127,20 +138,25 @@ body.theme-type-dark {
 
 :root .theme-type-dark {
     --f7-navbar-bg-color: #232323;
+    --f7-bars-bg-color-rgb: 35,35,35;
     --f7-subnavbar-bg-color: #232323;
+    --f7-bars-translucent-opacity: 1;
 }
 
 .md .word-editor {
     --f7-navbar-bg-color: var(--background-navbar-word, #446995);
     --f7-subnavbar-bg-color: var(--background-navbar-word, #446995);
+    --f7-subnavbar-height: 56px;
 }
 
 .md .cell-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #40865c);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #40865c);
+    --f7-navbar-bg-color: var(--background-navbar-cell, #40865c);
+    --f7-subnavbar-bg-color: var(--background-navbar-cell, #40865c);
+    --f7-subnavbar-height: 56px;
 }
 
 .md .slide-editor {
-    --f7-navbar-bg-color: var(--background-navbar-word, #aa5252);
-    --f7-subnavbar-bg-color: var(--background-navbar-word, #aa5252);
+    --f7-navbar-bg-color: var(--background-navbar-slide, #BE664F);
+    --f7-subnavbar-bg-color: var(--background-navbar-slide, #BE664F);
+    --f7-subnavbar-height: 56px;
 }

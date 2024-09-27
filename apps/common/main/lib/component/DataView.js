@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,14 +28,13 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DataView.js
  *
  *  A mechanism for displaying data using custom layout templates and formatting.
  *
- *  Created by Alexander Yuzhin on 1/24/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/24/14
  *
  */
 
@@ -128,9 +126,11 @@ define([
             me.dataHint = me.options.dataHint || '';
             me.dataHintDirection = me.options.dataHintDirection || '';
             me.dataHintOffset = me.options.dataHintOffset || '';
+            me.scaling = me.options.scaling;
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
+            me.listenTo(me.model, 'change:tip',         me.onTipChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
 
@@ -141,8 +141,10 @@ define([
             var el = this.$el || $(this.el);
 
             el.html(this.template(this.model.toJSON()));
-            el.addClass('item');
+            el.addClass('item canfocused');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.attr('tabindex', this.options.tabindex || 0);
+            el.attr('role', this.options.role ? this.options.role : 'listitem');
             
             if (this.dataHint !== '') {
                 el.attr('data-hint', this.dataHint);
@@ -165,6 +167,17 @@ define([
             if (tip) {
                 if (tip.dontShow===undefined && el.is(':hover'))
                     tip.dontShow = true;
+            }
+
+            if (this.scaling !== false && el.find('.options__icon').length) {
+                el.attr('ratio', 'ratio');
+                this.applyScaling(Common.UI.Scaling.currentRatio());
+
+                el.on('app:scaling', _.bind(function (e, info) {
+                    if ( this.scaling != info.ratio ) {
+                        this.applyScaling(info.ratio);
+                    }
+                }, this));
             }
 
             this.trigger('change', this, this.model);
@@ -199,6 +212,10 @@ define([
             this.trigger('select', this, model, selected);
         },
 
+        onTipChange: function (model, tip) {
+            this.trigger('tipchange', this, model);
+        },
+
         onChange: function () {
             if (_.isUndefined(this.model.id))
                 return this;
@@ -209,6 +226,24 @@ define([
             this.trigger('change', this, this.model);
 
             return this;
+        },
+
+        applyScaling: function (ratio) {
+            this.scaling = ratio;
+
+            if (ratio > 2) {
+                var el = this.$el || $(this.el),
+                    icon = el.find('.options__icon');
+                if (icon.length > 0) {
+                    if (!el.find('svg.icon').length) {
+                        var iconCls = icon.attr('class'),
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        icon.after(svg_icon);
+                    }
+                }
+            }
         }
     });
 
@@ -224,13 +259,15 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             minScrollbarLength: 40,
+            scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
-            cls: ''
+            cls: '',
+            role: 'list'
         },
 
         template: _.template([
-            '<div class="dataview inner <%= cls %>" style="<%= style %>">',
+            '<div class="dataview inner <%= cls %>" style="<%= style %>" role="<%= options.role %>">',
                 '<% _.each(groups, function(group) { %>',
                     '<% if (group.headername !== undefined) { %>',
                         '<div class="header-name"><%= group.headername %></div>',
@@ -274,7 +311,9 @@ define([
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.minScrollbarLength = me.options.minScrollbarLength || 40;
+            me.scrollYStyle    = me.options.scrollYStyle;
             me.tabindex = me.options.tabindex || 0;
+            me.itemTabindex = me.options.itemTabindex!==undefined ? me.options.itemTabindex : me.tabindex>0 ? -1 : 0; //do not set focus to items when dataview get focus
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
@@ -287,6 +326,10 @@ define([
                 me.moveKeys = [Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
             else
                 me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
+
+            if ( me.options.scaling === false) {
+                me.cls = me.options.cls + ' scaling-off';
+            }
 
             if (me.options.el)
                 me.render();
@@ -328,7 +371,10 @@ define([
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
                     this.listenTo(this.store, 'reset',  this.onResetItems);
-                    this.groups && this.listenTo(this.groups, 'add',  this.onAddGroup);
+                    if (this.groups) {
+                        this.listenTo(this.groups, 'add',  this.onAddGroup);
+                        this.listenTo(this.groups, 'remove',  this.onRemoveGroup);
+                    }
                 }
                 this.onResetItems();
 
@@ -343,7 +389,8 @@ define([
                         this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
                     this.parentMenu.on('show:after', function(menu, e) {
                         if (e && (menu.el !== e.target)) return;
-                        if (me.showLast) me.showLastSelected(); 
+                        if (me.showLast) me.showLastSelected();
+                        if (me.outerMenu && (me.outerMenu.focusOnShow===false)) return;
                         Common.NotificationCenter.trigger('dataview:focus');
                         _.delay(function() {
                             menu.cmpEl.find('.dataview').focus();
@@ -359,6 +406,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -366,8 +414,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -443,6 +491,7 @@ define([
             _.each(this.store.where({selected: true}), function(record){
                 record.set({selected: false});
             });
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -456,9 +505,11 @@ define([
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
                 model: record,
+                scaling: this.options.scaling,
                 dataHint: this.itemDataHint,
                 dataHintDirection: this.itemDataHintDirection,
-                dataHintOffset: this.itemDataHintOffset
+                dataHintOffset: this.itemDataHintOffset,
+                tabindex: this.itemTabindex
             });
 
             if (view) {
@@ -496,8 +547,8 @@ define([
                         view_el = $(view.el),
                         tip = record.get('tip');
                     if (tip!==undefined && tip!==null) {
-                        if (this.delayRenderTips)
-                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        if (this.delayRenderTips) {
+                            view_el.one('mouseenter', function () { // hide tooltip when mouse is over menu
                                 view_el.attr('data-toggle', 'tooltip');
                                 view_el.tooltip({
                                     title       : record.get('tip'), // use actual tip, because it can be changed
@@ -506,13 +557,15 @@ define([
                                 });
                                 view_el.mouseenter();
                             });
-                        else {
+                            view_el.attr('aria-label', record.get('tip'));
+                        } else {
                             view_el.attr('data-toggle', 'tooltip');
                             view_el.tooltip({
                                 title       : record.get('tip'), // use actual tip, because it can be changed
                                 placement   : 'cursor',
                                 zIndex : me.tipZIndex
                             });
+                            view_el.attr('aria-label', record.get('tip'));
                         }
                     }
 
@@ -522,11 +575,14 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
+                    if (tip === null || tip === undefined)
+                        this.listenTo(view, 'tipchange', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
                 }
             }
+            this._layoutParams = undefined;
         },
 
         onAddGroup: function(group) {
@@ -558,7 +614,18 @@ define([
             }
         },
 
+        onRemoveGroup: function(group) {
+            var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
+            if (innerEl) {
+                var div = innerEl.find('#' + group.get('id') + '.grouped-data');
+                div && div.remove();
+            }
+            this._layoutParams = undefined;
+        },
+
         onResetItems: function() {
+            this.trigger('reset:before', this);
+
             _.each(this.dataViewItems, function(item) {
                 var tip = item.$el.data('bs.tooltip');
                 if (tip) {
@@ -599,6 +666,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -615,6 +683,34 @@ define([
         onChangeItem: function(view, record) {
             if (!this.isSuspendEvents) {
                 this.trigger('item:change', this, view, record);
+            }
+        },
+
+        onInitItemTip: function (view, record) {
+            var me = this,
+                view_el = $(view.el),
+                tip = view_el.data('bs.tooltip');
+            if (!(tip === null || tip === undefined))
+                view_el.removeData('bs.tooltip');
+            if (this.delayRenderTips) {
+                view_el.one('mouseenter', function () {
+                    view_el.attr('data-toggle', 'tooltip');
+                    view_el.tooltip({
+                        title: record.get('tip'),
+                        placement: 'cursor',
+                        zIndex: me.tipZIndex
+                    });
+                    view_el.mouseenter();
+                });
+                view_el.attr('aria-label', record.get('tip'));
+            } else {
+                view_el.attr('data-toggle', 'tooltip');
+                view_el.tooltip({
+                    title: record.get('tip'),
+                    placement: 'cursor',
+                    zIndex: me.tipZIndex
+                });
+                view_el.attr('aria-label', record.get('tip'));
             }
         },
 
@@ -644,12 +740,21 @@ define([
             if (!this.isSuspendEvents) {
                 this.trigger('item:remove', this, view, record);
             }
+            this._layoutParams = undefined;
         },
 
         onClickItem: function(view, record, e) {
             if ( this.disabled ) return;
 
             window._event = e;  //  for FireFox only
+
+            if(this.multiSelect) {
+                if (e && e.ctrlKey) {
+                    this.pressedCtrl = true;
+                } else if (e && e.shiftKey) {
+                    this.pressedShift = true;
+                }
+            }
 
             if (this.showLast) {
                 if (!this.delaySelect) {
@@ -678,7 +783,7 @@ define([
             }
         },
 
-        onDblClickItem: function(view, record, e) {
+        onDblClickItem: function(view, record, e) { // item inner element must have css props: pointer-events: none;
             if ( this.disabled ) return;
 
             window._event = e;  //  for FireFox only
@@ -703,15 +808,15 @@ define([
             }
         },
 
-        scrollToRecord: function (record, force) {
+        scrollToRecord: function (record, force, offsetTop) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top,
+                inner_top = Common.Utils.getOffset(innerEl).top + (offsetTop ? offsetTop : 0),
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
             
-            var div_top = div.offset().top,
+            var div_top = Common.Utils.getOffset(div).top,
                 div_first = $(this.dataViewItems[0].el),
                 div_first_top = (div_first.length>0) ? div_first[0].clientTop : 0;
             if (force || div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
@@ -726,6 +831,10 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
+            if (data.isDefaultPrevented())
+                return;
+
+            if (!this.enableKeyEvents) return;
 
             if(this.multiSelect) {
                 if (data.keyCode == Common.UI.Keys.CTRL) {
@@ -735,7 +844,7 @@ define([
                 }
             }
 
-                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
                 var rec =(this.multiSelect) ? this.extremeSeletedRec : this.getSelectedRec();
@@ -752,6 +861,22 @@ define([
                         this.parentMenu.hide();
                 } else {
                     this.pressedCtrl=false;
+                    function getFirstItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
+                        var first = 0;
+                        while(!this.dataViewItems[first] || !this.dataViewItems[first].$el || this.dataViewItems[first].$el.hasClass('disabled')) {
+                            first++;
+                        }
+                        return first;
+                    }
+                    function getLastItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
+                        var last = this.dataViewItems.length-1;
+                        while(!this.dataViewItems[last] || !this.dataViewItems[last].$el || this.dataViewItems[last].$el.hasClass('disabled')) {
+                            last--;
+                        }
+                        return last;
+                    }
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -760,14 +885,19 @@ define([
                                 target.removeClass('over');
                                 target.find('> a').focus();
                             } else
-                                idx = 0;
+                                idx = getFirstItemIndex.call(this);
                         } else
-                            idx = 0;
+                            idx = getFirstItemIndex.call(this);
                     } else if (this.options.keyMoveDirection == 'both') {
                         if (this._layoutParams === undefined)
                             this.fillIndexesArray();
                         var topIdx = this.dataViewItems[idx].topIdx,
                             leftIdx = this.dataViewItems[idx].leftIdx;
+                        function checkEl() {
+                            var item = this.dataViewItems[this._layoutParams.itemsIndexes[topIdx][leftIdx]];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                        }
 
                         idx = undefined;
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -782,13 +912,13 @@ define([
                                     } else
                                         leftIdx = this._layoutParams.columns-1;
                                 }
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.RIGHT) {
                             while (idx===undefined) {
                                 leftIdx++;
                                 if (leftIdx>this._layoutParams.columns-1) leftIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
                             if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
@@ -799,7 +929,7 @@ define([
                                 while (idx===undefined) {
                                     topIdx--;
                                     if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         } else {
                             if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
@@ -810,13 +940,25 @@ define([
                                 while (idx===undefined) {
                                     topIdx++;
                                     if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         }
                     } else {
-                        idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
-                        ? Math.max(0, idx-1)
-                        : Math.min(this.store.length - 1, idx + 1) ;
+                        var topIdx = idx,
+                            firstIdx = getFirstItemIndex.call(this),
+                            lastIdx = getLastItemIndex.call(this);
+                        idx = undefined;
+                        function checkEl() {
+                            var item = this.dataViewItems[topIdx];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return topIdx;
+                        }
+                        while (idx===undefined) {
+                            topIdx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                                    ? Math.max(firstIdx, topIdx-1)
+                                    : Math.min(lastIdx, topIdx + 1);
+                            idx = checkEl.call(this);
+                        }
                     }
 
                     if (idx !== undefined && idx>=0) rec = this.store.at(idx);
@@ -824,6 +966,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        (this.itemTabindex!==-1) && this.dataViewItems[idx] && this.dataViewItems[idx].$el.focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -833,10 +976,13 @@ define([
         },
 
         onKeyUp: function(e){
+            if (!this.enableKeyEvents) return;
+
             if(e.keyCode == Common.UI.Keys.SHIFT)
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
                 this.pressedCtrl = false;
+            this.trigger('item:keyup', this, e);
         },
 
         attachKeyEvents: function() {
@@ -889,19 +1035,21 @@ define([
                             : this.parentMenu.cmpEl.find('[role=menu]'),
                 docH = Common.Utils.innerHeight()-10,
                 innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
-                parent = innerEl.parent(),
-                margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
-                paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
+                // parent = innerEl.parent(),
+                // margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
+                // paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
+                innerH = innerEl.height(),
+                diff = Math.max(menuH - innerH, 0),
                 top = parseInt(menuRoot.css('top')),
                 props = {minScrollbarLength  : this.minScrollbarLength};
             this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
-                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
+                innerEl.css('max-height', (docH - top - diff) + 'px');
                 if (this.allowScrollbar) this.scroller.update(props);
-            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
-                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
+            } else if ( top + menuH < docH && innerH < this.options.restoreHeight ) {
+                innerEl.css('max-height', (Math.min(docH - top - diff, this.options.restoreHeight)) + 'px');
                 if (this.allowScrollbar) this.scroller.update(props);
             }
         },
@@ -917,13 +1065,13 @@ define([
 
             var el = $(this.dataViewItems[0].el),
                 itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
-                var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW + 0.01);
+                var top = Common.Utils.getOffset($(this.dataViewItems[i].el)).top - offsetTop;
+                leftIdx = Math.floor((Common.Utils.getOffset($(this.dataViewItems[i].el)).left - offsetLeft)/itemW + 0.01);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -936,6 +1084,10 @@ define([
             }
             this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
             this._layoutParams.columns++;
+        },
+
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
         },
 
         onResize: function() {
@@ -974,10 +1126,10 @@ define([
         },
 
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
             '<% _.each(items, function(item) { %>',
                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                '<div class="item" role="listitem" <% if(typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
             '<% }) %>',
             '</div>'
         ].join('')),
@@ -996,6 +1148,7 @@ define([
             me.style          = me.options.style        || '';
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.itemTabindex = me.options.itemTabindex!==undefined ? me.options.itemTabindex : me.tabindex>0 ? -1 : 0; //do not set focus to items when dataview get focus
 
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
@@ -1018,7 +1171,8 @@ define([
                 this.cmpEl = $(this.template({
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
-                    style: me.style
+                    style: me.style,
+                    itemTabindex: me.itemTabindex || 0
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -1028,7 +1182,8 @@ define([
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
                     style: me.style,
-                    options: me.options
+                    options: me.options,
+                    itemTabindex: me.itemTabindex || 0
                 }));
             }
             var modalParents = this.cmpEl.closest('.asc-window');
@@ -1066,6 +1221,7 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : this.minScrollbarLength,
+                    scrollYStyle: this.scrollYStyle,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
@@ -1073,8 +1229,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -1117,6 +1273,7 @@ define([
                 record.set({selected: false});
             });
             this.cmpEl.find('.item.selected').removeClass('selected');
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -1140,13 +1297,14 @@ define([
             var template = _.template([
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                    '<div class="item" role="listitem" <% if(typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
                 '<% }) %>'
             ].join(''));
             this.cmpEl && this.cmpEl.find('.inner').html(template({
                 items: this.store.toJSON(),
                 itemTemplate: this.itemTemplate,
-                style : this.style
+                style : this.style,
+                itemTabindex: this.itemTabindex || 0
             }));
 
             if (!_.isUndefined(this.scroller)) {
@@ -1158,6 +1316,7 @@ define([
                 el: $(this.el).find('.inner').addBack().filter('.inner'),
                 useKeyboard: this.enableKeyEvents && !this.handleSelect,
                 minScrollbarLength  : this.minScrollbarLength,
+                scrollYStyle: this.scrollYStyle,
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             });
@@ -1201,12 +1360,14 @@ define([
                     var $item = $(item),
                         rec = me.store.at(index);
                     me.dataViewItems.push({el: $item});
-                    if (rec.get('tip')) {
+                    var tip = rec.get('tip');
+                    if (tip) {
                         $item.tooltip({
-                            title       : rec.get('tip'),
+                            title       : tip,
                             placement   : 'cursor',
                             zIndex : me.tipZIndex
                         });
+                        $item.attr('aria-label', tip);
                     }
                 });
             }
@@ -1215,12 +1376,12 @@ define([
         scrollToRecord: function (record) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top,
+                inner_top = Common.Utils.getOffset(innerEl).top,
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? this.dataViewItems[idx].el : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
 
-            var div_top = div.offset().top,
+            var div_top = Common.Utils.getOffset(div).top,
                 div_first = this.dataViewItems[0].el,
                 div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
             if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
@@ -1251,6 +1412,7 @@ define([
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         function getFirstItemIndex() {
+                            if (this.dataViewItems.length===0) return 0;
                             var first = 0;
                             while(!this.dataViewItems[first].el.is(':visible')) {
                                 first++;
@@ -1327,6 +1489,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        (this.itemTabindex!==-1) && this.dataViewItems[idx] && $(this.dataViewItems[idx].el).focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -1406,14 +1569,14 @@ define([
 
             var el = this.dataViewItems[0].el,
                 itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var item = this.dataViewItems[i];
-                var top = item.el.offset().top - offsetTop;
-                leftIdx = Math.floor((item.el.offset().left - offsetLeft)/itemW);
+                var top = Common.Utils.getOffset(item.el).top - offsetTop;
+                leftIdx = Math.floor((Common.Utils.getOffset(item.el).left - offsetLeft)/itemW);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -1452,7 +1615,7 @@ define([
 
     Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
                 '<% _.each(options.groupsWithRecent, function(group, index) { %>',
                     '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
                         '<% if (!_.isEmpty(group.groupName)) { %>',
@@ -1463,7 +1626,7 @@ define([
                         '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
                             '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
                                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                                 '<% }); %>',
                         '</div>',
                     '</div>',
@@ -1619,6 +1782,7 @@ define([
                                 });
                                 $item.mouseenter();
                             });
+                            $item.attr('aria-label', tip);
                         }
                     });
                 });
@@ -1653,6 +1817,7 @@ define([
                             });
                             $item.mouseenter();
                         });
+                        $item.attr('aria-label', tip);
                     }
                 });
                 me.dataViewItems = recentViewItems.concat(me.dataViewItems);
@@ -1762,13 +1927,14 @@ define([
                 var template = _.template([
                     '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                     '<% }) %>'
                 ].join(''));
                 me.cmpEl && me.cmpEl.find('.recent-items').html(template({
                     items: me.recentShapes,
                     itemTemplate: this.itemTemplate,
-                    style : this.style
+                    style : this.style,
+                    itemTabindex: this.itemTabindex || 0
                 }));
 
                 me.updateDataViewItems = true;
@@ -1787,19 +1953,20 @@ define([
                 first = 0;
             while (!this.dataViewItems[first].el.is(":visible")) { // if first elem is hidden
                 first++;
+                if (!this.dataViewItems[first]) return;
                 el = this.dataViewItems[first].el;
             }
 
             var itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = first;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var item = this.dataViewItems[i];
                 if (item.el.is(":visible")) {
-                    var top = item.el.offset().top - offsetTop;
-                    leftIdx = Math.floor((item.el.offset().left - offsetLeft) / itemW);
+                    var top = Common.Utils.getOffset(item.el).top - offsetTop;
+                    leftIdx = Math.floor((Common.Utils.getOffset(item.el).left - offsetLeft) / itemW);
                     if (top > prevtop) {
                         prevtop = top;
                         this._layoutParams.itemsIndexes.push([]);
@@ -1819,8 +1986,8 @@ define([
         },
         hideTextRect: function (hide) {
             var me = this;
-            this.store.each(function(item, index){
-                if (item.get('data').shapeType === 'textRect') {
+            this.dataViewItems && this.store.each(function(item, index){
+                if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
             }, this);
@@ -1834,7 +2001,7 @@ define([
             this.store.each(function(item, index){
                 if (item.get('groupName') === 'Lines') {
                     var el = me.dataViewItems[index].el;
-                    if (el.is(':visible')) {
+                    if (el && el.is(':visible')) {
                         el.addClass('hidden');
                     }
                 }

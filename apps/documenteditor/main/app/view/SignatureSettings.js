@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  SignatureSettings.js
  *
- *  Created by Julia Radzhabova on 5/24/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 5/24/17
  *
  */
 
@@ -71,6 +69,7 @@ define([
                 tip: undefined
             };
             this._locked = false;
+            this._protected = false;
 
             this.render();
         },
@@ -156,6 +155,10 @@ define([
             this._locked = locked;
         },
 
+        setProtected: function (value) {
+            this._protected = value;
+        },
+
         setMode: function(mode) {
             this.mode = mode;
         },
@@ -209,12 +212,12 @@ define([
                 menu.hide();
             }
 
-            var offsetParent = $(this.el).offset(),
+            var offsetParent = Common.Utils.getOffset($(this.el)),
                 showPoint = [e.clientX*Common.Utils.zoom() - offsetParent.left + 5, e.clientY*Common.Utils.zoom() - offsetParent.top + 5];
 
             this.showSignatureMenu(record, showPoint);
 
-            menu.menuAlign = 'tl-bl';
+            menu.menuAlign = Common.UI.isRTL() ? 'tr-br' : 'tl-bl';
             menu.menuAlignEl = null;
             menu.setOffset(15, 5);
             menu.show();
@@ -235,13 +238,13 @@ define([
                 }
 
                 var currentTarget = $(e.currentTarget),
-                    offset = currentTarget.offset(),
-                    offsetParent = $(this.el).offset(),
+                    offset = Common.Utils.getOffset(currentTarget),
+                    offsetParent = Common.Utils.getOffset($(this.el)),
                     showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
 
                 this.showSignatureMenu(record, showPoint);
 
-                menu.menuAlign = 'tr-br';
+                menu.menuAlign = Common.UI.isRTL() ? 'tl-bl' : 'tr-br';
                 menu.menuAlignEl = currentTarget;
                 menu.setOffset(-20, -currentTarget.height()/2 + 3);
                 menu.show();
@@ -288,7 +291,7 @@ define([
             menu.items[3].setVisible(!requested);
 
             menu.items[0].setDisabled(this._locked);
-            menu.items[3].setDisabled(this._locked);
+            menu.items[3].setDisabled(this._locked || this._protected);
 
             menu.items[1].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
             menu.items[2].cmpEl.attr('data-value', signed ? 1 : 0); // view or edit signature settings
@@ -307,7 +310,7 @@ define([
                     this.api.asc_ViewCertificate(item.cmpEl.attr('data-value'));
                     break;
                 case 2:
-                    Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')), guid);// can edit settings for requested signature
+                    Common.NotificationCenter.trigger('protect:signature', 'visible', !!parseInt(item.cmpEl.attr('data-value')) || this._protected, guid);// can edit settings for requested signature
                     break;
                 case 3:
                     var me = this;
@@ -361,7 +364,7 @@ define([
                     text    : tipText,
                     showLink: showLink,
                     textLink: this.txtContinueEditing,
-                    placement: 'left-bottom'
+                    placement: Common.UI.isRTL() ? 'right-bottom' : 'left-bottom'
                 });
                 tip.on({
                     'dontshowclick': function() {
@@ -389,6 +392,14 @@ define([
             }
         },
 
+        hideSignatureTooltip: function() {
+            var tip = this._state.tip;
+            if (tip && tip.isVisible()) {
+                tip.close();
+                this._state.tip = undefined;
+            }
+        },
+
         disableEditing: function(disable) {
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
@@ -397,6 +408,7 @@ define([
                     viewMode: disable,
                     reviewMode: false,
                     fillFormMode: false,
+                    viewDocMode: false,
                     allowMerge: false,
                     allowSignature: true,
                     allowProtect: true,
@@ -409,10 +421,11 @@ define([
                     chat: false,
                     review: true,
                     viewport: false,
-                    documentHolder: true,
+                    documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     plugins: false,
-                    protect: false
+                    protect: false,
+                    header: {docmode: true}
                 }, 'signature');
             }
         },

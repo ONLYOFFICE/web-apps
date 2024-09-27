@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,24 +33,19 @@
 /**
  *  DataValidationDialog.js
  *
- *  Created by Julia Radzhabova on 11.11.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 11.11.2020
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/TextareaField',
+define([
+    'text!spreadsheeteditor/main/app/template/DataValidationDialog.template',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 330,
+            contentHeight: 245,
             toggleGroup: 'data-validation-group',
             storageName: 'sse-data-validation-category'
         },
@@ -264,11 +258,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbAllow, this.cmbData, this.chIgnore, this.chShowDropDown, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, this.chApply, // 0 tab
                 this.chShowInput, this.inputInputTitle, this.textareaInput,  // 1 tab
                 this.chShowError, this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -322,9 +316,9 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),

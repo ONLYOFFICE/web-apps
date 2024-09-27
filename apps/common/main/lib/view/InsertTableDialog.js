@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,28 +28,25 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  InsertTableDialog.js
  *
- *  Created by Alexander Yuzhin on 2/17/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/17/14
  *
  */
 
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 157,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
+            id: 'window-insert-table',
             split: false,
             buttons: ['ok', 'cancel']
         },
@@ -63,10 +59,10 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val" style="float: right;"></div>',
+                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val float-right"></div>',
                     '</div>',
                     '<div class="input-row" style="margin-top: 10px;">',
-                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val" style="float: right;"></div>',
+                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val float-right"></div>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -108,7 +104,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.udColumns, this.udRows];
+            return [this.udColumns, this.udRows].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

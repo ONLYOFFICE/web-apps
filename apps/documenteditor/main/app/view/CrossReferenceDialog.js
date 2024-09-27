@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,22 +33,18 @@
 /**
  *  CrossReferenceDialog.js
  *
- *  Created by Julia Radzhabova on 22.09.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 22.09.2020
  *
  */
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.CrossReferenceDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 400,
-            height: 410,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
-            modal: false
+            modal: false,
+            id: 'window-cross-ref'
         },
 
         initialize : function(options) {
@@ -62,11 +57,11 @@ define([
                 '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="padding-right: 5px;">',
+                            '<td class="padding-right-5">',
                                 '<label class="input-label">' + this.txtType + '</label>',
                                 '<div id="id-dlg-cross-type" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
-                            '<td style="padding-left: 5px;">',
+                            '<td class="padding-left-5">',
                                 '<label class="input-label">' + this.txtReference + '</label>',
                                 '<div id="id-dlg-cross-ref" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
                             '</td>',
@@ -83,7 +78,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 10px;">',
-                                '<div id="id-dlg-cross-separate" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                '<div id="id-dlg-cross-separate" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-cross-separator" style="display: inline-block;vertical-align: middle;"></div>',
                             '</td>',
                         '</tr>',

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,22 +28,12 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 30.07.19
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ComboDataView'
-], function (template) {
+define([], function () {
     'use strict';
 
     SSE.Views.Spellcheck = Common.UI.BaseView.extend(_.extend({
@@ -60,19 +49,19 @@ define([
                         '</div>',
                         '<div id="spellcheck-suggestions-list"></div>',
                         '<div id="spellcheck-change" style=""></div>',
-                        '<div id="spellcheck-ignore" class="padding-large"></div>',
+                        '<div id="spellcheck-ignore" class="padding-large margin-left-9"></div>',
                         '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAddToDictionary %></button>',
                         '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                         '<div id="spellcheck-dictionary-language"></div>',
                         '<div id="spellcheck-complete" class="hidden">',
-                            '<i class="btn-resolve" style="display: inline-block;margin-right: 10px;"></i>',
+                            '<i class="btn-resolve margin-right-10"></i>',
                             '<%= scope.txtComplete %>' ,
                         '</div>',
                     '</div>',
                 '</div>',
                 '<div id="spellcheck-header">',
-                    '<label><%= scope.txtSpelling %></label>',
-                    '<div id="spellcheck-btn-close" style="float:right; margin-left: 4px;"></div>',
+                    '<label role="heading"><%= scope.txtSpelling %></label>',
+                    '<div id="spellcheck-btn-close" class="float-right margin-left-4"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -110,7 +99,6 @@ define([
 
             this.buttonNext = new Common.UI.Button({
                 parentEl: $('#spellcheck-next'),
-                style: 'margin-left: 5px;',
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'toolbar__icon btn-nextitem',
                 hint: this.txtNextTip,
@@ -187,7 +175,20 @@ define([
                 scroller    : {
                     suppressScrollX: true
                 },
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
                 search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

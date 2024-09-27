@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,27 +28,24 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ImageSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 1/19/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/19/17
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.template',
+define([
+    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
 ], function (contentTemplate) {
     'use strict';
 
     SSE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'image-adv-settings-group',
             properties: null,
             storageName: 'sse-image-settings-adv-category'
@@ -147,11 +143,11 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

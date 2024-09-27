@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,24 +28,20 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  AnimationDialog.js
  *
- *  Created by Olga Sharova on 29/11/21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 29/11/21
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 350,
-            height: 396,
+            width: 515,
             header: true,
-            cls: 'animation-dlg',
+            cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
         initialize : function(options) {
@@ -54,11 +49,10 @@ define([
                 title: this.textTitle
             }, options || {});
             this.template = [
-                '<div class="box" style="width: 318px; margin: 0 auto">',
+                '<div class="box">',
                     '<div class = "input-row" id = "animation-group"></div>',
-                    '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
-                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-picker" style = "margin-top: 16px;  height: 272px; text-wrap: nowrap;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin-top: 16px;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -66,6 +60,7 @@ define([
             this.api = this.options.api;
             this._state=[];
             this.handler =   this.options.handler;
+            this.lockEmphasis = !!this.options.lockEmphasis;
             this.EffectGroupData = Common.define.effectData.getEffectGroupData();
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
@@ -75,13 +70,6 @@ define([
                 this._state.activeGroupValue = this.options.groupValue;
                 var group = _.findWhere(this.EffectGroupData, {value: this._state.activeGroupValue})
                 this._state.activeGroup = group.id;
-                var itemEffect = _.findWhere(this.allEffects, {
-                    group: this._state.activeGroup,
-                    value: this._state.activeEffect
-                });
-                if(itemEffect)
-                    this.activeLevel = itemEffect.level;
-
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -91,14 +79,11 @@ define([
 
             var $window = this.getChild();
 
-            var footer = $window.find('.footer');
-            footer.css({"text-align": "center"});
-
             this.cmbGroup = new Common.UI.ComboBox({
                 el      : $('#animation-group'),
                 cls: 'input-group-nr',
                 editable: false,
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 175px;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
@@ -106,24 +91,25 @@ define([
             });
             this.cmbGroup.on('selected', _.bind(this.onGroupSelect,this));
 
-            this.cmbLevel = new Common.UI.ComboBox({
-                el      : $('#animation-level'),
-                cls: 'input-group-nr',
-                editable: false,
-                valueField: 'id',
-                style   : 'margin-top: 16px; width: 100%;',
-                menuStyle: 'min-width: 100%;',
-                takeFocusOnClose: true
-            });
-            this.cmbLevel.on('selected', _.bind(this.onLevelSelect,this));
-
-            this.lstEffectList = new Common.UI.ListView({
-                el      : $('#animation-list'),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= displayValue %></div>'),
-                scrollAlwaysVisible: true,
+            this.pickerEffectList = new Common.UI.DataView({
+                el: $('#animation-picker'),
+                cls: 'bordered',
+                store : new Common.UI.DataViewStore(),
+                groups: new Common.UI.DataViewGroupStore(),
+                style: 'max-height: 380px;',
+                itemTemplate: _.template([
+                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + 88 + 'px;height: ' + 40 + 'px; pointer-events:none;">',
+                        '<div class = "icon <% if (iconCls) { %>' +'toolbar__icon' +'<% } %>' + ' <%= iconCls %>"></div>',
+                        '<div class = "caption"><%= displayValue %></div>',
+                    '</div>'
+                ].join('')),
+                delayRenderTips: true,
                 tabindex: 1
             });
-            this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.pickerEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.pickerEffectList.on('item:dblclick', _.bind(this.onPrimary, this));
+            this.pickerEffectList.on('entervalue', _.bind(this.onPrimary, this));
+
 
             // this.chPreview = new  Common.UI.CheckBox({
             //     el      : $('#animation-setpreview'),
@@ -132,53 +118,63 @@ define([
             // }).on('change', _.bind(this.onPreviewChange, this));
 
             this.cmbGroup.setValue(this._state.activeGroupValue);
-            this.fillLevel();
-
+            this.fillEffect();
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+            return [ this.cmbGroup, this.pickerEffectList/*, this.chPreview*/].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.lstEffectList;
+            return this.pickerEffectList;
         },
 
         onGroupSelect: function (combo, record) {
             this._state.activeGroup = record.id;
             this._state.activeGroupValue = record.value;
-            this.activeLevel = undefined;
-            this._state.activeEffect = undefined;
-            this.fillLevel();
-        },
-
-        fillLevel: function ()
-        {
-            this.cmbLevel.store.reset(Common.define.effectData.getLevelEffect(this._state.activeGroup == 'menu-effect-group-path'));
-            var item = (this.activeLevel)?this.cmbLevel.store.findWhere({id: this.activeLevel}):this.cmbLevel.store.at(0);
-            this.cmbLevel.setValue(item.get('id'), item.get('displayValue'));
-            this.activeLevel = item.get('id');
-            this.fillEffect();
-        },
-
-        onLevelSelect: function (combo, record) {
-            this.activeLevel = record.id;
             this._state.activeEffect = undefined;
             this.fillEffect();
         },
 
         fillEffect: function () {
-            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
+            var arr = _.where(this.allEffects, {group: this._state.activeGroup }),
+                lockEmphasis = this.lockEmphasis,
+                currentIndex;
             arr = _.reject(arr, function (item) {
                 return !!item.notsupported;
             });
-            this.lstEffectList.store.reset(arr);
-            var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
-            if(!item)
-                item = this.lstEffectList.store.at(0);
-            this.lstEffectList.selectRecord(item);
-            this.lstEffectList.scrollToRecord(item, true);
+            if (this._state.activeGroup==='menu-effect-group-emphasis') {
+                arr.forEach(function(item, index){
+                    if (lockEmphasis && !(item.value === AscFormat.EMPHASIS_GROW_SHRINK || item.value === AscFormat.EMPHASIS_SPIN ||
+                                        item.value === AscFormat.EMPHASIS_TRANSPARENCY || item.value === AscFormat.EMPHASIS_PULSE ||
+                                        item.value === AscFormat.EMPHASIS_TEETER || item.value === AscFormat.EMPHASIS_BLINK))
+                        item.disabled = lockEmphasis;
+                    else if (currentIndex===undefined)
+                        currentIndex = index;
+                });
+
+            }
+
+            arr = arr.map(function(el) {
+                return {
+                    displayValue: el.displayValue,
+                    effectGroup: el.group,
+                    group: el.level,
+                    iconCls: el.iconCls,
+                    value: el.value,
+                    disabled: el.disabled,
+                    tip: el.displayValue
+                }
+            });
+            this.pickerEffectList.groups.reset(Common.define.effectData.getLevelEffect(this._state.activeGroup == 'menu-effect-group-path'));
+            this.pickerEffectList.store.reset(arr);
+            var  item = this.pickerEffectList.store.findWhere({value: this._state.activeEffect});
+            if(!item) {
+                item = this.pickerEffectList.store.at(currentIndex || 0);
+            }
+            this.pickerEffectList.selectRecord(item);
+            this.pickerEffectList.scrollToRecord(item);
             this._state.activeEffect = item.get('value');
         },
 
@@ -195,6 +191,11 @@ define([
         onBtnClick: function (event)
         {
             this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

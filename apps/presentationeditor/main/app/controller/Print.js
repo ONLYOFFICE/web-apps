@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,10 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
-    'core',
-    'presentationeditor/main/app/view/FileMenuPanels'
+    'core'
 ], function () {
     'use strict';
 
@@ -44,7 +42,9 @@ define([
         initialize: function() {
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
 
-            this._state = {};
+            this._state = {
+                isLockedSlideHeaderAppyToAll: false
+            };
             this._paperSize = undefined;
             this._navigationPreview = {
                 pageCount: false,
@@ -57,13 +57,20 @@ define([
             this.addListeners({
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
-                    'render:after': _.bind(this.onAfterRender, this)
+                    'render:after': _.bind(this.onAfterRender, this),
+                    'openheader': _.bind(this.onOpenHeaderSettings, this)
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         onLaunch: function() {
+        },
+
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['PrintWithPreview']);
             this.printSettings = this.createView('PrintWithPreview');
+            this.setMode(this.mode);
         },
 
         onAfterRender: function(view) {
@@ -140,6 +147,8 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+            this.api.asc_registerCallback('asc_onLockSlideHdrFtrApplyToAll', _.bind(this.onLockSlideHdrFtrApplyToAll, this, true));
+            this.api.asc_registerCallback('asc_onUnLockSlideHdrFtrApplyToAll', _.bind(this.onLockSlideHdrFtrApplyToAll, this, false));
 
             return this;
         },
@@ -159,14 +168,14 @@ define([
         onCountPages: function(count) {
             this._navigationPreview.pageCount = count;
 
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.printSettings.$previewBox.toggleClass('hidden', !this._navigationPreview.pageCount);
                 this.printSettings.$previewEmpty.toggleClass('hidden', !!this._navigationPreview.pageCount);
             }
             if (!!this._navigationPreview.pageCount) {
                 if (this._navigationPreview.currentPreviewPage > count - 1)
                     this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings.isVisible()) {
+                if (this.printSettings && this.printSettings.isVisible()) {
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
@@ -175,10 +184,14 @@ define([
 
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
+        },
+
+        onLockSlideHdrFtrApplyToAll: function(isLocked) {
+            this._state.isLockedSlideHeaderAppyToAll = isLocked;
         },
 
         onShowMainSettingsPrint: function() {
@@ -237,7 +250,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.goToPage(page-1);
-                this.api.asc_enableKeyEvents(true);
                 return false;
             }
         },
@@ -304,7 +316,9 @@ define([
                     w: rec ? rec.size[0] : undefined,
                     h: rec ? rec.size[1] : undefined,
                     preset: rec ? rec.caption : undefined
-                }
+                },
+                copies: this.printSettings.spnCopies.getNumberValue() || 1,
+                sides: this.printSettings.cmbSides.getValue()
             });
 
             if ( print ) {
@@ -336,8 +350,27 @@ define([
             }
         },
 
+        onOpenHeaderSettings: function () {
+            var me = this;
+            (new PE.Views.HeaderFooterDialog({
+                api: this.api,
+                lang: this.api.asc_getDefaultLanguage(),
+                props: this.api.asc_getHeaderFooterProperties(),
+                type: this._state.isLockedSlideHeaderAppyToAll ? 0 : 1,
+                isLockedApplyToAll: this._state.isLockedSlideHeaderAppyToAll, 
+                handler: function(result, value) {
+                    if (result == 'ok' || result == 'all') {
+                        if (me.api) {
+                            me.api.asc_setHeaderFooterProperties(value, result == 'all');
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
         SetDisabled: function() {
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var disable = !this.mode.isEdit;
             }
         },

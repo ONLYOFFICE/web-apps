@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -36,29 +35,44 @@
  *  Combined component for toolbar's and header's elements
  *
  *
- *  Created by Maxim.Kadushkin on 4/11/2017.
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/11/2017.
  *
  */
 
 define([
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/mods/transition'
 ], function (Backbone) {
     'use strict';
 
     Common.UI.Mixtbar = Common.UI.BaseView.extend((function () {
         var $boxTabs;
         var $scrollL;
+        var $scrollR;
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
 
+        function setScrollButtonsDisabeled(){
+            var scrollLeft = $boxTabs.scrollLeft();
+            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
+            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+        }
+
         var onScrollTabs = function(opts, e) {
+            if($(e.target).hasClass('disabled')) return;
             var sv = $boxTabs.scrollLeft();
-            if ( sv || opts == 'right' ) {
-                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
+            if (sv || opts == 'right' || Common.UI.isRTL() && opts == 'left') {
+                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200, setScrollButtonsDisabeled);
             }
+        };
+
+        var onWheelTabs = function(e) {
+            e.preventDefault();
+            var deltaX = e.deltaX || e.detail || e.deltaY;
+            $boxTabs.scrollLeft($boxTabs.scrollLeft() + (deltaX * 60));
+            setScrollButtonsDisabeled();
         };
 
         function onTabDblclick(e) {
@@ -93,25 +107,44 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 var _template_tabs =
+                    !Common.UI.isRTL() ?
                     '<section class="tabs">' +
                         '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
-                        '<ul>' +
+                        '<ul role="tablist">' +
                             '<% for(var i in items) { %>' +
                                 '<% if (typeof items[i] == "object") { %>' +
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>"' +
                                         '<% if (typeof items[i].layoutname == "string") print(" data-layout-name=" + \' \' +  items[i].layoutname) + \' \' %>>' +
-                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
+                                    '<a role="tab" id="<%= items[i].action %>" data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
                                 '</li>' +
                                 '<% } %>' +
                             '<% } %>' +
                         '</ul>' +
                         '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
+                    '</section>' :
+                    '<section class="tabs">' +
+                        '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
+                        '<ul role="tablist">' +
+                            '<% for(var i in items) { %>' +
+                                '<% if (typeof items[i] == "object") { %>' +
+                                '<li class="ribtab' +
+                                        '<% if (items[i].haspanel===false) print(" x-lone") %>' +
+                                        '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>"' +
+                                        '<% if (typeof items[i].layoutname == "string") print(" data-layout-name=" + \' \' +  items[i].layoutname) + \' \' %>>' +
+                                    '<a role="tab" id="<%= items[i].action %>" data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
+                                '</li>' +
+                                '<% } %>' +
+                            '<% } %>' +
+                        '</ul>' +
+                        '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
-                    tabsmarkup: _.template(_template_tabs)({items: options.tabs})
+                    tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
+                    isRTL: Common.UI.isRTL(),
+                    config: options.config
                 }));
 
                 config.tabs = options.tabs;
@@ -132,7 +165,7 @@ define([
                 me.$panels = me.$boxpanels.find('> .panel');
 
                 optsFold.$bar = me.$('.toolbar');
-                var $scrollR = me.$('.tabs .scroll.right');
+                $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
 
                 $scrollL.on('click', onScrollTabs.bind(this, 'left'));
@@ -140,6 +173,7 @@ define([
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
                 $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
+                $boxTabs.on('mousewheel', onWheelTabs);
             },
 
             isTabActive: function(tag) {
@@ -220,6 +254,7 @@ define([
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                 }
+                this.fireEvent('tab:collapse');
             },
 
             expand: function() {
@@ -232,8 +267,10 @@ define([
 
             onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
-                    if ( !$boxTabs.parent().hasClass('short') )
+                    if ( !$boxTabs.parent().hasClass('short') ) {
                         $boxTabs.parent().addClass('short');
+                        setScrollButtonsDisabeled();
+                    }
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
@@ -269,7 +306,8 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
-                        // me.processPanelVisible(null, true);
+                        me.fireEvent('tab:click', [tab]);
+                        // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
                             me.dblclick_timer = setTimeout(function () {
@@ -301,7 +339,7 @@ define([
                         this.lastPanel = tab;
                         panel.addClass('active');
                         me.setMoreButton(tab, panel);
-                        me.processPanelVisible(null, true, true);
+                        me.processPanelVisible(null, true);
                     }
 
                     if ( panel.length ) {
@@ -317,6 +355,7 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
+                    Common.NotificationCenter.trigger('tab:active',[tab]);
                 }
             },
 
@@ -328,7 +367,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);
@@ -355,24 +394,52 @@ define([
                 }
             },
 
+            getTab: function(tab) {
+                if (tab && this.$panels) {
+                    var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                    return panel.length ? panel : undefined;
+                }
+            },
+
+            createTab: function(tab, visible) {
+                if (!tab.action || !tab.caption) return;
+
+                var _panel = $('<section id="' + tab.action + '" class="panel" data-tab="' + tab.action + '"></section>');
+                this.addTab(tab, _panel, this.getLastTabIdx());
+                this.setVisible(tab.action, !!visible);
+                return _panel;
+            },
+
+            getMorePanel: function(tab) {
+                return tab && btnsMore[tab] ? btnsMore[tab].panel : null;
+            },
+
+            getLastTabIdx: function() {
+                return config.tabs.length;
+            },
+
             isCompact: function () {
                 return this.isFolded;
+            },
+
+            isExpanded: function () {
+                return !this.isFolded || optsFold.$bar && optsFold.$bar.hasClass('expanded');
             },
 
             hasTabInvisible: function() {
                 if ($boxTabs.length<1) return false;
 
-                var _left_bound_ = Math.round($boxTabs.offset().left),
+                var _left_bound_ = Math.round(Common.Utils.getOffset($boxTabs).left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
-                var tab = this.$tabs.filter(':visible:first').get(0);
+                var tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:last' : ':visible:first').get(0);
                 if ( !tab ) return false;
 
-                var rect = tab.getBoundingClientRect();
+                var rect = Common.Utils.getBoundingClientRect(tab);
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
-                    tab = this.$tabs.filter(':visible:last').get(0);
-                    rect = tab.getBoundingClientRect();
+                    tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:first' : ':visible:last').get(0);
+                    rect = Common.Utils.getBoundingClientRect(tab);
 
                     if (!(Math.round(rect.right) > _right_bound_))
                         return false;
@@ -386,14 +453,14 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, now, force) {
+            processPanelVisible: function(panel, force) {
                 var me = this;
-                if ( me._timer_id ) clearTimeout(me._timer_id);
-
                 function _fc() {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
-                        var _maxright = $active.parents('.box-controls').width();
+                        var _maxright = $active.parents('.box-controls').width(),
+                            _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth();
+                        if (!_staticPanelWidth) _staticPanelWidth = 0;
                         var data = $active.data(),
                             _rightedge = data.rightedge,
                             _btns = data.buttons,
@@ -403,11 +470,14 @@ define([
                             me.setMoreButton($active.attr('data-tab'), $active);
                         }
                         if ( !_rightedge ) {
-                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                         }
                         if ( !_btns ) {
                             _btns = [];
                             _.each($active.find('.btn-slot .x-huge'), function(item) {
+                                _btns.push($(item).closest('.btn-slot'));
+                            });
+                            btnsMore[data.tab] && btnsMore[data.tab].panel && _.each(btnsMore[data.tab].panel.find('.btn-slot .x-huge'), function(item) {
                                 _btns.push($(item).closest('.btn-slot'));
                             });
                             data.buttons = _btns;
@@ -421,13 +491,13 @@ define([
                             data.flex = _flex;
                         }
 
-                        if ( (_rightedge > _maxright)) {
+                        if (_rightedge > _maxright) {
                             if (!more_section.is(':visible') ) {
                                 if (_flex.length>0) {
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i].el;
-                                        _rightedge = $active.get(0).getBoundingClientRect().right;
-                                        if (item.outerWidth() > parseInt(item.css('min-width'))) {
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
+                                        if (Math.floor(item.outerWidth()) > parseInt(item.css('min-width'))) {
                                             data.rightedge = _rightedge;
                                             return;
                                         } else
@@ -438,7 +508,7 @@ define([
                                     var btn = _btns[i];
                                     if ( !btn.hasClass('compactwidth') && !btn.hasClass('slot-btn-more')) {
                                         btn.addClass('compactwidth');
-                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
                                         if (_rightedge <= _maxright)
                                             break;
                                     }
@@ -453,10 +523,10 @@ define([
                                     var btn = _btns[i];
                                     if ( btn.hasClass('compactwidth') ) {
                                         btn.removeClass('compactwidth');
-                                        _rightedge = $active.get(0).getBoundingClientRect().right;
-                                        if ( _rightedge > _maxright) {
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
+                                        if (_rightedge > _maxright) {
                                             btn.addClass('compactwidth');
-                                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                                             break;
                                         }
                                     }
@@ -464,9 +534,14 @@ define([
                                 data.rightedge = _rightedge;
                                 if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                     for (var i=0; i<_flex.length; i++) {
-                                        var item = _flex[i];
-                                        item.el.css('width', item.width);
-                                        data.rightedge = $active.get(0).getBoundingClientRect().right;
+                                        var item = _flex[i],
+                                            checkedwidth;
+                                        if (item.el.find('.combo-dataview').hasClass('auto-width')) {
+                                            checkedwidth = Common.UI.ComboDataView.prototype.checkAutoWidth(item.el,
+                                                me.$boxpanels.width() - $active.outerWidth() + item.el.width());
+                                        }
+                                        item.el.css('width', checkedwidth ? (checkedwidth + parseFloat(item.el.css('padding-left')) + parseFloat(item.el.css('padding-right'))) + 'px' : item.width);
+                                        data.rightedge = Common.Utils.getBoundingClientRect($active.get(0)).right;
                                     }
                                 }
                             }
@@ -474,11 +549,20 @@ define([
                     }
                 };
 
-                if ( now === true ) _fc(); else
-                me._timer_id =  setTimeout(function() {
-                    delete me._timer_id;
+                if (!me._timer_id) {
                     _fc();
-                }, 100);
+                    me._needProcessPanel = false;
+                    me._timer_id =  setInterval(function() {
+                        if (me._needProcessPanel) {
+                            _fc();
+                            me._needProcessPanel = false;
+                        } else {
+                            clearInterval(me._timer_id);
+                            delete me._timer_id;
+                        }
+                    }, 100);
+                } else
+                    me._needProcessPanel = true;
             },
             /**/
 
@@ -505,8 +589,8 @@ define([
             setMoreButton: function(tab, panel) {
                 var me = this;
                 if (!btnsMore[tab]) {
-                    var top = panel.position().top;
-                    var box = $('<div class="more-box" style="position: absolute;right: 0; top:'+ top +'px; padding-left: 12px;padding-right: 6px;display: none;">' +
+                    var top = Common.Utils.getPosition(panel).top;
+                    var box = $('<div class="more-box" style="top:'+ top +'px;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
                         '</div>');
@@ -514,7 +598,7 @@ define([
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
-                        iconCls: 'toolbar__icon btn-more',
+                        iconCls: 'toolbar__icon btn-big-more',
                         enableToggle: true
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
@@ -533,7 +617,7 @@ define([
                 var panel = this.$panels.filter('[data-tab=' + tab + ']');
                 if ( panel.length ) {
                     var data = panel.data();
-                    data.buttons = data.flex = data.rightedge = undefined;
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
                     panel.find('.more-box').remove();
                 }
                 if (btnsMore[tab]) {
@@ -542,6 +626,91 @@ define([
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
                 }
+            },
+
+            clearActiveData: function(tab) {
+                var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
+                }
+            },
+
+            addCustomItems: function(tab, added, removed) {
+                if (!tab.action) return;
+
+                var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
+                    $morepanel = this.getMorePanel(tab.action),
+                    $moresection = $panel ? $panel.find('.more-box') : null,
+                    compactcls = '';
+                ($moresection.length<1) && ($moresection = null);
+                if ($panel) {
+                    if (removed) {
+                        removed.forEach(function(button, index) {
+                            if (button.cmpEl) {
+                                var group = button.cmpEl.closest('.group');
+                                button.cmpEl.closest('.btn-slot').remove();
+                                if (group.children().length<1) {
+                                    var in_more = group.closest('.more-container').length>0;
+                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    group.remove();
+                                    if (in_more && $morepanel.children().filter('.group').length === 0) {
+                                        btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);
+                                        $moresection && $moresection.css('display', "none");
+                                    }
+                                }
+                            }
+                        });
+                        $panel.find('.btn-slot:not(.slot-btn-more).x-huge').last().hasClass('compactwidth') && (compactcls = 'compactwidth');
+                    }
+                    added && added.forEach(function(button, index) {
+                        var _groups, _group;
+                        if ($morepanel) {
+                            _groups = $morepanel.children().filter('.group');
+                            if (_groups.length>0) {
+                                $moresection = null;
+                                $panel = $morepanel;
+                                compactcls = 'compactwidth';
+                            }
+                        }
+                        if (!_groups || _groups.length<1)
+                            _groups = $panel.children().filter('.group');
+
+                        if (_groups.length>0 && !button.options.separator && index>0) // add first button to new group
+                            _group = $(_groups[_groups.length-1]);
+                        else {
+                            if (button.options.separator) {
+                                var el = $('<div class="separator long"></div>');
+                                $moresection ? $moresection.before(el) : el.appendTo($panel);
+                            }
+                            _group = $('<div class="group"></div>');
+                            $moresection ? $moresection.before(_group) : _group.appendTo($panel);
+                        }
+                        var $slot = $('<span class="btn-slot text x-huge ' + (!(button.options.caption || '').trim() ? 'nocaption ' : ' ') + compactcls + '"></span>').appendTo(_group);
+                        button.render($slot);
+                    });
+                }
+                this.clearActiveData(tab.action);
+                this.processPanelVisible(null, true);
+
+                var visible = !this.isTabEmpty(tab.action) && Common.UI.LayoutManager.isElementVisible('toolbar-' + tab.action);
+                this.setVisible(tab.action, visible);
+                if (!visible && this.isTabActive(tab.action) && this.isExpanded()) {
+                    if (this.getTab('home'))
+                        this.setTab('home');
+                    else {
+                        tab = this.$tabs.siblings(':not(.x-lone):visible').first().find('> a[data-tab]').data('tab');
+                        this.setTab(tab);
+                    }
+                }
+            },
+
+            isTabEmpty: function(tab) {
+                var $panel = this.getTab(tab),
+                    $morepanel = this.getMorePanel(tab),
+                    $moresection = $panel ? $panel.find('.more-box') : null;
+                ($moresection.length<1) && ($moresection = null);
+                return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
             },
 
             resizeToolbar: function(reset) {
@@ -554,8 +723,10 @@ define([
 
                 var more_section_width = parseInt(more_section.css('width')) || 0,
                     box_controls_width = $active.parents('.box-controls').width(),
-                    _maxright = box_controls_width,
-                    _rightedge = $active.get(0).getBoundingClientRect().right,
+                    _staticPanelWidth = $active.parents('.box-controls').find('.panel.static').outerWidth(),
+                    _maxright = box_controls_width;
+                if (!_staticPanelWidth) _staticPanelWidth = 0;
+                var _rightedge = $active.outerWidth() + _staticPanelWidth,
                     delta = (this._prevBoxWidth) ? (_maxright - this._prevBoxWidth) : -1,
                     hideAllMenus = false;
                 this._prevBoxWidth = _maxright;
@@ -567,7 +738,7 @@ define([
 
                 if ( (reset || delta<0) && (_rightedge > _maxright)) { // from toolbar to more section
                     if (!more_section.is(':visible') ) {
-                        more_section.css('display', "");
+                        more_section.css('display', "block");
                         _maxright -= parseInt(more_section.css('width'));
                     }
                     var last_separator = null,
@@ -589,11 +760,12 @@ define([
                             this.$moreBar.prepend(item);
                             hideAllMenus = true;
                         } else if (item.hasClass('group')) {
-                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            //_rightedge = $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                             if (_rightedge <= _maxright) // stop moving items
                                 break;
 
-                            var offset = item.offset(),
+                            var rect = Common.Utils.getBoundingClientRect(item.get(0)),
                                 item_width = item.outerWidth(),
                                 children = item.children();
                             if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
@@ -603,7 +775,7 @@ define([
                                     child.attr('inner-width', child.outerWidth());
                                 }
                             }
-                            if ((offset.left > _maxright || children.length==1) && item.attr('group-state') != 'open') {
+                            if (((rect.left > _maxright || Common.UI.isRTL() && box_controls_width - rect.right > _maxright) || children.length==1) && item.attr('group-state') != 'open') {
                                 // move group
                                 this.$moreBar.prepend(item);
                                 if (last_separator) {
@@ -611,7 +783,7 @@ define([
                                     last_separator.removeAttr('hidden-on-resize');
                                 }
                                 hideAllMenus = true;
-                            } else if ( offset.left+item_width > _maxright ) {
+                            } else if ((Common.UI.isRTL() ? box_controls_width - rect.right : rect.left)+item_width > _maxright ) {
                                 // move buttons from group
                                 for (var j=children.length-1; j>=0; j--) {
                                     var child = $(children[j]);
@@ -624,9 +796,9 @@ define([
                                         hideAllMenus = true;
                                         break;
                                     } else {
-                                        var child_offset = child.offset(),
+                                        var child_rect = Common.Utils.getBoundingClientRect(child.get(0)),
                                             child_width = child.outerWidth();
-                                        if (child_offset.left+child_width>_maxright) {
+                                        if ((Common.UI.isRTL() ? box_controls_width - child_rect.right : child_rect.left)+child_width>_maxright) {
                                             if (!last_group) {
                                                 last_group = $('<div></div>');
                                                 last_group.addClass(items[i].className);
@@ -689,7 +861,7 @@ define([
                         // from more panel to toolbar
                         for (var i=0; i<items.length; i++) {
                             var item = $(items[i]);
-                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                            _rightedge = $active.outerWidth() + _staticPanelWidth;
                             if (!item.is(':visible') && item.attr('data-hidden-tb-item')) { // move invisible items as is
                                 item.removeAttr('data-hidden-tb-item');
                                 more_section.before(item);
@@ -724,7 +896,7 @@ define([
                                     for (var j=0; j<children.length; j++) {
                                         if (islast && j==children.length-1)
                                              _maxright = box_controls_width; // try to move last item from last group
-                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        _rightedge = $active.outerWidth() + _staticPanelWidth;
                                         var child = $(children[j]);
                                         if (child.hasClass('elset')) { // don't add group - no enough space
                                             need_break = true;
@@ -803,13 +975,14 @@ define([
 
             onMoreShow: function(btn, e) {
                 var moreContainer = btn.panel.parent(),
-                    parentxy = moreContainer.parent().offset(),
+                    parentxy = Common.Utils.getOffset(moreContainer.parent()),
                     target = btn.$el,
-                    showxy = target.offset(),
+                    showxy = Common.Utils.getOffset(target),
                     right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
                     top = showxy.top - parentxy.top + target.height() + 10;
 
-                moreContainer.css({right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'});
+                var styles = Common.UI.isRTL() ? {left: '6px', right: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'} : {right: right, left: 'auto', top : top, 'max-width': Common.Utils.innerWidth() + 'px'}
+                moreContainer.css(styles);
                 moreContainer.show();
             },
 

@@ -1,6 +1,18 @@
+<div id="id-adv-shape-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%" role="presentation">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textShapeName %></label>
+                <div id="shape-general-object-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
 <div id="id-adv-shape-width" class="settings-panel active">
     <div class="inner-content">
-        <table cols="3">
+        <table cols="3" role="presentation">
             <tr>
                 <td colspan="3" width="88px" class="padding-small">
                     <label class="header"><%= scope.textSize %></label>
@@ -23,7 +35,7 @@
     </div>
     <div class="padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="4" width="88px" class="padding-small">
                     <label class="header"><%= scope.textPosition %></label>
@@ -56,15 +68,15 @@
     <div class="inner-content  padding-large">
         <div style="width: 100%;">
             <label class="input-label"><%= scope.textAngle %></label>
-            <div id="shape-advanced-spin-angle" style="display: inline-block; margin-left: 5px;"></div>
+            <div id="shape-advanced-spin-angle" class="margin-left-5" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content  padding-large">
-        <table cols="2">
+        <table cols="2" role="presentation">
             <tr>
                 <td rowspan="2" class="padding-small" style="vertical-align: top;">
-                    <label class="input-label" style="margin-right: 15px;vertical-align: top;"><%= scope.textFlipped %></label>
+                    <label class="input-label margin-right-15" style="vertical-align: top;"><%= scope.textFlipped %></label>
                 </td>
                 <td class="padding-small">
                     <div id="shape-advanced-checkbox-hor"></div>
@@ -80,7 +92,7 @@
 </div>
 <div id="id-adv-shape-shape" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textLineStyle %></label>
@@ -100,7 +112,7 @@
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textArrows %></label>
@@ -131,7 +143,7 @@
 </div>
 <div id="id-adv-shape-margins" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="header"><%= scope.textAutofit %></label>
@@ -154,7 +166,7 @@
             </tr>
         </table>
         <div class="separator horizontal padding-large"></div>
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.strMargins %></label>
@@ -185,7 +197,7 @@
 </div>
 <div id="id-adv-shape-columns" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="input-label"><%= scope.textColNumber %></label>
@@ -203,7 +215,7 @@
 </div>
 <div id="id-adv-shape-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

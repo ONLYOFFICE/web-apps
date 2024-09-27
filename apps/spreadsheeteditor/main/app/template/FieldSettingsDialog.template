@@ -1,9 +1,9 @@
 <div id="id-pivot-field-settings-layout" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small" style="white-space: nowrap;">
-                    <label class="header" style="vertical-align: middle; margin-right: 4px;"><%= scope.txtSourceName %></label>
+                    <label class="header margin-right-4" style="vertical-align: middle;"><%= scope.txtSourceName %></label>
                     <label id="field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>
                 </td>
             </tr>
@@ -29,8 +29,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
-                    <div id="field-settings-chk-compact" style="margin-left: 20px;"></div>
+                <td class="padding-small">
+                    <div id="field-settings-chk-compact" class="margin-left-20"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="field-settings-numformat" style="width:128px;"></div>
                 </td>
             </tr>
             <tr>
@@ -50,12 +55,12 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="field-settings-radio-top" style="margin-left: 20px;"></div>
+                    <div id="field-settings-radio-top" class="margin-left-20"></div>
                 </td>
             </tr>
             <tr>
                 <td class="padding-large">
-                    <div id="field-settings-radio-bottom" style="margin-left: 20px;"></div>
+                    <div id="field-settings-radio-bottom" class="margin-left-20"></div>
                 </td>
             </tr>
             <tr>
@@ -68,7 +73,7 @@
 </div>
 <div id="id-pivot-field-settings-subtotals" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="header"><%= scope.txtSummarize %></label>

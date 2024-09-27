@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  CellSettings.js
  *
- *  Created by Julia Radzhabova on 6/08/18
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 6/08/18
  *
  */
 
@@ -46,8 +44,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ComboBorderSize',
-    'common/main/lib/view/OpenDialog'
+    'common/main/lib/component/ComboBorderSize'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -192,7 +189,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textFill
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_NOFILL);
             this.fillControls.push(this.cmbFillSrc);
@@ -210,7 +208,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -248,6 +247,7 @@ define([
 
             this.btnDirection = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
+                scaling     : false,
                 iconCls     : 'item-gradient gradient-left',
                 menu        : new Common.UI.Menu({
                     style: 'min-width: 60px;',
@@ -258,7 +258,8 @@ define([
                 }),
                 dataHint    : '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -288,7 +289,8 @@ define([
                 var color = me.GradColor.colors[me.GradColor.currentIdx];
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
-                me.spnGradPosition.setValue(me.GradColor.values[me.GradColor.currentIdx]);
+                var curValue = me.GradColor.values[me.GradColor.currentIdx];
+                me.spnGradPosition.setValue(Common.UI.isRTL() ? me.sldrGradient.maxValue - curValue : curValue);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -335,6 +337,7 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                     '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
@@ -424,21 +427,22 @@ define([
                 menuStyle: 'min-width: 93px;',
                 disabled: this._locked,
                 data: [
-                    { value: Asc.c_oAscBorderStyles.Thin,   offsety: 0},
-                    { value: Asc.c_oAscBorderStyles.Hair,   offsety: 20},
-                    { value: Asc.c_oAscBorderStyles.Dotted,   offsety: 40},
-                    { value: Asc.c_oAscBorderStyles.Dashed,   offsety: 60},
-                    { value: Asc.c_oAscBorderStyles.DashDot,   offsety: 80},
-                    { value: Asc.c_oAscBorderStyles.DashDotDot,   offsety: 100},
-                    { value: Asc.c_oAscBorderStyles.Medium, offsety: 120},
-                    { value: Asc.c_oAscBorderStyles.MediumDashed,  offsety: 140},
-                    { value: Asc.c_oAscBorderStyles.MediumDashDot,  offsety: 160},
-                    { value: Asc.c_oAscBorderStyles.MediumDashDotDot,  offsety: 180},
-                    { value: Asc.c_oAscBorderStyles.Thick,  offsety: 200}
+                    { value: Asc.c_oAscBorderStyles.Thin,   imgId: "solid-s"},
+                    { value: Asc.c_oAscBorderStyles.Hair,   imgId: "dots-s"},
+                    { value: Asc.c_oAscBorderStyles.Dotted,   imgId: "dashes-s"},
+                    { value: Asc.c_oAscBorderStyles.Dashed,   imgId: "dashes-m"},
+                    { value: Asc.c_oAscBorderStyles.DashDot,   imgId: "dash-dot-s"},
+                    { value: Asc.c_oAscBorderStyles.DashDotDot,   imgId: "dash-dot-dot-s"},
+                    { value: Asc.c_oAscBorderStyles.Medium, imgId: "solid-m"},
+                    { value: Asc.c_oAscBorderStyles.MediumDashed,  imgId: "dashes-l"},
+                    { value: Asc.c_oAscBorderStyles.MediumDashDot,  imgId: "dash-dot-m"},
+                    { value: Asc.c_oAscBorderStyles.MediumDashDotDot,  imgId: "dash-dot-dot-m"},
+                    { value: Asc.c_oAscBorderStyles.Thick,  imgId: "solid-l"}
                 ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textBorders
             }).on('selected', _.bind(this.onBorderTypeSelect, this));
             this.BorderType = Asc.c_oAscBorderStyles.Thin;
             this.cmbBorderType.setValue(this.BorderType);
@@ -450,9 +454,11 @@ define([
                 menu        : true,
                 color: 'auto',
                 auto: true,
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'medium'
+                dataHintOffset: 'medium',
+                ariaLabel: this.textBorderColor
             });
             this.lockedControls.push(this.btnBorderColor);
 
@@ -462,9 +468,11 @@ define([
                 menu        : true,
                 transparent : true,
                 color: 'transparent',
+                eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'medium'
+                dataHintOffset: 'medium',
+                ariaLabel: this.textBackColor
             });
             this.lockedControls.push(this.btnBackColor);
 
@@ -480,7 +488,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textIndent
             });
             this.lockedControls.push(this.spnIndent);
             this.spnIndent.on('change', _.bind(this.onIndentChange, this));
@@ -498,7 +507,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textOrientation + ' ' + this.textAngle
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
@@ -516,7 +526,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.lockedControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -958,7 +969,8 @@ define([
                         me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
 
                         // Step position
-                        this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
+                        var curValue = this.GradColor.values[this.GradColor.currentIdx];
+                        this.spnGradPosition.setValue(Common.UI.isRTL() ? this.sldrGradient.maxValue - curValue : curValue);
 
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                         this.FGColor = {
@@ -987,19 +999,7 @@ define([
                         (type1 != 'object' && this._state.CellColor !== undefined && this._state.CellColor.indexOf(this.CellColor.Color) < 0)) {
 
                         this.btnBackColor.setColor(this.CellColor.Color);
-                        if (_.isObject(this.CellColor.Color)) {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue) {
-                                    this.colorsBack.select(this.CellColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsBack.clearSelection();
-                        } else {
-                            this.colorsBack.select(this.CellColor.Color, true);
-                        }
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
                         this._state.CellColor = this.CellColor.Color;
                     }
 
@@ -1012,19 +1012,7 @@ define([
                         (type1 != 'object' && this._state.FGColor.indexOf(this.FGColor.Color) < 0)) {
 
                         this.btnFGColor.setColor(this.FGColor.Color);
-                        if (typeof (this.FGColor.Color) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue) {
-                                    this.colorsFG.select(this.FGColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsFG.clearSelection();
-                        } else
-                            this.colorsFG.select(this.FGColor.Color, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.FGColor.Color, this.colorsFG);
                         this._state.FGColor = this.FGColor.Color;
                     }
 
@@ -1036,19 +1024,7 @@ define([
                         (type1 != 'object' && this._state.BGColor.indexOf(this.BGColor.Color) < 0)) {
 
                         this.btnBGColor.setColor(this.BGColor.Color);
-                        if (typeof (this.BGColor.Color) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue) {
-                                    this.colorsBG.select(this.BGColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsBG.clearSelection();
-                        } else
-                            this.colorsBG.select(this.BGColor.Color, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.BGColor.Color, this.colorsBG);
                         this._state.BGColor = this.BGColor.Color;
                     }
 
@@ -1062,19 +1038,7 @@ define([
                         (type1 != 'object' && this._state.GradColor.indexOf(gradColor) < 0)) {
 
                         this.btnGradColor.setColor(gradColor);
-                        if (typeof (gradColor) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == gradColor.effectValue) {
-                                    this.colorsGrad.select(gradColor, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsGrad.clearSelection();
-                        } else
-                            this.colorsGrad.select(gradColor, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(gradColor, this.colorsGrad);
                         this._state.GradColor = gradColor;
                     }
 
@@ -1107,44 +1071,60 @@ define([
                 // create color buttons
                  this.btnBorderColor.setMenu();
                  this.borderColor = this.btnBorderColor.getPicker();
+                 this.btnBorderColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnBackColor.setMenu();
                  this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                 this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
                  this.colorsBack = this.btnBackColor.getPicker();
                  this.fillControls.push(this.btnBackColor);
 
                  this.btnGradColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-gradient-color-btn'),
                      color: '000000',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'big'
+                     dataHintOffset: 'big',
+                     ariaLabel: this.textGradientColor
                  });
                  this.fillControls.push(this.btnGradColor);
                  this.colorsGrad = this.btnGradColor.getPicker();
                  this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
+                 this.btnGradColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnGradColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnFGColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-foreground-color-btn'),
                      color: '000000',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'medium'
+                     dataHintOffset: 'medium',
+                     ariaLabel: this.textForeground
                  });
                  this.fillControls.push(this.btnFGColor);
                  this.colorsFG = this.btnFGColor.getPicker();
                  this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
+                 this.btnFGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnFGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
 
                  this.btnBGColor = new Common.UI.ColorButton({
                      parentEl: $('#cell-background-color-btn'),
                      color: 'ffffff',
+                     eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'medium'
+                     dataHintOffset: 'medium',
+                     ariaLabel: this.textBackground
                  });
                  this.fillControls.push(this.btnBGColor);
                  this.colorsBG = this.btnBGColor.getPicker();
                  this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
+                 this.btnBGColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
+                 this.btnBGColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1410,7 +1390,8 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue) {
             this.GradColor.values = slider.getValues();
-            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
+            var curValue = this.GradColor.values[this.GradColor.currentIdx];
+            this.spnGradPosition.setValue(Common.UI.isRTL() ? this.sldrGradient.maxValue - curValue : curValue, true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -1512,8 +1493,11 @@ define([
 
         onPositionChange: function(btn) {
             var me = this,
-                pos = btn.getNumberValue(),
-                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+                pos = btn.getNumberValue();
+            if (Common.UI.isRTL()) {
+                pos = this.sldrGradient.maxValue - pos;
+            }
+            var minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
                 maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
                 needSort = pos < minValue || pos > maxValue;
             if (this.api) {
@@ -1569,55 +1553,14 @@ define([
             this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
         },
 
-        textBorders:        'Border\'s Style',
-        textBorderColor:    'Color',
-        textBackColor:      'Background color',
-        textSelectBorders       : 'Select borders that you want to change',
-        tipTop:             'Set Outer Top Border Only',
-        tipLeft:            'Set Outer Left Border Only',
-        tipBottom:          'Set Outer Bottom Border Only',
-        tipRight:           'Set Outer Right Border Only',
-        tipAll:             'Set Outer Border and All Inner Lines',
-        tipNone:            'Set No Borders',
-        tipInner:           'Set Inner Lines Only',
-        tipInnerVert:       'Set Vertical Inner Lines Only',
-        tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only',
-        tipDiagU:           'Set Diagonal Up Border',
-        tipDiagD:           'Set Diagonal Down Border',
-        textOrientation:    'Text Orientation',
-        textAngle:          'Angle',
-        textFill:           'Fill',
-        textNoFill:         'No Fill',
-        textGradientFill:   'Gradient Fill',
-        textPatternFill:    'Pattern',
-        textColor:          'Color Fill',
-        textDirection:      'Direction',
-        textLinear:         'Linear',
-        textRadial:         'Radial',
-        textPattern:        'Pattern',
-        textForeground:     'Foreground color',
-        textBackground:     'Background color',
-        textGradient:       'Gradient',
-        textControl: 'Text Control',
-        strWrap: 'Wrap text',
-        strShrink: 'Shrink to fit',
-        textGradientColor: 'Color',
-        textPosition: 'Position',
-        tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point',
-        textIndent: 'Indent',
-        textCondFormat: 'Conditional formatting',
-        textDataBars: 'Data Bars',
-        textColorScales: 'Color Scales',
-        textNewRule: 'New Rule',
-        textClearRule: 'Clear Rules',
-        textSelection: 'From current selection',
-        textThisSheet: 'From this worksheet',
-        textThisTable: 'From this table',
-        textThisPivot: 'From this pivot',
-        textManageRule: 'Manage Rules',
-        textItems: 'Items'
+        onEyedropperStart: function (btn) {
+            this.api.asc_startEyedropper(_.bind(btn.eyedropperEnd, btn));
+            this.fireEvent('eyedropper', true);
+        },
+
+        onEyedropperEnd: function () {
+            this.fireEvent('eyedropper', false);
+        }
 
     }, SSE.Views.CellSettings || {}));
 });

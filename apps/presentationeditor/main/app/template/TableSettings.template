@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td width="50%">
             <label class="header"><%= scope.textRows %></label>
@@ -54,8 +54,8 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div id="table-combo-border-size" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle;">
-                <label class="input-label" style="margin-right: 5px;"><%= scope.textBorderColor %></label>
+            <div class="border-color color-btn-wrap float-right">
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
                 <div id="table-border-color-btn" style="display: inline-block;"></div>
             </div>
         </td>
@@ -85,8 +85,10 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2 align="right">
-            <label class="input-label" style="margin-right: 5px;"><%= scope.textBackColor %></label>
-            <div id="table-back-color-btn" style="display: inline-block;text-align:left;"></div>
+            <div class="color-btn-wrap">
+                <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
+                <div id="table-back-color-btn" style="display: inline-block;"></div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -112,13 +114,13 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textHeight %></label>
-            <div id="table-spin-cell-height" style="display: inline-block; float:right;"></div>
+            <div id="table-spin-cell-height" class="float-right"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textWidth %></label>
-            <div id="table-spin-cell-width" style="display: inline-block; float:right;"></div>
+            <div id="table-spin-cell-width" class="float-right"></div>
         </td>
     </tr>
     <tr>
@@ -138,7 +140,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

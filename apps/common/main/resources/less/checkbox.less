@@ -1,5 +1,5 @@
 .checkbox-indeterminate {
-    padding-left: 22px;
+    .padding-left-22();
     margin-bottom: 0;
     .font-size-normal();
     font-weight: normal;
@@ -20,6 +20,11 @@
             position: absolute;
             left: 0;
             margin-top: auto;
+
+            .rtl & {
+                left: auto;
+                right: 0;
+            }
 
             + span {
                 outline: @scaled-one-px-value-ie dotted transparent;

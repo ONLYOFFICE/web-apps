@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,27 +33,24 @@
 /**
  *  AutoCorrectDialog.js
  *
- *  Created by Julia Radzhabova on 03.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 03.07.2020
  *
  */
 if (Common === undefined)
     var Common = {};
-define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox'
+define([
+    'text!common/main/lib/template/AutoCorrectDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();
     var _exciptionsStore = new Common.UI.DataViewStore();
     var _exciptionsLangs = [0x0409, 0x0419];
-
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
-            height: 430,
-            buttons: null,
+            contentHeight: 345,
+            buttons: ['close'],
             toggleGroup: 'autocorrect-dialog-group'
         },
 
@@ -78,21 +74,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 title: this.textTitle,
                 storageName: this.appPrefix + 'autocorrect-dialog-category',
                 items: items,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="menu-panel" style="overflow: hidden;">',
-                            '<% _.each(items, function(item) { %>',
-                            '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
-                            '<% }); %>',
-                        '</div>',
-                        '<div class="separator"></div>',
-                        '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options || {});
 
             this.api = this.options.api;
@@ -152,8 +134,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="width:110px;padding-right: 5px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
-                        '<div style="width:230px;overflow: hidden;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
+                        '<div class="padding-right-5" style="width:110px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= Common.Utils.String.htmlEncode(replaced) %></div>',
+                        '<div style="width:230px;overflow-x: clip;overflow-y:visible;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;white-space: nowrap;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= Common.Utils.String.htmlEncode(by) %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true,
@@ -361,7 +343,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     menuStyle   : 'min-width:100%;',
                     editable    : false,
                     takeFocusOnClose : true,
-                    menuCls     : 'menu-aligned',
+                    restoreMenuHeightAndTop: true,
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
                     data        : _exciptionsLangs.map(function(lang){
@@ -465,7 +447,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     var checked = (field.getValue()==='checked');
                     Common.localStorage.setBool(me.appPrefix + "settings-letter-exception-cells", checked);
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-letter-exception-cells", checked);
-                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
                 });
 
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));
@@ -510,12 +492,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         getFocusedComponents: function() {
-            var arr = [
+            var arr = this.btnsCategory.concat([
                     this.chReplaceType, this.inputReplace, this.inputBy, this.mathList, this.btnReset, this.btnEdit, this.btnDelete, // 0 tab
                     this.inputRecFind, this.mathRecList, this.btnResetRec, this.btnAddRec, this.btnDeleteRec, // 1 tab
-                ];
+                ]);
             arr = arr.concat(this.chNewRows ? [this.chHyperlink, this.chNewRows] : [this.chQuotes, this.chHyphens, this.chHyperlink, this.chDoubleSpaces, this.chBulleted, this.chNumbered]);
             arr = arr.concat(this.chkSentenceExceptions ? [this.chkSentenceExceptions, this.chkSentenceCells, this.exceptionsLangCmb, this.exceptionsFindInput, this.exceptionsList, this.btnResetExceptions, this.btnAddExceptions, this.btnDeleteExceptions] : []);
+            arr = arr.concat(this.getFooterButtons());
             return arr;
         },
 
@@ -656,7 +639,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
                 Common.UI.warning({
                     maxwidth: 500,
-                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    msg: restore ? this.warnRestore.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))) : this.warnReplace.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))),
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: _.bind(function(btn, dontshow){

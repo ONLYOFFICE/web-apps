@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ComboDataView.js
  *
- *  Created by Julia Svinareva on 6/10/21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 6/10/21
  *
  */
 
@@ -96,7 +94,7 @@ define([
             this.fieldPicker = new Common.UI.DataView({
                 cls: 'field-picker',
                 allowScrollbar: false,
-                itemTemplate: _.template('<div class="item-shape" id="<%= id %>" data-shape="<%= data.shapeType %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div class="item-shape" id="<%= id %>" data-shape="<%= data.shapeType %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 delayRenderTips: this.delayRenderTips
             });
 
@@ -210,7 +208,7 @@ define([
                 parentMenu: this.openButton.menu,
                 restoreHeight: this.menuMaxHeight,
                 style: 'max-height: '+this.menuMaxHeight+'px;',
-                itemTemplate : _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
+                itemTemplate : _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: collection,
                 textRecentlyUsed: text,
                 recentShapes: recent
@@ -368,7 +366,10 @@ define([
             if (menu.cmpEl) {
                 menu.menuAlignEl = this.cmpEl;
                 var offset = this.cmpEl.width() - this.openButton.$el.width() - this.menuWidth + 1;
-                menu.setOffset(Math.min(offset, 0));
+                if (Common.UI.isRTL()) {
+                    offset = this.openButton.$el.width() - 1;
+                }
+                menu.setOffset(Common.UI.isRTL() ? offset : Math.min(offset, 0));
             }
 
             if (this.options.hint) {

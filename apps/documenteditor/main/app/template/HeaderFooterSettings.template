@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textPosition %></label>
@@ -52,9 +52,9 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <div id="headerfooter-button-top-left" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-top-center" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-top-right" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-top-left"></div>
+            <div id="headerfooter-button-top-center"></div>
+            <div id="headerfooter-button-top-right"></div>
         </td>
     </tr>
     <tr>
@@ -64,9 +64,9 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <div id="headerfooter-button-bottom-left" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-bottom-center" style="display: inline-block; margin-right:5px;"></div>
-            <div id="headerfooter-button-bottom-right" style="display: inline-block; margin-right:5px;"></div>
+            <div id="headerfooter-button-bottom-left"></div>
+            <div id="headerfooter-button-bottom-center"></div>
+            <div id="headerfooter-button-bottom-right"></div>
         </td>
     </tr>
     <tr>
@@ -86,9 +86,15 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <div id="headerfooter-radio-prev"  style="margin-bottom: 5px;"></div>
-            <div id="headerfooter-radio-from" style="display: inline-block;vertical-align: middle; margin-right: 2px;"></div>
-            <div id="headerfooter-spin-from" style="display: inline-block;vertical-align: middle;"></div>
+            <div id="headerfooter-radio-prev"></div>
+            <div id="headerfooter-radio-from"></div>
+            <div id="headerfooter-spin-from"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label id="headerfooter-label-format" class="input-label"><%= scope.textNumFormat %></label>
+            <div id="headerfooter-combo-format"></div>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

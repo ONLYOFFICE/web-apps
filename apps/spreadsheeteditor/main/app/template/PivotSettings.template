@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td colspan=2>
             <label class="header"><%= scope.textFields %></label>
@@ -22,7 +22,7 @@
             <div id="pivot-list-filters" class="pivot-listview"></div>
         </td>
         <td class="padding-small">
-            <div id="pivot-list-columns" class="pivot-listview" style="margin-left: 3px;"></div>
+            <div id="pivot-list-columns" class="pivot-listview margin-left-3"></div>
         </td>
     </tr>
     <tr>
@@ -38,7 +38,7 @@
             <div id="pivot-list-rows" class="pivot-listview"></div>
         </td>
         <td class="padding-large">
-            <div id="pivot-list-values" class="pivot-listview" style="margin-left: 3px;"></div>
+            <div id="pivot-list-values" class="pivot-listview margin-left-3"></div>
         </td>
     </tr>
     <tr>

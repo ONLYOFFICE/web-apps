@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,21 +33,14 @@
 /**
  *  ListSettingsDialog.js
  *
- *  Created by Julia Radzhabova on 30.10.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 30.10.2019
  *
  */
 
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/view/SymbolTableDialog'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     var _BulletTypes = {};
     _BulletTypes.none = -1;
@@ -64,6 +56,7 @@ define([
             height: 261,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
+            id: 'window-list-settings',
             split: false,
             buttons: ['ok', 'cancel']
         },
@@ -78,35 +71,35 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div style="margin-bottom: 16px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-bullet" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textBulleted,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-numbering" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textNumbering,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-bullet">', this.textBulleted,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-numbering">', this.textNumbering,'</button>',
                     '</div>',
                     '<div style="height:120px;">',
                         '<table cols="3">',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtType + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 105px;"></div>',
                                     '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="image">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtImport + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-image" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-size"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -114,19 +107,19 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr class="numbering">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-start"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="color">',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
-                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-color"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -199,7 +192,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                     '<%= item.displayValue %>',
                     '<% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span>',
-                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" style="width:12px; height: 12px; margin-left: 4px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
+                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" class="margin-left-4" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -239,7 +232,7 @@ define([
                         if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else if (record.get('value')===_BulletTypes.image) {
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 2px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" class="margin-left-2" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
                             var bullet = new Asc.asc_CBullet();
                             bullet.asc_fillBulletImage(me.imageProps.id);
                             bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');
@@ -260,7 +253,9 @@ define([
                 if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
+                        btn,
                         handler = function(dlg, result, settings) {
+                            btn = result;
                             if (result == 'ok') {
                                 props.changed = true;
                                 props.code = settings.code;
@@ -292,6 +287,9 @@ define([
                             font: props.font,
                             symbol: props.symbol,
                             handler: handler
+                        }).on('close', function(obj){
+                            (btn===undefined) && handler && handler.call(me);
+                            setTimeout(function(){me.cmbBulletFormat.focus();}, 1);
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);
@@ -331,12 +329,19 @@ define([
                 }
             });
 
+            var config = this.options.colorConfig || {};
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
-                cls: 'move-focus',
+                colors: config.colors,
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -371,14 +376,15 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             me.numberingControls = $window.find('tr.numbering');
             me.imageControls = $window.find('tr.image');
@@ -391,11 +397,11 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
+            return [this.btnBullet, this.btnNumbering, this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor].concat(this.getFooterButtons());
         },
 
         afterRender: function() {
-            this.updateThemeColors();
+            !this.options.colorConfig && this.updateThemeColors();
             this._setDefaults(this.props);
 
             var me = this;
@@ -540,18 +546,7 @@ define([
                         color = 'transparent';
                     this.color = Common.Utils.ThemeColor.colorValue2EffectId(color);
                     this.btnColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colors.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colors.clearSelection();
-                    } else
-                        this.colors.select(color,true);
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colors);
 
                     if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                         this.cmbNumFormat.setValue(-1);
@@ -615,7 +610,9 @@ define([
                             }
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.btnSelectImage.focus();
+                }).show();
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'bullet');
             } else {

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ComboBox.js
  *
- *  Created by Alexander Yuzhin on 1/22/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/22/14
  *
  */
 
@@ -83,9 +81,13 @@ define([
                 disabled    : false,
                 menuCls     : '',
                 menuStyle   : '',
+                menuAlignEl : null,
+                restoreMenuHeight: true,
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                searchFields: ['displayValue'], // Property name from the item to be searched by
+                placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
                 dataHint: '',
@@ -95,13 +97,13 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false"  data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -125,8 +127,13 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
+                this.searchFields   = me.options.searchFields;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
+                this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
+                this.restoreMenuHeight = me.options.restoreMenuHeight;
+
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -151,9 +158,11 @@ define([
                         menuStyle   : this.menuStyle,
                         items       : items,
                         scope       : me,
+                        placeHolder : this.placeHolder,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
-                        dataHintOffset: this.options.dataHintOffset
+                        dataHintOffset: this.options.dataHintOffset,
+                        isRTL       : Common.UI.isRTL()
                     }));
                     if (this.itemsTemplate)
                         this.cmpEl.find('ul').html(
@@ -183,6 +192,7 @@ define([
 
                     if (this.editable) {
                         el.on('change', 'input', _.bind(this.onInputChanged, this));
+                        el.on('input', 'input', _.bind(this.onInputChanging, this));
                         el.on('keydown', 'input', _.bind(this.onInputKeyDown, this));
                         el.on('focusin', 'input', _.bind(this.onInputFocusIn, this));
                         el.on('click', '.form-control', _.bind(this.onEditableInputClick, this));
@@ -244,6 +254,10 @@ define([
                     this.setDefaultSelection();
 
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.options.hint;
+                    if (ariaLabel)
+                        this.cmpEl.find('.form-control').attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -261,6 +275,8 @@ define([
             },
 
             openMenu: function(delay) {
+                if (this.store.length<1) return;
+
                 var me = this;
 
                 if ( !this.scroller ) {
@@ -280,6 +296,7 @@ define([
 
             closeMenu: function() {
                 this.cmpEl.removeClass('open');
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
             },
 
             isMenuOpen: function() {
@@ -308,22 +325,41 @@ define([
                     }
                 }
 
-                var $list = this.cmpEl.find('ul');
-                if ($list.hasClass('menu-absolute')) {
-                    var offset = this.cmpEl.offset();
-                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
-                } else if ($list.hasClass('menu-aligned')) {
-                    var offset = this.cmpEl.offset();
-                    $list.toggleClass('show-top', offset.top + this.cmpEl.outerHeight() + $list.outerHeight() > Common.Utils.innerHeight());
+                var $list = this.cmpEl.find('ul'),
+                    isMenuAbsolute = $list.hasClass('menu-absolute');
+                if (this.options.restoreMenuHeightAndTop || isMenuAbsolute) {
+                    var offset = Common.Utils.getOffset(this.cmpEl),
+                        parentTop = this.options.menuAlignEl ? Common.Utils.getOffset(this.options.menuAlignEl).top : 0,
+                        marginTop = parseInt($list.css('margin-top')),
+                        menuTop = offset.top - parentTop + this.cmpEl.outerHeight() + marginTop,
+                        menuLeft = offset.left;
+
+                    if (this.options.restoreMenuHeightAndTop) { // show menu at top
+                        var parentHeight = this.options.menuAlignEl ? this.options.menuAlignEl.outerHeight() : Common.Utils.innerHeight() - 10,
+                            diff = typeof this.options.restoreMenuHeightAndTop === "number" ? this.options.restoreMenuHeightAndTop : 100000;
+
+                        var showAtTop = (menuTop + $list.outerHeight() > parentHeight) && (menuTop + diff > parentHeight) && ((offset.top - parentTop)*0.9 > parentHeight - menuTop);
+                        // if menu height less than restoreMenuHeightAndTop - show menu at top, if greater - try to change menu height + compare available space at top and bottom of combobox
+                        if (!isMenuAbsolute)
+                            $list.toggleClass('show-top', showAtTop);
+                        else if (showAtTop)
+                            menuTop = offset.top - parentTop - $list.outerHeight();
+                    }
+                    if (isMenuAbsolute) {
+                        if (menuLeft + $list.outerWidth()>Common.Utils.innerWidth())
+                            menuLeft += (this.cmpEl.outerWidth() - $list.outerWidth());
+                        $list.css({left: menuLeft, top: menuTop + parentTop});
+                    }
                 }
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 var $list = $(this.el).find('ul'),
                     $selected = $list.find('> li.selected');
 
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = $list.outerHeight();
 
@@ -333,7 +369,7 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
-                } else {
+                } else if (this.focusWhenNoSelection) {
                     var me = this;
                     setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
@@ -341,8 +377,47 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
-                this.trigger('show:after', this, e);
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
+
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
+            },
+
+            alignMenuPosition: function () {
+                if (this.restoreMenuHeight) {
+                    var $list = $(this.el).find('ul');
+                    if (typeof this.restoreMenuHeight !== "number") {
+                        var maxHeight = parseFloat($list.css('max-height'));
+                        if ($list.hasClass('scrollable-menu') || maxHeight) {
+                            this.restoreMenuHeight = maxHeight ? maxHeight : 100000;
+                        } else {
+                            this.restoreMenuHeight = 100000;
+                        }
+                    }
+                    var cg = Common.Utils.croppedGeometry(),
+                        parentTop = this.options.menuAlignEl ? Common.Utils.getOffset(this.options.menuAlignEl).top : cg.top,
+                        parentHeight = this.options.menuAlignEl ? this.options.menuAlignEl.outerHeight() : cg.height - 10,
+                        menuH = $list.outerHeight(),
+                        menuTop = Common.Utils.getBoundingClientRect($list.get(0)).top,
+                        newH = menuH;
+
+                    if (menuH < this.restoreMenuHeight)
+                        newH = this.restoreMenuHeight;
+
+                    var offset = Common.Utils.getOffset(this.cmpEl);
+                    if (menuTop<offset.top) { // menu is shown at top
+                        if (offset.top - parentTop < newH)
+                            newH = offset.top - parentTop;
+                    } else {
+                        if (menuTop + newH > parentHeight + parentTop)
+                            newH = parentHeight + parentTop - menuTop;
+                    }
+
+                    if (newH !== menuH) {
+                        $list.css('max-height', newH + 'px');
+                        $list.hasClass('menu-absolute') && (menuTop<offset.top) && $list.css({top: offset.top - $list.outerHeight()});
+                    }
+                }
             },
 
             onBeforeHideMenu: function(e) {
@@ -354,6 +429,7 @@ define([
 
             onAfterHideMenu: function(e, isFromInputControl) {
                 this.cmpEl.find('.dropdown-toggle').blur();
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
@@ -367,11 +443,16 @@ define([
 
             onAfterKeydownMenu: function(e) {
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
+                    this.onBeforeShowMenu();
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;
-                }
-                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    var $items = this.cmpEl.find('ul > li a');
+                    if ($items.filter(':focus').length===0 && $items.length>0) {
+                        setTimeout(function(){$items[e.keyCode == Common.UI.Keys.DOWN ? 0 : $items.length-1].focus();}, 1);
+                    }
+                } else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
                     var isopen = this.isMenuOpen();
                     $(e.target).click();
                     if (this.rendered) {
@@ -407,26 +488,36 @@ define([
             },
 
             selectCandidate: function() {
-                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+                var me = this,
+                    index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
+                    isFirstCharsEqual = this.searchFields.some(function(field) {
+                        return re.test(me.store.at(index).get(field));
+                    }),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
-                    var item = this.store.at(i);
-                    if (re.test(item.get(this.displayField))) {
-                        if (!itemCandidate) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            if(!isFirstCharsEqual) 
-                                break;  
+                    var item = this.store.at(i),
+                        isBreak = false;
+                    this.searchFields.forEach(function(fieldName) {
+                        if (item.get(fieldName) && re.test(item.get(fieldName))) {
+                            if (!itemCandidate) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                if(!isFirstCharsEqual) {
+                                    isBreak = true;
+                                    return;
+                                }
+                            }
+                            if (me._search.full && i==index || i>index) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                isBreak = true;
+                                return;
+                            }
                         }
-                        if (this._search.full && i==index || i>index) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            break;
-                        }
-                    }
+                    });
+                    if(isBreak) break;
                 }
 
                 if (itemCandidate) {
@@ -435,7 +526,7 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
@@ -456,8 +547,10 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen()) {
                         this.openMenu();
+                        this.onAfterShowMenu();
+                    }
 
                     _.delay(function() {
                         me._skipInputChange = true;
@@ -504,12 +597,26 @@ define([
 
                 if (this._selectedItem) {
                     record = this._selectedItem.toJSON();
-                    $('.selected', $(this.el)).removeClass('selected');
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 }
 
                 // trigger changed event
                 this.trigger('changed:after', this, record, e);
+            },
+
+            onInputChanging: function(e, extra) {
+                var newValue = $(e.target).val();
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                // trigger changing event
+                this.trigger('changing', this, newValue, e);
             },
 
             onInputClick: function(e) {
@@ -544,8 +651,12 @@ define([
                     this._selectedItem = this.store.findWhere((obj={}, obj[this.displayField]=val, obj));
 
                     if (this._selectedItem) {
-                        $('.selected', $(this.el)).removeClass('selected');
-                        $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                        var $selectedItems = $('.selected', $(this.el)),
+                            $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                        $selectedItems.removeClass('selected');
+                        $selectedItems.find('a').attr('aria-checked', false);
+                        $newSelectedItem.addClass('selected');
+                        $newSelectedItem.find('a').attr('aria-checked', true);
                     }
                 }
             },
@@ -587,11 +698,15 @@ define([
                 var obj;
                 this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     this.setRawValue(this._selectedItem.get(this.displayField));
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 } else {
                     this.setRawValue((defValue!==undefined) ? defValue : value);
                 }
@@ -629,9 +744,20 @@ define([
 
                 this._selectedItem = record;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
                 this.setRawValue(this._selectedItem.get(this.displayField));
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.find('a').attr('aria-checked', true);
+            },
+
+            clearSelection: function (){
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
+                this._selectedItem = null;
             },
 
             itemClicked: function (e) {
@@ -646,8 +772,11 @@ define([
                     this.lastValue = this._selectedItem.get(this.displayField);
                     this._input.val(this.lastValue).trigger('change', { synthetic: true });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
                     el.addClass('selected');
+                    el.find('a').attr('aria-checked', true);
 
                     // trigger changed event
                     this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -676,7 +805,7 @@ define([
                 } else {
                     $(this.el).find('ul').html(_.template([
                         '<% _.each(items, function(item) { %>',
-                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>'
                     ].join(''))({
                         items: this.store.toJSON(),
@@ -710,10 +839,10 @@ define([
                 this.options.updateFormControl.call(this, this._selectedItem);
         },
 
-        setValue: function(value) {
-            Common.UI.ComboBox.prototype.setValue.call(this, value);
+        setValue: function(value, defValue) {
+            Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
-                this.options.updateFormControl.call(this, this._selectedItem);
+                this.options.updateFormControl.call(this, this._selectedItem, defValue);
         },
 
         selectRecord: function(record) {

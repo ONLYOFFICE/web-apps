@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,9 +28,8 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 20.02.15
  */
 
@@ -41,10 +39,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/view/SaveAsDlg',
-    'common/main/lib/view/SelectFileDlg',
-    'documenteditor/main/app/view/MailMergeEmailDlg'
+    'common/main/lib/component/CheckBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -197,7 +192,7 @@ define([
             this.btnFirst = new Common.UI.Button({
                 parentEl: $('#mmerge-button-first', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-firstitem',
+                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-firstitem' : 'btn-lastitem'),
                 disabled: true,
                 value: 0,
                 hint: this.txtFirst,
@@ -211,7 +206,7 @@ define([
             this.btnPrev = new Common.UI.Button({
                 parentEl: $('#mmerge-button-prev', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-previtem',
+                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-previtem' : 'btn-nextitem'),
                 disabled: true,
                 value: 1,
                 hint: this.txtPrev,
@@ -225,7 +220,7 @@ define([
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#mmerge-button-next', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-nextitem',
+                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-nextitem' : 'btn-previtem'),
                 value: 2,
                 hint: this.txtNext,
                 lock: [_set.noRecipients, _set.lostConnect],
@@ -238,7 +233,7 @@ define([
             this.btnLast = new Common.UI.Button({
                 parentEl: $('#mmerge-button-last', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-lastitem',
+                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-lastitem' : 'btn-firstitem'),
                 value: 3,
                 hint: this.txtLast,
                 lock: [_set.noRecipients, _set.lostConnect],
@@ -480,6 +475,7 @@ define([
         },
 
         onEditData: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             var mergeEditor = DE.getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
             if (mergeEditor) {
                 mergeEditor.show();
@@ -640,9 +636,8 @@ define([
                     title: this.notcriticalErrorTitle,
                     msg: opts.data.error,
                     iconCls: 'warn',
-                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : ['custom', 'cancel'],
+                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : [{value: 'custom', caption: this.textGoToMail}, 'cancel'],
                     primary: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : 'custom',
-                    customButtonText: this.textGoToMail,
                     callback: _.bind(function(btn){
                         if (btn == 'custom') {
                             window.open(opts.data.createEmailAccountUrl, "_blank");
@@ -841,6 +836,7 @@ define([
                 viewMode: disable,
                 reviewMode: false,
                 fillFormMode: false,
+                viewDocMode: false,
                 allowMerge: true,
                 allowSignature: false,
                 allowProtect: false,
@@ -853,10 +849,11 @@ define([
                 chat: false,
                 review: true,
                 viewport: false,
-                documentHolder: true,
+                documentHolder: {clear: false, disable: true},
                 toolbar: true,
                 plugins: false,
-                protect: false
+                protect: false,
+                header: {docmode: true}
             }, 'mailmerge');
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
@@ -870,7 +867,7 @@ define([
         },
 
         openHelp: function(e) {
-            DE.getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/UseMailMerge.htm');
+            Common.NotificationCenter.trigger('file:help', 'UsageInstructions\/UseMailMerge.htm');
         },
 
         disablePreviewMode: function() {

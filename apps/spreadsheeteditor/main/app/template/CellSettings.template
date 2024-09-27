@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textFill %></label>
@@ -19,22 +19,22 @@
                 <div id="cell-combo-pattern" style="width: 100%; height: 42px; margin-bottom: 8px;"></div>
                 <div style="width: 100%; height: 25px; margin-bottom: 8px;">
                     <label class="input-label" style="margin-top: 3px;"><%= scope.textForeground %></label>
-                    <div id="cell-foreground-color-btn" style="display: inline-block; float:right;"></div>
+                    <div id="cell-foreground-color-btn" class="float-right"></div>
                 </div>
                 <div style="width: 100%; height: 25px;">
                     <label class="input-label" style="margin-top: 3px;"><%= scope.textBackground %></label>
-                    <div id="cell-background-color-btn" style="display: inline-block; float:right;"></div>
+                    <div id="cell-background-color-btn" class="float-right"></div>
                 </div>
             </div>
             <div id="cell-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <div style="height:80px;">
                     <div style="display: inline-block;">
-                        <label class="input-label" style=""><%= scope.textAngle %></label>
+                        <label class="input-label" ><%= scope.textAngle %></label>
                         <div id="cell-spin-gradient-angle" style="width: 90px;"></div>
                     </div>
-                    <div style="display: inline-block;float: right;">
-                        <label class="input-label" style=""><%= scope.textDirection %></label>
-                        <div id="cell-button-direction" style=""></div>
+                    <div class="cell-direction float-right">
+                        <label class="input-label"><%= scope.textDirection %></label>
+                        <div id="cell-button-direction"></div>
                     </div>
                 </div>
                 <label class="header" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
@@ -47,7 +47,7 @@
                         <label class="input-label" style=""><%= scope.textGradientColor %></label>
                         <div id="cell-gradient-color-btn"></div>
                     </div>
-                    <div style="margin-left: 10px;">
+                    <div class="margin-left-10">
                         <label class="input-label" style=""><%= scope.textPosition %></label>
                         <div id="cell-gradient-position"></div>
                     </div>
@@ -72,10 +72,10 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="cell-combo-border-type" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle;">
-                <label class="input-label" style="margin-right: 5px;"><%= scope.textBorderColor %></label>
-                <div id="cell-border-color-btn" style="display: inline-block;"></div>
+            <div id="cell-combo-border-type"></div>
+            <div class="border-color color-btn-wrap float-right">
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
+                <div id="cell-border-color-btn"></div>
             </div>
         </td>
     </tr>
@@ -127,7 +127,7 @@
     <tr>
         <td class="padding-large" colspan=2>
             <label class="input-label"><%= scope.textAngle %></label>
-            <div id="cell-spin-angle" style="display: inline-block;margin-left:5px;"></div>
+            <div id="cell-spin-angle" class="margin-left-5"></div>
         </td>
     </tr>
     <tr>

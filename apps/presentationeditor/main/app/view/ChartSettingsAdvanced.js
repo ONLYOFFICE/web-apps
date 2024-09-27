@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,25 +28,24 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ChartSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 1/18/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/18/17
  *
  */
 
-define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.template',
+define([
+    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/InputField'
 ], function (contentTemplate) {
     'use strict';
 
     PE.Views.ChartSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'chart-adv-settings-group',
             properties: null,
             storageName: 'pe-chart-settings-adv-category',
@@ -58,6 +56,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
+                    {panelId: 'id-adv-chart-general',  panelCaption: this.textGeneral},
                     {panelId: 'id-adv-chart-placement',  panelCaption: this.textPlacement},
                     {panelId: 'id-adv-chart-alttext',    panelCaption: this.textAlt}
                 ],
@@ -78,6 +77,17 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var me = this;
+
+            // General
+
+            this.inputChartName = new Common.UI.InputField({
+                el          : $('#chart-advanced-name'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isChartNameChanged = true;
+            });
 
             // Placement
 
@@ -138,7 +148,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-advanced-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -234,10 +244,11 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
-                this.spnWidth, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 0 tab
-                this.inputAltTitle, this.textareaAltDescription  // 1 tab
-            ];
+            return this.btnsCategory.concat([
+                this.inputChartName, // 0 tab
+                this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -247,9 +258,12 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             setTimeout(function(){
                 switch (index) {
                     case 0:
-                        me.spnWidth.focus();
+                        me.inputChartName.focus();
                         break;
                     case 1:
+                        me.spnWidth.focus();
+                        break;
+                    case 2:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -258,6 +272,9 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
 
         _setDefaults: function(props) {
             if (props ){
+                var value = props.asc_getName();
+                this.inputChartName.setValue(value ? value : '');
+
                 this.spnWidth.setMaxValue(this.sizeMax.width);
                 this.spnHeight.setMaxValue(this.sizeMax.height);
 
@@ -267,7 +284,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
                 if (props.asc_getHeight()>0)
                     this._nRatio = props.asc_getWidth()/props.asc_getHeight();
 
-                var value = props.asc_getLockAspect();
+                value = props.asc_getLockAspect();
                 this.btnRatio.toggle(value);
 
                 this.cmbFromX.setValue('left');
@@ -282,7 +299,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
                     this.spnY.setValue('', true);
                 }
 
-                var value = props.asc_getTitle();
+                value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
 
                 value = props.asc_getDescription();
@@ -294,6 +311,9 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
 
         getSettings: function() {
             var Position = new Asc.CPosition();
+            if (this.isChartNameChanged)
+                this._changedProps.asc_putName(this.inputChartName.getValue());
+
             if (this.spnX.getValue() !== '') {
                 var x = Common.Utils.Metric.fnRecalcToMM(this.spnX.getNumberValue());
                 if (this.cmbFromX.getValue() === 'center') {
@@ -349,6 +369,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         textTopLeftCorner: 'Top Left Corner',
         textCenter: 'Center',
         textKeepRatio: 'Constant Proportions',
-
+        textGeneral: 'General',
+        textChartName: 'Chart name'
     }, PE.Views.ChartSettingsAdvanced || {}));
 });

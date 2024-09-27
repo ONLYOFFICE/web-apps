@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  HyperlinkSettingsDialog.js
  *
- *  Created by Alexander Yuzhin on 4/9/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/9/14
  *
  */
 
@@ -42,19 +40,14 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/TreeView'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width   : 350,
             style   : 'min-width: 230px;',
             cls     : 'modal-dlg',
+            id      : 'window-hyperlink',
             buttons: ['ok', 'cancel']
         },
 
@@ -65,41 +58,41 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 313px;">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textInternalLink,'</button>',
+                    '<div class="input-row margin-bottom-big">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row margin-bottom"></div>',
                     '</div>',
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
-                            '<div style="display: inline-block; position: relative;min-width: 150px;float: right;">',
-                                '<label class="link dropdown-toggle" data-toggle="dropdown" id="id-dlg-hyperlink-get-link" style="line-height: 14px; margin-top: 3px;float: right;">' + this.textGetLink + '</label>',
-                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -139px; padding: 10px;">',
+                            '<div class="get-link float-right">',
+                                '<label class="link dropdown-toggle float-right" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
+                                '<div id="id-clip-copy-box" class="dropdown-menu">',
                                     '<div id="id-dlg-clip-copy"></div>',
-                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + this.textCopy + '</button>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5">' + this.textCopy + '</button>',
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;"></div>',
+                        '<div id="id-dlg-hyperlink-list"></div>',
                         '<div class="input-row">',
                             '<label>' + this.strRange + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-range" class="input-row margin-bottom"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-display" class="input-row margin-bottom"></div>',
                     '<div class="input-row">',
                         '<label>' + this.textTipText + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row margin-bottom"></div>',
                 '</div>'
             ].join('');
 
@@ -135,12 +128,15 @@ define([
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
 
-            me.inputUrl = new Common.UI.InputField({
+            var config = {
                 el          : $('#id-dlg-hyperlink-url'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                iconCls: 'toolbar__icon btn-browse',
+                placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
+                btnHint: me.textSelectFile,
                 validation  : function(value) {
                     var trimmed = $.trim(value);
                     if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
@@ -148,7 +144,8 @@ define([
                     me.urlType = me.api.asc_getUrlType(trimmed);
                     return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
                 }
-            });
+            };
+            me.inputUrl = me.appOptions.isDesktopApp ? new Common.UI.InputFieldBtn(config) : new Common.UI.InputField(config);
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange_url && me.inputUrl.showError();
                 me.isInputFirstChange_url = false;
@@ -156,6 +153,7 @@ define([
                 me.isAutoUpdate && me.inputDisplay.setValue(val);
                 me.btnOk.setDisabled($.trim(val)=='');
             });
+            me.appOptions.isDesktopApp && me.inputUrl.on('button:click', _.bind(me.onSelectFile, me));
 
             me.inputRange = new Common.UI.InputFieldBtn({
                 el          : $('#id-dlg-hyperlink-range'),
@@ -169,7 +167,7 @@ define([
                 validation  : function(value) {
                     if (me.inputRange.isDisabled()) // named range
                         return true;
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
                     } else {
@@ -241,10 +239,10 @@ define([
             me.linkGetLink = $('#id-dlg-hyperlink-get-link');
             me.linkGetLink.toggleClass('hidden', !(me.appOptions && me.appOptions.canMakeActionLink));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary'),
-                disabled: true
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
+            me.btnOk.setDisabled(true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -255,7 +253,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         show: function() {
@@ -445,7 +443,7 @@ define([
                         }
                     }
                     store.reset(arr);
-                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.settings.currentSheet,
+                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.api.asc_getWorksheetName(this.settings.currentSheet),
                         rec = store.findWhere({name: sheet });
                     if (rec) {
                         this.internalList.expandRecord(rec.get('type') ? definedNames : store.at(0));
@@ -531,6 +529,13 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.dataRangeValid = dlg.getSettings();
+                        var idx = me.dataRangeValid.indexOf('!');
+                        (idx>=0) && (me.dataRangeValid = me.dataRangeValid.substring(idx+1, me.dataRangeValid.length));
+                        var rec = me.internalList.store.findWhere({name: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()) });
+                        if (rec) {
+                            me.internalList.expandRecord(me.internalList.store.at(0));
+                            me.internalList.scrollToRecord(me.internalList.selectRecord(rec));
+                        }
                         me.inputRange.setValue(me.dataRangeValid);
                         me.inputRange.checkValidate();
                         me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (me.dataRangeValid!=='' ? '!' + me.dataRangeValid : ''));
@@ -545,16 +550,38 @@ define([
                     _.delay(function(){
                         me.inputRange.focus();
                     },1);
+                    _.delay(function(){
+                        me.api.asc_showWorksheet(me.settings.currentSheet);
+                    },1);
                 });
 
-                var xy = me.$window.offset();
+                me.api.asc_showWorksheet(me.internalList.getSelectedRec().get('index')-1);
+
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.inputRange.getValue()) && (me.inputRange.checkValidate()==true)) ? me.inputRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.FormatTable
+                    type    : Asc.c_oAscSelectionDialogType.Chart
                 });
+            }
+        },
+
+        onSelectFile: function() {
+            var me = this;
+            if (me.api) {
+                var callback = function(result) {
+                    if (result) {
+                        me.inputUrl.setValue(result);
+                        if (me.inputUrl.checkValidate() !== true)
+                            me.isInputFirstChange_url = true;
+                        me.isAutoUpdate && me.inputDisplay.setValue(result);
+                        me.btnOk.setDisabled($.trim(result)=='');
+                    }
+                };
+
+                me.api.asc_getFilePath(callback); // change sdk function
             }
         },
 
@@ -578,6 +605,8 @@ define([
         textGetLink: 'Get Link',
         textCopy: 'Copy',
         textSelectData: 'Select data',
-        txtSizeLimit: 'This field is limited to 2083 characters'
+        txtSizeLimit: 'This field is limited to 2083 characters',
+        txtUrlPlaceholder: 'Enter the web address or select a file',
+        textSelectFile: 'Select file'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });

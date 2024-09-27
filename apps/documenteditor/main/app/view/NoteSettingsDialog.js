@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,23 +33,19 @@
 /**
  *  NoteSettingsDialog.js.js
  *
- *  Created by Julia Radzhabova on 18.12.2016
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 18.12.2016
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 395,
-            buttons: null
+            contentWidth: 310,
+            id: 'window-note-settings',
+            separator: false
         },
 
         initialize : function(options) {
@@ -58,10 +53,16 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                buttons: [
+                    {value: 'insert', caption: this.textInsert},
+                    {value: 'apply', caption: this.textApply, id: 'note-settings-btn-apply'},
+                    'cancel'
+                ],
+                primary: 'insert',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-small">',
@@ -71,13 +72,13 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<div id="note-settings-radio-foot" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-footnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-footnote" class="input-group-nr float-right" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<div id="note-settings-radio-end" style="margin-top: 4px;display: inline-block"></div>',
-                                            '<div id="note-settings-combo-endnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<div id="note-settings-combo-endnote" class="input-group-nr float-right" style="display: inline-block; width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -87,7 +88,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div style="display: inline-block; margin-right: 10px; vertical-align: middle;">',
+                                            '<div class="margin-right-10" style="display: inline-block; vertical-align: middle;">',
                                                 '<label class="input-label">', me.textNumFormat,'</label>',
                                                 '<div id="note-settings-combo-format" class="input-group-nr" style="width:150px;"></div>',
                                             '</div>','<div style="display: inline-block; vertical-align: middle;">',
@@ -115,15 +116,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="insert" style="width: 86px;">' + me.textInsert + '</button>',
-                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn" result="apply" style="width: 86px;">' + me.textApply + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -283,15 +277,15 @@ define([
             });
             this.cmbApply.setValue(arr[0].value);
 
-            this.btnApply = new Common.UI.Button({
-                el: $('#note-settings-btn-apply')
-            });
+            this.btnApply = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#note-settings-btn-apply').addBack().filter('#note-settings-btn-apply').length>0);
+            }) || new Common.UI.Button({ el: $('#note-settings-btn-apply') });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.radioFootnote, this.cmbFootnote, this.radioEndnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
+            return [this.radioFootnote, this.cmbFootnote, this.radioEndnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

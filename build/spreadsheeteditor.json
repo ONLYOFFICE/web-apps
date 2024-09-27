@@ -26,7 +26,6 @@
                         "underscore": "../vendor/underscore/underscore",
                         "backbone": "../vendor/backbone/backbone",
                         "text": "../vendor/requirejs-text/text",
-                        "bootstrap": "../vendor/bootstrap/dist/js/bootstrap",
                         "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
@@ -54,11 +53,6 @@
                                 "jquery"
                             ],
                             "exports": "Backbone"
-                        },
-                        "bootstrap": {
-                            "deps": [
-                                "jquery"
-                            ]
                         },
                         "perfectscrollbar": {
                             "deps": [
@@ -98,6 +92,30 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "options":{
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/spreadsheeteditor/main/app_pack.js",
+                    "out": "../deploy/web-apps/apps/spreadsheeteditor/main/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
+            },
+            "babel": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../deploy/web-apps/apps/spreadsheeteditor/main/",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/ie"
+                    }
+                ]
             }
         },
         "less": {
@@ -339,6 +357,9 @@
                 "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
+                "../apps/common/main/lib/mods/dropdown.js",
+                "../apps/common/main/lib/mods/modal.js",
+                "../apps/common/main/lib/mods/tooltip.js",
                 "../apps/common/main/lib/util/LanguageInfo.js",
                 "../apps/common/embed/lib/util/LocalStorage.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -368,10 +389,17 @@
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/embed/index.html": "../apps/spreadsheeteditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/spreadsheeteditor/embed/index_loader.html": "../apps/spreadsheeteditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,

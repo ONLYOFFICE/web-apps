@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    TabBar.js
  *
- *    Created by Maxim Kadushkin on 28 March 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 28 March 2014
  *
  */
 
@@ -102,7 +100,7 @@ define([
                 calculateBounds: function () {
                     var me = this,
                         length = me.bar.tabs.length,
-                        barBounds = me.bar.$bar.get(0).getBoundingClientRect();
+                        barBounds = Common.Utils.getBoundingClientRect(me.bar.$bar.get(0));
                     me.leftBorder = barBounds.left;
                     me.rightBorder = barBounds.right;
 
@@ -112,7 +110,7 @@ define([
                         me.bar.scrollX  = this.scrollLeft;
 
                         for (var i = 0; i < length; ++i) {
-                            this.bounds.push(me.bar.tabs[i].$el.get(0).getBoundingClientRect());
+                            this.bounds.push(Common.Utils.getBoundingClientRect(me.bar.tabs[i].$el.get(0)));
                         }
 
                         me.lastTabRight = me.bounds[length - 1].right;
@@ -210,7 +208,7 @@ define([
                     event.dataTransfer.setDragImage(img, 0, 0);
                 } else if (Common.Utils.isIE) {
                     this.bar.selectTabs.forEach(function (tab) {
-                        tab.$el.find('span').prop('title', '');
+                        tab.$el.find('span').prop('tabtitle', '');
                     });
                 }
                 event.dataTransfer.effectAllowed = 'copyMove';
@@ -521,7 +519,7 @@ define([
                 if (this.$bar.find('.separator-item').length === 0) {
                     this.$bar.append('<li class="separator-item"><span></span></li>');
                 }
-                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
+                this.$bar.scrollLeft(this.$bar.scrollLeft() + (Common.Utils.getPosition(tab).left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
                 this.checkInvisible(suppress);
             } else {
                 if (!this.isTabVisible(this.tabs.length - 1) && this.$bar.find('.separator-item').length === 0) {
@@ -532,7 +530,7 @@ define([
                 if (index == 'forward') {
                     for (var i = 0; i < this.tabs.length; i++) {
                         tab = this.tabs[i].$el;
-                        right = tab.position().left + parseInt(tab.css('width'));
+                        right = Common.Utils.getPosition(tab).left + parseInt(tab.css('width'));
 
                         if (right > rightbound) {
                             this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + (this.$bar.width() > 400 ? 20 : 5));
@@ -543,7 +541,7 @@ define([
                 } else if (index == 'backward') {
                     for (i = this.tabs.length; i-- > 0; ) {
                         tab = this.tabs[i].$el;
-                        left = tab.position().left;
+                        left = Common.Utils.getPosition(tab).left;
 
                         if (left < 0) {
                             this.$bar.scrollLeft(this.$bar.scrollLeft() + left - 26);
@@ -553,7 +551,7 @@ define([
                     }
                 } else if (typeof index == 'number') {
                     tab = this.tabs[index].$el;
-                    left = tab.position().left;
+                    left = Common.Utils.getPosition(tab).left;
                     right = left + parseInt(tab.css('width'));
 
                     if (left < 0) {
@@ -569,8 +567,8 @@ define([
 
         checkInvisible: function(suppress) {
             var result = {
-                first: !this.isTabVisible(0),
-                last: !this.isTabVisible(this.tabs.length-1)
+                first: !this.isTabVisible(Common.UI.isRTL() ? this.tabs.length-1 : 0),
+                last: !this.isTabVisible(Common.UI.isRTL() ? 0 : this.tabs.length-1)
             };
 
             !suppress && this.fireEvent('tab:invisible', this, result);
@@ -578,7 +576,7 @@ define([
         },
 
         hasInvisible: function() {
-            var _left_bound_ = this.$bar.offset().left,
+            var _left_bound_ = Common.Utils.getOffset(this.$bar).left,
                 _right_bound_ = _left_bound_ + this.$bar.width();
 
             for (var i = this.tabs.length; i-- > 0; ) {
@@ -591,13 +589,13 @@ define([
         },
 
         isTabVisible: function(index) {
-            var leftbound = arguments[1] || this.$bar.offset().left,
+            var leftbound = arguments[1] || Common.Utils.getOffset(this.$bar).left,
                 rightbound = arguments[2] || (leftbound + this.$bar.width()),
                 left, right, tab, rect;
 
             if (index < this.tabs.length && index >= 0) {
                 tab = this.tabs[index].$el;
-                rect = tab.get(0).getBoundingClientRect();
+                rect = Common.Utils.getBoundingClientRect(tab.get(0));
                 left = rect.left;
                 right = rect.right;
 

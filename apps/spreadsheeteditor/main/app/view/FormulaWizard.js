@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,31 +32,29 @@
 /**
  *  FormulaWizard.js
  *
- *  Created by Julia Radzhabova on 17.04.20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 17.04.20
  *
  */
 
 define([
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
 ], function () { 'use strict';
 
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 397
+            contentHeight: 312
         },
 
         initialize : function(options) {
             var me = this;
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
-                                '<table style="height:' + (this.options.height - 85 - 7) + 'px;">',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
+                                '<table style="width: 100%;">',
                                 '<tr><td>',
                                 '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -67,7 +64,7 @@ define([
                                     '</div>',
                                     '<div style="margin-top: 4px;">',
                                         '<label id="formula-wizard-lbl-func-res">' + this.textFunctionRes + '</label>',
-                                        '<div id="formula-wizard-lbl-val-func" class="input-label" style="float: right; width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
+                                        '<div id="formula-wizard-lbl-val-func" class="input-label float-right" style="width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
                                     '</div>',
                                 '</div>',
                                 '</td></tr>',
@@ -82,11 +79,8 @@ define([
                                 '</div>',
                                 '</td></tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props = this.options.props;
@@ -123,6 +117,8 @@ define([
             this.lblFormulaResult = $window.find('#formula-wizard-value');
             this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
 
+            this.innerPanel.find('> table').css('height', this.options.contentHeight - 7);
+
             this._preventCloseCellEditor = false;
 
             this.afterRender();
@@ -155,6 +151,8 @@ define([
         },
 
         _setDefaults: function () {
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
+
             var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
@@ -163,9 +161,10 @@ define([
                 props.name ? $('#formula-wizard-name').html(this.textFunction + ': ' + props.name) : $('#formula-wizard-name').addClass('hidden');
                 this.parseArgsDesc(props.args);
 
-                this.$window.find('#formula-wizard-help').on('click', function (e) {
-                    me.showHelp();
-                })
+                props.custom ?  this.$window.find('#formula-wizard-help').css('visibility', 'hidden') :
+                                this.$window.find('#formula-wizard-help').on('click', function (e) {
+                                    me.showHelp();
+                                })
             }
             this.recalcArgTableSize();
             this.minArgWidth = this.$window.find('#formula-wizard-lbl-func-res').width();
@@ -279,9 +278,10 @@ define([
         getArgumentName: function(argcount) {
             var name = '',
                 namesLen = this.argsNames.length;
-            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') // no repeated args
+            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') { // no repeated args
                 name = this.argsNames[argcount];
-            else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
+                (name==='') && (name = this.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
                 var repeatedLen = this.repeatedArg.length;
                 var req = namesLen-1 - repeatedLen; // required/no-repeated
                 if (argcount<req) // get required args as is
@@ -307,8 +307,8 @@ define([
 
         setControls: function(argcount, argtype, argval, argres) {
             var me = this,
-                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
-                        '<td style="padding-right: 5px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                argtpl = '<tr><td class="padding-right-10" style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                        '<td class="padding-right-5" style="padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
                         '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
                 div = $(Common.Utils.String.format(argtpl, argcount));
             this.tableArgs.append(div);
@@ -342,7 +342,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            Common.UI.FocusManager.add(this, txt);
+            Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {
@@ -431,9 +431,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
@@ -456,8 +456,27 @@ define([
                     lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en';
 
                 var me = this,
-                    name = '/Functions/' + this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-') + '.htm',
+                    func = this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-'),
+                    name = '/Functions/' + func + '.htm',
                     url = 'resources/help/' + lang + name;
+
+                if ( Common.Controllers.Desktop.isActive() ) {
+                    if ( Common.Controllers.Desktop.isHelpAvailable() )
+                        url = Common.Controllers.Desktop.helpUrl() + name;
+                    else {
+                        const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                        if ( helpCenter ) {
+                            const _url_obj = new URL(helpCenter);
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('function', func);
+
+                            window.open(_url_obj.toString(), '_blank');
+                        }
+
+                        me.helpUrl = null;
+                        return;
+                    }
+                }
 
                 fetch(url).then(function(response){
                     if ( response.ok ) {
@@ -465,11 +484,10 @@ define([
                         me.helpUrl = url;
                         me.showHelp();
                     } else {
-                        lang = '{{DEFAULT_LANG}}';
-                        url = 'resources/help/' + lang + name;
+                        url = 'resources/help/' + '{{DEFAULT_LANG}}' + name;
                         fetch(url).then(function(response){
                             if ( response.ok ) {
-                                Common.Utils.InternalSettings.set("sse-settings-func-help", lang);
+                                Common.Utils.InternalSettings.set("sse-settings-func-help", '{{DEFAULT_LANG}}');
                                 me.helpUrl = url;
                                 me.showHelp();
                             } else {

@@ -472,6 +472,15 @@
 	"WRAPCOLS": "FOLDKOLONNER",
 	"TAKE": "TAG",
 	"DROP": "UDELAD",
+	"SEQUENCE": "SEKVENS",
+	"EXPAND": "UDVID",
+	"XMATCH": "XSAMMENLIGN",
+	"FILTER": "FILTRER",
+	"ARRAYTOTEXT": "MATRIXTILTEKST",
+	"SORT": "SORTER",
+	"SORTBY": "SORTER.EFTER",
+	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -493,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresse",
+			"col": "kolonne",
+			"color": "farve",
+			"contents": "indhold",
+			"filename": "filnavn",
+			"format": "format",
+			"parentheses": "parenteser",
+			"prefix": "præfiks",
+			"protect": "beskyt",
+			"row": "række",
+			"type": "type",
+			"width": "bredde"
 		}
 	}
 }

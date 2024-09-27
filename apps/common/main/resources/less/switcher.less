@@ -1,42 +1,27 @@
 .switcher {
     position: relative;
-    width: 25px;
-    height: 15px;
-    background-color: transparent;
+    width: 30px;
+    height: 16px;
+    background-color: @border-preview-hover-ie;
+    background-color: @border-preview-hover;
+    border-radius: 11px;
     cursor: pointer;
-
-    .sw-left {
-        display: inline-block;
-        height: 100%;
-        background-color: @highlight-button-pressed-ie;
-        background-color: @highlight-button-pressed;
-        border-top-left-radius: 2px;
-        border-bottom-left-radius: 2px;
-    }
-
-    .sw-right {
-        display: inline-block;
-        height: 100%;
-        background-color: @border-regular-control-ie;
-        background-color: @border-regular-control;
-        border-top-right-radius: 2px;
-        border-bottom-right-radius: 2px;
-    }
 
     .thumb {
         position: absolute;
         left: 0;
         right: auto;
         top: 0;
-        height: 100%;
+        height: 12px;
+        border-radius: 12px;
         background-color: @background-normal-ie;
         background-color: @background-normal;
-        border: 1px solid @highlight-button-pressed-ie;
-        border: 1px solid @highlight-button-pressed;
-        border-radius: 3px;
+        margin: 2px;
     }
 
     &.on {
+        background-color: @background-primary-dialog-button-ie;
+        background-color: @background-primary-dialog-button;
         .thumb {
             right: 0;
             left: auto;
@@ -45,15 +30,7 @@
 
     &.disabled {
         cursor: default;
-
-        .sw-left {
-            background-color: @border-regular-control-ie;
-            background-color: @border-regular-control;
-        }
-
-        .thumb {
-            border-color: @border-regular-control-ie;
-            border-color: @border-regular-control;
-        }
+        opacity: @component-disabled-opacity-ie;
+        opacity: @component-disabled-opacity;
     }
 }

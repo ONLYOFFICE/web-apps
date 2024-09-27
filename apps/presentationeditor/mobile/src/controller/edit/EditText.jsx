@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
-
 import { EditText } from '../../view/edit/EditText';
 
 class EditTextController extends Component {
@@ -260,9 +258,10 @@ class EditTextController extends Component {
         const arr = [];
 
         arrayElements.forEach( item => {
-            let data = item.drawdata;
-            data['divId'] = item.id;
-            arr.push(data);
+            arr.push({
+                numberingInfo: {bullet: item.numberingInfo==='undefined' ? undefined : JSON.parse(item.numberingInfo)},
+                divId: item.id
+            });
         });
         if (api) api.SetDrawImagePreviewBulletForMenu(arr, type);
     }
@@ -307,6 +306,14 @@ class EditTextController extends Component {
         api.put_PrLineSpacing(LINERULE_AUTO, value);
     }
 
+    setOrientationTextShape(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CShapeProperty();
+
+        properties.put_Vert(direction);
+        api.ShapeApply(properties);
+    }
+
     render () {
         return (
             <EditText
@@ -333,6 +340,7 @@ class EditTextController extends Component {
                 onImageSelect={this.onImageSelect}
                 onInsertByUrl={this.onInsertByUrl}
                 onLineSpacing={this.onLineSpacing}
+                setOrientationTextShape={this.setOrientationTextShape}
             />
         )
     }

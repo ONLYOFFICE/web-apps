@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,24 +32,20 @@
 /**
  *  SlicerSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 14.04.2020
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 14.04.2020
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.template',
+define([
+    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ComboDataView'
 ], function (contentTemplate) {
     'use strict';
 
     SSE.Views.SlicerSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
-            height: 435,
+            contentHeight: 350,
             toggleGroup: 'slicer-adv-settings-group',
             storageName: 'sse-slicer-settings-adv-category'
         },
@@ -118,13 +113,15 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 parentEl: $('#sliceradv-btn-style'),
                 cls         : 'btn-large-dataview sheet-template-slicer',
                 iconCls     : 'icon-template-slicer',
+                scaling     : false,
                 menu        : new Common.UI.Menu({
                     style: 'width: 333px;',
                     additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="sliceradv-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.mnuSlicerPicker = new Common.UI.DataView({
                 el: $('#sliceradv-menu-style'),
@@ -196,7 +193,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#sliceradv-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -385,13 +382,13 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
-                this.inputHeader, this.chHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+            return this.btnsCategory.concat([
+                this.inputHeader, this.chHeader, this.btnSlicerStyle, this.numWidth, this.btnRatio, this.numHeight, this.numCols, this.numColHeight, // 0 tab
                 this.radioAsc, this.radioDesc, this.chHideNoData, this.chIndNoData, this.chShowNoData, // 1 tab
                 this.inputName,  // 2 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 3 tab
                 this.inputAltTitle, this.textareaAltDescription  // 4 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

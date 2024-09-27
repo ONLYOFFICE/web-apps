@@ -5,12 +5,11 @@
 
     input {
         height: @spin-height;
-        text-align: right;
-        padding-left: 1px;
-        padding-right: @trigger-width + 2px;
+        .text-align-right();
+        .padding-x(1px, @trigger-width + 2px);
 
-        &:focus {
-            // border-color: @border-preview-select;
+        .rtl & {
+            direction: rtl;
         }
     }
 
@@ -45,6 +44,12 @@
         border-top: @scaled-one-px-value solid transparent;
         border-bottom: @scaled-one-px-value-ie solid transparent;
         border-bottom: @scaled-one-px-value solid transparent;
+        font-size: 11px; // must be const value
+
+        .rtl & {
+            right: unset;
+            left: 1px;
+        }
 
         i {
             display: inline-block;

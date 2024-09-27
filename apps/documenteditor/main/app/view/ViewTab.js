@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,8 +32,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 06.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 06.12.2021
  *
  */
 
@@ -47,25 +45,25 @@ define([
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="view">' +
+        '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group" data-layout-name="toolbar-view-navigation">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
             '</div>' +
             '<div class="separator long" data-layout-name="toolbar-view-navigation"></div>' +
             '<div class="group small">' +
                 '<div class="elset" style="display: flex;">' +
-                    '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
+                    '<span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>' +
                 '</div>' +
                 '<div class="elset" style="text-align: center;">' +
-                    '<span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>' +
+                    '<span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
                 '</div>' +
             '</div>' +
             '<div class="group small">' +
                 '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-ftp" style="font-size: 11px;text-align: center;"></span>' +
+                    '<span class="btn-slot text slot-btn-ftp" style="text-align: center;"></span>' +
                 '</div>' +
                 '<div class="elset">' +
-                    '<span class="btn-slot text" id="slot-btn-ftw" style="font-size: 11px;text-align: center;"></span>' +
+                    '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
                 '</div>' +
             '</div>' +
             '<div class="separator long"></div>' +
@@ -107,11 +105,15 @@ define([
                 me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
-                me.btnFitToPage.on('click', function () {
-                    me.fireEvent('zoom:topage');
+                me.btnsFitToPage.forEach(function (btn) {
+                    btn.on('click', function () {
+                        me.fireEvent('zoom:topage', [btn]);
+                    });
                 });
-                me.btnFitToWidth.on('click', function () {
-                    me.fireEvent('zoom:towidth');
+                me.btnsFitToWidth.forEach(function (btn) {
+                    btn.on('click', function () {
+                        me.fireEvent('zoom:towidth', [btn]);
+                    });
                 });
                 me.chToolbar.on('change', _.bind(function(checkbox, state) {
                     me.fireEvent('toolbar:setcompact', [me.chToolbar, state !== 'checked']);
@@ -128,11 +130,13 @@ define([
                 me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
-                me.btnDarkDocument.on('click', _.bind(function () {
-                    me.fireEvent('darkmode:change');
+                me.btnDarkDocument.on('click', _.bind(function (e) {
+                    me.fireEvent('darkmode:change', [e.pressed]);
                 }, me));
-                me.cmbZoom.on('combo:focusin', _.bind(this.onComboOpen, this, false));
-                me.cmbZoom.on('show:after', _.bind(this.onComboOpen, this, true));
+                me.cmbsZoom.forEach(function (cmb) {
+                    cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
+                    cmb.on('show:after', _.bind(me.onComboOpen, this, true));
+                });
             },
 
             initialize: function (options) {
@@ -147,7 +151,7 @@ define([
 
                 this.btnNavigation = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-menu-navigation',
+                    iconCls: 'toolbar__icon btn-big-menu-navigation',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textOutline,
                     enableToggle: true,
@@ -157,31 +161,9 @@ define([
                 });
                 this.lockedControls.push(this.btnNavigation);
 
-                this.cmbZoom = new Common.UI.ComboBox({
-                    cls: 'input-group-nr',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    menuStyle: 'min-width: 55px;',
-                    editable: true,
-                    data: [
-                        { displayValue: "50%", value: 50 },
-                        { displayValue: "75%", value: 75 },
-                        { displayValue: "100%", value: 100 },
-                        { displayValue: "125%", value: 125 },
-                        { displayValue: "150%", value: 150 },
-                        { displayValue: "175%", value: 175 },
-                        { displayValue: "200%", value: 200 },
-                        { displayValue: "300%", value: 300 },
-                        { displayValue: "400%", value: 400 },
-                        { displayValue: "500%", value: 500 }
-                    ],
-                    dataHint    : '1',
-                    dataHintDirection: 'top',
-                    dataHintOffset: 'small'
-                });
-                this.cmbZoom.setValue(100);
-                this.lockedControls.push(this.cmbZoom);
+                this.cmbsZoom = [this.getZoomCombo()];
 
-                this.btnFitToPage = new Common.UI.Button({
+                this.btnsFitToPage = [ new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtopage',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -191,10 +173,9 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
-                });
-                this.lockedControls.push(this.btnFitToPage);
+                })] ;
 
-                this.btnFitToWidth = new Common.UI.Button({
+                this.btnsFitToWidth = [ new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
                     lock: [_set.lostConnect, _set.disableOnStart],
@@ -204,12 +185,11 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'medium'
-                });
-                this.lockedControls.push(this.btnFitToWidth);
+                })];
 
                 this.btnInterfaceTheme = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon day',
+                    iconCls: 'toolbar__icon btn-day',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textInterfaceTheme,
                     menu: true,
@@ -221,7 +201,7 @@ define([
 
                 this.btnDarkDocument = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon dark-mode',
+                    iconCls: 'toolbar__icon btn-dark-mode',
                     lock: [_set.inLightTheme, _set.lostConnect, _set.disableOnStart],
                     caption: this.textDarkDocument,
                     enableToggle: true,
@@ -253,7 +233,7 @@ define([
 
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    labelText: this.textRightMenu,
+                    labelText: !Common.UI.isRTL() ? this.textRightMenu : this.textLeftMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -262,7 +242,7 @@ define([
 
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    labelText: this.textLeftMenu,
+                    labelText: !Common.UI.isRTL() ? this.textLeftMenu : this.textRightMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -289,15 +269,41 @@ define([
                 return this;
             },
 
+            getZoomCombo: function() {
+                var combo = new Common.UI.ComboBox({
+                    cls: 'input-group-nr',
+                    lock: [Common.enumLock.lostConnect, Common.enumLock.disableOnStart],
+                    menuStyle: 'min-width: 55px;',
+                    editable: true,
+                    data: [
+                        { displayValue: "50%", value: 50 },
+                        { displayValue: "75%", value: 75 },
+                        { displayValue: "100%", value: 100 },
+                        { displayValue: "125%", value: 125 },
+                        { displayValue: "150%", value: 150 },
+                        { displayValue: "175%", value: 175 },
+                        { displayValue: "200%", value: 200 },
+                        { displayValue: "300%", value: 300 },
+                        { displayValue: "400%", value: 400 },
+                        { displayValue: "500%", value: 500 }
+                    ],
+                    dataHint    : '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: 'small'
+                });
+                combo.setValue(100);
+                return combo;
+            },
+
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
                 this.btnNavigation.render($host.find('#slot-btn-navigation'));
-                this.cmbZoom.render($host.find('#slot-field-zoom'));
-                $host.find('#slot-lbl-zoom').text(this.textZoom);
-                this.btnFitToPage.render($host.find('#slot-btn-ftp'));
-                this.btnFitToWidth.render($host.find('#slot-btn-ftw'));
+                this.cmbsZoom[0].render($host.find('.slot-field-zoom'));
+                $host.find('.slot-lbl-zoom').text(this.textZoom);
+                this.btnsFitToPage[0].render($host.find('.slot-btn-ftp'));
+                this.btnsFitToWidth[0].render($host.find('.slot-btn-ftw'));
                 this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
                 this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
@@ -305,15 +311,35 @@ define([
                 this.chRulers.render($host.find('#slot-chk-rulers'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
+
+                if (this.toolbar && this.toolbar.$el) {
+                    this.btnsFitToPage = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-btn-ftp'), 'tlbtn-btn-ftp-', 'toolbar__icon btn-ic-zoomtopage', this.textFitToPage,
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, true, '1', 'left', 'medium').concat(this.btnsFitToPage);
+                    this.btnsFitToWidth = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-btn-ftw'), 'tlbtn-btn-ftw-', 'toolbar__icon btn-ic-zoomtowidth', this.textFitToWidth,
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, true, '1', 'left', 'medium').concat(this.btnsFitToWidth);
+                    this.toolbar.$el.find('.slot-lbl-zoom').text(this.textZoom);
+                    this.cmbsZoom.push(this.getZoomCombo());
+                    this.cmbsZoom[1].render(this.toolbar.$el.find('.slot-field-zoom'));
+                }
+
+                var created = this.btnsFitToPage.concat(this.btnsFitToWidth).concat(this.cmbsZoom);
+                Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
+                Array.prototype.push.apply(this.lockedControls, created);
+
                 return this.$el;
             },
 
             onAppReady: function () {
+                var me = this;
                 this.btnNavigation.updateHint(this.tipHeadings);
-                this.btnFitToPage.updateHint(this.tipFitToPage);
-                this.btnFitToWidth.updateHint(this.tipFitToWidth);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
+                this.btnsFitToPage.forEach(function (btn) {
+                    btn.updateHint(me.tipFitToPage);
+                });
+                this.btnsFitToWidth.forEach(function (btn) {
+                    btn.updateHint(me.tipFitToWidth);
+                });
 
                 var value = Common.UI.LayoutManager.getInitValue('leftMenu');
                 value = (value!==undefined) ? !value : false;
@@ -347,7 +373,8 @@ define([
                 this.btnNavigation && this.btnNavigation.toggle(state, true);
             },
 
-            onComboOpen: function (needfocus, combo) {
+            onComboOpen: function (needfocus, combo, e, params) {
+                if (params && params.fromKeyDown) return;
                 _.delay(function() {
                     var input = $('input', combo.cmpEl).select();
                     if (needfocus) input.focus();
@@ -371,7 +398,10 @@ define([
             tipInterfaceTheme: 'Interface theme',
             tipDarkDocument: 'Dark document',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
+            textRightMenu: 'Right panel',
+            textTabStyle: 'Tab style',
+            textFill: 'Fill',
+            textLine: 'Line'
         }
     }()), DE.Views.ViewTab || {}));
 });

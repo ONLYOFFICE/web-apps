@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,23 +33,18 @@
 /**
  *  ChartDataDialog.js
  *
- *  Created by Julia Radzhabova on 06.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 06.07.2020
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 490
+            id: 'window-chart-data'
         },
 
         initialize : function(options) {
@@ -58,10 +52,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td>',
@@ -81,18 +75,18 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add" style="min-width: 70px;margin-right:5px;">', me.textAdd, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete" style="min-width: 70px;margin-right:5px;">', me.textDelete, '</button>',
-                                        '<div style="display: inline-block; float: right;">',
-                                        '<div id="chart-dlg-btn-up" style="display: inline-block;margin-right: 2px;"></div>',
-                                        '<div id="chart-dlg-btn-down" style="display: inline-block;"></div>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-add">', me.textAdd, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
+                                        '<div class="up-down-btns float-right">',
+                                        '<div id="chart-dlg-btn-up" class="margin-right-2"></div>',
+                                        '<div id="chart-dlg-btn-down"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-switch" style="min-width: 70px;margin-right:5px;">', me.textSwitch, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-switch" style="min-width: 70px;">', me.textSwitch, '</button>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -102,16 +96,13 @@ define([
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-small">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-category-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
+                                    '<td class="padding-large">',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-category-edit" style="min-width: 70px;">', me.textEdit, '</button>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                    '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -124,11 +115,15 @@ define([
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.currentChartType = Asc.c_oAscChartTypeSettings.barNormal;
+
+            this._isOpen = false;
         },
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
+
+            this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#chart-dlg-txt-range'),
@@ -150,7 +145,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
@@ -178,6 +173,7 @@ define([
                 parentEl: $('#chart-dlg-btn-up'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -186,6 +182,7 @@ define([
                 parentEl: $('#chart-dlg-btn-down'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
@@ -200,7 +197,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
 
@@ -213,7 +210,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory];
+            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -224,7 +221,16 @@ define([
             this._setDefaults(this.chartSettings);
         },
 
+        onAnimateAfter: function () {
+            if (this.chartSettings && !this._isOpen) {
+                this.updateCategoryList(this.chartSettings.getCatValues(), true);
+                this._isOpen = true;
+            }
+        },
+
         close: function () {
+            this.clearCategoryListTimer();
+
             this.api.asc_onCloseChartFrame();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
@@ -332,9 +338,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : me.txtDataRange.getValue(),
@@ -459,9 +465,9 @@ define([
             });
 
             me._isEditRanges = true;
-            var xy = me.$window.offset();
+            var xy = Common.Utils.getOffset(me.$window);
             me.hide();
-            win.show(xy.left + 160, xy.top + 125);
+            win.show(xy.left + (me.$window.outerWidth() - win.options.width)/2, xy.top + (me.$window.outerHeight() - 150)/2);
             win.setSettings({
                 api     : me.api,
                 props   : props,
@@ -512,20 +518,58 @@ define([
             (len>0) && this.seriesList.selectByIndex(Math.min(index || 0, store.length-1));
         },
 
-        updateCategoryList: function(categories) {
-            var arr = [];
-            var store = this.categoryList.store;
-            for (var i = 0, len = categories.length; i < len; i++)
-            {
-                var item = categories[i],
-                    rec = new Common.UI.DataViewModel();
-                rec.set({
-                    value: item
-                });
-                arr.push(rec);
+        updateCategoryList: function(categories, afterAnimate) {
+            this.clearCategoryListTimer();
+
+            var me = this,
+                store = this.categoryList.store,
+                len = categories.length;
+            var getModels = function (data) {
+                var models = [];
+                for (var i = 0, len = data.length; i < len; i++) {
+                    var item = data[i],
+                        rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: item
+                    });
+                    models.push(rec);
+                }
+                return models;
             }
-            store.reset(arr);
-            (len>0) && this.categoryList.selectByIndex(0);
+            var loadCategoryList = function (index) {
+                me._categoryListIndex = index;
+                me._loadCategoryListTimer = setInterval(function() {
+                    if (me._categoryListIndex + 1 >= len) {
+                        me.clearCategoryListTimer();
+                        return;
+                    }
+                    store.add(getModels(categories.slice(me._categoryListIndex, me._categoryListIndex + 10)));
+                    me._categoryListIndex += 10;
+                }, 10);
+            }
+            if (!afterAnimate) {
+                if (categories.length < 10) {
+                    store.reset(getModels(categories));
+                } else {
+                    store.reset(getModels(categories.slice(0, 9)));
+
+                    if (this._isOpen) {
+                        _.defer(function () {
+                            loadCategoryList(10);
+                        }, 0);
+                    }
+                }
+                (len>0) && this.categoryList.selectByIndex(0);
+            } else if (len > store.length) {
+                loadCategoryList(10);
+            }
+        },
+
+        clearCategoryListTimer: function () {
+            if (this._loadCategoryListTimer) {
+                clearInterval(this._loadCategoryListTimer);
+                this._loadCategoryListTimer = undefined;
+            }
         },
 
         onSwitch: function() {

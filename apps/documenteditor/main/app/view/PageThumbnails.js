@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,9 +28,8 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Svinareva
  * Date: 23.08.2021
  */
 
@@ -39,7 +37,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/TreeView'
+    'common/main/lib/component/TreeView',
+    'common/main/lib/component/Slider'
 ], function (template) {
     'use strict';
 
@@ -51,8 +50,8 @@ define([
             '<div id="thumbnails-box" class="layout-ct vbox">',
                 '<div id="thumbnails-header">',
                     '<label><%= scope.textPageThumbnails %></label>',
-                    '<div id="thumbnails-btn-close"></div>',
-                    '<div id="thumbnails-btn-settings"></div>',
+                    '<div id="thumbnails-btn-close" class="float-right margin-left-4"></div>',
+                    '<div id="thumbnails-btn-settings" class="float-right"></div>',
                 '</div>',
                 '<div id="thumbnails-list">',
                 '</div>',
@@ -86,9 +85,9 @@ define([
                             '<% } %>', '>',
                             '<label>' + this.textThumbnailsSize + '</label>',
                             '<div class="thumbnails-sld-box">',
-                                '<span class="menu-item-icon menu__icon thumbnail-small"></span>',
+                                '<span class="menu-item-icon menu__icon btn-thumbnail-small"></span>',
                                 '<div id="sld-thumbnails-size"></div>',
-                                '<span class="menu-item-icon menu__icon thumbnail-big"></span>',
+                                '<span class="menu-item-icon menu__icon btn-thumbnail-big"></span>',
                             '</div>',
                         '</div>'
                     ].join('')),

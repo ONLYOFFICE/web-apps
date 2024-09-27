@@ -32,8 +32,7 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
-
-    directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
+    directionMode = (Common.Locale.isCurrentLangRtl && LocalStorage.getItem('mode-direction') || 'rtl') || 'ltr';
 
     changeDirectionMode(value) {
         this.directionMode = value;

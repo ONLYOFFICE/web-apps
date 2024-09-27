@@ -1,10 +1,10 @@
 <div id="id-merge-email-dlg" class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;" cellpadding="10">
+        <table cols="2" style="width: 100%;" cellpadding="10" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="input-label header"><%= scope.textFrom %></label>
-                    <div id="merge-email-dlg-from" style="margin-right: 5px;"></div>
+                    <div id="merge-email-dlg-from" class="margin-right-5"></div>
                 </td>
                 <td class="padding-small">
                     <label class="input-label header"><%= scope.textTo %></label>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td colspan="2" class="padding-small">
-                    <label style="font-weight: bold;"><%= scope.textWarning %></label>
+                    <label class="header"><%= scope.textWarning %></label>
                     <label class=""><%= scope.textWarningMsg %></label>
                 </td>
             </tr>

@@ -7,7 +7,10 @@
 
 li {
   .icon.spellcheck-lang {
-    margin: -3px 4px 0 -24px;
+    margin: -1px 4px 0 -24px;
+    .rtl & {
+      margin: -1px -24px 0 4px;
+    }
   }
 
   &.selected, a.checked {
@@ -39,6 +42,9 @@ li {
     li .icon.lang-flag {
       margin-top: 1px;
     }
+    li a {
+      .padding-x(28px, 20px);
+    }
   }
 
   .input-icon {
@@ -46,10 +52,18 @@ li {
     &.spellcheck-lang { // spell check indicator
       left: 2px;
       top: 1px;
+      .rtl & {
+        left: auto;
+        right: 2px;
+      }
     }
     &.lang-flag { // language flags
       left: 5px;
       top: 5px;
+      .rtl & {
+        left: auto;
+        right: 5px;
+      }
     }
   }
 }
@@ -86,7 +100,7 @@ li {
   &.en-GB                           {background-position: -32px      -108px;}
   &.en-AU                           {background-position: 0          -120px;}
   &.az-Latn-AZ                      {background-position: -16px      -120px;}
-  &.id, &.id-ID                     {background-position: -32px      -120px;}
+  &.id, &.id-ID, &.en-ID            {background-position: -32px      -120px;}
 
   &.bg, &.bg-BG                     {background-position: 0          -132px;}
   &.ca-ES-valencia                  {background-position: -16px      -132px;}

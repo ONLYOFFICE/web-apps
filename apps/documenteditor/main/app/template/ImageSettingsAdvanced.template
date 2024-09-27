@@ -1,6 +1,6 @@
 <div id="id-adv-image-width" class="settings-panel active">
     <div class="inner-content">
-    <table cols="4" width="100%">
+    <table cols="4" width="100%" role="presentation">
         <tr>
             <td width="78px">
                 <label class="input-label"><%= scope.textWidth %></label>
@@ -22,14 +22,14 @@
 </div>
 <div id="id-adv-shape-size" class="settings-panel active">
     <div class="inner-content">
-    <table cols="3">
+    <table cols="3" role="presentation">
         <tr>
             <td colspan="3">
                 <label class="header"><%= scope.textWidth %></label>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: bottom; padding-bottom: 12px;">
+            <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="shape-radio-hsizepc">
                 <div id="shape-radio-hsize"></div>
             </td>
             <td class="padding-small">
@@ -41,7 +41,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-hsizepc"></div>
             </td>
-            <td class="padding-large" style="padding-right: 15px;">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-width-rel"></div>
             </td>
@@ -56,7 +56,7 @@
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: bottom; padding-bottom: 12px;">
+            <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="shape-radio-vsizepc">
                 <div id="shape-radio-vsize"></div>
             </td>
             <td class="padding-small">
@@ -68,7 +68,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-vsizepc"></div>
             </td>
-            <td class="padding-large" style="padding-right: 15px;">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-height-rel"></div>
             </td>
@@ -81,7 +81,7 @@
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td>
                     <div id="shape-checkbox-ratio"></div>
@@ -93,16 +93,16 @@
 <div id="id-adv-image-rotate" class="settings-panel active">
     <div class="inner-content  padding-large">
         <div style="width: 100%;">
-            <label class="input-label"><%= scope.textAngle %></label>
-            <div id="image-advanced-spin-angle" style="display: inline-block; margin-left: 5px;"></div>
+            <label class="input-label vertical-align-baseline"><%= scope.textAngle %></label>
+            <div id="image-advanced-spin-angle" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content  padding-large">
-        <table cols="2">
+        <table cols="2" role="presentation">
             <tr>
                 <td rowspan="2" class="padding-small" style="vertical-align: top;">
-                    <label class="input-label" style="margin-right: 15px;vertical-align: top;"><%= scope.textFlipped %></label>
+                    <label class="input-label margin-right-15" style="vertical-align: top;"><%= scope.textFlipped %></label>
                 </td>
                 <td class="padding-small">
                     <div id="image-advanced-checkbox-hor"></div>
@@ -120,20 +120,20 @@
     <div class="inner-content padding-large">
         <label class="header padding-small"><%= scope.textWrap %></label>
         <div class="padding-small">
-            <div id="image-advanced-button-wrap-inline" style="display: inline-block; margin-right:7px;"></div>
-            <div id="image-advanced-button-wrap-square" style="display: inline-block; margin-right:7px;"></div>
-            <div id="image-advanced-button-wrap-tight" style="display: inline-block; margin-right:7px;"></div>
-            <div id="image-advanced-button-wrap-through" style="display: inline-block; margin-right:7px;"></div>
+            <div id="image-advanced-button-wrap-inline" class="margin-right-7" style="display: inline-block;"></div>
+            <div id="image-advanced-button-wrap-square" class="margin-right-7" style="display: inline-block;"></div>
+            <div id="image-advanced-button-wrap-tight" class="margin-right-7" style="display: inline-block;"></div>
+            <div id="image-advanced-button-wrap-through" class="margin-right-7" style="display: inline-block;"></div>
         </div>
         <div class="padding-small">
-            <div id="image-advanced-button-wrap-topbottom" style="display: inline-block; margin-right:7px;"></div>
-            <div id="image-advanced-button-wrap-infront" style="display: inline-block; margin-right:7px;"></div>
+            <div id="image-advanced-button-wrap-topbottom" class="margin-right-7" style="display: inline-block;"></div>
+            <div id="image-advanced-button-wrap-infront" class="margin-right-7" style="display: inline-block;"></div>
             <div id="image-advanced-button-wrap-behind" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textDistance %></label>
@@ -164,14 +164,14 @@
 </div>
 <div id="id-adv-image-position" class="settings-panel">
     <div class="inner-content">
-        <table cols="3" style="width: 100%;">
+        <table cols="3" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="3">
                     <label class="header"><%= scope.textHorizontal %></label>
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-hposition image-radio-hpositionpc">
                     <div id="image-radio-halign"></div>
                 </td>
                 <td class="padding-small">
@@ -215,7 +215,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-vposition image-radio-vpositionpc">
                     <div id="image-radio-valign"></div>
                 </td>
                 <td class="padding-small">
@@ -257,7 +257,7 @@
     </div>
     <div class="separator horizontal padding-small"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="2">
                     <label class="header"><%= scope.textOptions %></label>
@@ -276,7 +276,7 @@
 </div>
 <div id="id-adv-image-shape" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textLineStyle %></label>
@@ -296,7 +296,7 @@
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textArrows %></label>
@@ -327,7 +327,7 @@
 </div>
 <div id="id-adv-image-margins" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="header"><%= scope.textAutofit %></label>
@@ -340,7 +340,7 @@
             </tr>
         </table>
         <div class="separator horizontal padding-large"></div>
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.strMargins %></label>
@@ -371,7 +371,7 @@
 </div>
 <div id="id-adv-image-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

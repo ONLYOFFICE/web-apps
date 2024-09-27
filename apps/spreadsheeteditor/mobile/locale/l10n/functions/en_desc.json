@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "Returns a logical 'Exclusive Or' of all arguments"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returns text that’s before delimiting characters."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Returns text that’s after delimiting characters."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Splits text into rows or columns using delimiters."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Wraps a row or column vector after a specified number of values."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Vertically stacks arrays into one array."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Horizontally stacks arrays into one array."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Returns rows from an array or reference."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Returns columns from an array or reference."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Returns the array as one column."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Returns the array as one row."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Wraps a row or column vector after a specified number of values."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Returns rows or columns from array start or end."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Drops rows or columns from array start or end."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Returns a sequence of numbers"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expands an array to the specified dimensions."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Returns the relative position of an item in an array. By default, an exact match is required"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filter a range or array"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returns a text representation of an array"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Sorts a range or array"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "Sorts a range or array based on the values in a corresponding range or array"
 	}
 }

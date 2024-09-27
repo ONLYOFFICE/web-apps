@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,8 +32,7 @@
 /**
  *  ChartDataRangeDialog.js
  *
- *  Created by Julia Radzhabova on 02.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 02.07.2020
  *
  */
 
@@ -42,10 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ChartDataRangeDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -76,7 +71,7 @@ define([
                         '<div id="id-dlg-chart-range-range1"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl1" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;">' + this.txtChoose + '</label>',
+                        '<label id="id-dlg-chart-range-lbl1" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;">' + this.txtChoose + '</label>',
                     '</td>',
                 '</tr>',
                 '<% if (type==1) { %>',
@@ -90,7 +85,7 @@ define([
                         '<div id="id-dlg-chart-range-range2"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl2" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
+                        '<label id="id-dlg-chart-range-lbl2" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;"></label>',
                     '</td>',
                 '</tr>',
                 '<% if (isScatter) { %>',
@@ -104,7 +99,7 @@ define([
                         '<div id="id-dlg-chart-range-range3"></div>',
                     '</td>',
                     '<td style="padding-bottom: 8px;">',
-                        '<label id="id-dlg-chart-range-lbl3" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
+                        '<label id="id-dlg-chart-range-lbl3" class="margin-left-5" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px;"></label>',
                     '</td>',
                 '</tr>',
                 '<% } %>',
@@ -173,7 +168,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputRange1, this.inputRange2, this.inputRange3];
+            return [this.inputRange1, this.inputRange2, this.inputRange3].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -197,25 +192,25 @@ define([
                 if (this.props.series) {
                     var series = this.props.series;
                     this.inputRange1.setValue(series.asc_getName());
-                    this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
+                    this.lblRange1.text((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
                     if (this.props.isScatter) {
                         var arr = series.asc_getXValuesArr();
                         this.inputRange2.setValue(series.asc_getXValues());
-                        this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                        this.lblRange2.text((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
 
                         this.inputRange3.setValue(series.asc_getYValues());
                         arr = series.asc_getYValuesArr();
-                        this.lblRange3.html((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                        this.lblRange3.text((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                     } else {
                         var arr = series.asc_getValuesArr();
                         this.inputRange2.setValue(series.asc_getValues());
-                        this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                        this.lblRange2.text((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                     }
                 }
             } else {
                 var arr = this.props.values;
                 this.inputRange1.setValue(this.props.category || '');
-                this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                this.lblRange1.text((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
             }
         },
 
@@ -248,9 +243,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
@@ -320,29 +315,29 @@ define([
                 switch (type) {
                     case 1:
                         series.asc_setName(value);
-                        this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
+                        this.lblRange1.text((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
                         break;
                     case 2:
                         if (this.isScatter) {
                             var arr = series.asc_getXValuesArr();
                             series.asc_setXValues(value);
-                            this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                            this.lblRange2.text((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         } else {
                             var arr = series.asc_getValuesArr();
                             series.asc_setValues(value);
-                            this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                            this.lblRange2.text((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         }
                         break;
                     case 3:
                         var arr = series.asc_getYValuesArr();
                         series.asc_setYValues(value);
-                        this.lblRange3.html((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                        this.lblRange3.text((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         break;
                 }
             } else {
                 this.chartSettings.setCatFormula(value);
                 var arr = this.chartSettings.getCatValues();
-                this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                this.lblRange1.text((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
             }
         },
 

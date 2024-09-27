@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  HyperlinkSettingsDialog.js
  *
- *  Created by Alexander Yuzhin on 2/20/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/20/14
  *
  */
 
@@ -47,17 +45,14 @@ var c_oHyperlinkType = {
     WebLink: 1
 };
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
+            id: 'window-hyperlink',
             buttons: ['ok', 'cancel']
         },
 
@@ -69,8 +64,8 @@ define([
             this.template = [
                 '<div class="box" style="height: 319px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textInternal,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternal,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternal,'</button>',
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
@@ -99,6 +94,7 @@ define([
             this.api = this.options.api;
             this._originalProps = null;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
+            this.appOptions = this.options.appOptions;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -126,20 +122,25 @@ define([
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
-            me.inputUrl = new Common.UI.InputField({
+            var config = {
                 el          : $('#id-dlg-hyperlink-url'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
+                iconCls: 'toolbar__icon btn-browse',
+                placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
+                btnHint: me.textSelectFile,
                 validation  : function(value) {
                     var trimmed = $.trim(value);
                     if (trimmed.length>2083) return me.txtSizeLimit;
 
                     me.urlType = me.api.asc_getUrlType(trimmed);
                     return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
-                }
-            });
+                },
+                ariaLabel   : me.textUrl
+            };
+            me.inputUrl = me.appOptions.isDesktopApp ? new Common.UI.InputFieldBtn(config) : new Common.UI.InputField(config);
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
@@ -150,12 +151,14 @@ define([
                 }
                 me.btnOk.setDisabled($.trim(val)=='');
             });
+            me.appOptions.isDesktopApp && me.inputUrl.on('button:click', _.bind(me.onSelectFile, me));
 
             me.inputDisplay = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-display'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                ariaLabel   : me.textDisplay
             }).on('changed:after', function() {
                 me.isTextChanged = true;
             });
@@ -166,7 +169,8 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : Asc.c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength,
+                ariaLabel   : me.textTooltip
             });
 
             me.internalList = new Common.UI.TreeView({
@@ -177,9 +181,9 @@ define([
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -188,7 +192,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         ShowHideElem: function(value) {
@@ -447,6 +451,26 @@ define([
             this.close();
         },
 
+        onSelectFile: function() {
+            var me = this;
+            if (me.api) {
+                var callback = function(result) {
+                    if (result) {
+                        me.inputUrl.setValue(result);
+                        if (me.inputUrl.checkValidate() !== true)
+                            me.isInputFirstChange = true;
+                        if (me.isAutoUpdate) {
+                            me.inputDisplay.setValue(result);
+                            me.isTextChanged = true;
+                        }
+                        me.btnOk.setDisabled($.trim(result)=='');
+                    }
+                };
+
+                me.api.asc_getFilePath(callback); // change sdk function
+            }
+        },
+
         textUrl:            'Link to',
         textDisplay:        'Display',
         txtEmpty:           'This field is required',
@@ -459,6 +483,8 @@ define([
         txtBeginning: 'Beginning of document',
         txtHeadings: 'Headings',
         txtBookmarks: 'Bookmarks',
-        txtSizeLimit: 'This field is limited to 2083 characters'
+        txtSizeLimit: 'This field is limited to 2083 characters',
+        txtUrlPlaceholder: 'Enter the web address or select a file',
+        textSelectFile: 'Select file'
     }, DE.Views.HyperlinkSettingsDialog || {}))
 });

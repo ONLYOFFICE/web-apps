@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import ViewSharingSettings from "../view/SharingSettings";
 import {observer, inject} from "mobx-react";
-import { f7 } from 'framework7-react';
 
 const SharingSettingsController = props => {
     const appOptions = props.storeAppOptions;
@@ -28,7 +27,7 @@ const SharingSettingsController = props => {
                 if (msgData?.needUpdate) {
                     setSharingSettings(msgData.sharingSettings);
                 }
-                f7.views.current.router.back();
+                props.f7router.back();
             }
         }
     };
@@ -64,9 +63,7 @@ const SharingSettingsController = props => {
     }, []);
 
     return (
-        <ViewSharingSettings
-            sharingSettingsUrl={sharingSettingsUrl}
-        />
+        <ViewSharingSettings sharingSettingsUrl={sharingSettingsUrl} />
     );
 };
 

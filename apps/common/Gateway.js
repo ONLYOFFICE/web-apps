@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 
 if (window.Common === undefined) {
     window.Common = {};
@@ -46,6 +45,10 @@ if (window.Common === undefined) {
 
             'openDocument': function(data) {
                 $me.trigger('opendocument', data);
+            },
+
+            'openDocumentFromBinary': function(data) {
+                $me.trigger('opendocumentfrombinary', data);
             },
 
             'showMessage': function(data) {
@@ -146,14 +149,30 @@ if (window.Common === undefined) {
 
             'refreshFile': function(data) {
                 $me.trigger('refreshfile', data);
+            },
+
+            'setRequestedDocument': function(data) {
+                $me.trigger('setrequesteddocument', data);
+            },
+
+            'setRequestedSpreadsheet': function(data) {
+                $me.trigger('setrequestedspreadsheet', data);
+            },
+
+            'setReferenceSource': function(data) {
+                $me.trigger('setreferencesource', data);
+            },
+
+            'startFilling': function(data) {
+                $me.trigger('startfilling', data);
             }
         };
 
-        var _postMessage = function(msg) {
+        var _postMessage = function(msg, buffer) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
                 msg.frameEditorId = window.frameEditorId;
-                window.parent.postMessage(window.JSON.stringify(msg), "*");
+                buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };
 
@@ -162,6 +181,14 @@ if (window.Common === undefined) {
             if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
+            if (data && data.command === 'openDocumentFromBinary') {
+                handler = commandMap[data.command];
+                if (handler) {
+                    handler.call(this, data.data);
+                }
+                return;
+            }
+
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
                 return;
             }
@@ -327,8 +354,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function () {
-                _postMessage({event:'onRequestUsers'});
+            requestUsers:  function (command, id) {
+                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
             },
 
             requestSendNotify:  function (emails) {
@@ -359,12 +386,43 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceData', data: data});
             },
 
+            requestOpen:  function (data) {
+                _postMessage({event:'onRequestOpen', data: data});
+            },
+
+            requestSelectDocument:  function (command) {
+                _postMessage({event:'onRequestSelectDocument', data: {c: command}});
+            },
+
+            requestSelectSpreadsheet:  function (command) {
+                _postMessage({event:'onRequestSelectSpreadsheet', data: {c: command}});
+            },
+
+            requestReferenceSource:  function () {
+                _postMessage({event:'onRequestReferenceSource'});
+            },
+
+            requestStartFilling:  function () {
+                _postMessage({event:'onRequestStartFilling'});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },
 
             requestRefreshFile: function() {
                 _postMessage({ event: 'onRequestRefreshFile' });
+            },
+
+            saveDocument: function(data) {
+                data && _postMessage({
+                    event: 'onSaveDocument',
+                    data: data.buffer
+                }, data.buffer);
+            },
+
+            submitForm: function() {
+                _postMessage({event: 'onSubmit'});
             },
 
             on: function(event, handler){

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /* ===========================================================
  *
  * Extends bootstrap-tooltip.js
@@ -77,7 +76,7 @@
 *
 */
 
-(function ($) {
+const tip = function ($) {
     var _superclass = $.fn.tooltip;
     _superclass.prototype = $.fn.tooltip.Constructor.prototype;
 
@@ -155,10 +154,16 @@
                     if (typeof this.options.placement === 'function') {
                         this.options.placement.call(this, $tip[0], this.$element[0]);
                     } else if (typeof at == 'object') {
-                        var tp = {top: at[1] + 15, left: at[0] + 18},
+                        var tp = {
+                                top: at[1] + 15,
+                                left: !Common.UI.isRTL() ? at[0] + 18 : at[0] - $tip.width() - 9
+                            },
                             innerWidth = Common.Utils.innerWidth(),
                             innerHeight = Common.Utils.innerHeight();
 
+                        if (tp.left < 0) {
+                            tp.left = at[0] + 18;
+                        }
                         if (tp.left + $tip.width() > innerWidth) {
                             tp.left = innerWidth - $tip.width() - 30;
                         }
@@ -166,7 +171,7 @@
                             tp.top = innerHeight - $tip.height() - 30;
                         }
 
-                        $tip.offset(tp).addClass('in');
+                        Common.Utils.setOffset($tip, tp).addClass('in');
                     } else {
                         var pos = this.getPosition();
 
@@ -236,6 +241,11 @@
             clearTimeout(self.timeout);
             self.hoverState = 'in';
 
+            if (this._updateTitle!==undefined) {
+                this.tip().find('.tooltip-inner')[this.options.html ? 'html' : 'text'](this.options.title);
+                this._updateTitle = undefined;
+            }
+
             if (!self.options.delay || !self.options.delay.show) { 
                 self.show(); 
             } else {
@@ -263,6 +273,11 @@
             }
 
             return out;
+        },
+
+        updateTitle: function(title) {
+            this.options.title = title;
+            this._updateTitle = title;
         }
     });
 
@@ -294,4 +309,8 @@
     return this;
   };
 
-})(window.jQuery);
+}
+
+// require(['common/main/lib/mods/tooltip'], function (t) {
+    tip(window.jQuery);
+// });

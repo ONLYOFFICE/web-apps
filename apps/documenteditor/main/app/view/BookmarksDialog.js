@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,25 +33,20 @@
 /**
  *  BookmarksDialog.js.js
  *
- *  Created by Julia Radzhabova on 15.02.2018
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Created on 15.02.2018
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 310,
-            height: 366,
-            buttons: null
+            contentWidth: 320,
+            buttons: ['close'],
+            separator: false,
+            id: 'window-bookmarks'
         },
 
         initialize : function(options) {
@@ -60,10 +54,20 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                keydowncallback: function(event) {
+                    if (me.appOptions && me.appOptions.canMakeActionLink && (event.keyCode === Common.UI.Keys.ESC)) {
+                        var box = me.$window.find('#id-clip-copy-box').parent();
+                        if (box.hasClass('open')) {
+                            box.removeClass('open')
+                            me.btnGetLink.focus();
+                            return true;
+                        }
+                    }
+                },
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
@@ -72,33 +76,33 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="bookmarks-txt-name" style="display:inline-block;vertical-align: top;margin-right: 10px;"></div>',
+                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;"></div>',
                                             '<button type="button" result="add" class="btn btn-text-default" id="bookmarks-btn-add" style="vertical-align: top;">', me.textAdd,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
-                                            '<label class="header" style="margin-right: 10px;">', me.textSort,'</label>',
-                                            '<div id="bookmarks-radio-name"></div>',
+                                            '<label class="header margin-right-10">', me.textSort,'</label>',
+                                            '<div id="bookmarks-radio-name" class="margin-right-10"></div>',
                                             '<div id="bookmarks-radio-location"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:290px; height: 139px;"></div>',
+                                        '<div id="bookmarks-list" style="width:100%; height: 139px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
+                                            '<button type="button" class="btn btn-text-default margin-right-5" id="bookmarks-btn-goto">', me.textGoto,'</button>',
                                             '<div style="display: inline-block; position: relative;">',
                                                 '<button type="button" class="btn btn-text-default auto dropdown-toggle move-focus" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
                                                 '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
                                                     '<div id="id-dlg-clip-copy"></div>',
-                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
+                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5" style="width: 86px;">' + me.textCopy + '</button>',
                                                 '</div>',
                                             '</div>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="float: right;">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default float-right" id="bookmarks-btn-delete">', me.textDelete,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -107,13 +111,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textClose + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -133,7 +132,7 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : 'width: 205px;',
+                style       : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
@@ -216,7 +215,7 @@ define([
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
             if (this.appOptions.canMakeActionLink) {
-                var inputCopy = new Common.UI.InputField({
+                this.inputCopy = new Common.UI.InputField({
                     el          : $('#id-dlg-clip-copy'),
                     editable    : false,
                     style       : 'width: 176px;'
@@ -229,20 +228,23 @@ define([
                 copyBox.parent().on({
                     'shown.bs.dropdown': function () {
                         _.delay(function(){
-                            inputCopy._input.select().focus();
+                            me.inputCopy._input.select().focus();
                         },100);
                     },
                     'hide.bs.dropdown': function () {
                         me.txtName._input.select().focus();
                     }
                 });
-                copyBox.find('button').on('click', function() {
-                    inputCopy._input.select();
+                this.btnCopy = new Common.UI.Button({
+                    el: copyBox.find('button')
+                });
+                this.btnCopy.on('click', function() {
+                    me.inputCopy._input.select();
                     document.execCommand("copy");
                 });
 
                 Common.Gateway.on('setactionlink', function (url) {
-                    inputCopy.setValue(url);
+                    me.inputCopy.setValue(url);
                 });
             }
 
@@ -250,7 +252,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden, this.inputCopy, this.btnCopy].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

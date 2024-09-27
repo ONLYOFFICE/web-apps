@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,8 +32,7 @@
 /**
  *  FormSettings.js
  *
- *  Created by Julia Radzhabova on 28/09/20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 28/09/20
  *
  */
 
@@ -46,8 +44,7 @@ define([
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/TextareaField',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/view/ImageFromUrlDialog'
+    'common/main/lib/component/CheckBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -98,6 +95,7 @@ define([
             this.TextOnlySettings = el.find('.form-textfield');
             this.TextOnlySimpleSettings = el.find('.form-textfield-simple'); // text field not in complex form
             this.TextOnlySettingsMask = el.find('.form-textfield-mask');
+            this.TextOnlySettingsRegExp = el.find('.form-textfield-regexp');
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.KeySettings = el.find('.form-keyfield');
             this.KeySettingsTd = this.KeySettings.find('td');
@@ -108,6 +106,11 @@ define([
             this.ConnectedSettings = el.find('.form-connected');
             this.FixedSettings = el.find('.form-fixed');
             this.NotInComplexSettings = el.find('.form-not-in-complex');
+            this.DateOnlySettings = el.find('.form-datetime');
+            this.DefValueText = el.find('#form-txt-def-value').closest('tr');
+            this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
+
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
         },
 
         createDelayedElements: function() {
@@ -125,7 +128,10 @@ define([
             this.cmbKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-key'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -137,6 +143,15 @@ define([
             this.cmbKey.on('selected', this.onKeyChanged.bind(this));
             this.cmbKey.on('changed:after', this.onKeyChanged.bind(this));
             this.cmbKey.on('hide:after', this.onHideMenus.bind(this));
+
+            var showtip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
+                me.cmbKey.off('show:before', showtip);
+                me.cmbKey.off('combo:focusin', showtip);
+            };
+            me.cmbKey.on('show:before', showtip);
+            me.cmbKey.on('combo:focusin', showtip);
 
             this.txtPlaceholder = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-pholder'),
@@ -185,6 +200,70 @@ define([
             this.lockedControls.push(this.textareaHelp);
             this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
             this.textareaHelp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.txtDefValue = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-def-value'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtDefValue);
+            this.txtDefValue.on('changed:after', this.onTxtDefChanged.bind(this));
+            this.txtDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtDefValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtDefValue._input && me.txtDefValue._input.select();}, 1);
+            });
+
+            this.txtDateDefValue = new Common.UI.InputFieldBtnCalendar({
+                el          : $markup.findById('#form-date-def-value'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtDateDefValue);
+            this.txtDateDefValue.on('changed:after', this.onTxtDefChanged.bind(this));
+            this.txtDateDefValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtDateDefValue.on('date:click', this.onDateDefClick.bind(this));
+            this.txtDateDefValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtDateDefValue._input && me.txtDateDefValue._input.select();}, 1);
+            });
+
+            this.cmbDefValue = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-def-value'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbDefValue.setValue('');
+            this.lockedControls.push(this.cmbDefValue);
+            this.cmbDefValue.on('selected', this.onComboDefChanged.bind(this));
+
+            this.chDefValue = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-def-value'),
+                labelText: this.textCheckDefault,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chDefValue.on('change', this.onChDefValue.bind(this));
+            this.lockedControls.push(this.chDefValue);
 
             // Text props
             this.chMaxChars = new Common.UI.CheckBox({
@@ -295,7 +374,10 @@ define([
             this.cmbGroupKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-group-key'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 100%;',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -307,6 +389,33 @@ define([
             this.cmbGroupKey.on('selected', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('changed:after', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('hide:after', this.onHideMenus.bind(this));
+
+            var showGrouptip = function() {
+                Common.NotificationCenter.trigger('forms:close-help', 'group-key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
+                me.cmbGroupKey.off('show:before', showGrouptip);
+                me.cmbGroupKey.off('combo:focusin', showGrouptip);
+            };
+            me.cmbGroupKey.on('show:before', showGrouptip);
+            me.cmbGroupKey.on('combo:focusin', showGrouptip);
+
+            me.txtChoice = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-choice'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtChoice);
+            this.txtChoice.on('changed:after', this.onChoiceChanged.bind(this));
+            this.txtChoice.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtChoice.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtChoice._input && me.txtChoice._input.select();}, 1);
+            });
 
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
@@ -358,7 +467,7 @@ define([
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon cc-remove',
+                iconCls: 'toolbar__icon btn-cc-remove',
                 hint: this.textTipDelete,
                 dataHint: '1',
                 dataHintDirection: 'left',
@@ -416,10 +525,9 @@ define([
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon cc-remove',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-cc-remove',
                 caption     : this.textDelete,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -431,10 +539,9 @@ define([
 
             this.btnLockForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-lock'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
-                style       : 'text-align: left;',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -503,10 +610,67 @@ define([
                 yValue = this.sldrPreviewPositionY.getValue();
             this.imagePositionLabel.text(xValue + ',' + yValue);
 
+            // Roles
+
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= Common.Utils.String.htmlEncode(item.value) %>"><a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 10px;': 'padding-left: 10px;') + 'overflow: hidden; text-overflow: ellipsis;">',
+                            '<span class="color" style="background: <%= item.color %>;"></span>',
+                            '<%= Common.Utils.String.htmlEncode(item.displayValue) %>',
+                        '</a></li>',
+                    '<% }); %>'
+                ];
+
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                    '<div class="form-control" style="display: block; padding-top:3px; line-height: 14px; cursor: pointer; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;<%= style %>"></div>',
+                    '<div style="display: table-cell;"></div>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                    '</ul>',
+                '</div>'
+            ]);
+
+            this.cmbRoles = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-combo-roles'),
+                cls: 'menu-roles',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                style: 'width: 194px;',
+                editable: false,
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        formcontrol[0].innerHTML = '<span class="color" style="background:' + record.get('color') + ';"></span>' + Common.Utils.String.htmlEncode(record.get('displayValue'));
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.onRefreshRolesList(this.roles);
+            this.lockedControls.push(this.cmbRoles);
+            this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
+
+            var showRolesTip = function() {
+                Common.NotificationCenter.trigger('forms:show-help', 'roles');
+                me.cmbRoles.off('show:before', showRolesTip);
+            };
+            me.cmbRoles.on('show:before', showRolesTip);
+
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-format'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [{ displayValue: this.textNone,  value: Asc.TextFormFormatType.None },
                     { displayValue: this.textDigits,  value: Asc.TextFormFormatType.Digit },
@@ -521,8 +685,8 @@ define([
             this.cmbFormat.setValue(Asc.TextFormFormatType.None);
             this.cmbFormat.on('selected', this.onFormatSelect.bind(this));
 
-            this.txtMask = new Common.UI.InputField({
-                el          : $markup.findById('#form-txt-mask'),
+            this.txtRegExp = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-regexp'),
                 allowBlank  : true,
                 validateOnChange: false,
                 validateOnBlur: false,
@@ -532,11 +696,43 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.lockedControls.push(this.txtMask);
-            this.txtMask.on('changed:after', this.onMaskChanged.bind(this));
-            this.txtMask.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
-            this.txtMask.cmpEl.on('focus', 'input.form-control', function() {
-                setTimeout(function(){me.txtMask._input && me.txtMask._input.select();}, 1);
+            this.lockedControls.push(this.txtRegExp);
+            this.txtRegExp.on('changed:after', this.onRegExpChanged.bind(this));
+            this.txtRegExp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtRegExp.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtRegExp._input && me.txtRegExp._input.select();}, 1);
+            });
+
+            this.cmbMask = new Common.UI.ComboBoxCustom({
+                el: $markup.findById('#form-txt-mask'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: true,
+                data: [
+                    { displayValue: this.textPhone1,  value: '(999)999-9999' },
+                    { displayValue: this.textPhone2,  value: '+999999999999' },
+                    { displayValue: this.textZipCodeUS, value: '99999-9999' },
+                    { displayValue: this.textUSSSN, value: '999-99-9999' },
+                    { displayValue: this.textUKPassport,  value: '999999999' },
+                    { displayValue: this.textCreditCard,  value: '9999-9999-9999-9999' }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                updateFormControl: function(record) {
+                    record && this.setRawValue(record.get('value'));
+                    // $('.selected', $(this.el)).removeClass('selected');
+                }
+            });
+            this.cmbMask.setValue('');
+            this.lockedControls.push(this.cmbMask);
+            this.cmbMask.on('selected', this.onMaskChanged.bind(this));
+            this.cmbMask.on('changed:after', this.onMaskChanged.bind(this));
+            this.cmbMask.on('hide:after', this.onHideMenus.bind(this));
+            this.cmbMask.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.cmbMask._input && me.cmbMask._input.select();}, 1);
             });
 
             this.txtFormatSymbols = new Common.UI.InputField({
@@ -557,6 +753,73 @@ define([
                 setTimeout(function(){me.txtFormatSymbols._input && me.txtFormatSymbols._input.select();}, 1);
             });
 
+            // Date & Time
+
+            this.cmbDateFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-date-format'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbDateFormat.setValue('');
+            this.lockedControls.push(this.cmbDateFormat);
+            this.cmbDateFormat.on('selected', this.onDateFormatChanged.bind(this));
+            this.cmbDateFormat.on('changed:after', this.onDateFormatChanged.bind(this));
+            this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
+            this.cmbDateFormat.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
+            });
+
+            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+            data.forEach(function(item) {
+                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
+                item.displayValue = displayName.native;
+                item.displayValueEn = displayName.english;
+                item.langName = langinfo[0];
+            });
+            this.cmbLang = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-date-lang'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                data: data,
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbLang);
+            this.cmbLang.setValue(0x0409);
+            this.cmbLang.on('selected',function(combo, record) {
+                me.updateDateFormats(record.value);
+            });
+
             this.updateMetricUnit();
             this.UpdateThemeColors();
         },
@@ -565,6 +828,7 @@ define([
             this.api = api;
             if (this.api) {
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
+                this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
             Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
@@ -615,6 +879,38 @@ define([
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onTxtDefChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this.api.asc_SetFormValue(newValue, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onDateDefClick: function(input, date) {
+            if (this.api && !this._noApply) {
+                var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
+                formDatePr.put_FullDate(date);
+                this.api.asc_SetContentControlDatePickerPr(formDatePr, this.internalId, true);
+
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onComboDefChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this.api.asc_SetFormValue(record.value, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChDefValue: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.asc_SetFormValue(field.getValue()=='checked', this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -781,6 +1077,19 @@ define([
             } else {
                 this.cmbGroupKey.setValue(this._state.groupKey ? this._state.groupKey : '');
                 this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChoiceChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this._state.choice = undefined;
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                specProps.put_ChoiceName(newValue);
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
@@ -951,12 +1260,12 @@ define([
                         formTextPr.put_LetterFormat();
                         break;
                     case Asc.TextFormFormatType.Mask:
-                        this.txtMask.setValue('*');
-                        formTextPr.put_MaskFormat(this.txtMask.getValue());
+                        this.cmbMask.setValue('*');
+                        formTextPr.put_MaskFormat(this.cmbMask.getValue());
                         break;
                     case Asc.TextFormFormatType.RegExp:
-                        this.txtMask.setValue('.');
-                        formTextPr.put_RegExpFormat(this.txtMask.getValue());
+                        this.txtRegExp.setValue('.');
+                        formTextPr.put_RegExpFormat(this.txtRegExp.getValue());
                         break;
                 }
                 props.put_TextFormPr(formTextPr);
@@ -965,15 +1274,27 @@ define([
             }
         },
 
-        onMaskChanged: function(input, newValue, oldValue, e) {
+        onMaskChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_MaskFormat(record.value);
+                if (this._state.placeholder===this._state.Mask)
+                    props.put_PlaceholderText(record.value);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            } else {
+                this.cmbMask.setValue(this._state.Mask ? this._state.Mask : '');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onRegExpChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                if (this.cmbFormat.getValue()===Asc.TextFormFormatType.Mask) {
-                    formTextPr.put_MaskFormat(newValue);
-                } else if (this.cmbFormat.getValue()===Asc.TextFormFormatType.RegExp) {
-                    formTextPr.put_RegExpFormat(newValue);
-                }
+                formTextPr.put_RegExpFormat(newValue);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
@@ -993,7 +1314,7 @@ define([
             }
         },
 
-        ChangeSettings: function(props) {
+        ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -1057,6 +1378,23 @@ define([
                             this.btnListAdd.setDisabled(true);
                             this._state.listValue = this._state.listIndex = undefined;
                         }
+
+                        // fill default value combo
+                        if (type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+                            arr.forEach(function(item) {
+                                item.value = item.displayValue = item.name;
+                            });
+                            (arr.length>0) && arr.unshift({value: '', displayValue: this.textNone});
+                            this.cmbDefValue.setData(arr);
+                            this.cmbDefValue.setDisabled(arr.length<1 || this._state.DisabledControls);
+                            this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
+                        } else {
+                            val = this.api.asc_GetFormValue(this.internalId);
+                            if ( this._state.DefValue!==val ) {
+                                this.txtDefValue.setValue(val || '');
+                                this._state.DefValue=val;
+                            }
+                        }
                     }
                     this.disableListButtons();
                 } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -1080,6 +1418,13 @@ define([
                         });
                         this.cmbKey.setData(arr);
                         this._state.arrKey=data;
+                        this._state.Key = undefined;
+                    }
+
+                    val = formPr.get_Role();
+                    if (this._state.Role!==val) {
+                        this.cmbRoles.setValue(val ? val : '');
+                        this._state.Role=val;
                     }
 
                     val = formPr.get_Key();
@@ -1118,15 +1463,36 @@ define([
                                 });
                                 this.cmbGroupKey.setData(arr);
                                 this._state.arrGroupKey=data;
+                                this._state.groupKey = undefined;
                             }
 
                             if (this._state.groupKey!==val) {
                                 this.cmbGroupKey.setValue(val ? val : '');
                                 this._state.groupKey=val;
                             }
+
+                            val = specProps.get_ChoiceName();
+                            if (this._state.choice !== val) {
+                                this.txtChoice.setValue(val ? val : '');
+                                this._state.choice = val;
+                            }
+
+                            connected = false;
+                            if (this._state.groupKey) {
+                                val = this.api.asc_GetFormsCountByKey(this._state.groupKey);
+                                connected = (val>1);
+                            }
+                            connected && this.labelConnectedFields.text(this.textConnected + ': ' + val);
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
+                        this.chDefValue.setCaption(ischeckbox ? this.textCheckDefault : this.textRadioDefault);
+
+                        val = this.api.asc_GetFormValue(this.internalId);
+                        if (this._state.ChDefValue!==val) {
+                            this.chDefValue.setValue(!!val, true);
+                            this._state.ChDefValue=val;
+                        }
                     }
 
                     if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
@@ -1135,6 +1501,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
+                        this.chFixed.setDisabled(!val && isShape || this._state.DisabledControls); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
@@ -1186,19 +1553,7 @@ define([
                         (type1 !== 'object' && this._state.BackgroundColor.indexOf(this.BackgroundColor)<0 )) {
 
                         this.btnBGColor.setColor(this.BackgroundColor);
-                        if ( typeof(this.BackgroundColor) == 'object' ) {
-                            var isselected = false;
-                            for (i=0; i<10; i++) {
-                                if ( Common.Utils.ThemeColor.ThemeValues[i] === this.BackgroundColor.effectValue ) {
-                                    this.mnuBGColorPicker.select(this.BackgroundColor, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.mnuBGColorPicker.clearSelection();
-                        } else
-                            this.mnuBGColorPicker.select(this.BackgroundColor,true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.BackgroundColor, this.mnuBGColorPicker);
                         this._state.BackgroundColor = this.BackgroundColor;
                     }
 
@@ -1294,10 +1649,16 @@ define([
                         this._state.FormatType=val;
                     }
 
-                    if ( this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp ) {
-                        val = (this._state.FormatType===Asc.TextFormFormatType.Mask) ? formTextPr.get_MaskFormat() : formTextPr.get_RegExpFormat();
-                        this.txtMask.setValue((val !== null && val !== undefined) ? val : '');
+                    if ( this._state.FormatType===Asc.TextFormFormatType.Mask ) {
+                        val = formTextPr.get_MaskFormat();
+                        this.cmbMask.setValue((val !== null && val !== undefined) ? val : '');
                         this._state.Mask=val;
+                    }
+
+                    if ( this._state.FormatType===Asc.TextFormFormatType.RegExp ) {
+                        val = formTextPr.get_RegExpFormat();
+                        this.txtRegExp.setValue((val !== null && val !== undefined) ? val : '');
+                        this._state.RegExp=val;
                     }
 
                     val = formTextPr.get_FormatSymbols();
@@ -1314,8 +1675,38 @@ define([
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
                     }
+
+                    val = this.api.asc_GetFormValue(this.internalId);
+                    if ( this._state.DefValue!==val ) {
+                        this.txtDefValue.setValue(val || '');
+                        this._state.DefValue=val;
+                    }
                 } else
                     this._originalTextFormProps = null;
+
+                var datePr = props.get_DateTimePr();
+                if (datePr && type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                    this.labelFormName.text(this.textDateField);
+                    this._originalDateProps = datePr;
+                    var lang = datePr.get_LangId() || this.options.controlLang;
+                    if (lang) {
+                        var item = this.cmbLang.store.findWhere({value: lang});
+                        item = item ? item.get('value') : 0x0409;
+                        this.cmbLang.setValue(item);
+                    }
+                    this.updateDateFormats(this.cmbLang.getValue());
+                    var format = datePr.get_DateFormat();
+                    this.cmbDateFormat.setValue(format, datePr.get_String());
+                    this._state.DateFormat=format;
+
+                    val = this.api.asc_GetFormValue(this.internalId);
+                    if ( this._state.DefDateValue!==val ) {
+                        this.txtDateDefValue.setValue(val || '');
+                        this._state.DefDateValue=val;
+                        val = datePr.get_FullDate();
+                        this.txtDateDefValue.setDate(val ? new Date(val) : new Date());
+                    }
+                }
 
                 var isComplex = !!props.get_ComplexFormPr(), // is complex form
                     isSimpleInsideComplex = !!this.api.asc_GetCurrentComplexForm() && !isComplex;
@@ -1327,11 +1718,14 @@ define([
 
                 this.KeySettingsTd.toggleClass('padding-small', !connected);
                 this.ConnectedSettings.toggleClass('hidden', !connected);
-                this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || !(this._state.FormatType===Asc.TextFormFormatType.Mask || this._state.FormatType===Asc.TextFormFormatType.RegExp));
+                this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.Mask);
+                this.TextOnlySettingsRegExp.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.RegExp);
                 if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
+                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex)
+                    this.fireEvent('updatescroller', this);
                 this.type = type;
-                this._state.isSimpleInsideComplex = isSimpleInsideComplex;
+                this.isSimpleInsideComplex = isSimpleInsideComplex;
 
                 this._state.internalId = this.internalId;
             }
@@ -1356,20 +1750,20 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
-                    additionalItems: [
+                    additionalItemsBefore: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
-                            style: 'padding-left:20px;',
+                            style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoBorder,
                             toggleGroup: 'form-settings-no-border',
                             checkable: true
                         }), {caption: '--'}],
                     menu        : true,
-                    colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
-                        '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
-                        '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
-                        '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
-                    ],
+                    colors: ['FEF8E5', 'FFEFBF', 'E2EFD8', 'C6E0B3', 'EDEDED', 'DBDBDB', 'CDD6E4', 'A2B2CA', 'F2F2F2', 'D9D9D9', 'DDEBF6', 'C2DDF2', 'FBECE2',
+                            'F7D9C6', 'D6E3EE', 'B9CAE7', 'F2DADA', 'F2C2C2', 'F0DDF6', 'E5C2F2', 'E6FBD6', 'CDF7AC', 'EED6D6', 'E7B9B9', 'CCE1FF', '9AC4FF', 'E4CDDB', 'D9ADC7'],
+                    themecolors: 0,
+                    effects: 0,
                     dataHint: '1',
+                    colorHints: false,
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
                 });
@@ -1433,7 +1827,8 @@ define([
                 checkboxOnly = false,
                 radioboxOnly = false,
                 listOnly = false,
-                imageOnly = false;
+                imageOnly = false,
+                dateOnly = false;
             if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 listOnly = !!specProps;
             } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -1443,6 +1838,8 @@ define([
                 }
             } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                 imageOnly = true;
+            }  else if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                dateOnly = true;
             } else if (type == Asc.c_oAscContentControlSpecificType.None || type == Asc.c_oAscContentControlSpecificType.Complex) {
                 textOnly = !!textProps;
             }
@@ -1457,6 +1854,9 @@ define([
             this.CheckOnlySettings.toggleClass('hidden', !value);
             this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex);
             this.NotInComplexSettings.toggleClass('hidden', isSimpleInsideComplex);
+            this.DateOnlySettings.toggleClass('hidden', !dateOnly);
+            this.DefValueText.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
+            this.DefValueDropDown.toggleClass('hidden', type !== Asc.c_oAscContentControlSpecificType.DropDownList);
         },
 
         onSelectItem: function(listView, itemView, record) {
@@ -1469,7 +1869,10 @@ define([
         },
 
         onDisconnect: function() {
-            this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
+            if (this.type === Asc.c_oAscContentControlSpecificType.CheckBox && (typeof (this._originalCheckProps || new AscCommon.CSdtCheckBoxPr()).get_GroupKey() === 'string'))
+                this.onGroupKeyChanged(this.cmbGroupKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
+            else
+                this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
         },
 
         disableListButtons: function() {
@@ -1525,58 +1928,89 @@ define([
             }
         },
 
-        textField: 'Text Field',
-        textKey: 'Key',
-        textPlaceholder: 'Placeholder',
-        textTip: 'Tip',
-        textMaxChars: 'Characters limit',
-        textComb: 'Comb of characters',
-        textWidth: 'Cell width',
-        textDelete: 'Delete',
-        textLock: 'Lock',
-        textUnlock: 'Unlock',
-        textRadiobox: 'Radio Button',
-        textCheckbox: 'Checkbox',
-        textCombobox: 'Combo Box',
-        textDropDown: 'Dropdown',
-        textImage: 'Image',
-        textGroupKey: 'Group key',
-        textTipAdd: 'Add new value',
-        textTipDelete: 'Delete value',
-        textTipUp: 'Move up',
-        textTipDown: 'Move down',
-        textValue: 'Value Options',
-        textSelectImage: 'Select Image',
-        textFromUrl:    'From URL',
-        textFromFile:   'From File',
-        textFromStorage: 'From Storage',
-        textColor: 'Border color',
-        textConnected: 'Fields connected',
-        textDisconnect: 'Disconnect',
-        textNoBorder: 'No border',
-        textFixed: 'Fixed size field',
-        textRequired: 'Required',
-        textAutofit: 'AutoFit',
-        textMulti: 'Multiline field',
-        textAspect: 'Lock aspect ratio',
-        textAlways: 'Always',
-        textNever: 'Never',
-        textTooBig: 'Image is Too Big',
-        textTooSmall: 'Image is Too Small',
-        textScale: 'When to scale',
-        textBackgroundColor: 'Background Color',
-        textTag: 'Tag',
-        textAuto: 'Auto',
-        textAtLeast: 'At least',
-        textExact: 'Exactly',
-        textFormat: 'Format',
-        textMask: 'Arbitrary Mask',
-        textReg: 'Regular Expression',
-        textFormatSymbols: 'Allowed Symbols',
-        textLetters: 'Letters',
-        textDigits: 'Digits',
-        textNone: 'None',
-        textComplex: 'Complex Field'
+        onRefreshRolesList: function(roles) {
+            if (this._initSettings) {
+                this.roles = roles;
+                return;
+            }
+
+            if (!roles) {
+                var oform = this.api.asc_GetOForm();
+                oform && (roles = oform.asc_getAllRoles());
+
+                // change to event asc_onRefreshRolesList
+                // roles = [
+                //     {name: 'employee 1', color: Common.Utils.ThemeColor.getRgbColor('ff0000'), fields: 5},
+                //     {name: 'employee 2', color: Common.Utils.ThemeColor.getRgbColor('00ff00'), fields: 1},
+                //     {name: 'manager', color: null, fields: 10}
+                // ];
+            }
+
+            var lastrole = this.cmbRoles.getSelectedRecord();
+            lastrole = lastrole ? lastrole.value : '';
+
+            var arr = [];
+            var me = this;
+            roles && roles.forEach(function(item) {
+                var role = item.asc_getSettings(),
+                    color = role.asc_getColor();
+                arr.push({
+                    displayValue: role.asc_getName() || me.textAnyone,
+                    value: role.asc_getName(),
+                    color: color ? '#' + Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()) : 'transparent'
+                });
+            });
+            this.cmbRoles.setData(arr);
+            this.cmbRoles.setValue(lastrole);
+        },
+
+        onRolesChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Role = undefined;
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Role(record.value);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                Common.Utils.InternalSettings.set('de-last-form-role', record.value)
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        updateDateFormats: function(lang) {
+            if (this._originalDateProps) {
+                var props = this._originalDateProps,
+                    formats = props.get_FormatsExamples(),
+                    arr = [];
+                for (var i = 0, len = formats.length; i < len; i++)
+                {
+                    arr.push({
+                        value: formats[i],
+                        displayValue: props.get_String(formats[i], undefined, lang)
+                    });
+                }
+                this.cmbDateFormat.setData(arr);
+                this.cmbDateFormat.setValue(arr[0].value);
+                if (this.api && !this._noApply)
+                    this.onDateFormatChanged();
+            }
+        },
+
+        onDateFormatChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formDatePr = this._originalDateProps || new AscCommon.CSdtDatePickerPr();
+                formDatePr.put_DateFormat(this.cmbDateFormat.getValue());
+                formDatePr.put_LangId(this.cmbLang.getValue());
+                props.put_DateTimePr(formDatePr);
+                props.put_PlaceholderText(formDatePr.get_String());
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            } else {
+                this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
+                this.fireEvent('editcomplete', this);
+            }
+        }
 
     }, DE.Views.FormSettings || {}));
 });

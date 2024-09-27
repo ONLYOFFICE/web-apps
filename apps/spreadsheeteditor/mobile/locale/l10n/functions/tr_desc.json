@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(mantıksal1; [mantıksal2]; ...)",
 		"d": "Tüm bağımsız değişkenlere mantıksal 'Dışlayıcı Veya' işlecini uygular ve sonucu döndürür"
+	},
+	"TEXTBEFORE": {
+		"a": "(metin, sınırlayıcı, [örnek_sayısı], [eşleştirme_modu], [eşleştirme_sonu], [bulunamıyorsa])",
+		"d": "Karakterleri sınırlandırmadan önceki metni döndürür."
+	},
+	"TEXTAFTER": {
+		"a": "(metin, sınırlayıcı, [örnek_sayısı], [eşleştirme_modu], [eşleştirme_sonu], [bulunamıyorsa])",
+		"d": "Karakterleri sınırlandırmadan sonraki metni döndürür."
+	},
+	"TEXTSPLIT": {
+		"a": "(metin, sütun_sınırlayıcı, [satır_sınırlayıcı], [boşları_yoksay], [eşleştirme_modu], [şununla_doldur])",
+		"d": "Sınırlayıcıları kullanarak metni satırlara veya sütunlara böler."
+	},
+	"WRAPROWS": {
+		"a": "(vektör, sarma_sayısı, [şununla_doldur])",
+		"d": "Belirtilen sayıda değerden sonra bir satır veya sütun vektörünü sarar."
+	},
+	"VSTACK": {
+		"a": "(dizi1, [dizi2], ...)",
+		"d": "Dizileri tek bir dizide dikey olarak yığınlar."
+	},
+	"HSTACK": {
+		"a": "(dizi1, [dizi2], ...)",
+		"d": "Dizileri tek bir dizide yatay olarak yığınlar."
+	},
+	"CHOOSEROWS": {
+		"a": "(dizi, row_num1, [row_num2], ...)",
+		"d": "Bir diziden veya başvurudan satırları döndürür."
+	},
+	"CHOOSECOLS": {
+		"a": "(dizi, col_num1, [col_num2], ...)",
+		"d": "Bir diziden veya başvurudan sütunları döndürür."
+	},
+	"TOCOL": {
+		"a": "(dizi, [yoksay], [scan_by_column])",
+		"d": "Diziyi bir sütun olarak döndürür."
+	},
+	"TOROW": {
+		"a": "(dizi, [yoksay], [scan_by_column])",
+		"d": "Diziyi bir satır olarak döndürür."
+	},
+	"WRAPCOLS": {
+		"a": "(vektör, sarma_sayısı, [şununla_doldur])",
+		"d": "Belirtilen sayıda değerden sonra bir satır veya sütun vektörünü sarar."
+	},
+	"TAKE": {
+		"a": "(dizi, satırlar, [sütunlar])",
+		"d": "Dizinin başlangıcından veya sonundan satırları veya sütunları döndürür."
+	},
+	"DROP": {
+		"a": "(dizi, satırlar, [sütunlar])",
+		"d": "Dizinin başlangıcından veya sonundan satırları veya sütunları bırakır."
+	},
+	"SEQUENCE": {
+		"a": "(satırlar, [sütunlar], [başlangıç], [artış])",
+		"d": "Bir sayı dizisi döndürür"
+	},
+	"EXPAND": {
+		"a": "(dizi, satırlar, [sütunlar], [pad_with])",
+		"d": "Bir diziyi belirtilen boyutlara genişletir."
+	},
+	"XMATCH": {
+		"a": "(arama_değeri, arama_dizisi, [eşleştirme_modu], [arama_modu])",
+		"d": "Bir dizideki öğenin göreli konumunu döndürür. Varsayılan olarak tam eşleşme gereklidir"
+	},
+	"FILTER": {
+		"a": "(dizi, ekle, [boşsa])",
+		"d": "Bir aralığı veya diziyi filtreler"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(dizi, [biçim])",
+		"d": "Dizinin metin olarak temsilini döndürür"
+	},
+	"SORT": {
+		"a": "(dizi, [sıralama_dizini], [sıralama_düzeni], [sütuna_göre])",
+		"d": "Aralığı veya diziyi sıralar"
+	},
+	"SORTBY": {
+		"a": "(dizi, diziye_göre, [sıralama_düzeni], ...)",
+		"d": "Bir aralığı veya diziyi, karşılık gelen aralık veya dizideki değerlere göre sıralar"
 	}
 }

@@ -11,14 +11,12 @@
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         background-image: none;
-        background-position: 0 -206px;
-        background-repeat: no-repeat;
 
         .transparent-color {
             width: 22px;
             height: 22px;
             float: left;
-            background-position: 0 -206px;
+            background-position: -168px -12px;
         }
     }
 
@@ -35,23 +33,21 @@
         width: 195px;
         height: 196px;
         position: relative;
-        background-position: 0 0;
+        background-image: none;
     }
 
     .cnt-root {
         display: inline-block;
         width: 10px;
         height: 196px;
-        margin: 0 8px 0 10px;
+        margin: 0 16px;
     }
 
     .cnt-sat {
         width: 12px;
         height: 100%;
         position: relative;
-        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-        border: @scaled-one-px-value solid @border-regular-control;
-        background-position: -196px 0;
+        background: linear-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
     }
 
     .cnt-hb-arrow {
@@ -78,10 +74,15 @@
         width: 20px;
         height: 12px;
         margin-top: -6px;
-        margin-left: -5px;
-        margin-left: calc(-4px - @scaled-one-px-value);
+        margin-left: -4px;
         position: absolute;
-        background-position: -168px -200px;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAyMCAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xLjU4NiAxMUgxVjFoLjU4Nmw1IDV6bTE2LjgyOCAwSDE5VjFoLS41ODZsLTUgNXoiIGZpbGw9IiMwMDAiLz4KICAgIDxwYXRoIGQ9Im0yIDAgNiA2LTYgNkgxYTEgMSAwIDAgMS0xLTFWMWExIDEgMCAwIDEgMS0xek0xIDExaC41ODZsNS01LTUtNUgxek0xOCAwbC02IDYgNiA2aDFhMSAxIDAgMCAwIDEtMVYxYTEgMSAwIDAgMC0xLTF6bTEgMTFoLS41ODZsLTUtNSA1LTVIMTl6IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=");
+
+        .rtl & {
+            margin-left: 0;
+            margin-right: -4px;
+            margin-right: calc(-3px - @scaled-one-px-value);
+        }
     }
 
     .empty-color {

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,19 +28,15 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PageSizeDialog.js
  *
- *  Created by Julia Radzhabova on 2/16/16
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/16/16
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.PageSizeDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -59,7 +54,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 85px;">',
+                '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2">',
@@ -68,7 +63,7 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td style="padding-right: 10px;">',
+                            '<td class="padding-right-10">',
                                 '<label class="input-label">' + this.textWidth + '</label>',
                                 '<div id="page-size-spin-width"></div>',
                             '</td>',
@@ -78,8 +73,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -141,10 +135,10 @@ define([
                     { value: 6, displayValue: 'Envelope DL', size: [110, 220]},
                     { value: 7, displayValue: 'Tabloid', size: [279.4, 431.8]},
                     { value: 8, displayValue: 'A3', size: [297, 420]},
-                    { value: 9, displayValue: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 9, displayValue: 'Tabloid Oversize', size: [296.9, 457.2]},
                     { value: 10, displayValue: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue: 'Envelope Choukei 3', size: [119.9, 234.9]},
-                    { value: 12, displayValue: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 11, displayValue: 'Envelope Choukei 3', size: [120, 235]},
+                    { value: 12, displayValue: 'Super B/A3', size: [305, 487]},
                     { value: 13, displayValue: 'A0', size: [841, 1189]},
                     { value: 14, displayValue: 'A1', size: [594, 841]},
                     { value: 16, displayValue: 'A2', size: [420, 594]},
@@ -174,7 +168,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbPreset, this.spnWidth, this.spnHeight];
+            return [this.cmbPreset, this.spnWidth, this.spnHeight].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

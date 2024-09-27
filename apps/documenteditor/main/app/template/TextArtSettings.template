@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textTemplate %></label>
@@ -30,7 +30,7 @@
                 <div id="textart-back-color-btn" style=""></div>
             </div>
             <div id="textart-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <table cols="3" style="margin-bottom: 10px;">
+                <table cols="3" style="margin-bottom: 10px;" role="presentation">
                     <tr valign="top">
                         <td colspan="2">
                             <div>
@@ -39,7 +39,7 @@
                             </div>
                         </td>
                         <td rowspan="2" style="width: 100%;">
-                            <div style="float: right;">
+                            <div class="float-right">
                                 <label class="input-label"><%= scope.textDirection %></label>
                                 <div id="textart-button-direction"></div>
                             </div>
@@ -47,7 +47,7 @@
                     </tr>
                     <tr valign="bottom">
                         <td>
-                            <label class="input-label" style="margin-right: 5px;margin-bottom: 3px;"><%= scope.textAngle %></label>
+                            <label class="input-label angle-label"><%= scope.textAngle %></label>
                         </td>
                         <td>
                             <div id="textart-spin-gradient-angle" style="display: inline-block; width: 60px;"></div>
@@ -64,7 +64,7 @@
                         <label class="input-label" style=""><%= scope.strColor %></label>
                         <div id="textart-gradient-color-btn"></div>
                     </div>
-                    <div style="margin-left: 10px;">
+                    <div class="margin-left-10">
                         <label class="input-label" style=""><%= scope.textPosition %></label>
                         <div id="textart-gradient-position"></div>
                     </div>
@@ -86,7 +86,7 @@
                     <div id="textart-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
                     <label id="textart-lbl-transparency-end">100</label>
                 </div>
-                <div id="textart-spin-transparency" style="display: inline-block;float: right;"></div>
+                <div id="textart-spin-transparency" class="float-right"></div>
             </div>
         </td>
     </tr>
@@ -118,6 +118,19 @@
             <label class="input-label" style=""><%= scope.strType %></label>
             <div id="textart-combo-border-type" style="width: 93px;"></div>
         </div>
+        </td>
+    </tr>
+     <tr>
+        <td>
+            <div class="padding-small" id="textart-line-panel-transparent" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="textart-line-lbl-transparency-start">0</label>
+                    <div id="textart-line-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="textart-line-lbl-transparency-end">100</label>
+                </div>
+                <div id="textart-line-spin-transparency" class="float-right"></div>
+            </div>
         </td>
     </tr>
     <tr class="textart-transform">

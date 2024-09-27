@@ -1,0 +1,33 @@
+
+<div class="statusbar" style="display:table;">
+    <div class="status-group dropup">
+        <label id="label-pages" class="status-label dropdown-toggle margin-top-large" data-toggle="dropdown" data-hint="0" data-hint-direction="top"><%= textPageNumber %></label>
+        <div id="status-goto-box" class="dropdown-menu">
+            <label class="float-left"><%= textGotoPage %></label>
+            <div id="status-goto-page" style="display:inline-block;"></div>
+        </div>
+    </div>
+    <div class="separator short space"></div>
+    <div class="status-group">
+        <span id="slot-status-btn-prev" style="display: inline-block;" class="margin-top-small"></span>
+        <span id="slot-status-btn-next" style="display: inline-block;" class="margin-top-small"></span>
+    </div>
+    <div class="status-group" style="width:100%; text-align:center;">
+        <label id="label-action" class="status-label margin-top-large" data-layout-name="statusBar-actionStatus"></label>
+    </div>
+    <div class="status-group" style="">
+        <div class="separator short hide-select-tools"></div>
+        <button id="status-btn-select-tool" type="button" class="btn small btn-toolbar hide-select-tools margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-select-tool">&nbsp;</i></button>
+        <button id="status-btn-hand-tool" type="button" class="btn small btn-toolbar hide-select-tools margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-hand-tool">&nbsp;</i></button>
+        <div class="separator short hide-select-tools"></div>
+        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtopage">&nbsp;</i></button>
+        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
+        <button id="btn-zoom-down" type="button" class="btn small btn-toolbar margin-top-small"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
+        <div class="cnt-zoom">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
+                <label id="label-zoom" class="status-label">Zoom 100%</label>
+            </div>
+        </div>
+        <button id="btn-zoom-up" type="button" class="btn small btn-toolbar margin-top-small"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+    </div>
+</div>

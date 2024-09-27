@@ -96,7 +96,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        padding: 4px 2px;
+        padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
     }
@@ -111,16 +111,29 @@
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
-        padding: 1px 5px;
+        border-radius: 1px;
+        padding: 1px 8px;
         cursor: default;
         line-height: 24px;
 
-        &:hover:not(:disabled),&:focus {
-            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
-            border-radius: 1px;
+        &:hover:not(:disabled):not(:focus){
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
             cursor: text;
         }
+        &:focus{
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
+            cursor: text;
+        }
+        .rtl & {
+            direction: rtl;
+        }
+    }
+
+    #box-doc-name, #box-right-btn-group {
+        padding-bottom: @scaled-one-px-value-ie;
+        padding-bottom: @scaled-one-px-value;
     }
 
     #rib-save-status {
@@ -145,6 +158,9 @@
         max-width: 200px;
         height: 100%;
         padding: 6px 24px 6px 12px;
+        .rtl & {
+            padding: 6px 12px 6px 24px;
+        }
 
         i {
             cursor: pointer;
@@ -157,12 +173,19 @@
             background-repeat: no-repeat;
         }
 
+        &.logo-light i { // logo from light theme
+            background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
+        }
+
         &.link img {
             cursor: pointer;
         }
 
         #box-document-title & {
             padding: 4px 24px 4px 12px;
+            .rtl & {
+                padding: 4px 12px 4px 24px;
+            }
         }
     }
 }
@@ -210,6 +233,7 @@
             .icon.toolbar__icon {
                 &.icon--inverse {
                     background-position-x: @button-header-active-icon-offset-x-ie;
+                    background-position-x: @button-header-active-icon-offset-x;
                     opacity: @header-component-active-icon-opacity;
                 }
             }
@@ -218,6 +242,19 @@
         &:hover:not(:disabled) {
             .icon {
                 opacity: @header-component-hover-icon-opacity;
+            }
+        }
+
+        .caret {
+            border-color: @icon-toolbar-header-ie;
+            border-color: @icon-toolbar-header;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled){
+            .caret {
+                border-color: @icon-toolbar-header-ie;
+                border-color: @icon-toolbar-header;
             }
         }
     }
@@ -229,8 +266,8 @@
         only screen and (-webkit-min-device-pixel-ratio: 1.5),
         only screen and (min-resolution: 1.5dppx),
         only screen and (min-resolution: 144dpi) {
-            width:calc(~"28px/1.5");
-            height:calc(~"28px/1.5");
+            /* width:calc(~"28px/1.5"); */
+            /* height:calc(~"28px/1.5"); */
         }
     }
 
@@ -240,14 +277,15 @@
         opacity: @component-disabled-opacity;
     }
 
-    &:hover {
+    &:hover,
+    .highlight-tip & {
         &:not(.disabled) {
             background-color: @highlight-header-button-hover-ie;
             background-color: @highlight-header-button-hover;
         }
     }
 
-    &:active {
+    &:active, &.active {
         &:not(.disabled) {
             background-color: @highlight-header-button-pressed-ie;
             background-color: @highlight-header-button-pressed;
@@ -256,6 +294,12 @@
 
     &.no-caret {
         .inner-box-caret {
+            display: none;
+        }
+    }
+
+    .pixel-ratio__2_5 & {
+        i.icon {
             display: none;
         }
     }
@@ -285,7 +329,7 @@
 
     .caption {
         cursor: pointer;
-        font-size: 9px;
+        .font-size-tiny();
         margin-left: -18px;
         width: 16px;
         text-align: center;
@@ -316,16 +360,25 @@
         opacity: @component-disabled-opacity;
         pointer-events: none;
     }
+
+    .rtl & {
+        padding: 0 6px 0 8px;
+        .caption {
+            margin-left: 8px;
+            margin-right: -26px;
+        }
+    }
 }
 
-.btn-header-share {
+.btn-header-share,
+.btn-header-pdf-mode {
     display: flex;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 6px;
     width: auto;
 
     .caption {
-        margin: 2px 0 0 2px;
+        margin: 2px 4px 0 2px;
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }
@@ -379,6 +432,14 @@
         background-color: @icon-toolbar-header;
         color: @toolbar-header-text-on-background-ie;
         color: @toolbar-header-text-on-background;
+        .pdf-form & {
+            color: @toolbar-header-text-on-background-pdf-ie;
+            color: @toolbar-header-text-on-background-pdf;
+        }
+        vertical-align: middle;
+        background-size: cover;
+        background-position: center;
+
         font-size: 10px;
         line-height: 20px;
         overflow: hidden;
@@ -395,7 +456,7 @@
 
     padding: 14px;
     width: 285px;
-    font-size: 12px;
+    .font-size-medium();
 
     z-index: 1042;
 
@@ -424,29 +485,42 @@
 
             li {
                 list-style: none;
-                padding: 2px 0;
+                margin-top: 12px;
                 overflow: hidden;
 
                 &.offline, &.viewmode {
                     display: none;
                 }
             }
+
+            li:first-child {
+                margin-top: 0px;
+            }
         }
 
         .color {
-            width: 12px;
-            height: 12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 20px;
+            border-width: @scaled-two-px-value;
             display: inline-block;
             vertical-align: middle;
-            border: @scaled-one-px-value solid @border-toolbar;
-            margin: 0 5px 1px 0;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            .margin-right-8();
+
+            line-height: 26px;
+            color: #ffffff;
+            text-align: center;
         }
 
         .user-name {
             color: @text-normal-ie;
             color: @text-normal;
-            font-size: 12px;
+            .font-size-medium();
             .font-weight-bold();
+            .text-align-left();
             white-space: nowrap;
             cursor: default;
 
@@ -459,17 +533,30 @@
             }
         }
     }
+
+    #tlb-users-menu-descr {
+        width: 100%;
+        .text-align-left();
+    }
+
+    .rtl & {
+        &.dropdown-menu {
+            left: unset;
+            right: 100%;
+            margin-left: 0;
+            margin-right: -285px;
+        }
+    }
 }
 
 #box-document-title {
-    background-color: @header-background-color-ie;
-    background-color: @header-background-color;
+    .header-background-color();
     display: flex;
     height: 100%;
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: 1;
+    z-index: @zindex-navbar + 3;
 
     .btn-slot {
         display: inline-block;
@@ -503,7 +590,7 @@
         display: flex;
         justify-content: center;
         overflow: hidden;
-        padding: 4px 2px;
+        padding: 0px 2px;
     }
 
     #title-doc-name {
@@ -511,21 +598,29 @@
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: center;
-        font-size: 12px;
+        .font-size-medium();
         line-height: 24px;
-        padding: 1px 5px;
+        padding: 1px 8px;
         background-color: transparent;
         border: 0 none;
         cursor: default;
         .user-select(text);
 
-        &:hover:not(:disabled),&:focus{
-            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
+        &:hover:not(:disabled):not(:focus){
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
             border-radius: 1px;
             cursor: text;
         }
-
+        &:focus{
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
+            border-radius: 1px;
+            cursor: text;
+        }
+        .rtl & {
+            direction: rtl;
+        }
    }
 
     .lr-separator {

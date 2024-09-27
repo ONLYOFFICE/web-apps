@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ComboBoxFonts.js
  *
- *  Created by Alexander Yuzhin on 2/11/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/11/14
  *
  */
 
@@ -59,7 +57,13 @@ define([
                 {ratio: 1.25,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.25x.png', width: iconWidth * 1.25, height: iconHeight * 1.25},
                 {ratio: 1.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.5x.png', width: iconWidth * 1.5, height: iconHeight * 1.5},
                 {ratio: 1.75,   path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@1.75x.png', width: iconWidth * 1.75, height: iconHeight * 1.75},
-                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2x.png', width: iconWidth * 2, height: iconHeight * 2}
+                {ratio: 2,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2x.png', width: iconWidth * 2, height: iconHeight * 2},
+                /*{ratio: 2.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@2.5x.png', width: iconWidth * 2.5, height: iconHeight * 2.5},
+                {ratio: 3,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@3x.png', width: iconWidth * 3, height: iconHeight * 3},
+                {ratio: 3.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@3.5x.png', width: iconWidth * 3.5, height: iconHeight * 3.5},
+                {ratio: 4,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@4x.png', width: iconWidth * 4, height: iconHeight * 4},
+                {ratio: 4.5,    path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@4.5x.png', width: iconWidth * 4.5, height: iconHeight * 4.5},
+                {ratio: 5,      path: '../../../../sdkjs/common/Images/fonts_thumbnail' + postfix + '@5x.png', width: iconWidth * 5, height: iconHeight * 5},*/
             ],
             thumbIdx = 0,
             listItemHeight  = 28,
@@ -72,6 +76,12 @@ define([
             thumbs[2].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.5x');
             thumbs[3].path     = Common.Controllers.Desktop.call('getFontsSprite', '@1.75x');
             thumbs[4].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2x');
+            /*thumbs[5].path     = Common.Controllers.Desktop.call('getFontsSprite', '@2.5x');
+            thumbs[6].path     = Common.Controllers.Desktop.call('getFontsSprite', '@3x');
+            thumbs[7].path     = Common.Controllers.Desktop.call('getFontsSprite', '@3.5x');
+            thumbs[8].path     = Common.Controllers.Desktop.call('getFontsSprite', '@4x');
+            thumbs[9].path     = Common.Controllers.Desktop.call('getFontsSprite', '@4.5x');
+            thumbs[10].path    = Common.Controllers.Desktop.call('getFontsSprite', '@5x');*/
         }
 
         var bestDistance = Math.abs(applicationPixelRatio-thumbs[0].ratio);
@@ -211,20 +221,20 @@ define([
             this.getImage = function(index, canvas, ctx) {
 
                 //var t1 = performance.now();
-                if (!canvas)
-                {
-                    canvas = document.createElement("canvas");
-                    canvas.width = this.width;
-                    canvas.height = this.heightOne;
-                    canvas.style.width = iconWidth + "px";
-                    canvas.style.height = iconHeight + "px";
-
-                    ctx = canvas.getContext("2d");
-                }
-
                 if (this.supportBinaryFormat) {
                     if (!this.data && !this.offsets) {
                         this.openBinary(this.binaryFormat);
+                    }
+
+                    if (!canvas)
+                    {
+                        canvas = document.createElement("canvas");
+                        canvas.width = this.width;
+                        canvas.height = this.heightOne;
+                        canvas.style.width = iconWidth + "px";
+                        canvas.style.height = iconHeight + "px";
+
+                        ctx = canvas.getContext("2d");
                     }
 
                     var dataTmp = ctx.createImageData(this.width, this.heightOne);
@@ -272,6 +282,17 @@ define([
                     }
                     ctx.putImageData(dataTmp, 0, 0);
                 } else {
+                    if (!canvas)
+                    {
+                        canvas = document.createElement("canvas");
+                        canvas.width = this.width;
+                        canvas.height = this.heightOne;
+                        canvas.style.width = iconWidth + "px";
+                        canvas.style.height = iconHeight + "px";
+
+                        ctx = canvas.getContext("2d");
+                    }
+
                     ctx.clearRect(0, 0, this.width, this.heightOne);
                     ctx.drawImage(this.image, 0, -this.heightOne * index);
                 }
@@ -286,14 +307,14 @@ define([
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>"> ',
+                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-move-focus-only-tab="true"> ',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                            '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -337,6 +358,8 @@ define([
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
                 this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
                 this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
+                this._input.on('compositionstart', _.bind(function() {this._isComposition = true;}, this));
+                this._input.on('compositionend',   _.bind(function() {this._isComposition = false;}, this));
 
                 return this;
             },
@@ -386,7 +409,7 @@ define([
                     e.keyCode !== Common.UI.Keys.INSERT && e.keyCode !== Common.UI.Keys.TAB){
                     e.stopPropagation();
                     this.selectCandidate(e.keyCode == Common.UI.Keys.DELETE || e.keyCode == Common.UI.Keys.BACKSPACE);
-                    if (this._selectedItem) {
+                    if (this._selectedItem && !this._isComposition) {
                         var me = this;
                         if (me._timerSelection===undefined)
                             me._timerSelection = setInterval(function(){
@@ -575,7 +598,9 @@ define([
                         name: name
                     });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
 
                     if (record) {
                         this.setRawValue(record.get(this.displayField));
@@ -584,6 +609,7 @@ define([
 
                         if (itemNode && menuNode) {
                             itemNode.addClass('selected');
+                            itemNode.find('a').attr('aria-checked', true);
                             if (this.recent<=0)
                                 menuNode.scrollTop(itemNode.offset().top - menuNode.offset().top);
                         }
@@ -610,7 +636,7 @@ define([
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,
@@ -638,6 +664,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 if (this.recent > 0) {
                     if (this.scroller && !this._scrollerIsInited) {
                         this.scroller.update();
@@ -648,6 +675,8 @@ define([
                     this.flushVisibleFontsTiles();
                     this.updateVisibleFontsTiles(null, 0);
                     Common.Utils.isGecko && this.scroller && this.scroller.update();
+
+                    this._input.attr('aria-expanded', 'true');
                 } else {
                     Common.UI.ComboBox.prototype.onAfterShowMenu.apply(this, arguments);
                 }
@@ -704,7 +733,9 @@ define([
                 } else
                     this._selectedItem = null;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     var itemNode = $('#' + this._selectedItem.get('id'), $(this.el)),
@@ -712,8 +743,9 @@ define([
 
                     if (itemNode.length > 0 && menuEl.length > 0) {
                         itemNode.addClass('selected');
+                        itemNode.find('a').attr('aria-checked', true);
 
-                        var itemTop = itemNode.position().top,
+                        var itemTop = Common.Utils.getPosition(itemNode).top,
                             menuTop = menuEl.scrollTop();
 
                         if (itemTop != 0)

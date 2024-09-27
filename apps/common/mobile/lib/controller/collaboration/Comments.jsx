@@ -6,6 +6,7 @@ import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 
 import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
+import { getUserColor } from '../../../utils/getUserColor';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -29,7 +30,7 @@ const stringUtcToLocalDate = (date) => {
         return parseInt(date) + timeZoneOffsetInMs;
     return 0;
 };
-const dateToLocaleTimeString = (date) => {
+const dateToLocaleTimeString = (date, lang) => {
     const format = (date) => {
         let hours = date.getHours();
         let minutes = date.getMinutes();
@@ -40,6 +41,14 @@ const dateToLocaleTimeString = (date) => {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         return hours + ':' + minutes + ' ' + ampm;
     };
+    lang = (lang || 'en').replace('_', '-').toLowerCase();
+    try {
+        return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+    } catch (e) {
+        lang = 'en';
+        return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
+    }
+
     // MM/dd/yyyy hh:mm AM
     return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
 };
@@ -92,8 +101,10 @@ class CommentsController extends Component {
     }
     addComment (id, data) {
         const comment = this.readSDKComment(id, data);
+    
         if (comment) {
             this.storeComments.addComment(comment);
+            this.changeShowComments([comment.uid]);
         }
     }
     addComments (data) {
@@ -125,20 +136,21 @@ class CommentsController extends Component {
         const date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
             ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
 
-        let user = this.usersStore.searchUserById(data.asc_getUserId());
+        const userId = data.asc_getUserId()
+        const user = this.usersStore.searchUserById(userId);
         const name = data.asc_getUserName();
         const parsedName = parseUserName(name);
 
         changeComment.comment = data.asc_getText();
-        changeComment.userId = data.asc_getUserId();
+        changeComment.userId = userId;
         changeComment.userName = name;
         changeComment.parsedName = Common.Utils.String.htmlEncode(parsedName);
         changeComment.userInitials = this.usersStore.getInitials(parsedName);
-        changeComment.userColor = (user) ? user.asc_getColor() : null;
+        changeComment.userColor = (user) ? user.asc_getColor() : getUserColor(userId || name);
         changeComment.resolved = data.asc_getSolved();
         changeComment.quote = data.asc_getQuoteText();
         changeComment.time = date.getTime();
-        changeComment.date = dateToLocaleTimeString(date);
+        changeComment.date = dateToLocaleTimeString(date, this.appOptions.lang);
         changeComment.editable = (this.appOptions.canEditComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canEditComment(name);
         changeComment.removable = (this.appOptions.canDeleteComments || (data.asc_getUserId() === this.curUserId)) && AscCommon.UserInfoParser.canDeleteComment(name);
         changeComment.hide = !AscCommon.UserInfoParser.canViewComment(name);
@@ -152,16 +164,18 @@ class CommentsController extends Component {
             dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                 ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-            user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
+            const userId = data.asc_getReply(i).asc_getUserId();
+            const user = this.usersStore.searchUserById(userId);
             const userName = data.asc_getReply(i).asc_getUserName();
             const parsedName = parseUserName(userName);
+
             replies.push({
                 ind: i,
-                userId: data.asc_getReply(i).asc_getUserId(),
-                userName: userName,
+                userId,
+                userName,
                 parsedName: Common.Utils.String.htmlEncode(parsedName),
-                userColor: (user) ? user.asc_getColor() : null,
-                date: dateToLocaleTimeString(dateReply),
+                userColor: (user) ? user.asc_getColor() : getUserColor(userId || userName),
+                date: dateToLocaleTimeString(dateReply, this.appOptions.lang),
                 reply: data.asc_getReply(i).asc_getText(),
                 time: dateReply.getTime(),
                 userInitials: this.usersStore.getInitials(parsedName),
@@ -179,17 +193,18 @@ class CommentsController extends Component {
     readSDKComment (id, data) {
         const date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
             ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
-        const user = this.usersStore.searchUserById(data.asc_getUserId());
+        const userId = data.asc_getUserId();
+        const user = this.usersStore.searchUserById(userId);
         const groupName = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
         const userName = data.asc_getUserName();
         const parsedName = parseUserName(userName);
         const comment = {
             uid                 : id,
-            userId              : data.asc_getUserId(),
-            userName            : userName,
+            userId,
+            userName,
             parsedName,
-            userColor           : (user) ? user.asc_getColor() : null,
-            date                : dateToLocaleTimeString(date),
+            userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
+            date                : dateToLocaleTimeString(date, this.appOptions.lang),
             quote               : data.asc_getQuoteText(),
             comment             : data.asc_getText(),
             resolved            : data.asc_getSolved(),
@@ -219,16 +234,18 @@ class CommentsController extends Component {
             for (i = 0; i < repliesCount; ++i) {
                 date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                     ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
-                const user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
+                const userId = data.asc_getReply(i).asc_getUserId();
+                const user = this.usersStore.searchUserById(userId);
                 const userName = data.asc_getReply(i).asc_getUserName();
                 const parsedName = parseUserName(userName);
+
                 replies.push({
                     ind                 : i,
-                    userId              : data.asc_getReply(i).asc_getUserId(),
-                    userName            : userName,
+                    userId,
+                    userName,
                     parsedName          : Common.Utils.String.htmlEncode(parsedName),
-                    userColor           : (user) ? user.asc_getColor() : null,
-                    date                : dateToLocaleTimeString(date),
+                    userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
+                    date                : dateToLocaleTimeString(date, this.appOptions.lang),
                     reply               : data.asc_getReply(i).asc_getText(),
                     time                : date.getTime(),
                     userInitials        : this.usersStore.getInitials(parsedName),
@@ -294,6 +311,7 @@ class AddCommentController extends Component {
             !!comment.asc_putDocumentFlag && comment.asc_putDocumentFlag(documentFlag);
 
             api.asc_addComment(comment);
+            Common.Notifications.trigger('viewcomment');
         }
     }
     render() {

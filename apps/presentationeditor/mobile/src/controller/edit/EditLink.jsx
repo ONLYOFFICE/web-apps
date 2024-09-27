@@ -4,16 +4,16 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
 
-import { EditLink, PageEditTypeLink, PageEditLinkTo } from '../../view/edit/EditLink';
+import { EditLink, ObservablePageEditTypeLink, ObservablePageEditLinkTo } from '../../view/edit/EditLink';
 
 const routes = [
     {
         path: '/edit-link-type/',
-        component: PageEditTypeLink
+        component: ObservablePageEditTypeLink
     },
     {
         path: '/edit-link-to/',
-        component: PageEditLinkTo
+        component: ObservablePageEditLinkTo
     }
 ];
 
@@ -21,12 +21,9 @@ class EditLinkController extends Component {
     constructor (props) {
         super(props);
 
-        const api = Common.EditorApi.get();
-
         this.onEditLink = this.onEditLink.bind(this);
         this.onRemoveLink = this.onRemoveLink.bind(this);
         this.initLink = this.initLink.bind(this);
-        this.slidesCount = api.getCountPages();
         this.initLink();
     }
 
@@ -188,7 +185,7 @@ class EditLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '100%'}}>
                             <EditLink 
                                 initLink={this.initLink}
@@ -200,14 +197,13 @@ class EditLinkController extends Component {
                                 slideNum={this.slideNum}
                                 onEditLink={this.onEditLink} 
                                 onRemoveLink={this.onRemoveLink}
-                                slidesCount={this.slidesCount}
                                 closeModal={this.closeModal}
                                 isNavigate={this.props.isNavigate}
                             />
                         </View>
                     </Popup>
                 :
-                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '410px'}}>
                             <EditLink
                                 initLink={this.initLink}
@@ -219,7 +215,6 @@ class EditLinkController extends Component {
                                 slideNum={this.slideNum}
                                 onEditLink={this.onEditLink} 
                                 onRemoveLink={this.onRemoveLink}
-                                slidesCount={this.slidesCount}
                                 closeModal={this.closeModal}
                                 isNavigate={this.props.isNavigate}
                             />
@@ -236,7 +231,6 @@ class EditLinkController extends Component {
                     slideNum={this.slideNum}
                     onEditLink={this.onEditLink} 
                     onRemoveLink={this.onRemoveLink}
-                    slidesCount={this.slidesCount}
                     closeModal={this.closeModal}
                     isNavigate={this.props.isNavigate}
                 />

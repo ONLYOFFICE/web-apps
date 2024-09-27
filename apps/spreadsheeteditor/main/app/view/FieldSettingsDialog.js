@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,23 +33,19 @@
 /**
  *  FieldSettingsDialog.js
  *
- *  Created by Julia Radzhabova on 17.07.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 17.07.2017
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 440,
+            contentHeight: 365,
             toggleGroup: 'pivot-field-settings-group',
             storageName: 'sse-pivot-field-settings-category'
         },
@@ -73,9 +68,8 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
             this.handler    = options.handler;
             this.props      = options.props;
             this.fieldIndex = options.fieldIndex || 0;
-            this.names      = options.names || [];
             this.type       = options.type || 0; // 0 - columns, 1 - rows, 3 - filters
-
+            this.format = {formatStr: "General"};
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -209,14 +203,22 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
             });
             // this.chVarp.on('change', _.bind(this.onFunctionChange, this, Asc.c_oAscDataConsolidateFunction.Varp));
 
+            this.btnFormat = new Common.UI.Button({
+                parentEl: $('#field-settings-numformat'),
+                cls: 'btn-text-default',
+                style: 'width: 128px;',
+                caption: this.textNumFormat
+            });
+            this.btnFormat.on('click', _.bind(this.openFormat, this));
+
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [
-                this.inputCustomName, this.radioTabular, this.radioOutline, this.chCompact, this.chRepeat, this.chBlank, this.chSubtotals, this.radioTop, this.radioBottom, this.chEmpty, // 0 tab
+            return this.btnsCategory.concat([
+                this.inputCustomName, this.radioTabular, this.radioOutline, this.chCompact, this.btnFormat, this.chRepeat, this.chBlank, this.chSubtotals, this.radioTop, this.radioBottom, this.chEmpty, // 0 tab
                 this.chSum, this.chCount, this.chAve, this.chMax, this.chMin, this.chProduct, this.chNum, this.chDev, this.chDevp, this.chVar, this.chVarp  // 1 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -252,8 +254,10 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                 var me = this,
                     field = props.asc_getPivotFields()[this.fieldIndex];
 
+                this.format.formatStr = field.asc_getNumFormat();
+                this.format.formatInfo = field.asc_getNumFormatInfo();
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(props.getCacheFieldName(this.fieldIndex)));
-                this.inputCustomName.setValue(Common.Utils.String.htmlEncode(props.getPivotFieldName(this.fieldIndex)));
+                this.inputCustomName.setValue(props.getPivotFieldName(this.fieldIndex));
 
                 (field.asc_getOutline()) ? this.radioOutline.setValue(true) : this.radioTabular.setValue(true);
                 this.chCompact.setValue(field.asc_getOutline() && field.asc_getCompact());
@@ -307,6 +311,8 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                         });
                     }
                 }
+
+                this.btnFormat.setVisible(props.asc_getFieldGroupType(this.fieldIndex) !== Asc.c_oAscGroupType.Text);
             }
         },
 
@@ -362,6 +368,8 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                 field.asc_setSubtotals(arr);
             }
 
+            this.format.isChanged && field.asc_setNumFormat(this.format.formatStr);
+
             return field;
         },
 
@@ -378,6 +386,28 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         onPrimary: function() {
             this.onDlgBtnClick('ok');
             return false;
+        },
+
+        openFormat: function() {
+            var me = this,
+                value = me.api.asc_getLocale(),
+                lang = Common.Utils.InternalSettings.get("sse-config-lang");
+            (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
+
+            var win = (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (result=='ok' && settings) {
+                        me.format.isChanged = true;
+                        me.format.formatStr = settings.format;
+                        me.format.formatInfo = settings.formatInfo;
+                    }
+                },
+                props   : {format: this.format.formatStr, formatInfo: this.format.formatInfo, langId: value}
+            })).on('close', function() {
+                me.btnFormat.cmpEl.focus();
+            });
+            win.show();
         },
 
         textTitle: 'Field Settings',
@@ -406,7 +436,8 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         txtStdDevp: 'StdDevp',
         txtSum: 'Sum',
         txtVar: 'Var',
-        txtVarp: 'Varp'
+        txtVarp: 'Varp',
+        textNumFormat: 'Number format'
 
     }, SSE.Views.FieldSettingsDialog || {}))
 });

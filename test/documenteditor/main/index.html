@@ -11,9 +11,6 @@
     <link rel="stylesheet/less" type="text/css" href="resources/less/application.less" />
     <!-- debug end -->
 
-    <!--[if lt IE 9]>
-       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
-    <![endif]-->
   </head>
 
   <body >
@@ -24,21 +21,7 @@
       <!-- debug end -->
 
        <script>
-           var  userAgent = navigator.userAgent.toLowerCase(),
-                check = function(regex){ return regex.test(userAgent); };
-           if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
-                var m = /msie (\d+\.\d+)/.exec(userAgent);
-                if (m && parseFloat(m[1]) < 10.0) {
-                    document.write(
-                        '<div id="id-error-mask" class="errormask">',
-                            '<div class="error-body" align="center">',
-                                '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
-                                '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
-                            '</div>',
-                        '</div>'
-                    );
-                }
-           }
+           var  userAgent = navigator.userAgent.toLowerCase();
            
             function getUrlParams() {
                 var e,
@@ -61,9 +44,7 @@
                         .replace(/>/g, '&gt;');
             }
 
-           var params = getUrlParams(),
-               lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
-
+           var params = getUrlParams();
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
 
@@ -74,9 +55,6 @@
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/jquery.browser/dist/jquery.browser.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
-
       <script type="text/javascript" src="../../../vendor/socketio/socket.io.min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
 
@@ -92,32 +70,10 @@
 
       <!--application-->
       <script type="text/javascript" src="../../common/Gateway.js"></script>
-
-      <script type="text/javascript" src="../../common/main/lib/util/LocalStorage.js"></script>
       <script type="text/javascript" src="../../common/main/lib/util/utils.js"></script>
 
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
       <script type="text/javascript" src="js/application.js"></script>
-      <script type="text/javascript">
-          var isBrowserSupported = function() {
-              return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
-                      ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
-                      ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
-                      ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
-                      ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
-          };
-
-          if (!isBrowserSupported()){
-              document.write(
-                  '<div id="id-error-mask" class="errormask">',
-                      '<div class="error-body" align="center">',
-                          '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
-                          '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
-                      '</div>',
-                  '</div>'
-              );
-          }
-      </script>
   </body>
 </html>

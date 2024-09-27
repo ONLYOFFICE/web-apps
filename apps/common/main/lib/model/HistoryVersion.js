@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,11 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 05.03.15
- * Time: 16:42
  */
 
 if (Common === undefined)
@@ -44,13 +41,13 @@ Common.Models = Common.Models || {};
 define([
     'underscore',
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
 
-    Common.Models.HistoryVersion = Backbone.Model.extend({
+    Common.Models.HistoryVersion = Common.UI.TreeViewModel.extend({
         defaults: function() {
-            return {
+            return _.extend({
                 version : 0,
                 revision: 0,
                 changeid : undefined,
@@ -68,15 +65,10 @@ define([
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,
-                isRevision: true,
-                hasChanges: false,
-                isExpanded: true,
-                isVisible: true,
-                allowSelected: true,
-                selected: false,
                 serverVersion: 0,
-                fileType: 'docx'
-            }
+                fileType: 'docx',
+                documentSha256: undefined
+            }, Common.UI.TreeViewModel.prototype.defaults() || {});
         }
     });
 });

@@ -1,28 +1,24 @@
-import React, {useState, useEffect} from 'react';
-import {observer, inject} from "mobx-react";
-import { Popover, Sheet, View, Page, Navbar, NavRight, NavLeft, NavTitle, Tabs, Tab, Link } from 'framework7-react';
+import React, { useContext, useEffect } from 'react';
+import { Popover, Sheet, View } from 'framework7-react';
 import { f7 } from 'framework7-react';
-import { useTranslation } from 'react-i18next';
-import {Device} from '../../../../../common/mobile/utils/device';
-
-import EditCellController from "../../controller/edit/EditCell";
-import EditShapeController from "../../controller/edit/EditShape";
-import EditImageController from "../../controller/edit/EditImage";
-import EditTextController from "../../controller/edit/EditText";
-import EditChartController from "../../controller/edit/EditChart";
-import { EditLinkController } from "../../controller/edit/EditLink";
-
+import { Device } from '../../../../../common/mobile/utils/device';
+// import { EditLinkController } from "../../controller/edit/EditLink";
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
-import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle } from './EditCell';
-import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell, CellStyle, PageCreationCustomFormat, CustomFormats } from './EditCell';
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageOrientationTextShape } from './EditText';
 import { PageChartDesign,  PageChartDesignType, PageChartDesignStyle, PageChartDesignFill, PageChartDesignBorder, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageEditTypeLink, PageEditSheet } from './EditLink';
+import EditingPage from './EditingPage';
+import { MainContext } from '../../page/main';
 
 const routes = [
-
+    {
+        path: '/editing-page/',
+        component: EditingPage,
+        keepAlive: true
+    },
     // Shape
-
     {
         path: '/edit-style-shape/',
         component: PageShapeStyle
@@ -50,6 +46,10 @@ const routes = [
     {
         path: '/edit-shape-custom-fill-color/',
         component: PageShapeCustomFillColor
+    },
+    {
+        path: '/edit-text-shape-orientation/',
+        component: PageOrientationTextShape
     },
 
     // Image
@@ -279,7 +279,6 @@ const routes = [
     },
 
     // Link 
-
     {
         path: '/edit-link-type/',
         component: PageEditTypeLink
@@ -287,193 +286,54 @@ const routes = [
     {
         path: '/edit-link-sheet',
         component: PageEditSheet
+    },
+
+    // Add custom format
+    {
+        path: '/custom-format/',
+        component: CustomFormats
+    },
+    {
+        path: '/create-custom-format/',
+        component: PageCreationCustomFormat
     }
-
-
 ];
 
-const EmptyEditLayout = () => {
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
-    return (
-        <Page>
-            <div className="content-block inset">
-                <div className="content-block-inner">
-                    <p>{_t.textSelectObjectToEdit}</p>
-                </div>
-            </div>
-        </Page>
-    )
-};
-
-const EditLayoutNavbar = ({ editors, inPopover }) => {
-    const isAndroid = Device.android;
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
-
-    if(!editors.length) return null;
-
-    return (
-        <Navbar>
-            {
-                editors.length > 1 ?
-                    <div className='tab-buttons tabbar'>
-                        {editors.map((item, index) => <Link key={"sse-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
-                        {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.length + '%'}}></span>}
-                    </div> : <NavTitle>{ editors[0].caption }</NavTitle>
-            }
-            { !inPopover && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight> }
-        </Navbar>
-    )
-};
-
-const EditLayoutContent = ({ editors }) => {
-    if(!editors.length) return null;
-
-    if (editors.length > 1) {
-        return (
-            <Tabs animated>
-                {editors.map((item, index) =>
-                    <Tab key={"sse-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
-                        {item.component}
-                    </Tab>
-                )}
-            </Tabs>
-        )
-    } else {
-        return (
-            <Page>
-                {editors[0].component}
-            </Page>
-        )
-    }
-};
-
-const EditTabs = props => {
-    const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
-    const store = props.storeFocusObjects;
-    const wsProps = props.wsProps;
-    const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
-    let editors = [];
-
-    if (settings.length < 1) {
-        editors.push({
-            caption: _t.textSettings,
-            component: <EmptyEditLayout />
-        });
-    } else {
-        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('image') > -1) {
-            editors.push({
-                caption: _t.textImage,
-                id: 'edit-image',
-                component: <EditImageController />
-            })
-        }
-        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('shape') > -1) {
-            editors.push({
-                caption: _t.textShape,
-                id: 'edit-shape',
-                component: <EditShapeController />
-            })
-        }
-        if (settings.indexOf('cell') > -1) {
-            editors.push({
-                caption: _t.textCell,
-                id: 'edit-text',
-                component: <EditCellController />
-            })
-        }
-        if (!(wsProps.Objects && store.isLockedShape) && settings.indexOf('chart') > -1) {
-            editors.push({
-                caption: _t.textChart,
-                id: 'edit-chart',
-                component: <EditChartController />
-            })
-        }
-        if (!(wsProps.Objects && store.isLockedText) && settings.indexOf('text') > -1) {
-            editors.push({
-                caption: _t.textText,
-                id: 'edit-text',
-                component: <EditTextController />
-            })
-        }
-
-        // if(!wsProps.Objects) {
-        //     if (settings.indexOf('hyperlink') > -1 || (props.hyperinfo && props.isAddShapeHyperlink)) {
-        //         editors.push({
-        //             caption: _t.textHyperlink,
-        //             id: 'edit-link',
-        //             component: <EditLinkController />
-        //         })
-        //     }
-        // }    
-    }
-
-    if(!editors.length) {
-        if (Device.phone) {
-            f7.sheet.close('#edit-sheet', false);
-        } else { 
-            f7.popover.close('#edit-popover', false);
-        }
-
-        return null;
-    }
-
-    return (
-        <View style={props.style} stackPages={true} routes={routes}>
-            <Page pageContent={false}>
-                <EditLayoutNavbar editors={editors} inPopover={props.inPopover}/>
-                <EditLayoutContent editors={editors} />
-            </Page>
-        </View>
-
-    )
-};
-
-const EditTabsContainer = inject("storeFocusObjects")(observer(EditTabs));
-
-const EditView = props => {
-    const onOptionClick = (page) => {
-        $f7.views.current.router.navigate(page);
+routes.forEach(route => {
+    route.options = {
+        ...route.options,
+        transition: 'f7-push'
     };
-    const show_popover = props.usePopover;
+});
+
+const EditView = () => {
+    const mainContext = useContext(MainContext);
+    // const api = Common.EditorApi.get();
+    // const cellinfo = api.asc_getCellInfo();
+    // const hyperinfo = cellinfo.asc_getHyperlink();
+    // const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
+
+    useEffect(() => {
+        if(Device.phone) {
+            f7.sheet.open('#edit-sheet');
+        } else {
+            f7.popover.open('#edit-popover', '#btn-edit');
+        }
+    }, []);
+
     return (
-        show_popover ?
-            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => props.onClosed()}>
-                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} inPopover={true} wsLock={props.wsLock} wsProps={props.wsProps} onOptionClick={onOptionClick} style={{height: '410px'}} />
+        !Device.phone ?
+            <Popover id="edit-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => mainContext.closeOptions('edit')}>
+                <View style={{ height: '410px' }} routes={routes} url='/editing-page/'>
+                    <EditingPage />
+                </View>
             </Popover> :
-            <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
-                <EditTabsContainer isAddShapeHyperlink={props.isAddShapeHyperlink} hyperinfo={props.hyperinfo} onOptionClick={onOptionClick} wsLock={props.wsLock} wsProps={props.wsProps} />
+            <Sheet id="edit-sheet" onSheetClosed={() => mainContext.closeOptions('edit')}>
+                <View routes={routes} url='/editing-page/'>
+                    <EditingPage />
+                </View>
             </Sheet>
     )
 };
 
-const EditOptions = props => {
-    const api = Common.EditorApi.get();
-    const cellinfo = api.asc_getCellInfo();
-    const hyperinfo = cellinfo.asc_getHyperlink();
-    const isAddShapeHyperlink = api.asc_canAddShapeHyperlink();
-
-    useEffect(() => {
-        if ( Device.phone )
-            f7.sheet.open('#edit-sheet');
-        else f7.popover.open('#edit-popover', '#btn-edit');
-
-        return () => {
-            // component will unmount
-        }
-    });
-
-    const onviewclosed = () => {
-        if ( props.onclosed ) {
-            props.onclosed();
-        }
-    };
-
-    return (
-        <EditView usePopover={!Device.phone} onClosed={onviewclosed} isAddShapeHyperlink={isAddShapeHyperlink} hyperinfo={hyperinfo} wsLock={props.wsLock} wsProps={props.wsProps} />
-    )
-};
-
-export default EditOptions;
+export default EditView;

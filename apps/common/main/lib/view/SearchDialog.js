@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    SearchDialog.js
  *
- *    Created by Maxim Kadushkin on 03 March 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 03 March 2014
  *
  */
 
@@ -65,9 +63,7 @@
 *           undefined value - dialog has all options
 * */
 
- define([
-    'common/main/lib/component/Window'
-], function () {
+ define([], function () {
     'use strict';
 
     Common.UI.SearchDialog = Common.UI.Window.extend(_.extend({
@@ -99,9 +95,9 @@
                 '<div class="separator horizontal"></div>',
                 '<div class="footer right">',
                     '<button class="btn normal dlg-btn" result="replace">'+this.txtBtnReplace+'</button>',
-                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-left: 6px;width: auto;min-width: 100px;">'+this.txtBtnReplaceAll+'</button>',
+                    '<button class="btn normal dlg-btn margin-left-6" result="replaceall" style="width: auto;min-width: 100px;">'+this.txtBtnReplaceAll+'</button>',
                     '<button class="btn normal dlg-btn iconic" result="back"><span class="icon img-commonctrl back"></span></button>',
-                    '<button class="btn normal dlg-btn iconic" result="next" style="margin-left: 6px;"><span class="icon img-commonctrl next"></span></button>',
+                    '<button class="btn normal dlg-btn iconic margin-left-6" result="next"><span class="icon img-commonctrl next"></span></button>',
                 '</div>'
             ].join('');
 

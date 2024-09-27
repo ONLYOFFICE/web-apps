@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Scroller.js
  *
- *  Created by Alexander Yuzhin on 3/14/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/14/14
  *
  */
 
@@ -64,7 +62,8 @@ define([
                 includePadding          : true,
                 includeMargin           : true,
                 alwaysVisibleX          : false,
-                alwaysVisibleY          : false
+                alwaysVisibleY          : false,
+                scrollYStyle            : null
             },
 
             initialize: function(options) {
@@ -86,6 +85,8 @@ define([
 
                     this.setAlwaysVisibleX(me.options.alwaysVisibleX);
                     this.setAlwaysVisibleY(me.options.alwaysVisibleY);
+
+                    (this.options.scrollYStyle) && (this.setOptionStyleY(this.options.scrollYStyle));
                 }
 
                 return this;
@@ -108,6 +109,8 @@ define([
 
                 this.setAlwaysVisibleX(options.alwaysVisibleX);
                 this.setAlwaysVisibleY(options.alwaysVisibleY);
+                
+                (options.scrollYStyle) && (this.setOptionStyleY(options.scrollYStyle));
 
                 // Emulate capture scroller
                 var mouseDownHandler = function(e) {
@@ -165,6 +168,11 @@ define([
                     $(this.el).find('.ps-scrollbar-y-rail').removeClass('always-visible-y');
                     $(this.el).find('.ps-scrollbar-y').addClass('always-visible-y');
                 }
+            },
+
+            setOptionStyleY: function (style) {
+                $(this.el).find('.ps-scrollbar-y-rail').css(style);
+                this.cmpEl.perfectScrollbar('update');
             },
 
             isVisible: function() {

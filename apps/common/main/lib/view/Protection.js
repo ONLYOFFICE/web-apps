@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,8 +33,7 @@
 /**
  *  Protection.js
  *
- *  Created by Julia Radzhabova on 14.11.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 14.11.2017
  *
  */
 
@@ -54,7 +52,7 @@ define([
 
     Common.Views.Protection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="protection-panel" class="panel" data-tab="protect">' +
+            '<section id="protection-panel" class="panel" data-tab="protect" role="tabpanel" aria-labelledby="protect">' +
             '<div class="group">' +
                 '<span id="slot-btn-add-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +
@@ -87,10 +85,17 @@ define([
             }
 
             if (me.appConfig.isSignatureSupport) {
-                if (this.btnSignature.menu)
+                if (this.btnSignature.menu) {
                     this.btnSignature.menu.on('item:click', function (menu, item, e) {
                         me.fireEvent('protect:signature', [item.value, false]);
                     });
+                    this.btnSignature.menu.on('show:after', function (menu, e) {
+                        if (me._state) {
+                            var isProtected = me._state.docProtection ? me._state.docProtection.isReadOnly || me._state.docProtection.isFormsOnly || me._state.docProtection.isCommentsOnly : false;
+                            menu.items && menu.items[1].setDisabled(isProtected || me._state.disabled);
+                        }
+                    });
+                }
 
                 this.btnsInvisibleSignature.forEach(function(button) {
                     button.on('click', function (b, e) {
@@ -310,13 +315,14 @@ define([
             SetDisabled: function (state, canProtect) {
                 this._state.disabled = state;
                 this._state.invisibleSignDisabled = state && !canProtect;
+                var isProtected = this._state.docProtection ? this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly : false;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state && !canProtect);
                     }
                 }, this);
                 if (this.btnSignature && this.btnSignature.menu) {
-                    this.btnSignature.menu.items && this.btnSignature.menu.items[1].setDisabled(state); // disable adding signature line
+                    this.btnSignature.menu.items && this.btnSignature.menu.items[1].setDisabled(state || isProtected); // disable adding signature line
                     this.btnSignature.setDisabled(state && !canProtect); // disable adding any signature
                 }
                 this.btnsAddPwd.concat(this.btnsDelPwd, this.btnsChangePwd).forEach(function(button) {

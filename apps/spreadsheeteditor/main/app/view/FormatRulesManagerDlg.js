@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,17 +33,13 @@
  *
  *  FormatRulesManagerDlg.js
  *
- *  Created by Julia.Radzhabova on 14.04.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 14.04.2020
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/FormatRulesEditDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -91,21 +86,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 510,
-            height: 361,
-            buttons: ['ok', 'cancel']
+            separator: false,
+            contentWidth: 560
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"/>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -115,16 +105,21 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.rules     = [];
             this.rulesStores = {};
             this.rulesDeleted = [];
-            this.listSettings = {length: 0, min: 0, max: 0};
+            this.listSettings = {data: [], start: 0, end: 0, min: 0, max: 0};
             this.locked     = options.locked || false;
             this.userTooltip = true;
-
             this.wrapEvents = {
                 onLockCFManager: _.bind(this.onLockCFManager, this),
                 onUnLockCFManager: _.bind(this.onUnLockCFManager, this),
                 onLockCFRule: _.bind(this.onLockCFRule, this),
                 onUnLockCFRule: _.bind(this.onUnLockCFRule, this)
             };
+            this.nLastScroll = -1000;
+            this.itemHeight = 30;
+            this.previewListHeight = 203;
+            this.maxItemsCount = parseInt(this.previewListHeight/this.itemHeight);
+            this._keydowncounter = 0;
+            this._keydownTimer = undefined;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -144,22 +139,30 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             });
 
             this.rulesList = new Common.UI.ListView({
-                el: $('#format-manager-rules-list', this.$window),
+                el: $('#id-preview-data', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
+                headers: [
+                    {name: this.textRules, width: 198},
+                    {name: this.textApply, width: 196},
+                    {name: this.textFormat, width: 130}
+                ],
+                isRTL: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
-                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
+                        '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
-                            '<div class="lock-user"><%=lockuser%></div>',
+                            '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),
+                allowScrollbar: false,
                 tabindex: 1
             });
+            this.rulesList.moveKeys = [];
             this.rulesList.createNewItem = function(record) {
                 return new _CustomItem({
                     template: this.itemTemplate,
@@ -167,7 +170,10 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 });
             };
             this.rulesList.on('item:select', _.bind(this.onSelectRule, this))
-                            .on('item:keydown', _.bind(this.onKeyDown, this));
+                            .on('item:keydown', _.bind(this.onKeyDown, this))
+                            .on('item:keyup', _.bind(this.onKeyUp, this))
+                            .on('item:dblclick', _.bind(this.onEditRule, this,true))
+                            .on('entervalue', _.bind(function (e) {!!e.store.length && this.onEditRule(true);},this));
 
             this.btnNew = new Common.UI.Button({
                 el: $('#format-manager-btn-new')
@@ -188,6 +194,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-up'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-up',
+                scaling: false,
                 hint: this.textUp
             });
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
@@ -196,9 +203,18 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 parentEl: $('#format-manager-btn-down'),
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'caret-down',
+                scaling: false,
                 hint: this.textDown
             });
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
+
+            this.previewPanel = this.$window.find('#id-preview-data');
+            this.previewParent = this.previewPanel.parent();
+            this.previewScrolled = this.$window.find('#id-preview');
+            this.previewInner = this.previewScrolled.find('> div:first-child');
+
+            this.previewPanel.css('height', this.previewListHeight + 'px');
+            this.previewScrolled.css('height', this.previewListHeight + 'px');
 
             this.afterRender();
         },
@@ -213,13 +229,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         _setDefaults: function (props) {
             Common.UI.FocusManager.add(this, this.cmbScope);
-            Common.UI.FocusManager.add(this, this.rulesList);
             Common.UI.FocusManager.add(this, this.btnNew);
             Common.UI.FocusManager.add(this, this.btnEdit);
             Common.UI.FocusManager.add(this, this.btnUp);
             Common.UI.FocusManager.add(this, this.btnDown);
             Common.UI.FocusManager.add(this, this.btnDelete);
-
+            Common.UI.FocusManager.add(this, this.rulesList);
 
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
@@ -231,6 +246,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api.asc_registerCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
             this.api.asc_registerCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
             this.api.asc_registerCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
+
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         refreshScopeList: function() {
@@ -262,20 +279,18 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var sheetIndex = (scope.sheetIndex>-1) ? scope.sheetIndex : this.currentSheet;
             var ruleStore = this.rulesStores[sheetIndex];
             if (!ruleStore) {
-                ruleStore = new Common.UI.DataViewStore();
-                this.rulesStores[sheetIndex] = ruleStore;
+                ruleStore = [];
 
                 var obj = this.api.asc_getCF(Asc.c_oAscSelectionForCFType.worksheet, sheetIndex);
                 var rules = obj[0];
                 this.currentRange = obj[1];
-                var arr = [];
                 if (rules) {
                     for (var i=0; i<rules.length; i++) {
                         var rule = rules[i],
                             name = this.getRuleName(rule),
                             location = rule.asc_getLocation(),
                             idlock = rule.asc_getIsLock();
-                        arr.push({
+                        ruleStore.push({
                             ruleIndex: i, // connect store and list with controls. is not changed
                             ruleId: rule.asc_getId(),
                             name: name,
@@ -290,24 +305,74 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         });
                     }
                 }
-                ruleStore.reset(arr);
+                this.rulesStores[sheetIndex] = ruleStore;
             }
-            if (sheetIndex == this.currentSheet) {
-                ruleStore.each(function(item){
-                    var hidden = scope.value!==Asc.c_oAscSelectionForCFType.worksheet && !item.get('props').asc_checkScope(scope.value);
-                    item.set('cls', hidden ? 'hidden' : undefined);
+            this.nLastScroll = -1000;
+            this.updateRulesCount(true);
+
+            if (!this.scrollerY)
+                this.scrollerY = new Common.UI.Scroller({
+                    el: this.previewScrolled,
+                    minScrollbarLength: 20,
+                    wheelSpeed: 20,
+                    scrollYStyle: this.rulesList.scrollYStyle,
+                    onChange: _.bind(function(){
+                        if (this.scrollerY) {
+                            this._preventUpdateScroll = true;
+                            this.onScrollEnd();
+                            this._preventUpdateScroll = false;
+                            this.previewParent.height(this.previewListHeight);
+                            this.previewParent.css({top: this.scrollerY.getScrollTop()});
+                        }
+                    }, this)
                 });
-            }
-            this.rulesList.setStore(ruleStore);
-            this.rulesList.onResetItems();
-            this.rulesList.deselectAll();
-            this.updateRulesCount();
-            if (this.listSettings.length>0) {
-                this.rulesList.selectByIndex(this.listSettings.min);
-                if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
-                    this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
+            this.scrollerY.update();
+            this.scrollerY.scrollTop(0);
+            if (this.listSettings.data.length>0) {
+                this.listSettings.current = 0;
+                this.rulesList.selectByIndex(0);
             }
             this.updateButtons();
+        },
+
+        onScrollEnd: function(){
+            if(this.scrollerY.getScrollTop() === this.nLastScroll){
+                return;
+            }
+
+            this.nLastScroll = this.scrollerY.getScrollTop();
+
+            var startPos = this.scrollerY.getScrollTop(),
+                start = Math.floor(startPos/this.itemHeight+0.5),
+                end = start + this.maxItemsCount - 1;
+            if (end>this.listSettings.data.length-1) {
+                end = this.listSettings.data.length-1;
+                start = Math.max(0, end - this.maxItemsCount + 1);
+            }
+            this.previewDataBlock(start, end);
+        },
+
+        previewDataBlock: function(start, end) {
+            this.listSettings.start = start;
+            this.listSettings.end = end;
+            var ruleStore = this.rulesStores[this.currentSheet],
+                arr = [];
+            this.rulesList.store.remove(this.rulesList.store.models);
+            for (var i=start; i<=end; i++) {
+                arr.push(ruleStore[this.listSettings.data[i]]);
+            }
+            this.rulesList.store.add(arr);
+            if (this.listSettings.current<=this.listSettings.end)
+                this.rulesList.selectByIndex(this.listSettings.current-this.listSettings.start);
+            if (!this._preventUpdateScroll) {
+                this.scrollerY.update({
+                    minScrollbarLength: 20,
+                    wheelSpeed: 20
+                });
+                this.scrollerY.scrollTop(this.listSettings.start * this.itemHeight);
+            }
+            if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
+                this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
         onMouseOverLock: function (evt, el, opt) {
@@ -510,6 +575,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var me = this,
                 i = item.get('ruleIndex'),
                 cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i);
+
             if (!this.rules[i])
                 this.rules[i] = {};
             var rule = this.rules[i];
@@ -527,11 +593,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         rule.dataRangeValid = newValue;
                         item.set('ruleChanged', true);
                         item.get('props').asc_setLocation(rule.dataRangeValid);
+                        item.set('range', rule.dataRangeValid);
+                        me.rulesStores[me.currentSheet][item.get('indexInStore')].ruleChanged = true;
+                        me.rulesStores[me.currentSheet][item.get('indexInStore')].range = rule.dataRangeValid;
                     } else
                         rule.txtDataRange.setValue(rule.dataRangeValid);
                 }
 
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
+            input.cmpEl.on('dblclick', 'input', function (e){e.stopPropagation();});
             Common.UI.FocusManager.add(this, input);
 
             var val = item.get('range');
@@ -575,6 +645,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             rule.dataRangeValid = dlg.getSettings();
                             item.set('ruleChanged', true);
                             item.get('props').asc_setLocation(rule.dataRangeValid);
+                            item.set('range', rule.dataRangeValid);
+                            me.rulesStores[me.currentSheet][item.get('indexInStore')].ruleChanged = true;
+                            me.rulesStores[me.currentSheet][item.get('indexInStore')].range = rule.dataRangeValid;
                         }
                         rule.txtDataRange.setValue(rule.dataRangeValid);
                     }
@@ -586,9 +659,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(rule.txtDataRange.getValue()) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
@@ -600,7 +673,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         onEditRule: function (isEdit) {
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rulesList.getSelectedRec(),
                 previewRec;
 
@@ -613,6 +686,10 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     if (result == 'ok' && settings) {
                         var name = me.getRuleName(settings);
                         if (isEdit) {
+                            var item = me.rulesStores[me.currentSheet][rec.get('indexInStore')];
+                            item.name = item.tip = name;
+                            item.ruleChanged = true;
+                            item.props = settings;
                             rec.set('name', name);
                             rec.set('tip', name);
                             rec.set('ruleChanged', true);
@@ -621,7 +698,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         } else {
                             settings.asc_setLocation(me.currentRange);
                             var ruleStore = me.rulesStores[me.currentSheet];
-                            previewRec = ruleStore.add({
+                            previewRec = ruleStore.unshift({
                                 ruleIndex: me.rules.length,
                                 name: name,
                                 tip: name,
@@ -632,7 +709,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                                 props: settings,
                                 lock: false,
                                 lockuser: ''
-                            }, {at: 0});
+                            });
                             me.updateRulesPriority(ruleStore);
                         }
                     }
@@ -648,7 +725,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             });
 
             me.hide();
-            win.show();
+            win.show(xy.left, xy.top);
         },
 
         onDeleteRule: function () {
@@ -657,37 +734,53 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (rec) {
                 var id = rec.get('ruleId');
                 (id!==undefined) && this.rulesDeleted.push(id);
-                var index = rec.get('ruleIndex');
-                this.rules[index] = undefined;
-                index = store.indexOf(rec);
-                store.remove(rec);
-                this.updateRulesCount();
-                (this.listSettings.length>0) && this.rulesList.selectByIndex(index<=this.listSettings.max ? index : this.listSettings.max);
-                this.rulesList.scrollToRecord(this.rulesList.getSelectedRec());
+                this.rules[rec.get('ruleIndex')] = undefined;
+                this.rulesStores[this.currentSheet].splice(rec.get('indexInStore'), 1);
+                var index = store.indexOf(rec);
+                this.updateRulesCount(true);
+                var start = this.listSettings.start;
+                var end = start + this.maxItemsCount - 1;
+                if (end>this.listSettings.data.length-1) {
+                    end = this.listSettings.data.length-1;
+                    start = Math.max(0, end - this.maxItemsCount + 1);
+                }
+                this.previewDataBlock(start, end);
+                (this.listSettings.data.length>0) && this.rulesList.selectByIndex(Math.min(index, store.length-1));
             }
             this.updateButtons();
         },
 
         onMoveClick: function(up) {
-            var store = this.rulesList.store,
-                length = store.length,
-                rec = this.rulesList.getSelectedRec();
+            var ruleStore = this.rulesStores[this.currentSheet],
+                rec = this.rulesList.getSelectedRec(),
+                selectedIndex = this.rulesList.store.indexOf(rec);
             if (rec) {
-                var index = store.indexOf(rec);
-                var newindex = up ? this.getPrevRuleIndex(index) : this.getNextRuleIndex(index),
-                    newrec = store.at(newindex),
-                    prioritynew = newrec.get('priority');
-                newrec.set('priority', rec.get('priority'));
-                rec.set('priority', prioritynew);
-                store.add(store.remove(rec), {at: up ? Math.max(0, newindex) : Math.min(length-1, newindex)});
-                store.add(store.remove(newrec), {at: up ? Math.max(0, index) : Math.min(length-1, index)});
-                this.rulesList.selectRecord(rec);
-                this.rulesList.scrollToRecord(rec);
+                var index = rec.get('indexInStore'),
+                    newindex = up ? this.getPrevRuleIndex(index) : this.getNextRuleIndex(index),
+                    newrec = ruleStore[newindex],
+                    prioritynew = newrec.priority;
+                rec = ruleStore[index];
+                newrec.priority = rec.priority;
+                rec.priority = prioritynew;
+                ruleStore.splice(newindex, 1, rec);
+                ruleStore.splice(index, 1, newrec);
+
+                var start = selectedIndex===0 && up ? this.listSettings.start-1 : (!up && selectedIndex>=this.maxItemsCount-1 ? this.listSettings.start+1 : this.listSettings.start);
+                var end = start + this.maxItemsCount - 1;
+                if (end>this.listSettings.data.length-1) {
+                    end = this.listSettings.data.length-1;
+                    start = Math.max(0, end - this.maxItemsCount + 1);
+                }
+                up ? this.listSettings.current-- : this.listSettings.current++;
+                this.updateRulesCount();
+                this.previewDataBlock(start, end);
             }
             this.updateMoveButtons();
         },
 
         onSelectRule: function(lisvView, itemView, record) {
+            var idx = _.indexOf(lisvView.store.models, record);
+            this.listSettings.current = this.listSettings.start + idx;
             this.userTipHide();
             this.updateButtons();
         },
@@ -695,27 +788,26 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         updateButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 lock = rec ? rec.get('lock') : false;
-            this.btnNew.setDisabled(this.rulesList.store.length>63 || this.locked);
-            this.btnDelete.setDisabled(this.listSettings.length<1 || lock);
-            this.btnEdit.setDisabled(this.listSettings.length<1 || lock);
+            this.btnNew.setDisabled(this.locked);
+            this.btnDelete.setDisabled(this.listSettings.data.length<1 || lock);
+            this.btnEdit.setDisabled(this.listSettings.data.length<1 || lock);
             this.updateMoveButtons();
-            this.rulesList.scroller && this.rulesList.scroller.update();
         },
 
         updateMoveButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 index = rec ? this.rulesList.store.indexOf(rec) : -1;
-            this.btnUp.setDisabled(index<=this.listSettings.min || this.locked);
-            this.btnDown.setDisabled(index<0 || index==this.listSettings.max || this.locked);
+            this.btnUp.setDisabled(index+this.listSettings.start<1 || this.locked);
+            this.btnDown.setDisabled(index<0 || index+this.listSettings.start>=this.listSettings.data.length-1 || this.locked);
         },
 
         getPrevRuleIndex: function(index) {
-            var store = this.rulesList.store;
-            if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
+            if (this.cmbScope.getValue() === Asc.c_oAscSelectionForCFType.worksheet) {
                 return Math.max(0, index-1);
             } else {
+                var ruleStore = this.rulesStores[this.currentSheet];
                 for (var i=index-1; i>=this.listSettings.min; i--) {
-                    if (store.at(i).get('cls')!=='hidden') {
+                    if (ruleStore[i].cls!=='hidden') {
                         return i;
                     }
                 }
@@ -724,12 +816,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         getNextRuleIndex: function(index) {
-            var store = this.rulesList.store;
             if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
-                return Math.min(store.length-1, index+1);
+                return Math.min(this.listSettings.data.length-1, index+1);
             } else {
+                var ruleStore = this.rulesStores[this.currentSheet];
                 for (var i=index+1; i<=this.listSettings.max; i++) {
-                    if (store.at(i).get('cls')!=='hidden') {
+                    if (ruleStore[i].cls!=='hidden') {
                         return i;
                     }
                 }
@@ -737,27 +829,30 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             }
         },
 
-        updateRulesCount: function() {
-            var store = this.rulesList.store;
-            if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
-                this.listSettings = {length: store.length, min: 0, max: store.length-1};
-            } else {
-                this.listSettings = {length: 0, min: -1, max: 0};
-                for (var i=0; i<store.length; i++) {
-                    if (store.at(i).get('cls')!=='hidden') {
-                        this.listSettings.length++;
-                        this.listSettings.max = i;
-                        (this.listSettings.min<0) && (this.listSettings.min=i);
-                    }
-                }
-            }
-        },
+        updateRulesCount: function(updateData) {
+            var ruleStore = this.rulesStores[this.currentSheet],
+                scope = this.cmbScope.getSelectedRecord(),
+                me = this;
+            updateData && (this.listSettings.data = []);
+            this.listSettings.min = -1;
+            this.listSettings.max = 0;
 
+            ruleStore.forEach(function(item, index){
+                var hidden = scope.value!==Asc.c_oAscSelectionForCFType.worksheet && !item.props.asc_checkScope(scope.value);
+                item.cls = hidden ? 'hidden' : undefined;
+                item.indexInStore = index;
+                if (!hidden) {
+                    updateData && me.listSettings.data.push(index);
+                    me.listSettings.max = index;
+                    (me.listSettings.min<0) && (me.listSettings.min=index);
+                }
+            });
+            updateData && this.previewInner.height(this.listSettings.data.length*this.itemHeight + this.rulesList.headerHeight);
+        },
 
         updateRulesPriority: function(store) {
             for (var i=1; i<store.length; i++) {
-                var item = store.at(i);
-                item.set('priority', item.get('priority')+1);
+                store[i].priority++;
             }
         },
 
@@ -767,13 +862,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 if (this.rulesStores.hasOwnProperty(sheet)) {
                     var store = this.rulesStores[sheet];
                     var arr = [];
-                    store && store.each(function(item) {
-                        var props = item.get('props');
-                        if (item.get('priority')!==props.asc_getPriority()) {
-                            props.asc_setPriority(item.get('priority'));
-                            item.set('ruleChanged', true);
+                    store && store.forEach(function(item) {
+                        var props = item.props;
+                        if (item.priority!==props.asc_getPriority()) {
+                            props.asc_setPriority(item.priority);
+                            item.ruleChanged = true;
                         }
-                        if (item.get('ruleChanged'))
+                        if (item.ruleChanged)
                             arr.push(props);
                     });
                     (arr.length>0) && (sheets[sheet] = arr);
@@ -782,9 +877,69 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             return {rules: sheets, deleted: this.rulesDeleted};
         },
 
-        onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled() && !/form-control/.test(e.target.className))
+        onKeyDown: function (list, record, e) {
+            if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            if (this._keydowncounter===0) {
+                this._keydowncounter++;
+                this.onKeyEvent(list, e);
+            } else {
+                if (!this._keyEventBusy) {
+                    this._keyEventBusy = true;
+                    var me = this;
+                    this._keydownTimer = setTimeout(function() {
+                        me.onKeyEvent(list, e, true);
+                    }, 1);
+                }
+            }
+        },
+
+        onKeyUp: function (list, e) {
+            this._keydowncounter = 0;
+            if (this._keydownTimer) {
+                clearTimeout(this._keydownTimer);
+                this._keydownTimer = undefined;
+            }
+            this._keyEventBusy = undefined;
+        },
+
+        onKeyEvent: function (list, e, repeat) {
+            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled() && !/form-control/.test(e.target.className)) {
                 this.onDeleteRule();
+            } else if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN) {
+                var rec = list.getSelectedRec();
+                var idx = _.indexOf(list.store.models, rec);
+                if (idx>=0) {
+                    if (e.keyCode==Common.UI.Keys.UP) {
+                        if (idx>0) {
+                            idx--;
+                            this.listSettings.current--;
+                            list.selectByIndex(idx);
+                        } else if (this.listSettings.start>0) {
+                            this.listSettings.current--;
+                            this.previewDataBlock(this.listSettings.start-1, this.listSettings.end-1);
+                        }
+                    }
+                    if (e.keyCode==Common.UI.Keys.DOWN) {
+                        if (idx<list.store.length-1) {
+                            idx++;
+                            this.listSettings.current++;
+                            list.selectByIndex(idx);
+                        } else if (this.listSettings.end<this.listSettings.data.length-1) {
+                            this.listSettings.current++;
+                            this.previewDataBlock(this.listSettings.start+1, this.listSettings.end+1);
+                        }
+                    }
+                }
+            }
+            var me = this;
+            if (repeat)
+                this._keydownTimer = setTimeout(function() {
+                    me.onKeyEvent(list, e, true);
+                }, 1);
         },
 
         close: function () {
@@ -793,7 +948,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api.asc_unregisterCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
             this.api.asc_unregisterCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
             this.api.asc_unregisterCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
-
+            this._keydownTimer && clearTimeout(this._keydownTimer);
             Common.UI.Window.prototype.close.call(this);
         },
 
@@ -813,10 +968,17 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         onLockCFRule: function(index, ruleId, userId) {
             if (this.currentSheet !== index) return;
-            var store = this.rulesList.store,
-                rec = store.findWhere({ruleId: ruleId});
+
+            var ruleStore = this.rulesStores[this.currentSheet],
+                rec = _.findWhere(ruleStore, {ruleId: ruleId});
             if (rec) {
-                rec.set('lockuser', (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText);
+                rec.lockuser = (userId) ? (this.isUserVisible(userId) ? this.getUserName(userId) : this.lockText) : this.guestText;
+                rec.lock = true;
+            }
+
+            rec = this.rulesList.store.findWhere({ruleId: ruleId});
+            if (rec) {
+                rec.set('lockuser', ruleStore[rec.get('indexInStore')].lockuser);
                 rec.set('lock', true);
                 this.updateButtons();
             }
@@ -826,8 +988,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         onUnLockCFRule: function(index, ruleId) {
             if (this.currentSheet !== index) return;
-            var store = this.rulesList.store,
-                rec = store.findWhere({ruleId: ruleId});
+
+            var ruleStore = this.rulesStores[this.currentSheet],
+                rec = _.findWhere(ruleStore, {ruleId: ruleId});
+            if (rec) {
+                rec.lockuser = '';
+                rec.lock = false;
+            }
+
+            rec = this.rulesList.store.findWhere({ruleId: ruleId});
             if (rec) {
                 rec.set('lockuser', '');
                 rec.set('lock', false);

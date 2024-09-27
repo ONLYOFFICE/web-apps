@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,14 +28,13 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Statusbar.js
  *
  *  Statusbar controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
@@ -127,7 +125,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-
+            me._isDocReady = true;
             (new Promise(function(resolve) {
                 resolve();
             })).then(function () {
@@ -135,7 +133,7 @@ define([
                 if (config.canUseSelectHandTools) {
                     me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
                     me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
-                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(me.onChangeViewerTargetType, me));
                     me.api.asc_setViewerTargetType('hand');
                 }
 
@@ -246,19 +244,23 @@ define([
         *   api events
         * */
 
-         _onZoomChange: function(percent, type) {
+        _onZoomChange: function (percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
-
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
+            if (!this._isDocReady) return;
+            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            Common.localStorage.setItem('de-last-zoom', value);
+            Common.Utils.InternalSettings.set('de-last-zoom', value);
         },
 
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(langId);
             this.statusbar.setLanguage({
-                    value:    info[0],
-                    displayValue:  info[1],
-                    code:   langId
+                value: info[0],
+                displayValue: (displayName ? displayName.native : ''),
+                code: langId
             });
         },
 
@@ -304,7 +306,7 @@ define([
             var tip = new Common.UI.SynchronizeTip({
                 target  : me.btnTurnReview.$el,
                 text    : text,
-                placement: 'top-left',
+                placement: Common.UI.isRTL() ? 'top-right' : 'top-left',
                 showLink: !!storage
             });
             tip.on({
@@ -357,6 +359,13 @@ define([
         onSelectTool: function (type, btn, e) {
             if (this.api) {
                 this.api.asc_setViewerTargetType(type);
+            }
+        },
+
+        onChangeViewerTargetType: function(isHandMode) {
+            if (this.statusbar && this.statusbar.btnHandTool) {
+                this.statusbar.btnHandTool.toggle(isHandMode, true);
+                this.statusbar.btnSelectTool.toggle(!isHandMode, true);
             }
         },
 

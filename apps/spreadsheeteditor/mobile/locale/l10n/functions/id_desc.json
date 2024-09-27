@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(logical1; [logical2]; ...)",
 		"d": "Menghasilkan 'Eksklusif Atau' logis dari semua argumen"
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Mengembalikan teks sebelum karakter pemisah."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Mengembalikan teks setelah karakter pemisah."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Membagi teks menjadi baris atau kolom menggunakan pemisah."
+	},
+	"WRAPROWS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Membungkus vektor baris atau kolom setelah jumlah nilai yang ditentukan."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Menumpuk array secara vertikal menjadi satu array."
+	},
+	"HSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": "Menumpuk array secara horizontal menjadi satu array."
+	},
+	"CHOOSEROWS": {
+		"a": "(array, row_num1, [row_num2], ...)",
+		"d": "Mengembalikan baris dari array atau referensi."
+	},
+	"CHOOSECOLS": {
+		"a": "(array, col_num1, [col_num2], ...)",
+		"d": "Mengembalikan kolom dari array atau referensi."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Mengembalikan array sebagai satu kolom."
+	},
+	"TOROW": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": "Menghasilkan array sebagai satu baris."
+	},
+	"WRAPCOLS": {
+		"a": "(vector, wrap_count, [pad_with])",
+		"d": "Membungkus vektor baris atau kolom setelah jumlah nilai yang ditentukan."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": "Mengembalikan baris atau kolom dari awal atau akhir array."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": "Menghapus baris atau kolom dari awal atau akhir array."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Menghasilkan urutan nomor"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Memperluas array ke dimensi yang ditentukan."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Menghasilkan posisi relatif item dalam array. Secara default, kecocokan yang sama persis diperlukan"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filter rentang atau larik"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Mengembalikan representasi teks larik"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Mengurutkan rentang atau larik"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "Mengurutkan rentang atau larik berdasarkan nilai dalam rentang atau larik yang sesuai"
 	}
 }

@@ -1,3 +1,34 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2024
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
 define([
     'core',
     'irregularstack',
@@ -10,13 +41,10 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
-    'documenteditor/forms/app/view/ApplicationView'
+    'documenteditor/forms/app/view/ApplicationView',
+    'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
     'use strict';
 
@@ -28,7 +56,8 @@ define([
         mouseMoveData = null,
         isTooltipHiding = false,
         bodyWidth = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        _logoImage = '';
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -71,6 +100,7 @@ define([
             });
 
             Common.UI.Themes.init(this.api);
+            Common.Controllers.LaunchController.init(this.api);
 
             $(window).on('resize', this.onDocumentResize.bind(this));
 
@@ -401,6 +431,7 @@ define([
             if (this._state.isDocModified !== isModified) {
                 this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
             }
+            this.appOptions.canFillForms && this.api.isDocumentModified() && this.requiredTooltip && this.requiredTooltip.hide();
 
             this.updateWindowTitle();
         },
@@ -437,9 +468,27 @@ define([
             this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
             this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
             this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
-            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
+            this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
+
+            Common.Controllers.Desktop.init(this.appOptions);
+
+            this.appOptions.canCloseEditor = false;
+            var _canback = false;
+            if (typeof this.appOptions.customization === 'object') {
+                if (typeof this.appOptions.customization.goback == 'object' && this.appOptions.canBackToFolder!==false) {
+                    _canback = this.appOptions.customization.close===undefined ?
+                        this.appOptions.customization.goback.url || this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose :
+                        this.appOptions.customization.goback.url && !this.appOptions.customization.goback.requestClose;
+
+                    if (this.appOptions.customization.goback.requestClose)
+                        console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
+                if (this.appOptions.customization.close && typeof this.appOptions.customization.close === 'object')
+                    this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+            }
+            this.appOptions.canBackToFolder = !!_canback;
         },
 
         onExternalMessage: function(msg) {
@@ -514,13 +563,15 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
-                
+                docInfo.put_Wopi(this.editorConfig.wopi);
+                this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
+
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
                 enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                 docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                var type = /^(?:(djvu|xps|oxps))$/.exec(data.doc.fileType);
                 if (type && typeof type[1] === 'string') {
                     this.permissions.edit = this.permissions.review = false;
                 }
@@ -550,17 +601,16 @@ define([
 
         onEditorPermissions: function(params) {
             var licType = params.asc_getLicenseType();
-            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+            if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                 Common.UI.warning({
-                    title: this.titleLicenseExp,
-                    msg: this.warnLicenseExp,
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                    msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                     buttons: [],
                     closable: false
                 });
                 return;
             }
-            if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                this._state.licenseType = licType;
 
             if ( this.onServerVersion(params.asc_getBuildVersion())) return;
 
@@ -574,7 +624,7 @@ define([
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
 
-            var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
+            var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
             this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
@@ -586,6 +636,7 @@ define([
             this.appOptions.canPrint          = (this.permissions.print !== false);
 
             this.appOptions.fileKey = this.document.key;
+            this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
             AscCommon.UserInfoParser.setParser(true);
             AscCommon.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
@@ -594,7 +645,7 @@ define([
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
-            me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
+            me.view.btnDownload.setVisible(false && this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
                 me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
                 me.view.btnDownload.updateHint('');
@@ -603,6 +654,9 @@ define([
                 me.view.btnPrev.setVisible(false);
                 me.view.btnNext.setVisible(false);
                 me.view.btnClear.setVisible(false);
+                me.view.btnUndo.setVisible(false);
+                me.view.btnRedo.setVisible(false);
+                me.view.btnRedo.$el.next().hide();
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
@@ -614,6 +668,31 @@ define([
                     me.api.asc_ClearAllSpecialForms();
                 });
                 me.view.btnSubmit.on('click', function(){
+                    if (!me.api.asc_IsAllRequiredFormsFilled()) {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        if (!me.requiredTooltip) {
+                            me.requiredTooltip = new Common.UI.SynchronizeTip({
+                                extCls: 'colored',
+                                placement: 'bottom-left',
+                                target: me.view.btnSubmit.$el,
+                                text: me.textRequired,
+                                showLink: false,
+                                closable: true
+                            });
+                            me.requiredTooltip.on('closeclick', function () {
+                                me.requiredTooltip.hide();
+                            });
+                        }
+                        !me.requiredTooltip.isVisible() && me.requiredTooltip.show();
+
+                        // Common.UI.warning({
+                        //     msg: me.textRequired,
+                        //     callback: function() {
+                        //         me.api.asc_MoveToFillingForm(true, true, true);
+                        //     }
+                        // });
+                        return;
+                    }
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
@@ -622,15 +701,31 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         else {
                             me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload);
+                            options.asc_setIsSaveAs(me.isFromBtnDownload);
+                            me.api.asc_DownloadAs(options);
                         }
                     }
+                });
+                me.view.btnUndo.on('click', function(){
+                    me.api.Undo(false);
+                });
+                me.view.btnRedo.on('click', function(){
+                    me.api.Redo(false);
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+            }
+
+            this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
+            if (this.appOptions.canCloseEditor) {
+                this.view.btnClose.updateHint(this.appOptions.customization.close.text || this.view.textClose);
+                this.view.btnClose.on('click', function(){
+                    Common.Gateway.requestClose();
+                });
             }
 
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -686,13 +781,21 @@ define([
         },
 
         applyLicense: function() {
-            if (this._state.licenseType) {
+            if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                this.api.asc_coAuthoringDisconnect();
+                Common.NotificationCenter.trigger('api:disconnect');
+                Common.UI.warning({
+                    title: this.notcriticalErrorTitle,
+                    msg  : this.warnLicenseAnonymous,
+                    buttons: ['ok']
+                });
+            } else if (this._state.licenseType) {
                 var license = this._state.licenseType,
                     buttons = ['ok'],
                     primary = 'ok';
                 if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                    (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                    license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                    (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                    license = this.warnLicenseLimitedRenewed;
                 } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                     license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                 } else {
@@ -702,6 +805,7 @@ define([
                 }
 
                 if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.canFillForms) {
+                    this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
                 }
 
@@ -730,9 +834,16 @@ define([
         setBranding: function (value) {
             if ( value && value.logo) {
                 var logo = $('#header-logo');
-                if (value.logo.image || value.logo.imageDark) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
+                if (value.logo.visible===false) {
+                    logo.addClass('hidden');
+                    logo.parent().removeClass('margin-right-large');
+                    return;
+                }
+
+                if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
+                    _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -759,9 +870,11 @@ define([
                     break;
                 case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
+                    text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
                     this.view.btnSubmit.setDisabled(true);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                    this.disableFillingForms(true);
                     break;
                 case LoadingDocument:
                     text = this.textLoadingDocument + '           ';
@@ -792,20 +905,33 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(false);
+                 this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    Common.Gateway.submitForm();
+                    this.view.btnSubmit.setCaption(this.textFilled);
+                    this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
                     if (!this.submitedTooltip) {
-                        var me = this;
-                        this.submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + this.textSubmited + '</div>');
-                        $(document.body).append(this.submitedTooltip);
-                        this.submitedTooltip.on('click', function() {me.submitedTooltip.hide();});
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            style: 'max-width: 400px',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
                     }
                     this.submitedTooltip.show();
-                }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.onApiServerDisconnect(true);
+                } else
+                    this.disableFillingForms(false);
             }
              if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
-                 !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
+                 !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
                  this.api.asc_enableKeyEvents(true);
              }
         },
@@ -832,7 +958,7 @@ define([
                             }
                         } else {
                             Common.Gateway.requestClose();
-                            DE.Controllers.Desktop.requestClose();
+                            Common.Controllers.Desktop.requestClose();
                         }
                         me._openDlg = null;
                     }
@@ -994,15 +1120,17 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.view.btnSubmit.setDisabled(!isFilled);
-            this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            // this.view.btnSubmit.setDisabled(!isFilled);
+            // this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+            isFilled && this.requiredTooltip && this.requiredTooltip.hide();
         },
 
         onProcessMouse: function(data) {
             if (data.type == 'mouseup') {
                 var e = document.getElementById('editor_sdk');
                 if (e) {
-                    var r = e.getBoundingClientRect();
+                    var r = Common.Utils.getBoundingClientRect(e);
                     this.api.OnMouseUp(
                         data.x - r.left,
                         data.y - r.top
@@ -1020,11 +1148,14 @@ define([
                 Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
                 return;
             }
-            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+            var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
-            else
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            else {
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
+            }
         },
 
         onHyperlinkClick: function(url) {
@@ -1230,7 +1361,7 @@ define([
                         value       : '',
                         template    : _.template([
                             '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= caption %>',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
                             '</a>'
                         ].join(''))
                     }));
@@ -1311,10 +1442,11 @@ define([
                 });
 
             }
-            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+            var val = specProps ? specProps.get_FullDate() : undefined;
+            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1343,6 +1475,8 @@ define([
             me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+            Common.NotificationCenter.trigger('app:face', this.appOptions); // for Desktop controller only
+            Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
             (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
@@ -1363,6 +1497,8 @@ define([
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_SetHighlightRequiredFields(true);
                 Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
@@ -1384,10 +1520,20 @@ define([
 
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
+            Common.NotificationCenter.trigger('document:ready');
         },
 
         onOptionsClick: function(menu, item, e) {
             switch (item.value) {
+                case 'undo':
+                    this.api.Undo(false);
+                    break;
+                case 'redo':
+                    this.api.Redo(false);
+                    break;
+                case 'clear':
+                    this.api.asc_ClearAllSpecialForms();
+                    break;
                 case 'fullscr':
                     this.onHyperlinkClick(this.embedConfig.fullscreenUrl);
                     break;
@@ -1404,7 +1550,7 @@ define([
                     Common.Analytics.trackEvent('Print');
                     break;
                 case 'close':
-                    if (!DE.Controllers.Desktop.process('goback') &&
+                    if (!Common.Controllers.Desktop.process('goback') &&
                             this.appOptions.customization && this.appOptions.customization.goback)
                     {
                         if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose)
@@ -1486,9 +1632,13 @@ define([
 
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
-                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    $('#header-logo img').attr('src', image);
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    if (_logoImage !== image) {
+                        _logoImage = image;
+                        $('#header-logo img').attr('src', image);
+                    }
                 }
             }
         },
@@ -1505,60 +1655,76 @@ define([
                 var last; // divider item
 
                 // download and print
-                if (!menuItems[0].isVisible() && !menuItems[1].isVisible() && !menuItems[2].isVisible() && !menuItems[3].isVisible())
-                    menuItems[4].setVisible(false);
-                else
-                    last = menuItems[4];
-
-                // theme and zoom
-                if (!menuItems[7].isVisible() && !menuItems[8].isVisible())
+                if (!menuItems[5].isVisible() && !menuItems[6].isVisible() && !menuItems[7].isVisible() && !menuItems[8].isVisible())
                     menuItems[9].setVisible(false);
                 else
                     last = menuItems[9];
 
-                // share, location
-                if (!menuItems[10].isVisible() && !menuItems[11].isVisible())
-                    menuItems[12].setVisible(false);
+                // theme and zoom
+                if (!menuItems[12].isVisible() && !menuItems[13].isVisible())
+                    menuItems[14].setVisible(false);
                 else
-                    last = menuItems[12];
+                    last = menuItems[14];
+
+                // share, location
+                if (!menuItems[15].isVisible() && !menuItems[16].isVisible())
+                    menuItems[17].setVisible(false);
+                else
+                    last = menuItems[17];
 
                 // embed, fullscreen
-                if (!menuItems[13].isVisible() && !menuItems[14].isVisible())
+                if (!menuItems[18].isVisible() && !menuItems[19].isVisible())
                     last && last.setVisible(false);
 
                 menu.off('show:after', initMenu);
             };
 
+            if (!this.appOptions.canFillForms) {
+                menuItems[0].setVisible(false); // undo
+                menuItems[1].setVisible(false); // redo
+                menuItems[2].setVisible(false); // --
+                menuItems[3].setVisible(false); // clear
+                menuItems[4].setVisible(false); // --
+            }
+
             if (!this.appOptions.canPrint) {
-                menuItems[3].setVisible(false);
+                menuItems[8].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.saveUrl || !this.appOptions.canDownload || this.appOptions.isOFORM) {
-                menuItems[0].setVisible(false);
+                menuItems[5].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.appOptions.isOFORM || !this.appOptions.canDownload || this.appOptions.isOffline) {
-                menuItems[1].setVisible(false);
-                menuItems[2].setVisible(false);
+                menuItems[6].setVisible(false);
+                menuItems[7].setVisible(false);
                 itemsCount -= 2;
             }
 
             if (Common.UI.Themes.available()) {
-                var current = Common.UI.Themes.currentThemeId();
-                for (var t in Common.UI.Themes.map()) {
-                    this.view.mnuThemes.addItem(new Common.UI.MenuItem({
-                        caption     : Common.UI.Themes.get(t).text,
-                        value       : t,
-                        toggleGroup : 'themes',
-                        checkable   : true,
-                        checked     : t===current
-                    }));
+                const _fill_themes = function () {
+                    const _menu = this.view.mnuThemes;
+                    _menu.removeAll();
+
+                    const _current = Common.UI.Themes.currentThemeId();
+                    for (let t in Common.UI.Themes.map()) {
+                        _menu.addItem(new Common.UI.MenuItem({
+                            caption     : Common.UI.Themes.get(t).text,
+                            value       : t,
+                            toggleGroup : 'themes',
+                            checkable   : true,
+                            checked     : t === _current
+                        }));
+                    }
                 }
+
+                Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(this));
+                _fill_themes.call(this);
             }
             if (this.view.mnuThemes.items.length<1) {
-                menuItems[7].setVisible(false);
+                menuItems[12].setVisible(false);
                 itemsCount--;
             } else {
                 this.view.menuItemsDarkMode = new Common.UI.MenuItem({
@@ -1576,22 +1742,25 @@ define([
             }
 
             if ( !this.embedConfig.shareUrl || this.appOptions.isOFORM) {
-                menuItems[10].setVisible(false);
+                menuItems[15].setVisible(false);
                 itemsCount--;
             }
 
             if (!this.appOptions.canBackToFolder) {
-                menuItems[11].setVisible(false);
+                menuItems[16].setVisible(false);
                 itemsCount--;
+            } else {
+                var text = this.appOptions.customization.goback.text;
+                text && (typeof text == 'string') && menuItems[16].setCaption(text);
             }
 
             if ( !this.embedConfig.embedUrl || this.appOptions.isOFORM) {
-                menuItems[13].setVisible(false);
+                menuItems[18].setVisible(false);
                 itemsCount--;
             }
 
             if ( !this.embedConfig.fullscreenUrl || this.appOptions.isOFORM) {
-                menuItems[14].setVisible(false);
+                menuItems[19].setVisible(false);
                 itemsCount--;
             }
             if (itemsCount<1)
@@ -1652,43 +1821,13 @@ define([
 
             // TODO: add asc_hasRequiredFields to sdk
 
-            if (this.appOptions.canSubmitForms && !this.api.asc_IsAllRequiredFormsFilled()) {
-                this.view.btnSubmit.setDisabled(true);
-                this.view.btnSubmit.cmpEl.css("pointer-events", "none");
-                var sgroup = $('#id-submit-group');
-                if (!Common.localStorage.getItem("de-embed-hide-submittip")) {
-                    var requiredTooltip = new Common.UI.SynchronizeTip({
-                        extCls: 'colored',
-                        placement: 'bottom-left',
-                        target: this.view.btnSubmit.$el,
-                        text: this.textRequired,
-                        showLink: false,
-                        closable: false,
-                        showButton: true,
-                        textButton: this.textGotIt
-                    });
-                    var onclose = function () {
-                        requiredTooltip.hide();
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        sgroup.attr('data-toggle', 'tooltip');
-                        sgroup.tooltip({
-                            title       : me.textRequired,
-                            placement   : 'bottom'
-                        });
-                    };
-                    requiredTooltip.on('buttonclick', function () {
-                        onclose();
-                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    });
-                    requiredTooltip.on('closeclick', onclose);
-                    requiredTooltip.show();
-                } else {
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                }
+            if (this.appOptions.canSubmitForms) {
+                if (this.api.asc_IsAllRequiredFormsFilled())
+                    this.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                // else {
+                    // this.view.btnSubmit.setDisabled(true);
+                    // this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                // }
             }
 
             var documentMoveTimer;
@@ -1800,9 +1939,10 @@ define([
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(disabled || !cancopy); // cut
-                this.textMenu.items[4].setDisabled(!cancopy); // copy
-                this.textMenu.items[5].setDisabled(disabled) // paste;
+                this.textMenu.items[3].setDisabled(disabled); // clear
+                this.textMenu.items[5].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[6].setDisabled(!cancopy); // copy
+                this.textMenu.items[7].setDisabled(disabled) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -1832,23 +1972,56 @@ define([
                         }
                     }
                     break;
+                case 'clear':
+                    if (this.api) {
+                        var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                        if (props) {
+                            this.api.asc_ClearContentControl(props.get_InternalId());
+                        }
+                    }
+                    break;
             }
+        },
+
+        disableFillingForms: function(state) {
+            this._isDisabled = state;
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
+            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
         },
 
         onApiServerDisconnect: function(enableDownload) {
             this._state.isDisconnected = true;
             this._isDisabled = true;
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(true);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(true);
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(true);
+            if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
+                this.view.btnOptions.menu.items[0].setDisabled(true); // undo
+                this.view.btnOptions.menu.items[1].setDisabled(true); // redo
+                this.view.btnOptions.menu.items[3].setDisabled(true); // clear
+            }
             if (!enableDownload) {
                 this.appOptions.canPrint = this.appOptions.canDownload = false;
                 this.view && this.view.btnDownload.setDisabled(true);
                 this.view && this.view.btnSubmit.setDisabled(true);
                 if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
-                    this.view.btnOptions.menu.items[3].setDisabled(true); // print
-                    this.view.btnOptions.menu.items[0].setDisabled(true); // download
-                    this.view.btnOptions.menu.items[1].setDisabled(true); // download docx
-                    this.view.btnOptions.menu.items[2].setDisabled(true); // download pdf
+                    this.view.btnOptions.menu.items[8].setDisabled(true); // print
+                    this.view.btnOptions.menu.items[5].setDisabled(true); // download
+                    this.view.btnOptions.menu.items[6].setDisabled(true); // download docx
+                    this.view.btnOptions.menu.items[7].setDisabled(true); // download pdf
                 }
+            }
+        },
+
+        onApiCanRevert: function(which, can) {
+            if (!this.view) return;
+
+            (which=='undo') ? this.view.btnUndo.setDisabled(!can) : this.view.btnRedo.setDisabled(!can);
+
+            if (this.view.btnOptions && this.view.btnOptions.menu) {
+                (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can) : this.view.btnOptions.menu.items[1].setDisabled(!can);
             }
         },
 
@@ -1928,24 +2101,32 @@ define([
         errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
         errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.'
+        errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
+        warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+        titleLicenseNotActive: 'License not active',
+        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+        textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
+        textFilled: 'Filled',
+        savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
 
-    var Desktop = function () {
+/*    var Desktop = function () {
         var features = {
             version: '{{PRODUCT_VERSION}}',
             // eventloading: true,
             uitype: 'fillform',
             uithemes: true
         };
-        var api;
+        var api, nativevars;
 
         var native = window.desktop || window.AscDesktopEditor;
         !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
         if ( !!native ) {
             $('#header-logo, .brand-logo').hide();
+
+            nativevars = window.RendererProcessVariable;
 
             window.on_native_message = function (cmd, param) {
                 if (/theme:changed/.test(cmd)) {
@@ -1993,6 +2174,9 @@ define([
             isActive: function () {
                 return !!native;
             },
+            isOffline: function () {
+                return api && api.asc_isOffline();
+            },
             process: function (opts) {
                 if ( !!native && !!api ) {
                     if ( opts == 'goback' ) {
@@ -2005,9 +2189,14 @@ define([
 
                 return false;
             },
+            systemThemeType: function () {
+                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            },
         }
     };
-    DE.Controllers.Desktop = new Desktop();
-    Common.Controllers = Common.Controllers || {};
-    Common.Controllers.Desktop = DE.Controllers.Desktop;
+ */
+    // DE.Controllers.Desktop = new Desktop();
+    // Common.Controllers = Common.Controllers || {};
+    // Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

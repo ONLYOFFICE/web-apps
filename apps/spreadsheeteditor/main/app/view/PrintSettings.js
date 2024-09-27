@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,21 +28,17 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  PrintSettings.js
  *
- *  Created by Julia Radzhabova on 4/03/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/03/14
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
+define([
+    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ListView'
 ], function (contentTemplate) {
     'use strict';
 
@@ -51,16 +46,18 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 575,
+            contentHeight: 468,
             buttons: null
         },
 
         initialize : function(options) {
             this.type = options.type || 'print';
+            var txtBtn = (this.type == 'print') ? this.btnPrint :
+                (this.type == 'export') ? this.btnExport : this.btnDownload;
             _.extend(this.options, {
                 title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                    '<div class="box">',
                         '<div class="menu-panel" style="overflow: hidden;">',
                             '<div style="height: 84px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
@@ -68,21 +65,20 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
                             '<div style="height: 98px; line-height: 33px;" class="div-category">' + this.strPrintTitles + '</div>',
-                            '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
-                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
+                            '<div style="height: 41px; line-height: 41px;" class="div-category">' + this.strMargins + '</div>',
+                            '<div style="height: 58px; line-height: 44px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
                         '</div>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="min-width: 100px;width: auto;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;float: right;">' + this.cancelButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 10px;  width: 150px;float: right;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button class="btn normal dlg-btn float-right" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary float-right margin-left-10" result="ok" style="min-width: 150px;width: auto;">' + txtBtn + '</button>',
                     '</div>'
                 ].join('')
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
-            this.spinners = [];
         },
 
         render: function() {
@@ -90,8 +86,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.cmbRange = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-range'),
-                style       : 'width: 132px;',
-                menuStyle   : 'min-width: 132px;max-height: 280px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 100%;max-height: 280px;',
                 editable    : false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
@@ -116,9 +112,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/
             });
 
             this.spnPagesTo = new Common.UI.MetricSpinner({
@@ -129,9 +125,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/
             });
 
             this.cmbSheet = new Common.UI.ComboBox({
@@ -152,19 +148,19 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
-                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4'},
+                    {value:'148|210',        displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10'},
+                    {value:'110|220',        displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3'},
+                    {value:'296.9|457.2',    displayValue:'Tabloid Oversize (29,69 cm x 45,72 cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K'},
+                    {value:'120|235',    displayValue:'Envelope Choukei 3 (12 cm x 23,5 cm)', caption: 'Envelope Choukei 3'},
+                    {value:'305|487',    displayValue:'Super B/A3 (30,5 cm x 48,7 cm)', caption: 'Super B/A3'}
                 ]
             });
 
@@ -191,49 +187,32 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 labelText: (this.type == 'print') ? this.textPrintHeadings : this.textShowHeadings
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-top'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $('#printadv-dlg-combo-margins'),
+                style: 'width: 242px;',
+                menuStyle: 'max-height: 280px; min-width: 242px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.textMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.textMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.textMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.textCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.strTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.strBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.strRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join(''))
             });
-            this.spinners.push(this.spnMarginTop);
-
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-bottom'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginBottom);
-
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-left'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $('#printadv-dlg-spin-margin-right'),
-                step: .1,
-                width: 110,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0
-            });
-            this.spinners.push(this.spnMarginRight);
 
             var itemsTemplate =
                 _.template([
@@ -262,7 +241,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-top'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -271,13 +250,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
-                menu: true
+                style: 'width: 95px;',
+                menu: true,
+                takeFocusOnClose: true
             });
 
             this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-left'),
-                style       : 'width: 147px;',
+                style       : 'width: 137px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -286,8 +266,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 parentEl: $('#printadv-dlg-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 85px;',
-                menu: true
+                style: 'width: 95px;',
+                menu: true,
+                takeFocusOnClose: true
             });
 
             this.btnHide = new Common.UI.Button({
@@ -305,8 +286,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRange, this.chIgnorePrintArea, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
-                    this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight, this.chPrintGrid, this.chPrintRows];
+            return [this.cmbRange, this.chIgnorePrintArea, this.spnPagesFrom, this.spnPagesTo, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout,
+                    this.txtRangeTop, this.btnPresetsTop, this.txtRangeLeft, this.btnPresetsLeft,
+                    this.cmbPaperMargins, this.chPrintGrid, this.chPrintRows, this.btnHide].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -353,11 +335,11 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {
@@ -365,13 +347,6 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -379,23 +354,24 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         handlerShowDetails: function(btn) {
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(344);
+                this.setInnerHeight(259);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(615);
+                this.setInnerHeight(468);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -443,7 +419,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textRepeatLeft:         'Repeat columns at left',
         textRepeat:             'Repeat...',
         textPages:              'Pages:',
-        textTo:                 'to'
+        textTo:                 'to',
+        textMarginsNormal:      'Normal',
+        textMarginsNarrow:      'Narrow',
+        textMarginsWide:        'Wide',
+        txtMarginsLast:         'Last Custom',
+        btnExport:              'Save & Export'
 
     }, SSE.Views.PrintSettings || {}));
 });

@@ -1,7 +1,5 @@
 .extended-color-dlg {
-    .color-box {
-        padding: 16px 16px 5px 16px;
-
+    .box {
         & > div {
             display: inline-block;
         }
@@ -14,7 +12,7 @@
 
         label {
             font-weight: normal;
-            font-size: 12px;
+            .font-size-medium();
             margin-bottom: 0;
             vertical-align: middle;
 
@@ -30,16 +28,21 @@
 
         input {
             font-weight: normal;
-            font-size: 12px;
+            .font-size-medium();
             background-color: @background-normal;
+        }
+
+        .color-field-wrapper {
+            border-radius: 2px;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            padding: 1px;
         }
 
         .color-cnt {
             width: 63px;
             height: 20px;
             background-color: transparent;
-            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
-            border: @scaled-one-px-value solid @border-color-shading;
             &.top {
                 border-bottom: none;
             }
@@ -54,27 +57,16 @@
         }
 
         .color-transparent {
+            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+            border: @scaled-one-px-value solid @border-color-shading;
+
             &:before {
                 height: 64px;
                 transform: translate(29px, -22px) rotate(73deg);
-            }
-        }
-    }
 
-
-    .footer {
-        height: 37px;
-        width: 100%;
-        bottom: 0;
-        text-align: center;
-        padding: 7px 0 0 0;
-
-        button {
-            width: 75px;
-            height: 22px;
-
-            &:not(:first-child) {
-                margin-left: 10px;
+                .rtl & {
+                    transform: translate(-29px, -22px) rotate(73deg);
+                }
             }
         }
     }

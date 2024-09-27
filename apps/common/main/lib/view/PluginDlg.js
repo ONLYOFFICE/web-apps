@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,11 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- * User: Julia.Radzhabova
  * Date: 17.05.16
- * Time: 15:38
  */
 
 if (Common === undefined)
@@ -41,12 +38,7 @@ if (Common === undefined)
 
 Common.Views = Common.Views || {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout',
-    'common/main/lib/component/Window'
-], function (template) {
+define([], function () {
     'use strict';
 
     Common.Views.PluginDlg = Common.UI.Window.extend(_.extend({
@@ -54,19 +46,19 @@ define([
             var _options = {};
             _.extend(_options,  {
                 header: true,
-                enableKeyEvents: false
+                enableKeyEvents: false,
+                automove: false
             }, options);
 
-            var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
-            if (!_options.header) header_footer -= 34;
             this.bordersOffset = 40;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
-            _options.height += header_footer;
-            _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
-            _options.cls += ' advanced-settings-dlg';
+            _options.cls += ' advanced-settings-dlg invisible-borders';
+            (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
+            _options.contentHeight = _options.height;
+            _options.height = 'auto';
 
             this.template = [
-                '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
+                '<div id="id-plugin-container" class="box" style="height:' + _options.contentHeight + 'px;">',
                 '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
@@ -79,17 +71,26 @@ define([
             this.url = options.url || '';
             this.loader = (options.loader!==undefined) ? options.loader : true;
             this.frameId = options.frameId || 'plugin_iframe';
+            this.guid = options.guid;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
-            this.$window.find('> .body').css({height: 'auto', overflow: 'hidden'});
 
+            var bodyEl = this.$window.find('> .body');
+            bodyEl.css({height: 'auto', overflow: 'hidden'});
             this.boxEl = this.$window.find('.body > .box');
-            this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
-            if (!this.options.header) this._headerFooterHeight -= 34;
+
+            this._headerFooterHeight = this.options.header ? parseInt(this.$window.find('.header').css('height')) : 0;
+            if (this.options.buttons && _.size(this.options.buttons)>0)
+                this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
+            if (Common.Utils.innerHeight()-this.bordersOffset*2 < this.options.contentHeight + this._headerFooterHeight) {
+                this.options.contentHeight = Common.Utils.innerHeight()-this.bordersOffset*2 - this._headerFooterHeight;
+                this.boxEl.css('height', this.options.contentHeight);
+            }
 
             this.$window.find('.header').prepend($('<div class="tools left hidden"></div>'));
 
@@ -105,10 +106,11 @@ define([
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
+            var pholder = this.$window.find('#id-plugin-placeholder');
             if (this.loader) {
                 setTimeout(function(){
                     if (me.isLoaded) return;
-                    me.loadMask = new Common.UI.LoadMask({owner: $('#id-plugin-placeholder')});
+                    me.loadMask = new Common.UI.LoadMask({owner: pholder});
                     me.loadMask.setTitle(me.textLoading);
                     me.loadMask.show();
                     if (me.isLoaded) me.loadMask.hide();
@@ -116,7 +118,7 @@ define([
             }
 
             iframe.src = this.url;
-            $('#id-plugin-placeholder').append(iframe);
+            pholder.append(iframe);
 
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
@@ -199,29 +201,25 @@ define([
             }
         },
 
-        showButton: function(id) {
-            var header = this.$window.find('.header .tools.left');
-            if (id=='back') {
-                var btn = header.find('#id-plugindlg-' + id);
-                if (btn.length<1) {
-                    btn = $('<div id="id-plugindlg-' + id + '" class="tool help" style="font-size:20px;">←</div>');
-                    btn.on('click', _.bind(function() {
-                        this.fireEvent('header:click',id);
-                    }, this));
-                    header.prepend(btn);
-                }
-                btn.show();
-                header.removeClass('hidden');
+        showButton: function(id, toRight) {
+            var header = this.$window.find(toRight ? '.header .tools:not(.left)' : '.header .tools.left'),
+                btn = header.find('#id-plugindlg-' + id);
+            if (btn.length<1) {
+                var iconCls = (id ==='back') ? 'btn-promote' : 'btn-' + Common.Utils.String.htmlEncode(id);
+                btn = $('<div id="id-plugindlg-' + id + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    this.fireEvent('header:click',id);
+                }, this));
+                header.append(btn);
             }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         hideButton: function(id) {
-            var header = this.$window.find('.header .tools.left');
-            if (id=='back') {
-                var btn = header.find('#id-plugindlg-' + id);
-                if (btn.length>0) {
-                    btn.hide();
-                }
+            var btn = this.$window.find('.header #id-plugindlg-' + id);
+            if (btn.length>0) {
+                btn.hide();
             }
         },
 

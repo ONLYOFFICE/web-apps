@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,10 +28,9 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
-    'core',
-    'documenteditor/main/app/view/FileMenuPanels'
+    'core'
 ], function () {
     'use strict';
 
@@ -62,10 +60,16 @@ define([
                     'render:after': _.bind(this.onAfterRender, this)
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         onLaunch: function() {
+        },
+
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['PrintWithPreview']);
             this.printSettings = this.createView('PrintWithPreview');
+            this.setMode(this.mode);
         },
 
         onAfterRender: function(view) {
@@ -175,7 +179,7 @@ define([
 
         onApiPageSize: function(w, h) {
             this._state.pgsize = [w, h];
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var width = this._state.pgorient ? w : h,
                     height = this._state.pgorient ? h : w;
                 var panel = this.printSettings;
@@ -193,9 +197,17 @@ define([
                 }
                 if (item)
                     panel.cmbPaperSize.setValue(item.get('value'));
-                else
-                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                else {
+                    if (panel.$el.prop('id') === 'panel-print') {
+                        panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()]);
+                    } else {
+                        panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                    }
+                }
             } else {
                 this.isFillProps = false;
             }
@@ -203,7 +215,7 @@ define([
 
         onApiPageOrient: function(isportrait) {
             this._state.pgorient = !!isportrait;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var item = this.printSettings.cmbPaperOrientation.store.findWhere({value: this._state.pgorient ? Asc.c_oAscPageOrientation.PagePortrait : Asc.c_oAscPageOrientation.PageLandscape});
                 if (item) this.printSettings.cmbPaperOrientation.setValue(item.get('value'));
             }
@@ -213,7 +225,7 @@ define([
             if (!props) return;
 
             this._state.sectionprops = props;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var left = props.get_LeftMargin(),
                     top = props.get_TopMargin(),
                     right = props.get_RightMargin(),
@@ -229,7 +241,6 @@ define([
                         Math.abs(size[0] - top) < 0.1 && Math.abs(size[1] - left) < 0.1 &&
                         Math.abs(size[2] - bottom) < 0.1 && Math.abs(size[3] - right) < 0.1) {
                         item = rec;
-                        break;
                     }
                 }
                 if (item)
@@ -256,7 +267,7 @@ define([
             this._navigationPreview.pageCount = count;
             if (this._navigationPreview.currentPreviewPage > count - 1) {
                 this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings.isVisible()) {
+                if (this.printSettings && this.printSettings.isVisible()) {
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
@@ -265,7 +276,7 @@ define([
 
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
@@ -362,7 +373,7 @@ define([
 
         onUpdateLastCustomMargins: function(props) {
             this._state.lastmargins = props;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var top = props ? props.get_TopMargin() : Common.localStorage.getItem("de-pgmargins-top"),
                     left = props ? props.get_LeftMargin() : Common.localStorage.getItem("de-pgmargins-left"),
                     bottom = props ? props.get_BottomMargin() : Common.localStorage.getItem("de-pgmargins-bottom"),
@@ -452,7 +463,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.goToPage(page-1);
-                this.api.asc_enableKeyEvents(true);
                 return false;
             }
         },
@@ -522,9 +532,12 @@ define([
                     h: size ? size['H'] : undefined,
                     preset: size ? this.findPagePreset(size['W'], size['H']) : undefined
                 },
-                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null
+                paperOrientation: size ? (size['H'] > size['W'] ? 'portrait' : 'landscape') : null,
+                copies: this.printSettings.spnCopies.getNumberValue() || 1,
+                sides: this.printSettings.cmbSides.getValue()
             });
 
+            this.printSettings.menu.hide();
             if ( print ) {
                 var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86);
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
@@ -534,7 +547,6 @@ define([
                 opts.asc_setAdvancedOptions(this.adjPrintParams);
                 this.api.asc_DownloadAs(opts);
             }
-            this.printSettings.menu.hide();
         },
 
         inputPagesChanging: function (input, value) {
@@ -558,7 +570,7 @@ define([
         },
 
         SetDisabled: function() {
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var disable = !this.mode.isEdit || this._state.lock_doc;
                 this.printSettings.cmbPaperSize.setDisabled(disable);
                 this.printSettings.cmbPaperMargins.setDisabled(disable);

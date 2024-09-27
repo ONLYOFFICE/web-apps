@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,30 +28,25 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ParagraphSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 2/21/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/21/14
  *
  */
 
-define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
+define([
+    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
+    'common/main/lib/component/TableStyler',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';
 
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 415,
+            contentHeight: 330,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },
@@ -135,11 +129,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
 
             this._arrTabLeader = [
-                { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
-                { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
-                { value: Asc.c_oAscTabLeader.Hyphen,    displayValue: '-----------------' },
-                { value: Asc.c_oAscTabLeader.MiddleDot, displayValue: '·················' },
-                { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
+                { value: Asc.c_oAscTabLeader.None,      cls: '', displayValue: this.textNone },
+                { value: Asc.c_oAscTabLeader.Dot,       cls: 'font-sans-serif', displayValue: '....................' },
+                { value: Asc.c_oAscTabLeader.Hyphen,    cls: 'font-sans-serif', displayValue: '-----------------' },
+                { value: Asc.c_oAscTabLeader.MiddleDot, cls: 'font-sans-serif', displayValue: '·················' },
+                { value: Asc.c_oAscTabLeader.Underscore,cls: 'font-sans-serif', displayValue: '__________' }
             ];
             this._arrKeyTabLeader = [];
             this._arrTabLeader.forEach(function(item) {
@@ -244,7 +238,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 85px;',
                 takeFocusOnClose: true
             });
-            this.cmbLineRule.setValue(this.CurLineRuleIdx);
+            this.cmbLineRule.setValue('');
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
 
             this.numLineHeight = new Common.UI.MetricSpinner({
@@ -381,7 +375,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -398,21 +391,20 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
 
             var _arrBorderPresets = [
-                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
-                ['lrtbm',   'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
-                ['',        'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
-                ['l',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
-                ['r',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
-                ['t',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
-                ['m',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
-                ['b',       'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
+                ['lrtb',    'toolbar__icon toolbar__icon-big btn-paragraph-borders-outer',    'paragraphadv-button-border-outer', this.tipOuter],
+                ['lrtbm',   'toolbar__icon toolbar__icon-big btn-paragraph-borders-all',      'paragraphadv-button-border-all',    this.tipAll],
+                ['',        'toolbar__icon toolbar__icon-big btn-paragraph-borders-none',     'paragraphadv-button-border-none',       this.tipNone],
+                ['l',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-left',     'paragraphadv-button-border-left',      this.tipLeft],
+                ['r',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-right',    'paragraphadv-button-border-right',     this.tipRight],
+                ['t',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-top',      'paragraphadv-button-border-top',         this.tipTop],
+                ['m',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-inner',    'paragraphadv-button-border-inner-hor', this.tipInner],
+                ['b',       'toolbar__icon toolbar__icon-big btn-paragraph-borders-bottom',   'paragraphadv-button-border-bottom',  this.tipBottom]
             ];
 
             this._btnsBorderPosition = [];
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[2]),
-                    style: 'margin-left: 4px; margin-bottom: 4px;',
                     cls: 'btn-options large border-off',
                     iconCls: item[1],
                     strId   :item[0],
@@ -426,7 +418,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 parentEl: $('#paragraphadv-back-color-btn'),
                 transparent: true,
                 additionalAlign: this.menuAddAlign,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colorsBack = this.btnBackColor.getPicker();
@@ -610,13 +601,21 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
             this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
-            this.cmbLeader = new Common.UI.ComboBox({
+            this.cmbLeader = new Common.UI.ComboBoxCustom({
                 el          : $('#paraadv-cmb-leader'),
                 style       : 'width: 108px;',
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : this._arrTabLeader,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>" class="<%= item.cls %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>',
+                ].join('')),
+                updateFormControl: function(record) {
+                    this._input && this._input.toggleClass('font-sans-serif', record.get('value')!==Asc.c_oAscTabLeader.None);
+                },
                 takeFocusOnClose: true
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
@@ -715,15 +714,15 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, this.chAddInterval, // 0 tab
                 this.chBreakBefore, this.chKeepLines, this.chOrphan, this.chKeepNext, this.chLineNumbers, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, this.numPosition, // 3 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll,// 4 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index, cmp, e) {
@@ -856,7 +855,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.numSpacingAfter.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
 
                 var linerule = props.get_Spacing().get_LineRule();
-                this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
+                this.cmbLineRule.setValue((linerule !== null) ? linerule : '');
 
                 if(props.get_Spacing() !== null && props.get_Spacing().get_Line() !== null) {
                     this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.get_Spacing().get_Line() : Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Line()), true);
@@ -916,19 +915,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this.paragraphShade = 'transparent';
                 }
                 this.btnBackColor.setColor(this.paragraphShade);
-                if ( typeof(this.paragraphShade) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.paragraphShade.effectValue ) {
-                            this.colorsBack.select(this.paragraphShade,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.paragraphShade,true);
-
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.paragraphShade, this.colorsBack);
                 this._UpdateBorders();
 
                 // Font
@@ -996,8 +983,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this._arrLineRule[2].minValue =  this._arrLineRule[0].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
             this._arrLineRule[2].step =  this._arrLineRule[0].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
             if (this.CurLineRuleIdx !== null) {
-                this.numLineHeight.setDefaultUnit(this._arrLineRule[this.CurLineRuleIdx].defaultUnit);
-                this.numLineHeight.setStep(this._arrLineRule[this.CurLineRuleIdx].step);
+                var rec = this._arrLineRule[this.CurLineRuleIdx !== -1 ? this.CurLineRuleIdx : 0];
+                this.numLineHeight.setDefaultUnit(rec.defaultUnit);
+                this.numLineHeight.setStep(rec.step);
             }
         },
 
@@ -1007,13 +995,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         afterRender: function() {
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             this._setDefaults(this._originalProps);
             var colorstr = (typeof(this.paragraphShade) == 'object') ? this.paragraphShade.color : this.paragraphShade;
             this.BordersImage.setTableColor(colorstr);
             (colorstr!='transparent') &&this.BordersImage.redrawTable();
-            this.updateMetricUnit();
-            this.updateThemeColors();
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
                 this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');

@@ -18,9 +18,9 @@
         width: auto;
     }
 
-    .toggle input[type="checkbox"]:checked + .toggle-icon {
-        background-color: rgba(68,105,149,.5);
-    }
+    // .toggle input[type="checkbox"]:checked + .toggle-icon {
+    //     background-color: rgba(68,105,149,.5);
+    // }
 
     // Review
     .page-review {
@@ -110,7 +110,6 @@
     .snackbar {
         position: absolute;
         width: 344px;
-        max-height: 48px;
         left: calc(50% - 344px / 2);
         bottom: 16px;
         background: #333333;
@@ -141,6 +140,43 @@
             &__text {
                 text-align: left;
             }
+        }
+    }
+
+    // Password input
+    .password-field {
+        &__wrap {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        &__icon {
+            min-width: 24px;
+            min-height: 24px;
+        }
+
+        &__input {
+            width: 100%;
+            height: var(--f7-input-height);
+            color: var(--f7-input-text-color);
+            font-size: var(--f7-input-font-size);
+            background-color: var(--f7-input-bg-color, transparent);
+            padding-left: var(--f7-input-padding-left);
+            padding-right: var(--f7-input-padding-right);
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            outline: 0;
+            display: block;
+            padding: 0;
+            margin: 0;
+            font-family: inherit;
+            background: none;
+            resize: none;
         }
     }
 }

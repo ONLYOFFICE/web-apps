@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -33,14 +32,11 @@
 /**
  *  ProtectDialog.js
  *
- *  Created by Julia Radzhabova on 21.09.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 21.09.2022
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     DE.Views.ProtectDialog = Common.UI.Window.extend(_.extend({
@@ -74,7 +70,7 @@ define([
                     '</div>',
                     '<div id="id-protect-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
                     '<div class="" style="margin-bottom: 5px;">',
-                        '<label style="font-weight: bold;letter-spacing: 0.01em;margin-bottom: 5px;">' + t.txtAllow + '</label>',
+                        '<label class="font-weight-bold" style="margin-bottom: 5px;">' + t.txtAllow + '</label>',
                     '</div>',
                     '<div id="id-protect-radio-view" style="margin-bottom: 8px;"></div>',
                     '<div id="id-protect-radio-forms" style="margin-bottom: 8px;"></div>',
@@ -114,7 +110,10 @@ define([
                 maxLength: 15,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: false,
+                validation  : function(value) {
+                    return (value.length>15) ? me.txtLimit : true;
+                }
             });
 
             this.rbView = new Common.UI.RadioBox({
@@ -146,15 +145,16 @@ define([
                 value: Asc.c_oAscEDocProtect.Comments
             });
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary')
-            });
+
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputPwd, this.repeatPwd, this.rbView, this.rbForms, this.rbReview, this.rbComments];
+            return [this.inputPwd, this.repeatPwd, this.rbView, this.rbForms, this.rbReview, this.rbComments].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -198,9 +198,6 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                this.rbReview.setDisabled(!props.canReview);
-                this.rbForms.setDisabled(!props.canFillForms);
-                this.rbComments.setDisabled(!props.canComments);
             }
         },
 
@@ -230,7 +227,8 @@ define([
         textView: 'No changes (Read only)',
         textForms: 'Filling forms',
         textReview: 'Tracked changes',
-        textComments: 'Comments'
+        textComments: 'Comments',
+        txtLimit: 'Password is limited to 15 characters'
 
     }, DE.Views.ProtectDialog || {}));
 });

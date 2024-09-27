@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -34,15 +33,13 @@
 /**
  *  DocProtection.js
  *
- *  Created by Julia Radzhabova on 21.09.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 21.09.2022
  *
  */
 define([
     'core',
     'common/main/lib/view/Protection',
-    'documenteditor/main/app/view/DocProtection',
-    'documenteditor/main/app/view/ProtectDialog'
+    'documenteditor/main/app/view/DocProtection'
 ], function () {
     'use strict';
 
@@ -86,6 +83,7 @@ define([
             this.setApi(api);
         },
         setApi: function (api) {
+            this.userCollection = this.getApplication().getCollection('Common.Collections.Users');
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onChangeDocumentProtection',_.bind(this.onChangeProtectDocument, this));
@@ -95,8 +93,9 @@ define([
 
         setMode: function(mode) {
             this.appConfig = mode;
+            this.currentUserId = mode.user.id;
 
-            this.appConfig.isEdit && (this.view = this.createView('DocProtection', {
+            this.appConfig.isEdit && this.appConfig.canProtect && (this.view = this.createView('DocProtection', {
                 mode: mode
             }));
 
@@ -138,10 +137,10 @@ define([
                     props = me.api.asc_getDocumentProtection();
                 if (props && props.asc_getIsPassword()) {
                     var win = new Common.Views.OpenDialog({
-                        title: me.view.txtWBUnlockTitle,
+                        title: me.view.txtUnlockTitle,
                         closable: true,
                         type: Common.Utils.importTextType.DRM,
-                        txtOpenFile: me.view.txtWBUnlockDescription,
+                        txtOpenFile: me.view.txtDocUnlockDescription,
                         validatePwd: false,
                         maxPasswordLength: 15,
                         handler: function (result, value) {
@@ -168,8 +167,8 @@ define([
         },
 
         onAppReady: function (config) {
-            if (!this.view) return;
-
+            if (!this.api) return;
+            
             var me = this;
             (new Promise(function (resolve) {
                 resolve();
@@ -178,12 +177,47 @@ define([
                     type = props ? props.asc_getEditType() : Asc.c_oAscEDocProtect.None,
                     isProtected = (type === Asc.c_oAscEDocProtect.ReadOnly || type === Asc.c_oAscEDocProtect.Comments ||
                                    type === Asc.c_oAscEDocProtect.TrackedChanges || type === Asc.c_oAscEDocProtect.Forms);
-                me.view.btnProtectDoc.toggle(!!isProtected, true);
+                me.view && me.view.btnProtectDoc.toggle(!!isProtected, true);
+
+                if (isProtected) {
+                    var str;
+                    switch (type) {
+                        case Asc.c_oAscEDocProtect.ReadOnly:
+                            str = me.txtIsProtectedView;
+                            break;
+                        case Asc.c_oAscEDocProtect.Comments:
+                            str = me.txtIsProtectedComment;
+                            break;
+                        case Asc.c_oAscEDocProtect.Forms:
+                            str = me.txtIsProtectedForms;
+                            break;
+                        case Asc.c_oAscEDocProtect.TrackedChanges:
+                            str = me.txtIsProtectedTrack;
+                            break;
+                    }
+                    me._protectionTip = new Common.UI.SynchronizeTip({
+                        extCls: 'no-arrow',
+                        placement: 'bottom',
+                        target: $('.toolbar'),
+                        text: str,
+                        showLink: false,
+                        style: 'max-width: 400px;'
+                    });
+                    me._protectionTip.on('closeclick', function () {
+                        this.close();
+                    }).show();
+                }
+
                 props && me.applyRestrictions(type);
             });
         },
 
-        onChangeProtectDocument: function() {
+        onChangeProtectDocument: function(userId) {
+            if (this._protectionTip && this._protectionTip.isVisible()) {
+                this._protectionTip.close();
+                this._protectionTip = undefined;
+            }
+
             var props = this.getDocProps(true),
                 isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
             this.view && this.view.btnProtectDoc.toggle(isProtected, true);
@@ -204,6 +238,27 @@ define([
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(!!this._state.lockDocProtect || isProtected);
             Common.NotificationCenter.trigger('protect:doclock', props);
+            if (userId && this.userCollection) {
+                var recUser = this.userCollection.findOriginalUser(userId);
+                if (recUser && (recUser.get('idOriginal') !== this.currentUserId)) {
+                    var str = this.txtWasUnprotected;
+                    switch (this._state.docProtection.type) {
+                        case Asc.c_oAscEDocProtect.ReadOnly:
+                            str = this.txtWasProtectedView;
+                            break;
+                        case Asc.c_oAscEDocProtect.Comments:
+                            str = this.txtWasProtectedComment;
+                            break;
+                        case Asc.c_oAscEDocProtect.Forms:
+                            str = this.txtWasProtectedForms;
+                            break;
+                        case Asc.c_oAscEDocProtect.TrackedChanges:
+                            str = this.txtWasProtectedTrack;
+                            break;
+                    }
+                    str && Common.NotificationCenter.trigger('showmessage', {msg: str}, {timeout: 5000, hideCloseTip: true});
+                }
+            }
         },
 
         getDocProps: function(update) {
@@ -246,7 +301,17 @@ define([
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(state || this._state.docProtection && (this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly ||
                                                                                     this._state.docProtection.isCommentsOnly || this._state.docProtection.isReviewOnly));
-        }
+        },
+
+        txtWasProtectedView: 'Document has been protected by another user.\nYou may only view this document.',
+        txtWasProtectedTrack: 'Document has been protected by another user.\nYou may edit this document, but all changes will be tracked.',
+        txtWasProtectedComment: 'Document has been protected by another user.\nYou may only insert comments to this document.',
+        txtWasProtectedForms: 'Document has been protected by another user.\nYou may only fill in forms in this document.',
+        txtWasUnprotected: 'Document has been unprotected.',
+        txtIsProtectedView: 'Document is protected. You may only view this document.',
+        txtIsProtectedTrack: 'Document is protected. You may edit this document, but all changes will be tracked.',
+        txtIsProtectedComment: 'Document is protected. You may only insert comments to this document.',
+        txtIsProtectedForms: 'Document is protected. You may only fill in forms in this document.'
 
     }, DE.Controllers.DocProtection || {}));
 });

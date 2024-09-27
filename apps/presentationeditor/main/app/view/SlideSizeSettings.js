@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  SlideSizeSettings.js
  *
- *  Created by Julia Radzhabova on 4/19/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/19/14
  *
  */
 
@@ -59,29 +57,32 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 148px;">',
+                '<div class="box">',
                     '<div class="input-row">',
-                        '<label class="text" style="font-weight: bold;">' + this.textSlideSize + '</label>',
+                        '<label class="text font-weight-bold">' + this.textSlideSize + '</label>',
                     '</div>',
                     '<div id="slide-size-combo" class="" style="margin-bottom: 10px;"></div>',
                     '<table cols="2" style="width: 100%;margin-bottom: 7px;">',
                         '<tr>',
-                            '<td class="padding-small" style="padding-right: 10px;">',
-                                '<label class="input-label" style="font-weight: bold;">' + this.textWidth + '</label>',
+                            '<td class="padding-small padding-right-10">',
+                                '<label class="input-label font-weight-bold">' + this.textWidth + '</label>',
                                 '<div id="slide-size-spin-width"></div>',
                             '</td>',
-                            '<td class="padding-small" style="padding-left: 10px;">',
-                                '<label class="input-label" style="font-weight: bold;">' + this.textHeight + '</label>',
+                            '<td class="padding-small padding-left-10">',
+                                '<label class="input-label font-weight-bold">' + this.textHeight + '</label>',
                                 '<div id="slide-size-spin-height"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
                     '<div class="input-row">',
-                        '<label class="text" style="font-weight: bold;">' + this.textSlideOrientation + '</label>',
+                        '<label class="text font-weight-bold">' + this.textSlideOrientation + '</label>',
                     '</div>',
                     '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                    '<div class="input-row">',
+                        '<label class="text font-weight-bold">' + this.txtSlideNum + '</label>',
+                    '</div>',
+                    '<div id="slide-size-spin-slidenum" class="" style="margin-bottom: 5px;"></div>',
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -198,6 +199,18 @@ define([
                 this._noApply = false;
             }, this));
 
+            this.spnSlideNum = new Common.UI.MetricSpinner({
+                el: $('#slide-size-spin-slidenum'),
+                step: 1,
+                width: 98,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 9999,
+                minValue: 0,
+                allowDecimal: false,
+                maskExp: /[0-9]/
+            });
+
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -205,7 +218,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation];
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -229,7 +242,7 @@ define([
             return false;
         },
 
-        setSettings: function (type, pagewitdh, pageheight) {
+        setSettings: function (type, pagewitdh, pageheight, slidenum) {
             this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh/36000), true);
             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight/36000), true);
             this.cmbSlideOrientation.setValue((pageheight>pagewitdh) ? 0 : 1);
@@ -250,6 +263,7 @@ define([
             } else if (arr.length>0)
                 preset = arr[0];
             this.cmbSlideSize.setValue(preset);
+            this.spnSlideNum.setValue(slidenum, true);
         },
 
         getSettings: function() {
@@ -265,7 +279,7 @@ define([
                 height = record.size[orient ? 1 : 0];
             }
 
-            return [type,  width, height];
+            return [type,  width, height, this.spnSlideNum.getNumberValue()];
         },
 
         updateMetricUnit: function() {
@@ -298,6 +312,7 @@ define([
         textSlideOrientation: 'Slide Orientation',
         strPortrait:        'Portrait',
         strLandscape:       'Landscape',
-        txtWidescreen:     'Widescreen'
+        txtWidescreen:     'Widescreen',
+        txtSlideNum:        'Number slides from'
     }, PE.Views.SlideSizeSettings || {}))
 });

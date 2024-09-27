@@ -1838,5 +1838,85 @@
 	"XOR": {
 		"a": "(logiczna1; [logiczna2]; ...)",
 		"d": "Zwraca wartość logiczną XOR (wyłączne LUB) wszystkich argumentów."
+	},
+	"TEXTBEFORE": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Zwraca tekst, który znajduje się przed znakami ograniczającymi."
+	},
+	"TEXTAFTER": {
+		"a": "(text, delimiter, [instance_num], [match_mode], [match_end], [if_not_found])",
+		"d": "Zwraca tekst, który znajduje się po znakach ograniczających."
+	},
+	"TEXTSPLIT": {
+		"a": "(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+		"d": "Dzieli tekst na wiersze lub kolumny przy użyciu ograniczników."
+	},
+	"WRAPROWS": {
+		"a": "(wektor, wrap_count, [pad_with])",
+		"d": " Zawija wektor wiersza lub kolumny po określonej liczbie wartości. Wektor lub odwołanie do zawijania."
+	},
+	"VSTACK": {
+		"a": "(array1, [array2], ...)",
+		"d": " Układa tablice w pionie tworząc jedną tablicę."
+	},
+	"HSTACK": {
+		"a": "(tablica1, [tablica2], ...)",
+		"d": " Układa tablice w poziomie w jedną tablicę."
+	},
+	"CHOOSEROWS": {
+		"a": "(tablica, row_num1, [row_num2], ...)",
+		"d": " Zwraca wiersze z tablicy lub odwołania."
+	},
+	"CHOOSECOLS": {
+		"a": "(tablica, col_num1, [col_num2], ...)",
+		"d": " Zwraca kolumny z tablicy lub odwołania."
+	},
+	"TOCOL": {
+		"a": "(array, [ignore], [scan_by_column])",
+		"d": " Zwraca tablicę jako jedną kolumnę."
+	},
+	"TOROW": {
+		"a": "(tablica, [ignoruj], [skanuj_według_kolumn])",
+		"d": "Zwraca tablicę jako jeden wiersz."
+	},
+	"WRAPCOLS": {
+		"a": "(wektor, wrap_count, [pad_with])",
+		"d": " Zawija wektor wiersza lub kolumny po określonej liczbie wartości."
+	},
+	"TAKE": {
+		"a": "(array, rows, [columns])",
+		"d": " Zwraca wiersze lub kolumny z początku lub końca tablicy."
+	},
+	"DROP": {
+		"a": "(array, rows, [columns])",
+		"d": " Porzuca wiersze lub kolumny z początku lub końca tablicy."
+	},
+	"SEQUENCE": {
+		"a": "(wiersze, [kolumny], [początek], [krok])",
+		"d": "Zwraca sekwencję liczb"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Rozwija tablicę do określonych wymiarów."
+	},
+	"XMATCH": {
+		"a": "(szukana_wartość, szukana_tablica, [tryb_dopasowywania], [tryb_wyszukiwania])",
+		"d": "Zwraca względne położenie elementu w tablicy. Domyślnie jest wymagane dokładne dopasowanie"
+	},
+	"FILTER": {
+		"a": "(tablica, uwzględnienie, [jeśli_puste])",
+		"d": "Filtruj zakres lub tablicę"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(tablica, [format])",
+		"d": "Zwraca reprezentację tekstową tablicy"
+	},
+	"SORT": {
+		"a": "(tablica, [indeks_sortowania], [kolejność_sortowania], [według_kolumny])",
+		"d": "Sortuje zakres lub tablicę"
+	},
+	"SORTBY": {
+		"a": "(tablica, według_tablicy, [kolejność_sortowania], ...)",
+		"d": "Sortuje zakres lub tablicę na podstawie wartości w odpowiednim zakresie lub odpowiedniej tablicy"
 	}
 }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,12 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  MetricSpinner.js
  *
- *  Created by Julia Radzhabova on 1/21/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/21/14
  *
  */
 
@@ -111,6 +109,7 @@ define([
             speed       : 'medium',
             width       : 90,
             allowDecimal: true,
+            allowBlank  : false,
             dataHint    : '',
             dataHintDirection: '',
             dataHintOffset: ''
@@ -121,7 +120,7 @@ define([
         rendered    : false,
 
         template    :
-                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+                    '<input type="text" class="form-control" spellcheck="false" role="spinbutton" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
                     '<div class="spinner-buttons">' +
                         '<button type="button" class="spinner-up"><i class="arrow"></i></button>' +
                         '<button type="button" class="spinner-down"><i class="arrow"></i></button>' +
@@ -176,6 +175,9 @@ define([
             if (this.options.disabled)
                 this.setDisabled(this.options.disabled);
 
+            if (this.options.allowBlank)
+                this.allowBlank = this.options.allowBlank;
+
             if (this.options.value!==undefined)
                 this.value = this.options.value;
             this.setRawValue(this.value);
@@ -206,6 +208,12 @@ define([
 
             if (this.options.tabindex != undefined)
                 this.$input.attr('tabindex', this.options.tabindex);
+
+            this.$input.attr('aria-valuemin', this.options.minValue);
+            this.$input.attr('aria-valuemax', this.options.maxValue);
+
+            if (this.options.ariaLabel)
+                this.$input.attr('aria-label', this.options.ariaLabel);
 
             return this;
         },
@@ -238,10 +246,12 @@ define([
 
         setMinValue: function(unit){
             this.options.minValue = unit;
+            if (this.$input) this.$input.attr('aria-valuemin', unit);
         },
 
         setMaxValue: function(unit){
             this.options.maxValue = unit;
+            if (this.$input) this.$input.attr('aria-valuemax', unit);
         },
 
         setStep: function(step){
@@ -269,7 +279,10 @@ define([
         },
 
         setRawValue: function (value) {
-            if (this.$input) this.$input.val(value);
+            if (this.$input) {
+                this.$input.val(value);
+                this.$input.attr('aria-valuetext', value);
+            }
         },
 
         getRawValue: function () {
@@ -422,7 +435,7 @@ define([
         onEnterValue: function() {
             if (this.$input) {
                 var val = this.getRawValue();
-                this.setValue((val==='') ? this.value : val );
+                this.setValue((val==='' && !this.allowBlank) ? this.value : val );
                 this.trigger('entervalue', this);
             }
         },
@@ -430,7 +443,7 @@ define([
         onBlur: function(e){
             if (this.$input) {
                 var val = this.getRawValue();
-                this.setValue((val==='') ? this.value : val );
+                this.setValue((val==='' && !this.allowBlank) ? this.value : val );
                 if (this.options.hold && this.switches.fromKeyDown)
                     this._stopSpin();
             }
@@ -532,14 +545,15 @@ define([
                 return v_out;
             }
 
-            if ( fromUnit.match(/(pt|"|cm|mm|pc|см|мм|пт)$/i)===null || this.options.defaultUnit.match(/(pt|"|cm|mm|pc|см|мм|пт)$/i)===null)
+            var re = new RegExp('(pt|"|cm|mm|pc|см|мм|пт|' + Common.Utils.Metric.txtPt + '|' + Common.Utils.Metric.txtCm + ')$', 'i');
+            if ( fromUnit.match(re)===null || this.options.defaultUnit.match(re)===null)
                 return value;
 
             var v_out = value;
             // to mm
-            if (fromUnit=='cm' || fromUnit=='см')
+            if (fromUnit=='cm' || fromUnit=='см' || fromUnit==Common.Utils.Metric.txtCm)
                 v_out = v_out*10;
-            else if (fromUnit=='pt' || fromUnit=='пт')
+            else if (fromUnit=='pt' || fromUnit=='пт'|| fromUnit==Common.Utils.Metric.txtPt)
                 v_out = v_out * 25.4 / 72.0;
             else if (fromUnit=='\"')
                 v_out = v_out * 25.4;
@@ -547,9 +561,9 @@ define([
                 v_out = v_out * 25.4 / 6.0;
 
             // from mm
-            if (this.options.defaultUnit=='cm' || this.options.defaultUnit=='см')
+            if (this.options.defaultUnit=='cm' || this.options.defaultUnit=='см' || this.options.defaultUnit==Common.Utils.Metric.txtCm)
                 v_out = parseFloat((v_out/10.).toFixed(6));
-            else if (this.options.defaultUnit=='pt' || this.options.defaultUnit=='пт')
+            else if (this.options.defaultUnit=='pt' || this.options.defaultUnit=='пт' || this.options.defaultUnit==Common.Utils.Metric.txtPt)
                 v_out = parseFloat((v_out * 72.0 / 25.4).toFixed(3));
             else if (this.options.defaultUnit=='\"')
                 v_out = parseFloat((v_out / 25.4).toFixed(3));

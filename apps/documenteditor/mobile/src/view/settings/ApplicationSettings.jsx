@@ -1,29 +1,34 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle, f7 } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
+    const storeThemes = props.storeThemes;
     const displayMode = props.storeReview.displayMode;
-    const store = props.storeApplicationSettings;
-    const unitMeasurement = store.unitMeasurement;
-    const isSpellChecking = store.isSpellChecking;
-    const isNonprintingCharacters = store.isNonprintingCharacters;
-    const isHiddenTableBorders = store.isHiddenTableBorders;
-    const isComments = store.isComments;
-    const isResolvedComments = store.isResolvedComments;
-    const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const unitMeasurement = storeApplicationSettings.unitMeasurement;
+    const isSpellChecking = storeApplicationSettings.isSpellChecking;
+    const isNonprintingCharacters = storeApplicationSettings.isNonprintingCharacters;
+    const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
+    const isComments = storeApplicationSettings.isComments;
+    const isResolvedComments = storeApplicationSettings.isResolvedComments;
+    const directionMode = storeApplicationSettings.directionMode;
+    const newDirectionMode = directionMode !== 'ltr' ? 'ltr' : 'rtl';
 
     const changeMeasureSettings = value => {
-        store.changeUnitMeasurement(value);
+        storeApplicationSettings.changeUnitMeasurement(value);
         props.setUnitMeasurement(value);
     };
 
     // set mode
     const appOptions = props.storeAppOptions;
+    const colorTheme = storeThemes.colorTheme;
+    const themes = storeThemes.themes;
+    const typeTheme = colorTheme.type;
+    const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const isViewer = appOptions.isViewer;
     const _isEdit = appOptions.isEdit;
     const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
@@ -32,7 +37,7 @@ const PageApplicationSettings = props => {
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
             {_isEdit && !isViewer &&
-                <Fragment>
+                <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
                     <List>
                         <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
@@ -43,20 +48,10 @@ const PageApplicationSettings = props => {
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
                     <List>
-                        <ListItem title={_t.textSpellcheck}>
-                            <Toggle checked={isSpellChecking}
-                                    onToggleChange={() => {
-                                        store.changeSpellCheck(!isSpellChecking);
-                                        props.switchSpellCheck(!isSpellChecking);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
-                    <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
                                     onToggleChange={() => {
-                                        store.changeNoCharacters(!isNonprintingCharacters);
+                                        storeApplicationSettings.changeNoCharacters(!isNonprintingCharacters);
                                         props.switchNoCharacters(!isNonprintingCharacters);
                                     }}
                             />
@@ -64,20 +59,32 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textHiddenTableBorders} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isHiddenTableBorders}
                                     onToggleChange={() => {
-                                        store.changeShowTableEmptyLine(!isHiddenTableBorders);
+                                        storeApplicationSettings.changeShowTableEmptyLine(!isHiddenTableBorders);
                                         props.switchShowTableEmptyLine(!isHiddenTableBorders);
                                     }}
                             />
                         </ListItem>
                     </List>
-                </Fragment>
+                </>
+            }
+            {_isEdit &&
+                <List>
+                    <ListItem title={_t.textSpellcheck}>
+                        <Toggle checked={isSpellChecking}
+                                onToggleChange={() => {
+                                    storeApplicationSettings.changeSpellCheck(!isSpellChecking);
+                                    props.switchSpellCheck(!isSpellChecking);
+                                }}
+                        />
+                    </ListItem>
+                </List>
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
                 <ListItem title={_t.textComments}>
                     <Toggle checked={isComments}
                         onToggleChange={() => {
-                            store.changeDisplayComments(!isComments);
+                            storeApplicationSettings.changeDisplayComments(!isComments);
                             props.switchDisplayComments(!isComments);
                         }}
                     />
@@ -85,25 +92,19 @@ const PageApplicationSettings = props => {
                 <ListItem title={_t.textResolvedComments}>
                     <Toggle checked={isResolvedComments} disabled={!isComments}
                         onToggleChange={() => {
-                            store.changeDisplayResolved(!isResolvedComments);
+                            storeApplicationSettings.changeDisplayResolved(!isResolvedComments);
                             props.switchDisplayResolved(!isResolvedComments);
                         }}
                     />
                 </ListItem>
             </List>
-            <List>
-                <ListItem title={'Dark theme'}>
-                    <Toggle checked={isThemeDark}
-                        onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                    </Toggle>
-                </ListItem>
-            </List>
-            {/*{!isViewer &&*/}
-            {/*    <List mediaList>*/}
-            {/*        <ListItem title={t('Settings.textDirection')} link="/direction/"*/}
-            {/*                  routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
-            {/*    </List>*/}
-            {/*}*/}
+            {!!isConfigSelectTheme &&
+                <List mediaList>
+                    <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
+                        changeTheme: props.changeTheme,
+                    }}></ListItem>
+                </List>
+            }
             {_isShowMacros &&
                 <List mediaList>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
@@ -115,46 +116,36 @@ const PageApplicationSettings = props => {
     );
 };
 
-const PageDirection = props => {
+const PageThemeSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const directionMode = store.directionMode;
-
-    const changeDirection = value => {
-        store.changeDirectionMode(value);
-        props.changeDirection(value);
-
-        f7.dialog.create({
-            title: _t.notcriticalErrorTitle,
-            text: t('Settings.textRestartApplication'),
-            buttons: [
-                {
-                    text: _t.textOk
-                }
-            ]
-        }).open();
-    };
+    const storeThemes = props.storeThemes;
+    const themes = storeThemes.themes;
+    const colorTheme = storeThemes.colorTheme;
+    const typeTheme = colorTheme.type;
 
     return (
         <Page>
-            <Navbar title={t('Settings.textDirection')} backLink={_t.textBack} />
-            <List mediaList>
-                <ListItem radio name="direction" title={t('Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
-                <ListItem radio name="direction" title={t('Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
+            <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
+            <List>
+                {Object.keys(themes).map((key, index) => {
+                    return (
+                        <ListItem key={index} radio checked={typeTheme === themes[key].type} onChange={() => props.changeTheme(key)} name={themes[key].id} title={themes[key].text}></ListItem>
+                    )
+                })}
             </List>
         </Page>
-    );
+    )
 }
 
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const macrosMode = store.macrosMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const macrosMode = storeApplicationSettings.macrosMode;
 
     const changeMacros = value => {
-        store.changeMacrosSettings(value);
+        storeApplicationSettings.changeMacrosSettings(value);
         props.setMacrosSettings(value);
     };
 
@@ -173,8 +164,8 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
-const Direction = inject("storeApplicationSettings")(observer(PageDirection));
+const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 
-export {ApplicationSettings, MacrosSettings, Direction};
+export {ApplicationSettings, MacrosSettings, ThemeSettings};

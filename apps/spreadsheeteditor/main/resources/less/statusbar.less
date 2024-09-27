@@ -4,9 +4,12 @@
 
     #status-tabs-scroll {
         width: 66px;
-        float: left;
         padding: 3px 12px 0 10px;
         height: 25px;
+
+        .rtl & {
+            padding: 3px 10px 0 12px;
+        }
     }
 
     #status-zoom-box {
@@ -16,12 +19,21 @@
         right: 0;
         height: 25px;
 
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
+
         .separator {
             margin-top: -3px;
         }
 
+        #status-btn-zoomup {
+            .margin-right(40px);
+        }
+
         #status-btn-zoomdown {
-            margin-left: 10px;
+            .margin-left-10();
         }
 
         #status-label-zoom {
@@ -34,88 +46,7 @@
         }
     }
 
-    #status-users-ct {
-        width: 63px;
-        float: right;
-        height: 100%;
-
-        #status-users-icon,#status-users-count {
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        #status-users-count {
-            position: relative;
-            top: -3px;
-        }
-
-        #status-users-icon {
-            background-repeat: no-repeat;
-            background-position: -14px -197px;
-            width: 20px;
-            height: 20px;
-            top: 3px;
-            position: relative;
-        }
-
-        #status-users-menu {
-            padding: 14px 0 14px 14px;
-            margin-right: 160px;
-            margin-bottom: 2px;
-            width: 285px;
-            font-size: 12px;
-            left: auto;
-            right: 0;
-
-            > label {
-                white-space: normal;
-            }
-
-            #status-users-list {
-                margin-top: 15px;
-
-                ul {
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                    max-height: 190px;
-                    position: relative;
-
-                    li {
-                        list-style: none;
-                        padding: 2px 0;
-                        margin-right: 15px;
-                        overflow: hidden;
-
-                        &.offline, &.viewmode {
-                            display: none;
-                        }
-                    }
-                }
-
-                .color {
-                    width: 12px;
-                    height: 12px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    border: @scaled-one-px-value-ie solid @border-toolbar-ie;
-                    border: @scaled-one-px-value solid @border-toolbar;
-                }
-
-                .name {
-                    display: block;
-                    padding-left: 16px;
-                    margin-top: -3px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    vertical-align: middle;
-                }
-            }
-        }
-    }
-
     #status-addtabs-box {
-        float: left;
         padding: 3px 8px 0 8px;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
@@ -134,23 +65,22 @@
 
         .separator {
             position: relative;
-            padding-right: 11px;
+            .padding-right(11px);
             margin-top: -6px;
         }
     }
 
     #status-math-box {
-        padding-right: 4px;
         label {
-            padding-right: 10px;
+            .padding-right-10();
         }
     }
 
     #status-filtered-box {
-        padding-right: 14px;
+        .padding-right(14px);
         label {
             &:not(:last-child) {
-                padding-right: 10px;
+                .padding-right-10();
             }
         }
     }
@@ -162,6 +92,11 @@
         left: 66px;
         right: 160px;
         //margin-right: 3px;
+
+        .rtl & {
+            left: 160px;
+            right: 66px;
+        }
     }
 
     #status-sheets-bar {
@@ -183,12 +118,21 @@
                 &:first-of-type {
                     span {
                         border-left: none;
+                        .rtl & {
+                            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                            border-left: @scaled-one-px-value solid @border-toolbar;
+                            border-right: none;
+                        }
                     }
                 }
 
                 &:last-of-type {
                     span {
                         margin-right: 0;
+
+                        .rtl & {
+                            margin-left: 0;
+                        }
                     }
                 }
 
@@ -204,7 +148,7 @@
                     .border-radius(0);
                     padding: 0 10px 0;
                     line-height: 24px;
-                    margin-right: -1px;
+                    .margin-right(-1px);
                     background-color: @background-toolbar-additional-ie;
                     background-color: @background-toolbar-additional;
                     outline: none;
@@ -261,8 +205,9 @@
                     > span {
                         outline: none;
                         position: relative;
+                        height: 100%;
                     }
-                    > span:after {
+                    > span:before {
                         position: absolute;
                         content: '';
                         width: 7px;
@@ -270,14 +215,21 @@
                         border-bottom: 7px solid red;
                         border-left: 7px solid transparent;
                         bottom: 0;
-                        margin-left: -7px;
+                        .margin-left(-7px);
                         left: 100%;
+
+                        .rtl & {
+                            border-left: none;
+                            border-right: 7px solid transparent;
+                            left: auto;
+                            right: 100%;
+                        }
                     }
                 }
 
                 &.icon-visible {
                     > span {
-                        padding-left: 25px;
+                        .padding-x(25px, 10px);
                         > .toolbar__icon {
                             width: 20px;
                             height: 20px;
@@ -285,6 +237,10 @@
                             top: 0;
                             left: 0;
                             margin: 3px;
+                            .rtl & {
+                                left: auto;
+                                right: 0;
+                            }
                         }
                     }
                 }
@@ -304,14 +260,20 @@
 
                     &:first-child {
                         > span {
-                            padding-left: 8px;
+                            .padding-x(8px, 10px);
                         }
                     }
 
                     > span {
                         border-left: 2px solid @text-normal-ie;
                         border-left: 2px solid @text-normal;
-                        padding-left: 9px;
+                        .padding-x(9px, 10px);
+                        .rtl & {
+                            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                            border-left: @scaled-one-px-value solid @border-toolbar;
+                            border-right: 2px solid @text-normal-ie;
+                            border-right: 2px solid @text-normal;
+                        }
                     }
                     
                     &.right {
@@ -320,24 +282,31 @@
                             border-left: @scaled-one-px-value solid @border-toolbar;
                             border-right: 2px solid @text-normal-ie;
                             border-right: 2px solid @text-normal;
-                            padding-right: 9px;
-                            padding-left: 10px;
+                            .padding-x(10px, 9px);
+                            .rtl & {
+                                border-left: none;
+                                border-right: none;
+                                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                                border-right: @scaled-one-px-value solid @border-toolbar;
+                                border-left: 2px solid @text-normal-ie;
+                                border-left: 2px solid @text-normal;
+                            }
                         }
                     }
                     &.icon-visible {
                         > span {
-                            padding-left: 24px;
+                            .padding-x(24px, 10px);
                         }
                         &.right {
                             > span {
-                                padding-left: 25px;
+                                .padding-x(25px, 10px);
                             }
                         }
                     }
                 }
                 &.separator-item {
                     margin-top: 1px;
-                    margin-left: 20px;
+                    .margin-left-20();
                     width: @scaled-one-px-value-ie;
                     width: @scaled-one-px-value;
                     > span {
@@ -419,23 +388,30 @@
         position: relative;
         .dropdown-menu {
             min-width: 112px;
-            margin-left: -4px;
+            .margin-left(-4px);
 
             li {
-                text-align: left;
+                .text-align-left();
                 a {
                     position: relative;
-                    padding-left: 26px;
+                    .padding-x(26px, 20px);
                     .color {
                         height: 21px;
                         width: 4px;
                         position: absolute;
                         top: 2px;
                         left: 0;
+                        .rtl & {
+                            left: auto;
+                            right: 0;
+                        }
+                    }
+                    .name {
+                        .float-left();
                     }
                 }
                 .hidden-mark {
-                    margin-left: 12px;
+                    .margin-left-12();
                     font-style: italic;
                     color: @text-secondary;
                 }
@@ -450,14 +426,13 @@
 
         .dropdown-menu {
             min-width: 80px;
-            margin-left: -4px;
+            .margin-left(-4px);
 
             li {
-                text-align: center;
-
-                > span {
-                      padding-left: 15px;
-                      padding-right: 15px;
+                > a {
+                    text-align: center;
+                    padding-left: 15px;
+                    padding-right: 15px;
                 }
             }
         }
@@ -467,7 +442,7 @@
         margin-bottom: 6px;
 
         li {
-            text-align: left;
+            .text-align-left();
         }
     }
 
@@ -481,12 +456,15 @@
 #statusbar-menu {
     .dropdown-menu {
         margin-top: 0;
-        margin-left: -7px;
+        .margin-left(-7px);
         li {
             > a {
                 padding: 5px 12px 5px 26px;
+                .rtl & {
+                    padding: 5px 26px 5px 12px;
+                }
                 &::before {
-                    margin-left: -22px;
+                    .margin-left(-22px);
                 }
                 .item-caption {
                     min-width: 98px;
@@ -495,9 +473,9 @@
                 .item-value {
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    text-align: right;
+                    .text-align-right();
+                    .padding-left-5();
                     vertical-align: bottom;
-                    padding-left: 5px;
                     color: silver;
                     cursor: pointer;
                 }
@@ -516,8 +494,16 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     z-index: @zindex-modal - 1;
+    .rtl & {
+        left: auto;
+        right: 115px;
+    }
 }
 
 .over-box {
     display: none;
+}
+
+.rtl .nav {
+    padding-right: 0;
 }
