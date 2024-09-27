@@ -411,7 +411,7 @@ define([
 
                     this.btnSignField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-ic-signature',
+                        iconCls: 'toolbar__icon btn-signature-field',
                         lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnSignature,
                         dataHint: '1',
