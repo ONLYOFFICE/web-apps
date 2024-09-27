@@ -995,6 +995,7 @@ define([
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
                         recalc = true;
+                        screenTip.toolTip.getBSTip().options.container = me.isPreviewVisible ? '#pe-preview' : 'body';
                     }
 
                     showPoint = [moveData.get_X(), moveData.get_Y()];
