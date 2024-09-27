@@ -2689,7 +2689,7 @@ define([
                                 arrColors.push(user.get('colorval'));
 
                                 var changes = version.changes, change, i;
-                                if (changes && changes.length>0) {
+                                if (changes && changes.length>0 && false) { // hide changes for pdf
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
