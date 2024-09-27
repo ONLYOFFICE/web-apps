@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "작성자",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "액세스 권한 변경",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "코멘트",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "생성되었습니다",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "문서 정보",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "패스트 웹 뷰",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

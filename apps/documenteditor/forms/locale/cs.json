@@ -123,6 +123,7 @@
   "DE.Controllers.ApplicationController.openErrorText": "Při otevírání souboru došlo k chybě.",
   "DE.Controllers.ApplicationController.saveErrorText": "Při ukládání souboru došlo k chybě.",
   "DE.Controllers.ApplicationController.saveErrorTextDesktop": "Soubor nemohl být uložen nebo vytvořen.<br>Možné důvody: <br>1. Soubor je pouze pro čtení. <br>2. Soubor je editován jinými uživateli. <br>3. Úložiště je plně zaplněno nebo poškozeno.",
+  "DE.Controllers.ApplicationController.savingText": "Ukládání",
   "DE.Controllers.ApplicationController.scriptLoadError": "Připojení je příliš pomalé, některé součásti se nepodařilo načíst. Načtěte stránku znovu.",
   "DE.Controllers.ApplicationController.textAnonymous": "Anonymní",
   "DE.Controllers.ApplicationController.textBuyNow": "Navštívit webovou stránku",

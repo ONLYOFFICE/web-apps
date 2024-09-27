@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Аўтар",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Змяніць правы на доступ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Каментар",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Створаны",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Інфармацыя пра дакумент",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Хуткі сеціўны прагляд",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

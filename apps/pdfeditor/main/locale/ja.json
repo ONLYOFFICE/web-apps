@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "作成者",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "アクセス権の変更",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "コメント",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "作成済み",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "文書の情報",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Web表示用に最適化",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
 }

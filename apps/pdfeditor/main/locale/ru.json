@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Автор",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Изменить права доступа",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Комментарий",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Общие",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Создан",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Сведения о документе",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Быстрый веб-просмотр",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "حدث خطأ أثناء فتح الملف.<br>محتوى الملف متوافق مع الجداول الحسابية(xlsx مثلا),لكن الامتداد الحالي(%1) غير متوافق مع المحتوى",
   "DE.ApplicationController.errorLoadingFont": "لم يتم تحميل الخطوط. <br> الرجاء الاتصال بمسؤول خادم المستندات.",
   "DE.ApplicationController.errorSubmit": "فشل الإرسال",
+  "DE.ApplicationController.errorToken": "لم يتم تكوين رمز امان المستند بشكل صحيح.<br>برجاء التواصل مع مسئولك",
   "DE.ApplicationController.errorTokenExpire": "انتهت صلاحية رمز الأمان  الخاص بالمستند.<br> الرجاء الاتصال بمسؤول خادم المستندات.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "تم استعادة الاتصال بالإنترنت وتم تغيير إصدار الملف. <br/> قبل أن تتمكن من متابعة العمل، تحتاج إلى تنزيل الملف أو نسخ محتوياته للتأكد من عدم فقدان أي شيء، ومن ثم إعادة تحميل هذه الصفحة.",
   "DE.ApplicationController.errorUserDrop": "لا يمكن الوصول إلى الملف حاليا.",
@@ -62,6 +63,6 @@
   "DE.ApplicationView.txtFileLocation": "فتح موقع الملف",
   "DE.ApplicationView.txtFullScreen": "ملء الشاشة",
   "DE.ApplicationView.txtPrint": "طباعة",
-  "DE.ApplicationView.txtSearch": "بحث",
+  "DE.ApplicationView.txtSearch": "إيجاد",
   "DE.ApplicationView.txtShare": "مشاركة"
 }

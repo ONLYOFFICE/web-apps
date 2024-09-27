@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Canvia els drets d’accés",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Comentari",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "S'ha creat",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Informació del document",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Vista ràpida de la Web",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
 }
