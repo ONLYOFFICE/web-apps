@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Автор",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Промяна на правото за достъп",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Коментар",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Създаден",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Информация за документа",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Fast Web View",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Побиране в страницата",
   "PDFE.Views.ViewTab.tipFitToWidth": "Поставя се в ширина",
   "PDFE.Views.ViewTab.tipHeadings": "Заглавия",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса"
 }

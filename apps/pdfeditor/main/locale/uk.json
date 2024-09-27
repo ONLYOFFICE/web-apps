@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Автор",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Змінити права доступу",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Коментар",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Створено",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Інформація про документ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Fast Web View",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "За розміром сторінки",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширині",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу"
 }

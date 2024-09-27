@@ -25,6 +25,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a presentaciones (por ejemplo, pptx), pero el archivo tiene extensión inconsistente: %1.",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a hojas de cálculo (por ejemplo, xlsx), pero el archivo tiene extensión inconsistente: %1.",
   "PE.ApplicationController.errorLoadingFont": "Los tipos de letra no están cargados. <br>Contacte con el administrador del servidor de documentos.",
+  "PE.ApplicationController.errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el Administrador del Servidor de Documentos.",
   "PE.ApplicationController.errorTokenExpire": "El token de seguridad del documento ha expirado. <br>Contacte con el administrador del servidor de documentos",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Se ha restablecido la conexión a Internet y se ha cambiado la versión del archivo. <br>Para poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se ha perdido nada, y luego volver a cargar esta página.",
   "PE.ApplicationController.errorUserDrop": "No se puede acceder al archivo.",

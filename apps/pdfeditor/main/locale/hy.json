@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Հեղինակ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Փոխել մատչման իրավունքները",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Մեկնաբանություն",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Ստեղծված",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Փաստաթղթի մասին",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Արագ վեբ դիտում",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

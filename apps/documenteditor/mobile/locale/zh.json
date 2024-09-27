@@ -231,7 +231,7 @@
   "Edit": {
     "notcriticalErrorTitle": "警告",
     "textActualSize": "实际大小",
-    "textAddCustomColor": "\n添加自定义颜色",
+    "textAddCustomColor": "添加自定义颜色",
     "textAdditional": "額外",
     "textAdditionalFormatting": "其他格式",
     "textAddress": "地址",

@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Yazar",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Erişim haklarını değiştir",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Yorum yap",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Oluşturudu",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Döküman Bilgisi",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Hızlı Web Görünümü",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sayfaya Sığdır",
   "PDFE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıklar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması"
 }

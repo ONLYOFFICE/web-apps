@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Alterar direitos de acesso",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Comentário",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Comum",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Criado",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Informações do Documento",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Visualização rápida da Web",
@@ -2011,6 +2012,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }
