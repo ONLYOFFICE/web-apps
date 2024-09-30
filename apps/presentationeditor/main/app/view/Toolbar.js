@@ -1176,28 +1176,13 @@ define([
                         }
                     });
 
-                    this.cmbInsertShape = new Common.UI.ComboDataViewShape({
-                        cls: 'combo-styles shapes',
-                        itemWidth: 20,
-                        itemHeight: 20,
-                        menuMaxHeight: 652,
-                        menuWidth: 362,
-                        style: 'width: 140px;',
-                        enableKeyEvents: true,
-                        lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0'
-                    });
-                    this.slideOnlyControls.push(this.cmbInsertShape);
-
                     this.lockControls = [this.btnSave,
                         this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll, this.btnReplace,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart, this.btnInsertSmartArt,
-                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
+                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings,
                         this.btnInsertPlaceholder, this.chTitle, this.chFooters
                     ];
 
@@ -1286,7 +1271,8 @@ define([
             },
 
             rendererComponents: function (html) {
-                var $host = $(html);
+                var $host = $(html),
+                    me = this;
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
@@ -1337,11 +1323,32 @@ define([
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
-                _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
                 _injectComponent('#slot-btn-insplaceholder', this.btnInsertPlaceholder);
                 _injectComponent('#slot-chk-title', this.chTitle);
                 _injectComponent('#slot-chk-footers', this.chFooters);
                 _injectComponent('#slot-btn-closeslidemaster', this.btnCloseSlideMaster);
+
+                this.cmbsInsertShape = [];
+                $host.find('.slot-combo-insertshape').each(function (index, el) {
+                    var cmb = new Common.UI.ComboDataViewShape({
+                        cls: 'combo-styles shapes',
+                        id: 'tlbtn-insertshape-' + index,
+                        itemWidth: 20,
+                        itemHeight: 20,
+                        menuMaxHeight: 652,
+                        menuWidth: 362,
+                        style: 'width: 140px;',
+                        enableKeyEvents: true,
+                        lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '-16, 0'
+                    });
+                    _injectComponent(el, cmb);
+                    me.cmbsInsertShape.push(cmb);
+                    me.slideOnlyControls.push(cmb);
+                    me.lockControls.push(cmb);
+                });
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1353,8 +1360,6 @@ define([
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
                     [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
-                this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
                     [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
                 this.btnsChangeSlide = Common.Utils.injectButtons($host.find('.slot-changeslide'), 'tlbtn-changeslide-', 'toolbar__icon btn-changeslide', '',
@@ -1370,7 +1375,7 @@ define([
                     [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, undefined, '1', 'bottom', 'small');
 
                 var created = this.btnsInsertImage.concat(
-                    this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide, this.btnsAddSlideMaster,
+                    this.btnsInsertText, this.btnsAddSlide, this.btnsAddSlideMaster,
                     this.btnsChangeSlide, this.btnsPreview, this.btnsAddLayout
                 );
                 this.lockToolbar(Common.enumLock.disableOnStart, true, {array: created});
@@ -1458,17 +1463,6 @@ define([
                         button.toggle(true);
                         me.fireEvent('insert:text-menu', [button, e]);
                     });
-                });
-
-                me.btnsInsertShape.forEach(function (btn) {
-                    btn.updateHint(me.tipInsertShape);
-                    btn.setMenu(
-                        new Common.UI.Menu({
-                            cls: 'menu-shapes menu-insert-shape'
-                        }).on('hide:after', function (e) {
-                            me.fireEvent('insert:shape', ['menu:hide']);
-                        })
-                    );
                 });
 
                 me.btnsAddSlide.forEach(function (btn, index) {
@@ -2188,43 +2182,14 @@ define([
                 }
             },
 
-            updateAutoshapeMenu: function (menuShape, collection) {
-                var me = this,
-                    index = $(menuShape.el).prop('id').slice(-1);
-
-                var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
-                    index: index
-                });
-                menuShape.addItem(menuitem);
-
-                var recents = Common.localStorage.getItem('pe-recent-shapes');
-                recents = recents ? JSON.parse(recents) : null;
-
-                var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-toolbar-menu-insertshape-'+index),
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                    groups: collection,
-                    parentMenu: menuShape,
-                    restoreHeight: 652,
-                    textRecentlyUsed: me.textRecentlyUsed,
-                    recentShapes: recents
-                });
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                    if (record) {
-                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
-                        me.cmbInsertShape.updateComboView(record);
-                    }
-                });
-
-            },
-
             updateComboAutoshapeMenu: function (collection) {
                 var me = this,
                     recents = Common.localStorage.getItem('pe-recent-shapes');
+                collection.models.forEach(((item, index) => item.attributes.groupId = index));
                 recents = recents ? JSON.parse(recents) : null;
-                me.cmbInsertShape.setMenuPicker(collection, recents, me.textRecentlyUsed);
+                me.cmbsInsertShape.forEach(function (cmb) {
+                    cmb.setMenuPicker(collection, recents, me.textRecentlyUsed);
+                });
             },
 
             updateAddSlideMenu: function(collection) {
