@@ -250,6 +250,10 @@ div {
                 innerAlert(event.data);
         };
 
+        var onOutdatedVersion = function () {
+            window.location.reload();
+        };
+
         var getWopiFileUrl = function(fileInfo, userAuth) {
            let url;
            if (fileInfo.FileUrl) {
@@ -382,6 +386,7 @@ div {
                     'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
                     'onRequestSaveAs': customizationSaveAs ? onRequestSaveAs : undefined,
                     "onError": onError,
+                    "onOutdatedVersion": onOutdatedVersion,
                     "onRequestClose": customizationClose ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
