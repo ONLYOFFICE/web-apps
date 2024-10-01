@@ -1636,8 +1636,11 @@ define([
                     }
                     return;
                 }
-
-                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady || this._isPermissionsInited ) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
+                if ( this._isDocReady || this._isPermissionsInited ) {
+                    this.api.asc_LoadDocument();
+                    return;
+                }
 
                 var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType) && !this.appOptions.isPDFForm;
 

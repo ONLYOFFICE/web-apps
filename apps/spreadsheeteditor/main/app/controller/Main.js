@@ -1388,7 +1388,11 @@ define([
                         return;
                     }
 
-                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady || this._isPermissionsInited) return;
+                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
+                    if ( this._isDocReady || this._isPermissionsInited ) {
+                        this.api.asc_LoadDocument();
+                        return;
+                    }
 
                     if (params.asc_getRights() !== Asc.c_oRights.Edit)
                         this.permissions.edit = false;
