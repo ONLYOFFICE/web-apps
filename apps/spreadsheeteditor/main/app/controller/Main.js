@@ -1381,14 +1381,14 @@ define([
                             buttons: [],
                             closable: false
                         });
-                        if (this._isDocReady) { // receive after refresh file
+                        if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
                             this.disableEditing(true);
                             Common.NotificationCenter.trigger('api:disconnect');
                         }
                         return;
                     }
 
-                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady) return;
+                    if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady || this._isPermissionsInited) return;
 
                     if (params.asc_getRights() !== Asc.c_oRights.Edit)
                         this.permissions.edit = false;
@@ -1501,6 +1501,7 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
+                this._isPermissionsInited = true;
                 if ( !this.appOptions.isEdit ) {
                     Common.NotificationCenter.trigger('app:face', this.appOptions);
 
@@ -3611,7 +3612,7 @@ define([
                             //Common.Gateway.metaChange({title: data.document.title});
                             this.headerView && this.headerView.setDocumentCaption(data.document.title);
                             this.updateWindowTitle(true);
-                            this.document.title = data.document.title;
+                            this.appOptions.spreadsheet.title = data.document.title;
                         }
                     }
                     if (data.editorConfig) {
@@ -3626,15 +3627,15 @@ define([
                     _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
                     docInfo.put_UserInfo(_user);
 
-                    var _options = $.extend({}, this.document.options, this.editorConfig.actionLink || {});
+                    var _options = $.extend({}, this.appOptions.spreadsheet.options, this.editorConfig.actionLink || {});
                     docInfo.put_Options(_options);
 
-                    docInfo.put_Format(this.document.fileType);
+                    docInfo.put_Format(this.appOptions.spreadsheet.fileType);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_Permissions(this.permissions);
-                    docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
-                    docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+                    docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.appOptions.spreadsheet.directUrl);
+                    docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.appOptions.spreadsheet.vkey);
                     docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);

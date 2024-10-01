@@ -1630,14 +1630,14 @@ define([
                         buttons: [],
                         closable: false
                     });
-                    if (this._isDocReady) { // receive after refresh file
+                    if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
                         this.disableEditing(true);
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
                     return;
                 }
 
-                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady || this._isPermissionsInited ) return;
 
                 var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType) && !this.appOptions.isPDFForm;
 
@@ -1790,6 +1790,7 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
+                this._isPermissionsInited = true;
                 if ( !this.appOptions.isEdit ) {
                     Common.NotificationCenter.trigger('app:face', this.appOptions);
 
