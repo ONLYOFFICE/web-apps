@@ -230,7 +230,7 @@ define([
             //     next: '' // show next tooltip on close
             //     prev: '' // don't show tooltip if the prev was not shown
             //     automove: false // applyPlacement on window resize
-            //     maxwidth: 250 // 250 by default,
+            //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     noHighlight: false // false by default,
             //     multiple: false // false by default, show tip multiple times
             // }
@@ -261,7 +261,8 @@ define([
         var _showTip = function(step) {
             if (typeof step === 'object') { // init and show tip, object must have 'step' field
                 if (step.step) {
-                    _helpTips[step.step] = step;
+                    if (!_helpTips[step.step])
+                        _helpTips[step.step] = step;
                     step = step.step;
                 }
             }
@@ -285,7 +286,7 @@ define([
                 !props.noHighlight && target.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored' + (props.noHighlight ? ' no-arrow' : ''),
-                    style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
+                    style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
                     target: target,
                     text: props.text,
