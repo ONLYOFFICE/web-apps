@@ -195,6 +195,9 @@ define([
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
                     Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
 
+                    Common.Gateway.on('refreshfile',                                _.bind(this.onRefreshFile, this));
+                    this.api.asc_registerCallback('asc_onRequestRefreshFile',       _.bind(this.onRequestRefreshFile, this));
+
                     this.isShowOpenDialog = false;
                     
                     // Initialize api gateway
@@ -607,8 +610,8 @@ define([
                 }
             },
 
-            disableEditing: function(disable, temp) {
-                var app = this.getApplication();
+            disableEditing: function(disable, type) {
+                var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     allowSignature: false,
@@ -624,7 +627,7 @@ define([
                     toolbar: true,
                     plugins: false,
                     header: {docmode: true}
-                }, temp ? 'reconnect' : 'disconnect');
+                }, temp ? type : 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -847,9 +850,13 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
-                    this.disableEditing(false, true);
+                    this.disableEditing(false, 'reconnect');
                     this.getApplication().getController('Statusbar').hideDisconnectTip();
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
+                    this.disableEditing(false, 'refresh-file');
+                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -937,13 +944,21 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
-                        this.disableEditing(true, true);
+                        this.disableEditing(true, 'reconnect');
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
                                 me.getApplication().getController('Statusbar').showDisconnectTip();
                             }, me._state.unloadTimer || 0);
                         };
+                        break;
+
+                    case Asc.c_oAscAsyncAction['RefreshFile']:
+                        title    = this.textUpdating;
+                        text    = this.textUpdating;
+                        Common.UI.Menu.Manager.hideAll();
+                        this.disableEditing(true, 'refresh-file');
+                        this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
                         break;
 
                     default:
@@ -1260,10 +1275,18 @@ define([
                         buttons: [],
                         closable: false
                     });
+                    if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
+                        this.disableEditing(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                     return;
                 }
 
-                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
+                if ( this._isDocReady || this._isPermissionsInited ) {
+                    this.api.asc_LoadDocument();
+                    return;
+                }
 
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = this.permissions.review = false;
@@ -1384,6 +1407,7 @@ define([
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
+                this._isPermissionsInited = true;
                 if ( !this.appOptions.isEdit ) {
                     Common.NotificationCenter.trigger('app:face', this.appOptions);
 
@@ -2187,6 +2211,10 @@ define([
                             })
                         }
                     });
+                    if (this._isDocReady) { // receive after refresh file
+                        this.disableEditing(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                     return true;
                 }
                 return false;
@@ -2457,7 +2485,7 @@ define([
             warningDocumentIsLocked: function() {
                 var me = this;
                 var _disable_ui = function (disable) {
-                    me.disableEditing(disable, true);
+                    me.disableEditing(disable, 'reconnect');
                 };
 
                 Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
@@ -2581,6 +2609,62 @@ define([
                     });
                 });
                 artStore.reset(arr);
+            },
+
+            onRequestRefreshFile: function() {
+                Common.Gateway.requestRefreshFile();
+            },
+
+            onRefreshFile: function(data) {
+                if (data) {
+                    var docInfo = new Asc.asc_CDocInfo();
+                    if (data.document) {
+                        docInfo.put_Id(data.document.key);
+                        docInfo.put_Url(data.document.url);
+                        docInfo.put_Title(data.document.title);
+                        if (data.document.title) {
+                            //Common.Gateway.metaChange({title: data.document.title});
+                            appHeader.setDocumentCaption(data.document.title);
+                            this.updateWindowTitle(true);
+                            this.document.title = data.document.title;
+                        }
+                    }
+                    if (data.editorConfig) {
+                        docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
+                    }
+                    if (data.token)
+                        docInfo.put_Token(data.token);
+
+                    var _user = new Asc.asc_CUserInfo(); // change for guest!!
+                    _user.put_Id(this.appOptions.user.id);
+                    _user.put_FullName(this.appOptions.user.fullname);
+                    _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
+                    docInfo.put_UserInfo(_user);
+
+                    var _options = $.extend({}, this.document.options, this.editorConfig.actionLink || {});
+                    docInfo.put_Options(_options);
+
+                    docInfo.put_Format(this.document.fileType);
+                    docInfo.put_Lang(this.editorConfig.lang);
+                    docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Permissions(this.permissions);
+                    docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
+                    docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+                    docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
+
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
+
+                    var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
+                    var coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for djvu|xps|oxps
+                                    !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+                                    this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+                                    this.editorConfig.coEditing.mode || 'fast';
+                    docInfo.put_CoEditingMode(coEditMode);
+                    this.api.asc_refreshFile(docInfo);
+                }
             },
 
             onSaveDocumentBinary: function(data) {
