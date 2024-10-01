@@ -149,7 +149,7 @@ define([
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
-                                {caption: me.textTabDesign, action: 'design', extcls: 'canedit', dataHintTitle: 'DN'},
+                                {caption: me.textTabDesign, action: 'design', extcls: 'canedit', dataHintTitle: 'D'},
                                 {caption: me.textTabTransitions, action: 'transit', extcls: 'canedit', dataHintTitle: 'N'},
                                 {caption: me.textTabAnimation, action: 'animate', extcls: 'canedit', dataHintTitle: 'A'}
                                 // undefined, undefined, undefined,
@@ -946,7 +946,7 @@ define([
                             restoreHeight: true
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'top',
+                        dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);

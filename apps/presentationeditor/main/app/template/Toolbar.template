@@ -95,6 +95,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                 </div>
+                <div class="separator long invisible"></div>
                 <div class="group small slot-combo-insertshape"></div>
                 <div class="group small">
                     <div class="elset">
@@ -105,7 +106,6 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-replace"></span>
