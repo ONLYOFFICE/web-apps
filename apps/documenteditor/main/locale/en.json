@@ -1298,6 +1298,7 @@
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.textUpdateVersion": "The file version has been changed. Please wait...",
+  "DE.Controllers.Main.textConnectionLost": "<b>Connection is lost</b><br>Trying to connect. Please check connection settings.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Print.textMarginsLast": "Last Custom",

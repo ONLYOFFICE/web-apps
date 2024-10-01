@@ -230,7 +230,9 @@ define([
             //     next: '' // show next tooltip on close
             //     prev: '' // don't show tooltip if the prev was not shown
             //     automove: false // applyPlacement on window resize
-            //     maxwidth: 250 // 250 by default
+            //     maxwidth: 250 // 250 by default,
+            //     noHighlight: false // false by default,
+            //     multiple: false // false by default, show tip multiple times
             // }
         };
 
@@ -270,13 +272,13 @@ define([
                 if (!(target && target.length && target.is(':visible')))
                     return false;
 
-                var placement = props.placement;
+                var placement = props.placement || 'bottom';
                 if (Common.UI.isRTL()) {
                     placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
                 }
-                target.addClass('highlight-tip');
+                !props.noHighlight && target.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored',
+                    extCls: 'colored' + (props.noHighlight ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
                     placement: placement,
                     target: target,
@@ -305,7 +307,7 @@ define([
                         props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
                         props.next && _showTip(props.next);
-                        delete _helpTips[step];
+                        !props.multiple && (delete _helpTips[step]);
                     }
                 });
                 props.tip.show();

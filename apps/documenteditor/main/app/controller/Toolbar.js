@@ -252,10 +252,13 @@ define([
         },
 
         setMode: function(mode) {
+            var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
-                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true},
+                'refreshFile' : {text: _main.textUpdateVersion, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'disconnect' : {text: _main.textConnectionLost, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 

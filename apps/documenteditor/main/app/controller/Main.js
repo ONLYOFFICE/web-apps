@@ -1103,11 +1103,13 @@ define([
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, 'reconnect');
-                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    // this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
-                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    // this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    Common.UI.TooltipManager.closeTip('refreshFile');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
@@ -1216,7 +1218,8 @@ define([
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
-                                me.getApplication().getController('Statusbar').showDisconnectTip();
+                                Common.UI.TooltipManager.showTip('disconnect');
+                                // me.getApplication().getController('Statusbar').showDisconnectTip();
                             }, me._state.unloadTimer || 0);
                         };
                         break;
@@ -1226,7 +1229,8 @@ define([
                         text    = this.textUpdating;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
-                        this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
+                        Common.UI.TooltipManager.showTip('refreshFile');
+                        // this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
                         break;
 
                     case Asc.c_oAscAsyncAction['Submit']:
