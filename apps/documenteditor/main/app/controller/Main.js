@@ -2076,6 +2076,9 @@ define([
                 } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
                     this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
+                } else if (id === Asc.c_oAscError.ID.UpdateVersion) {
+                    Common.UI.TooltipManager.showTip('updateVersion');
+                    return;
                 }
 
                 this.hidePreloader();
@@ -2240,10 +2243,10 @@ define([
                         config.msg = this.errorFileSizeExceed;
                         break;
 
-                    case Asc.c_oAscError.ID.UpdateVersion:
-                        config.msg = this.errorUpdateVersionOnDisconnect;
-                        config.maxwidth = 600;
-                        break;
+                    // case Asc.c_oAscError.ID.UpdateVersion:
+                    //     config.msg = this.errorUpdateVersionOnDisconnect;
+                    //     config.maxwidth = 600;
+                    //     break;
 
                     case Asc.c_oAscError.ID.DirectUrl:
                         config.msg = this.errorDirectUrl;
@@ -2573,20 +2576,35 @@ define([
             },
 
             onUpdateVersion: function(callback) {
+                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                Common.UI.warning({
-                    title: me.titleUpdateVersion,
-                    msg: this.errorUpdateVersion,
-                    callback: function() {
-                        _.defer(function() {
-                            Common.Gateway.updateVersion();
-                            if (callback) callback.call(me);
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                        })
-                    }
-                });
+                Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
+                                                        target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
+                                                        callback: function() {
+                                                            _.defer(function() {
+                                                                Common.Gateway.updateVersion();
+                                                                if (callback) callback.call(me);
+                                                                me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                                            })
+                                                        }});
+                this.disableEditing(true);
+                this.api.asc_coAuthoringDisconnect();
+                Common.NotificationCenter.trigger('api:disconnect');
+
+                // Common.UI.warning({
+                //     title: me.titleUpdateVersion,
+                //     msg: this.errorUpdateVersion,
+                //     callback: function() {
+                //         _.defer(function() {
+                //             Common.Gateway.updateVersion();
+                //             if (callback) callback.call(me);
+                //             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                //         })
+                //     }
+                // });
             },
 
             onServerVersion: function(buildVersion) {

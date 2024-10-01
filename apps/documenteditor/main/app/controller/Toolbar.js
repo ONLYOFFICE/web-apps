@@ -258,7 +258,8 @@ define([
             !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
                 'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true},
                 'refreshFile' : {text: _main.textUpdateVersion, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
-                'disconnect' : {text: _main.textConnectionLost, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true}
+                'disconnect' : {text: _main.textConnectionLost, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 

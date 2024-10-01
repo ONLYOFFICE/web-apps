@@ -259,6 +259,12 @@ define([
         };
 
         var _showTip = function(step) {
+            if (typeof step === 'object') { // init and show tip, object must have 'step' field
+                if (step.step) {
+                    _helpTips[step.step] = step;
+                    step = step.step;
+                }
+            }
             if (!_helpTips[step]) return;
             if (_getNeedShow(step) && !(_helpTips[step].prev && _getNeedShow(_helpTips[step].prev))) { // show current tip if previous tip has already been shown
                 var props = _helpTips[step],
