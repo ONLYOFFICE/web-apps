@@ -1477,6 +1477,10 @@ define([
         },
 
         onChartData: function(btn) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){
