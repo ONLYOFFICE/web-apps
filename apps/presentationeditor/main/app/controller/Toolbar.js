@@ -100,7 +100,9 @@ define([
                 clrhighlight: undefined,
                 can_copycut: undefined,
                 needCallApiBullets: undefined,
-                isLockedSlideHeaderAppyToAll: false
+                isLockedSlideHeaderAppyToAll: false,
+                activeTab: 'home',
+                viewMode: 'normal'
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -311,10 +313,8 @@ define([
              */
             const me = this;
 
-            toolbar.btnsPreview.forEach(function(btn) {
-                btn.on('click',                                         _.bind(me.onPreviewBtnClick, me));
-                btn.menu.on('item:click',                               _.bind(me.onPreviewItemClick, me));
-            });
+            toolbar.btnPreview.on('click',                                         _.bind(me.onPreviewBtnClick, me));
+            toolbar.btnPreview.menu.on('item:click',                               _.bind(me.onPreviewItemClick, me));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -794,9 +794,8 @@ define([
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.btnsChangeSlide.concat(
-                    this.toolbar.btnsPreview, this.toolbar.cmbsInsertShape, [
-                    this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.cmbsInsertShape.concat([
+                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
@@ -933,7 +932,7 @@ define([
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
                 if (this._state.activated) this._state.slidelayoutdisable = slide_layout_lock;
-                this.toolbar.lockToolbar(Common.enumLock.slideLock, slide_layout_lock, {array: me.toolbar.btnsChangeSlide});
+                this.toolbar.lockToolbar(Common.enumLock.slideLock, slide_layout_lock, {array: [me.toolbar.btnChangeSlide]});
             }
 
             if (slide_deleted !== undefined && this._state.slidecontrolsdisable !== slide_deleted) {
@@ -951,13 +950,11 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [me.toolbar.btnColumns]});
             }
 
-            if (this.toolbar.btnsChangeSlide) {
-                this.toolbar.btnsChangeSlide.forEach(function(btn) {
-                    if (btn.mnuSlidePicker)
-                        btn.mnuSlidePicker.options.layout_index = layout_index;
-                    else
-                        btn.mnuSlidePicker = {options: {layout_index: layout_index}};
-                });
+            if (this.toolbar.btnChangeSlide) {
+                if (this.toolbar.btnChangeSlide.mnuSlidePicker)
+                    this.toolbar.btnChangeSlide.mnuSlidePicker.options.layout_index = layout_index;
+                else
+                    this.toolbar.btnChangeSlide.mnuSlidePicker = {options: {layout_index: layout_index}};
             }
 
             if (this._state.in_smartart !== in_smartart) {
@@ -2690,8 +2687,8 @@ define([
             toolbar.hideMoreBtns();
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            if (toolbar.btnsAddSlide) // toolbar buttons are rendered
-                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnsChangeSlide, toolbar.btnsPreview)});
+            if (toolbar.btnAddSlide) // toolbar buttons are rendered
+                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: [toolbar.btnAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview]});
 
             var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h',
                 hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
@@ -2948,7 +2945,11 @@ define([
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
             this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
-            isMaster && this.toolbar.setTab('ins');
+            this._state.viewMode = mode;
+
+            if(isMaster) this.toolbar.setTab('ins');
+            else this.showStaticElements();
+
             Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
             Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
         },
@@ -3047,12 +3048,46 @@ define([
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
             (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
             (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
+
+            this._state.activeTab = tab;
+            this.showStaticElements();
         },
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('colorSchema');
             Common.UI.TooltipManager.closeTip('animPane');
             Common.UI.TooltipManager.closeTip('masterSlide');
+        },
+
+        showStaticElements() {
+            var me = this;
+            var showingStaticElements = [
+                {
+                    el: this.toolbar.btnAddSlide.$el.closest('.group'),
+                    tabs: ['home', 'design', 'ins'],
+                    viewMode: 'normal'
+                },
+                {
+                    el: this.toolbar.btnChangeSlide.$el.closest('.group'),
+                    tabs: ['home', 'design'],
+                    viewMode: 'normal'
+                },
+                {
+                    el: this.toolbar.btnAddSlideMaster.$el.closest('.group'),
+                    tabs: ['home', 'design', 'ins'],
+                    viewMode: 'master'
+                }
+            ];
+            var countShowingButtons = 0;
+
+            showingStaticElements.forEach(function(item) {
+                if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
+                    item.el.show();
+                    countShowingButtons += 1;
+                }
+                else item.el.hide();
+            });
+            this.toolbar.$el.find('#id-toolbar-separator-end-static')[countShowingButtons > 0 ? 'show' : 'hide']();
         }
 
     }, PE.Controllers.Toolbar || {}));
