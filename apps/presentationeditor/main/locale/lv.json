@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Rādīt ceļvežus",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Паказваць накіравальныя",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

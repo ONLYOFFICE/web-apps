@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Показать направляющие",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

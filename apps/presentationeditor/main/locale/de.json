@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Führungslinien anzeigen",
   "PE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster"
+  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

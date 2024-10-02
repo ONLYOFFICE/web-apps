@@ -4487,5 +4487,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
 }

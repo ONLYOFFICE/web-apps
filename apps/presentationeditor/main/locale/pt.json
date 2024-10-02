@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Mostrar guias",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

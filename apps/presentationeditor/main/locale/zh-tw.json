@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "顯示導覽線",
   "PE.Views.ViewTab.tipInterfaceTheme": "介面主題",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

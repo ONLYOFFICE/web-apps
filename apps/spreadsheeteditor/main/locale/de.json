@@ -4487,5 +4487,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
 }

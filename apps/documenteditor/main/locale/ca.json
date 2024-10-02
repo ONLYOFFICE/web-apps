@@ -3647,5 +3647,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

@@ -3647,5 +3647,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

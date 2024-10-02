@@ -2012,5 +2012,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sovita sivulle",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

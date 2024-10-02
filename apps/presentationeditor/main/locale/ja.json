@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "ガイドを表示",
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }
