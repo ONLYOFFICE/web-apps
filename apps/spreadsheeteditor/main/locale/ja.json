@@ -4487,5 +4487,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
 }

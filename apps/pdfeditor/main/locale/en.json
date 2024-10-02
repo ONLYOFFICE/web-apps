@@ -1326,6 +1326,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtAll": "View All",
   "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
   "PDFE.Views.FileMenuPanels.Settings.txtCacheMode": "Default cache mode",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.txtCm": "Centimeter",
   "PDFE.Views.FileMenuPanels.Settings.txtCollaboration": "Collaboration",
   "PDFE.Views.FileMenuPanels.Settings.txtCustomizeQuickAccess": "Customize quick access",

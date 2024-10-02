@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Zobrazit vodítka",
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

@@ -3647,5 +3647,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

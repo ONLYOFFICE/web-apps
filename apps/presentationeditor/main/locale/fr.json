@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "Afficher les guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
   "PE.Views.ViewTab.tipNormal": "Normale",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

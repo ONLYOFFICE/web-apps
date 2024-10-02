@@ -2929,5 +2929,6 @@
   "PE.Views.ViewTab.tipGuides": "මගපෙන්වීම් පෙන්වන්න",
   "PE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }

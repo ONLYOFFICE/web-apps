@@ -2248,6 +2248,7 @@
   "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
   "DE.Views.FileMenuPanels.Settings.txtAutoCorrect": "AutoCorrect options...",
   "DE.Views.FileMenuPanels.Settings.txtCacheMode": "Default cache mode",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.txtChangesBalloons": "Show by click in balloons",
   "DE.Views.FileMenuPanels.Settings.txtChangesTip": "Show by hover in tooltips",
   "DE.Views.FileMenuPanels.Settings.txtCm": "Centimeter",

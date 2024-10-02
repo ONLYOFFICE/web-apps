@@ -3647,5 +3647,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "halvgenomskinlig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
 }
