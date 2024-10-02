@@ -1341,7 +1341,7 @@
   "PE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The file version has been changed. Please wait...",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
   "PE.Controllers.Print.txtPrintRangeInvalid": "Invalid print range",
   "PE.Controllers.Print.txtPrintRangeSingleRange": "Enter either a single slide number or a single slide range (for example, 5-12). Or you can Print to PDF.",
   "PE.Controllers.Search.notcriticalErrorTitle": "Warning",

@@ -1469,7 +1469,7 @@
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The file version has been changed. Please wait...",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
