@@ -433,12 +433,12 @@ class MainController extends Component {
             this.api.asc_enableKeyEvents(false);
         });
 
+        this.api.asc_registerCallback('asc_onDocumentContentReady',       this.onDocumentContentReady.bind(this));
         this.api.asc_registerCallback('asc_onDocumentUpdateVersion',      this.onUpdateVersion.bind(this));
         this.api.asc_registerCallback('asc_onServerVersion',              this.onServerVersion.bind(this));
         this.api.asc_registerCallback('asc_onPrintUrl',                   this.onPrintUrl.bind(this));
         this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
-        this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
         Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
 
@@ -696,17 +696,12 @@ class MainController extends Component {
         }
     }
 
-    _onLongActionEnd(type, id) {
-        if ( type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open ) {
-            Common.Gateway.internalMessage('documentReady', {});
-            Common.Notifications.trigger('document:ready');
-            this.onDocumentContentReady();
-        }
-    }
-
     onDocumentContentReady() {
         if (this._isDocReady)
             return;
+
+        Common.Gateway.internalMessage('documentReady', {});
+        Common.Notifications.trigger('document:ready');
 
         const appOptions = this.props.storeAppOptions;
         const appSettings = this.props.storeApplicationSettings;
