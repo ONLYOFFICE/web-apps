@@ -1113,12 +1113,10 @@ define([
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, 'reconnect');
-                    // this.getApplication().getController('Statusbar').hideDisconnectTip();
                     Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
-                    // this.getApplication().getController('Statusbar').hideDisconnectTip();
                     Common.UI.TooltipManager.closeTip('refreshFile');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
@@ -1229,7 +1227,6 @@ define([
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
                                 Common.UI.TooltipManager.showTip('disconnect');
-                                // me.getApplication().getController('Statusbar').showDisconnectTip();
                             }, me._state.unloadTimer || 0);
                         };
                         break;
@@ -1240,7 +1237,6 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        // this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
                         break;
 
                     case Asc.c_oAscAsyncAction['Submit']:
@@ -2603,18 +2599,6 @@ define([
                                                         }});
                 this.disableEditing(true, 'not-loaded');
                 Common.NotificationCenter.trigger('api:disconnect');
-
-                // Common.UI.warning({
-                //     title: me.titleUpdateVersion,
-                //     msg: this.errorUpdateVersion,
-                //     callback: function() {
-                //         _.defer(function() {
-                //             Common.Gateway.updateVersion();
-                //             if (callback) callback.call(me);
-                //             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                //         })
-                //     }
-                // });
             },
 
             onServerVersion: function(buildVersion) {

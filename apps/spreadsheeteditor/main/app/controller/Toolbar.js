@@ -267,10 +267,14 @@ define([
         },
 
         setMode: function(mode) {
+            var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: this.helpProtectRange, header: this.helpProtectRangeHeader, target: '#slot-btn-protect-range', automove: true}
+                'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: this.helpProtectRange, header: this.helpProtectRangeHeader, target: '#slot-btn-protect-range', automove: true},
+                'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 

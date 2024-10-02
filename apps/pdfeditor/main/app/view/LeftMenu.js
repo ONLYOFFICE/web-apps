@@ -299,7 +299,7 @@ define([
                 if (!this._state.pluginIsRunning)
                     this.$el.width(SCALE_MIN);
                 /** coauthoring begin **/
-                if (this.mode.canCoAuthoring) {
+                if (this.mode && this.mode.canCoAuthoring) {
                     if (this.mode.canViewComments) {
                         this.panelComments && this.panelComments['hide']();
                         if (this.btnComments.pressed)

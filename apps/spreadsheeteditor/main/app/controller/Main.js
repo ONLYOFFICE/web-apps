@@ -839,11 +839,11 @@ define([
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, 'reconnect');
-                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    Common.UI.TooltipManager.closeTip('disconnect');
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
                     this.disableEditing(false, 'refresh-file');
-                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    Common.UI.TooltipManager.closeTip('refreshFile');
                     this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
             },
@@ -930,7 +930,7 @@ define([
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
-                                me.getApplication().getController('Statusbar').showDisconnectTip();
+                                Common.UI.TooltipManager.showTip('disconnect');
                             }, me._state.unloadTimer || 0);
                         };
                         break;
@@ -940,7 +940,7 @@ define([
                         text    = this.textUpdating;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
-                        this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
+                        Common.UI.TooltipManager.showTip('refreshFile');
                         break;
 
                     default:
@@ -1773,6 +1773,9 @@ define([
                 } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
                     this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
+                } else if (id === Asc.c_oAscError.ID.UpdateVersion) {
+                    Common.UI.TooltipManager.showTip('updateVersion');
+                    return;
                 }
 
                 this.hidePreloader();
@@ -2081,10 +2084,10 @@ define([
                         config.msg = this.errorFileSizeExceed;
                         break;
 
-                    case Asc.c_oAscError.ID.UpdateVersion:
-                        config.msg = this.errorUpdateVersionOnDisconnect;
-                        config.maxwidth = 600;
-                        break;
+                    // case Asc.c_oAscError.ID.UpdateVersion:
+                    //     config.msg = this.errorUpdateVersionOnDisconnect;
+                    //     config.maxwidth = 600;
+                    //     break;
 
                     case Asc.c_oAscError.ID.FTChangeTableRangeError:
                         config.msg = this.errorFTChangeTableRangeError;
@@ -2491,19 +2494,22 @@ define([
             },
 
             onUpdateVersion: function(callback) {
+                console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+
                 var me = this;
                 me.needToUpdateVersion = true;
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                Common.UI.warning({
-                    msg: this.errorUpdateVersion,
+                Common.UI.TooltipManager.showTip({ step: 'updateVersionReload', text: this.errorUpdateVersion, header: this.titleUpdateVersion,
+                    target: '#toolbar', maxwidth: 'none', closable: false, automove: true, noHighlight: true,
                     callback: function() {
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
                             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
-                    }
-                });
+                    }});
+                this.disableEditing(true, 'not-loaded');
+                Common.NotificationCenter.trigger('api:disconnect');
             },
 
             onServerVersion: function(buildVersion) {

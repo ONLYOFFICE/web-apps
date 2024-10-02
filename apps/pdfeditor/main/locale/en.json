@@ -1016,6 +1016,7 @@
   "PDFE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "PDFE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "PDFE.Controllers.Print.textMarginsLast": "Last custom",

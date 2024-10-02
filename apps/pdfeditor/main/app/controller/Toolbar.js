@@ -171,11 +171,15 @@ define([
         },
 
         setMode: function(mode) {
+            var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
                 'editPdf' : {name: 'pdfe-help-tip-edit-pdf', placement: 'bottom-right', text: this.helpEditPdf, header: this.helpEditPdfHeader, target: '#slot-btn-tb-edit-mode'},
-                'textComment' : {name: 'pdfe-help-tip-text-comment', placement: 'bottom-right', text: this.helpTextComment, header: this.helpTextCommentHeader, target: '#slot-btn-text-comment'}
+                'textComment' : {name: 'pdfe-help-tip-text-comment', placement: 'bottom-right', text: this.helpTextComment, header: this.helpTextCommentHeader, target: '#slot-btn-text-comment'},
+                'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 

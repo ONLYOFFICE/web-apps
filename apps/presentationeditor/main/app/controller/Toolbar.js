@@ -301,12 +301,16 @@ define([
         },
 
         setMode: function(mode) {
+            var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
                 'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', automove: true},
                 'animPane' : {name: 'pe-help-tip-anim-pane', placement: 'bottom-left', text: this.helpAnimPane, header: this.helpAnimPaneHeader, target: '#animation-button-pane', automove: true},
-                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'}
+                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'},
+                'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 
