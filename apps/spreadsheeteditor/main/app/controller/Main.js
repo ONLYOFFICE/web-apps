@@ -1285,6 +1285,7 @@ define([
             },
 
             disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
                 var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
@@ -1300,8 +1301,10 @@ define([
                     viewport: true,
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
-                    celleditor: {previewMode: true}
-                }, temp ? type : 'disconnect');
+                    celleditor: {previewMode: true},
+                    header: {search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -1351,6 +1354,14 @@ define([
                 }
                 if (options.celleditor && options.celleditor.previewMode) {
                     app.getController('CellEditor').setPreviewMode(disable);
+                }
+
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
+                }
+                if (options.header) {
+                    if (options.header.search)
+                        this.headerView && this.headerView.lockHeaderBtns('search', disable);
                 }
 
                 if (prev_options) {

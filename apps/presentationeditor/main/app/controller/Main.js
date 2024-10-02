@@ -1206,6 +1206,7 @@ define([
             },
 
             disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
                 var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
@@ -1219,8 +1220,10 @@ define([
                     review: true,
                     viewport: true,
                     documentHolder: {clear: !temp, disable: true},
-                    toolbar: true
-                }, temp ? type : 'disconnect');
+                    toolbar: true,
+                    header: {search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -1267,6 +1270,13 @@ define([
                     var comments = this.getApplication().getController('Common.Controllers.Comments');
                     if (comments && options.comments.previewMode)
                         comments.setPreviewMode(disable);
+                }
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
+                }
+                if (options.header) {
+                    if (options.header.search)
+                        appHeader && appHeader.lockHeaderBtns('search', disable);
                 }
 
                 if (prev_options) {

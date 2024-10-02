@@ -613,6 +613,7 @@ define([
             },
 
             disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
                 var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
@@ -628,8 +629,9 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     plugins: false,
-                    header: {docmode: true}
-                }, temp ? type : 'disconnect');
+                    header: {docmode: true, search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -684,6 +686,12 @@ define([
                 if (options.header) {
                     if (options.header.docmode)
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
+                    if (options.header.search)
+                        appHeader && appHeader.lockHeaderBtns('search', disable);
+                }
+
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
                 }
 
                 if (prev_options) {

@@ -867,6 +867,7 @@ define([
             },
 
             disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
                 var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
@@ -889,8 +890,9 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false,
-                    header: {docmode: true}
-                }, temp ? type : 'disconnect');
+                    header: {docmode: true, search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -948,9 +950,15 @@ define([
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
                 }
 
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
+                }
+
                 if (options.header) {
                     if (options.header.docmode)
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
+                    if (options.header.search)
+                        appHeader && appHeader.lockHeaderBtns('search', disable);
                 }
 
                 if (prev_options) {
@@ -1919,7 +1927,8 @@ define([
                         toolbar: true,
                         plugins: true,
                         protect: true,
-                        header: {docmode: !!disableModeButton}
+                        header: {docmode: !!disableModeButton, search: false},
+                        shortcuts: false
                     }, 'view');
 
                     if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
@@ -2592,8 +2601,7 @@ define([
                                                                 me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                                                             })
                                                         }});
-                this.disableEditing(true);
-                this.api.asc_coAuthoringDisconnect();
+                this.disableEditing(true, 'not-loaded');
                 Common.NotificationCenter.trigger('api:disconnect');
 
                 // Common.UI.warning({

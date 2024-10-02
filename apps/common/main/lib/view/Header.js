@@ -1320,6 +1320,10 @@ define([
                     if (me.btnUserName) {
                         me.btnUserName.setDisabled(lock);
                     }
+                } else if ( alias == 'search' ) {
+                    if (me.btnSearch) {
+                        me.btnSearch.setDisabled(lock);
+                    }
                 } else {
                     var _lockButton = function (btn) {
                         btn && Common.Utils.lockControls(cause, lock, {array: [btn]});
