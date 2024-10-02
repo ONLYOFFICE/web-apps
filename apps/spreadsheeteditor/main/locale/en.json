@@ -2713,6 +2713,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtBg": "Bulgarian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCa": "Catalan",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCacheMode": "Default cache mode",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCalculating": "Calculating",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCm": "Centimeter",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCollaboration": "Collaboration",

@@ -2101,6 +2101,7 @@
   "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
   "PE.Views.FileMenuPanels.Settings.txtAutoCorrect": "AutoCorrect options...",
   "PE.Views.FileMenuPanels.Settings.txtCacheMode": "Default cache mode",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.txtCm": "Centimeter",
   "PE.Views.FileMenuPanels.Settings.txtCollaboration": "Collaboration",
   "PE.Views.FileMenuPanels.Settings.txtCustomizeQuickAccess": "Customize quick access",
