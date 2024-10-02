@@ -231,6 +231,7 @@ define([
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));
+                this.api.asc_registerCallback('asc_onDocumentContentReady',  _.bind(this.onDocumentContentReady, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onAdvancedOptions',       _.bind(this.onAdvancedOptions, this));
                 this.api.asc_registerCallback('asc_onDocumentUpdateVersion', _.bind(this.onUpdateVersion, this));
@@ -793,11 +794,6 @@ define([
                 this.headerView && this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
 
-                if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
-                    Common.Gateway.internalMessage('documentReady', {});
-                    this.onDocumentContentReady();
-                }
-
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
                 if (action) {
                     this.setLongActionView(action);
@@ -979,6 +975,8 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.internalMessage('documentReady', {});
 
                 if (this._state.openDlg)
                     this._state.openDlg.close();
