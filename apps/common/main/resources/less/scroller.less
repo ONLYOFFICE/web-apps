@@ -71,8 +71,10 @@
             }
         }
 
-        &:hover,
-        .hover {
+        &:hover, .hover {
+            background-color: @background-toolbar-additional-ie;
+            background-color: @background-toolbar-additional;
+
             .ps-scrollbar-x {
                 &.always-visible-x {
                     background-color: @canvas-scroll-thumb-hover-ie;
@@ -89,6 +91,9 @@
         }
 
         &.in-scrolling {
+            background-color: @background-toolbar-additional-ie;
+            background-color: @background-toolbar-additional;
+
             .ps-scrollbar-x {
                 &.always-visible-x {
                     background-color: @canvas-scroll-thumb-hover-ie;
