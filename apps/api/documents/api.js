@@ -283,7 +283,7 @@
                 'onError': <error callback>,
                 'onWarning': <warning callback>,
                 'onInfo': <document open callback>,// send view or edit mode
-                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened, deprecated: use onRequestRefreshFile/refreshFile instead
                 'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
                 'onRequestSaveAs': <try to save copy of the document>,
                 'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
@@ -305,6 +305,7 @@
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
+                'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
             }
         }
 
@@ -375,6 +376,7 @@
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
+        _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 

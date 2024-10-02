@@ -250,9 +250,6 @@ define([
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
                     Common.NotificationCenter.on('doc:mode-apply',                  _.bind(this.onDocModeApply, this));
 
-                    Common.Gateway.on('refreshfile',                                _.bind(this.onRefreshFile, this));
-                    this.api.asc_registerCallback('asc_onRequestRefreshFile',       _.bind(this.onRequestRefreshFile, this));
-
                     this.isShowOpenDialog = false;
                     
                     // Initialize api gateway
@@ -515,6 +512,11 @@ define([
 
                 this.appOptions.wopi = this.editorConfig.wopi;
                 appHeader.setWopi(this.appOptions.wopi);
+
+                if (this.editorConfig.canRequestRefreshFile) {
+                    Common.Gateway.on('refreshfile',                         _.bind(this.onRefreshFile, this));
+                    this.api.asc_registerCallback('asc_onRequestRefreshFile',       _.bind(this.onRequestRefreshFile, this));
+                }
 
                 Common.Controllers.Desktop.init(this.appOptions);
                 Common.UI.HintManager.setMode(this.appOptions);
