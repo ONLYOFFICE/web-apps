@@ -442,7 +442,7 @@ define([
                 me.options.scaling = ratio;
                 var firstChild = this.cmpEl.children(':first');
 
-                if (ratio > 2) {
+                if (ratio === 1 || ratio >= 2) {
                     if (!firstChild.find('svg.menu-item-icon').length) {
                         var iconCls = me.iconCls,
                             re_icon_name = /btn-[^\s]+/.exec(iconCls),

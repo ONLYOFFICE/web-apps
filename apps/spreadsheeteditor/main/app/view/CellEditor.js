@@ -106,7 +106,7 @@ define([
         },
 
         applyScaling: function (ratio) {
-            if (ratio > 2 && !this.$btnfunc.find('svg.icon').length) {
+            if ((ratio === 1 || ratio >= 2) && !this.$btnfunc.find('svg.icon').length) {
                 var icon_name = 'btn-function',
                     svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
                 this.$btnfunc.find('i.icon').after(svg_icon);

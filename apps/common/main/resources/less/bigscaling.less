@@ -1,4 +1,4 @@
-.pixel-ratio__2_5 {
+body:not(.pixel-ratio__1_25):not(.pixel-ratio__1_5):not(.pixel-ratio__1_75) {
     .btn-toolbar,
     .btn-header,
     .btn-category,
@@ -57,9 +57,8 @@
 .btn-category,
 .btn-options,
 .dataview,
-.label-cmp
-{
-    svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+.label-cmp {
+    svg.icon:is(.pixel-ratio__1_25 *, .pixel-ratio__1_5 *, .pixel-ratio__1_75 *) {
         display: none;
     }
 }
