@@ -122,7 +122,7 @@
                 }
             }
         } else {
-            if ( window.uitheme.id.lastIndexOf("gray-theme", 0) === 0 ) {
+            if ( window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
                 header_tokens.forEach(function (i) {
                     !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
                 });
