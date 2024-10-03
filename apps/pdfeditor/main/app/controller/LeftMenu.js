@@ -431,13 +431,13 @@ define([
             /** coauthoring begin **/
             if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave && !this.mode.isOffline) {
                 if (this.mode.canChangeCoAuthoring) {
-                    // fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
-                    fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
+                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", false); // false by default!
+                    Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
 
-                // value = Common.localStorage.getItem((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
-                value = Common.Utils.InternalSettings.get(fast_coauth ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                value = Common.localStorage.getItem((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
+                Common.Utils.InternalSettings.set((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
                 switch(value) {
                 case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
                 case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
@@ -472,8 +472,8 @@ define([
 
             if (this.mode.isEdit && canPDFSave) {
                 if (this.mode.canChangeCoAuthoring || !fast_coauth) {// can change co-auth. mode or for strict mode
-                    // value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
-                    value = Common.Utils.InternalSettings.get("pdfe-settings-autosave");
+                    value = parseInt(Common.localStorage.getItem("pdfe-settings-autosave"));
+                    Common.Utils.InternalSettings.set("pdfe-settings-autosave", value);
                     this.api.asc_setAutoSaveGap(value);
                 }
             }

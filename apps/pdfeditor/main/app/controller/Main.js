@@ -1402,39 +1402,39 @@ define([
             },
 
             loadCoAuthSettings: function() {
-                var fastCoauth = true,
-                    autosave = 1,
+                var fastCoauth = false,
+                    autosave_def = this.appOptions.isOffline ? 1 : 0,
+                    autosave = autosave_def,
                     value,
                     isEdit = this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit;
                 if (isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'fast' by default
-                        value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
-                        if (value===null && this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                            value = 0; // use customization.autosave only when coEditing.mode is null
+                    if (!this.appOptions.canChangeCoAuthoring) { //can't change co-auth. mode. Use coEditing.mode or 'strict' by default
+                        value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='fast' ? 1 : 0) : null;
+                        if (value===null && this.appOptions.customization && this.appOptions.customization.autosave) {
+                            value = 1; // use customization.autosave only when coEditing.mode is null
                         }
                     } else {
                         value = Common.localStorage.getItem("pdfe-settings-coauthmode");
                         if (value===null) {
-                            value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='strict' ? 0 : 1) : null;
+                            value = (this.editorConfig.coEditing && this.editorConfig.coEditing.mode!==undefined) ? (this.editorConfig.coEditing.mode==='fast' ? 1 : 0) : null;
                             if (value===null && !Common.localStorage.itemExists("pdfe-settings-autosave") &&
-                                this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                                value = 0; // use customization.autosave only when pdfe-settings-coauthmode and pdfe-settings-autosave are null
+                                this.appOptions.customization && this.appOptions.customization.autosave) {
+                                value = 1; // use customization.autosave only when pdfe-settings-coauthmode and pdfe-settings-autosave are null
                             }
                         }
                     }
-                    fastCoauth = (value===null || parseInt(value) == 1);
+                    fastCoauth = value && parseInt(value) === 1;
                     Common.Utils.InternalSettings.set("pdfe-settings-showchanges-fast", Common.localStorage.getItem("pdfe-settings-showchanges-fast") || 'none');
                     Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", Common.localStorage.getItem("pdfe-settings-showchanges-strict") || 'last');
-                    // in first version with co-editing set strict mode on start
-                    fastCoauth = false;
                 } else if (!isEdit && (this.appOptions.isPDFFill || this.appOptions.isRestrictedEdit)) {
                     fastCoauth = true;
+                    autosave = 1;
                 } else if (this.appOptions.canLiveView && !this.appOptions.isOffline) { // viewer
                     value = Common.localStorage.getItem("pdfe-settings-view-coauthmode");
-                    if (!this.appOptions.canChangeCoAuthoring || value===null) { // Use coEditing.mode or 'fast' by default
-                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='strict' ? 0 : 1;
+                    if (!this.appOptions.canChangeCoAuthoring || value===null) { // Use coEditing.mode or 'strict' by default
+                        value = this.editorConfig.coEditing && this.editorConfig.coEditing.mode==='fast' ? 1 : 0;
                     }
-                    fastCoauth = (parseInt(value) == 1);
+                    fastCoauth = value && (parseInt(value) == 1);
 
                     // don't show collaborative marks in live viewer
                     Common.Utils.InternalSettings.set("pdfe-settings-showchanges-fast", 'none');
@@ -1446,11 +1446,9 @@ define([
 
                 if (isEdit) {
                     value = Common.localStorage.getItem("pdfe-settings-autosave");
-                    if (value === null && this.appOptions.customization && this.appOptions.customization.autosave === false)
-                        value = 0;
-                    autosave = (!fastCoauth && value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? 1 : 0);
-                    // in first version with co-editing set autosave=false on start (except offline files)
-                    !this.appOptions.isOffline && (autosave = 0);
+                    if (value === null && this.appOptions.customization && this.appOptions.customization.autosave===(!autosave_def))
+                        value = autosave_def ? 0 : 1;
+                    autosave = (!fastCoauth && value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? autosave_def : 0);
                 }
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);
@@ -2301,11 +2299,11 @@ define([
                         callback: _.bind(function(btn, dontshow){
                             if (dontshow) Common.localStorage.setItem("pdfe-hide-try-undoredo", 1);
                             if (btn == 'custom') {
-                                // Common.localStorage.setItem("pdfe-settings-coauthmode", 0);
+                                Common.localStorage.setItem("pdfe-settings-coauthmode", 0);
                                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", false);
                                 this.api.asc_SetFastCollaborative(false);
                                 this._state.fastCoauth = false;
-                                // Common.localStorage.setItem("pdfe-settings-showchanges-strict", 'last');
+                                Common.localStorage.setItem("pdfe-settings-showchanges-strict", 'last');
                                 Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                                 // this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
@@ -2347,7 +2345,7 @@ define([
                 if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
                     if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                         var oldval = this._state.fastCoauth;
-                        this._state.fastCoauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
+                        this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode");
                         if (this._state.fastCoauth && !oldval)
                             this.synchronizeChanges();
                     }
