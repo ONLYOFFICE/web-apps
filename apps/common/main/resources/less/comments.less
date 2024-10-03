@@ -431,7 +431,11 @@
         }
     }
 
-    .btn-resolve, .btn-accept, .icon-resolve {
+    .btn-resolve.comment-resolved, .icon-resolve.i-comment-resolved {
+        background-position: 0px -64px;
+    }
+
+    .btn-resolve:not(.comment-resolved), .btn-accept{
         position: relative;
 
         &:after {
@@ -445,19 +449,6 @@
             height: 12px;
             left: 6px;
             top: 0px;
-        }
-
-        &.comment-resolved, &.i-comment-resolved {
-            &:after {
-                border-color: @icon-success-ie;
-                border-color: @icon-success;
-                width: 5px;
-                height: 9px;
-                top: 3px;
-            }
-            .box-shadow(0 0 0 1px @icon-success-ie);
-            .box-shadow(0 0 0 1px @icon-success);
-            border-radius: 18px;
         }
     }
 
