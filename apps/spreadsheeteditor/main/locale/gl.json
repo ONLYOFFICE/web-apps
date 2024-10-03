@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotexer folla",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza un contrasinal para quitarlle a protección ao libro",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotexer libro",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -522,6 +522,7 @@ define([
                     } else {
                         menu.menuAlign = 'tl-tr';
                     }
+                    me.hideScreenTip();
                 }
 
                 menuContainer.css({
@@ -981,6 +982,8 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        if (me.documentHolder.currentMenu && me.documentHolder.currentMenu.isVisible())
+                            return;
                         var tip = moveData.get_EffectText();
                         if (!tip) {
                             tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';

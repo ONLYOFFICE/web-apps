@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

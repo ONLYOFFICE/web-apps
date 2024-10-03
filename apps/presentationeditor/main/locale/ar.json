@@ -2930,5 +2930,6 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

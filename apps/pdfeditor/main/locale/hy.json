@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

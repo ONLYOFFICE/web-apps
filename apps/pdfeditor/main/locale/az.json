@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

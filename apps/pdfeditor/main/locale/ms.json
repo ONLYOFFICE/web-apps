@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

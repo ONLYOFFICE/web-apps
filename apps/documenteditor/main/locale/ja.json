@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Munkalap védelmének megszüntetése",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Írjon be egy jelszót a munkafüzet védelmének megszüntetéséhez",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

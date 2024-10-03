@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

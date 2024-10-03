@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

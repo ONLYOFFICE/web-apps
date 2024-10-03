@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

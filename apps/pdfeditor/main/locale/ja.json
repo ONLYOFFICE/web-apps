@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

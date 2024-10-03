@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

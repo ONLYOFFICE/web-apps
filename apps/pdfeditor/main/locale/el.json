@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

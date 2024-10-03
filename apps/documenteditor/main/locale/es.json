@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

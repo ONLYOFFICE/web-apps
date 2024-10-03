@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

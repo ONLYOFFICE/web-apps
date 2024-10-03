@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

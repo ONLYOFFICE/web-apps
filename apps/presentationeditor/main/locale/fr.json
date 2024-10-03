@@ -2930,5 +2930,6 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }
