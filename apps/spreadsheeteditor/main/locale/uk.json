@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

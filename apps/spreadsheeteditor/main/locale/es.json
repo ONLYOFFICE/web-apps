@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

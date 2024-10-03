@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

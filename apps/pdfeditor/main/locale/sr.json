@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

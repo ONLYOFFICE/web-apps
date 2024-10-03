@@ -2930,5 +2930,6 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

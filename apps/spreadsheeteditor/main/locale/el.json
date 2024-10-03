@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

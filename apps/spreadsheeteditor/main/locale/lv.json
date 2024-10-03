@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

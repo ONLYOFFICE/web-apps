@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

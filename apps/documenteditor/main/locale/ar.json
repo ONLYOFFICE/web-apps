@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

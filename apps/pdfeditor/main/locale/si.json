@@ -2013,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

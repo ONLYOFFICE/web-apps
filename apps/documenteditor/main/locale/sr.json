@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

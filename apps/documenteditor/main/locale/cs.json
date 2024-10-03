@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

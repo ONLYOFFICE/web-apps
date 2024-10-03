@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

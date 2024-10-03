@@ -3648,5 +3648,6 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface"
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

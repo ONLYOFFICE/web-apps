@@ -4488,5 +4488,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }
