@@ -922,6 +922,13 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
+                        if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
+                            item.tab = {
+                                "id": "view",
+                                "separator": true
+                            }
+                        }
+
                         var props = {
                             name : name,
                             guid: item.guid,
