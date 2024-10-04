@@ -4490,5 +4490,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.ViewTab.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.ViewTab.textRtlSheet": "Sheet Right-to-left"
 }

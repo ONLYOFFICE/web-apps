@@ -99,7 +99,8 @@ define([
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
-                    'viewtab:viewmode': this.onPreviewMode
+                    'viewtab:viewmode': this.onPreviewMode,
+                    'viewtab:rtl-sheet': this.onViewSettings
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -201,6 +202,7 @@ define([
                     case 1: this.api.asc_setDisplayHeadings(value); break;
                     case 2: this.api.asc_setDisplayGridlines(value); break;
                     case 3: this.api.asc_setShowZeros(value); break;
+                    case 4: this.api.asc_setRightToLeft(value); break;
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -258,7 +260,7 @@ define([
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes, this.view.chZeros,
-                                                                                            this.view.btnViewNormal, this.view.btnViewPageBreak]});
+                                                                                            this.view.btnViewNormal, this.view.btnViewPageBreak, this.view.btnRtl]});
             }
         },
 
@@ -270,6 +272,7 @@ define([
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
             this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
             this.view.chZeros.setValue(!!params.asc_getShowZeros(), true);
+            this.view.btnRtl.toggle(!!params.asc_getRightToLeft(), true);
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));

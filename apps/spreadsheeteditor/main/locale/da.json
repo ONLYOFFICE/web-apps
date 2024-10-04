@@ -4490,5 +4490,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.ViewTab.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.ViewTab.textRtlSheet": "Sheet Right-to-left"
 }
