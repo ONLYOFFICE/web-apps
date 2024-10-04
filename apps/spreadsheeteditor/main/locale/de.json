@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisch Hell",
   "Common.UI.Themes.txtThemeContrastDark": "Dunkler Kontrast",
   "Common.UI.Themes.txtThemeDark": "Dunkel",
+  "Common.UI.Themes.txtThemeGray": "Grau",
   "Common.UI.Themes.txtThemeLight": "Hell",
   "Common.UI.Themes.txtThemeSystem": "Wie im System",
   "Common.UI.Window.cancelButtonText": "Abbrechen",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "Z1S1-Bezugsart",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regionale Einstellungen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Beispiel:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL-Schnittstelle",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Kommentare im Blatt anzeigen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Änderungen von anderen Benutzern anzeigen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Gelöste Kommentare anzeigen",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen"
 }

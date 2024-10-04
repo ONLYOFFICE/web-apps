@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "فاتح كلاسيكي",
   "Common.UI.Themes.txtThemeContrastDark": "داكن متباين",
   "Common.UI.Themes.txtThemeDark": "داكن",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "فاتح",
   "Common.UI.Themes.txtThemeSystem": "استخدم سمة النظام",
   "Common.UI.Window.cancelButtonText": "الغاء",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "تجاهل الكلمات التي تحتوي على أرقام",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "إعدادات الماكرو",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "عرض زر خيارات اللصق عند لص المحتوى",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "تغييرات التعاون في الوقت الحقيقي",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "إظهار التعليقات في النص",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "إظهار التغييرات من المستخدمين الآخرين",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
 }

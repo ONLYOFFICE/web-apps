@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "傳統亮色",
   "Common.UI.Themes.txtThemeContrastDark": "暗色對比",
   "Common.UI.Themes.txtThemeDark": "暗色主題",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "光",
   "Common.UI.Themes.txtThemeSystem": "和系統一致",
   "Common.UI.Window.cancelButtonText": "取消",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "共同編輯模式",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "快速",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "字體提示",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "即時共同編輯設定更新",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "在內文中顯示註釋",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "顯示其他用戶的更改",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
 }

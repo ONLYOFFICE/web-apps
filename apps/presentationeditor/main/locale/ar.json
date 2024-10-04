@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "مضيئ كلاسيكي",
   "Common.UI.Themes.txtThemeContrastDark": "داكن متباين",
   "Common.UI.Themes.txtThemeDark": "داكن",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "فاتح",
   "Common.UI.Themes.txtThemeSystem": "استخدم سمة النظام",
   "Common.UI.Window.cancelButtonText": "إلغاء",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "تجاهل الكلمات التي تحتوي على أرقام",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "إعدادات الماكرو",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "عرض زر خيارات اللصق عند لص المحتوى",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "إظهار التغييرات من المستخدمين الآخرين",
   "PE.Views.FileMenuPanels.Settings.strStrict": "صارم",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "نمط التبويبة",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "عرض الخطوط الدلالية",
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }

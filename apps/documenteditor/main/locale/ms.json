@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Cerah",
   "Common.UI.Themes.txtThemeContrastDark": "Kontras Gelap",
   "Common.UI.Themes.txtThemeDark": "Gelap",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ringan",
   "Common.UI.Themes.txtThemeSystem": "Sama seperti Sistem",
   "Common.UI.Window.cancelButtonText": "Batalkan",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Abaikan perkataan dengan nombor",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Seting Makro",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Tunjukkan butang Pilihan Tampal di mana kandungan ditampalkan",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Perubahan Kerjasama Masa-sebenar",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Tunjukkan komen dalam teks",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Tunjukkan perubahan daripada pengguna lain",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Separa telus",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama Fon",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon"
 }

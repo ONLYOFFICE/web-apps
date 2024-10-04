@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "אור קלאסי",
   "Common.UI.Themes.txtThemeContrastDark": "ניגודיות כהה",
   "Common.UI.Themes.txtThemeDark": "כהה",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "בהיר",
   "Common.UI.Themes.txtThemeSystem": "זהה למערכת",
   "Common.UI.Window.cancelButtonText": "ביטול",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "התעלם ממילים עם מספרים",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "הגדרות פקודות מאקרו",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "הצג את לחצן אפשרויות ההדבקה כאשר התוכן מודבק",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "הצג שינויים ממשתמשים אחרים",
   "PE.Views.FileMenuPanels.Settings.strStrict": "קפדן",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "סגנון טאב",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "הצג מדריכים",
   "PE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
   "PE.Views.ViewTab.tipNormal": "רגיל",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clásico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Escuro",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "Igual que o sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "O modo Co-edición",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Rápido",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Busca das fontes",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Cambios de colaboración en tempo real",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Amosar comentarios no texto",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Axustar á páxina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Axustar á anchura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface"
 }

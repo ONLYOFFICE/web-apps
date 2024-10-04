@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiska gaisma",
   "Common.UI.Themes.txtThemeContrastDark": "Tumšs kontrasts",
   "Common.UI.Themes.txtThemeDark": "Tumšs",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Gaišs",
   "Common.UI.Themes.txtThemeSystem": "Tāds pats kā sistēma",
   "Common.UI.Window.cancelButtonText": "Atcelt",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorēt vārdus ar cipariem",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makro iestatījumi",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Rādīt ielīmēšanas opciju pogu, kad saturs ir ielīmēts",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Reāllaika Sadarbības Izmaiņas",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Rādīt komentārus tekstā",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Rādīt citu lietotāju veiktās izmaiņas",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }

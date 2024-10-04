@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "전통적인 밝은 색상",
   "Common.UI.Themes.txtThemeContrastDark": "어두운 대비",
   "Common.UI.Themes.txtThemeDark": "어두운",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "밝은",
   "Common.UI.Themes.txtThemeSystem": "시스템과 동일",
   "Common.UI.Window.cancelButtonText": "취소",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 참조 양식",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "국가 별 설정",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "예 :",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "시트에서 코멘트 표시",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "다른 사용자의 변경사항 표시",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "해결된 코멘트 표시",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제"
 }

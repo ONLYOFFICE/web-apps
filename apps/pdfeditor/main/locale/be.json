@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класічная светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Кантрасная цёмная",
   "Common.UI.Themes.txtThemeDark": "Цёмная",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Сістэмная",
   "Common.UI.Window.cancelButtonText": "Скасаваць",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Рэжым сумеснага рэдагавання",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Хуткі",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Хінтынг шрыфтоў",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Адлюстроўваць змены падчас сумеснай працы",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Паказваць каментары ў тэксце",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Паказваць змены ад іншых карыстальнікаў",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "සම්භාව්‍ය ආලෝකය",
   "Common.UI.Themes.txtThemeContrastDark": "අඳුරු විලක්‍ෂණය",
   "Common.UI.Themes.txtThemeDark": "අඳුරු",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "දීප්ත",
   "Common.UI.Themes.txtThemeSystem": "පද්ධතියේ ලෙසම",
   "Common.UI.Window.cancelButtonText": "අවලංගු",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "අංක සහිත වචන නොසලකන්න",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "සාර්ව සැකසුම්",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "අන්තර්ගතය අලවන විට ඇලවීමේ විකල්ප බොත්තම පෙන්වන්න",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "අන් අයගේ වෙනස්කම් පෙන්වන්න",
   "PE.Views.FileMenuPanels.Settings.strStrict": "තද",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "මගපෙන්වීම් පෙන්වන්න",
   "PE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

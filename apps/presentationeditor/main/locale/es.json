@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clásico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste oscuro",
   "Common.UI.Themes.txtThemeDark": "Oscuro",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "Igual que el sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Omitir palabras con números",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Ajustes de macros",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Mostrar el botón «Opciones de pegado» cuando se pegue contenido",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Mostrar los cambios de otros usuarios",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Estricto",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Estilo de pestaña",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Mostrar guías",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas"
 }

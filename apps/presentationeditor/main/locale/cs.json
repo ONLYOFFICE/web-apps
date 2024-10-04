@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Standartní světlost",
   "Common.UI.Themes.txtThemeContrastDark": "Kontrastní tmavá",
   "Common.UI.Themes.txtThemeDark": "Tmavé",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Světlé",
   "Common.UI.Themes.txtThemeSystem": "Stejné jako systémové",
   "Common.UI.Window.cancelButtonText": "Zrušit",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorovat slova obsahující čísla",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Nastavení maker",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Při vkládání obsahu zobrazit tlačítko Možnosti vložení",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Zobrazit změny od jiných uživatelů",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Striktní",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Styl panelu",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Zobrazit vodítka",
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

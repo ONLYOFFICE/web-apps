@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisk lys",
   "Common.UI.Themes.txtThemeContrastDark": "Mørk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mørk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Themes.txtThemeSystem": "Samme som system",
   "Common.UI.Window.cancelButtonText": "Annuller",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorer ord med tal",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroindstillinger",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Vis knappen for Indsæt-optioner når indhold indsættes",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Real tids samarbejdsændringer",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Vis kommentarer i tekst",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Vis ændringer fra andet",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }

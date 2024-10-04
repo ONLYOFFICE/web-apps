@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "ライト(クラシック)",
   "Common.UI.Themes.txtThemeContrastDark": "ダークコントラスト",
   "Common.UI.Themes.txtThemeDark": "ダーク",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ライト",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "共同編集モード",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "高速",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "フォントのヒント",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "リアルタイム共同編集モードの変更表示",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "テキストにコメントを表示する",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "他のユーザーの変更点を表示する",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
 }

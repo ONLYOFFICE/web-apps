@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Terang Klasik",
   "Common.UI.Themes.txtThemeContrastDark": "Gelap Kontras",
   "Common.UI.Themes.txtThemeDark": "Gelap",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Cerah",
   "Common.UI.Themes.txtThemeSystem": "Sama seperti sistem",
   "Common.UI.Window.cancelButtonText": "Batalkan",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Abaikan kata dengan angka",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Pengaturan Macros",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Tampilkan tombol Opsi Paste ketika konten sedang dipaste",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Perubahan Kolaborasi Realtime",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Tampilkan komentar pada teks",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Tampilkan perubahan dari pengguna lain",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

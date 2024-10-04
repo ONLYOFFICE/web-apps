@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Классическая светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Контрастная темная",
   "Common.UI.Themes.txtThemeDark": "Темная",
+  "Common.UI.Themes.txtThemeGray": "Серая",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Системная",
   "Common.UI.Window.cancelButtonText": "Отмена",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "Стиль ссылок R1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Региональные параметры",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Пример:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL-интерфейс",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Показывать комментарии на листе",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Показывать изменения других пользователей",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Показывать решенные комментарии",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введите пароль для отключения защиты листа",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги"
 }

@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasično Svetlo",
   "Common.UI.Themes.txtThemeContrastDark": "Kontrast Tamno",
   "Common.UI.Themes.txtThemeDark": "Tamno",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Svetlo",
   "Common.UI.Themes.txtThemeSystem": "Isto kao sistem",
   "Common.UI.Window.cancelButtonText": "Otkaži",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignoriši reči sa brojevima",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroi Podešavanja",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Prikaži dugme za opcije Nalepljenog sadržaja kada je sadržaj nalepljen",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Prikaži promene od ostalih korisnika ",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Striktno",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Prikaži vodiče",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

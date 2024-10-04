@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiko argia",
   "Common.UI.Themes.txtThemeContrastDark": "Kontraste iluna",
   "Common.UI.Themes.txtThemeDark": "Iluna",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Argia",
   "Common.UI.Themes.txtThemeSystem": "Sistemako berdina",
   "Common.UI.Window.cancelButtonText": "Utzi",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Egin ez ikusia zenbakiak dituzten hitzei",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroen ezarpenak",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Erakutsi itsasteko aukeren botoia edukia itsastean",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Denbora errealeko lankidetza aldaketak",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Erakutsi iruzkinak testuan",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Erakutsi beste erabiltzaileen aldaketak",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
 }

@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Llum clàssica",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast fosc",
   "Common.UI.Themes.txtThemeDark": "Fosc",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Clar",
   "Common.UI.Themes.txtThemeSystem": "Igual que el sistema",
   "Common.UI.Window.cancelButtonText": "Cancel·la",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Mode de coedició",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Ràpid",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Lletres suggerides",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Canvis de col·laboració en temps real",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Mostrar els comentaris al text",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Mostrar els canvis d'altres usuaris",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
 }

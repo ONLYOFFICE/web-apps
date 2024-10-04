@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класична світла",
   "Common.UI.Themes.txtThemeContrastDark": "Контрастно-чорний",
   "Common.UI.Themes.txtThemeDark": "Темна",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Світла",
   "Common.UI.Themes.txtThemeSystem": "Системний",
   "Common.UI.Window.cancelButtonText": "Скасувати",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "Стиль посилань R1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Місцеві налаштування",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Приклад:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Показувати коментарі на аркуші",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Показувати зміни інших користувачів",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Показувати коментарі, які було вирішено",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги"
 }

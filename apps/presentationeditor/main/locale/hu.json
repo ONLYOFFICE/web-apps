@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasszikus Világos",
   "Common.UI.Themes.txtThemeContrastDark": "Sötét kontraszt",
   "Common.UI.Themes.txtThemeDark": "Sötét",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Világos",
   "Common.UI.Themes.txtThemeSystem": "A rendszerrel megegyező",
   "Common.UI.Window.cancelButtonText": "Mégse",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "A számokat tartalmazó szavak figyelmen kívül hagyása",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makró beállítások",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "A tartalom beillesztésekor jelenítse meg a beillesztési beállítások gombot",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Más felhasználók módosításainak megjelenítése",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Biztonságos",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Iránymutatás",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfész témája",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

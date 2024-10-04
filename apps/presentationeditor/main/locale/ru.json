@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Классическая светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Контрастная темная",
   "Common.UI.Themes.txtThemeDark": "Темная",
+  "Common.UI.Themes.txtThemeGray": "Серая",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Системная",
   "Common.UI.Window.cancelButtonText": "Отмена",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Пропускать слова с цифрами",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Настройки макросов",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Показывать кнопку Параметры вставки при вставке содержимого",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL-интерфейс",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Показывать изменения других пользователей",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Строгий",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Стиль вкладки",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Показать направляющие",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
 }

@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класічная светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Кантрасная цёмная",
   "Common.UI.Themes.txtThemeDark": "Цёмная",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Сістэмная",
   "Common.UI.Window.cancelButtonText": "Скасаваць",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Мінаць словы з лічбамі",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Налады макрасаў",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Паказваць кнопку параметраў устаўляння падчас устаўляння",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Адлюстроўваць змены падчас сумеснай працы",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Паказваць каментары ў тэксце",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Паказваць змены ад іншых карыстальнікаў",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
 }

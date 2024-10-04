@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "明るい(クラシック)",
   "Common.UI.Themes.txtThemeContrastDark": "ダークコントラスト",
   "Common.UI.Themes.txtThemeDark": "暗い",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "明るい",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "数字のある単語は無視する",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "マクロの設定",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "貼り付けるときに[貼り付けオプション]ボタンを表示する",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "リアルタイム共同編集の変更表示モード",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "テキストにコメントを表示する",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "他のユーザーの変更点を表示する",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
 }

@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "සම්භාව්‍ය ආලෝකය",
   "Common.UI.Themes.txtThemeContrastDark": "අඳුරු විලක්‍ෂණය",
   "Common.UI.Themes.txtThemeDark": "අඳුරු",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "දීප්ත",
   "Common.UI.Themes.txtThemeSystem": "පද්ධතියේ ලෙසම",
   "Common.UI.Window.cancelButtonText": "අවලංගු",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "අංක සහිත වචන නොසලකන්න",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "සාර්ව සැකසුම්",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "අන්තර්ගතය අලවන විට ඇලවීමේ විකල්ප බොත්තම පෙන්වන්න",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "තථය කාලීන සහයෝගිත්‍ව වෙනස්කම්",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "පෙළහි අදහස් පෙන්වන්න",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "අන් අයගේ වෙනස්කම් පෙන්වන්න",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
 }

@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Classic Light",
   "Common.UI.Themes.txtThemeContrastDark": "Mörk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mörk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ljus",
   "Common.UI.Themes.txtThemeSystem": "Samma som systemet",
   "Common.UI.Window.cancelButtonText": "Avbryt",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorera ord med siffror",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroinställningar",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Visa knappen Klistra in alternativ när innehållet klistras in",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Visa ändringar från andra användare",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strikt",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Դասական լույս",
   "Common.UI.Themes.txtThemeContrastDark": "Մութ հակադրություն",
   "Common.UI.Themes.txtThemeDark": "Մութ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Լույս",
   "Common.UI.Themes.txtThemeSystem": "Նույնը, ինչ համակարգը",
   "Common.UI.Window.cancelButtonText": "Չեղարկել",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Համախմբագրման աշխատակարգ",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Արագ",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Տառատեսակի ուրվագծի հարթեցում",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Իրական ժամանակով գործակցության փոփոխություններ",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Ցույց տալ մեկնաբանությունները տեքստում",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Ցուցադրել այլ օգտատերերի կատարած փոփոխությունները",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класична світла",
   "Common.UI.Themes.txtThemeContrastDark": "Контрастно-чорний",
   "Common.UI.Themes.txtThemeDark": "Темна",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Світла",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Скасувати",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ігнорувати слова з цифрами",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Налаштування макросів",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Показувати додаткові налаштування під час вставки скопійованого вмісту",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Зміни у співпраці в реальному часі",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Показувати коментарі в тексті",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Показувати зміни інших користувачів",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Напівпрозорий",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Підкреслений",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту"
 }

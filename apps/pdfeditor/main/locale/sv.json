@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassiskt ljus",
   "Common.UI.Themes.txtThemeContrastDark": "Mörk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mörk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ljus",
   "Common.UI.Themes.txtThemeSystem": "Samma som systemet",
   "Common.UI.Window.cancelButtonText": "Avbryt",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Redigera samtidigt",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Snabb",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Fontförslag",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Samarbeta i realtid",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Visa kommentarer i text",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Visa ändringar från andra användare",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
 }

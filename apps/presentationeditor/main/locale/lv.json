@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiska gaisma",
   "Common.UI.Themes.txtThemeContrastDark": "Tumšs kontrasts",
   "Common.UI.Themes.txtThemeDark": "Tumšs",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Gaišs",
   "Common.UI.Themes.txtThemeSystem": "Tāds pats kā sistēma",
   "Common.UI.Window.cancelButtonText": "Atcelt",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorēt vārdus ar cipariem",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makro iestatījumi",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Rādīt ielīmēšanas opciju pogu, kad saturs ir ielīmēts",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Rādīt citu lietotāju veiktās izmaiņas",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strikti",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Rādīt ceļvežus",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

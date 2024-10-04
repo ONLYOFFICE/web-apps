@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "经典浅色",
   "Common.UI.Themes.txtThemeContrastDark": "高对比度深色",
   "Common.UI.Themes.txtThemeDark": "深色",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "浅色",
   "Common.UI.Themes.txtThemeSystem": "和系統一致",
   "Common.UI.Window.cancelButtonText": "取消",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "共同編輯模式",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "快速",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "字体轮廓微调",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "实时协作变更",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "在文本中显示批注",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "显示来自其他用户的更改",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

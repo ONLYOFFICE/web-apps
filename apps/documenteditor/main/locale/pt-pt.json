@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clássico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste escuro",
   "Common.UI.Themes.txtThemeDark": "Escuro",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "O mesmo do sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorar palavras com números",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Definições de macros",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Mostrar botão Opções de colagem ao colar conteúdo",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Alterações de colaboração em tempo real",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Mostrar comentários no texto",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Mostrar alterações de outros utilizadores",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra"
 }

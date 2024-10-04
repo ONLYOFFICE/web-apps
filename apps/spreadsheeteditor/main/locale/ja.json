@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "明るい(クラシック)",
   "Common.UI.Themes.txtThemeContrastDark": "ダークコントラスト",
   "Common.UI.Themes.txtThemeDark": "暗い",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "明るい",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1参照形式",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "地域の設定",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "例えば：",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "シートにコメントを表示する",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "他のユーザーの変更点を表示する",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "解決済みコメントを表示する",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する"
 }

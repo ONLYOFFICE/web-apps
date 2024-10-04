@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisk lys",
   "Common.UI.Themes.txtThemeContrastDark": "Mørk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mørk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Annuller",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 reference style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regionale indstillinger",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Eksempel:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Show comments in sheet",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Vis ændringer fra andet",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Vis løste kommentarer",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe"
 }
