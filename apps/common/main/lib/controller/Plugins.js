@@ -411,7 +411,7 @@ define([
         onResetPlugins: function (collection) {
             var me = this;
             me.customButtonsArr.forEach(function(item) {
-                me.toolbar && me.toolbar.addCustomItems({action: item.tab}, undefined, [item.btn])
+                me.toolbar && me.toolbar.addCustomControls({action: item.tab}, undefined, [item.btn])
             });
             me.customButtonsArr = [];
 
@@ -437,7 +437,7 @@ define([
                             btn = me.viewPlugins.createPluginButton(model);
                         if (btn) {
                             btn.options.separator = tab.separator;
-                            me.toolbar && me.toolbar.addCustomItems(tab, [btn]);
+                            me.toolbar && me.toolbar.addCustomControls(tab, [btn]);
                             me.customButtonsArr.push({tab: tab.action, btn: btn});
                         }
                         return;
@@ -764,7 +764,8 @@ define([
 
             this.runAutoStartPlugins();
 
-            Common.UI.LayoutManager.clearCustomItems(guid); // remove custom toolbar buttons
+            Common.UI.LayoutManager.clearCustomMenuItems(guid); // remove custom menu items in toolbar
+            Common.UI.LayoutManager.clearCustomControls(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {

@@ -886,6 +886,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
+                    action: 'change-case',
                     lock: [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu: new Common.UI.Menu({
                         items: [
@@ -1022,6 +1023,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     split       : true,
                     menu        : true,
+                    action: 'cell-borders',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1103,6 +1105,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'cell-merge',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1213,6 +1216,7 @@ define([
                             {caption: this.textCellAlign, value: 'options'}
                         ])
                     }),
+                    action: 'text-orientation',
                     dataHint    : '1',
                     dataHintDirection: 'top'
                 });
@@ -1230,6 +1234,7 @@ define([
                             { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
                     }),
+                    action: 'insert-image',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1253,6 +1258,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText, _set['Objects']],
                     caption     : me.capInsertChart,
                     menu        : true,
+                    action: 'insert-chart',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1276,6 +1282,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set.wsLock, _set.userProtected],
                     caption     : me.capInsertSpark,
                     menu        : true,
+                    action: 'insert-sparkline',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1288,6 +1295,7 @@ define([
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
+                    action: 'insert-smartart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1301,6 +1309,7 @@ define([
                     caption     : me.capInsertShape,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
+                    action: 'insert-shape',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1314,6 +1323,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
                     split       : true,
+                    action: 'insert-text',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small', 
@@ -1332,6 +1342,7 @@ define([
                             {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
+                    action: 'insert-textart',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1345,6 +1356,7 @@ define([
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1366,6 +1378,7 @@ define([
                             })
                         ]
                     }),
+                    action: 'insert-symbol',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1547,6 +1560,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'accounting-style',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1592,6 +1606,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'autosum',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -16'
@@ -1622,6 +1637,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'named-ranges',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1658,6 +1674,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'number-fill',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1698,6 +1715,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'clear-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1740,6 +1758,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'add-cell',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1772,6 +1791,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'delete-cell',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1783,6 +1803,7 @@ define([
                     iconCls     : 'toolbar__icon btn-cond-format',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     menu        : true,
+                    action: 'conditional-format',
                     dataHint    : '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1799,6 +1820,7 @@ define([
                         items: [],
                         restoreHeight: true
                     }),
+                    action: 'theme-colors',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1835,6 +1857,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'page-orient',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1889,6 +1912,7 @@ define([
                             {caption: me.textPageMarginsCustom, value: 'advanced'}
                         ]
                     }),
+                    action: 'page-margins',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2017,6 +2041,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'page-size',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2048,6 +2073,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'print-area',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2060,6 +2086,7 @@ define([
                     caption: me.capBtnPageBreak,
                     lock        : [_set.docPropsLock, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.selRangeEdit, _set.pageBreakLock, _set.lostConnect, _set.coAuth],
                     menu: true,
+                    action: 'page-break',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2080,6 +2107,7 @@ define([
                     menu: new Common.UI.Menu({
                         items: [],
                         cls: 'scale-menu'}),
+                    action: 'page-scale',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2170,6 +2198,7 @@ define([
                     caption: me.capImgAlign,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText, _set["Objects"]],
                     menu: true,
+                    action: 'object-align',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2181,6 +2210,7 @@ define([
                     caption: me.capImgGroup,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
                     menu: true,
+                    action: 'object-group',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2192,6 +2222,7 @@ define([
                     split: true,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     menu: true,
+                    action: 'object-forward',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2203,6 +2234,7 @@ define([
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     split: true,
                     menu: true,
+                    action: 'object-backward',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2240,7 +2272,7 @@ define([
                         cmp.setDisabled(true);
                 });
                 this.lockToolbar(Common.enumLock.disableOnStart, true, {array: [me.btnPrint]});
-
+                Common.UI.LayoutManager.addControls(me.lockControls.concat([me.btnSave]));
                 this.on('render:after', _.bind(this.onToolbarAfterRender, this));
             }
             return this;
@@ -2451,7 +2483,7 @@ define([
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [Common.enumLock.editCell, Common.enumLock.selRangeEdit, Common.enumLock.headerLock, Common.enumLock.lostConnect, Common.enumLock.coAuth], undefined, undefined, undefined, '1', 'bottom', 'small');
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
-
+            Common.UI.LayoutManager.addControls(this.btnsEditHeader);
             this.btnPrint && this.btnPrint.menu && this.btnPrint.$el.addClass('split');
             return $host;
         },
@@ -2632,6 +2664,7 @@ define([
 
                                 me.mnuBorderWidth = new Common.UI.Menu({
                                     style       : 'min-width: 100px;',
+                                    cls: 'shifted-right',
                                     menuAlign   : 'tl-tr',
                                     id          : 'toolbar-menu-borders-width',
                                     items: [
@@ -2701,6 +2734,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
@@ -2713,6 +2747,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeChart);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBeforeChart);
             }
@@ -2742,9 +2777,10 @@ define([
                                     {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                                 ],
                                 menuAlign: 'tl-tr',
-                            })});
+                            })}, true);
                     });
-                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                    var sa_items = me.btnInsertSmartArt.menu.getItems(true);
+                    sa_items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
                             items.push({
@@ -2753,7 +2789,7 @@ define([
                         }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
-                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            parentMenu: sa_items[index].menu,
                             itemTemplate: _.template([
                                 '<% if (isLoading) { %>',
                                     '<div class="loading-item" style="width: 70px; height: 70px;">',
@@ -2803,6 +2839,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertspark'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 50,
                         // groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
@@ -2815,6 +2852,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertSparkline.menu.on('show:before', onShowBefore);
             }
@@ -2853,6 +2891,7 @@ define([
                         el: $('#id-toolbar-menu-insart'),
                         store: collection,
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
@@ -2862,6 +2901,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeTextArt);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
             }
@@ -3091,7 +3131,7 @@ define([
         },
 
         updateMetricUnit: function () {
-            var items = this.btnPageMargins.menu.items;
+            var items = this.btnPageMargins.menu.getItems(true);
             for (var i = 0; i < items.length; i++) {
                 var mnu = items[i];
                 if (mnu.checkable) {
@@ -3104,7 +3144,7 @@ define([
                     if (checked) mnu.setChecked(checked);
                 }
             }
-            items = this.btnPageSize.menu.items;
+            items = this.btnPageSize.menu.getItems(true);
             for (var i = 0; i < items.length; i++) {
                 var mnu = items[i];
                 if (mnu.checkable) {
@@ -3151,15 +3191,8 @@ define([
         },
 
         onApiSendThemeColorSchemes: function(schemas) {
-            var me = this;
-
             this.mnuColorSchema = this.btnColorSchemas.menu;
-
-            if (this.mnuColorSchema && this.mnuColorSchema.items.length > 0) {
-                _.each(this.mnuColorSchema.items, function(item) {
-                    item.remove();
-                });
-            }
+            this.mnuColorSchema && this.mnuColorSchema.removeAll(true);
 
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({
@@ -3167,8 +3200,6 @@ define([
                     restoreHeight: true
                 });
             }
-
-            this.mnuColorSchema.items = [];
 
             var itemTemplate = _.template([
                 '<a id="<%= id %>" class="<%= options.cls %>" tabindex="-1" type="menuitem">',
@@ -3192,7 +3223,7 @@ define([
                 if (index == 24) {
                     this.mnuColorSchema.addItem({
                         caption : '--'
-                    });
+                    }, true);
                 }
                 this.mnuColorSchema.addItem({
                     template: itemTemplate,
@@ -3202,7 +3233,7 @@ define([
                     value: index,
                     checkable: true,
                     toggleGroup: 'menuSchema'
-                });
+                }, true);
             }, this);
         },
 

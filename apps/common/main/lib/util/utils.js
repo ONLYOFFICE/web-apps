@@ -1138,7 +1138,7 @@ define([], function () {
         });
     };
 
-    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
+    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle, action) {
         var btnsArr = createButtonSet();
         btnsArr.setDisabled(true);
         id = id || ("id-toolbar-" + iconCls);
@@ -1157,6 +1157,7 @@ define([], function () {
                 enableToggle: toggle || false,
                 lock: lock,
                 disabled: true,
+                action: action,
                 dataHint: dataHint,
                 dataHintDirection: dataHintDirection,
                 dataHintOffset: dataHintOffset,

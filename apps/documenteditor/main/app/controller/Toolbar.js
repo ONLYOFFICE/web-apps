@@ -212,7 +212,7 @@ define([
 
                 if (this.toolbar.btnInsertText.pressed) {
                     this.toolbar.btnInsertText.toggle(false, true);
-                    this.toolbar.btnInsertText.menu.clearAll();
+                    this.toolbar.btnInsertText.menu.clearAll(true);
                 }
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
@@ -485,8 +485,10 @@ define([
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
+            this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -627,9 +629,7 @@ define([
 
             if (this._state.linespace !== line) {
                 this._state.linespace = line;
-                _.each(this.toolbar.mnuLineSpace.items, function(item){
-                    item.setChecked(false, true);
-                });
+                this.toolbar.mnuLineSpace.clearAll(true);
                 if (line<0) return;
 
                 if ( Math.abs(line-1.)<0.0001 )
@@ -656,8 +656,8 @@ define([
                 Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
-                    this.toolbar.mnuPageSize.clearAll();
-                    _.each(this.toolbar.mnuPageSize.items, function(item){
+                    this.toolbar.mnuPageSize.clearAll(true);
+                    _.each(this.toolbar.mnuPageSize.getItems(true), function(item){
                         if (item.value && typeof(item.value) == 'object' &&
                             Math.abs(item.value[0] - width) < 0.1 && Math.abs(item.value[1] - height) < 0.1) {
                             item.setChecked(true);
@@ -680,8 +680,8 @@ define([
                     Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
-                        this.toolbar.btnPageMargins.menu.clearAll();
-                        _.each(this.toolbar.btnPageMargins.menu.items, function(item){
+                        this.toolbar.btnPageMargins.menu.clearAll(true);
+                        _.each(this.toolbar.btnPageMargins.menu.getItems(true), function(item){
                             if (item.value && typeof(item.value) == 'object' &&
                                 Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
                                 Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
@@ -1087,7 +1087,7 @@ define([
             if(newType != oldType) {
                 this.toolbar.btnPrint.changeIcon({
                     next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                    curr: this.toolbar.btnPrint.menu.getItems().filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
                 });
                 this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
                 this.toolbar.btnPrint.options.printType = newType;
@@ -1896,12 +1896,12 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
-            btn.menu.items.forEach(function(item) {
+            btn.menu.getItems(true).forEach(function(item) {
                 if(item.value == btn.options.textboxType) 
-                item.setChecked(true);
+                    item.setChecked(true);
             });
             if(!this.toolbar.btnInsertText.pressed) {
-                this.toolbar.btnInsertText.menu.clearAll();
+                this.toolbar.btnInsertText.menu.clearAll(true);
             } 
             this.onInsertText(btn.options.textboxType, btn, e);
         },
@@ -1914,7 +1914,7 @@ define([
             if(newType != oldType){
                 this.toolbar.btnInsertText.changeIcon({
                     next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                    curr: this.toolbar.btnInsertText.menu.getItems(true).filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
                 });
                 this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
                 this.toolbar.btnInsertText.options.textboxType = newType;
@@ -2174,8 +2174,8 @@ define([
         onColorSchemaShow: function(menu) {
             if (this.api) {
                 var value = this.api.asc_GetCurrentColorSchemeIndex();
-                var item = _.find(menu.items, function(item) { return item.value == value; });
-                (item) ? item.setChecked(true) : menu.clearAll();
+                var item = _.find(menu.getItems(true), function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll(true);
             }
         },
 
@@ -2223,7 +2223,7 @@ define([
                 case Asc.c_oAscDropCap.Margin: index = 2; break;
             }
             if (index < 0)
-                this.toolbar.btnDropCap.menu.clearAll();
+                this.toolbar.btnDropCap.menu.clearAll(true);
             else
                 this.toolbar.btnDropCap.menu.items[index].setChecked(true);
 
@@ -2443,7 +2443,7 @@ define([
                     return;
 
                 if (index < 0)
-                    this.toolbar.btnColumns.menu.clearAll();
+                    this.toolbar.btnColumns.menu.clearAll(true);
                 else
                     this.toolbar.btnColumns.menu.items[index].setChecked(true);
                 this._state.columns = index;
@@ -2948,7 +2948,7 @@ define([
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
             });
-            me.toolbar.btnInsertShape.menu.addItem(menuitem);
+            me.toolbar.btnInsertShape.menu.addItem(menuitem, true);
 
             var recents = Common.localStorage.getItem('de-recent-shapes');
 
@@ -2957,10 +2957,12 @@ define([
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
+                outerMenu: {menu: me.toolbar.btnInsertShape.menu, index:0},
                 restoreHeight: 652,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null
             });
+            me.toolbar.btnInsertShape.menu.setInnerMenu([{menu: shapePicker, index: 0}]);
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
                     if (record) {
@@ -2981,11 +2983,9 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.getItemsLength(true)>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
-
-            me.toolbar.btnInsertEquation.menu.removeAll();
             var onShowAfter = function(menu) {
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationPicker = new Common.UI.DataViewSimple({
@@ -3034,7 +3034,7 @@ define([
                         ]
                     })
                 });
-                me.toolbar.btnInsertEquation.menu.addItem(menuItem);
+                me.toolbar.btnInsertEquation.menu.addItem(menuItem, true);
             }
         },
 
@@ -3667,6 +3667,7 @@ define([
                 }
                 Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
                 Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
+                Common.UI.LayoutManager.addControls(this.btnsComment);
             }
 
             (new Promise(function(accept) {
@@ -3812,7 +3813,7 @@ define([
 
         onApiBeginSmartArtPreview: function (type) {
             this.smartArtGenerating = type;
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.getItems(true);
             var menuPicker = _.findWhere(this.smartArtGroups, {value: type}).menuPicker;
             menuPicker.loaded = true;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
@@ -3885,7 +3886,30 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }));
+        },
+
+        onPluginToolbarCustomMenuItems: function(action, data) {
+            if (!this._isDocReady) {
+                this._state.customPluginData = (this._state.customPluginData || []).concat([{action: action, data: data}]);
+                return;
+            }
+            var api = this.api;
+            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
+                api && api.onPluginContextMenuItemClick(guid, value);
+            });
+        },
+
+        onDocumentReady: function() {
+            this._isDocReady = true;
+            var me = this;
+            this._state.customPluginData && this._state.customPluginData.forEach(function(plugin) {
+                me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
+            });
+            this._state.customPluginData = null;
         },
 
         onActiveTab: function(tab) {

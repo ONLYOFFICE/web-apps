@@ -487,7 +487,7 @@ define([
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
 
                     view.isColor  && view.setColor(this.AnimationProperties.asc_getColor());
-                    this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
+                    this._state.noAnimationParam = view.btnParameters.menu.getItemsLength() === view.startIndexParam && !view.isColor;
                 }
 
                 value = this.AnimationProperties.asc_getDuration();

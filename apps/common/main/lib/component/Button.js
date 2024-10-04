@@ -277,7 +277,8 @@ define([
             dataHintOffset: '0, 0',
             scaling         : true,
             canFocused      : false, // used for button with menu
-            takeFocusOnClose: false // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
+            takeFocusOnClose: false, // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
+            action: '' // action for button
         },
 
         template: _.template([
@@ -353,6 +354,7 @@ define([
             me.rendered     = false;
             me.stopPropagation = me.options.stopPropagation;
             me.delayRenderHint = me.options.delayRenderHint;
+            me.action = me.options.action || '';
 
             // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
             //     me.options.scaling = false;
@@ -962,6 +964,7 @@ define([
                     this.menu.render(this.cmpEl);
                     this.options.canFocused && this.attachKeyEvents();
                 }
+                this.trigger('menu:created', this);
             }
         },
 

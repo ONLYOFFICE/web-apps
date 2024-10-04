@@ -125,9 +125,7 @@ define([
                 case Asc.c_oAscWrapStyle2.Behind:       menu.items[8].setChecked(true); break;
                 case Asc.c_oAscWrapStyle2.InFront:      menu.items[7].setChecked(true); break;
                 default:
-                    for (var i in menu.items) {
-                        menu.items[i].setChecked( false );
-                    }
+                    menu.clearAll(true);
                 }
             },
 
@@ -156,7 +154,7 @@ define([
                         no_object = false;
                         me.onApiWrappingStyleChanged(notflow ? -1 : wrapping);
 
-                        _.each(me.toolbar.btnImgWrapping.menu.items, function(item) {
+                        _.each(me.toolbar.btnImgWrapping.menu.getItems(true), function(item) {
                             item.setDisabled(notflow);
                         });
                         me.toolbar.btnImgWrapping.menu.items[10].setDisabled(!me.api.CanChangeWrapPolygon());

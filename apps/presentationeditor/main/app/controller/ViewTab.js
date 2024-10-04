@@ -217,9 +217,9 @@ define([
         onThemeChanged: function () {
             if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
-                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( !!menu_item ) {
-                    this.view.btnInterfaceTheme.menu.clearAll();
+                    this.view.btnInterfaceTheme.menu.clearAll(true);
                     menu_item.setChecked(true, true);
                 }
             }
@@ -347,7 +347,7 @@ define([
             if (this.view) {
                 var menu = this.view.btnGridlines.menu;
                 if (this._state.unitsChanged) {
-                    for (var i = 3; i < menu.items.length-2; i++) {
+                    for (var i = 3; i < menu.getItemsLength(true)-2; i++) {
                         menu.removeItem(menu.items[i]);
                         i--;
                     }
@@ -368,7 +368,7 @@ define([
                 menu.items[1].setChecked(this.api.asc_getSnapToGrid(), true);
 
                 var value = Common.Utils.Metric.fnRecalcFromMM(this.api.asc_getGridSpacing()/36000),
-                    items = menu.items;
+                    items = menu.getItems(true);
                 for (var i=3; i<items.length-2; i++) {
                     var item = items[i];
                     if (item.value<1 && Math.abs(item.value - value)<0.005)

@@ -279,7 +279,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDelay);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -407,7 +407,7 @@ define([
 
                 var selectedElement;
 
-                _.each(this.btnParameters.menu.items, function (element, index) {
+                _.each(this.btnParameters.menu.getItems(), function (element, index) {
                     if ((index >= minMax[0]) && (index <= minMax[1])) {
                         element.setVisible(true);
                         if (value != undefined) {
