@@ -4489,5 +4489,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling"
 }

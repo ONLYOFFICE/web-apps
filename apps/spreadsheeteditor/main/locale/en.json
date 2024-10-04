@@ -2696,6 +2696,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Unit of measurement",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Use separators based on regional settings",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "Default Zoom value",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "Every 10 minutes",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Every 30 minutes",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "Every 5 minutes",

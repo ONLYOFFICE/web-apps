@@ -1010,6 +1010,10 @@ define([
                     /** spellcheck settings end **/
                 }
 
+                value = Common.localStorage.getBool("sse-settings-smooth-scroll", true);
+                Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
+                this.api.asc_SetSmoothScrolling(value);
+
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(me.onActiveSheetChanged, me));
