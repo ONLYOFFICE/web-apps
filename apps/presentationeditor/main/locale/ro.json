@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clasic Luminos",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Întunecat",
   "Common.UI.Themes.txtThemeDark": "Întunecat",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Luminos",
   "Common.UI.Themes.txtThemeSystem": "La fel ca sistemul",
   "Common.UI.Window.cancelButtonText": "Revocare",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignoră cuvintele care conțin numere",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Setări macrocomandă",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Afișarea butonului Opțiuni lipire de fiecare dată când lipiți conținut",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Afișarea modificărilor efectuate de către alți utilizatori",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Stil filă",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Afișare ghiduri",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfeței",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive"
 }

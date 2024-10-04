@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Classique clair",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste élevé sombre",
   "Common.UI.Themes.txtThemeDark": "Sombre",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Clair",
   "Common.UI.Themes.txtThemeSystem": "Identique à système",
   "Common.UI.Window.cancelButtonText": "Annuler",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "Style de référence L1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Paramètres régionaux",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Exemple: ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Afficher les commentaires dans la feuille",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Afficher les modifications apportées par d'autres utilisateurs",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Afficher les commentaires résolus",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Entrez un mot de passe pour déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur"
 }

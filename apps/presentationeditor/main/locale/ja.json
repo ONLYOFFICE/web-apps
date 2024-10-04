@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "明るい(クラシック)",
   "Common.UI.Themes.txtThemeContrastDark": "ダークコントラスト",
   "Common.UI.Themes.txtThemeDark": "暗い",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ライト",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "数字のある単語は無視する",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "マクロの設定",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "貼り付けるときに[貼り付けオプション]ボタンを表示する",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "他のユーザーの変更点を表示する",
   "PE.Views.FileMenuPanels.Settings.strStrict": "厳格",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "ガイドを表示",
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
 }

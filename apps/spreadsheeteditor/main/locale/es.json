@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clásico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste oscuro",
   "Common.UI.Themes.txtThemeDark": "Oscuro",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "Igual que el sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "Estilo de referencia R1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Ajustes regionales",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Ejemplo:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Mostrar comentarios en la hoja",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Mostrar los cambios de otros usuarios",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Mostrar comentarios resueltos",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro"
 }

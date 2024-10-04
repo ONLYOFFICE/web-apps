@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Դասական լույս",
   "Common.UI.Themes.txtThemeContrastDark": "Մութ հակադրություն",
   "Common.UI.Themes.txtThemeDark": "Մուգ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Լույս",
   "Common.UI.Themes.txtThemeSystem": "Նույնը, ինչ համակարգը",
   "Common.UI.Window.cancelButtonText": "Չեղարկել",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Անտեսել թվերով բառերը",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Մակրոների կարգավորումներ",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Ցուցադրել «Կպցնել ընտրանքներ» կոճակները`բովանդակությունը կպցնելիս",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Իրական ժամանակով գործակցության փոփոխություններ",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Ցույց տալ մեկնաբանությունները տեքստում",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Ցուցադրել այլ օգտատերերի կատարած փոփոխությունները",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
 }

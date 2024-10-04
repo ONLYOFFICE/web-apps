@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "ມາດຕະຖານ",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "ມືດ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ແຈ້ງ",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "ຍົກເລີກ",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "ໂຫມດແກ້ໄຂຮ່ວມກັນ",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "ໄວ",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "ຕົວອັກສອນມົວ ບໍ່ເເຈ້ງ",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "ການແກ້່ໄຂຮ່ວມກັນແບບ ReaL time",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Show comments in text",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
 }

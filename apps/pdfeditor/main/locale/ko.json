@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "전통적인 밝은 색상",
   "Common.UI.Themes.txtThemeContrastDark": "어두운 대비",
   "Common.UI.Themes.txtThemeDark": "어두운",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "밝은",
   "Common.UI.Themes.txtThemeSystem": "시스템과 동일",
   "Common.UI.Window.cancelButtonText": "취소",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "공동 편집 모드",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "빠르게",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "글꼴 힌트",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "실시간 협업 변경 사항",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "텍스트로 댓글 표시",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "다른 사용자의 변경사항 표시",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

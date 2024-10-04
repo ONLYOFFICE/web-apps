@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Štandardná svetlosť",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Tmavý",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ľahký",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Zrušiť",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Režim spoločnej úpravy",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Rýchly",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Náznak typu písma",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Zmeny spolupráce v reálnom čase",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Show comments in text",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prispôsobiť na stranu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia"
 }

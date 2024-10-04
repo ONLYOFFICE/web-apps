@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Classique clair",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste élevé sombre",
   "Common.UI.Themes.txtThemeDark": "Sombre",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Clair",
   "Common.UI.Themes.txtThemeSystem": "Identique à système",
   "Common.UI.Window.cancelButtonText": "Annuler",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorer les mots contenant des chiffres",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Réglages macros",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Afficher le bouton Options de collage lorsque le contenu est collé ",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Afficher les modifications apportées par d'autres utilisateurs",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Style d'onglet",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Afficher les guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
   "PE.Views.ViewTab.tipNormal": "Normale",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
 }

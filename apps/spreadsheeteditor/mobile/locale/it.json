@@ -266,6 +266,7 @@
     "errorChangeArray": "Non puoi cambiare parte di un array.",
     "errorChangeFilteredRange": "Questo cambierà un intervallo filtrato nel tuo foglio di lavoro.<br>Per completare questa attività, rimuovi i filtri automatici.",
     "errorChangeOnProtectedSheet": "La cella o il grafico che stai cercando di modificare si trova su un foglio protetto. Per apportare una modifica, rimuovere la protezione del foglio. Potrebbe esserti richiesto di inserire una password.",
+    "errorCircularReference": "Sono presenti uno o più riferimenti circolari in cui una formula fa riferimento alla propria cella direttamente o indirettamente.<br>Prova a rimuovere o modificare questi riferimenti, oppure sposta le formule in celle diverse.",
     "errorComboSeries": "Per creare un grafico a combinazione, seleziona almeno due serie di dati.",
     "errorConnectToServer": "Impossibile salvare questo documento. Controlla le impostazioni di connessione o contatta il tuo amministratore.<br>Quando fai clic sul pulsante \"OK\", ti verrà chiesto di scaricare il documento.",
     "errorCopyMultiselectArea": "Questo comando non può essere applicato a selezioni multiple.<br>Seleziona un intervallo singolo e riprova.",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -461,6 +461,7 @@
       "sCatMathematic": "Matematica e trigonometria",
       "sCatStatistical": "Statistico",
       "sCatTextAndData": "Testo e dati",
+      "sCustom": "Personalizzato",
       "textAddLink": "Aggiungere link",
       "textAddress": "Indirizzo",
       "textAllTableHint": "Restituisce l'intero contenuto della tabella o delle colonne della tabella specificate, comprese le intestazioni di colonna, i dati e le righe totali",
@@ -508,8 +509,7 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì",
-      "sCustom": "Custom"
+      "txtYes": "Sì"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",

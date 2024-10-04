@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasszikus Világos",
   "Common.UI.Themes.txtThemeContrastDark": "Sötét kontraszt",
   "Common.UI.Themes.txtThemeDark": "Sötét",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Világos",
   "Common.UI.Themes.txtThemeSystem": "A rendszerrel megegyező",
   "Common.UI.Window.cancelButtonText": "Mégsem",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Együttes szerkesztési mód",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Gyors",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Betűtípus ajánlás",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Valós idejű együttműködés módosításai",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Hozzászólások megjelenítése a szövegben",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Más felhasználók módosításainak megjelenítése",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
 }

@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassiek Licht",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Donker",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Licht",
   "Common.UI.Themes.txtThemeSystem": "Zelfde als systeem",
   "Common.UI.Window.cancelButtonText": "Annuleren",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Negeer woorden met cijfers",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Macro instellingen",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Toon de knop Plakopties wanneer de inhoud is geplakt",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Wijzigingen in realtime samenwerking",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Commentaren in tekst weergeven",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "semi-transparant",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Onderstreept",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Lettertype",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte"
 }

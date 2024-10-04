@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasszikus Világos",
   "Common.UI.Themes.txtThemeContrastDark": "Sötét kontraszt",
   "Common.UI.Themes.txtThemeDark": "Sötét",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Világos",
   "Common.UI.Themes.txtThemeSystem": "A rendszerrel megegyező",
   "Common.UI.Window.cancelButtonText": "Mégsem",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "A számokat tartalmazó szavak figyelmen kívül hagyása",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makró beállítások",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "A tartalom beillesztésekor jelenítse meg a beillesztési beállítások gombot",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Valós idejű együttműködés módosításai",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Hozzászólások megjelenítése a szövegben",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Más felhasználók módosításainak megjelenítése",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

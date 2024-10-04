@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Aydınlık",
   "Common.UI.Themes.txtThemeContrastDark": "Zıt koyu",
   "Common.UI.Themes.txtThemeDark": "Karanlık",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Aydınlık",
   "Common.UI.Themes.txtThemeSystem": "Sistemle aynı",
   "Common.UI.Window.cancelButtonText": "İptal Et",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Sayılarla kelimeleri yoksay",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makro Ayarları",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "İçerik yapıştırıldığında Yapıştırma Seçenekleri düğmesini göster",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Gerçek Zamanlı Ortak Düzenleme Değişiklikleri",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Yorumları metinde göster",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Diğer kullanıcıların yaptığı değişiklikleri göster",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
 }

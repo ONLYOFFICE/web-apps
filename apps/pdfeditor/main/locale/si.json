@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "සම්භාව්‍ය ආලෝකය",
   "Common.UI.Themes.txtThemeContrastDark": "අඳුරු විලක්‍ෂණය",
   "Common.UI.Themes.txtThemeDark": "අඳුරු",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "දීප්ත",
   "Common.UI.Themes.txtThemeSystem": "පද්ධතියේ ලෙසම",
   "Common.UI.Window.cancelButtonText": "අවලංගු",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "සම-සංස්කරණ ප්‍රකාරය",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "වේගයෙන්",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "රුවකුර ඉඟිය",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "තථය කාලීන සහයෝගිත්‍ව වෙනස්කම්",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "පෙළහි අදහස් පෙන්වන්න",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "අන් අයගේ වෙනස්කම් පෙන්වන්න",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

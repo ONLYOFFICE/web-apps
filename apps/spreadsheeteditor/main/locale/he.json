@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "אור קלאסי",
   "Common.UI.Themes.txtThemeContrastDark": "ניגודיות כהה",
   "Common.UI.Themes.txtThemeDark": "כהה",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "בהיר",
   "Common.UI.Themes.txtThemeSystem": "זהה למערכת",
   "Common.UI.Window.cancelButtonText": "ביטול",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "סגנון התייחסות R1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "הגדרות אזוריות",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "דוגמה: ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "הצגת הערות בגיליון",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "הצגת שינויים ממשתמשים אחרים",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "הצגת הערות שנפתרו",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת"
 }

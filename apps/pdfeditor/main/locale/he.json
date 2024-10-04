@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "אור קלאסי",
   "Common.UI.Themes.txtThemeContrastDark": "ניגודיות כהה",
   "Common.UI.Themes.txtThemeDark": "כהה",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "בהיר",
   "Common.UI.Themes.txtThemeSystem": "זהה למערכת",
   "Common.UI.Window.cancelButtonText": "ביטול",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "מצב עריכה משותפת",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "מהיר",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "רמז גופן",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "שיתוף פעולה של שינויים בזמן אמת",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "הצג הערות בטקסט",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "הצג שינויים ממשתמשים אחרים",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clássico claro",
   "Common.UI.Themes.txtThemeContrastDark": "Contraste escuro",
   "Common.UI.Themes.txtThemeDark": "Escuro",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "O mesmo que o sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorar palavras com números",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Definições de macros",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Mostrar botão Opções de colagem ao colar conteúdo",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Mostrar alterações de outros utilizadores",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Mostrar guias",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

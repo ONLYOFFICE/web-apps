@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Štandardná svetlosť",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Tmavý",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Svetlé",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Zrušiť",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Nastavenia makier",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Po vložení obsahu ukázať tlačítko Možnosti vloženia",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Zmeny spolupráce v reálnom čase",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Show comments in text",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
 }

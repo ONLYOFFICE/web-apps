@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassiskt ljus",
   "Common.UI.Themes.txtThemeContrastDark": "Mörk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mörk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ljus",
   "Common.UI.Themes.txtThemeSystem": "Samma som systemet",
   "Common.UI.Window.cancelButtonText": "Avbryt",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignorera ord med siffror",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroinställningar",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Visa knappen Klistra in alternativ när innehållet klistras in",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Samarbeta i realtid",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Visa kommentarer i text",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Visa ändringar från andra användare",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "halvgenomskinlig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek"
 }

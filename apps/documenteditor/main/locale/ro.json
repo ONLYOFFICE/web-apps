@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Clasic Luminos",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Întunecat",
   "Common.UI.Themes.txtThemeDark": "Întunecat",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Luminos",
   "Common.UI.Themes.txtThemeSystem": "La fel ca sistemul",
   "Common.UI.Window.cancelButtonText": "Revocare",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignoră cuvintele care conțin numere",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Setări macrocomandă",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Afișarea butonului Opțiuni lipire de fiecare dată când lipiți conținut",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Modificările aduse documentului la colaborarea în timp real",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Afișare comentarii din text",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Afișarea modificărilor efectuate de către alți utilizatori",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliniat",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Denumire font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font"
 }

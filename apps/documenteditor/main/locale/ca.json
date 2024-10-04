@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Llum clàssica",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast fosc",
   "Common.UI.Themes.txtThemeDark": "Fosc",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Clar",
   "Common.UI.Themes.txtThemeSystem": "Igual que el sistema",
   "Common.UI.Window.cancelButtonText": "Cancel·la",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignora les paraules amb números",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Configuració de les macros",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Mostrar el botó d'opcions d’enganxar quan s’enganxa contingut",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Canvis de col·laboració en temps real",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Mostrar els comentaris al text",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Mostrar els canvis d'altres usuaris",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
 }

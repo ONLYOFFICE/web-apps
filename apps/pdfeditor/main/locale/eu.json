@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiko argia",
   "Common.UI.Themes.txtThemeContrastDark": "Kontraste iluna",
   "Common.UI.Themes.txtThemeDark": "Iluna",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Argia",
   "Common.UI.Themes.txtThemeSystem": "Sistemako berdina",
   "Common.UI.Window.cancelButtonText": "Utzi",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Batera editatzeko modua",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Azkarra",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Letra-tipoaren hinting-a",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Denbora errealeko lankidetza aldaketak",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Erakutsi iruzkinak testuan",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Erakutsi beste erabiltzaileen aldaketak",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
 }

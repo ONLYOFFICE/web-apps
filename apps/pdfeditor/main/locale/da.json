@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisk lys",
   "Common.UI.Themes.txtThemeContrastDark": "Mørk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mørk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Themes.txtThemeSystem": "Samme som system",
   "Common.UI.Window.cancelButtonText": "Annuller",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Fællesredigeringstilstand",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Hurtig",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Skrifttype hentydning",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Real tids samarbejdsændringer",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Vis kommentarer i tekst",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Vis ændringer fra andet",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Tilpas til side",
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
 }

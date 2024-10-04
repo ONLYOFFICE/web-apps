@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "אור קלאסי",
   "Common.UI.Themes.txtThemeContrastDark": "ניגודיות כהה",
   "Common.UI.Themes.txtThemeDark": "כהה",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "בהיר",
   "Common.UI.Themes.txtThemeSystem": "זהה למערכת",
   "Common.UI.Window.cancelButtonText": "ביטול",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "התעלם ממילים עם מספרים",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "הגדרות פקודות מאקרו",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "הצג את לחצן אפשרויות ההדבקה כאשר התוכן מודבק",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "שיתוף פעולה של שינויים בזמן אמת",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "הצג הערות בטקסט",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "הצג שינויים ממשתמשים אחרים",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
 }

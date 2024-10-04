@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "經典亮色",
   "Common.UI.Themes.txtThemeContrastDark": "對比度深",
   "Common.UI.Themes.txtThemeDark": "深色",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "淺色",
   "Common.UI.Themes.txtThemeSystem": "與系統相同",
   "Common.UI.Window.cancelButtonText": "取消",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1參考樣式",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "區域設置",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "舉例：",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "在工作表中顯示註解",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "顯示其他使用者的變更",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "顯示已解決的註解",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護"
 }

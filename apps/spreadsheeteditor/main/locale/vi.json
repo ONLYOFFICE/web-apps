@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Classic Light",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Dark",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Light",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Hủy",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 reference style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Thiết lập khu vực",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Ví dụ:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Show comments in sheet",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Show changes from other users",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Show resolved comments",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
 }

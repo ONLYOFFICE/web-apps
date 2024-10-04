@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "مضيئ كلاسيكي",
   "Common.UI.Themes.txtThemeContrastDark": "داكن متباين",
   "Common.UI.Themes.txtThemeDark": "داكن",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "فاتح",
   "Common.UI.Themes.txtThemeSystem": "نفس النظام",
   "Common.UI.Window.cancelButtonText": "إلغاء",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "وضع التحرير المشترك",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "سريع",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "تلميح الخط",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "تغييرات التعاون في الوقت الحقيقي",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "إظهار التعليقات في النص",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "إظهار التغييرات من المستخدمين الآخرين",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

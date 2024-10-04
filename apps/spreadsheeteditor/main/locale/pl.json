@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasyczny jasny",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Ciemny",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Jasny",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Anuluj",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 reference style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Ustawienia regionaln",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Przykład:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "Show comments in sheet",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "Show changes from other users",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "Show resolved comments",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
 }

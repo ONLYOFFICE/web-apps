@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Aydınlık",
   "Common.UI.Themes.txtThemeContrastDark": "Zıt koyu",
   "Common.UI.Themes.txtThemeDark": "Karanlık",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Aydınlık",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "İptal",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Sayılarla kelimeleri yoksay ",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makro Ayarları",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "İçerik yapıştırıldığında Yapıştırma Seçenekleri düğmesini göster",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

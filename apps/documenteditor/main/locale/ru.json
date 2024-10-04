@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Классическая светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Контрастная темная",
   "Common.UI.Themes.txtThemeDark": "Темная",
+  "Common.UI.Themes.txtThemeGray": "Серая",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Системная",
   "Common.UI.Window.cancelButtonText": "Отмена",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Пропускать слова с цифрами",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Настройки макросов",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Показывать кнопку Параметры вставки при вставке содержимого",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL-интерфейс",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Отображать изменения при совместной работе",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Показывать комментарии в тексте",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Показывать изменения других пользователей",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупрозрачный",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подчёркнутый",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта"
 }

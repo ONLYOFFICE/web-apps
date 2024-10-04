@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "ມາດຕະຖານ",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "ມືດ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ແຈ້ງ",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "ຍົກເລີກ",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "ການຕັ້ງຄ່າ Macros",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "ສະແດງປຸ່ມເລືອກວາງ ເມື່ອເນື້ອຫາໄດ້ຖືກຄັດຕິດ",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "ການແກ້່ໄຂຮ່ວມກັນແບບ ReaL time",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Show comments in text",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

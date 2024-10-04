@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassiek Licht",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Donker",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Licht",
   "Common.UI.Themes.txtThemeSystem": "Zelfde als systeem",
   "Common.UI.Window.cancelButtonText": "Annuleren",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Modus Gezamenlijk bewerken",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Snel",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Hints voor lettertype",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Wijzigingen in realtime samenwerking",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Commentaren in tekst weergeven",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
 }

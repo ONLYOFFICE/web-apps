@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "經典亮色",
   "Common.UI.Themes.txtThemeContrastDark": "對比度深",
   "Common.UI.Themes.txtThemeDark": "深色",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "淺色",
   "Common.UI.Themes.txtThemeSystem": "與系統相同",
   "Common.UI.Window.cancelButtonText": "取消",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "忽略帶數字的單詞",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "巨集設定",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "貼上內容時顯示\"貼上選項\"按鈕",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "即時共同編輯設定更新",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "在文字中顯示註解",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "顯示其他使用者的變更",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "底線",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字型名稱",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小"
 }

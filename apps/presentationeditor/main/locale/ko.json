@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "전통적인 밝은 색상",
   "Common.UI.Themes.txtThemeContrastDark": "어두운 대비",
   "Common.UI.Themes.txtThemeDark": "어두운",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "밝은",
   "Common.UI.Themes.txtThemeSystem": "시스템과 동일",
   "Common.UI.Window.cancelButtonText": "취소",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "숫자가 있는 단어 무시",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "매크로 설정",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "내용을 붙여넣을 때 \"붙여넣기 옵션\" 표시",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "다른 사용자의 변경사항 표시",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "가이드 표시",
   "PE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

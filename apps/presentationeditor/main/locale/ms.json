@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Cerah",
   "Common.UI.Themes.txtThemeContrastDark": "Kontras Gelap",
   "Common.UI.Themes.txtThemeDark": "Gelap",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ringan",
   "Common.UI.Themes.txtThemeSystem": "Sama seperti Sistem",
   "Common.UI.Window.cancelButtonText": "Batalkan",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Abaikan perkataan dengan nombor",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Seting Makro",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Tunjukkan butang Pilihan Tampal di mana kandungan ditampalkan",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Tunjukkan perubahan daripada pengguna lain",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Tegas",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

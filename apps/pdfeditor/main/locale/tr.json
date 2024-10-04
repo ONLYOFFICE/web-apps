@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasik Aydınlık",
   "Common.UI.Themes.txtThemeContrastDark": "Zıt koyu",
   "Common.UI.Themes.txtThemeDark": "Karanlık",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Açık",
   "Common.UI.Themes.txtThemeSystem": "Sistemle aynı",
   "Common.UI.Window.cancelButtonText": "İptal",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Ortak Düzenleme Modu",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Hızlı",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Yazı Tipi İpucu",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Gerçek Zamanlı Ortak Düzenleme Değişiklikleri",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Yorumları metinde göster",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sayfaya Sığdır",
   "PDFE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıklar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması"
 }

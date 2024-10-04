@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasično svetlo",
   "Common.UI.Themes.txtThemeContrastDark": "Kontrast Tamno",
   "Common.UI.Themes.txtThemeDark": "Tamno",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Svetlo",
   "Common.UI.Themes.txtThemeSystem": "Isto kao sistem",
   "Common.UI.Window.cancelButtonText": "Otkaži",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Režim ko-uređivanja",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Brzo",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Sugestija fonta",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Promene Kolaboracije u Realnom Vremenu ",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Pokaži komentare u tekstu ",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Prikaži promene od ostalih korisnika ",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
 }

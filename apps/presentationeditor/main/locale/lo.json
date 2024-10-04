@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "ແສງມາດຕະຖານ",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "ມືດ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ແຈ້ງ",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "ຍົກເລີກ",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "ການຕັ້ງຄ່າ Macros",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "ສະແດງປຸ່ມເລືອກວາງ ເມື່ອເນື້ອຫາໄດ້ຖືກຄັດຕິດ",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
   "PE.Views.FileMenuPanels.Settings.strStrict": "ເຂັ້ມງວດ, ໂຕເຂັ້ມ",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

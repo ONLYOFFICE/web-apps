@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisk lys",
   "Common.UI.Themes.txtThemeContrastDark": "Mørk kontrast",
   "Common.UI.Themes.txtThemeDark": "Mørk",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
   "Common.UI.Window.cancelButtonText": "Annuller",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroindstillinger",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Vis knappen for Indsæt-optioner når indhold indsættes",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Show changes from other users",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Striks",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

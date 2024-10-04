@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasično Svetlo",
   "Common.UI.Themes.txtThemeContrastDark": "Kontrast Tamno",
   "Common.UI.Themes.txtThemeDark": "Tamno",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Svetlo",
   "Common.UI.Themes.txtThemeSystem": "Isto kao sistem",
   "Common.UI.Window.cancelButtonText": "Otkaži",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Ignoriši reči sa brojevima",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroi podešavanja",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Prikaži dugme za opcije Nalepljenog sadržaja kada je sadržaj nalepljen",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Promene kolaboracije u realnom vremenu ",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Pokaži komentare u tekstu ",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Prikaži promene od ostalih korisnika ",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
 }

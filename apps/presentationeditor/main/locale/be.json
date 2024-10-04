@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класічная светлая",
   "Common.UI.Themes.txtThemeContrastDark": "Кантрасная цёмная",
   "Common.UI.Themes.txtThemeDark": "Цёмная",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Светлая",
   "Common.UI.Themes.txtThemeSystem": "Сістэмная",
   "Common.UI.Window.cancelButtonText": "Скасаваць",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Прапускаць словы з лічбамі",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Налады макрасаў",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Паказваць кнопку параметраў устаўляння падчас устаўляння",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Паказваць змены ад іншых карыстальнікаў",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Строгі",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Паказваць накіравальныя",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

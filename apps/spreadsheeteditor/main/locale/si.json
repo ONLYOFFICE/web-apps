@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "සම්භාව්‍ය ආලෝකය",
   "Common.UI.Themes.txtThemeContrastDark": "අඳුරු විලක්‍ෂණය",
   "Common.UI.Themes.txtThemeDark": "අඳුරු",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "දීප්ත",
   "Common.UI.Themes.txtThemeSystem": "පද්ධතියේ ලෙසම",
   "Common.UI.Window.cancelButtonText": "අවලංගු",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 යොමු ශෛලිය",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "කලාපයේ සැකසුම්",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "උදාහරණය: ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "පත්‍රයෙහි අදහස් පෙන්වන්න",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "අන් අයගේ වෙනස්කම් පෙන්වන්න",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "විසඳූ අදහස් පෙන්වන්න",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "පත්‍රය අනාරක්‍ෂණයට මුරපදයක් යොදන්න",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය"
 }

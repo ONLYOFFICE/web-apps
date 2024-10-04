@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiko argia",
   "Common.UI.Themes.txtThemeContrastDark": "Kontraste iluna",
   "Common.UI.Themes.txtThemeDark": "Iluna",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Argia",
   "Common.UI.Themes.txtThemeSystem": "Sistemako berdina",
   "Common.UI.Window.cancelButtonText": "Utzi",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Egin ez ikusia zenbakiak dituzten hitzei",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Makroen ezarpenak",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Erakutsi itsasteko aukeren botoia edukia itsastean",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Erakutsi beste erabiltzaileen aldaketak",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Zorrotza",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Erakutsi gidak",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

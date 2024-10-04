@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Κλασσικό ανοιχτόχρωμο",
   "Common.UI.Themes.txtThemeContrastDark": "Αντίθεση σκουρόχρωμο",
   "Common.UI.Themes.txtThemeDark": "Σκουρόχρωμο",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Ανοιχτόχρωμο",
   "Common.UI.Themes.txtThemeSystem": "Ίδιο με το σύστημα",
   "Common.UI.Window.cancelButtonText": "Άκυρο",
@@ -1260,7 +1261,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Συγγραφέας",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Αλλαγή δικαιωμάτων πρόσβασης",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Σχόλιο",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Κοινό",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Δημιουργήθηκε",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Πληροφορίες εγγράφου",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Γρήγορη προβολή δικτύου",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Κατάσταση συν-επεξεργασίας",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Γρήγορη",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Υποδείξεις γραμματοσειρών",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Αλλαγές συνεργασίας πραγματικού χρόνου",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Εμφάνιση σχολίων σε κείμενο",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Εμφάνιση αλλαγών από άλλους χρήστες",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

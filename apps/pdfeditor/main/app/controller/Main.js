@@ -1448,7 +1448,7 @@ define([
                     value = Common.localStorage.getItem("pdfe-settings-autosave");
                     if (value === null && this.appOptions.customization && this.appOptions.customization.autosave===(!autosave_def))
                         value = autosave_def ? 0 : 1;
-                    autosave = (!fastCoauth && value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? autosave_def : 0);
+                    autosave = fastCoauth ? 1 : (value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? autosave_def : 0);
                 }
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);

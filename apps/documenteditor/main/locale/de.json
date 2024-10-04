@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klassisch Hell",
   "Common.UI.Themes.txtThemeContrastDark": "Dunkler Kontrast",
   "Common.UI.Themes.txtThemeDark": "Dunkel",
+  "Common.UI.Themes.txtThemeGray": "Grau",
   "Common.UI.Themes.txtThemeLight": "Hell",
   "Common.UI.Themes.txtThemeSystem": "Wie im System",
   "Common.UI.Window.cancelButtonText": "Abbrechen",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Wörter mit Zahlen ignorieren",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Einstellungen von Makros",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Die Schaltfläche Einfügeoptionen beim Einfügen von Inhalten anzeigen",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL-Schnittstelle",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Änderungen bei der Echtzeit-Zusammenarbeit zeigen",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Kommentare im Text anzeigen",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Änderungen von anderen Benutzern anzeigen",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halbtransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Unterstrichen",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Schriftartname",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad"
 }

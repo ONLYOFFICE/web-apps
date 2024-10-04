@@ -374,6 +374,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Класично светло",
   "Common.UI.Themes.txtThemeContrastDark": "Контраст тамно",
   "Common.UI.Themes.txtThemeDark": "Тамно",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Светло",
   "Common.UI.Themes.txtThemeSystem": "Исто као систем",
   "Common.UI.Window.cancelButtonText": "Откажи",
@@ -2220,6 +2221,7 @@
   "DE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Игнориши речи са бројевима",
   "DE.Views.FileMenuPanels.Settings.strMacrosSettings": "Макрои подешавања",
   "DE.Views.FileMenuPanels.Settings.strPasteButton": "Прикажи дугме за опције Налепљеног садржаја када је садржај налепљен",
+  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Промене колаборације у реалном времену",
   "DE.Views.FileMenuPanels.Settings.strShowComments": "Покажи коментаре у тексту",
   "DE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Прикажи промене од осталих корисника",
@@ -3647,7 +3649,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

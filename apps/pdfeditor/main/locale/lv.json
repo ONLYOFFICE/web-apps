@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Klasiska gaisma",
   "Common.UI.Themes.txtThemeContrastDark": "Tumšs kontrasts",
   "Common.UI.Themes.txtThemeDark": "Tumšs",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Gaišs",
   "Common.UI.Themes.txtThemeSystem": "Tāds pats kā sistēma",
   "Common.UI.Window.cancelButtonText": "Atcelt",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Kopīgās rediģēšanas režīms",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "ātri",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Fontu norādes",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Reāllaika Sadarbības Izmaiņas",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Rādīt komentārus tekstā",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Rādīt citu lietotāju veiktās izmaiņas",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
 }

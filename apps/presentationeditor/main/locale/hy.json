@@ -464,6 +464,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Դասական լույս",
   "Common.UI.Themes.txtThemeContrastDark": "Մութ հակադրություն",
   "Common.UI.Themes.txtThemeDark": "Մուգ",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Լույս",
   "Common.UI.Themes.txtThemeSystem": "Նույնը, ինչ համակարգը",
   "Common.UI.Window.cancelButtonText": "Չեղարկել",
@@ -2078,6 +2079,7 @@
   "PE.Views.FileMenuPanels.Settings.strIgnoreWordsWithNumbers": "Անտեսել թվերով բառերը",
   "PE.Views.FileMenuPanels.Settings.strMacrosSettings": "Մակրոների կարգավորումներ",
   "PE.Views.FileMenuPanels.Settings.strPasteButton": "Ցուցադրել «Կպցնել ընտրանքներ» կոճակները`բովանդակությունը կպցնելիս",
+  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Ցուցադրել այլ օգտատերերի կատարած փոփոխությունները",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Խիստ",
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
@@ -2929,7 +2931,5 @@
   "PE.Views.ViewTab.tipGuides": "Ցույց տալ ուղեցույցները",
   "PE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

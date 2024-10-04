@@ -314,6 +314,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "فاتح كلاسيكي",
   "Common.UI.Themes.txtThemeContrastDark": "داكن متباين",
   "Common.UI.Themes.txtThemeDark": "داكن",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "فاتح",
   "Common.UI.Themes.txtThemeSystem": "استخدم سمة النظام",
   "Common.UI.Window.cancelButtonText": "الغاء",
@@ -2684,6 +2685,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "النمط المرجعي R1C1",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "إعدادات المنطقة",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "مثال:",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowComments": "عرض التعليقات في الورقة",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowOthersChanges": "إظهار التغييرات من المستخدمين الآخرين",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strShowResolvedComments": "إظهار التعليقات التي تم حلها",
@@ -4487,7 +4489,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
 }

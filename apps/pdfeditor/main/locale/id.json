@@ -85,6 +85,7 @@
   "Common.UI.Themes.txtThemeClassicLight": "Terang klasik",
   "Common.UI.Themes.txtThemeContrastDark": "Gelap Kontras",
   "Common.UI.Themes.txtThemeDark": "Gelap",
+  "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Cerah",
   "Common.UI.Themes.txtThemeSystem": "Sama seperti sistem",
   "Common.UI.Window.cancelButtonText": "Batalkan",
@@ -1306,6 +1307,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strCoAuthMode": "Mode Edit Bersama",
   "PDFE.Views.FileMenuPanels.Settings.strFast": "Cepat",
   "PDFE.Views.FileMenuPanels.Settings.strFontRender": "Contoh Huruf",
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
   "PDFE.Views.FileMenuPanels.Settings.strShowChanges": "Perubahan Kolaborasi Realtime",
   "PDFE.Views.FileMenuPanels.Settings.strShowComments": "Tampilkan komentar pada teks",
   "PDFE.Views.FileMenuPanels.Settings.strShowOthersChanges": "Tampilkan perubahan dari pengguna lain",
@@ -2012,7 +2014,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
-  "Common.UI.Themes.txtThemeGray": "Gray"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }
