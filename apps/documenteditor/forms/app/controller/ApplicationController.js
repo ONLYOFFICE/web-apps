@@ -1768,6 +1768,10 @@ define([
 
             this.view.btnOptions.menu.on('show:after', initMenu);
 
+            function onMouseLeave() {
+                screenTip.toolTip.hide();
+                screenTip.isVisible = false;
+            }
             screenTip = {
                 toolTip: new Common.UI.Tooltip({
                     owner: this,
@@ -1779,6 +1783,12 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            screenTip.toolTip.on('tooltip:show', function () {
+                $('#id_main_view').on('mouseleave', onMouseLeave);
+            });
+            screenTip.toolTip.on('tooltip:hide',function () {
+                $('#id_main_view').off('mouseleave', onMouseLeave);
+            });
         },
 
         attachUIEvents: function() {
