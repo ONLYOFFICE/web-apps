@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Kirjoittaja",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Muuta pääsyoikeuksia",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Kommentti",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Luotu",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Asiakirjan tiedot",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Fast Web View",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

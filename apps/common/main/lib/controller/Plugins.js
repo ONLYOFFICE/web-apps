@@ -114,6 +114,7 @@ define([
             this.customPluginsDlg = [];
 
             this.newInstalledBackgroundPlugins = [];
+            this.customButtonsArr = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -409,6 +410,11 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.customButtonsArr.forEach(function(item) {
+                me.toolbar && me.toolbar.addCustomItems({action: item.tab}, undefined, [item.btn])
+            });
+            me.customButtonsArr = [];
+
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.backgroundPlugins = [];
@@ -427,7 +433,13 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        let tab = model.get('tab'),
+                            btn = me.viewPlugins.createPluginButton(model);
+                        if (btn) {
+                            btn.options.separator = tab.separator;
+                            me.toolbar && me.toolbar.addCustomItems(tab, [btn]);
+                            me.customButtonsArr.push({tab: tab.action, btn: btn});
+                        }
                         return;
                     }
 
@@ -751,6 +763,8 @@ define([
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
             this.runAutoStartPlugins();
+
+            Common.UI.LayoutManager.clearCustomItems(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -908,6 +922,13 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
+                        if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
+                            item.tab = {
+                                "id": "view",
+                                "separator": true
+                            }
+                        }
+
                         var props = {
                             name : name,
                             guid: item.guid,
@@ -922,7 +943,7 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem,
-                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || '', separator: item.tab.separator} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                         if (fromManager && !updatedItem && props.isBackgroundPlugin) {

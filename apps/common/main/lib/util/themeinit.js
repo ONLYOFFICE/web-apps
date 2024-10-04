@@ -97,6 +97,7 @@
             objtheme = JSON.parse(objtheme);
         }
 
+        const header_tokens = ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf'];
         if ( objtheme ) {
             if ( window.uitheme.id && window.uitheme.id != objtheme.id ) {
                 local_storage_available && localstorage.removeItem("ui-theme");
@@ -108,8 +109,7 @@
                 }
 
                 if ( objtheme.colors ) {
-                    ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
-                        .forEach(function (i) {
+                    header_tokens.forEach(function (i) {
                             !!objtheme.colors[i] && document.documentElement.style.setProperty('--' + i, objtheme.colors[i]);
                         });
 
@@ -120,6 +120,12 @@
 
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
+            }
+        } else {
+            if ( window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
+                header_tokens.forEach(function (i) {
+                    !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
+                });
             }
         }
     }

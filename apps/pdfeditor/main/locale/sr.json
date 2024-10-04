@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Promeni prava pristupa",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Komentar",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Kreirano",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Dokument Info",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Brzi Mrežni Pregled",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

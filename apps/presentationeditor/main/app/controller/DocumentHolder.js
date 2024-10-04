@@ -522,6 +522,7 @@ define([
                     } else {
                         menu.menuAlign = 'tl-tr';
                     }
+                    me.hideScreenTip();
                 }
 
                 menuContainer.css({
@@ -981,6 +982,8 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        if (me.documentHolder.currentMenu && me.documentHolder.currentMenu.isVisible())
+                            return;
                         var tip = moveData.get_EffectText();
                         if (!tip) {
                             tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
@@ -995,6 +998,7 @@ define([
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
                         recalc = true;
+                        screenTip.toolTip.getBSTip().options.container = me.isPreviewVisible ? '#pe-preview' : 'body';
                     }
 
                     showPoint = [moveData.get_X(), moveData.get_Y()];

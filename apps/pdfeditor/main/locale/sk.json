@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Zmeniť prístupové práva",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Komentár",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Vytvorené",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Informácie o dokumente",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Fast Web View",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

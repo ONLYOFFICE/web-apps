@@ -1244,12 +1244,12 @@ define([
                 _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
-            rendererComponentsPDFEdit: function($host) {
+            rendererComponentsPDFEdit: function($host, mode) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#slot-btn-edittext', this.btnEditText);
+                mode.isEditTextSupport ? _injectComponent('#slot-btn-edittext', this.btnEditText) : $host.findById('#slot-btn-edittext').parents('.group').hide().next('.separator').hide();
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-text-underline', this.btnTextUnderline);
@@ -1319,7 +1319,7 @@ define([
                 this.rendererComponentsCommon($host);
                 if (mode.isEdit) {
                     this.rendererComponentsAnnotate($host);
-                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host);
+                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
                 } else if (mode.isRestrictedEdit)
                     this.rendererComponentsRestrictedEdit($host);

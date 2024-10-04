@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "作者",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "變更存取權限",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "註解",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "已建立",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "文件資訊",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "快速Web預覽",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

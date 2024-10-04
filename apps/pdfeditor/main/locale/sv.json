@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Författare",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Ändra behörigheter",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Kommentar",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Skapad ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Dokumentinformation",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Snabb webbvy",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

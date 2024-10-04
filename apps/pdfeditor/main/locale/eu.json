@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Egilea",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Aldatu sarbide-eskubideak",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Iruzkina",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Sortze-data",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Dokumentuaren informazioa",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Web-ikuspegi azkarra",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

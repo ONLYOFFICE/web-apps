@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Szerző",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Hozzáférési jogok módosítása",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Megjegyzés",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Létrehozva",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Dokumentum adatai",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Gyors Web Nézet",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

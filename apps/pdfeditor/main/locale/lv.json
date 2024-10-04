@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autors",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Izmainīt pieejas tiesības",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Komentārs",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Izveidots",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Informācija par dokumentu",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Ātrais tīmekļa skats",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

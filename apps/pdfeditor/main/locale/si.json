@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "කර්තෘ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "ප්‍රවේශ අයිති වෙනස් කරන්න",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "අදහස",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "සෑදිණි",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "ලේඛනයේ තොරතුරු",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "වේගවත් වියමන දැක්ම",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

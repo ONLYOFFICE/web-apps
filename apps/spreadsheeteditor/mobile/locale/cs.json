@@ -266,6 +266,7 @@
     "errorChangeArray": "Nemůžete měnit část pole.",
     "errorChangeFilteredRange": "Dojde ke změně rozsahu filtrů v listě.<br>Pro provedení je nutné vypnout automatické filtry.",
     "errorChangeOnProtectedSheet": "Buňka nebo graf, který se pokoušíte změnit je na zabezpečeném listu. Pro provedení změny, vypněte zabezpečení listu. Může být vyžadováno zadání hesla.",
+    "errorCircularReference": "Jeden nebo více kruhových odkazů, kde vzorec odkazuje na vlastní buňku přímo či nepřímo, je obsaženo.<br>Zkuste tyto odkazy odstranit, změnit, nebo přesunout vzorce do jiných buněk.",
     "errorComboSeries": "Pro vytvoření kombinovaného grafu, zvolte alespoň dvě skupiny dat. ",
     "errorConnectToServer": "Není možné uložit dokument. Zkontrolujte nastavení připojení, nebo kontaktujte Vašeho správce.<br>Po kliknutím na tlačítko 'OK' budete vyzváni ke stažení dokumentu.",
     "errorCopyMultiselectArea": "Tento příkaz nelze použít s více výběry.<br>Vyberte jeden z rozsahů a zkuste to znovu.",
@@ -367,7 +368,6 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
@@ -391,7 +391,7 @@
     "loadImageTextText": "Načítání obrázku...",
     "loadImageTitleText": "Načítání obrázku",
     "loadingDocumentTextText": "Načítání dokumentu...",
-    "loadingDocumentTitleText": "Načítání dokumentu",
+    "loadingDocumentTitleText": "Načítání",
     "notcriticalErrorTitle": "Varování",
     "openTextText": "Otevírání dokumentu...",
     "openTitleText": "Otevírání dokumentu",
@@ -404,7 +404,7 @@
     "textCancel": "Zrušit",
     "textContinue": "Pokračovat",
     "textErrorWrongPassword": "Zadáno nesprávné heslo.",
-    "textLoadingDocument": "Načítání dokumentu",
+    "textLoadingDocument": "Načítání",
     "textNo": "Ne",
     "textOk": "OK",
     "textUndo": "Zpět",
@@ -464,6 +464,7 @@
       "sCatMathematic": "Matematické a trigonometrické",
       "sCatStatistical": "Statistické",
       "sCatTextAndData": "Text a data",
+      "sCustom": "Vlastní",
       "textAddLink": "Přidat odkaz",
       "textAddress": "Adresa",
       "textAllTableHint": "Získá veškerý obsah tabulky, nebo definovaných sloupců tabulky tj. hlavičky, data a celkový počet řádků",
@@ -511,8 +512,7 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano",
-      "sCustom": "Custom"
+      "txtYes": "Ano"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",

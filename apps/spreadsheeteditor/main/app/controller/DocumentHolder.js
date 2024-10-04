@@ -1160,12 +1160,8 @@ define([
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments) {
-                        if (comments.length) {
-                            controller.onEditComments(comments);
-                        } else if (this.permissions.canCoAuthoring) {
-                            controller.addDummyComment();
-                        }
+                    if (comments && !comments.length && this.permissions.canCoAuthoring) {
+                        controller.addDummyComment();
                     }
                 }
             }
@@ -1477,6 +1473,10 @@ define([
         },
 
         onChartData: function(btn) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){

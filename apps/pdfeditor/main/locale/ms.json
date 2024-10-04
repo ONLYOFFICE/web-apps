@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Pengarang",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Ubah hak akses",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "Komen",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Diciptakan",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "Maklumat Dokumen",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "Paparan Web Pantas",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

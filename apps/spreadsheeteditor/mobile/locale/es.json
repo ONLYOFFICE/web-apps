@@ -266,6 +266,7 @@
     "errorChangeArray": "No se puede cambiar parte de una matriz.",
     "errorChangeFilteredRange": "Esto cambiará un rango filtrado de la hoja de cálculo.<br>Para completar esta tarea, quite los autofiltros.",
     "errorChangeOnProtectedSheet": "La celda o el gráfico que usted está intentando cambiar está en una hoja protegida. Para hacer un cambio, desproteja la hoja. Es posible que le pidan que introduzca una contraseña.",
+    "errorCircularReference": "Hay una o más referencias circulares en las que una fórmula hace referencia a su propia celda directa o indirectamente.<br>Intente eliminar o cambiar estas referencias, o mover las fórmulas a celdas diferentes.",
     "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorCopyMultiselectArea": "No se puede usar este comando con varias selecciones.<br>Seleccione un solo rango e inténtelo de nuevo.",
@@ -367,7 +368,6 @@
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
@@ -391,7 +391,7 @@
     "loadImageTextText": "Cargando imagen...",
     "loadImageTitleText": "Cargando imagen",
     "loadingDocumentTextText": "Cargando documento...",
-    "loadingDocumentTitleText": "Cargando documento",
+    "loadingDocumentTitleText": "Cargando",
     "notcriticalErrorTitle": "Advertencia",
     "openTextText": "Abriendo documento...",
     "openTitleText": "Abriendo documento",
@@ -404,7 +404,7 @@
     "textCancel": "Cancelar",
     "textContinue": "Continuar",
     "textErrorWrongPassword": "La contraseña que ha proporcionado no es correcta.",
-    "textLoadingDocument": "Cargando documento",
+    "textLoadingDocument": "Cargando",
     "textNo": "No",
     "textOk": "OK",
     "textUndo": "Deshacer",
@@ -464,6 +464,7 @@
       "sCatMathematic": "Matemáticas y trigonometría",
       "sCatStatistical": "Estadístico",
       "sCatTextAndData": "Texto y datos",
+      "sCustom": "Personalizado",
       "textAddLink": "Agregar enlace ",
       "textAddress": "Dirección",
       "textAllTableHint": "Devuelve todo el contenido de la tabla o de las columnas de la tabla especificadas, incluyendo las cabeceras de las columnas, los datos y las filas totales",
@@ -511,8 +512,7 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí",
-      "sCustom": "Custom"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",

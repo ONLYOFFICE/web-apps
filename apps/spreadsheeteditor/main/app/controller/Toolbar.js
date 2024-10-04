@@ -1156,7 +1156,9 @@ define([
         },
 
         onEditChartData: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
 
             var me = this;
             var props;

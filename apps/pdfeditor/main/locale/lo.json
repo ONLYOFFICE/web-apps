@@ -1260,6 +1260,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "ຜູ້ຂຽນ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "ປ່ຽນສິດການເຂົ້າເຖິງ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtComment": "ຄໍາເຫັນ",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtCreated": "ສ້າງ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtDocumentInfo": "ຂໍ້ມູນເອກະສານ",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtFastWV": "ເບິ່ງເວັບລ່ວງໜ້າ",
@@ -2012,5 +2013,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
-  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
+  "PDFE.Views.FileMenuPanels.Settings.strRTLSupport": "RTL interface",
+  "Common.UI.Themes.txtThemeGray": "Gray"
 }

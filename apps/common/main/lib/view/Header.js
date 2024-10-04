@@ -827,6 +827,8 @@ define([
             },
 
             getPanel: function (role, config) {
+                !appConfig && (appConfig = config);
+
                 var me = this;
 
                 function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle, lock) {
@@ -1108,6 +1110,8 @@ define([
             },
 
             changeLogo: function () {
+                if (!appConfig) return;
+
                 var value = this.branding;
                 var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get("settings-tab-style"), Common.Utils.InternalSettings.get("settings-tab-background"));
                 $('#header-logo').toggleClass('logo-light', logo.isLight);

@@ -266,6 +266,7 @@
     "errorChangeArray": "Impossible de modifier une partie de matrice.",
     "errorChangeFilteredRange": "Cela va modifier une plage de données filtrée sur votre feuille de calcul.<br>Pour réaliser cette action, veuillez supprimer les filtres automatiques.",
     "errorChangeOnProtectedSheet": "La cellule ou le graphique que vous essayé de changer est sur une feuille protégée. Pour effectuer le changement, retirer al protection de la feuille. Un mot de passe pourrait vous être demandé.",
+    "errorCircularReference": "Il existe une ou plusieurs références circulaires où une formule fait référence à sa propre cellule, directement ou indirectement.<br>Essayez de supprimer ou de modifier ces références, ou de déplacer les formules dans des cellules différentes.",
     "errorComboSeries": "Pour créer un graphique combiné, sélectionnez au moins deux séries de données. ",
     "errorConnectToServer": "Impossible d'enregistrer ce document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
     "errorCopyMultiselectArea": "Impossible d'exécuter cette commande sur des sélections multiples.<br>Sélectionnez une seule plage et essayez à nouveau.",
@@ -367,7 +368,6 @@
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
     "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
@@ -391,7 +391,7 @@
     "loadImageTextText": "Chargement d'une image en cours...",
     "loadImageTitleText": "Chargement d'une image",
     "loadingDocumentTextText": "Chargement du document...",
-    "loadingDocumentTitleText": "Chargement du document",
+    "loadingDocumentTitleText": "Chargement",
     "notcriticalErrorTitle": "Avertissement",
     "openTextText": "Ouverture du document...",
     "openTitleText": "Ouverture du document",
@@ -404,7 +404,7 @@
     "textCancel": "Annuler",
     "textContinue": "Continuer",
     "textErrorWrongPassword": "Le mot de passe que vous avez fourni n'est pas correct.",
-    "textLoadingDocument": "Chargement du document",
+    "textLoadingDocument": "Chargement",
     "textNo": "Non",
     "textOk": "OK",
     "textUndo": "Annuler",
@@ -464,6 +464,7 @@
       "sCatMathematic": "Maths et trigonométrie",
       "sCatStatistical": "Statistiques",
       "sCatTextAndData": "Texte et données",
+      "sCustom": "Personnalisés",
       "textAddLink": "Ajouter un lien",
       "textAddress": "Adresse",
       "textAllTableHint": "Renvoie le contenu complet du tableau ou des colonnes spécifiées du tableau, y compris les en-têtes de colonne, les données et le nombre total de lignes",
@@ -511,8 +512,7 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui",
-      "sCustom": "Custom"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
