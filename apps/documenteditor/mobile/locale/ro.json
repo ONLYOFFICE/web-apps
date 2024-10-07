@@ -506,7 +506,8 @@
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
     "uploadImageTitleText": "Încărcarea imaginii",
-    "waitText": "Vă rugăm să așteptați..."
+    "waitText": "Vă rugăm să așteptați...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Eroare",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "btnSend": "Send"
   }
 }

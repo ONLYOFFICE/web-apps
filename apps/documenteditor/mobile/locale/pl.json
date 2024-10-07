@@ -506,7 +506,8 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Błąd",
@@ -810,6 +811,7 @@
     "stayButtonText": "Stay on this page",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "btnSend": "Send"
   }
 }

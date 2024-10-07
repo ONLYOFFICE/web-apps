@@ -506,7 +506,8 @@
     "txtEditingMode": "Ezarri edizio modua...",
     "uploadImageTextText": "Irudia kargatzen...",
     "uploadImageTitleText": "Irudia kargatzen",
-    "waitText": "Mesedez, itxaron..."
+    "waitText": "Mesedez, itxaron...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Errorea",
@@ -810,6 +811,7 @@
     "textOk": "Ados",
     "textRenameFile": "Berrizendatu fitxategia",
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
-    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da"
+    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
+    "btnSend": "Send"
   }
 }

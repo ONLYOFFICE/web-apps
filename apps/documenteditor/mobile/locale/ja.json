@@ -506,7 +506,8 @@
     "txtEditingMode": "編集モードを設定します...",
     "uploadImageTextText": "イメージのアップロード中...",
     "uploadImageTitleText": "イメージのアップロード中",
-    "waitText": "少々お待ちください..."
+    "waitText": "少々お待ちください...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "エラー",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "ファイル名の変更",
     "textSwitchedMobileView": "モバイルビューに切り替えました",
-    "textSwitchedStandardView": "標準ビューに切り替えました"
+    "textSwitchedStandardView": "標準ビューに切り替えました",
+    "btnSend": "Send"
   }
 }

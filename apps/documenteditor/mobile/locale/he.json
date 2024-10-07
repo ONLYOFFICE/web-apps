@@ -506,7 +506,8 @@
     "txtEditingMode": "הגדרת מצב עריכה...",
     "uploadImageTextText": "העלאת תמונה...",
     "uploadImageTitleText": "העלאת תמונה",
-    "waitText": "נא להמתין ..."
+    "waitText": "נא להמתין ...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "שגיאה",
@@ -810,6 +811,7 @@
     "textOk": "בסדר",
     "textRenameFile": "שינוי שם קובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
-    "textSwitchedStandardView": "החלפה לתצוגה רגילה"
+    "textSwitchedStandardView": "החלפה לתצוגה רגילה",
+    "btnSend": "Send"
   }
 }

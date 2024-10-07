@@ -506,7 +506,8 @@
     "txtEditingMode": "Szerkesztési mód beállítása...",
     "uploadImageTextText": "Kép feltöltése...",
     "uploadImageTitleText": "Kép feltöltése",
-    "waitText": "Kérjük, várjon..."
+    "waitText": "Kérjük, várjon...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Hiba",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Fájl Átnevezése",
     "textSwitchedMobileView": "Váltás Mobil nézetre",
-    "textSwitchedStandardView": "Normál nézetre váltott"
+    "textSwitchedStandardView": "Normál nézetre váltott",
+    "btnSend": "Send"
   }
 }

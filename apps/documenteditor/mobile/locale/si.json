@@ -506,7 +506,8 @@
     "txtEditingMode": "සංස්කරණ ප්‍රකාරය සකසන්න...",
     "uploadImageTextText": "අනුරුව උඩුගත වෙමින්...",
     "uploadImageTitleText": "අනුරුව උඩුගත වෙමින්",
-    "waitText": "කරුණාකර, රැඳෙන්න..."
+    "waitText": "කරුණාකර, රැඳෙන්න...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "දෝෂයකි",
@@ -810,6 +811,7 @@
     "textOk": "හරි",
     "textRenameFile": "ගොනුව නම් කරන්න",
     "textSwitchedMobileView": "ජංගම දැක්මට මාරු විය",
-    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය"
+    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය",
+    "btnSend": "Send"
   }
 }

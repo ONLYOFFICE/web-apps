@@ -506,7 +506,8 @@
     "txtEditingMode": "Uzstāda rediģēšanas režīmu...",
     "uploadImageTextText": "Augšupielādē attēlu...",
     "uploadImageTitleText": "Augšupielādē attēlu",
-    "waitText": "Uzgaidiet..."
+    "waitText": "Uzgaidiet...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Kļūda",
@@ -810,6 +811,7 @@
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "btnSend": "Send"
   }
 }
