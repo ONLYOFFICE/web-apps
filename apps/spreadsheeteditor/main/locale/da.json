@@ -4489,5 +4489,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
+  "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
+  "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

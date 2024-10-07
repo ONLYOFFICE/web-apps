@@ -4489,5 +4489,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת",
+  "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
+  "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }
