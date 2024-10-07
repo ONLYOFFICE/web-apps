@@ -1715,7 +1715,7 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature()) {
+                    if (obj.pr && obj.pr.is_Signature() && false) {
                         if (_.isUndefined(me.fontStore)) {
                             me.fontStore = new Common.Collections.Fonts();
                             var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
