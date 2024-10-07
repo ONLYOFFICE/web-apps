@@ -3649,5 +3649,9 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴 이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
+  "DE.Controllers.Main.textSignature": "Signature",
+  "DE.Views.FormSettings.textSignature": "Signature",
+  "DE.Views.FormsTab.capBtnSignature": "Signature Field",
+  "DE.Views.FormsTab.tipSignField": "Insert signature field"
 }
