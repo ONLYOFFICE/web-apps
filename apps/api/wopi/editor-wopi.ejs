@@ -91,7 +91,7 @@ div {
         <div id="iframeEditor">
         </div>
     </div>
-    <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js"></script>
+    <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js<%- apiQuery %>"></script>
     <script type="text/javascript" language="javascript">
 
         var docEditor;
@@ -223,6 +223,7 @@ div {
 
         var onRequestSaveAs = function (event) {
             //SaveAs work via PutRelativeFile server-server request
+            docEditor.serviceCommand('wopi:saveAsComplete');
         };
 
         var onRequestSharingSettings = function (event) {
@@ -249,6 +250,10 @@ div {
                 innerAlert(event.data);
         };
 
+        var onOutdatedVersion = function () {
+            window.location.reload();
+        };
+
         var getWopiFileUrl = function(fileInfo, userAuth) {
            let url;
            if (fileInfo.FileUrl) {
@@ -260,6 +265,20 @@ div {
               url = userAuth.wopiSrc + "/contents?access_token=" + userAuth.access_token;
            }
            return url;
+        }
+
+        var getWopiFolder = function (fileInfo, queryParams) {
+            if (fileInfo.BreadcrumbFolderName) {
+                return fileInfo.BreadcrumbFolderName;
+            }
+            //connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
+            if (queryParams.title) {
+                let titleParts = queryParams.title.split('/');
+                if (titleParts.length > 1 && titleParts[titleParts.length - 2]) {
+                    return titleParts[titleParts.length - 2];
+                }
+            }
+            return undefined;
         }
 
         var connectEditor = function () {
@@ -289,7 +308,8 @@ div {
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
 			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
-			let customizationSaveAs = fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative;
+			//connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
+			let customizationSaveAs = (fileInfo.SupportsUpdate || fileInfo.UserCanWrite) && !fileInfo.UserCanNotWriteRelative;
 			let customizationFormSubmit = queryParams.formsubmit === "1";
 			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
@@ -317,7 +337,7 @@ div {
 					"fileType": fileType,
 					"key": key,
                     "info": {
-                        "folder": fileInfo.BreadcrumbFolderName
+                        "folder": getWopiFolder(fileInfo, queryParams)
                     },
 					"permissions": {
                         "edit": permissionsEdit,
@@ -366,6 +386,7 @@ div {
                     'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
                     'onRequestSaveAs': customizationSaveAs ? onRequestSaveAs : undefined,
                     "onError": onError,
+                    "onOutdatedVersion": onOutdatedVersion,
                     "onRequestClose": customizationClose ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,

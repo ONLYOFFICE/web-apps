@@ -649,9 +649,10 @@ define([
                 var nodeType = effect[0] === AscFormat.NODE_TYPE_CLICKEFFECT ? this.view.textStartOnClick :
                     (effect[0] === AscFormat.NODE_TYPE_WITHEFFECT ? this.view.textStartWithPrevious :
                         (effect[0] === AscFormat.NODE_TYPE_AFTEREFFECT ? this.view.textStartAfterPrevious : ''));
-                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]});
+                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]}),
+                    presetId = presetClass ? presetClass.id : '';
                 presetClass = presetClass ? presetClass.caption : '';
-                var preset = _.findWhere(Common.define.effectData.getEffectData(), {value: effect[2]});
+                var preset = _.findWhere(Common.define.effectData.getEffectFullData(), {group: presetId, value: effect[2]});
                 preset = preset ? preset.displayValue : '';
                 var name = Common.Utils.String.htmlEncode(effect[3]) || '';
                 result = nodeType + '\n' + presetClass + '\n' + preset + ' : ' + name;

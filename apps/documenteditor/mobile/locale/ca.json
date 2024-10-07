@@ -506,7 +506,8 @@
     "txtEditingMode": "Establir el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espera..."
+    "waitText": "Espera...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -810,6 +811,7 @@
     "textOk": "D'acord",
     "textRenameFile": "Canvia el nom del fitxer",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
-    "textSwitchedStandardView": "S'ha canviat a visualització estàndard"
+    "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
+    "btnSend": "Send"
   }
 }

@@ -94,6 +94,9 @@ define([
                     'redo:disabled' : function (state) {
                         me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
+                    'docmode:disabled' : function (state) {
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
+                    },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
@@ -104,14 +107,10 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
-                },
-                'ViewTab': {
-                    'tabstyle:change': function (style) {
-                        me.onTabStyleChange(style);
-                        me.header.changeLogo();
-                    }
                 }
             });
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
             this._initEditing = true;
         },
 
@@ -171,8 +170,6 @@ define([
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
-
-            me.viewport.$el.attr('applang', config.lang.split(/[\-_]/)[0]);
 
             if ( !(config.isEdit || config.isRestrictedEdit) || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar )) {
@@ -252,6 +249,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
         applySettings: function () {
@@ -259,10 +257,6 @@ define([
             // Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
             // if (this.header && this.header.btnPrintQuick)
             //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                this.onTabBackgroundChange();
-                this.header.changeLogo();
-            }
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
@@ -357,9 +351,7 @@ define([
         },
 
         onTabStyleChange: function (style) {
-            style && Common.localStorage.setItem("pdfe-settings-tab-style", style);
             style = style || Common.Utils.InternalSettings.get("settings-tab-style");
-            Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
         },
 

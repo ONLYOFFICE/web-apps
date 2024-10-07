@@ -95,7 +95,8 @@ define([
             this.appConfig = config.config;
             this.view = this.createView('FormsTab', {
                 toolbar: this.toolbar.toolbar,
-                config: config.config
+                config: config.config,
+                api: this.api
             });
             var dirRight = Common.UI.isRTL() ? 'left' : 'right',
                 dirLeft = Common.UI.isRTL() ? 'right' : 'left',

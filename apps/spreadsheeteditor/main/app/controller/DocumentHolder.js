@@ -398,7 +398,7 @@ define([
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
                 this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
                 this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
-                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
+                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onApiFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
@@ -1160,12 +1160,8 @@ define([
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments) {
-                        if (comments.length) {
-                            controller.onEditComments(comments);
-                        } else if (this.permissions.canCoAuthoring) {
-                            controller.addDummyComment();
-                        }
+                    if (comments && !comments.length && this.permissions.canCoAuthoring) {
+                        controller.addDummyComment();
                     }
                 }
             }
@@ -1477,6 +1473,10 @@ define([
         },
 
         onChartData: function(btn) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){
@@ -1693,8 +1693,8 @@ define([
                     eyedropperTip   = me.tooltips.eyedropper,
                     placeholderTip   = me.tooltips.placeholder,
                     pos             = [
-                        me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                     ];
 
                 //close all tooltips
@@ -2061,9 +2061,9 @@ define([
 
                         showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
 
-                        var tipheight = filterTip.ref.getBSTip().$tip.width();
-                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
-                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                        var tipheight = filterTip.ref.getBSTip().$tip.height();
+                        if (showPoint[1] + tipheight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - tipheight - 5;
                             showPoint[0] += 20;
                         }
 
@@ -2251,7 +2251,7 @@ define([
 
                     Common.UI.Menu.Manager.hideAll();
                     me.dlgFilter.setSettings(config);
-                    var offset = me.documentHolder.cmpEl.offset(),
+                    var offset = Common.Utils.getOffset(me.documentHolder.cmpEl),
                         rect = config.asc_getCellCoord(),
                         x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
                         y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
@@ -2328,7 +2328,11 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (Common.Utils.String.htmlEncode(props.asc_getColumnName()) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
+            var colName = props.asc_getColumnName();
+            colName && (colName = colName.replace(/\n/g, ' '));
+            if (colName.length>100)
+                colName = colName.substring(0, 100) + '...';
+            str = "<b>" + (Common.Utils.String.htmlEncode(colName) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -2383,8 +2387,8 @@ define([
             var me = this;
             if (me.documentHolder) {
                 me.tooltips.coauth.XY = [
-                    me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
                 me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
@@ -3167,7 +3171,7 @@ define([
 
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
-                    showPoint           = [event.pageX*Common.Utils.zoom() - documentHolderView.cmpEl.offset().left, event.pageY*Common.Utils.zoom() - documentHolderView.cmpEl.offset().top],
+                    showPoint           = [event.pageX*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).left, event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).top],
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
                 if (!menu.rendered) {
@@ -3337,6 +3341,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
+        onApiFormulaCompleteMenu: function(funcarr, offset) {
+            const me = this;
+            setTimeout(function() {
+                me.onFormulaCompleteMenu(funcarr, offset);
+            }, 0);
+        },
+
         onFormulaCompleteMenu: function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
@@ -3447,7 +3458,7 @@ define([
                                     li_focused = menuContainer.find('a.focus').closest('li'),
                                     innerHeight = innerEl.innerHeight(),
                                     padding = (innerHeight - innerEl.height())/2,
-                                    pos = li_focused.position().top,
+                                    pos = Common.Utils.getPosition(li_focused).top,
                                     itemHeight = li_focused.outerHeight(),
                                     newpos;
                                 if (pos<0)
@@ -3480,15 +3491,24 @@ define([
                 }
 
                 var infocus = me.cellEditor.is(":focus");
+                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
                     menu.menuAlignEl = me.cellEditor;
+                    menu.offset = [
+                        0,
+                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
                     me.focusInCellEditor = true;
                 } else {
                     menu.menuAlignEl = undefined;
+                    menu.offset = [0 ,0];
                     me.focusInCellEditor = false;
                     var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                        showPoint = [
+                            coord.asc_getX() + (offset ? offset[0] : 0),
+                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                        ];
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 }
                 menu.alignPosition();
@@ -3522,6 +3542,8 @@ define([
         },
 
         onFormulaInfo: function(name) {
+            if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
+
             var functip = this.tooltips.func_arg;
 
             if (name) {
@@ -3567,15 +3589,15 @@ define([
                 var infocus = this.cellEditor.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
-                    var offset = this.cellEditor.offset();
+                    var offset = Common.Utils.getOffset(this.cellEditor);
                     showPoint = [offset.left, offset.top + this.cellEditor.height() + 3];
                 } else {
                     var pos = [
-                            this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                            this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
                 }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
@@ -3597,8 +3619,8 @@ define([
 
         changeInputMessagePosition: function (inputTip) {
             var pos = [
-                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ],
                 coord  = this.api.asc_getActiveCellCoord(),
                 showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];

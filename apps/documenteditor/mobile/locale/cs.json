@@ -487,7 +487,7 @@
     "loadImageTextText": "Načítání obrázku...",
     "loadImageTitleText": "Načítání obrázku",
     "loadingDocumentTextText": "Načítání dokumentu…",
-    "loadingDocumentTitleText": "Načítání dokumentu",
+    "loadingDocumentTitleText": "Načítání",
     "mailMergeLoadFileText": "Načítání datového zdroje...",
     "mailMergeLoadFileTitle": "Načítání datového zdroje",
     "openTextText": "Otevírání dokumentu...",
@@ -501,12 +501,13 @@
     "sendMergeText": "Odesílaní hromadné korespondence...",
     "sendMergeTitle": "Odesílaní hromadné korespondence",
     "textContinue": "Pokračovat",
-    "textLoadingDocument": "Načítání dokumentu",
+    "textLoadingDocument": "Načítání",
     "textUndo": "Zpět",
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
-    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "btnSend": "Send"
   }
 }

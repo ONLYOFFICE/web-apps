@@ -4,7 +4,7 @@ import os.path
 
 lost_key_count, sum_key_count = 0, 0
 
-merge_dicts = False
+merge_dicts = True
 verbose_out = False
 #path_to_compare = "../apps/documenteditor/mobile/locale"
 path_to_compare = "../apps"
@@ -12,8 +12,8 @@ path_to_compare = "../apps"
 
 cmd_args = sys.argv[1:]
 for i in cmd_args:
-    if i == '--merge':
-        merge_dicts = True
+    if i == '--check':
+	    merge_dicts = False
     elif i == '--verbose':
         verbose_out = True
     elif i[:2] != '--' and os.path.isdir(i):

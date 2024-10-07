@@ -150,6 +150,8 @@ require([
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/SelectFileDlg',
                     'common/main/lib/view/SaveAsDlg',
+                    'common/main/lib/view/SignDialog',
+                    'common/main/lib/view/SignSettingsDialog',
                 ];
 
                 window.compareVersions = true;

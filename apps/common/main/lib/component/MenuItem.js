@@ -204,7 +204,7 @@ define([
                         el.tooltip({
                             title       : me.options.hint,
                             placement   : me.options.hintAnchor||function(tip, element) {
-                                var pos = this.getPosition(),
+                                var pos = Common.Utils.getBoundingClientRect(element),
                                     actualWidth = tip.offsetWidth,
                                     actualHeight = tip.offsetHeight,
                                     innerWidth = Common.Utils.innerWidth(),
@@ -217,7 +217,7 @@ define([
                                 if (left + actualWidth > innerWidth) {
                                     left = pos.left - actualWidth - 2;
                                 }
-                                $(tip).offset({top: top,left: left}).addClass('in');
+                                Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
                             }
                         });
                     }
@@ -320,7 +320,7 @@ define([
         },
 
         onItemMouseDown: function(e) {
-            Common.UI.HintManager && Common.UI.HintManager.clearHints();
+            Common.UI.HintManager && Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
             if (e.which != 1) {
                 e.preventDefault();
                 e.stopPropagation();

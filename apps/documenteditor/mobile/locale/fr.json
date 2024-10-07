@@ -487,7 +487,7 @@
     "loadImageTextText": "Chargement d'une image en cours...",
     "loadImageTitleText": "Chargement d'une image",
     "loadingDocumentTextText": "Chargement du document...",
-    "loadingDocumentTitleText": "Chargement du document",
+    "loadingDocumentTitleText": "Chargement",
     "mailMergeLoadFileText": "Chargement de la source des données...",
     "mailMergeLoadFileTitle": "Chargement de la source des données",
     "openTextText": "Ouverture du document...",
@@ -501,12 +501,13 @@
     "sendMergeText": "Envoie du résultat de la fusion...",
     "sendMergeTitle": "Envoie du résultat de la fusion",
     "textContinue": "Continuer",
-    "textLoadingDocument": "Chargement du document",
+    "textLoadingDocument": "Chargement",
     "textUndo": "Annuler",
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
     "uploadImageTitleText": "Chargement d'une image",
-    "waitText": "Veuillez patienter..."
+    "waitText": "Veuillez patienter...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Erreur",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
-    "textSwitchedStandardView": "Passé à l'affichage standard"
+    "textSwitchedStandardView": "Passé à l'affichage standard",
+    "btnSend": "Send"
   }
 }

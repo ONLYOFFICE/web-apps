@@ -189,11 +189,13 @@ define([
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
                     this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
-                    // for text
-                    this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
-                    this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
-                    this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
-                    this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    if (this.mode.canComments) {
+                        // for text
+                        this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
+                        this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
+                        this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
+                        this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    }
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
@@ -566,7 +568,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -574,7 +576,7 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isPDFEdit) {
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
                     locked = false;
@@ -654,8 +656,8 @@ define([
         onDocumentHolderResize: function(e){
             var me = this;
             me._XY = [
-                me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                me.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
             ];
             me._Height = me.documentHolder.cmpEl.height();
             me._Width = me.documentHolder.cmpEl.width();
@@ -877,7 +879,7 @@ define([
                 src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
-                $('#id_main_view').append(src);
+                me.documentHolder.cmpEl.append(src);
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
             }
@@ -950,8 +952,8 @@ define([
                 screenTip = me.screenTip;
             if (me._XY === undefined) {
                 me._XY = [
-                    cmpEl.offset().left - $(window).scrollLeft(),
-                    cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = cmpEl.height();
                 me._Width = cmpEl.width();
@@ -1119,8 +1121,8 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl;
             me._XY = [
-                cmpEl.offset().left - $(window).scrollLeft(),
-                cmpEl.offset().top  - $(window).scrollTop()
+                Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(cmpEl).top  - $(window).scrollTop()
             ];
             me._Height = cmpEl.height();
             me._Width = cmpEl.width();
@@ -1378,7 +1380,7 @@ define([
             this.cmpCalendarPdf.setDate(val);
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendarPdf.cmpEl.outerWidth(),
@@ -1684,7 +1686,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1824,8 +1826,8 @@ define([
 
             if (_.isUndefined(me._XY)) {
                 me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Width       = documentHolder.cmpEl.width();
                 me._Height      = documentHolder.cmpEl.height();
@@ -2373,8 +2375,8 @@ define([
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
-                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 this._Width       = this.documentHolder.cmpEl.width();
                 this._Height      = this.documentHolder.cmpEl.height();
@@ -2486,13 +2488,13 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.documentHolder.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.fontsize !== size) {
                 this.documentHolder.cmbFontSize.setValue(size);
                 this._state.fontsize = size;
@@ -2500,7 +2502,7 @@ define([
         },
 
         onApiBold: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.bold !== on) {
                 this.documentHolder.btnBold.toggle(on === true, true);
                 this._state.bold = on;
@@ -2508,7 +2510,7 @@ define([
         },
 
         onApiItalic: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.italic !== on) {
                 this.documentHolder.btnItalic.toggle(on === true, true);
                 this._state.italic = on;
@@ -2516,7 +2518,7 @@ define([
         },
 
         onApiUnderline: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.underline !== on) {
                 this.documentHolder.btnTextUnderline.toggle(on === true, true);
                 this._state.underline = on;
@@ -2524,7 +2526,7 @@ define([
         },
 
         onApiStrikeout: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.strike !== on) {
                 this.documentHolder.btnTextStrikeout.toggle(on === true, true);
                 this._state.strike = on;
@@ -2532,7 +2534,7 @@ define([
         },
 
         onApiVerticalAlign: function(typeBaseline) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.valign !== typeBaseline) {
                 this.documentHolder.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
                 this.documentHolder.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
@@ -2541,7 +2543,7 @@ define([
         },
 
         onApiTextColor: function(color) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             var clr;
             var picker = this.documentHolder.mnuFontColorPicker;
 
@@ -2698,7 +2700,7 @@ define([
                         value = this._getApiTextSize();
                         setTimeout(function(){
                             Common.UI.warning({
-                                msg: me.textFontSizeErr,
+                                msg: me.documentHolder.textFontSizeErr,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         $('input', combo.cmpEl).focus();
@@ -2725,6 +2727,17 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        },
+
+        _getApiTextSize: function () {
+            var out_value   = 12,
+                textPr      = this.api.get_TextProps();
+
+            if (textPr && textPr.get_TextPr) {
+                out_value = textPr.get_TextPr().get_FontSize();
+            }
+
+            return out_value;
         },
 
         onCountPages: function(count) {
@@ -2754,8 +2767,8 @@ define([
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
-                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 this._Width       = this.documentHolder.cmpEl.width();
                 this._Height      = this.documentHolder.cmpEl.height();
@@ -2792,7 +2805,10 @@ define([
                 // annotation text bar
                 documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
                 documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
-                documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                if (me.mode.isEditTextSupport && (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit))
+                    documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                else
+                    documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
 
                 this.api.UpdateInterfaceState();
             }

@@ -68,8 +68,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {
@@ -519,6 +518,7 @@ define([
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
                     docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -605,7 +605,7 @@ define([
                 if (data.type == 'mouseup') {
                     var e = document.getElementById('editor_sdk');
                     if (e) {
-                        var r = e.getBoundingClientRect();
+                        var r = Common.Utils.getBoundingClientRect(e);
                         this.api.OnMouseUp(
                             data.x - r.left,
                             data.y - r.top
@@ -1087,7 +1087,11 @@ define([
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
-
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
@@ -1344,23 +1348,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-
-                var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
-                if (Common.UI.FeaturesManager.canChange('tabStyle', true) && Common.localStorage.itemExists("pe-settings-tab-style")) { // get from local storage
-                    value = Common.localStorage.getItem("pe-settings-tab-style");
-                } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                    value = 'line';
-                }
-                Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
-                value = Common.UI.FeaturesManager.getInitValue('tabBackground', true);
-                if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) && Common.localStorage.itemExists("pe-settings-tab-background")) { // get from local storage
-                    value = Common.localStorage.getItem("pe-settings-tab-background");
-                } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                    value = 'toolbar';
-                }
-                Common.Utils.InternalSettings.set("settings-tab-background", value || 'header');
-                this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs &&
-                    console.log("Obsolete: The 'toolbarNoTabs' parameter of the 'customization' section is deprecated. Please use 'tabStyle' and 'tabBackground' parameters in the 'customization.features' section instead.");
+                Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
 
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
@@ -2300,12 +2288,16 @@ define([
                 for (var code in allLangs) {
                     if (allLangs.hasOwnProperty(code)) {
                         info = allLangs[code];
-                        info[2] && langs.push({
-                            displayValue:   info[1],
-                            value:          info[0],
-                            code:           parseInt(code),
-                            spellcheck:     _.indexOf(apiLangs, code)>-1
-                        });
+                        if(info[2]) {
+                            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
+                            langs.push({
+                                displayValue:   displayName.native,
+                                displayValueEn: displayName.english,
+                                value:          info[0],
+                                code:           parseInt(code),
+                                spellcheck:     _.indexOf(apiLangs, code)>-1
+                            });
+                        }
                     }
                 }
 
@@ -2643,7 +2635,7 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
 
-                value = Common.localStorage.getItem("pe-settings-letter-exceptionl-cells", true);
+                value = Common.localStorage.getItem("pe-settings-letter-exception-cells");
                 value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
                 Common.Utils.InternalSettings.set("pe-settings-letter-exception-cells", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);

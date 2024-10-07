@@ -194,9 +194,10 @@ define([
 
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(langId);
             this.statusbar.setLanguage({
                 value:    info[0],
-                displayValue:  info[1],
+                displayValue: (displayName ? displayName.native : ''),
                 code:   langId
             });
         },

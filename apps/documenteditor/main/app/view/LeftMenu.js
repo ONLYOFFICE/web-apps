@@ -287,11 +287,11 @@ define([
 
         /** coauthoring begin **/
         markCoauthOptions: function(opt, ignoreDisabled) {
-            if (opt=='chat' && this.btnChat.isVisible() &&
+            if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                     !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
-            if (opt=='comments' && this.btnComments.isVisible() && !this.btnComments.pressed &&
+            if (opt=='comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) && !this.btnComments.pressed &&
                                 (!this.btnComments.isDisabled() || ignoreDisabled) ) {
                 this.btnComments.$el.addClass('notify');
             }
@@ -367,7 +367,7 @@ define([
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
-                    if (this.btnChat.isVisible() &&
+                    if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
@@ -375,19 +375,19 @@ define([
                     }
                 } else
                 if (menu == 'comments') {
-                    if (this.btnComments.isVisible() &&
+                    if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
                     }
                 } else if (menu == 'navigation') {
-                    if (this.btnNavigation.isVisible() &&
+                    if ((this.btnNavigation.isVisible() || this.isButtonInMoreMenu(this.btnNavigation)) &&
                         !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
                         this.btnNavigation.toggle(true);
                         this.onBtnMenuClick(this.btnNavigation);
                     }
                 } else if (menu == 'advancedsearch') {
-                    if (this.btnSearchBar.isVisible() &&
+                    if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
@@ -459,7 +459,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -477,7 +477,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 

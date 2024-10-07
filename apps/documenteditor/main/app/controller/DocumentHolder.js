@@ -129,13 +129,6 @@ define([
             me.showMathTrackOnLoad = false;
 
             me.screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>',
-                    cls: 'link-tooltip'
-//                    style: 'word-wrap: break-word;'
-                }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
@@ -151,7 +144,8 @@ define([
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
                 userTipMousout: _.bind(me.userTipMousout, me),
-                onKeyUp: _.bind(me.onKeyUp, me)
+                onKeyUp: _.bind(me.onKeyUp, me),
+                onMouseLeave: _.bind(me.onMouseLeave, me)
             };
 
             var keymap = {};
@@ -175,8 +169,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -188,8 +181,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -334,6 +326,7 @@ define([
             }
 
             me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
         },
 
         createDelayedElements: function(view, type) {
@@ -797,8 +790,8 @@ define([
         onDocumentHolderResize: function(e){
             var me = this;
             me._XY = [
-                me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                me.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
             ];
             me._Height = me.documentHolder.cmpEl.height();
             me._Width = me.documentHolder.cmpEl.width();
@@ -1049,6 +1042,15 @@ define([
             }
         },
 
+        hideScreentip: function () {
+            this.screenTip.toolTip && this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
+        },
+
+        onMouseLeave: function () {
+            this.hideScreentip();
+        },
+
         onMouseMoveStart: function() {
             var me = this;
             me.screenTip.isHidden = true;
@@ -1072,7 +1074,7 @@ define([
             if (me.screenTip.isHidden && me.screenTip.isVisible) {
                 me.screenTip.isVisible = false;
                 me.isTooltipHiding = true;
-                me.screenTip.toolTip.hide(function(){
+                me.screenTip.toolTip && me.screenTip.toolTip.hide(function(){
                     me.isTooltipHiding = false;
                     if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
                     me.mouseMoveData = null;
@@ -1089,8 +1091,8 @@ define([
                 screenTip = me.screenTip;
             if (me._XY === undefined) {
                 me._XY = [
-                    cmpEl.offset().left - $(window).scrollLeft(),
-                    cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = cmpEl.height();
                 me._Width = cmpEl.width();
@@ -1207,6 +1209,21 @@ define([
 
                     var recalc = false;
                     screenTip.isHidden = false;
+
+                    if (!me.screenTip.toolTip) {
+                        me.screenTip.toolTip = new Common.UI.Tooltip({
+                            owner: me,
+                            html: true,
+                            title: '<br><b>Press Ctrl and click link</b>',
+                            cls: 'link-tooltip'
+                        });
+                        me.screenTip.toolTip.on('tooltip:show', function () {
+                            $('#id_main_view').on('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                        me.screenTip.toolTip.on('tooltip:hide',function () {
+                            $('#id_main_view').off('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                    }
 
                     if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
@@ -1596,7 +1613,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1811,8 +1828,8 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl;
             me._XY = [
-                cmpEl.offset().left - $(window).scrollLeft(),
-                cmpEl.offset().top  - $(window).scrollTop()
+                Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(cmpEl).top  - $(window).scrollTop()
             ];
             me._Height = cmpEl.height();
             me._Width = cmpEl.width();
@@ -2683,8 +2700,8 @@ define([
 
             if (me._XY === undefined) {
                 me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = documentHolder.cmpEl.height();
                 me._Width = documentHolder.cmpEl.width();

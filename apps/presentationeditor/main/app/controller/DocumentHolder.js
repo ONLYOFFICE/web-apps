@@ -476,6 +476,7 @@ define([
             }
 
             me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
         },
 
         getView: function (name) {
@@ -514,13 +515,14 @@ define([
                         showPoint[0] += event.get_ButtonWidth() + 2;
                         showPoint[1] += event.get_ButtonHeight() + 2;
                         menu.menuAlign = 'tr-br';
-                        if (me.documentHolder.cmpEl.offset().top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
+                        if (Common.Utils.getOffset(me.documentHolder.cmpEl).top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
                             showPoint[1] -= event.get_ButtonHeight() + 4;
                             menu.menuAlign = 'br-tr';
                         }
                     } else {
                         menu.menuAlign = 'tl-tr';
                     }
+                    me.hideScreenTip();
                 }
 
                 menuContainer.css({
@@ -930,8 +932,8 @@ define([
                 screenTip = me.screenTip;
             if (_.isUndefined(me._XY)) {
                 me._XY = [
-                    cmpEl.offset().left - $(window).scrollLeft(),
-                    cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
                 me._Width       = cmpEl.width();
                 me._Height      = cmpEl.height();
@@ -980,6 +982,8 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        if (me.documentHolder.currentMenu && me.documentHolder.currentMenu.isVisible())
+                            return;
                         var tip = moveData.get_EffectText();
                         if (!tip) {
                             tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
@@ -994,6 +998,7 @@ define([
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
                         recalc = true;
+                        screenTip.toolTip.getBSTip().options.container = me.isPreviewVisible ? '#pe-preview' : 'body';
                     }
 
                     showPoint = [moveData.get_X(), moveData.get_Y()];
@@ -1233,8 +1238,8 @@ define([
             var me = this;
             if (_.isUndefined(me._XY)) {
                 me._XY = [
-                    me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Width       = me.documentHolder.cmpEl.width();
                 me._Height      = me.documentHolder.cmpEl.height();
@@ -1301,8 +1306,8 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl;
             me._XY = [
-                cmpEl.offset().left - $(window).scrollLeft(),
-                cmpEl.offset().top  - $(window).scrollTop()
+                Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(cmpEl).top  - $(window).scrollTop()
             ];
             me.onMouseMoveStart();
         },
@@ -2511,8 +2516,8 @@ define([
             } else {
                 if (_.isUndefined(this._XY)) {
                     this._XY = [
-                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                        Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                        Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
                     ];
                     this._Width       = this.documentHolder.cmpEl.width();
                     this._Height      = this.documentHolder.cmpEl.height();
@@ -2678,8 +2683,8 @@ define([
 
             if (_.isUndefined(me._XY)) {
                 me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Width       = documentHolder.cmpEl.width();
                 me._Height      = documentHolder.cmpEl.height();

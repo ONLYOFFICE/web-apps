@@ -306,6 +306,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
+                        me.fireEvent('tab:click', [tab]);
                         // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
@@ -428,17 +429,17 @@ define([
             hasTabInvisible: function() {
                 if ($boxTabs.length<1) return false;
 
-                var _left_bound_ = Math.round($boxTabs.offset().left),
+                var _left_bound_ = Math.round(Common.Utils.getOffset($boxTabs).left),
                     _right_bound_ = Math.round(_left_bound_ + $boxTabs.width());
 
                 var tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:last' : ':visible:first').get(0);
                 if ( !tab ) return false;
 
-                var rect = tab.getBoundingClientRect();
+                var rect = Common.Utils.getBoundingClientRect(tab);
 
                 if ( !(Math.round(rect.left) < _left_bound_) ) {
                     tab = this.$tabs.filter(Common.UI.isRTL() ? ':visible:first' : ':visible:last').get(0);
-                    rect = tab.getBoundingClientRect();
+                    rect = Common.Utils.getBoundingClientRect(tab);
 
                     if (!(Math.round(rect.right) > _right_bound_))
                         return false;
@@ -540,7 +541,7 @@ define([
                                                 me.$boxpanels.width() - $active.outerWidth() + item.el.width());
                                         }
                                         item.el.css('width', checkedwidth ? (checkedwidth + parseFloat(item.el.css('padding-left')) + parseFloat(item.el.css('padding-right'))) + 'px' : item.width);
-                                        data.rightedge = $active.get(0).getBoundingClientRect().right;
+                                        data.rightedge = Common.Utils.getBoundingClientRect($active.get(0)).right;
                                     }
                                 }
                             }
@@ -588,7 +589,7 @@ define([
             setMoreButton: function(tab, panel) {
                 var me = this;
                 if (!btnsMore[tab]) {
-                    var top = panel.position().top;
+                    var top = Common.Utils.getPosition(panel).top;
                     var box = $('<div class="more-box" style="top:'+ top +'px;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
@@ -764,7 +765,7 @@ define([
                             if (_rightedge <= _maxright) // stop moving items
                                 break;
 
-                            var rect = item.get(0).getBoundingClientRect(),
+                            var rect = Common.Utils.getBoundingClientRect(item.get(0)),
                                 item_width = item.outerWidth(),
                                 children = item.children();
                             if (!item.attr('inner-width') && item.attr('group-state') !== 'open') {
@@ -795,7 +796,7 @@ define([
                                         hideAllMenus = true;
                                         break;
                                     } else {
-                                        var child_rect = child.get(0).getBoundingClientRect(),
+                                        var child_rect = Common.Utils.getBoundingClientRect(child.get(0)),
                                             child_width = child.outerWidth();
                                         if ((Common.UI.isRTL() ? box_controls_width - child_rect.right : child_rect.left)+child_width>_maxright) {
                                             if (!last_group) {
@@ -974,9 +975,9 @@ define([
 
             onMoreShow: function(btn, e) {
                 var moreContainer = btn.panel.parent(),
-                    parentxy = moreContainer.parent().offset(),
+                    parentxy = Common.Utils.getOffset(moreContainer.parent()),
                     target = btn.$el,
-                    showxy = target.offset(),
+                    showxy = Common.Utils.getOffset(target),
                     right = Common.Utils.innerWidth() - (showxy.left - parentxy.left + target.width()),
                     top = showxy.top - parentxy.top + target.height() + 10;
 

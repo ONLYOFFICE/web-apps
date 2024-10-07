@@ -564,6 +564,7 @@ define([
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
                 docInfo.put_Wopi(this.editorConfig.wopi);
+                this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -1129,7 +1130,7 @@ define([
             if (data.type == 'mouseup') {
                 var e = document.getElementById('editor_sdk');
                 if (e) {
-                    var r = e.getBoundingClientRect();
+                    var r = Common.Utils.getBoundingClientRect(e);
                     this.api.OnMouseUp(
                         data.x - r.left,
                         data.y - r.top
@@ -1445,7 +1446,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1767,6 +1768,10 @@ define([
 
             this.view.btnOptions.menu.on('show:after', initMenu);
 
+            function onMouseLeave() {
+                screenTip.toolTip.hide();
+                screenTip.isVisible = false;
+            }
             screenTip = {
                 toolTip: new Common.UI.Tooltip({
                     owner: this,
@@ -1778,6 +1783,12 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            screenTip.toolTip.on('tooltip:show', function () {
+                $('#id_main_view').on('mouseleave', onMouseLeave);
+            });
+            screenTip.toolTip.on('tooltip:hide',function () {
+                $('#id_main_view').off('mouseleave', onMouseLeave);
+            });
         },
 
         attachUIEvents: function() {

@@ -84,14 +84,14 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
     };
 
     var _showFocus = function () {
-        if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
+        if (_currentControls.length === 0 || (($('#file-menu-panel').is(':visible') || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
             // console.log(_currentControls);
         }
@@ -416,6 +416,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
 
     return {
         init: _init,
-        isFocusMode: _isFocusMode
+        isFocusMode: _isFocusMode,
+        exitFocusMode: _exitFocusMode
     }
 })();

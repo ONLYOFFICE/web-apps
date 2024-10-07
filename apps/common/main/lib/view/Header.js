@@ -43,15 +43,14 @@ Common.Views = Common.Views || {};
 
 define([
     'backbone',
-    'text!common/main/lib/template/Header.template',
     'core'
-], function (Backbone, headerTemplate) { 'use strict';
+], function (Backbone) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
-        var _tabStyle = 'tab', _logoImage = '';
+        var _tabStyle = 'fill', _logoImage = '';
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
             isSSEEditor = !!window.SSE;
@@ -232,12 +231,12 @@ define([
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
                 if (!config.twoLevelHeader) {
-                    var _left_width = $parent.position().left,
+                    var _left_width = Common.Utils.getPosition($parent).left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
                     $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
                 } else if (!config.compactHeader) {
-                    var _left_width = $parent.position().left,
+                    var _left_width = Common.Utils.getPosition($parent).left,
                         _right_width = $parent.next().outerWidth(),
                         outerWidth = $labelDocName.outerWidth(),
                         cssWidth = $labelDocName[0].style.width;
@@ -265,9 +264,9 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate && config.canCoEditing ? 'comment' : 'view'),
+            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view'),
                 isEdit = config.isPDFEdit,
-                isComment = !isEdit && config.isPDFAnnotate && config.canCoEditing;
+                isComment = !isEdit && config.isPDFAnnotate;
             me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
             me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
             me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
@@ -593,34 +592,35 @@ define([
             if (me.btnPDFMode) {
                 var arr = [],
                     type = me.btnPDFMode.options.value;
-                appConfig.canPDFEdit && arr.push({
-                    caption: me.textEdit,
-                    iconCls : 'menu__icon btn-edit',
-                    template: menuTemplate,
-                    description: appConfig.canCoEditing ? me.textEditDesc : me.textEditDescNoCoedit,
-                    value: 'edit',
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
-                arr.push({
-                    caption: appConfig.canCoEditing ? me.textComment : me.textView,
-                    iconCls : 'menu__icon ' + (appConfig.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view'),
-                    template: menuTemplate,
-                    description: appConfig.canCoEditing ? me.textCommentDesc : me.textViewDescNoCoedit,
-                    value: appConfig.canCoEditing ? 'comment' : 'view',
-                    disabled: !appConfig.canPDFAnnotate,
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
-                appConfig.canCoEditing && arr.push({
-                    caption: me.textView,
-                    iconCls : 'menu__icon btn-sheet-view',
-                    template: menuTemplate,
-                    description: me.textViewDesc,
-                    value: 'view',
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
+                // arr.push({
+                //     caption: me.textView,
+                //     iconCls : 'menu__icon btn-sheet-view',
+                //     template: menuTemplate,
+                //     description: me.textViewDesc,
+                //     value: 'view',
+                //     checkable: true,
+                //     toggleGroup: 'docmode'
+                // });
+                if (appConfig.canPDFEdit) {
+                    arr.push({
+                        caption: me.textComment,
+                        iconCls : 'menu__icon btn-menu-comments',
+                        template: menuTemplate,
+                        description: me.textAnnotateDesc,
+                        value: 'comment',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                    arr.push({
+                        caption: me.textEdit,
+                        iconCls : 'menu__icon btn-edit',
+                        template: menuTemplate,
+                        description: me.textEditDescNoCoedit,
+                        value: 'edit',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                }
                 me.btnPDFMode.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar select-checked-items',
                     style: 'width: 220px;',
@@ -757,9 +757,6 @@ define([
 
             el: '#header',
 
-            // Compile our stats template
-            template: _.template(headerTemplate),
-
             // Delegated events for creating new items, and clearing completed ones.
             events: {
                 // 'click #header-logo': function (e) {}
@@ -818,6 +815,9 @@ define([
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
+                Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
+
             },
 
             render: function (el, role) {
@@ -827,6 +827,8 @@ define([
             },
 
             getPanel: function (role, config) {
+                !appConfig && (appConfig = config);
+
                 var me = this;
 
                 function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle, lock) {
@@ -901,7 +903,8 @@ define([
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
                     }
-                    if ( config.canRequestEditRights && (!config.twoLevelHeader && config.canEdit && !isPDFEditor || config.isPDFForm && config.canFillForms && config.isRestrictedEdit))
+                    if ( config.canRequestEditRights && (!config.twoLevelHeader && config.canEdit && !isPDFEditor || config.isPDFForm && config.canFillForms && config.isRestrictedEdit ||
+                                                        isPDFEditor && (config.canPDFEdit && !config.isPDFEdit && !config.isPDFAnnotate || config.isPDFFill)))
                         this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
 
                     me.btnSearch.render($html.find('#slot-btn-search'));
@@ -942,13 +945,14 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && config.isEdit && config.canSwitchMode) {
+                    if (isPDFEditor && config.isEdit && config.canSwitchMode) { // hide in pdf editor
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode',
-                            iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
-                            caption: me.textView,
+                            iconCls: 'toolbar__icon icon--inverse btn-menu-comments',
+                            caption: me.textComment,
                             menu: true,
-                            value: 'view',
+                            value: 'comment',
+                            lock: [Common.enumLock.lostConnect, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -1091,7 +1095,7 @@ define([
                 branding = branding || {};
                 var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
                     isDark = true;
-                tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'tab';
+                tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'fill';
                 tabBackground = tabBackground || Common.Utils.InternalSettings.get("settings-tab-background") || 'header';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
@@ -1106,6 +1110,8 @@ define([
             },
 
             changeLogo: function () {
+                if (!appConfig) return;
+
                 var value = this.branding;
                 var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get("settings-tab-style"), Common.Utils.InternalSettings.get("settings-tab-background"));
                 $('#header-logo').toggleClass('logo-light', logo.isLight);
@@ -1325,7 +1331,7 @@ define([
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
-                    case 'mode': _lockButton(me.btnDocMode); break;
+                    case 'mode': _lockButton(me.btnDocMode ? me.btnDocMode : me.btnPDFMode); break;
                     default: break;
                     }
                 }
@@ -1391,7 +1397,8 @@ define([
             helpDocModeHeader: 'Switch between modes',
             helpQuickAccess: 'Hide or show the functional buttons of your choice.',
             helpQuickAccessHeader: 'Customize Quick Access',
-            ariaQuickAccessToolbar: 'Quick access toolbar'
+            ariaQuickAccessToolbar: 'Quick access toolbar',
+            textAnnotateDesc: 'Fill forms or annotate'
         }
     }(), Common.Views.Header || {}))
 });

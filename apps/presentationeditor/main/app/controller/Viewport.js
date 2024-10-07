@@ -104,15 +104,11 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
-                },
-                'ViewTab': {
-                    'tabstyle:change': function (style) {
-                        me.onTabStyleChange(style);
-                        me.header.changeLogo();
-                    }
                 }
             });
             Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
         },
 
         setApi: function(api) {
@@ -166,8 +162,6 @@ define([
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
-
-            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("pe-compact-toolbar") &&
@@ -303,10 +297,6 @@ define([
             // Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
             // if (this.header && this.header.btnPrintQuick)
             //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                this.onTabBackgroundChange();
-                this.header.changeLogo();
-            }
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
@@ -371,9 +361,7 @@ define([
         },
 
         onTabStyleChange: function (style) {
-            style && Common.localStorage.setItem("pe-settings-tab-style", style);
             style = style || Common.Utils.InternalSettings.get("settings-tab-style");
-            Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
         },
 

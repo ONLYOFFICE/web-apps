@@ -149,7 +149,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
@@ -346,7 +346,7 @@ Common.UI.HintManager = new(function() {
         var docH = _isEditDiagram ? (window.parent.innerHeight * Common.Utils.zoom()) : (Common.Utils.innerHeight() - 20),
             docW = _isEditDiagram ? (window.parent.innerWidth * Common.Utils.zoom()) : (Common.Utils.innerWidth()),
             section = _isEditDiagram ? _currentSection[0] : _currentSection,
-            topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? $(section).offset().top : 0,
+            topSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? Common.Utils.getOffset($(section)).top : 0,
             bottomSection = _currentLevel !== 0 && $(section).length > 0 && !_isEditDiagram ? topSection + $(section).height() : docH;
         if ($(section).prop('id') === 'toolbar' && $(section).outerHeight() < $(section).find('.box-controls').outerHeight()) {
             bottomSection += $(section).find('.box-controls').outerHeight();
@@ -364,13 +364,13 @@ Common.UI.HintManager = new(function() {
                 }
                 if (window.SSE && item.parent().prop('id') === 'statusbar_bottom') {
                     var $statusbar = item.parent();
-                    if (item.offset().left > $statusbar.offset().left + $statusbar.width()) {
+                    if (Common.Utils.getOffset(item).left > Common.Utils.getOffset($statusbar).left + $statusbar.width()) {
                         return;
                     }
                 }
                 if (_currentLevel === 0 && item.closest('.tabs.short').length > 0) {
                     var blockTabs = item.closest('.tabs.short');
-                    leftBorder = blockTabs.offset().left;
+                    leftBorder = Common.Utils.getOffset(blockTabs).left;
                     rightBorder = leftBorder + blockTabs.width();
                     if (!item.hasClass('scroll')) {
                         leftBorder += 20;
@@ -424,7 +424,7 @@ Common.UI.HintManager = new(function() {
                     offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
                     Common.UI.isRTL() && (offsets[1] = -offsets[1]);
                 }
-                var offset = item.offset();
+                var offset = Common.Utils.getOffset(item);
                 var top, left;
                 if (direction === 'left-top') {
                     top = offset.top - 10 + offsets[0];
@@ -569,6 +569,7 @@ Common.UI.HintManager = new(function() {
                             }
                         }
                         if (curr) {
+                            Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();

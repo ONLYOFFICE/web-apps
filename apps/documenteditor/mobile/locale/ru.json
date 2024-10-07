@@ -487,7 +487,7 @@
     "loadImageTextText": "Загрузка рисунка...",
     "loadImageTitleText": "Загрузка рисунка",
     "loadingDocumentTextText": "Загрузка документа...",
-    "loadingDocumentTitleText": "Загрузка документа",
+    "loadingDocumentTitleText": "Загрузка",
     "mailMergeLoadFileText": "Загрузка источника данных...",
     "mailMergeLoadFileTitle": "Загрузка источника данных",
     "openTextText": "Открытие документа...",
@@ -501,12 +501,13 @@
     "sendMergeText": "Отправка результатов слияния...",
     "sendMergeTitle": "Отправка результатов слияния",
     "textContinue": "Продолжить",
-    "textLoadingDocument": "Загрузка документа",
+    "textLoadingDocument": "Загрузка",
     "textUndo": "Отменить",
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
     "uploadImageTitleText": "Загрузка рисунка",
-    "waitText": "Пожалуйста, подождите..."
+    "waitText": "Пожалуйста, подождите...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Ошибка",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Переименовать файл",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид"
+    "textSwitchedStandardView": "Переключено на стандартный вид",
+    "btnSend": "Send"
   }
 }

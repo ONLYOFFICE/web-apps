@@ -90,8 +90,11 @@ define([], function () { 'use strict';
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
                             '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
-                                '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
-                                '<%= scope.getDisplayValue(item) %>',
+                                '<div>',
+                                    '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
                             '</a>',
                         '</li>',
                         '<% }); %>',
@@ -101,6 +104,7 @@ define([], function () { 'use strict';
             data: this.options.languages,
             takeFocusOnClose: true,
             search: true,
+            searchFields: ['displayValue', 'displayValueEn'],
             scrollAlwaysVisible: true
         });
 

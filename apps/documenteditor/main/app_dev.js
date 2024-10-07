@@ -161,6 +161,7 @@ require([
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
+                'common/main/lib/controller/TabStyler',
                 'common/main/lib/controller/Desktop',
                 'documenteditor/main/app/controller/Viewport',
                 'documenteditor/main/app/controller/DocumentHolder',
@@ -210,7 +211,6 @@ require([
                     'common/main/lib/view/AdvancedSettingsWindow',
                     'common/main/lib/view/PluginDlg',
                     'common/main/lib/view/PluginPanel',
-                    'common/main/lib/view/ExtendedColorDialog',
                     'common/main/lib/view/RenameDialog',
                     'common/main/lib/view/ExternalEditor',
                     'common/main/lib/view/ExternalDiagramEditor',
@@ -223,6 +223,7 @@ require([
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
                     'common/main/lib/view/PdfSignDialog',
+                    'common/main/lib/view/DocumentPropertyDialog',
 
                     'documenteditor/main/app/view/FileMenuPanels',
                     'documenteditor/main/app/view/DocumentHolderExt',

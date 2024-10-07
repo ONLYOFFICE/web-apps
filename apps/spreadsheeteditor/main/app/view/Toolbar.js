@@ -1442,7 +1442,7 @@ define([
                             var menuPickerEl = $(menu.menuRoot.find('.menu-picker-container').get(0)),
                                 paddings = 15 + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(menuPickerEl.css('margin-left')) + parseFloat(menuPickerEl.css('margin-right')),
                                 menuWidth = Math.ceil(+ columnCount * (itemWidth + itemMargin) + paddings),
-                                buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                             if (menuWidth>Common.Utils.innerWidth())
                                 menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;
@@ -1513,6 +1513,7 @@ define([
                 me.btnCurrencyStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-accounting-style',
                     cls         : 'btn-toolbar',
+                    style       : 'width: 31px',
                     iconCls     : 'toolbar__icon btn-currency-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName    : 'Currency',

@@ -86,13 +86,15 @@ const ToolbarView = props => {
                     : null),
                     (isVersionHistoryMode ? 
                         <Link key='history-link' id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> 
-                    : null)
+                    : null),
+                    <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
                 ] : [
                     <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
                     <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
-                    <Link key='save-form-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-save-form' icon='icon-save-form' href={false} onClick={() => props.saveForm()}></Link>,
+                    <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>,
+                    <Link id='btn-save-form' key='save-form-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
+                          text={t("Toolbar.btnSend")} /*icon='icon-save-form'*/ href={false} onClick={() => props.saveForm()}></Link>,
                 ]}
-                <Link className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>
     )

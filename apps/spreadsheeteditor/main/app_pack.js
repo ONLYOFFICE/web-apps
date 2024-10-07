@@ -22,6 +22,9 @@ require([
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/SignDialog',
+    'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/DocumentPropertyDialog',
 
     'spreadsheeteditor/main/app/view/FileMenuPanels',
     'spreadsheeteditor/main/app/view/DocumentHolderExt',
@@ -82,5 +85,5 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

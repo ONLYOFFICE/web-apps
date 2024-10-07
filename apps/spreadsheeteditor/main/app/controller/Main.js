@@ -71,8 +71,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {
@@ -591,7 +590,8 @@ define([
                     docInfo.put_ReferenceData(data.doc.referenceData);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
                     docInfo.put_Wopi(this.editorConfig.wopi);
-
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
+                    
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
                                      this.editorConfig.coEditing.mode || 'fast';
@@ -682,7 +682,7 @@ define([
                 if (data.type == 'mouseup') {
                     var editor = document.getElementById('editor_sdk');
                     if (editor) {
-                        var rect = editor.getBoundingClientRect();
+                        var rect = Common.Utils.getBoundingClientRect(editor);
                         var event = data.event || {};
                         this.api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
                     }
@@ -1074,6 +1074,10 @@ define([
                     Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
+                    value = Common.localStorage.getItem("sse-settings-function-tooltip");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-function-tooltip", parseInt(value));
+
                     me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion) {
@@ -1399,23 +1403,7 @@ define([
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-
-                    var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
-                    if (Common.UI.FeaturesManager.canChange('tabStyle', true) && Common.localStorage.itemExists("sse-settings-tab-style")) { // get from local storage
-                        value = Common.localStorage.getItem("sse-settings-tab-style");
-                    } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                        value = 'line';
-                    }
-                    Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
-                    value = Common.UI.FeaturesManager.getInitValue('tabBackground', true);
-                    if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) && Common.localStorage.itemExists("sse-settings-tab-background")) { // get from local storage
-                        value = Common.localStorage.getItem("sse-settings-tab-background");
-                    } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                        value = 'toolbar';
-                    }
-                    Common.Utils.InternalSettings.set("settings-tab-background", value || 'header');
-                    this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs &&
-                        console.log("Obsolete: The 'toolbarNoTabs' parameter of the 'customization' section is deprecated. Please use 'tabStyle' and 'tabBackground' parameters in the 'customization.features' section instead.");
+                    Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
 
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
@@ -2904,6 +2892,9 @@ define([
                     case 'generalToFrameData':
                         this.api.asc_getInformationBetweenFrameAndGeneralEditor(data.data);
                         break;
+                    case 'wopi:saveAsComplete':
+                        this.onExternalMessage({msg: this.txtSaveCopyAsComplete});
+                        break;
                     }
                 }
             },
@@ -3503,8 +3494,8 @@ define([
                             currentVersion = historyStore.at(0);
                             currentVersion.set('selected', true);
                         }
-                        // if (currentVersion)
-                        //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        if (currentVersion)
+                            this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
                         arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }

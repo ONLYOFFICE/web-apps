@@ -17,6 +17,9 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/ListSettingsDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog',
+    'common/main/lib/view/PasswordDialog',
 
     'pdfeditor/main/app/view/FileMenuPanels',
     'pdfeditor/main/app/view/DocumentHolderExt',
@@ -26,5 +29,5 @@ require([
     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
     'pdfeditor/main/app/view/TableSettingsAdvanced'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

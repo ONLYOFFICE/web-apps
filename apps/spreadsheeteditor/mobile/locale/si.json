@@ -388,7 +388,7 @@
     "loadImageTextText": "අනුරුව පූරණය වෙමින්...",
     "loadImageTitleText": "අනුරුව පූරණය වෙමින්",
     "loadingDocumentTextText": "ලේඛනය පූරණය වෙමින්...",
-    "loadingDocumentTitleText": "ලේඛනය පූරණය වෙමින්",
+    "loadingDocumentTitleText": "පූරණය වෙමින්",
     "notcriticalErrorTitle": "අවවාදයයි",
     "openTextText": "සබැඳිය විවෘත වෙමින්...",
     "openTitleText": "සබැඳිය විවෘත වෙමින්",
@@ -401,7 +401,7 @@
     "textCancel": "අවලංගු",
     "textContinue": "ඉදිරියට",
     "textErrorWrongPassword": "ඔබ සැපයූ මුරපදය වැරදිය.",
-    "textLoadingDocument": "ලේඛනය පූරණය වෙමින්",
+    "textLoadingDocument": "පූරණය වෙමින්",
     "textNo": "නැහැ",
     "textOk": "හරි",
     "textUndo": "පෙරසේ",
@@ -461,6 +461,7 @@
       "sCatMathematic": "ගණිතය හා ත්‍රිකෝණමිතිය",
       "sCatStatistical": "සංඛ්‍යාන",
       "sCatTextAndData": "පාඨය හා දත්ත",
+      "sCustom": "අභිරුචි",
       "textAddLink": "සබැඳිය එක්කරන්න",
       "textAddress": "ලිපිනය",
       "textAllTableHint": "වගුවේ සමස්ථ අන්තර්ගත හෝ තීරු ශ්‍රීර්ෂ, දත්ත සහ මුළු පේළි ඇතුළුව නිශ්චිත වගු තීරු ලබා දෙයි",
@@ -508,8 +509,7 @@
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
-      "txtYes": "ඔව්",
-      "sCustom": "Custom"
+      "txtYes": "ඔව්"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",

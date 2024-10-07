@@ -156,6 +156,7 @@ require([
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Scaling',
             'common/main/lib/controller/Themes',
+            'common/main/lib/controller/TabStyler',
             'common/main/lib/controller/Desktop',
             'presentationeditor/main/app/controller/Viewport',
             'presentationeditor/main/app/controller/DocumentHolder',
@@ -216,6 +217,9 @@ require([
                 'common/main/lib/view/CustomizeQuickAccessDialog',
                 'common/main/lib/view/DocumentHolderExt',
                 'common/main/lib/util/define',
+                'common/main/lib/view/SignDialog',
+                'common/main/lib/view/ListSettingsDialog',
+                'common/main/lib/view/DocumentPropertyDialog',
 
                 'presentationeditor/main/app/view/FileMenuPanels',
                 'presentationeditor/main/app/view/DocumentHolderExt',

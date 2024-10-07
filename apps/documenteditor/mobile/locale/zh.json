@@ -231,7 +231,7 @@
   "Edit": {
     "notcriticalErrorTitle": "警告",
     "textActualSize": "实际大小",
-    "textAddCustomColor": "\n添加自定义颜色",
+    "textAddCustomColor": "添加自定义颜色",
     "textAdditional": "額外",
     "textAdditionalFormatting": "其他格式",
     "textAddress": "地址",
@@ -487,7 +487,7 @@
     "loadImageTextText": "图片加载中…",
     "loadImageTitleText": "图片加载中",
     "loadingDocumentTextText": "文件加载中…",
-    "loadingDocumentTitleText": "文件加载中…",
+    "loadingDocumentTitleText": "加载中",
     "mailMergeLoadFileText": "正在加载数据源...",
     "mailMergeLoadFileTitle": "正在加载数据源",
     "openTextText": "正在打开文档...",
@@ -501,12 +501,13 @@
     "sendMergeText": "发送合并中...",
     "sendMergeTitle": "发送合并",
     "textContinue": "继续",
-    "textLoadingDocument": "文件加载中…",
+    "textLoadingDocument": "加载中",
     "textUndo": "撤消",
     "txtEditingMode": "设置编辑模式..",
     "uploadImageTextText": "上传图片...",
     "uploadImageTitleText": "图片上传中",
-    "waitText": "请稍候..."
+    "waitText": "请稍候...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "错误",
@@ -810,6 +811,7 @@
     "textOk": "确定",
     "textRenameFile": "重命名文件",
     "textSwitchedMobileView": "切换到“移动设备”视图",
-    "textSwitchedStandardView": "切换到标准视图"
+    "textSwitchedStandardView": "切换到标准视图",
+    "btnSend": "Send"
   }
 }

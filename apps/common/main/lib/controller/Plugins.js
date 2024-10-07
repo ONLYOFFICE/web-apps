@@ -114,6 +114,7 @@ define([
             this.customPluginsDlg = [];
 
             this.newInstalledBackgroundPlugins = [];
+            this.customButtonsArr = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -223,7 +224,7 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = panel.currentPluginFrame.offset();
+                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
                         me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
                                             y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
@@ -409,6 +410,11 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.customButtonsArr.forEach(function(item) {
+                me.toolbar && me.toolbar.addCustomItems({action: item.tab}, undefined, [item.btn])
+            });
+            me.customButtonsArr = [];
+
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.backgroundPlugins = [];
@@ -427,7 +433,13 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        let tab = model.get('tab'),
+                            btn = me.viewPlugins.createPluginButton(model);
+                        if (btn) {
+                            btn.options.separator = tab.separator;
+                            me.toolbar && me.toolbar.addCustomItems(tab, [btn]);
+                            me.customButtonsArr.push({tab: tab.action, btn: btn});
+                        }
                         return;
                     }
 
@@ -470,11 +482,7 @@ define([
                     };
                     me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
                     me.viewPlugins.backgroundBtn.on('click', function () {
-                        if (me.backgroundPluginsTip) {
-                            me.backgroundPluginsTip.close();
-                            me.backgroundPluginsTip = undefined;
-                            me.newInstalledBackgroundPlugins && (me.newInstalledBackgroundPlugins.length = 0);
-                        }
+                        me.closeBackPluginsTip();
                     });
                 }
 
@@ -755,6 +763,8 @@ define([
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
             this.runAutoStartPlugins();
+
+            Common.UI.LayoutManager.clearCustomItems(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -781,7 +791,7 @@ define([
         
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -829,7 +839,7 @@ define([
         },
 
         parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
-            this.newInstalledBackgroundPlugins.length = 0;
+            this.closeBackPluginsTip();
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -912,6 +922,13 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
+                        if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
+                            item.tab = {
+                                "id": "view",
+                                "separator": true
+                            }
+                        }
+
                         var props = {
                             name : name,
                             guid: item.guid,
@@ -926,7 +943,7 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem,
-                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || '', separator: item.tab.separator} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                         if (fromManager && !updatedItem && props.isBackgroundPlugin) {
@@ -1215,7 +1232,7 @@ define([
 
         onPluginWindowMouseMove: function(frameId, x, y) {
             if (this.customPluginsDlg[frameId]) {
-                var offset = this.customPluginsDlg[frameId].options.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
                 if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -1285,6 +1302,9 @@ define([
             if (plugins && plugins.length > 0) {
                 var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
                     Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
+                    this.backgroundPluginsTip.close();
+                }
                 this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
                     placement: 'bottom',
@@ -1302,19 +1322,21 @@ define([
                     this.newInstalledBackgroundPlugins.length = 0;
                 }, this);
                 this.backgroundPluginsTip.on('closeclick', function () {
-                    this.backgroundPluginsTip.close();
-                    this.backgroundPluginsTip = undefined;
-                    this.newInstalledBackgroundPlugins.length = 0;
+                    this.closeBackPluginsTip();
                 }, this);
                 this.backgroundPluginsTip.show();
             }
         },
 
         onActiveTab: function (tab) {
-            if (tab !== 'plugins' && this.backgroundPluginsTip) {
+            (tab !== 'plugins') && this.closeBackPluginsTip();
+        },
+
+        closeBackPluginsTip: function() {
+            if (this.backgroundPluginsTip) {
                 this.backgroundPluginsTip.close();
                 this.backgroundPluginsTip = undefined;
-                this.newInstalledBackgroundPlugins.length = 0;
+                this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
             }
         },
 

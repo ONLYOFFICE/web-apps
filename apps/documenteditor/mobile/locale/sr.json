@@ -506,7 +506,8 @@
     "txtEditingMode": "Podesi režim uređivanja...",
     "uploadImageTextText": "Otpremljivanje slike...",
     "uploadImageTitleText": "Otpremljivanje Slike",
-    "waitText": "Molimo, sačekajte..."
+    "waitText": "Molimo, sačekajte...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Greška",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
-    "textSwitchedStandardView": "Prebačeno na standardni prikaz"
+    "textSwitchedStandardView": "Prebačeno na standardni prikaz",
+    "btnSend": "Send"
   }
 }

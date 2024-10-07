@@ -100,7 +100,7 @@ define([], function () {
             ipRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/i,
             hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
             localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
-            emailStrongRe = /(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
+            emailStrongRe = /(mailto:)?([a-z0-9'\.\+_-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
             emailAddStrongRe = /(mailto:|\s[@]|\s[+])?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%\+-=\?:&]*)/ig,
             ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
             hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
@@ -196,11 +196,80 @@ define([], function () {
                 me.innerWidth = window.innerWidth * me.zoom;
                 me.innerHeight = window.innerHeight * me.zoom;
                 me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
+            },
+            checkSizeIE = function () {
+                me.innerWidth = window.innerWidth;
+                me.innerHeight = window.innerHeight;
+            },
+            isOffsetUsedZoom = function() {
+                if (isChrome && 128 <= chromeVersion)
+                    return (me.zoom === 1) ? false : true;
+                return false;
+            },
+            getBoundingClientRect = function(element) {
+                let rect = element.getBoundingClientRect();
+                if (!isOffsetUsedZoom())
+                    return rect;
+
+                let koef = me.zoom;
+                let newRect = {}
+                if (rect.x!==undefined) newRect.x = rect.x * koef;
+                if (rect.y!==undefined) newRect.y = rect.y * koef;
+                if (rect.width!==undefined) newRect.width = rect.width * koef;
+                if (rect.height!==undefined) newRect.height = rect.height * koef;
+
+                if (rect.left!==undefined) newRect.left = rect.left * koef;
+                if (rect.top!==undefined) newRect.top = rect.top * koef;
+                if (rect.right!==undefined) newRect.right = rect.right * koef;
+                if (rect.bottom!==undefined) newRect.bottom = rect.bottom * koef;
+                return newRect;
+            },
+            getOffset = function($element) {
+                let pos = $element.offset();
+                if (!isOffsetUsedZoom())
+                    return pos;
+                return {left: pos.left * me.zoom, top: pos.top * me.zoom};
+            },
+            getPosition = function($element) {
+                let pos = $element.position();
+                if (!isOffsetUsedZoom())
+                    return pos;
+                return {left: pos.left * me.zoom, top: pos.top * me.zoom};
+            },
+            setOffset = function($element, options) {
+                var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+                    position = $element.css("position"),
+                    props = {};
+
+                if ( position === "static" ) {
+                    $element[0].style.position = "relative";
+                }
+
+                curOffset = getOffset($element);
+                curCSSTop = $element.css("top");
+                curCSSLeft = $element.css("left");
+                calculatePosition = ( position === "absolute" || position === "fixed" ) &&
+                    ( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
+
+                if ( calculatePosition ) {
+                    curPosition = getPosition($element);
+                    curTop = curPosition.top;
+                    curLeft = curPosition.left;
+                } else {
+                    curTop = parseFloat( curCSSTop ) || 0;
+                    curLeft = parseFloat( curCSSLeft ) || 0;
+                }
+
+                if ( options.top != null ) {
+                    props.top = ( options.top - curOffset.top ) + curTop;
+                }
+                if ( options.left != null ) {
+                    props.left = ( options.left - curOffset.left ) + curLeft;
+                }
+                $element.css( props );
+                return $element;
             };
-        checkSizeIE = function () {
-            me.innerWidth = window.innerWidth;
-            me.innerHeight = window.innerHeight;
-        };
+
         me.zoom = 1;
         me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
@@ -297,7 +366,11 @@ define([], function () {
                     width: me.innerWidth,
                     height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')
                 }
-            }
+            },
+            getBoundingClientRect: getBoundingClientRect,
+            getOffset: getOffset,
+            setOffset: setOffset,
+            getPosition: getPosition
         }
     })();
 
@@ -1116,6 +1189,7 @@ define([], function () {
     }
 
     Common.Utils.cancelFullscreen = function () {
+        if (!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement )) return;
         if (document.cancelFullScreen) {
             document.cancelFullScreen();
         } else if (document.webkitCancelFullScreen) {
@@ -1295,7 +1369,7 @@ define([], function () {
         if (window.isrtl === undefined) {
             if (window.nativeprocvars && window.nativeprocvars.rtl !== undefined)
                 window.isrtl = window.nativeprocvars.rtl;
-            else window.isrtl = !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+            else window.isrtl = Common.Locale.isCurrentLanguageRtl() ? !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) : false;
         }
 
         return window.isrtl;

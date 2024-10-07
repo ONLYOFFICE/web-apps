@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容はスプレッドシート (xlsx など) に対応していますが、ファイルの拡張子が一致していません: %1",
   "DE.ApplicationController.errorLoadingFont": "フォントがダウンロードされませんでした。<br>文書サーバのアドミニストレータを連絡してください。",
   "DE.ApplicationController.errorSubmit": "送信に失敗しました。",
+  "DE.ApplicationController.errorToken": "ドキュメント・セキュリティ・トークンが正しく形成されていません。<br>ドキュメントサーバーの管理者にご連絡ください。",
   "DE.ApplicationController.errorTokenExpire": "ドキュメントセキュリティトークンの有効期限が切れています。<br>ドキュメントサーバーの管理者に連絡してください。",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されました。<br>作業を継続する前に、ファイルをダウンロードするか、内容をコピーして、変更が消えてしまわないように確認してから、ページを再びお読み込みください。",
   "DE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",

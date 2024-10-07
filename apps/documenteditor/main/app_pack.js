@@ -17,7 +17,6 @@ require([
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
-    'common/main/lib/view/ExtendedColorDialog',
     'common/main/lib/view/RenameDialog',
     'common/main/lib/view/ExternalEditor',
     'common/main/lib/view/ExternalDiagramEditor',
@@ -29,6 +28,7 @@ require([
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/PdfSignDialog',
+    'common/main/lib/view/DocumentPropertyDialog',
 
     'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',
@@ -67,5 +67,5 @@ require([
     'documenteditor/main/app/view/ProtectDialog',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

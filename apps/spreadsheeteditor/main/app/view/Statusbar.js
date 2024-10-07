@@ -613,9 +613,8 @@ define([
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
-                        var rect = tab.$el.get(0).getBoundingClientRect(),
-                            childPos = tab.$el.offset(),
-                            parentPos = tab.$el.parent().offset();
+                        var rect = Common.Utils.getBoundingClientRect(tab.$el.get(0)),
+                            parentPos = Common.Utils.getOffset(tab.$el.parent());
 
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
@@ -849,7 +848,7 @@ define([
             onCustomizeStatusBarAfterShow: function (obj) {
                 if (obj.atposition) {
                     var statusHeight = $(this.el).height(),
-                        offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
+                        offsetTop = !this.isCompact && (obj.atposition.top - Common.Utils.getOffset($(this.el)).top > statusHeight/2) ? statusHeight/2 : 0;
                     obj.setOffset(Common.UI.isRTL() ? (obj.atposition.left - $(this.el).width() + 2) : obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;

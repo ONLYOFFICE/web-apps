@@ -154,6 +154,7 @@ require([
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
+                'common/main/lib/controller/TabStyler',
                 'common/main/lib/controller/Desktop',
                 'pdfeditor/main/app/controller/Viewport',
                 'pdfeditor/main/app/controller/DocumentHolder',
@@ -197,6 +198,9 @@ require([
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
+                    'common/main/lib/view/ListSettingsDialog',
+                    'common/main/lib/view/CustomizeQuickAccessDialog',
+                    'common/main/lib/view/PasswordDialog',
 
                     'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',

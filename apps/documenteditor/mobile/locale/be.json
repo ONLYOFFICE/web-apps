@@ -506,7 +506,8 @@
     "txtEditingMode": "Актывацыя рэжыму рэдагавання…",
     "uploadImageTextText": "Запампоўванне выявы…",
     "uploadImageTitleText": "Запампоўванне выявы",
-    "waitText": "Калі ласка, пачакайце..."
+    "waitText": "Калі ласка, пачакайце...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Памылка",
@@ -810,6 +811,7 @@
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "btnSend": "Send"
   }
 }

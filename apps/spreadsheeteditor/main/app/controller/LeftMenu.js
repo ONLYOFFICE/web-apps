@@ -260,6 +260,8 @@ define([
             if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
                 Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+                this.leftMenu.setButtons();
+                this.leftMenu.setMoreButton();
             }
         },
 
@@ -425,22 +427,22 @@ define([
 
         saveAsInWopi: function(menu, format, ext) {
             var me = this,
-                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
-                fileInfo = this.mode.spreadsheet.info,
-                folder = fileInfo ? fileInfo.folder || '' : '';
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            folder && (folder.charAt(folder.length-1) !== '/') && (folder = folder + '/');
-
-            if (typeof ext === 'string') {
-                var idx = defFileName.lastIndexOf('.');
-                if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + ext;
-            }
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
-                value: folder + (defFileName || ''),
+                value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
                         me.clickSaveCopyAsFormat(menu, format, ext, value);
                     }
                 }
@@ -1056,6 +1058,6 @@ define([
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadCsvSheets: 'The CSV format does not support saving a multi-sheet file.<br>To keep the selected format and save only the current sheet, press Save.<br>To save the current spreadsheet, click Cancel and save it in a different format.',
         textSave: 'Save',
-        textSelectPath: 'Enter a path for saving file copy'
+        textSelectPath: 'Enter a new name for saving the file copy'
     }, SSE.Controllers.LeftMenu || {}));
 });

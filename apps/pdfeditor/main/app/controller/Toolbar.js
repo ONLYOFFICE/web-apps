@@ -223,7 +223,7 @@ define([
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
-            toolbar.btnEditMode.on('click', function (btn, e) {
+            toolbar.btnEditMode && toolbar.btnEditMode.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'comment');
             });
             Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.changePDFMode, this));
@@ -712,10 +712,10 @@ define([
                     }
                 });
             } else if (this.api) {
-                // var isModified = this.api.asc_isDocumentCanSave();
-                // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
-                //     return;
+                var isModified = this.api.asc_isDocumentCanSave();
+                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
+                if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
+                    return;
 
                 this.api.asc_Save();
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary);
@@ -1267,7 +1267,7 @@ define([
                     Array.prototype.push.apply(me.toolbar.paragraphControls, drawtab.getView().getButtons());
                 }
 
-                !config.canViewComments && me.toolbar.setVisible('comment', false);
+                !config.canComments && me.toolbar.setVisible('comment', false);
             }
 
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
@@ -1298,7 +1298,7 @@ define([
                 $host = $(toolbar.$layout);
             if (this.mode.isPDFEdit && this._state.initEditing) {
                 Array.prototype.push.apply(me.toolbar.lockControls, toolbar.applyLayoutPDFEdit(this.mode));
-                toolbar.rendererComponentsPDFEdit($host);
+                toolbar.rendererComponentsPDFEdit($host, this.mode);
 
                 setTimeout(function(){
                     toolbar.createDelayedElementsPDFEdit();
@@ -1428,13 +1428,13 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.fontsize !== size) {
                 this.toolbar.cmbFontSize.setValue(size);
                 this._state.fontsize = size;
@@ -1442,7 +1442,7 @@ define([
         },
 
         onApiBold: function(on) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.bold !== on) {
                 this.toolbar.btnBold.toggle(on === true, true);
                 this._state.bold = on;
@@ -1450,7 +1450,7 @@ define([
         },
 
         onApiItalic: function(on) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.italic !== on) {
                 this.toolbar.btnItalic.toggle(on === true, true);
                 this._state.italic = on;
@@ -1458,7 +1458,7 @@ define([
         },
 
         onApiUnderline: function(on) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.underline !== on) {
                 this.toolbar.btnTextUnderline.toggle(on === true, true);
                 this._state.underline = on;
@@ -1466,7 +1466,7 @@ define([
         },
 
         onApiStrikeout: function(on) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.strike !== on) {
                 this.toolbar.btnTextStrikeout.toggle(on === true, true);
                 this._state.strike = on;
@@ -1474,7 +1474,7 @@ define([
         },
 
         onApiVerticalAlign: function(typeBaseline) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.valign !== typeBaseline) {
                 this.toolbar.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
                 this.toolbar.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
@@ -1483,7 +1483,7 @@ define([
         },
 
         onApiCanIncreaseIndent: function(value) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.can_increase !== value) {
                 this.toolbar.lockToolbar(Common.enumLock.incIndentLock, !value, {array: [this.toolbar.btnIncLeftOffset]});
                 if (this._state.activated) this._state.can_increase = value;
@@ -1491,7 +1491,7 @@ define([
         },
 
         onApiCanDecreaseIndent: function(value) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.can_decrease !== value) {
                 this.toolbar.lockToolbar(Common.enumLock.decIndentLock, !value, {array: [this.toolbar.btnDecLeftOffset]});
                 if (this._state.activated) this._state.can_decrease = value;
@@ -1509,7 +1509,7 @@ define([
         },
 
         onApiBullets: function(v) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (!(this.toolbar.mnuMarkersPicker && this.toolbar.mnuMarkersPicker.store)) {
                 this._state.needCallApiBullets = v;
                 return;
@@ -1612,7 +1612,7 @@ define([
         },
 
         onApiParagraphAlign: function(v) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.pralign !== v) {
                 this._state.pralign = v;
 
@@ -1641,7 +1641,7 @@ define([
         },
 
         onApiVerticalTextAlign: function(v) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (this._state.vtextalign !== v) {
                 this._state.vtextalign = v;
 
@@ -1670,7 +1670,7 @@ define([
         },
 
         onApiLineSpacing: function(vc) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             var line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
 
             if (this._state.linespace !== line) {
@@ -2252,7 +2252,7 @@ define([
         },
 
         onApiTextColor: function(color) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             var clr;
             var picker = this.toolbar.mnuFontColorPicker;
 
@@ -2277,7 +2277,7 @@ define([
         },
 
         onApiTextHighlightColor: function(c) {
-            if (!this.mode.isPDFEdit) return;
+            if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
             if (c) {
                 if (c == -1) {
                     if (this._state.textclrhighlight != -1) {

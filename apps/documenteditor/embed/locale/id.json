@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "Terjadi kesalahan saat membuka file.<br>Isi file berhubungan dengan spreadsheet (mis. xlsx), tapi file memiliki ekstensi yang tidak konsisten: %1.",
   "DE.ApplicationController.errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
   "DE.ApplicationController.errorSubmit": "Submit gagal.",
+  "DE.ApplicationController.errorToken": "Token keamanan dokumen tidak dibentuk dengan benar.<br>Silakan hubungi admin Server Dokumen Anda.",
   "DE.ApplicationController.errorTokenExpire": "Token keamanan dokumen sudah kadaluwarsa.<br>Silakan hubungi admin Server Dokumen Anda.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
   "DE.ApplicationController.errorUserDrop": "File tidak dapat di akses",

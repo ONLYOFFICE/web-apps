@@ -69,6 +69,7 @@ define([
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                     'tab:active': this.onActiveTab,
+                    'tab:click': this.onClickTab,
                     'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
@@ -140,6 +141,9 @@ define([
                 },
                 'LeftMenu': {
                     'search:show': this.searchShow.bind(this)
+                },
+                'PivotTable': {
+                    'insertpivot': this.onInsertPivot
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -195,7 +199,8 @@ define([
                 wsProps: [],
                 is_lockText: false,
                 is_lockShape: false,
-                isUserProtected: false
+                isUserProtected: false,
+                showPivotTab: false
             };
             this.binding = {};
 
@@ -1151,7 +1156,9 @@ define([
         },
 
         onEditChartData: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
 
             var me = this;
             var props;
@@ -3192,6 +3199,8 @@ define([
                     if ( !inpivot && this.toolbar.isTabActive('pivot') )
                         this.toolbar.setTab('home');
                     this.toolbar.setVisible('pivot', !!inpivot);
+                    if (inpivot && this._state.showPivotTab)
+                        this.toolbar.setTab('pivot');
                     this._state.inpivot = inpivot;
                 }
                 toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
@@ -4645,6 +4654,10 @@ define([
             }
         },
 
+        onInsertPivot:  function() {
+            this._state.showPivotTab = true;
+        },
+
         onPageSizeClick: function(menu, item, state) {
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
@@ -5159,6 +5172,10 @@ define([
         onActiveTab: function(tab) {
             (tab === 'protect') ? Common.UI.TooltipManager.showTip('protectRange') : Common.UI.TooltipManager.closeTip('protectRange');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('quickAccess');
+        },
+
+        onClickTab: function(tab) {
+            this._state.showPivotTab = tab === 'pivot';
         },
 
         onTabCollapse: function(tab) {

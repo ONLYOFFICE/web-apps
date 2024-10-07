@@ -84,8 +84,8 @@
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
           $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
-          $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
-          $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
+          $scrollbarX = $("<div class='ps-scrollbar-x'><div></div></div>").appendTo($scrollbarXRail),
+          $scrollbarY = $("<div class='ps-scrollbar-y'><div></div></div>").appendTo($scrollbarYRail),
           scrollbarXActive,
           scrollbarYActive,
           containerWidth,
@@ -100,7 +100,8 @@
           scrollbarYTop,
           scrollbarYRight = parseInt($scrollbarYRail.css('right'), 10),
           scrollbarYRailHeight,
-          eventClassName = getEventClassName();
+          eventClassName = getEventClassName(),
+          canScrollX = false;
 
       var updateContentScrollTop = function (currentTop, deltaY) {
         var newTop = currentTop + deltaY,
@@ -122,9 +123,14 @@
       };
 
       var updateContentScrollLeft = function (currentLeft, deltaX) {
-        var newLeft = currentLeft + deltaX,
-            maxLeft = scrollbarXRailWidth - scrollbarXWidth;
+        var maxLeft = scrollbarXRailWidth - scrollbarXWidth;
 
+        if (Common.UI.isRTL()) {
+          currentLeft = maxLeft - currentLeft;
+          deltaX *= -1;
+        }
+
+        var newLeft = currentLeft + deltaX;
         if (newLeft < 0) {
           scrollbarXLeft = 0;
         }
@@ -136,8 +142,9 @@
         }
 
         var scrollLeft = parseInt(scrollbarXLeft * (contentWidth - containerWidth) / (scrollbarXRailWidth - scrollbarXWidth), 10);
-        $this.scrollLeft(scrollLeft);
+        $this.scrollLeft(scrollLeft * (Common.UI.isRTL() ? -1 : 1));
         $scrollbarYRail.css({right: scrollbarYRight - scrollLeft});
+        Common.UI.isRTL() && canScrollX && $scrollbarYRail.css({left: $this.scrollLeft() + 1});
       };
 
       var getSettingsAdjustedThumbSize = function (thumbSize) {
@@ -148,14 +155,16 @@
       };
 
       var updateScrollbarCss = function () {
-        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: scrollbarXRailWidth, display: scrollbarXActive ? "inherit": "none"});
+        $scrollbarXRail.css({left: Common.UI.isRTL() ? 'auto' : $this.scrollLeft(), right: !Common.UI.isRTL() ? 'auto' : -$this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: scrollbarXRailWidth, display: scrollbarXActive ? "inherit": "none"});
 
         if ($scrollbarYRail.hasClass('in-scrolling'))
             $scrollbarYRail.css({/*top: $this.scrollTop(),*/ right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
-        else
-            $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
+        else {
+          $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
+          Common.UI.isRTL() && canScrollX && $scrollbarYRail.css({left: $this.scrollLeft() + 1});
+        }
 
-        $scrollbarX && $scrollbarX.css({left: scrollbarXLeft, width: scrollbarXWidth});
+        $scrollbarX && $scrollbarX.css({left: Common.UI.isRTL() ? 'auto' : scrollbarXLeft, right: !Common.UI.isRTL() ? 'auto' : scrollbarXLeft, width: scrollbarXWidth});
         $scrollbarY && $scrollbarY.css({top: scrollbarYTop, height: scrollbarYHeight});
       };
 
@@ -170,7 +179,7 @@
         if (!settings.suppressScrollX && containerWidth + settings.scrollXMarginOffset < contentWidth) {
           scrollbarXActive = true;
           scrollbarXWidth = getSettingsAdjustedThumbSize(parseInt(scrollbarXRailWidth * containerWidth / contentWidth, 10));
-          scrollbarXLeft = parseInt($this.scrollLeft() * (scrollbarXRailWidth - scrollbarXWidth) / (contentWidth - containerWidth), 10);
+          scrollbarXLeft = parseInt($this.scrollLeft() * (Common.UI.isRTL() ? -1 : 1) * (scrollbarXRailWidth - scrollbarXWidth) / (contentWidth - containerWidth), 10);
         }
         else {
           scrollbarXActive = false;
@@ -210,9 +219,10 @@
             currentPageX;
 
         $scrollbarX.bind('mousedown' + eventClassName, function (e) {
+          canScrollX = true;
           Common.NotificationCenter.trigger('hints:clear');
-          currentPageX = e.pageX;
-          currentLeft = $scrollbarX.position().left;
+          currentPageX = e.pageX*Common.Utils.zoom();
+          currentLeft = Common.Utils.getPosition($scrollbarX).left;
           $scrollbarXRail.addClass('in-scrolling');
           e.stopPropagation();
           e.preventDefault();
@@ -220,7 +230,7 @@
 
         $(document).bind('mousemove' + eventClassName, function (e) {
           if ($scrollbarXRail.hasClass('in-scrolling')) {
-            updateContentScrollLeft(currentLeft, e.pageX - currentPageX);
+            updateContentScrollLeft(currentLeft, e.pageX*Common.Utils.zoom() - currentPageX);
             e.stopPropagation();
             e.preventDefault();
           }
@@ -242,12 +252,12 @@
 
         $scrollbarY.bind('mousedown' + eventClassName, function (e) {
           Common.NotificationCenter.trigger('hints:clear');
-          currentPageY = e.pageY;
-          currentTop = $scrollbarY.position().top;
+          currentPageY = e.pageY*Common.Utils.zoom();
+          currentTop = Common.Utils.getPosition($scrollbarY).top;
           $scrollbarYRail.addClass('in-scrolling');
 
             var margin = parseInt($scrollbarYRail.css('margin-top'));
-            var rect = $scrollbarYRail[0].getBoundingClientRect();
+            var rect = Common.Utils.getBoundingClientRect($scrollbarYRail[0]);
             $scrollbarYRail.css({
                 position: 'fixed',
                 left: rect.left,
@@ -260,7 +270,7 @@
 
         $(document).bind('mousemove' + eventClassName, function (e) {
           if ($scrollbarYRail.hasClass('in-scrolling')) {
-            updateContentScrollTop(currentTop, e.pageY - currentPageY);
+            updateContentScrollTop(currentTop, e.pageY*Common.Utils.zoom() - currentPageY);
             e.stopPropagation();
             e.preventDefault();
           }
@@ -360,6 +370,7 @@
             // useBothWheelAxes and only horizontal bar is active, so use both
             // wheel axes for horizontal bar
             if (deltaX) {
+              canScrollX = true;
               $this.scrollLeft($this.scrollLeft() + (deltaX * settings.wheelSpeed));
             } else {
               $this.scrollLeft($this.scrollLeft() - (deltaY * settings.wheelSpeed));
@@ -449,7 +460,7 @@
         $scrollbarY.bind('click' + eventClassName, stopPropagation);
         $scrollbarYRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarYHeight / 2, 10),
-              positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength,
+              positionTop = e.pageY*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarYRail).top - halfOfScrollbarLength,
               maxPositionTop = scrollbarYRailHeight - scrollbarYHeight,
               positionRatio = positionTop / maxPositionTop;
 
@@ -465,17 +476,16 @@
         $scrollbarX.bind('click' + eventClassName, stopPropagation);
         $scrollbarXRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarXWidth / 2, 10),
-              positionLeft = e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
               maxPositionLeft = scrollbarXRailWidth - scrollbarXWidth,
-              positionRatio = positionLeft / maxPositionLeft;
-
+              positionLeft = Common.UI.isRTL() ? maxPositionLeft - (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarXRail).left) + halfOfScrollbarLength : e.pageX*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarXRail).left - halfOfScrollbarLength,
+              positionRatio = (positionLeft / maxPositionLeft);
+          canScrollX = true;
           if (positionRatio < 0) {
             positionRatio = 0;
           } else if (positionRatio > 1) {
             positionRatio = 1;
           }
-
-          $this.scrollLeft((contentWidth - containerWidth) * positionRatio);
+          $this.scrollLeft((contentWidth - containerWidth) * positionRatio * (Common.UI.isRTL() ? -1 : 1));
         });
       };
 
@@ -589,6 +599,8 @@
         scrollbarYHeight =
         scrollbarYTop =
         scrollbarYRight = null;
+
+        canScrollX = false;
       };
 
       var ieSupport = function (version) {

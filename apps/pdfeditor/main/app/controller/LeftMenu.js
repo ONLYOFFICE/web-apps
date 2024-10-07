@@ -360,22 +360,22 @@ define([
 
         saveAsInWopi: function(menu, format, ext) {
             var me = this,
-                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
-                fileInfo = this.getApplication().getController('Main').document.info,
-                folder = fileInfo ? fileInfo.folder || '' : '';
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            folder && (folder.charAt(folder.length-1) !== '/') && (folder = folder + '/');
-
-            if (typeof ext === 'string') {
-                var idx = defFileName.lastIndexOf('.');
-                if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + ext;
-            }
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
-                value: folder + (defFileName || ''),
+                value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }
@@ -427,11 +427,11 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit);
             /** coauthoring begin **/
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
+            if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave && !this.mode.isOffline) {
                 if (this.mode.canChangeCoAuthoring) {
-                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
+                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", false); // false by default!
                     Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
@@ -445,6 +445,10 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("pdfe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
@@ -930,7 +934,7 @@ define([
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
         warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
-        textSelectPath: 'Enter a path for saving file copy'
+        textSelectPath: 'Enter a new name for saving the file copy'
 
     }, PDFE.Controllers.LeftMenu || {}));
 });

@@ -885,18 +885,20 @@ define([
                     });
                     this.btnsHighlight = [this.btnHighlight];
 
-                    this.btnEditMode = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-edit-text',
-                        style: 'min-width: 45px;',
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        caption: this.textEditMode,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnEditMode);
+                    if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
+                        this.btnEditMode = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-edit-text',
+                            style: 'min-width: 45px;',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            caption: this.textEditMode,
+                            enableToggle: true,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnEditMode);
+                    }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -1089,6 +1091,7 @@ define([
                     this.fieldPages = new Common.UI.InputFieldFixed({
                         id: 'id-toolbar-txt-pages',
                         style       : 'width: 100%;',
+                        cls         : 'text-align-right',
                         maskExp     : /[0-9]/,
                         allowBlank  : true,
                         validateOnChange: false,
@@ -1241,12 +1244,12 @@ define([
                 _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
-            rendererComponentsPDFEdit: function($host) {
+            rendererComponentsPDFEdit: function($host, mode) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#slot-btn-edittext', this.btnEditText);
+                mode.isEditTextSupport ? _injectComponent('#slot-btn-edittext', this.btnEditText) : $host.findById('#slot-btn-edittext').parents('.group').hide().next('.separator').hide();
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-text-underline', this.btnTextUnderline);
@@ -1284,7 +1287,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
-                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
+                this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
             rendererComponentsCommon: function($host) {
@@ -1316,7 +1319,7 @@ define([
                 this.rendererComponentsCommon($host);
                 if (mode.isEdit) {
                     this.rendererComponentsAnnotate($host);
-                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host);
+                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
                 } else if (mode.isRestrictedEdit)
                     this.rendererComponentsRestrictedEdit($host);
@@ -1478,7 +1481,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
-                this.btnEditMode.updateHint(this.tipEditMode);
+                this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
             createDelayedElementsPDFEdit: function() {
@@ -1683,6 +1686,8 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
@@ -1725,7 +1730,7 @@ define([
             },
 
             synchronizeChanges: function () {
-                if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
+                if ( !this._state.previewmode && this.btnCollabChanges && this.btnCollabChanges.rendered ) {
                     var me = this;
 
                     if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
@@ -1741,6 +1746,8 @@ define([
             },
 
             onApiUsersChanged: function (users) {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+
                 var editusers = [];
                 _.each(users, function (item) {
                     if (!item.asc_getView())
@@ -1750,7 +1757,7 @@ define([
                 var me = this;
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
+                if ( cls !== me.btnSaveCls && me.btnCollabChanges && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});

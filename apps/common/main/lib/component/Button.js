@@ -847,7 +847,8 @@ define([
                             html: !!isHtml,
                             title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnEl.mouseenter();
@@ -857,7 +858,8 @@ define([
                             html: !!isHtml,
                             title       : me.options.hint[1],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnMenuEl.mouseenter();
@@ -867,13 +869,15 @@ define([
                         html: !!isHtml,
                         title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                     this.btnMenuEl && this.btnMenuEl.tooltip({
                         html: !!isHtml,
                         title       : this.options.hint[1],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                 }
                 if (modalParents.length > 0) {
