@@ -83,7 +83,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         </ListItem>
                     : ''),
                     (canFillForms && canSubmitForms ?   
-                        <ListItem key='submit-form-link' title={t('Settings.textSubmit')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
+                        <ListItem key='submit-form-link' title={t('Toolbar.btnSend')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
                             <Icon slot="media" icon="icon-save-form"></Icon>
                         </ListItem> 
                     : ''),
