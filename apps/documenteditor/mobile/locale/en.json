@@ -506,7 +506,8 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Error",

@@ -506,7 +506,8 @@
     "txtEditingMode": "Ορισμός κατάστασης επεξεργασίας...",
     "uploadImageTextText": "Μεταφόρτωση εικόνας...",
     "uploadImageTitleText": "Μεταφόρτωση Εικόνας",
-    "waitText": "Παρακαλούμε, περιμένετε..."
+    "waitText": "Παρακαλούμε, περιμένετε...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Σφάλμα",
@@ -810,6 +811,7 @@
     "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
-    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή"
+    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
+    "btnSend": "Send"
   }
 }

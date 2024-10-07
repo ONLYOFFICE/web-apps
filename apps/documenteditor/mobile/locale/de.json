@@ -506,7 +506,8 @@
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
-    "waitText": "Bitte warten..."
+    "waitText": "Bitte warten...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Fehler",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
-    "textSwitchedStandardView": "Standard-Ansicht aktiviert"
+    "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "btnSend": "Send"
   }
 }

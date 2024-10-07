@@ -506,7 +506,8 @@
     "txtEditingMode": "بدء وضع التحرير...",
     "uploadImageTextText": "جار رفع الصورة...",
     "uploadImageTitleText": "رفع الصورة...",
-    "waitText": "الرجاء الانتظار..."
+    "waitText": "الرجاء الانتظار...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "خطأ",
@@ -810,6 +811,7 @@
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
-    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي"
+    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
+    "btnSend": "Send"
   }
 }

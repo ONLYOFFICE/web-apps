@@ -506,7 +506,8 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde..."
+    "waitText": "Por favor, aguarde...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
-    "textSwitchedStandardView": "Alterado para a visualização padrão"
+    "textSwitchedStandardView": "Alterado para a visualização padrão",
+    "btnSend": "Send"
   }
 }
