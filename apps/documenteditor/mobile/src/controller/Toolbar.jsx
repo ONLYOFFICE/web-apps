@@ -415,6 +415,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             saveForm={saveForm}
             isForm={isForm}
             canFillForms={canFillForms}
+            canSubmitForms={appOptions.canSubmitForms}
         />
     )
 }));
