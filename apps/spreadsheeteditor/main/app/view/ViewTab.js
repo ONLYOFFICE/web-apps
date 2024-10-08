@@ -79,10 +79,6 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-freeze"></span>' +
             '</div>' +
             '<div class="separator long sheet-freeze"></div>' +
-            '<div class="group sheet-rtl">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-rtl-sheet"></span>' +
-            '</div>' +
-            '<div class="separator long invisible sheet-rtl"></div>' +
             '<div class="group small sheet-formula">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-formula"></span>' +
@@ -175,9 +171,6 @@ define([
             });
             me.btnViewPageBreak && me.btnViewPageBreak.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.pageBreakPreview]);
-            });
-            me.btnRtl && me.btnRtl.on('click', function (btn, e) {
-                me.fireEvent('viewtab:rtl-sheet', [4, btn.pressed]);
             });
         }
 
@@ -297,18 +290,6 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnViewPageBreak);
-
-                    this.btnRtl = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-normal-view',
-                        lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                        caption: this.textRtlSheet,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.lockedControls.push(this.btnRtl);
                 }
 
                 this.cmbZoom = new Common.UI.ComboBox({
@@ -425,7 +406,6 @@ define([
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 this.btnViewNormal && this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
                 this.btnViewPageBreak && this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
-                this.btnRtl && this.btnRtl.render($host.find('#slot-btn-rtl-sheet'));
                 return this.$el;
             },
 
@@ -474,14 +454,12 @@ define([
                         me.btnFreezePanes.updateHint(me.tipFreeze);
                         me.btnViewNormal.updateHint(me.tipViewNormal);
                         me.btnViewPageBreak.updateHint(me.tipViewPageBreak);
-                        me.btnRtl.updateHint(me.tipRtlSheet);
                     } else {
                         me.toolbar && me.toolbar.$el.find('.group.doc-preview').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.doc-preview').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
-                        me.toolbar && me.toolbar.$el.find('.group.sheet-rtl').hide();
                     }
 
                     if (!Common.UI.Themes.available()) {
@@ -689,9 +667,7 @@ define([
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
             textFill: 'Fill',
-            textLine: 'Line',
-            tipRtlSheet: 'Switch the sheet direction so that the first column is on the right side',
-            textRtlSheet: 'Sheet Right-to-left'
+            textLine: 'Line'
         }
     }()), SSE.Views.ViewTab || {}));
 });
