@@ -244,7 +244,10 @@ define([
             this.chShowEquation = new Common.UI.CheckBox({
                 el: $('#chart-dlg-chk-show-equation'),
                 labelText: this.textShowEquation
-            });
+            }).on('change', _.bind(function (checkbox, state) {
+                if (this.chartSettings)
+                    this.chartSettings.putDisplayTrendlinesEquation(state==='checked');
+            }, this));
 
             // Vertical Axis
             this.cmbMinType = [];
@@ -1513,10 +1516,12 @@ define([
                     this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
                     this.chValue.setValue(this.chartSettings.getShowVal(), true);
 
-                    this.chShowEquation.setValue(this.chartSettings.getDisplayTrendlinesEquation(), true);
-
                     var value = props.getSeparator();
                     this.txtSeparator.setValue((value) ? value : '');
+
+                    value = this.chartSettings.getDisplayTrendlinesEquation();
+                    this.chShowEquation.setValue(value !== undefined ? !!value : 'indeterminate', true);
+                    this.chShowEquation.setDisabled(value===null, true);
 
                     Common.UI.FocusManager.add(this, [this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.chSeriesName, this.chCategoryName, this.chValue, this.txtSeparator, this.cmbLines, this.chMarkers, this.chShowEquation]);
 
@@ -1656,8 +1661,6 @@ define([
                 this.chartSettings.putShowSerName(this.chSeriesName.getValue()=='checked');
                 this.chartSettings.putShowCatName(this.chCategoryName.getValue()=='checked');
                 this.chartSettings.putShowVal(this.chValue.getValue()=='checked');
-
-                this.chartSettings.putDisplayTrendlinesEquation(this.chShowEquation.getValue()=='checked');
 
                 this.chartSettings.putSeparator(_.isEmpty(this.txtSeparator.getValue()) ? ' ' : this.txtSeparator.getValue());
 
