@@ -450,28 +450,29 @@ define([
                         rank = 1.5;
                         rank_plugins++;
                     }
-                    if (new_rank!==rank && rank>-1 && rank_plugins>0) {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group"></div>');
-                        rank_plugins = 0;
-                    } else {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
-                    }
 
                     var btn = me.viewPlugins.createPluginButton(model);
                     if (btn) {
+                        if (new_rank!==rank && rank>-1 && rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group"></div>');
+                            rank_plugins = 0;
+                        } else if (rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
+                        }
+
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
+                        rank = new_rank;
                     }
                     if (new_rank === 1 && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
                         isBackground = true;
                     }
-                    rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
                 if (me.backgroundPlugins.length > 0) {
@@ -972,6 +973,9 @@ define([
                     });
                     pluginStore.reset(arr);
                     this.appOptions.canPlugins = !pluginStore.isEmpty();
+                    me.newInstalledBackgroundPlugins = _.filter(me.newInstalledBackgroundPlugins, function(item){
+                        return !!pluginStore.findWhere({guid: item.guid});
+                    })
                 }
             }
             else if (!uiCustomize){
@@ -1299,7 +1303,7 @@ define([
 
         onModalClose: function () {
             var plugins = this.newInstalledBackgroundPlugins;
-            if (plugins && plugins.length > 0) {
+            if (plugins && plugins.length > 0 && this.viewPlugins.backgroundBtn && this.viewPlugins.backgroundBtn.isVisible()) {
                 var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
                     Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
                 if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
