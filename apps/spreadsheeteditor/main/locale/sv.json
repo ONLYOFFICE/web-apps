@@ -4489,5 +4489,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
+  "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
+  "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

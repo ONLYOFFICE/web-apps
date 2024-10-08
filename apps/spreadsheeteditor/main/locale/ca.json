@@ -4489,5 +4489,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
+  "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
+  "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }
