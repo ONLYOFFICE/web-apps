@@ -2931,5 +2931,9 @@
   "PE.Views.ViewTab.tipGuides": "ガイドを表示",
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
+  "PE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
 }

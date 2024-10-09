@@ -2014,5 +2014,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
+  "PDFE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PDFE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PDFE.Controllers.Toolbar.helpPdfCoedit": "Co-edit PDFs with other co-authors in the real-time or paragraph-locking modes.",
+  "PDFE.Controllers.Toolbar.helpPdfCoeditHeader": "PDF collaboration",
+  "PDFE.Controllers.Toolbar.helpPdfSave": "Annotate and edit вЂ“ all of your changes are saved to the original file without creating separate copies.",
+  "PDFE.Controllers.Toolbar.helpPdfSaveHeader": "Enhanced PDF Editor"
 }

@@ -2014,5 +2014,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
+  "PDFE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PDFE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PDFE.Controllers.Toolbar.helpPdfCoedit": "Co-edit PDFs with other co-authors in the real-time or paragraph-locking modes.",
+  "PDFE.Controllers.Toolbar.helpPdfCoeditHeader": "PDF collaboration",
+  "PDFE.Controllers.Toolbar.helpPdfSave": "Annotate and edit вЂ“ all of your changes are saved to the original file without creating separate copies.",
+  "PDFE.Controllers.Toolbar.helpPdfSaveHeader": "Enhanced PDF Editor"
 }

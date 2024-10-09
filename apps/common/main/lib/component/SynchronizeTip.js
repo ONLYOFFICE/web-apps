@@ -224,6 +224,7 @@ define([
             //     prev: '' // don't show tooltip if the prev was not shown
             //     automove: false // applyPlacement on window resize
             //     maxwidth: 250 // 250 by default
+            //     extCls: '' //
             // }
         };
 
@@ -269,7 +270,7 @@ define([
                 }
                 target.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored',
+                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
                     placement: placement,
                     target: target,

@@ -2931,5 +2931,9 @@
   "PE.Views.ViewTab.tipGuides": "Zobrazit vodítka",
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
+  "PE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
+  "PE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
 }

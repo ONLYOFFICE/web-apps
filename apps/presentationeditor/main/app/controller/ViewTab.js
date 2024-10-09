@@ -416,7 +416,6 @@ define([
         },
 
         onChangeViewMode: function (mode) {
-            Common.UI.TooltipManager.closeTip('slideMaster');
             this.changeViewMode(mode);
         },
 

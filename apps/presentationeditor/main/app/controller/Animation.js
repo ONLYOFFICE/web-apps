@@ -176,7 +176,6 @@ define([
         onAnimationPane: function(btn) {
             this._state.isAnimPaneVisible = btn.pressed;
             this.api.asc_ShowAnimPane(btn.pressed);
-            Common.UI.TooltipManager.closeTip('animPane');
         },
 
         onApiCloseAnimPane: function () {

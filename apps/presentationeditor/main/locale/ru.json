@@ -2931,5 +2931,9 @@
   "PE.Views.ViewTab.tipGuides": "Показать направляющие",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "PE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
+  "PE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
 }

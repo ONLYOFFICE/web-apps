@@ -1708,6 +1708,7 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
+                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {
