@@ -1686,7 +1686,7 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
-                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit) || Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")) return;
 
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {

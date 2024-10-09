@@ -2208,7 +2208,7 @@ define([
 //            },
 
             onCollaborativeChanges: function() {
-                if (this._state.hasCollaborativeChanges) return;
+                if (this._state.hasCollaborativeChanges || Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")) return;
                 this._state.hasCollaborativeChanges = true;
                 if (this.appOptions.isEdit)
                     this.getApplication().getController('Statusbar').setStatusCaption(this.txtNeedSynchronize, true);
