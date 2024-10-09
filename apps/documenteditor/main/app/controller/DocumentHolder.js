@@ -129,13 +129,6 @@ define([
             me.showMathTrackOnLoad = false;
 
             me.screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>',
-                    cls: 'link-tooltip'
-//                    style: 'word-wrap: break-word;'
-                }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
@@ -151,7 +144,8 @@ define([
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
                 userTipMousout: _.bind(me.userTipMousout, me),
-                onKeyUp: _.bind(me.onKeyUp, me)
+                onKeyUp: _.bind(me.onKeyUp, me),
+                onMouseLeave: _.bind(me.onMouseLeave, me)
             };
 
             var keymap = {};
@@ -175,8 +169,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -188,8 +181,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -1050,6 +1042,15 @@ define([
             }
         },
 
+        hideScreentip: function () {
+            this.screenTip.toolTip && this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
+        },
+
+        onMouseLeave: function () {
+            this.hideScreentip();
+        },
+
         onMouseMoveStart: function() {
             var me = this;
             me.screenTip.isHidden = true;
@@ -1073,7 +1074,7 @@ define([
             if (me.screenTip.isHidden && me.screenTip.isVisible) {
                 me.screenTip.isVisible = false;
                 me.isTooltipHiding = true;
-                me.screenTip.toolTip.hide(function(){
+                me.screenTip.toolTip && me.screenTip.toolTip.hide(function(){
                     me.isTooltipHiding = false;
                     if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
                     me.mouseMoveData = null;
@@ -1208,6 +1209,21 @@ define([
 
                     var recalc = false;
                     screenTip.isHidden = false;
+
+                    if (!me.screenTip.toolTip) {
+                        me.screenTip.toolTip = new Common.UI.Tooltip({
+                            owner: me,
+                            html: true,
+                            title: '<br><b>Press Ctrl and click link</b>',
+                            cls: 'link-tooltip'
+                        });
+                        me.screenTip.toolTip.on('tooltip:show', function () {
+                            $('#id_main_view').on('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                        me.screenTip.toolTip.on('tooltip:hide',function () {
+                            $('#id_main_view').off('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                    }
 
                     if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
@@ -1704,7 +1720,8 @@ define([
         },
 
         onShowContentControlsActions: function(obj, x, y) {
-            var type = obj.type;
+            var type = obj.type,
+                me = this;
             switch (type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
                     this.onShowDateActions(obj, x, y);
@@ -1715,8 +1732,33 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.api.asc_addImage(obj);
-                    var me = this;
+                    if (obj.pr && obj.pr.is_Signature() && false) {
+                        if (_.isUndefined(me.fontStore)) {
+                            me.fontStore = new Common.Collections.Fonts();
+                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                            var arr = [];
+                            _.each(fonts, function(font, index){
+                                if (!font.cloneid) {
+                                    arr.push(_.clone(font));
+                                }
+                            });
+                            me.fontStore.add(arr);
+                        }
+                        (new Common.Views.PdfSignDialog({
+                            props: obj,
+                            api: me.api,
+                            disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                            storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                            fontStore: me.fontStore,
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    me.api.asc_SetSignatureProps(value);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        })).show();
+                    } else
+                        this.api.asc_addImage(obj);
                     setTimeout(function(){
                         me.api.asc_UncheckContentControlButtons();
                     }, 500);

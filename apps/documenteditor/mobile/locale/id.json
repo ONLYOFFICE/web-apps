@@ -506,7 +506,8 @@
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
     "uploadImageTitleText": "Mengunggah Gambar",
-    "waitText": "Silahkan menunggu"
+    "waitText": "Silahkan menunggu",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Kesalahan",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Ganti Nama File",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
-    "textSwitchedStandardView": "Beralih ke Tampilan standar"
+    "textSwitchedStandardView": "Beralih ke Tampilan standar",
+    "btnSend": "Send"
   }
 }

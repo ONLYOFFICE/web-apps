@@ -506,7 +506,8 @@
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Սխալ",
@@ -810,6 +811,7 @@
     "textOk": "Լավ",
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
-    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի"
+    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
+    "btnSend": "Send"
   }
 }

@@ -2204,6 +2204,8 @@
   "SSE.Views.ChartSettingsDlg.textYAxisTitle": "Y axis title",
   "SSE.Views.ChartSettingsDlg.textZero": "Zero",
   "SSE.Views.ChartSettingsDlg.txtEmpty": "This field is required",
+  "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options",
+  "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
   "SSE.Views.ChartTypeDialog.errorComboSeries": "To create a combination chart, select at least two series of data.",
   "SSE.Views.ChartTypeDialog.errorSecondaryAxis": "The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.",
   "SSE.Views.ChartTypeDialog.textSecondary": "Secondary axis",

@@ -506,7 +506,8 @@
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
     "uploadImageTitleText": "Загрузка рисунка",
-    "waitText": "Пожалуйста, подождите..."
+    "waitText": "Пожалуйста, подождите...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Ошибка",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Переименовать файл",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид"
+    "textSwitchedStandardView": "Переключено на стандартный вид",
+    "btnSend": "Send"
   }
 }

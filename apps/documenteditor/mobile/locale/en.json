@@ -506,7 +506,8 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait..."
+    "waitText": "Please, wait...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -779,7 +780,7 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "textSubmit": "Submit",
+    "del_textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTheme": "Theme",
     "textTitle": "Title",
@@ -808,6 +809,7 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
+    "btnSend": "Send",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"

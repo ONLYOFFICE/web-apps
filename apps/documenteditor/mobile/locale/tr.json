@@ -506,7 +506,8 @@
     "txtEditingMode": "Düzenleme modunu belirle...",
     "uploadImageTextText": "Resim yükleniyor...",
     "uploadImageTitleText": "Resim Yükleniyor",
-    "waitText": "Lütfen bekleyin..."
+    "waitText": "Lütfen bekleyin...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Hata",
@@ -810,6 +811,7 @@
     "textOk": "Tamam",
     "textRenameFile": "Dosyayı yeniden adlandır.",
     "textSwitchedMobileView": "Mobil görünüme geçildi",
-    "textSwitchedStandardView": "Standart görünüme geçildi"
+    "textSwitchedStandardView": "Standart görünüme geçildi",
+    "btnSend": "Send"
   }
 }

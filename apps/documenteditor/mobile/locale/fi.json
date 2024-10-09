@@ -510,7 +510,8 @@
     "waitText": "Please, wait...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "textUndo": "Undo",
-    "textContinue": "Continue"
+    "textContinue": "Continue",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -841,6 +842,7 @@
     "textSwitchedStandardView": "Switched to Standard view",
     "textRenameFile": "Rename File",
     "textEnterNewFileName": "Enter a new file name",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "btnSend": "Send"
   }
 }

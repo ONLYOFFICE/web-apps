@@ -3649,5 +3649,9 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
+  "DE.Controllers.Main.textSignature": "Signature",
+  "DE.Views.FormSettings.textSignature": "Signature",
+  "DE.Views.FormsTab.capBtnSignature": "Signature Field",
+  "DE.Views.FormsTab.tipSignField": "Insert signature field"
 }

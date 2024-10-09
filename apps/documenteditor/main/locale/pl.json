@@ -3649,5 +3649,9 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Controllers.Main.textSignature": "Signature",
+  "DE.Views.FormSettings.textSignature": "Signature",
+  "DE.Views.FormsTab.capBtnSignature": "Signature Field",
+  "DE.Views.FormsTab.tipSignField": "Insert signature field"
 }

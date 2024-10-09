@@ -3649,5 +3649,9 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "DE.Controllers.Main.textSignature": "Signature",
+  "DE.Views.FormSettings.textSignature": "Signature",
+  "DE.Views.FormsTab.capBtnSignature": "Signature Field",
+  "DE.Views.FormsTab.tipSignField": "Insert signature field"
 }
