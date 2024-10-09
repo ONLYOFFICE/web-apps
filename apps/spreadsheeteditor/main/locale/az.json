@@ -4490,6 +4490,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.Toolbar.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.Toolbar.textRtlSheet": "Sheet Right-to-left",
   "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
   "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

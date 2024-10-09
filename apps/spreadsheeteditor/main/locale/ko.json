@@ -4490,6 +4490,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.Toolbar.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.Toolbar.textRtlSheet": "Sheet Right-to-left",
   "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
   "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

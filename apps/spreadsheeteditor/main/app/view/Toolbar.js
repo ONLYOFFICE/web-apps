@@ -2164,6 +2164,17 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnRtlSheet = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-sheet-rtl',
+                    lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    caption: this.textRtlSheet + ' (Beta)',
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -2232,7 +2243,7 @@ define([
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -2435,6 +2446,7 @@ define([
             _injectComponent('#slot-btn-printtitles',   this.btnPrintTitles);
             _injectComponent('#slot-chk-print-gridlines', this.chPrintGridlines);
             _injectComponent('#slot-chk-print-headings',  this.chPrintHeadings);
+            _injectComponent('#slot-btn-rtl-sheet',       this.btnRtlSheet);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -2538,6 +2550,7 @@ define([
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
             _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
             _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
+            _updateHint(this.btnRtlSheet, this.tipRtlSheet + ' (Beta)');
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });

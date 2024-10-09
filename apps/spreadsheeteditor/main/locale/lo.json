@@ -4490,6 +4490,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.Toolbar.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.Toolbar.textRtlSheet": "Sheet Right-to-left",
   "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
   "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

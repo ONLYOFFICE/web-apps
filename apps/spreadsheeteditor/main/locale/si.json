@@ -4490,6 +4490,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSmoothScroll": "Snapped to the grid while scrolling",
+  "SSE.Views.Toolbar.tipRtlSheet": "Switch the sheet direction so that the first column is on the right side",
+  "SSE.Views.Toolbar.textRtlSheet": "Sheet Right-to-left",
   "SSE.Views.ChartSettingsDlg.textShowEquation": "Display equation on chart",
   "SSE.Views.ChartSettingsDlg.textTrendlineOptions": "Trendline options"
 }

@@ -518,6 +518,10 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
             this.api.asc_setR1C1Mode(value);
 
+            value = Common.localStorage.getBool("sse-settings-smooth-scroll");
+            Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
+            this.api.asc_SetSmoothScrolling(value);
+
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 if (this.mode.canChangeCoAuthoring) {
