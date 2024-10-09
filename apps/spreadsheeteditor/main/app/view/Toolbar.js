@@ -2166,7 +2166,7 @@ define([
 
                 me.btnRtlSheet = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-normal-view',
+                    iconCls: 'toolbar__icon btn-sheet-rtl',
                     lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                     caption: this.textRtlSheet + ' (Beta)',
                     enableToggle: true,
