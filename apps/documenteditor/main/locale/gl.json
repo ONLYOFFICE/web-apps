@@ -3663,5 +3663,9 @@
   "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
   "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
   "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
+  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
+  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
+  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
+  "Common.Controllers.Plugins.helpUseMacros": "Find the Macros button here",
+  "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros"
 }

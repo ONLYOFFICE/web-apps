@@ -4500,5 +4500,9 @@
   "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
   "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
+  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
+  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
+  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
+  "Common.Controllers.Plugins.helpUseMacros": "Find the Macros button here",
+  "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros"
 }
