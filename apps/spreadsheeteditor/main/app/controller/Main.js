@@ -3636,6 +3636,7 @@ define([
                             this.updateWindowTitle(true);
                             this.appOptions.spreadsheet.title = data.document.title;
                         }
+                        data.document.referenceData && docInfo.put_ReferenceData(data.document.referenceData);
                     }
                     if (data.editorConfig) {
                         docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
