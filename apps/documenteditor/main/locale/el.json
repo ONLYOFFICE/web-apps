@@ -3653,5 +3653,15 @@
   "DE.Controllers.Main.textSignature": "Signature",
   "DE.Views.FormSettings.textSignature": "Signature",
   "DE.Views.FormsTab.capBtnSignature": "Signature Field",
-  "DE.Views.FormsTab.tipSignField": "Insert signature field"
+  "DE.Views.FormsTab.tipSignField": "Insert signature field",
+  "DE.Controllers.Toolbar.helpTextFromFile": "Insert text from external files directly into your document.",
+  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Text import from third-party sources",
+  "DE.Controllers.Toolbar.helpSignField": "Insert the signature field into your PDF forms.",
+  "DE.Controllers.Toolbar.helpSignFieldHeader": "Signatures",
+  "DE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
+  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
+  "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
+  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
 }

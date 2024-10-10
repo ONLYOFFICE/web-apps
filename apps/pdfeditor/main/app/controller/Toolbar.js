@@ -174,9 +174,11 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'editPdf' : {name: 'pdfe-help-tip-edit-pdf', placement: 'bottom-right', text: this.helpEditPdf, header: this.helpEditPdfHeader, target: '#slot-btn-tb-edit-mode'},
-                'textComment' : {name: 'pdfe-help-tip-text-comment', placement: 'bottom-right', text: this.helpTextComment, header: this.helpTextCommentHeader, target: '#slot-btn-text-comment'}
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'pdfCoedit' : {name: 'help-tip-pdf-coedit', placement: 'bottom-left', text: this.helpPdfCoedit, header: this.helpPdfCoeditHeader, target: '#tlb-box-users', automove: true, maxwidth: 320},
+                'pdfSave' : {name: 'help-tip-pdf-save', placement: mode.compactHeader ? 'bottom-right' : 'right-bottom', text: this.helpPdfSave, header: this.helpPdfSaveHeader, target: mode.compactHeader ? '#slot-btn-save' : '#slot-btn-dt-save', automove: true, maxwidth: 320, extCls: 'inc-index'},
             });
+
         },
 
         attachCommonUIEvents: function(toolbar) {
@@ -239,7 +241,6 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
-            toolbar.btnTextComment.menu.on('show:before',               _.bind(this.onBeforeTextComment, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -721,6 +722,7 @@ define([
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
+                Common.UI.TooltipManager.closeTip('pdfSave');
             }
         },
 
@@ -1074,12 +1076,7 @@ define([
             // this.api && this.api.asc_Rotate();
         },
 
-        onBeforeTextComment: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('textComment');
-        },
-
         onBtnTextCommentClick: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('textComment');
             this.onInsertTextComment(btn.options.textboxType, btn, e);
         },
 
@@ -1367,7 +1364,6 @@ define([
                         me.toolbar.btnSubmit.updateHint(me.textRequired);
                     }
                 }
-                config.isEdit && Common.UI.TooltipManager.showTip('editPdf');
             });
         },
 
@@ -1390,13 +1386,15 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('editPdf');
-            (tab === 'comment') ? Common.UI.TooltipManager.showTip('textComment') : Common.UI.TooltipManager.closeTip('textComment');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            if (tab === 'file') {
+                Common.UI.TooltipManager.closeTip('pdfCoedit');
+                Common.UI.TooltipManager.closeTip('pdfSave');
+            }
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('editPdf');
-            Common.UI.TooltipManager.closeTip('textComment');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         applySettings: function() {

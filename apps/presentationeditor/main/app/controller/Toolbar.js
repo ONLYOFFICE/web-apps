@@ -304,10 +304,10 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', automove: true},
-                'animPane' : {name: 'pe-help-tip-anim-pane', placement: 'bottom-left', text: this.helpAnimPane, header: this.helpAnimPaneHeader, target: '#animation-button-pane', automove: true},
-                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'}
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             });
+
         },
 
         attachUIEvents: function(toolbar) {
@@ -2061,7 +2061,6 @@ define([
                 var item = _.find(menu.items, function(item) { return item.value == value; });
                 (item) ? item.setChecked(true) : menu.clearAll();
             }
-            Common.UI.TooltipManager.closeTip('colorSchema');
         },
 
         onSlideSize: function(menu, item) {
@@ -2834,7 +2833,6 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
-            config.isEdit && Common.UI.TooltipManager.showTip('colorSchema');
         },
 
         onFileMenu: function (opts) {
@@ -3060,15 +3058,11 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
-            (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('colorSchema');
-            Common.UI.TooltipManager.closeTip('animPane');
-            Common.UI.TooltipManager.closeTip('masterSlide');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         }
 
     }, PE.Controllers.Toolbar || {}));

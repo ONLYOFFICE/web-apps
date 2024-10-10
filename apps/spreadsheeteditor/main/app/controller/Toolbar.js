@@ -270,8 +270,11 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: this.helpProtectRange, header: this.helpProtectRangeHeader, target: '#slot-btn-protect-range', automove: true}
+                'insPivot' : {name: 'sse-help-tip-ins-pivot', placement: 'bottom-right', text: this.helpInsPivot, header: this.helpInsPivotHeader, target: 'li.ribtab #ins', automove: true},
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             });
+
         },
 
         attachUIEvents: function(toolbar) {
@@ -4647,6 +4650,7 @@ define([
 
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
+                    Common.UI.TooltipManager.showTip('insPivot');
                     me.toolbar.onAppReady(config);
                 }
             });
@@ -5183,8 +5187,8 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'protect') ? Common.UI.TooltipManager.showTip('protectRange') : Common.UI.TooltipManager.closeTip('protectRange');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('quickAccess');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('insPivot');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         onClickTab: function(tab) {
@@ -5192,7 +5196,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('protectRange');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

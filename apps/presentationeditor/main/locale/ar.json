@@ -2931,5 +2931,9 @@
   "PE.Views.ViewTab.tipGuides": "عرض الخطوط الدلالية",
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
+  "PE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
+  "PE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
+  "PE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields"
 }
