@@ -169,10 +169,24 @@ define([
             }
 
             var me = this;
+            this._scrollTop = me.panelNavigation.viewNavigationList.scroller.getScrollTop();
+
             var store = this.getApplication().getCollection('Navigation');
             store.reset(arr.splice(0, 50));
 
             this._currentPos = this._navigationObject.get_CurrentPosition();
+
+            function checkScrollFocus() {
+                if (me._currentPos > -1 && me._currentPos < store.length) {
+                    if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.childWillBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
+                        me.panelNavigation.viewNavigationList.scroller.scrollTop(me._scrollTop);
+                        me.panelNavigation.viewNavigationList.selectByIndex(me._currentPos);
+                    } else {
+                        me.onChangeOutlinePosition(me._currentPos);
+                        me._currentPos = -1;
+                    }
+                }
+            }
 
             function addToPanel() {
                 if (arr.length<1) {
@@ -180,10 +194,11 @@ define([
                         clearTimeout(me.timerUpdateId);
                         me.timerUpdateId = 0;
                     }
+
                     me.panelNavigation.viewNavigationList.scroller && me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
-                    if (me._currentPos>-1 && me._currentPos<store.length)
-                        me.onChangeOutlinePosition(me._currentPos);
-                    me._currentPos = -1;
+
+                    checkScrollFocus();
+
                     return;
                 }
                 me.timerUpdateId = setTimeout(function () {
@@ -193,14 +208,14 @@ define([
                         item.set('name', me._navigationObject.get_Text(idx));
                         item.set('isEmptyItem', me._navigationObject.isEmptyItem(idx));
                     });
+
                     store.add(added);
-                    if (me._currentPos>-1 && me._currentPos<store.length) {
-                        me.onChangeOutlinePosition(me._currentPos);
-                        me._currentPos = -1;
-                    }
+
+                    checkScrollFocus();
                     addToPanel();
                 }, 1);
             }
+
             addToPanel();
         },
 
