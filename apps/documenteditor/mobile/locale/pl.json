@@ -500,14 +500,14 @@
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
     "savePreparingText": "Preparing to save",
     "savePreparingTitle": "Preparing to save. Please wait...",
+    "savingText": "Saving",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textUndo": "Undo",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "savingText": "Saving"
+    "waitText": "Please, wait..."
   },
   "Main": {
     "criticalErrorTitle": "Błąd",
@@ -789,7 +789,6 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -806,12 +805,12 @@
     "textCloseHistory": "Zamknij historię",
     "textEnterNewFileName": "Wprowadź nową nazwę pliku",
     "textOk": "OK",
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "stayButtonText": "Stay on this page",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

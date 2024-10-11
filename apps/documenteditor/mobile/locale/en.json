@@ -498,6 +498,7 @@
     "savePreparingTitle": "Preparing to save. Please wait...",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "savingText": "Saving",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textContinue": "Continue",
@@ -506,8 +507,7 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "savingText": "Saving"
+    "waitText": "Please, wait..."
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -780,7 +780,6 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "del_textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTheme": "Theme",
     "textTitle": "Title",
@@ -802,6 +801,7 @@
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -809,7 +809,6 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "btnSend": "Send",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"

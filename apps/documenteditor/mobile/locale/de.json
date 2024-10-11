@@ -498,6 +498,7 @@
     "savePreparingTitle": "Speichervorbereitung. Bitte warten...",
     "saveTextText": "Dokument wird gespeichert...",
     "saveTitleText": "Dokument wird gespeichert...",
+    "savingText": "Wird gespeichert",
     "sendMergeText": "Merge wird versandt...",
     "sendMergeTitle": "Ergebnisse der Zusammenführung werden gesendet",
     "textContinue": "Fortsetzen",
@@ -506,8 +507,7 @@
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Bild wird hochgeladen...",
     "uploadImageTitleText": "Bild wird hochgeladen",
-    "waitText": "Bitte warten...",
-    "savingText": "Saving"
+    "waitText": "Bitte warten..."
   },
   "Main": {
     "criticalErrorTitle": "Fehler",
@@ -780,7 +780,6 @@
     "textSpellcheck": "Rechtschreibprüfung",
     "textStatistic": "Statistik",
     "textSubject": "Betreff",
-    "textSubmit": "Senden",
     "textSymbols": "Symbole",
     "textTheme": "Thema",
     "textTitle": "Titel",
@@ -802,6 +801,7 @@
     "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
+    "btnSend": "Senden",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
@@ -811,7 +811,6 @@
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
-    "textSwitchedStandardView": "Standard-Ansicht aktiviert",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Standard-Ansicht aktiviert"
   }
 }

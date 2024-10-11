@@ -681,7 +681,6 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTheme": "Theme",
     "textTitle": "Title",
@@ -790,6 +789,7 @@
     "savePreparingTitle": "Preparing to save. Please wait...",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "savingText": "Saving",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textContinue": "Continue",
@@ -798,10 +798,10 @@
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
-    "waitText": "Please, wait...",
-    "savingText": "Saving"
+    "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -811,7 +811,6 @@
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

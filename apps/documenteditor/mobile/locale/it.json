@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "In riguardo a",
+    "textAbout": "Informazioni su",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
     "textEditor": "Document Editor",
@@ -487,7 +487,7 @@
     "loadImageTextText": "Caricamento dell'immagine...",
     "loadImageTitleText": "Caricamento dell'immagine",
     "loadingDocumentTextText": "Caricamento di documento...",
-    "loadingDocumentTitleText": "Caricamento di documento",
+    "loadingDocumentTitleText": "Caricamento",
     "mailMergeLoadFileText": "Caricamento di fonte di dati...",
     "mailMergeLoadFileTitle": "Caricamento di fonte di dati",
     "openTextText": "Apertura del documento...",
@@ -498,6 +498,7 @@
     "savePreparingTitle": "Preparazione al salvataggio. Attendere prego...",
     "saveTextText": "Salvataggio del documento in corso...",
     "saveTitleText": "Salvataggio del documento",
+    "savingText": "Salvataggio in corso",
     "sendMergeText": "Invio dei resultati della fusione...",
     "sendMergeTitle": "Invio dei resultati della fusione",
     "textContinue": "Continua",
@@ -506,8 +507,7 @@
     "txtEditingMode": "Impostare la modalità di modifica...",
     "uploadImageTextText": "Caricamento dell'immagine...",
     "uploadImageTitleText": "Caricamento dell'immagine",
-    "waitText": "Attendere prego...",
-    "savingText": "Saving"
+    "waitText": "Attendere prego..."
   },
   "Main": {
     "criticalErrorTitle": "Errore",
@@ -664,7 +664,7 @@
     "advTxtOptions": "Selezionare opzioni di TXT",
     "closeButtonText": "Chiudere file",
     "notcriticalErrorTitle": "Avvertimento",
-    "textAbout": "In riguardo a",
+    "textAbout": "Informazioni su",
     "textAddToFavorites": "Aggiunti ai Preferiti",
     "textApplication": "Applicazione",
     "textApplicationSettings": "Impostazioni dell'applicazione",
@@ -780,7 +780,6 @@
     "textSpellcheck": "Controllo ortografico",
     "textStatistic": "Statistica",
     "textSubject": "Oggetto",
-    "textSubmit": "‎Invia‎",
     "textSymbols": "Simboli",
     "textTheme": "Tema",
     "textTitle": "Titolo",
@@ -802,6 +801,7 @@
     "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
   },
   "Toolbar": {
+    "btnSend": "Invia",
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",
     "dlgLeaveTitleText": "Stai lasciando l'app",
     "leaveButtonText": "Lasciare questa pagina",
@@ -811,7 +811,6 @@
     "textOk": "OK",
     "textRenameFile": "Rinomina file",
     "textSwitchedMobileView": "Passato alla visualizzazione per dispositivi mobili",
-    "textSwitchedStandardView": "Passato alla visualizzazione standard",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Passato alla visualizzazione standard"
   }
 }

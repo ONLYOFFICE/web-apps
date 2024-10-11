@@ -498,6 +498,7 @@
     "savePreparingTitle": "Preparando para salvar. Por favor, aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
+    "savingText": "Salvando",
     "sendMergeText": "Enviando mesclar...",
     "sendMergeTitle": "Enviando Mesclar",
     "textContinue": "Continuar",
@@ -506,8 +507,7 @@
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
     "uploadImageTitleText": "Carregando imagem",
-    "waitText": "Por favor, aguarde...",
-    "savingText": "Saving"
+    "waitText": "Por favor, aguarde..."
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -780,7 +780,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -802,6 +801,7 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
+    "btnSend": "Enviar",
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
@@ -811,7 +811,6 @@
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
-    "textSwitchedStandardView": "Alterado para a visualização padrão",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Alterado para a visualização padrão"
   }
 }

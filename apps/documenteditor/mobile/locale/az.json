@@ -794,7 +794,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -808,10 +807,10 @@
     "stayButtonText": "Bu səhifədə qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
     "textOk": "OK",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

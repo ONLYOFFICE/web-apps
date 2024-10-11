@@ -797,7 +797,6 @@
     "textRequirePassword": "Require Password",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing"
   },
@@ -810,8 +809,8 @@
     "textOk": "Labi",
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File",
-    "btnSend": "Send"
+    "textRenameFile": "Rename File"
   }
 }

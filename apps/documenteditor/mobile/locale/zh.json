@@ -498,6 +498,7 @@
     "savePreparingTitle": "正在保存，请稍候...",
     "saveTextText": "正在保存文档...",
     "saveTitleText": "正在保存文件",
+    "savingText": "保存中",
     "sendMergeText": "发送合并中...",
     "sendMergeTitle": "发送合并",
     "textContinue": "继续",
@@ -506,8 +507,7 @@
     "txtEditingMode": "设置编辑模式..",
     "uploadImageTextText": "上传图片...",
     "uploadImageTitleText": "图片上传中",
-    "waitText": "请稍候...",
-    "savingText": "Saving"
+    "waitText": "请稍候..."
   },
   "Main": {
     "criticalErrorTitle": "错误",
@@ -780,7 +780,6 @@
     "textSpellcheck": "拼字檢查",
     "textStatistic": "统计",
     "textSubject": "主题",
-    "textSubmit": "提交",
     "textSymbols": "符号",
     "textTheme": "主题",
     "textTitle": "标题",
@@ -802,6 +801,7 @@
     "txtProtected": "输入密码并打开文件后，将重置当前密码"
   },
   "Toolbar": {
+    "btnSend": "发送",
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
@@ -811,7 +811,6 @@
     "textOk": "确定",
     "textRenameFile": "重命名文件",
     "textSwitchedMobileView": "切换到“移动设备”视图",
-    "textSwitchedStandardView": "切换到标准视图",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "切换到标准视图"
   }
 }
