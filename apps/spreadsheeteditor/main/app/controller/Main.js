@@ -1762,22 +1762,27 @@ define([
                     this.lastFrameError = {id: id, level: level, errData: errData, callback: callback};
                     return;
                 }
-
-                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-                    this.showTips([this.scriptLoadError]);
-                    this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
-                    return;
-                } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
-                    this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
-                    return;
-                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
-                    this.getApplication().getController('Common.Controllers.History').onHashError();
-                    return;
-                } else if (id === Asc.c_oAscError.ID.UpdateVersion) {
-                    Common.UI.TooltipManager.showTip('updateVersion');
-                    return;
+                switch (id) {
+                    case Asc.c_oAscError.ID.LoadingScriptError:
+                        this.showTips([this.scriptLoadError]);
+                        this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
+                        return;
+                    case Asc.c_oAscError.ID.CanNotPasteImage:
+                        this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
+                        return;
+                    case Asc.c_oAscError.ID.DocumentAndChangeMismatch:
+                        this.getApplication().getController('Common.Controllers.History').onHashError();
+                        return;
+                    case Asc.c_oAscError.ID.UpdateVersion:
+                        Common.UI.TooltipManager.showTip('updateVersion');
+                        return;
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        Common.UI.TooltipManager.showTip('sessionIdle');
+                        return;
+                    case Asc.c_oAscError.ID.SessionToken:
+                        Common.UI.TooltipManager.showTip('sessionToken');
+                        return;
                 }
-
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
@@ -1991,14 +1996,6 @@ define([
                         config.msg = this.errorSessionAbsolute;
                         break;
 
-                    case Asc.c_oAscError.ID.SessionIdle:
-                        config.msg = this.errorSessionIdle;
-                        break;
-
-                    case Asc.c_oAscError.ID.SessionToken:
-                        config.msg = this.errorSessionToken;
-                        break;
-
                     case Asc.c_oAscError.ID.AccessDeny:
                         config.msg = this.errorAccessDeny;
                         break;
@@ -2083,11 +2080,6 @@ define([
                     case Asc.c_oAscError.ID.ConvertationOpenLimitError:
                         config.msg = this.errorFileSizeExceed;
                         break;
-
-                    // case Asc.c_oAscError.ID.UpdateVersion:
-                    //     config.msg = this.errorUpdateVersionOnDisconnect;
-                    //     config.maxwidth = 600;
-                    //     break;
 
                     case Asc.c_oAscError.ID.FTChangeTableRangeError:
                         config.msg = this.errorFTChangeTableRangeError;
