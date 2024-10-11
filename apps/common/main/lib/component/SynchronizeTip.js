@@ -238,7 +238,7 @@ define([
 
         var _addTips = function(arr) {
             for (var step in arr) {
-                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name)) {
+                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name) && !(_helpTips[step] && _helpTips[step].tip && _helpTips[step].tip.isVisible())) { // don't replace tip when it's visible
                     _helpTips[step] = arr[step];
                 }
             }
@@ -263,6 +263,8 @@ define([
                 if (step.step) {
                     if (!_helpTips[step.step])
                         _helpTips[step.step] = step;
+                    else
+                        _helpTips[step.step].text = step.text; // change text
                     step = step.step;
                 }
             }

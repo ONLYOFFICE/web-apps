@@ -637,16 +637,11 @@ define([
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
-                    if (!old_rights)
-                        Common.UI.warning({
-                            title: this.notcriticalErrorTitle,
-                            maxwidth: 600,
-                            msg  : _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
-                            callback: function(){
-                                me._state.lostEditingRights = false;
-                                me.onEditComplete();
-                            }
-                        });
+                    !old_rights && Common.UI.TooltipManager.showTip({ step: 'changeRights', text: _.isEmpty(data.message) ? this.warnProcessRightsChange : data.message,
+                        target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                        callback: function() {
+                            me._state.lostEditingRights = false;
+                        }});
                 }
             },
 
@@ -1782,6 +1777,20 @@ define([
                     case Asc.c_oAscError.ID.SessionToken:
                         Common.UI.TooltipManager.showTip('sessionToken');
                         return;
+                    case Asc.c_oAscError.ID.UserDrop:
+                        if (this._state.lostEditingRights) {
+                            this._state.lostEditingRights = false;
+                            return;
+                        }
+                        this._state.lostEditingRights = true;
+                        Common.NotificationCenter.trigger('collaboration:sharingdeny');
+                        var me = this;
+                        Common.UI.TooltipManager.showTip({ step: 'userDrop', text: this.errorUserDrop,
+                            target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true,
+                            callback: function() {
+                                me._state.lostEditingRights = false;
+                            }});
+                        return;
                 }
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
@@ -1943,16 +1952,6 @@ define([
 
                     case Asc.c_oAscError.ID.CannotFillRange:
                         config.msg = this.errorFillRange;
-                        break;
-
-                    case Asc.c_oAscError.ID.UserDrop:
-                        if (this._state.lostEditingRights) {
-                            this._state.lostEditingRights = false;
-                            return;
-                        }
-                        this._state.lostEditingRights = true;
-                        config.msg = this.errorUserDrop;
-                        Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         break;
 
                     case Asc.c_oAscError.ID.InvalidReferenceOrName:
@@ -2287,7 +2286,6 @@ define([
                         } else if (id == Asc.c_oAscError.ID.FillAllRowsWarning && btn === 'fillOther' && _.isFunction(callback)) {
                             callback();
                         }
-                        this._state.lostEditingRights = false;
                         this.onEditComplete();
                     }, this);
                 }
