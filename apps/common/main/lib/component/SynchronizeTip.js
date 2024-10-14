@@ -261,6 +261,22 @@ define([
             }
         };
 
+        var _findTarget = function(target) {
+            if (typeof target === 'string') {
+                if (!_targetStack[target])
+                    _targetStack[target] = [];
+                for (let i=_targetStack[target].length-1; i>=0; i--) {
+                    if (_targetStack[target][i]) {
+                        return _targetStack[target][i];
+                    } else {
+                        _targetStack[target].pop();
+                    }
+                }
+                return $(target);
+            }
+            return target;
+        };
+
         var _showTip = function(step) {
             if (typeof step === 'object') { // init and show tip, object must have 'step' field
                 if (step.step) {
@@ -275,25 +291,11 @@ define([
             if (_getNeedShow(step) && !(_helpTips[step].prev && _getNeedShow(_helpTips[step].prev))) { // show current tip if previous tip has already been shown
                 var props = _helpTips[step],
                     target = props.target,
-                    targetEl;
+                    targetEl = _findTarget(target);
 
                 if (props.tip && props.tip.isVisible())
                     return true;
 
-                if (typeof target === 'string') {
-                    if (!_targetStack[target])
-                        _targetStack[target] = [];
-                    for (let i=_targetStack[target].length-1; i>=0; i--) {
-                        if (_targetStack[target][i]) {
-                            targetEl = _targetStack[target][i];
-                            break;
-                        } else {
-                            _targetStack[target].pop();
-                        }
-                    }
-                    !targetEl && (targetEl = $(target));
-                } else
-                    targetEl = target;
                 if (!(targetEl && targetEl.length && targetEl.is(':visible')))
                     return false;
 
@@ -333,8 +335,8 @@ define([
                         props.callback && props.callback();
                         props.next && _showTip(props.next);
                         !props.multiple && (delete _helpTips[step]);
-                        if (typeof props.target === 'string' && props.stackIdx) {
-                            _targetStack[props.target][props.stackIdx-1] = undefined;
+                        if (typeof target === 'string' && props.stackIdx) {
+                            _targetStack[target][props.stackIdx-1] = undefined;
                             props.stackIdx = undefined;
                         }
                     }
