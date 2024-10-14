@@ -234,6 +234,9 @@ define([
             //     noHighlight: false // false by default,
             //     multiple: false // false by default, show tip multiple times
             // }
+        },
+        _targetStack = {
+            // 'targetStr' : [targetEl1, targetEl2...]
         };
 
         var _addTips = function(arr) {
@@ -271,26 +274,39 @@ define([
             if (!_helpTips[step]) return;
             if (_getNeedShow(step) && !(_helpTips[step].prev && _getNeedShow(_helpTips[step].prev))) { // show current tip if previous tip has already been shown
                 var props = _helpTips[step],
-                    target = props.target;
+                    target = props.target,
+                    targetEl;
 
                 if (props.tip && props.tip.isVisible())
                     return true;
 
-                if (typeof target === 'string')
-                    target = $(target);
-                if (!(target && target.length && target.is(':visible')))
+                if (typeof target === 'string') {
+                    if (!_targetStack[target])
+                        _targetStack[target] = [];
+                    for (let i=_targetStack[target].length-1; i>=0; i--) {
+                        if (_targetStack[target][i]) {
+                            targetEl = _targetStack[target][i];
+                            break;
+                        } else {
+                            _targetStack[target].pop();
+                        }
+                    }
+                    !targetEl && (targetEl = $(target));
+                } else
+                    targetEl = target;
+                if (!(targetEl && targetEl.length && targetEl.is(':visible')))
                     return false;
 
                 var placement = props.placement || 'bottom';
                 if (Common.UI.isRTL()) {
                     placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
                 }
-                !props.noHighlight && target.addClass('highlight-tip');
+                !props.noHighlight && targetEl.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored' + (props.noHighlight ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
-                    target: target,
+                    target: targetEl,
                     text: props.text,
                     textHeader: props.header,
                     showLink: !!props.link,
@@ -312,14 +328,22 @@ define([
                         Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
-                        target.removeClass('highlight-tip');
+                        targetEl.removeClass('highlight-tip');
                         props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
                         props.next && _showTip(props.next);
                         !props.multiple && (delete _helpTips[step]);
+                        if (typeof props.target === 'string' && props.stackIdx) {
+                            _targetStack[props.target][props.stackIdx-1] = undefined;
+                            props.stackIdx = undefined;
+                        }
                     }
                 });
                 props.tip.show();
+                if (typeof target === 'string') {
+                    _targetStack[target].push(props.tip.cmpEl);
+                    props.stackIdx = _targetStack[target].length;
+                }
             }
             return true;
         };
