@@ -1138,7 +1138,7 @@ define([
                     changed: false,
                     opened: false
                 };
-                if (this.options.isDesktopApp) {
+                if (this.options.isDesktopApp && this.options.isOffline) {
                     this.spreadsheets.data.push({displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1});
                 }
 
