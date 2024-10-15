@@ -515,7 +515,7 @@
   "Common.Views.Header.txtRename": "重新命名",
   "Common.Views.History.textCloseHistory": "关闭历史记录",
   "Common.Views.History.textHideAll": "隐藏详细的更改",
-  "Common.Views.History.textHighlightDeleted": "高亮已删除",
+  "Common.Views.History.textHighlightDeleted": "突出显示已删除的内容",
   "Common.Views.History.textMore": "更多",
   "Common.Views.History.textRestore": "恢复",
   "Common.Views.History.textShowAll": "显示详细的更改",

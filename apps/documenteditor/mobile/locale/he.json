@@ -498,6 +498,7 @@
     "savePreparingTitle": "היערכות לשמירה נא להמתין...",
     "saveTextText": "שמירת מסמך...",
     "saveTitleText": "שמירת מסמך",
+    "savingText": "חיסכון",
     "sendMergeText": "שליחת מיזוג...",
     "sendMergeTitle": "שליחת מיזוג",
     "textContinue": "המשך",
@@ -506,8 +507,7 @@
     "txtEditingMode": "הגדרת מצב עריכה...",
     "uploadImageTextText": "העלאת תמונה...",
     "uploadImageTitleText": "העלאת תמונה",
-    "waitText": "נא להמתין ...",
-    "savingText": "Saving"
+    "waitText": "נא להמתין ..."
   },
   "Main": {
     "criticalErrorTitle": "שגיאה",
@@ -801,6 +801,7 @@
     "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
   },
   "Toolbar": {
+    "btnSend": "שלח",
     "dlgLeaveMsgText": "יש שינויים שלא נשמרו. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "יציאה מדף הזה",
@@ -810,7 +811,6 @@
     "textOk": "בסדר",
     "textRenameFile": "שינוי שם קובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
-    "textSwitchedStandardView": "החלפה לתצוגה רגילה",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "החלפה לתצוגה רגילה"
   }
 }

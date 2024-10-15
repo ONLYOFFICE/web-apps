@@ -1337,7 +1337,7 @@
   "DE.Controllers.Toolbar.textDownloadPdf": "下载 PDF",
   "DE.Controllers.Toolbar.textEmptyMMergeUrl": "你必须指定URL",
   "DE.Controllers.Toolbar.textFieldExample": "代码编写示例：TIME \\@ \"dddd, MMMM d, yyyy\"",
-  "DE.Controllers.Toolbar.textFieldLabel": "字段代码",
+  "DE.Controllers.Toolbar.textFieldLabel": "域代码",
   "DE.Controllers.Toolbar.textFieldTitle": "字段",
   "DE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确<br>请输入一个介于1和300之间的数值",
   "DE.Controllers.Toolbar.textFraction": "分数",
