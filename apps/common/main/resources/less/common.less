@@ -201,7 +201,6 @@ label {
         background-color: @background-toolbar;
         display: flex;
         flex-direction: column;
-        gap: 4px;
         padding: 15px 0 24px;
 
         .rtl & {
@@ -222,6 +221,7 @@ label {
             list-style: none;
             position: relative;
             flex-shrink: 0;
+            margin-bottom: 4px;
 
             &.fm-btn {
                 height: 28px;
@@ -268,12 +268,12 @@ label {
             &.devider {
                 .dropdown-menu .divider;
                 margin-top: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 14px;
             }
 
             &.devider-small {
                 margin-top: 7px;
-                margin-bottom: 7px;
+                margin-bottom: 11px;
             }
 
             &.devider-last {
@@ -303,7 +303,6 @@ label {
                 padding:0;
                 display: flex;
                 align-items: center;
-                gap: 8px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: 12px;
@@ -315,6 +314,10 @@ label {
 
                 &:focus {
                     outline: 0;
+                }
+
+                .menu-item-icon {
+                    .margin-right-8();
                 }
 
                 &:not(:has(.menu-item-icon)) {
