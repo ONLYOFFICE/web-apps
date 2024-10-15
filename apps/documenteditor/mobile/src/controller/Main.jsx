@@ -460,7 +460,7 @@ class MainController extends Component {
 
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
-                    this.appOptions   = {};
+                    this.appOptions   = {isCorePDF: isPDF};
                     this.bindEvents();
 
                     Common.Gateway.on('init',           loadConfig);
@@ -802,6 +802,27 @@ class MainController extends Component {
             storeDocumentSettings.changeDocSize(w, h);
         });
 
+        if ( this.appOptions.isCorePDF ) {
+            this.api.asc_registerCallback('asc_onShowPDFFormsActions', (obj, x, y) => {
+                switch (obj.type) {
+                    case AscPDF.FIELD_TYPES.combobox:
+                        this.onShowListActions(obj, x, y);
+                        break;
+                    case AscPDF.FIELD_TYPES.text:
+                        this.onShowDateActions(obj, x, y);
+                        break;
+                }
+            });
+
+            this.api.asc_registerCallback('asc_onHidePdfFormsActions', () => {
+                if ( this.cmpCalendar && this.cmpCalendar.opened )
+                    this.cmpCalendar.close();
+            });
+        }
+
+        this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
+        });
+
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
             const storeAppOptions = this.props.storeAppOptions;
             const isForm = storeAppOptions.isForm;
@@ -1089,12 +1110,17 @@ class MainController extends Component {
         const { t } = this.props;
         const boxSdk = $$('#editor_sdk');
 
-        let props = obj.pr,
-            specProps = props.get_DateTimePr(),
-            isPhone = Device.isPhone,
-            controlsContainer = boxSdk.find('#calendar-target-element'),
-            _dateObj = props;
+        let val = undefined;
+        if ( !this.appOptions.isCorePDF ) {
+            const specProps = obj.pr.get_DateTimePr();
+            if ( specProps )
+                val = specProps.get_FullDate();
+        } else {
+            if ( obj )
+                val = obj.asc_GetValue();
+        }
 
+        let controlsContainer = boxSdk.find('#calendar-target-element');
         if (controlsContainer.length < 1) {
             controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
             boxSdk.append(controlsContainer);
@@ -1102,25 +1128,34 @@ class MainController extends Component {
 
         controlsContainer.css({left: `${x}px`, top: `${y}px`});
 
-        const val = specProps ? specProps.get_FullDate() : undefined;
         this.cmpCalendar = f7.calendar.create({
             inputEl: '#calendar-target-element',
             dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
             monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
-            backdrop: isPhone ? false : true,
-            closeByBackdropClick: isPhone ? false : true,
+            backdrop: !Device.isPhone,
+            closeByBackdropClick: !Device.isPhone,
             value: [val ? new Date(val) : new Date()],
-            openIn: isPhone ? 'sheet' : 'popover',
+            openIn: Device.isPhone ? 'sheet' : 'popover',
             on: {
                 change: (calendar, value) => {
                     if(calendar.initialized && value[0]) {
-                        let specProps = _dateObj.get_DateTimePr();
-                        specProps.put_FullDate(new Date(value[0]));
-                        this.api.asc_SetContentControlDatePickerDate(specProps);
-                        calendar.close();
-                        this.api.asc_UncheckContentControlButtons();
+                        if ( !this.appOptions.isCorePDF ) {
+                            const specProps = obj.pr.get_DateTimePr();
+                            specProps.put_FullDate(new Date(value[0]));
+                            this.api.asc_SetContentControlDatePickerDate(specProps);
+                            calendar.close();
+                            this.api.asc_UncheckContentControlButtons();
+                        } else {
+                            const specProps = new AscCommon.CSdtDatePickerPr();
+                            specProps.put_FullDate(new Date(value[0]));
+                            this.api.asc_SetTextFormDatePickerDate(specProps);
+                            calendar.close();
+                        }
                     }
-                }
+                },
+                closed: () => {
+                    this.cmpCalendar = null;
+                },
             }
         });
 
@@ -1142,7 +1177,9 @@ class MainController extends Component {
             dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
         }
 
-        Common.Notifications.trigger('openDropdownList', obj);
+        if ( !this.appOptions.isCorePDF )
+            Common.Notifications.trigger('openDropdownList', obj);
+        else Common.Notifications.trigger('openPdfDropdownList', obj);
     }
 
     onProcessSaveResult (data) {
