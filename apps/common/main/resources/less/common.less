@@ -249,7 +249,8 @@ label {
                     }
 
                     .menu-item-icon {
-                        background-position-x: var(--button-small-active-icon-offset-x, 0);
+                        background-position-x: -20px;
+                        background-position-x: @button-small-active-icon-offset-x;
                     }
 
                     svg.menu-item-icon {
@@ -287,7 +288,8 @@ label {
                 line-height: 20px;
                 position: relative;
                 &:not(:disabled) {
-                    opacity: var(--component-normal-icon-opacity, 0.8);
+                    opacity: 0.8;
+                    opacity: @component-normal-icon-opacity;
                 }
             }
 
