@@ -201,7 +201,6 @@ define([
                 if (_btn) {
                     if (!insideMode) {
                         _btn.toggle(true);
-                        this.updatePluginButton(model);
                     }
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStop);
@@ -221,7 +220,6 @@ define([
                 if (_btn) {
                     if (!insideMode) {
                         _btn.toggle(false);
-                        this.updatePluginButton(model);
                     }
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStart);
@@ -335,60 +333,7 @@ define([
         },
 
         parseIcons: function(icons) {
-            icons = this.iconsStr2IconsObj(icons);
-            if (icons.length && typeof icons[0] !== 'string') {
-                var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
-                    style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
-                    idx = -1;
-                for (var i=0; i<icons.length; i++) {
-                    if (icons[i].theme && icons[i].theme.toLowerCase() == theme) {
-                        idx = i;
-                        break;
-                    }
-                }
-                if (idx<0)
-                    for (var i=0; i<icons.length; i++) {
-                        if (icons[i].style && icons[i].style.toLowerCase() == style) {
-                            idx = i;
-                            break;
-                        }
-                    }
-                (idx<0) && (idx = 0);
-
-                var ratio = Common.Utils.applicationPixelRatio()*100,
-                    current = icons[idx],
-                    bestDistance = 10000,
-                    currentDistance = 0,
-                    defUrl,
-                    bestUrl;
-                for (var key in current) {
-                    if (current.hasOwnProperty(key)) {
-                        if (key=='default') {
-                            defUrl = current[key];
-                        } else if (!isNaN(parseInt(key))) {
-                            currentDistance = Math.abs(ratio-parseInt(key));
-                            if (currentDistance < (bestDistance - 0.01))
-                            {
-                                bestDistance = currentDistance;
-                                bestUrl = current[key];
-                            }
-                        }
-                    }
-                }
-                (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
-                return {
-                    'normal': bestUrl ? bestUrl['normal'] : '',
-                    'hover': bestUrl ? bestUrl['hover'] || bestUrl['normal'] : '',
-                    'active': bestUrl ? bestUrl['active'] || bestUrl['normal'] : ''
-                };
-            } else { // old version
-                var url = icons[((Common.Utils.applicationPixelRatio() > 1 && icons.length > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
-                return {
-                    'normal': url,
-                    'hover': url,
-                    'active': url
-                };
-            }
+            return Common.UI.getSuitableIcons(this.iconsStr2IconsObj(icons)); // TODO: fix format for icons string and use Common.UI.iconsStr2IconsObj
         },
 
         updatePluginIcons: function(model) {
@@ -405,14 +350,8 @@ define([
         updatePluginButton: function(model) {
             if (!model.get('visible') || !model.get('parsedIcons'))
                 return null;
-
-            var btn = model.get('button'),
-                menuItem = model.get('backgroundPlugin');
-            if (menuItem && menuItem.cmpEl) {
-                menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
-            } else if (btn && btn.cmpEl) {
-                btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
-            }
+            var menuItem = model.get('backgroundPlugin');
+            menuItem && menuItem.cmpEl && menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
         },
 
         createBackgroundPluginsButton: function () {
@@ -451,13 +390,11 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                icon_cls, icon_url;
+                icon_cls;
             if (icons === '') {
                 icon_cls = 'toolbar__icon btn-plugin-default'
             } else {
-                var parsedIcons = this.parseIcons(icons);
-                icon_url = model.get('baseUrl') + parsedIcons['normal'];
-                model.set('parsedIcons', parsedIcons);
+                model.set('parsedIcons', this.parseIcons(icons));
             }
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
@@ -470,10 +407,11 @@ define([
             });
 
             var _set = Common.enumLock;
-            var btn = new Common.UI.Button({
+            var btn = new Common.UI.ButtonCustom({
                 cls: 'btn-toolbar x-huge icon-top',
                 iconCls: icon_cls,
-                iconImg: icon_url,
+                iconsSet: this.iconsStr2IconsObj(icons),
+                baseUrl: model.get('baseUrl'), // icons have a relative path, so need to use the base url
                 caption: Common.Utils.String.htmlEncode(model.get('name')),
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
