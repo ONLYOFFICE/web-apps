@@ -211,11 +211,22 @@ label {
         }
 
         svg.menu-item-icon {
-            display: none;
+            display: block;
+            fill: var(--icon-normal);
         }
 
         span.menu-item-icon {
-            display: block;
+            display: none;
+        }
+
+        .pixel-ratio__1_25 &, .pixel-ratio__1_5 &, .pixel-ratio__1_75 & {
+            svg.menu-item-icon {
+                display: none;
+            }
+
+            span.menu-item-icon {
+                display: block;
+            }
         }
 
         li {
@@ -338,21 +349,6 @@ label {
         padding: 3px 5px;
         border-radius: 2px;
         .margin-left-10();
-    }
-}
-
-.pixel-ratio__2_5 {
-    #file-menu-panel {
-        .panel-menu {
-            svg.menu-item-icon {
-                fill: var(--icon-normal);
-                display: block;
-            }
-
-            span.menu-item-icon {
-                display: none;
-            }
-        }
     }
 }
 

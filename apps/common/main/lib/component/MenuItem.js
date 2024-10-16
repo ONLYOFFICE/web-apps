@@ -114,7 +114,9 @@ define([
         template: _.template([
             '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
-                    '<span class="menu-item-icon <%= iconCls %>"></span>',
+                    '<svg class="menu-item-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>">',
+                        '<use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use>',
+                    '</svg>',
                 '<% } else if (!_.isEmpty(iconImg)) { %>',
                     '<img src="<%= iconImg %>" class="menu-item-icon">',
                 '<% } %>',
@@ -238,9 +240,7 @@ define([
                         me.applyScaling(Common.UI.Scaling.currentRatio());
 
                         el.on('app:scaling', function (e, info) {
-                            if ( me.options.scaling != info.ratio ) {
-                                me.applyScaling(info.ratio);
-                            }
+                            me.applyScaling(info.ratio);
                         });
                     }
                 }
@@ -263,6 +263,7 @@ define([
         },
 
         setIconCls: function(iconCls) {
+            // todo: rework setIconCls
             if (this.rendered && !_.isEmpty(this.iconCls)) {
                 var firstChild = this.cmpEl.children(':first');
                 if (firstChild) {
@@ -391,7 +392,7 @@ define([
         _doUnHover: function(e) {
             var me = this;
             if (me.cmpEl.hasClass('dropdown-submenu') && me.cmpEl.hasClass('over') &&
-               (e && e.relatedTarget && me.cmpEl.find(e.relatedTarget).length>0 || me.cmpEl.hasClass('focused-submenu'))) {
+                (e && e.relatedTarget && me.cmpEl.find(e.relatedTarget).length>0 || me.cmpEl.hasClass('focused-submenu'))) {
                 // When focus go from menuItem to it's submenu don't hide this submenu
                 me.cmpEl.removeClass('focused-submenu');
                 return;
@@ -437,20 +438,12 @@ define([
         },
 
         applyScaling: function (ratio) {
-            var me = this;
-            if (me.options.scaling != ratio) {
-                me.options.scaling = ratio;
-                var firstChild = this.cmpEl.children(':first');
-
-                if (ratio === 1 || ratio >= 2) {
-                    if (!firstChild.find('svg.menu-item-icon').length) {
-                        var iconCls = me.iconCls,
-                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
-                            icon_name = re_icon_name ? re_icon_name[0] : "null",
-                            rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '',
-                            svg_icon = '<svg class="menu-item-icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
-
-                        firstChild.find('span.menu-item-icon').after(svg_icon);
+            if (this.options.scaling !== ratio) {
+                this.options.scaling = ratio;
+                if (ratio > 1 || ratio < 2) {
+                    const firstChild = this.cmpEl.children(':first');
+                    if (!firstChild.find('span.menu-item-icon').length) {
+                        firstChild.find('svg.menu-item-icon').after(`<span class="menu-item-icon ${this.iconCls}"></span>`);
                     }
                 }
             }
