@@ -498,6 +498,7 @@
     "savePreparingTitle": "保存の準備中です。お待ちください...",
     "saveTextText": "文書を保存中...",
     "saveTitleText": "文書を保存中",
+    "savingText": "保存中",
     "sendMergeText": "結合の結果の送信中...",
     "sendMergeTitle": "結合の結果の送信中",
     "textContinue": "続ける",
@@ -779,7 +780,6 @@
     "textSpellcheck": "スペルチェック",
     "textStatistic": "統計値",
     "textSubject": "件名",
-    "textSubmit": "送信",
     "textSymbols": "記号",
     "textTheme": "テーマ",
     "textTitle": "タイトル",
@@ -801,6 +801,7 @@
     "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。"
   },
   "Toolbar": {
+    "btnSend": "送信",
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",

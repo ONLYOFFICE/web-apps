@@ -506,7 +506,8 @@
     "txtEditingMode": "Establir el mode d'edició ...",
     "uploadImageTextText": "S'està carregant la imatge...",
     "uploadImageTitleText": "S'està carregant la imatge",
-    "waitText": "Espera..."
+    "waitText": "Espera...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Error",
@@ -778,7 +779,6 @@
     "textSpellcheck": "Revisió ortogràfica",
     "textStatistic": "Estadístiques",
     "textSubject": "Assumpte",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbols",
     "textTheme": "Tema",
     "textTitle": "Títol",
@@ -810,6 +810,7 @@
     "textOk": "D'acord",
     "textRenameFile": "Canvia el nom del fitxer",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
-    "textSwitchedStandardView": "S'ha canviat a visualització estàndard"
+    "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
+    "btnSend": "Send"
   }
 }

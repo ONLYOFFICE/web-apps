@@ -505,6 +505,7 @@
     "uploadImageTitleText": "Nahrávanie obrázku",
     "waitText": "Čakajte, prosím...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Saving",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -789,7 +790,6 @@
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
     "textSetPassword": "Set Password",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -805,6 +805,7 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
+    "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",

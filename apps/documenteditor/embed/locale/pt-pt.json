@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "Ocorreu um erro ao abrir o ficheiro.<br>O conteúdo do ficheiro corresponde a uma folha de cálculo (xls, xlsx...), mas a extensão de ficheiro não é consistente: %1",
   "DE.ApplicationController.errorLoadingFont": "Tipos de letra não carregados.<br>Por favor contacte o administrador do servidor de documentos.",
   "DE.ApplicationController.errorSubmit": "Falha ao submeter.",
+  "DE.ApplicationController.errorToken": "O 'token' de segurança do documento não está formatado corretamente.<br>Contacte o administrador do servidor de documentos.",
   "DE.ApplicationController.errorTokenExpire": "O 'token' de segurança do documento caducou.<br>Contacte o administrador do servidor de documentos.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "A ligação foi restaurada e a versão do ficheiro alterada.<br>Antes de poder trabalhar, deve descarregar o ficheiro ou copiar o seu conteúdo para garantir que nada se perde e, depois, recarregar esta página.",
   "DE.ApplicationController.errorUserDrop": "De momento, não é possível aceder ao ficheiro.",
@@ -34,7 +35,9 @@
   "DE.ApplicationController.scriptLoadError": "A ligação está muito lenta e alguns dos componentes não foram carregados. Recarregue a página.",
   "DE.ApplicationController.textAnonymous": "Anónimo",
   "DE.ApplicationController.textClear": "Limpar todos os campos",
+  "DE.ApplicationController.textConvertFormDownload": "Descarregar o ficheiro como um formulário PDF preenchível para o poder preencher.",
   "DE.ApplicationController.textCtrl": "Ctrl",
+  "DE.ApplicationController.textDownloadPdf": "Descarregar PDF",
   "DE.ApplicationController.textGotIt": "Percebi",
   "DE.ApplicationController.textGuest": "Convidado",
   "DE.ApplicationController.textLoadingDocument": "A carregar documento",
@@ -60,6 +63,6 @@
   "DE.ApplicationView.txtFileLocation": "Abrir localização do ficheiro",
   "DE.ApplicationView.txtFullScreen": "Ecrã inteiro",
   "DE.ApplicationView.txtPrint": "Imprimir",
-  "DE.ApplicationView.txtSearch": "Pesquisar",
+  "DE.ApplicationView.txtSearch": "Localizar",
   "DE.ApplicationView.txtShare": "Partilhar"
 }

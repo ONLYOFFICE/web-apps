@@ -498,6 +498,7 @@
     "savePreparingTitle": "Preparing to save. Please wait...",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "savingText": "Saving",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textContinue": "Continue",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTheme": "Theme",
     "textTitle": "Title",
@@ -801,6 +801,7 @@
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",

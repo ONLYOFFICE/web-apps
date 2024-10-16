@@ -506,7 +506,8 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上傳圖片中",
-    "waitText": "請耐心等待..."
+    "waitText": "請耐心等待...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "錯誤",
@@ -795,7 +796,6 @@
     "textRemoveFromFavorites": "Remove from Favorites",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
@@ -808,6 +808,7 @@
     "textOk": "好",
     "textSwitchedMobileView": "切換至行動版檢視",
     "textSwitchedStandardView": "切換至標準版檢視",
+    "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"

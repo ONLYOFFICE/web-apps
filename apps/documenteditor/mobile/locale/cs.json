@@ -506,7 +506,8 @@
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Kontrola pravopisu",
     "textStatistic": "Statistický",
     "textSubject": "Předmět",
-    "textSubmit": "Odeslat",
     "textSymbols": "Symboly",
     "textTheme": "Prostředí",
     "textTitle": "Název",
@@ -810,6 +810,7 @@
     "textOk": "OK",
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
-    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "btnSend": "Send"
   }
 }

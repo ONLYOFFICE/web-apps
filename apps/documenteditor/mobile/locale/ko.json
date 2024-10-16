@@ -506,7 +506,8 @@
     "txtEditingMode": "편집 모드 설정 ...",
     "uploadImageTextText": "이미지 업로드 중 ...",
     "uploadImageTitleText": "이미지 업로드 중",
-    "waitText": "잠시만 기다려주세요..."
+    "waitText": "잠시만 기다려주세요...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "오류",
@@ -808,6 +809,7 @@
     "textOk": "확정",
     "textRenameFile": "파일 이름 변경",
     "textSwitchedMobileView": "모바일 보기로 전환되었습니다.",
-    "textSwitchedStandardView": "표준 보기로 전환되었습니다."
+    "textSwitchedStandardView": "표준 보기로 전환되었습니다.",
+    "btnSend": "Send"
   }
 }

@@ -187,6 +187,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-rtl-sheet"></span>
+                </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-print-gridlines"></span>

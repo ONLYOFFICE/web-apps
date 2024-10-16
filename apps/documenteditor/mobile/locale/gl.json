@@ -506,6 +506,7 @@
     "uploadImageTitleText": "Cargando imaxe",
     "waitText": "Agarde...",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Saving",
     "textContinue": "Continue"
   },
   "Main": {
@@ -792,7 +793,6 @@
     "textRequirePassword": "Require Password",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -807,6 +807,7 @@
     "stayButtonText": "Quedarse nesta páxina",
     "textCloseHistory": "Pechar historial",
     "textOk": "Aceptar",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",

@@ -152,7 +152,8 @@ define([
                     "table of figures": this.txtTableOfFigures,
                     "TOC Heading": this.txtTOCHeading,
                     "Anyone": this.textAnyone,
-                    "Text": this.textText
+                    "Text": this.textText,
+                    "Signature": this.textSignature
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;

@@ -604,6 +604,7 @@ define([
                 supportBooks: supportBooks,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
+                isOffline: me.statusbar.mode.isOffline,
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {

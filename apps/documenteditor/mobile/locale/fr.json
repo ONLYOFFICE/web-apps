@@ -498,6 +498,7 @@
     "savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
     "saveTextText": "Enregistrement document en cours...",
     "saveTitleText": "Enregistrement du document",
+    "savingText": "Enregistrement",
     "sendMergeText": "Envoie du résultat de la fusion...",
     "sendMergeTitle": "Envoie du résultat de la fusion",
     "textContinue": "Continuer",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Vérification orthographique",
     "textStatistic": "Statistique",
     "textSubject": "Sujet",
-    "textSubmit": "Envoyer",
     "textSymbols": "Symboles",
     "textTheme": "Thème",
     "textTitle": "Titre",
@@ -801,6 +801,7 @@
     "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé"
   },
   "Toolbar": {
+    "btnSend": "Envoyer",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",

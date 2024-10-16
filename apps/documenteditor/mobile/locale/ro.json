@@ -498,6 +498,7 @@
     "savePreparingTitle": "Pregătire pentru salvare. Vă rugăm să așteptați...",
     "saveTextText": "Salvarea documentului...",
     "saveTitleText": "Salvare document",
+    "savingText": "Salvare",
     "sendMergeText": "Trimitere îmbinare a corespondenței...",
     "sendMergeTitle": "Trimitere îmbinare a corespondenței ",
     "textContinue": "Continuare",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Verificarea ortografică",
     "textStatistic": "Statistic",
     "textSubject": "Subiect",
-    "textSubmit": "Trimitere",
     "textSymbols": "Simboluri",
     "textTheme": "Temă",
     "textTitle": "Titlu",
@@ -801,6 +801,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",

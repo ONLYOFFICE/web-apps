@@ -270,8 +270,11 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: this.helpProtectRange, header: this.helpProtectRangeHeader, target: '#slot-btn-protect-range', automove: true}
+                'insPivot' : {name: 'sse-help-tip-ins-pivot', placement: 'bottom-right', text: this.helpInsPivot, header: this.helpInsPivotHeader, target: 'li.ribtab #ins', automove: true},
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             });
+
         },
 
         attachUIEvents: function(toolbar) {
@@ -476,8 +479,10 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me, undefined));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
-                toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
-                toolbar.chPrintHeadings.on('change',                         _.bind(this.onPrintHeadingsChange, this));
+                toolbar.chPrintGridlines.on('change',                       _.bind(this.onPrintGridlinesChange, this));
+                toolbar.chPrintHeadings.on('change',                        _.bind(this.onPrintHeadingsChange, this));
+                toolbar.btnRtlSheet.on('click',                             _.bind(this.onRtlSheetClick, this));
+
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
@@ -2641,7 +2646,8 @@ define([
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex(),
                 props = this.api.asc_getPageOptions(currentSheet),
-                opt = props.asc_getPageSetup();
+                opt = props.asc_getPageSetup(),
+                params  = this.api.asc_getSheetViewSettings();
 
             this.onApiPageOrient(opt.asc_getOrientation());
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
@@ -2649,6 +2655,7 @@ define([
             this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
             this.onApiGridLines(props.asc_getGridLines());
             this.onApiHeadings(props.asc_getHeadings());
+            this.onApiRtlSheet(params.asc_getRightToLeft());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -2666,6 +2673,10 @@ define([
 
         onApiHeadings: function (checked) {
             this.toolbar.chPrintHeadings.setValue(checked, true);
+        },
+
+        onApiRtlSheet: function (checked) {
+            this.toolbar.btnRtlSheet.toggle(!!checked, true);
         },
 
         onApiPageSize: function(w, h) {
@@ -4642,6 +4653,7 @@ define([
 
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
+                    Common.UI.TooltipManager.showTip('insPivot');
                     me.toolbar.onAppReady(config);
                 }
             });
@@ -4928,12 +4940,17 @@ define([
         },
 
         onPrintGridlinesChange: function (field, value) {
-            this.api.asc_SetPrintGridlines(value === 'checked');
+            this.api && this.api.asc_SetPrintGridlines(value === 'checked');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onPrintHeadingsChange: function (field, value) {
-            this.api.asc_SetPrintHeadings(value === 'checked');
+            this.api && this.api.asc_SetPrintHeadings(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRtlSheetClick: function (btn) {
+            this.api && this.api.asc_setRightToLeft(btn.pressed);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -5193,8 +5210,8 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'protect') ? Common.UI.TooltipManager.showTip('protectRange') : Common.UI.TooltipManager.closeTip('protectRange');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('quickAccess');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('insPivot');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         onClickTab: function(tab) {
@@ -5202,7 +5219,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('protectRange');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

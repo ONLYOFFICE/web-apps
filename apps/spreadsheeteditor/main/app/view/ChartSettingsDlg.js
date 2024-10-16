@@ -241,6 +241,14 @@ define([
 
             this.lblLines = $('#chart-dlg-label-lines');
 
+            this.chShowEquation = new Common.UI.CheckBox({
+                el: $('#chart-dlg-chk-show-equation'),
+                labelText: this.textShowEquation
+            }).on('change', _.bind(function (checkbox, state) {
+                if (this.chartSettings)
+                    this.chartSettings.putDisplayTrendlinesEquation(state==='checked');
+            }, this));
+
             // Vertical Axis
             this.cmbMinType = [];
             this.spnMinValue = [];
@@ -1193,6 +1201,7 @@ define([
             this.chMarkers.setVisible(value);
             this.cmbLines.setVisible(value);
             this.lblLines.toggleClass('hidden', !value);
+            this.lblLines.closest('tr').toggleClass('hidden', !value);
 
             if (value) {
                 this.chMarkers.setValue(this.chartSettings.getShowMarker(), true);
@@ -1510,7 +1519,11 @@ define([
                     var value = props.getSeparator();
                     this.txtSeparator.setValue((value) ? value : '');
 
-                    Common.UI.FocusManager.add(this, [this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.chSeriesName, this.chCategoryName, this.chValue, this.txtSeparator, this.cmbLines, this.chMarkers]);
+                    value = this.chartSettings.getDisplayTrendlinesEquation();
+                    this.chShowEquation.setValue(value !== undefined ? !!value : 'indeterminate', true);
+                    this.chShowEquation.setDisabled(value===null, true);
+
+                    Common.UI.FocusManager.add(this, [this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.chSeriesName, this.chCategoryName, this.chValue, this.txtSeparator, this.cmbLines, this.chMarkers, this.chShowEquation]);
 
                     // Vertical Axis
                     this.vertAxisProps = props.getVertAxesProps();
@@ -1987,7 +2000,9 @@ define([
         textHideAxis: 'Hide axis',
         textFormat: 'Label format',
         textBase: 'Base',
-        textLogScale: 'Logarithmic Scale'
+        textLogScale: 'Logarithmic Scale',
+        textTrendlineOptions: 'Trendline options',
+        textShowEquation: 'Display equation on chart'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });

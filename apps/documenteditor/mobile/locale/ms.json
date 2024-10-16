@@ -505,6 +505,7 @@
     "uploadImageTitleText": "Imej dimuat naik",
     "waitText": "Sila, tunggu…",
     "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Saving",
     "textContinue": "Continue",
     "textUndo": "Undo"
   },
@@ -790,7 +791,6 @@
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
     "textSetPassword": "Set Password",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -806,6 +806,7 @@
     "leaveButtonText": "Tinggalkan Halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
     "textOk": "Okey",
+    "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",

@@ -57,6 +57,7 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
+                    this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
                     var $item = $(event.currentTarget);
                     if ($item.hasClass('disabled')) {
                         return;
@@ -379,10 +380,12 @@ define([
 
             this.api && this.api.asc_enableKeyEvents(false);
 
+            this.mode.isEdit && Common.UI.TooltipManager.showTip('customInfo');
             this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
+            this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
             // this.api && this.api.asc_enableKeyEvents(true);
