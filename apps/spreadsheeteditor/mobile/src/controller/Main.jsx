@@ -1143,6 +1143,7 @@ class MainController extends Component {
     }
 
     onProcessSaveResult (data) {
+        console.log("axing onProcessSaveResult", data)
         this.api.asc_OnSaveEnd(data.result);
 
         if (data && data.result === false) {
@@ -1155,7 +1156,13 @@ class MainController extends Component {
         }
     }
 
+    /**
+     * 这是权限改变之后的操作，和存储无关
+     * @param data
+     */
+
     onProcessRightsChange (data) {
+        console.log("axing onProcessRightsChange", data)
         if (data && data.enabled === false) {
             const appOptions = this.props.storeAppOptions;
             const old_rights = appOptions.lostEditingRights;
@@ -1181,7 +1188,7 @@ class MainController extends Component {
 
     onDownloadAs(format) {
         const appOptions = this.props.storeAppOptions;
-
+        console.log("axing onDownloadAs", format, appOptions)
         if(!appOptions.canDownload) {
             const { t } = this.props;
             const _t = t('Controller.Main', { returnObjects:true });

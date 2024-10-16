@@ -72,6 +72,7 @@ if (window.Common === undefined) {
             },
 
             'setHistoryData': function(data) {
+                console.log("axing setHistoryData", data)
                 $me.trigger('sethistorydata', data);
             },
 
@@ -407,6 +408,7 @@ if (window.Common === undefined) {
             },
 
             saveDocument: function(data) {
+                console.log("axing saveDocument", data)
                 data && _postMessage({
                     event: 'onSaveDocument',
                     data: data.buffer

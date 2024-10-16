@@ -623,6 +623,7 @@
         };
 
         var _processSaveResult = function(result, message) {
+            console.log("axing _processSaveResult", result, message)
             _sendCommand({
                 command: 'processSaveResult',
                 data: {

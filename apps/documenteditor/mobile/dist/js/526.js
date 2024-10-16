@@ -1,0 +1,2 @@
+/*! For license information please see 526.js.LICENSE.txt */
+"use strict";(self.webpackChunkdocumenteditor=self.webpackChunkdocumenteditor||[]).push([[526],{"../../apps/documenteditor/mobile/src/less/app.less":function(e,s,t){t.r(s)}}]);

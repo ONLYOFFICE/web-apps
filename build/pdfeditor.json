@@ -1,7 +1,7 @@
 {
     "name": "pdfeditor",
     "version": "4.3.0",
-    "build": 1152,
+    "build": 1154,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {

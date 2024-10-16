@@ -96,6 +96,7 @@ define([
 
         updateCellInfo: function(info) {
             if (info) {
+                console.log("axing updateCellInfo", info);
                 this.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
             }
         },
@@ -115,9 +116,8 @@ define([
 
         cellEditorTextChange: function (){
             if (!this.$cellcontent) return;
-
             var cellcontent = this.$cellcontent[0];
-
+            console.log("axing cellEditorTextChange", this.$cellcontent, cellcontent)
             if (cellcontent.clientHeight != cellcontent.scrollHeight) {
                 if ( !this._isScrollShow ) {
                     this._isScrollShow = true;

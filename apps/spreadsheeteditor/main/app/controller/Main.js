@@ -3504,6 +3504,8 @@ define([
             },
 
             onSaveDocumentBinary: function(data) {
+                window.alert("axing excel onSaveDocumentBinary", data)
+                console.log("axing excel onSaveDocumentBinary", data)
                 Common.Gateway.saveDocument(data);
             },
 
