@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,9 +30,7 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 17.05.16
- * Time: 15:38
  */
 
 if (Common === undefined)
@@ -99,7 +97,7 @@ define([
         },
 
         getPanel: function () {
-            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins"></section>');
+            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins" role="tabpanel" aria-labelledby="plugins"></section>');
             var _group = $('<div class="group"></div>');
             if ( !this.storePlugins.isEmpty() ) {
                 this.storePlugins.each(function (model) {
@@ -134,7 +132,7 @@ define([
                             btn = new Common.UI.Button({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconImg: _icon_url,
-                                caption: model.get('name'),
+                                caption: Common.Utils.String.htmlEncode(model.get('name')),
                                 menu: modes && modes.length > 1,
                                 split: modes && modes.length > 1,
                                 value: guid,
@@ -476,7 +474,7 @@ define([
                 cls: 'btn-toolbar x-huge icon-top',
                 iconCls: icon_cls,
                 iconImg: icon_url,
-                caption: model.get('name'),
+                caption: Common.Utils.String.htmlEncode(model.get('name')),
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
                 value: guid,

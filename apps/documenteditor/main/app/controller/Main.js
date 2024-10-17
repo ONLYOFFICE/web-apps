@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -46,15 +46,16 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/controller/LaunchController',
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
 ], function () {
     'use strict';
 
@@ -65,8 +66,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {
@@ -152,7 +152,8 @@ define([
                     "table of figures": this.txtTableOfFigures,
                     "TOC Heading": this.txtTOCHeading,
                     "Anyone": this.textAnyone,
-                    "Text": this.textText
+                    "Text": this.textText,
+                    "Signature": this.textSignature
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -196,6 +197,7 @@ define([
                 Common.UI.FocusManager.init();
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -445,6 +447,7 @@ define([
                 this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
@@ -496,8 +499,7 @@ define([
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 value = Common.localStorage.getItem("de-macros-mode");
                 if (value === null) {
@@ -549,6 +551,8 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -571,7 +575,7 @@ define([
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor-container').css('overflow', 'hidden');
-                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(22) + '</div>');
                     if (this.editorConfig.mode == 'view' || (this.permissions.edit === false && !this.permissions.review ))
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
@@ -685,7 +689,7 @@ define([
                 if (data.type == 'mouseup') {
                     var e = document.getElementById('editor_sdk');
                     if (e) {
-                        var r = e.getBoundingClientRect();
+                        var r = Common.Utils.getBoundingClientRect(e);
                         this.api.OnMouseUp(
                             data.x - r.left,
                             data.y - r.top
@@ -730,7 +734,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -765,7 +769,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'docx'
+                                    fileType: 'docx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -786,8 +791,9 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        arrVersions[arrVersions.length-1].set('documentSha256', changes[changes.length-1].documentSha256);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -820,7 +826,11 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'docx'
+                                                documentSha256: change.documentSha256,
+                                                fileType: 'docx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -1206,6 +1216,11 @@ define([
                         };
                         break;
 
+                    case Asc.c_oAscAsyncAction['Submit']:
+                        title   = this.savingText;
+                        text    = this.savingText;
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -1270,7 +1285,22 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 value = Common.localStorage.getItem("de-last-zoom");
                 var lastZoom = (value!==null) ? parseInt(value):0;
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
+
+                if (zf == -1) {
+                    this.api.zoomFitToPage();
+                } else if (zf == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (zf == -3) {
+                    if (lastZoom > 0) {
+                        this.api.zoom(lastZoom);
+                    } else if (lastZoom == -1) {
+                        this.api.zoomFitToPage();
+                    } else if (lastZoom == -2) {
+                        this.api.zoomFitToWidth();
+                    }
+                } else {
+                    this.api.zoom(zf > 0 ? zf : 100);
+                }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
                 me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
@@ -1406,13 +1436,12 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
-
+                    window.document_content_ready = true;
                     var timer_sl = setInterval(function(){
-                        if (window.styles_loaded) {
+                        if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
                             toolbarController.createDelayedElements();
-
                             documentHolderController.getView().createDelayedElements();
                             me.setLanguages();
 
@@ -1441,7 +1470,6 @@ define([
                             me.api.UpdateInterfaceState();
                         }
                     }
-
                     documentHolderController.getView().createDelayedElementsViewer();
                     toolbarController.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
@@ -1465,6 +1493,11 @@ define([
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
@@ -1696,9 +1729,14 @@ define([
 
                 this.appOptions.fileKey = this.document.key;
 
+                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
+                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
+
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
-                    appHeader.setBranding(this.editorConfig.customization);
+                    appHeader.setBranding(this.editorConfig.customization, this.appOptions);
 
                 this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
                 this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
@@ -1717,10 +1755,7 @@ define([
                 appHeader.setUserAvatar(this.appOptions.user.image);
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
-                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
-                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
-                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                 this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
 
@@ -1803,6 +1838,32 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                Common.Utils.InternalSettings.set("de-config-region", region);
+            },
+
             onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header
                 if (!this.appOptions.canSwitchMode && !force) return;
 
@@ -1871,8 +1932,10 @@ define([
 
                 viewport.applyCommonMode();
 
-                var printController = app.getController('Print');
-                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                if (this.appOptions.canPreviewPrint) {
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                }
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
@@ -1984,6 +2047,9 @@ define([
                     return;
                 } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
                     this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
+                    return;
+                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
+                    this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
                 }
 
@@ -2641,7 +2707,7 @@ define([
 
             onSendThemeColors: function(colors, standart_colors) {
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
-                if (window.styles_loaded) {
+                if (window.document_content_ready) {
                     this.updateThemeColors();
                     var me = this;
                     setTimeout(function(){
@@ -2656,12 +2722,16 @@ define([
                 for (var code in allLangs) {
                     if (allLangs.hasOwnProperty(code)) {
                         info = allLangs[code];
-                        info[2] && langs.push({
-                            displayValue:   info[1],
-                            value:          info[0],
-                            code:           parseInt(code),
-                            spellcheck:     _.indexOf(apiLangs, code)>-1
-                        });
+                        if(info[2]) {
+                            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
+                            langs.push({
+                                displayValue:   displayName.native,
+                                displayValueEn: displayName.english,
+                                value:          info[0],
+                                code:           parseInt(code),
+                                spellcheck:     _.indexOf(apiLangs, code)>-1
+                            });
+                        }
                     }
                 }
 
@@ -2672,7 +2742,7 @@ define([
                 });
 
                 this.languages = langs;
-                window.styles_loaded && this.setLanguages();
+                window.document_content_ready && this.setLanguages();
             },
 
             setLanguages: function() {
@@ -3211,436 +3281,7 @@ define([
                 data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
-            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
-            criticalErrorTitle: 'Error',
-            notcriticalErrorTitle: 'Warning',
-            errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "OK" to back to document list.',
-            openTitleText: 'Opening Document',
-            openTextText: 'Opening document...',
-            loadFontsTitleText: 'Loading Data',
-            loadFontsTextText: 'Loading data...',
-            loadImagesTitleText: 'Loading Images',
-            loadImagesTextText: 'Loading images...',
-            loadFontTitleText: 'Loading Data',
-            loadFontTextText: 'Loading data...',
-            loadImageTitleText: 'Loading Image',
-            loadImageTextText: 'Loading image...',
-            downloadTitleText: 'Downloading Document',
-            downloadTextText: 'Downloading document...',
-            printTitleText: 'Printing Document',
-            printTextText: 'Printing document...',
-            uploadImageTitleText: 'Uploading Image',
-            uploadImageTextText: 'Uploading image...',
-            uploadImageSizeMessage: 'Maximum image size limit exceeded.',
-            uploadImageExtMessage: 'Unknown image format.',
-            uploadImageFileCountMessage: 'No images uploaded.',
-            reloadButtonText: 'Reload Page',
-            unknownErrorText: 'Unknown error.',
-            convertationTimeoutText: 'Convertation timeout exceeded.',
-            downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText: 'Your browser is not supported.',
-            splitMaxRowsErrorText: 'The number of rows must be less than %1',
-            splitMaxColsErrorText: 'The number of columns must be less than %1',
-            splitDividerErrorText: 'The number of rows must be a divisor of %1',
-            requestEditFailedTitleText: 'Access denied',
-            requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
-            txtNeedSynchronize: 'You have an updates',
-            textLoadingDocument: 'Loading document',
-            warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
-            warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
-            applyChangesTitleText: 'Loading Data',
-            applyChangesTextText: 'Loading data...',
-            errorKeyEncrypt: 'Unknown key descriptor',
-            errorKeyExpire: 'Key descriptor expired',
-            errorUsersExceed: 'Count of users was exceed',
-            errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The file is password protected and cannot be opened.',
-            txtBasicShapes: 'Basic Shapes',
-            txtFiguredArrows: 'Figured Arrows',
-            txtMath: 'Math',
-            txtCharts: 'Charts',
-            txtStarsRibbons: 'Stars & Ribbons',
-            txtCallouts: 'Callouts',
-            txtButtons: 'Buttons',
-            txtRectangles: 'Rectangles',
-            txtLines: 'Lines',
-            txtEditingMode: 'Set editing mode...',
-            textAnonymous: 'Anonymous',
-            loadingDocumentTitleText: 'Loading document',
-            loadingDocumentTextText: 'Loading document...',
-            warnProcessRightsChange: 'You have been denied the right to edit the file.',
-            errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: 'Click to close the tip.',
-            textShape: 'Shape',
-            errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-            errorDataRange: 'Incorrect data range.',
-            errorDatabaseConnection: 'External error.<br>Database connection error. Please, contact support.',
-            titleUpdateVersion: 'Version changed',
-            errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
-            errorUserDrop: 'The file cannot be accessed right now.',
-            txtDiagramTitle: 'Chart Title',
-            txtXAxis: 'X Axis',
-            txtYAxis: 'Y Axis',
-            txtSeries: 'Seria',
-            errorMailMergeLoadFile: 'Loading the document failed. Please select a different file.',
-            mailMergeLoadFileText: 'Loading Data Source...',
-            mailMergeLoadFileTitle: 'Loading Data Source',
-            errorMailMergeSaveFile: 'Merge failed.',
-            downloadMergeText: 'Downloading...',
-            downloadMergeTitle: 'Downloading',
-            sendMergeTitle: 'Sending Merge',
-            sendMergeText: 'Sending Merge...',
-            txtArt: 'Your text here',
-            errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
-            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
-            textStrict: 'Strict mode',
-            txtErrorLoadHistory: 'Loading history failed',
-            textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'License limit reached',
-            textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
-            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired',
-            openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file',
-            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
-            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
-            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
-            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-            titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved',
-            errorBadImageUrl: 'Image url is incorrect',
-            txtStyle_Normal: 'Normal',
-            txtStyle_No_Spacing: 'No Spacing',
-            txtStyle_Heading_1: 'Heading 1',
-            txtStyle_Heading_2: 'Heading 2',
-            txtStyle_Heading_3: 'Heading 3',
-            txtStyle_Heading_4: 'Heading 4',
-            txtStyle_Heading_5: 'Heading 5',
-            txtStyle_Heading_6: 'Heading 6',
-            txtStyle_Heading_7: 'Heading 7',
-            txtStyle_Heading_8: 'Heading 8',
-            txtStyle_Heading_9: 'Heading 9',
-            txtStyle_Title: 'Title',
-            txtStyle_Subtitle: 'Subtitle',
-            txtStyle_Quote: 'Quote',
-            txtStyle_Intense_Quote: 'Intense Quote',
-            txtStyle_List_Paragraph: 'List Paragraph',
-            txtStyle_footnote_text: 'Footnote Text',
-            saveTextText: 'Saving document...',
-            saveTitleText: 'Saving Document',
-            txtBookmarkError: "Error! Bookmark not defined.",
-            txtAbove: "above",
-            txtBelow: "below",
-            txtOnPage: "on page",
-            txtHeader: "Header",
-            txtFooter: "Footer",
-            txtSection: "-Section",
-            txtFirstPage: "First Page",
-            txtEvenPage: "Even Page",
-            txtOddPage: "Odd Page",
-            txtSameAsPrev: "Same as Previous",
-            txtCurrentDocument: "Current Document",
-            txtNoTableOfContents: "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
-            txtTableOfContents: "Table of Contents",
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
-            warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-            warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-            warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-            textClose: 'Close',
-            textPaidFeature: 'Paid feature',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
-            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-            txtShape_textRect: 'Text Box',
-            txtShape_rect: 'Rectangle',
-            txtShape_ellipse: 'Ellipse',
-            txtShape_triangle: 'Triangle',
-            txtShape_rtTriangle: 'Right Triangle',
-            txtShape_parallelogram: 'Parallelogram',
-            txtShape_trapezoid: 'Trapezoid',
-            txtShape_diamond: 'Diamond',
-            txtShape_pentagon: 'Pentagon',
-            txtShape_hexagon: 'Hexagon',
-            txtShape_heptagon: 'Heptagon',
-            txtShape_octagon: 'Octagon',
-            txtShape_decagon: 'Decagon',
-            txtShape_dodecagon: 'Dodecagon',
-            txtShape_pie: 'Pie',
-            txtShape_chord: 'Chord',
-            txtShape_teardrop: 'Teardrop',
-            txtShape_frame: 'Frame',
-            txtShape_halfFrame: 'Half Frame',
-            txtShape_corner: 'Corner',
-            txtShape_diagStripe: 'Diagonal Stripe',
-            txtShape_plus: 'Plus',
-            txtShape_plaque: 'Sign',
-            txtShape_can: 'Can',
-            txtShape_cube: 'Cube',
-            txtShape_bevel: 'Bevel',
-            txtShape_donut: 'Donut',
-            txtShape_noSmoking: '"No" Symbol',
-            txtShape_blockArc: 'Block Arc',
-            txtShape_foldedCorner: 'Folded Corner',
-            txtShape_smileyFace: 'Smiley Face',
-            txtShape_heart: 'Heart',
-            txtShape_lightningBolt: 'Lightning Bolt',
-            txtShape_sun: 'Sun',
-            txtShape_moon: 'Moon',
-            txtShape_cloud: 'Cloud',
-            txtShape_arc: 'Arc',
-            txtShape_bracePair: 'Double Brace',
-            txtShape_leftBracket: 'Left Bracket',
-            txtShape_rightBracket: 'Right Bracket',
-            txtShape_leftBrace: 'Left Brace',
-            txtShape_rightBrace: 'Right Brace',
-            txtShape_rightArrow: 'Right Arrow',
-            txtShape_leftArrow: 'Left Arrow',
-            txtShape_upArrow: 'Up Arrow',
-            txtShape_downArrow: 'Down Arrow',
-            txtShape_leftRightArrow: 'Left Right Arrow',
-            txtShape_upDownArrow: 'Up Down Arrow',
-            txtShape_quadArrow: 'Quad Arrow',
-            txtShape_leftRightUpArrow: 'Left Right Up Arrow',
-            txtShape_bentArrow: 'Bent Arrow',
-            txtShape_uturnArrow: 'U-Turn Arrow',
-            txtShape_leftUpArrow: 'Left Up Arrow',
-            txtShape_bentUpArrow: 'Bent Up Arrow',
-            txtShape_curvedRightArrow: 'Curved Right Arrow',
-            txtShape_curvedLeftArrow: 'Curved Left Arrow',
-            txtShape_curvedUpArrow: 'Curved Up Arrow',
-            txtShape_curvedDownArrow: 'Curved Down Arrow',
-            txtShape_stripedRightArrow: 'Striped Right Arrow',
-            txtShape_notchedRightArrow: 'Notched Right Arrow',
-            txtShape_homePlate: 'Pentagon',
-            txtShape_chevron: 'Chevron',
-            txtShape_rightArrowCallout: 'Right Arrow Callout',
-            txtShape_downArrowCallout: 'Down Arrow Callout',
-            txtShape_leftArrowCallout: 'Left Arrow Callout',
-            txtShape_upArrowCallout: 'Up Arrow Callout',
-            txtShape_leftRightArrowCallout: 'Left Right Arrow Callout',
-            txtShape_quadArrowCallout: 'Quad Arrow Callout',
-            txtShape_circularArrow: 'Circular Arrow',
-            txtShape_mathPlus: 'Plus',
-            txtShape_mathMinus: 'Minus',
-            txtShape_mathMultiply: 'Multiply',
-            txtShape_mathDivide: 'Division',
-            txtShape_mathEqual: 'Equal',
-            txtShape_mathNotEqual: 'Not Equal',
-            txtShape_flowChartProcess: 'Flowchart: Process',
-            txtShape_flowChartAlternateProcess: 'Flowchart: Alternate Process',
-            txtShape_flowChartDecision: 'Flowchart: Decision',
-            txtShape_flowChartInputOutput: 'Flowchart: Data',
-            txtShape_flowChartPredefinedProcess: 'Flowchart: Predefined Process',
-            txtShape_flowChartInternalStorage: 'Flowchart: Internal Storage',
-            txtShape_flowChartDocument: 'Flowchart: Document',
-            txtShape_flowChartMultidocument: 'Flowchart: Multidocument ',
-            txtShape_flowChartTerminator: 'Flowchart: Terminator',
-            txtShape_flowChartPreparation: 'Flowchart: Preparation',
-            txtShape_flowChartManualInput: 'Flowchart: Manual Input',
-            txtShape_flowChartManualOperation: 'Flowchart: Manual Operation',
-            txtShape_flowChartConnector: 'Flowchart: Connector',
-            txtShape_flowChartOffpageConnector: 'Flowchart: Off-page Connector',
-            txtShape_flowChartPunchedCard: 'Flowchart: Card',
-            txtShape_flowChartPunchedTape: 'Flowchart: Punched Tape',
-            txtShape_flowChartSummingJunction: 'Flowchart: Summing Junction',
-            txtShape_flowChartOr: 'Flowchart: Or',
-            txtShape_flowChartCollate: 'Flowchart: Collate',
-            txtShape_flowChartSort: 'Flowchart: Sort',
-            txtShape_flowChartExtract: 'Flowchart: Extract',
-            txtShape_flowChartMerge: 'Flowchart: Merge',
-            txtShape_flowChartOnlineStorage: 'Flowchart: Stored Data',
-            txtShape_flowChartDelay: 'Flowchart: Delay',
-            txtShape_flowChartMagneticTape: 'Flowchart: Sequential Access Storage',
-            txtShape_flowChartMagneticDisk: 'Flowchart: Magnetic Disk',
-            txtShape_flowChartMagneticDrum: 'Flowchart: Direct Access Storage',
-            txtShape_flowChartDisplay: 'Flowchart: Display',
-            txtShape_irregularSeal1: 'Explosion 1',
-            txtShape_irregularSeal2: 'Explosion 2',
-            txtShape_star4: '4-Point Star',
-            txtShape_star5: '5-Point Star',
-            txtShape_star6: '6-Point Star',
-            txtShape_star7: '7-Point Star',
-            txtShape_star8: '8-Point Star',
-            txtShape_star10: '10-Point Star',
-            txtShape_star12: '12-Point Star',
-            txtShape_star16: '16-Point Star',
-            txtShape_star24: '24-Point Star',
-            txtShape_star32: '32-Point Star',
-            txtShape_ribbon2: 'Up Ribbon',
-            txtShape_ribbon: 'Down Ribbon',
-            txtShape_ellipseRibbon2: 'Curved Up Ribbon',
-            txtShape_ellipseRibbon: 'Curved Down Ribbon',
-            txtShape_verticalScroll: 'Vertical Scroll',
-            txtShape_horizontalScroll: 'Horizontal Scroll',
-            txtShape_wave: 'Wave',
-            txtShape_doubleWave: 'Double Wave',
-            txtShape_wedgeRectCallout: 'Rectangular Callout',
-            txtShape_wedgeRoundRectCallout: 'Rounded Rectangular Callout',
-            txtShape_wedgeEllipseCallout: 'Oval Callout',
-            txtShape_cloudCallout: 'Cloud Callout',
-            txtShape_borderCallout1: 'Line Callout 1',
-            txtShape_borderCallout2: 'Line Callout 2',
-            txtShape_borderCallout3: 'Line Callout 3',
-            txtShape_accentCallout1: 'Line Callout 1 (Accent Bar)',
-            txtShape_accentCallout2: 'Line Callout 2 (Accent Bar)',
-            txtShape_accentCallout3: 'Line Callout 3 (Accent Bar)',
-            txtShape_callout1: 'Line Callout 1 (No Border)',
-            txtShape_callout2: 'Line Callout 2 (No Border)',
-            txtShape_callout3: 'Line Callout 3 (No Border)',
-            txtShape_accentBorderCallout1: 'Line Callout 1 (Border and Accent Bar)',
-            txtShape_accentBorderCallout2: 'Line Callout 2 (Border and Accent Bar)',
-            txtShape_accentBorderCallout3: 'Line Callout 3 (Border and Accent Bar)',
-            txtShape_actionButtonBackPrevious: 'Back or Previous Button',
-            txtShape_actionButtonForwardNext: 'Forward or Next Button',
-            txtShape_actionButtonBeginning: 'Beginning Button',
-            txtShape_actionButtonEnd: 'End Button',
-            txtShape_actionButtonHome: 'Home Button',
-            txtShape_actionButtonInformation: 'Information Button',
-            txtShape_actionButtonReturn: 'Return Button',
-            txtShape_actionButtonMovie: 'Movie Button',
-            txtShape_actionButtonDocument: 'Document Button',
-            txtShape_actionButtonSound: 'Sound Button',
-            txtShape_actionButtonHelp: 'Help Button',
-            txtShape_actionButtonBlank: 'Blank Button',
-            txtShape_roundRect: 'Round Corner Rectangle',
-            txtShape_snip1Rect: 'Snip Single Corner Rectangle',
-            txtShape_snip2SameRect: 'Snip Same Side Corner Rectangle',
-            txtShape_snip2DiagRect: 'Snip Diagonal Corner Rectangle',
-            txtShape_snipRoundRect: 'Snip and Round Single Corner Rectangle',
-            txtShape_round1Rect: 'Round Single Corner Rectangle',
-            txtShape_round2SameRect: 'Round Same Side Corner Rectangle',
-            txtShape_round2DiagRect: 'Round Diagonal Corner Rectangle',
-            txtShape_line: 'Line',
-            txtShape_lineWithArrow: 'Arrow',
-            txtShape_lineWithTwoArrows: 'Double Arrow',
-            txtShape_bentConnector5: 'Elbow Connector',
-            txtShape_bentConnector5WithArrow: 'Elbow Arrow Connector',
-            txtShape_bentConnector5WithTwoArrows: 'Elbow Double-Arrow Connector',
-            txtShape_curvedConnector3: 'Curved Connector',
-            txtShape_curvedConnector3WithArrow: 'Curved Arrow Connector',
-            txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
-            txtShape_spline: 'Curve',
-            txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform',
-            txtSyntaxError: 'Syntax Error',
-            txtMissOperator: 'Missing Operator',
-            txtMissArg: 'Missing Argument',
-            txtTooLarge: 'Number Too Large To Format',
-            txtZeroDivide: 'Zero Divide',
-            txtNotInTable: 'Is Not In Table',
-            txtIndTooLarge: 'Index Too Large',
-            txtFormulaNotInTable: 'The Formula Not In Table',
-            txtTableInd: 'Table Index Cannot be Zero',
-            txtUndefBookmark: 'Undefined Bookmark',
-            txtEndOfFormula: 'Unexpected End of Formula',
-            errorEmailClient: 'No email client could be found',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            txtHyperlink: 'Hyperlink',
-            waitText: 'Please, wait...',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            txtMainDocOnly: 'Error! Main Document Only.',
-            txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
-            txtNoText: 'Error! No text of specified style in document.',
-            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
-            uploadDocExtMessage: 'Unknown document format.',
-            uploadDocFileCountMessage: 'No documents uploaded.',
-            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            txtChoose: 'Choose an item',
-            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
-            txtStyle_Caption: 'Caption',
-            errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
-            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
-            textApplyAll: 'Apply to all equations',
-            textLearnMore: 'Learn More',
-            txtEnterDate: 'Enter a date',
-            txtTypeEquation: 'Type equation here',
-            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
-            textRemember: 'Remember my choice for all files',
-            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
-            errorComboSeries: 'To create a combination chart, select at least two series of data.',
-            errorSetPassword: 'Password could not be set.',
-            textRenameLabel: 'Enter a name to be used for collaboration',
-            textRenameError: 'User name must not be empty.',
-            textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest',
-            errorSubmit: 'Submit failed.',
-            txtClickToLoad: 'Click to load image',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            txtNone: 'None',
-            txtNoTableOfFigures: "No table of figures entries found.",
-            txtTableOfFigures: 'Table of figures',
-            txtStyle_endnote_text: 'Endnote Text',
-            txtTOCHeading: 'TOC Heading',
-            textDisconnect: 'Connection is lost',
-            textReconnect: 'Connection is restored',
             errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-            errorEmptyTOC: 'Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.',
-            errorNoTOC: 'There\'s no table of contents to update. You can insert one from the References tab.',
-            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros',
-            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
-            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
-            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
-            textUndo: 'Undo',
-            textContinue: 'Continue',
-            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
-            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            textAnyone: 'Anyone',
-            textText: 'Text',
-            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-            titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtStyle_Default_Paragraph_Font: 'Default paragraph font',
-            txtStyle_No_List: 'No list',
-            txtStyle_Intense_Emphasis: 'Intense emphasis',
-            txtStyle_Intense_Reference: 'Intense reference',
-            txtStyle_Subtle_Emphasis: 'Subtle emphasis',
-            txtStyle_Emphasis: 'Emphasis',
-            txtStyle_Strong: 'Strong',
-            txtStyle_Subtle_Reference: 'Subtle reference',
-            txtStyle_Book_Title: 'Book Title',
-            txtStyle_footnote_reference: 'Footnote reference',
-            txtStyle_endnote_reference: 'Endnote reference',
-            txtScheme_Aspect: 'Aspect',
-            txtScheme_Blue_Green: 'Blue Green',
-            txtScheme_Blue_II: 'Blue II',
-            txtScheme_Blue_Warm: 'Blue Warm',
-            txtScheme_Blue: 'Blue',
-            txtScheme_Grayscale: 'Grayscale',
-            txtScheme_Green_Yellow: 'Green Yellow',
-            txtScheme_Green: 'Green',
-            txtScheme_Marquee: 'Marquee',
-            txtScheme_Median: 'Median',
-            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
-            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
-            txtScheme_Office: 'Office',
-            txtScheme_Orange_Red: 'Orange Red',
-            txtScheme_Orange: 'Orange',
-            txtScheme_Paper: 'Paper',
-            txtScheme_Red_Orange: 'Red Orange',
-            txtScheme_Red_Violet: 'Red Violet',
-            txtScheme_Red: 'Red',
-            txtScheme_Slipstream: 'Slipstream',
-            txtScheme_Violet_II: 'Violet II',
-            txtScheme_Violet: 'Violet',
-            txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -91,6 +91,7 @@ define([
             me.btnPrev = new Common.UI.Button({
                 parentEl: me.cmpEl.find('#prev-arrow'),
                 cls: '',
+                scaling: false,
                 iconCls: 'arrow-prev img-commonctrl'
             });
             me.btnPrev.on('click', _.bind(me.onClickPrev, me));
@@ -98,6 +99,7 @@ define([
             me.btnNext = new Common.UI.Button({
                 parentEl: me.cmpEl.find('#next-arrow'),
                 cls: '',
+                scaling: false,
                 iconCls: 'arrow-next img-commonctrl'
             });
             me.btnNext.on('click', _.bind(me.onClickNext, me));

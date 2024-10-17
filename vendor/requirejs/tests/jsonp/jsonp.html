@@ -12,13 +12,13 @@
                 require: "../../require"
             }
         },
-        ["require", "lamp", "https://api.github.com/users/jrburke?callback=define"],
+        ["require", "lamp", "https://api.github.com/users/requirejs?callback=define"],
         function (require, lamp, user) {
             doh.register(
                 "jsonp",
                 [
                     function jsonp(t){
-                        t.is("James Burke", user.data.name);
+                        t.is("requirejs", user.data.login);
                         t.is('blue', lamp.color);
                     }
                 ]

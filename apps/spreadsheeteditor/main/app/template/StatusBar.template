@@ -14,7 +14,7 @@
         <div class="separator short"></div>
         <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
         <div class="cnt-zoom">
-            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>

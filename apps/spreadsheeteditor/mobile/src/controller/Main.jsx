@@ -24,6 +24,7 @@ import { StatusbarController } from "./Statusbar";
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
+import '../../../../common/main/lib/util/LanguageInfo.js'
 
 @inject(
     "users",
@@ -161,7 +162,6 @@ class MainController extends Component {
                                                            '../../../../sdkjs/cell/sdk-all-min.js']);
             let dep_scripts = [
                 '../../../vendor/jquery/jquery.min.js',
-                '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
                 '../../../vendor/underscore/underscore-min.js',
                 '../../../vendor/xregexp/xregexp-all-min.js',
                 '../../../vendor/socketio/socket.io.min.js'];
@@ -189,7 +189,7 @@ class MainController extends Component {
                 EditorUIController.isSupportEditFeature();
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
-                this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.lang = this.editorConfig.lang;
 
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setConfigOptions(this.editorConfig, _t);
@@ -205,30 +205,27 @@ class MainController extends Component {
                 if (value !== null) {
                     this.api.asc_setLocale(parseInt(value));
                 } else {
-                     value = appOptions.region;
-                     value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                     if (value !== null) {
-                         value = parseInt(value);
-                     } else {
-                         value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
-                     }
-                     this.api.asc_setLocale(value);
+                    value = appOptions.region;
+                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                    if (value !== null) {
+                        value = parseInt(value);
+                    } else {
+                        value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
+                    }
+                    this.api.asc_setLocale(value);
                 }
 
-                if (appOptions.location == 'us' || appOptions.location == 'ca') {
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-                }
-
-                //if (!appOptions.customization || !(appOptions.customization.loaderName || appOptions.customization.loaderLogo))
-                    //$('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+                this.loadDefaultMetricSettings();
 
                 value = LocalStorage.getItem("sse-mobile-macros-mode");
+
                 if (value === null) {
-                     value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
-                     value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
+                    value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
+                    value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
                 } else {
                     value = parseInt(value);
                 }
+
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
                 value = LocalStorage.getItem("sse-mobile-allow-macros-request");
@@ -267,6 +264,8 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -392,6 +391,36 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_load_scripts();
+        }
+    }
+
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
         }
     }
 
@@ -557,6 +586,12 @@ class MainController extends Component {
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
     }
 
+    insertImageFromStorage (data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.asc_addImageDrawingObject(data._urls, undefined, data.token);
+        }
+    }
+
     onNeedUpdateExternalReference() {
         const { t } = this.props;
 
@@ -704,6 +739,7 @@ class MainController extends Component {
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
+        Common.Gateway.on('insertimage',            this.insertImage.bind(this));
 
         Common.Gateway.sendInfo({
             mode: appOptions.isEdit ? 'edit' : 'view'
@@ -720,6 +756,30 @@ class MainController extends Component {
         f7.emit('resize');
 
         appOptions.changeDocReady(true);
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) { 
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        this.insertImageFromStorage(data);
     }
 
     applyMode (appOptions) {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -39,15 +39,7 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/Links',
-    'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog',
-    'documenteditor/main/app/view/CaptionDialog',
-    'documenteditor/main/app/view/NotesRemoveDialog',
-    'documenteditor/main/app/view/CrossReferenceDialog',
-    'common/main/lib/view/OptionsDialog'
+    'documenteditor/main/app/view/Links'
 ], function () {
     'use strict';
 

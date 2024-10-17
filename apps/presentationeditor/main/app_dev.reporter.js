@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -50,9 +50,6 @@ require.config({
         allfonts        : '../../sdkjs/common/AllFonts'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         sdk: {
             deps: [
                 'jquery',
@@ -65,11 +62,13 @@ require.config({
     }
 });
 
+
 require([
+    'underscore',
     'socketio',
     'xregexp',
-    'underscore'
-], function () {
+], function (_) {
+    window._ = _
 
     var _msg_func = function(msg) {
         var data = msg.data, cmd;

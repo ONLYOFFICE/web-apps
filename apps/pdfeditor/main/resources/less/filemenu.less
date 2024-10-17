@@ -1,66 +1,5 @@
 
 #file-menu-panel {
-  .panel-menu {
-    li {
-      list-style: none;
-      position: relative;
-
-      &.fm-btn {
-        height: 27px;
-        margin-bottom: 3px;
-
-        &:hover:not(.disabled) {
-          background-color: @highlight-button-hover-ie;
-          background-color: @highlight-button-hover;
-        }
-
-        &.active:not(.disabled) {
-          outline: 0;
-          background-color: @highlight-button-pressed-ie;
-          background-color: @highlight-button-pressed;
-
-          > a {
-            color: @text-normal-pressed-ie;
-            color: @text-normal-pressed;
-          }
-        }
-
-        &.disabled > a {
-          cursor: default;
-          color: @border-regular-control-ie;
-          color: @border-regular-control;
-        }
-
-      }
-
-      &.devider {
-        .dropdown-menu .divider;
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-
-      &:first-child {
-        margin-top: 15px;
-      }
-
-      > a {
-        &:extend(.dropdown-menu > li > a);
-        padding-top: 4px;
-        cursor: pointer;
-        .font-size-large();
-        overflow: hidden;
-        text-overflow: ellipsis;
-        &:hover {
-          text-decoration: none;
-        }
-
-        &:focus {
-          outline: 0;
-        }
-      }
-    }
-  }
-
   .panel-context {
     width: 100%;
     padding-left: 260px;
@@ -120,7 +59,7 @@
 
       .header {
         .font-size-very-huge();
-        margin-bottom: 20px;
+        margin-bottom: 30px;
       }
 
       .format-items {
@@ -249,8 +188,7 @@
 
 }
 
-#panel-settings,
-#panel-info {
+#panel-settings {
   #file-menu-panel & {
     padding: 0;
     display: flex;
@@ -260,10 +198,10 @@
 
 #panel-settings {
   .header {
-    margin: 30px 0 16px 30px;
+    margin: 30px 0 18px 30px;
     .font-size-very-huge();
     .rtl & {
-      margin: 30px 30px 16px 0;
+      margin: 30px 30px 18px 0;
     }
   }
 
@@ -349,7 +287,7 @@
     padding: 0 0 0 10px;
     white-space: nowrap;
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     .rtl & {
       padding: 0 10px 10px 0;
@@ -450,7 +388,7 @@
         height: 100%;
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 1056px 30px;
+          background-size: 1032px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -474,13 +412,13 @@
         }
         .img-format- {
           &pdf, &pdfa {
-            .format-from-index(14);
+            .format-from-index(13);
           }
           &xps {
-            .format-from-index(16);
+            .format-from-index(15);
           }
           &djvu {
-            .format-from-index(15);
+            .format-from-index(14);
           }
         }
         .svg-file-recent {
@@ -581,17 +519,71 @@
 }
 
 #panel-info {
-  .header {
-    margin: 30px 0 20px 30px;
-    .font-size-very-huge();
+  #file-menu-panel & {
+    padding: 30px;
 
-    .rtl & {
-      margin: 30px 30px 20px 0;
+    .flex-settings {
+      gap: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .header {
+    .font-size-very-huge();
+    height: unset;
+    line-height: unset;
+  }
+
+  table {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+
+    tr {
+      display: flex;
+      gap: 24px;
+
+      td {
+        .font-size-normal();
+        line-height: 16px;
+
+        &.title {
+          line-height: 20px;
+
+          label {
+            .font-size-huge();
+            font-weight: 700;
+          }
+        }
+
+        &.left {
+          width: 140px;
+          flex-shrink: 0;
+        }
+
+        &.right {
+          flex-grow: 1;
+        }
+      }
+
+      &.divider {
+        height: 10px;
+      }
+    }
+
+    tbody {
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+    }
+
+    &.main {
+      width: 100%;
     }
   }
 }
 
-#panel-info,
 #panel-rights {
   table {
     tr {

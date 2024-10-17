@@ -14,8 +14,8 @@
 
   });
 
-  if (typeof this == 'object') {
-    QUnit.test('noConflict', function(assert) {
+  if (typeof require != 'function') {
+    QUnit.test('noConflict (browser)', function(assert) {
       var underscore = _.noConflict();
       assert.strictEqual(underscore.identity(1), 1);
       if (typeof require != 'function') {
@@ -33,7 +33,7 @@
       var done = assert.async();
       var fs = require('fs');
       var vm = require('vm');
-      var filename = __dirname + '/../underscore.js';
+      var filename = __dirname + '/../underscore-umd.js';
       fs.readFile(filename, function(err, content){
         var sandbox = vm.createScript(
           content + 'this.underscore = this._.noConflict();',
@@ -46,6 +46,14 @@
 
         done();
       });
+    });
+  }
+
+  if (typeof require == 'function') {
+    QUnit.test('Legacy Node API', function(assert) {
+      var filename = __dirname + '/../underscore-umd.js';
+      var resolved = require(filename);
+      assert.strictEqual(resolved, resolved._);
     });
   }
 
@@ -69,6 +77,13 @@
   QUnit.test('noop', function(assert) {
     assert.strictEqual(_.noop('curly', 'larry', 'moe'), void 0, 'should always return undefined');
   });
+
+  QUnit.test('toPath', function(assert) {
+    var key = 'xyz';
+    var path = [key];
+    assert.deepEqual(_.toPath(key), path, 'bare strings are wrapped in a single-element array');
+    assert.strictEqual(_.toPath(path), path, 'arrays are returned untouched');
+  })
 
   QUnit.test('random', function(assert) {
     var array = _.range(1000);
@@ -153,12 +168,13 @@
 
     // handles multiple escape characters at once
     var joiner = ' other stuff ';
-    var allEscaped = escapeCharacters.join(joiner);
-    allEscaped += allEscaped;
-    assert.ok(_.every(escapeCharacters, function(escapeChar) {
-      return allEscaped.indexOf(escapeChar) !== -1;
-    }), 'handles multiple characters');
-    assert.ok(allEscaped.indexOf(joiner) >= 0, 'can escape multiple escape characters at the same time');
+    var allUnescaped = escapeCharacters.join(joiner);
+    allUnescaped += allUnescaped;
+    var allEscaped = _.escape(allUnescaped);
+    assert.ok(_.every(escapeCharacters), function(escapeChar) {
+      return allEscaped.indexOf(escapeChar) === -1;
+    }, 'replaces all occurrences');
+    assert.strictEqual(_.unescape(allEscaped), allUnescaped, 'undos all replacements');
 
     // test & -> &amp;
     var str = 'some string & another string & yet another';
@@ -402,9 +418,9 @@
   });
 
   QUnit.test('#547 - _.templateSettings is unchanged by custom settings.', function(assert) {
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
     _.template('', {}, {variable: 'x'});
-    assert.notOk(_.templateSettings.variable);
+    assert.ok(!_.templateSettings.variable);
   });
 
   QUnit.test('#556 - undefined template variables.', function(assert) {
@@ -429,11 +445,11 @@
     assert.expect(2);
     var count = 0;
     var template = _.template('<%= f() %>');
-    template({f: function(){ assert.notOk(count++); }});
+    template({f: function(){ assert.ok(!count++); }});
 
     var countEscaped = 0;
     var templateEscaped = _.template('<%- f() %>');
-    templateEscaped({f: function(){ assert.notOk(countEscaped++); }});
+    templateEscaped({f: function(){ assert.ok(!countEscaped++); }});
   });
 
   QUnit.test('#746 - _.template settings are not modified.', function(assert) {
@@ -447,6 +463,31 @@
     assert.expect(1);
     var template = _.template('<<\nx\n>>', null, {evaluate: /<<(.*?)>>/g});
     assert.strictEqual(template(), '<<\nx\n>>');
+  });
+
+  QUnit.test('#2911 - _.templateSettings.variable must not allow third parties to inject code.', function(assert) {
+    QUnit.holyProperty = 'holy';
+    var invalidVariableNames = [
+      // CVE-2021-23337 (not applicable to Underscore)
+      '){delete QUnit.holyProperty}; with(obj',
+      '(x = QUnit.holyProperty = "evil"), obj',
+      'document.write("got you!")',
+      // CVE-2021-23358 (our actual security leak, which we fixed)
+      'a = (function() { delete QUnit.holyProperty; }())',
+      'a = (QUnit.holyProperty = "evil")',
+      'a = document.write("got you!")'
+    ];
+    _.each(invalidVariableNames, function(name) {
+      _.templateSettings.variable = name;
+      assert.throws(function() {
+        _.template('')();
+      }, 'code injection through _.templateSettings.variable: ' + name);
+      delete _.templateSettings.variable;
+    });
+    var holy = QUnit.holyProperty;
+    delete QUnit.holyProperty;
+    assert.strictEqual(holy, 'holy', '_.template variable cannot touch global state');
+    assert.ok(_.isUndefined(_.templateSettings.variable), 'cleanup');
   });
 
 }());

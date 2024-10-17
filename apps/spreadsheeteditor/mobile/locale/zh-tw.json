@@ -333,10 +333,11 @@
     "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
-    "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
+    "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
-    "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the sheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the sheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
@@ -507,7 +508,8 @@
       "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
-      "txtYes": "是"
+      "txtYes": "是",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

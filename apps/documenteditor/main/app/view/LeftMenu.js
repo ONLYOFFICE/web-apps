@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -51,7 +51,6 @@ define([
     'common/main/lib/view/History',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
-    'common/main/lib/view/SearchDialog',
     'documenteditor/main/app/view/FileMenu',
     'documenteditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {
@@ -71,7 +70,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -255,6 +254,16 @@ define([
             /** coauthoring end **/
         },
 
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
+        },
+
         setOptionsPanel: function(name, panel) {
             /** coauthoring begin **/
             if (name == 'chat') {
@@ -278,11 +287,11 @@ define([
 
         /** coauthoring begin **/
         markCoauthOptions: function(opt, ignoreDisabled) {
-            if (opt=='chat' && this.btnChat.isVisible() &&
+            if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                     !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
-            if (opt=='comments' && this.btnComments.isVisible() && !this.btnComments.pressed &&
+            if (opt=='comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) && !this.btnComments.pressed &&
                                 (!this.btnComments.isDisabled() || ignoreDisabled) ) {
                 this.btnComments.$el.addClass('notify');
             }
@@ -350,6 +359,7 @@ define([
         showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if ( !this.menuFile.isVisible() ) {
                     // this.btnFile.toggle(true);
                 }
@@ -357,7 +367,7 @@ define([
             } else {
                 /** coauthoring begin **/
                 if (menu == 'chat') {
-                    if (this.btnChat.isVisible() &&
+                    if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
@@ -365,19 +375,19 @@ define([
                     }
                 } else
                 if (menu == 'comments') {
-                    if (this.btnComments.isVisible() &&
+                    if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
                         this.btnComments.toggle(true);
                         this.onBtnMenuClick(this.btnComments);
                     }
                 } else if (menu == 'navigation') {
-                    if (this.btnNavigation.isVisible() &&
+                    if ((this.btnNavigation.isVisible() || this.isButtonInMoreMenu(this.btnNavigation)) &&
                         !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
                         this.btnNavigation.toggle(true);
                         this.onBtnMenuClick(this.btnNavigation);
                     }
                 } else if (menu == 'advancedsearch') {
-                    if (this.btnSearchBar.isVisible() &&
+                    if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
@@ -408,6 +418,7 @@ define([
             this._state.pluginIsRunning = false;
             this.panelHistory.show();
             this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            Common.UI.TooltipManager.showTip('textDeleted');
             Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
@@ -449,7 +460,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -467,7 +478,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -509,6 +520,7 @@ define([
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
-        txtEditor: 'Document Editor'
+        txtEditor: 'Document Editor',
+        ariaLeftMenu: 'Left menu'
     }, DE.Views.LeftMenu || {}));
 });

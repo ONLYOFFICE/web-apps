@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -191,7 +191,7 @@ define([
                 } else
                 if (/althints:show/.test(cmd)) {
                     if ( /false|hide/.test(param) )
-                        Common.NotificationCenter.trigger('hints:clear');
+                        Common.NotificationCenter && Common.NotificationCenter.trigger('hints:clear');
                 } else
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
@@ -283,7 +283,7 @@ define([
             if ( e.keyCode == 78 /* N */ ) {
                 if (config.canCreateNew && !e.shiftKey &&
                         ((Common.Utils.isWindows && e.ctrlKey && !e.metaKey) ||
-                            (Common.Utils.isMac && e.metaKey && e.ctrlKey)))
+                            (Common.Utils.isMac && e.metaKey && !e.ctrlKey)))
                 {
                     this.process('create:new');
                 }

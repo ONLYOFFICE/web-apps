@@ -396,7 +396,7 @@
     "textTableOptions": "Možnosti tabulky",
     "textText": "Text",
     "textTextOrientation": "Orientace textu",
-    "textTextWrapping": "Obtékaní textu",
+    "textTextWrapping": "Zalomení textu",
     "textTh": "čt",
     "textThrough": "Skrz",
     "textTight": "Těsné",
@@ -407,7 +407,7 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu",
+    "textWrappingStyle": "Styl zalomení",
     "textYourOption": "Váš výběr"
   },
   "Error": {
@@ -487,7 +487,7 @@
     "loadImageTextText": "Načítání obrázku...",
     "loadImageTitleText": "Načítání obrázku",
     "loadingDocumentTextText": "Načítání dokumentu…",
-    "loadingDocumentTitleText": "Načítání dokumentu",
+    "loadingDocumentTitleText": "Načítání",
     "mailMergeLoadFileText": "Načítání datového zdroje...",
     "mailMergeLoadFileTitle": "Načítání datového zdroje",
     "openTextText": "Otevírání dokumentu...",
@@ -501,12 +501,13 @@
     "sendMergeText": "Odesílaní hromadné korespondence...",
     "sendMergeTitle": "Odesílaní hromadné korespondence",
     "textContinue": "Pokračovat",
-    "textLoadingDocument": "Načítání dokumentu",
+    "textLoadingDocument": "Načítání",
     "textUndo": "Zpět",
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -572,7 +573,7 @@
       "Missing Operator": "Chybí operátor",
       "No List": "Bez seznamu",
       "No Spacing": "Žádné mezery",
-      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na ně v textu styly pro nadpisy, aby se objevily v tabulce obsahu.",
+      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na text styly pro nadpisy, aby se objevily v obsahu.",
       "No table of figures entries found": "Pro seznam obrázků aj. nebyly nalezeny vstupní hodnoty.",
       "None": "Žádné",
       "Normal": "Normální",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Kontrola pravopisu",
     "textStatistic": "Statistický",
     "textSubject": "Předmět",
-    "textSubmit": "Odeslat",
     "textSymbols": "Symboly",
     "textTheme": "Prostředí",
     "textTitle": "Název",
@@ -810,6 +810,7 @@
     "textOk": "OK",
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
-    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "btnSend": "Send"
   }
 }

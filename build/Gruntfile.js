@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -272,7 +272,7 @@ module.exports = function(grunt) {
                       src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
                       overwrite: true,
                       replacements: [{
-                          from: /\{\{PRODUCT_VERSION\}\}/,
+                          from: /\{\{PRODUCT_VERSION\}\}/g,
                           to: packageFile.version
                       },{
                           from: /\{\{APP_CUSTOMER_NAME\}\}/g,
@@ -398,7 +398,10 @@ module.exports = function(grunt) {
                 },
                 compile: {
                     options: packageFile['main']['js']['requirejs']['options']
-                }
+                },
+                postload: {
+                    options: packageFile.main.js.postload.options
+                },
             },
 
             replace: {
@@ -500,6 +503,10 @@ module.exports = function(grunt) {
                 build: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
                     dest: packageFile['main']['js']['requirejs']['options']['out']
+                },
+                postload: {
+                    src: packageFile.main.js.postload.options.out,
+                    dest: packageFile.main.js.postload.options.out,
                 },
             },
         });
@@ -710,6 +717,9 @@ module.exports = function(grunt) {
             },
 
             inline: {
+                options:{
+                    uglify: true,
+                },
                 dist: {
                     src: '<%= pkg.embed.copy.indexhtml[0].dest %>/*.html'
                 }

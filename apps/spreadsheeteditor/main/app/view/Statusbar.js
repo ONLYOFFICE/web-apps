@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -848,7 +848,7 @@ define([
             onCustomizeStatusBarAfterShow: function (obj) {
                 if (obj.atposition) {
                     var statusHeight = $(this.el).height(),
-                        offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
+                        offsetTop = !this.isCompact && (obj.atposition.top - Common.Utils.getOffset($(this.el)).top > statusHeight/2) ? statusHeight/2 : 0;
                     obj.setOffset(Common.UI.isRTL() ? (obj.atposition.left - $(this.el).width() + 2) : obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;
@@ -1138,7 +1138,7 @@ define([
                     changed: false,
                     opened: false
                 };
-                if (this.options.isDesktopApp) {
+                if (this.options.isDesktopApp && this.options.isOffline) {
                     this.spreadsheets.data.push({displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1});
                 }
 

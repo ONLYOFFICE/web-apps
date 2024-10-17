@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,8 +41,7 @@
 define([
     'core',
     'presentationeditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/util/LanguageInfo'
 ], function () {
     'use strict';
 
@@ -187,15 +186,18 @@ define([
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
                  if(!this._isZoomRecord ) return;
-                 Common.localStorage.setItem('pe-last-zoom', percent);
+                 var value = this._state.zoom_type !== undefined ? this._state.zoom_type == 2 ? -1 : (this._state.zoom_type == 1 ? -2 : percent) : percent;
+                 Common.localStorage.setItem('pe-last-zoom', value);
+                 Common.Utils.InternalSettings.set('pe-last-zoom', value);
              }
         },
 
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(langId);
             this.statusbar.setLanguage({
                 value:    info[0],
-                displayValue:  info[1],
+                displayValue: (displayName ? displayName.native : ''),
                 code:   langId
             });
         },

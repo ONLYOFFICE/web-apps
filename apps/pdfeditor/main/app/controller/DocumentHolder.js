@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -59,11 +59,7 @@ var c_paragraphSpecial = {
 
 define([
     'core',
-    'pdfeditor/main/app/view/DocumentHolder',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg',
-    'pdfeditor/main/app/view/HyperlinkSettingsDialog'
+    'pdfeditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 
@@ -97,6 +93,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
 
@@ -172,6 +169,7 @@ define([
                     me.onDocumentHolderResize();
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(o) {
@@ -191,11 +189,13 @@ define([
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
                     this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
-                    // for text
-                    this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
-                    this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
-                    this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
-                    this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    if (this.mode.canComments) {
+                        // for text
+                        this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
+                        this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
+                        this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
+                        this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    }
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
@@ -226,6 +226,10 @@ define([
                 : Common.util.Shortcuts.resumeEvents(this.hkComments);
             /** coauthoring end **/
             this.documentHolder.setMode(m);
+        },
+
+        createPostLoadElements: function() {
+            this.showMathTrackOnLoad && this.onShowMathTrack(this.lastMathTrackBounds);
         },
 
         createDelayedElements: function(view, type) {
@@ -564,7 +568,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -572,7 +576,7 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isPDFEdit) {
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
                     locked = false;
@@ -875,7 +879,7 @@ define([
                 src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
-                $('#id_main_view').append(src);
+                me.documentHolder.cmpEl.append(src);
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
             }
@@ -1133,6 +1137,7 @@ define([
                 var controller = PDFE.getController('Common.Controllers.Comments');
                 if (controller) {
                     controller.addDummyComment();
+                    item && item.isFromBar && this.api.SetShowTextSelectPanel(false);
                 }
             }
         },
@@ -1155,6 +1160,7 @@ define([
                         })).show();
                     }
                 }
+                item.isFromBar && me.api.SetShowTextSelectPanel(false);
             }
             me.editComplete();
         },
@@ -1705,6 +1711,10 @@ define([
             if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pdfe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -1847,6 +1857,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -1882,58 +1896,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -2524,13 +2488,13 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.documentHolder.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.fontsize !== size) {
                 this.documentHolder.cmbFontSize.setValue(size);
                 this._state.fontsize = size;
@@ -2538,7 +2502,7 @@ define([
         },
 
         onApiBold: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.bold !== on) {
                 this.documentHolder.btnBold.toggle(on === true, true);
                 this._state.bold = on;
@@ -2546,7 +2510,7 @@ define([
         },
 
         onApiItalic: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.italic !== on) {
                 this.documentHolder.btnItalic.toggle(on === true, true);
                 this._state.italic = on;
@@ -2554,7 +2518,7 @@ define([
         },
 
         onApiUnderline: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.underline !== on) {
                 this.documentHolder.btnTextUnderline.toggle(on === true, true);
                 this._state.underline = on;
@@ -2562,7 +2526,7 @@ define([
         },
 
         onApiStrikeout: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.strike !== on) {
                 this.documentHolder.btnTextStrikeout.toggle(on === true, true);
                 this._state.strike = on;
@@ -2570,7 +2534,7 @@ define([
         },
 
         onApiVerticalAlign: function(typeBaseline) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.valign !== typeBaseline) {
                 this.documentHolder.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
                 this.documentHolder.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
@@ -2579,7 +2543,7 @@ define([
         },
 
         onApiTextColor: function(color) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             var clr;
             var picker = this.documentHolder.mnuFontColorPicker;
 
@@ -2597,19 +2561,7 @@ define([
                     (clr.effectValue !== this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color) < 0)) ||
                 (type1 != 'object' && this._state.clrtext.indexOf(clr) < 0)) {
 
-                if (typeof(clr) == 'object') {
-                    var isselected = false;
-                    for ( var i = 0; i < 10; i++) {
-                        if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                            picker.select(clr, true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else {
-                    picker.select(clr,true);
-                }
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;
@@ -2748,7 +2700,7 @@ define([
                         value = this._getApiTextSize();
                         setTimeout(function(){
                             Common.UI.warning({
-                                msg: me.textFontSizeErr,
+                                msg: me.documentHolder.textFontSizeErr,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         $('input', combo.cmpEl).focus();
@@ -2775,6 +2727,17 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        },
+
+        _getApiTextSize: function () {
+            var out_value   = 12,
+                textPr      = this.api.get_TextProps();
+
+            if (textPr && textPr.get_TextPr) {
+                out_value = textPr.get_TextPr().get_FontSize();
+            }
+
+            return out_value;
         },
 
         onCountPages: function(count) {
@@ -2840,9 +2803,12 @@ define([
                     }
                 });
                 // annotation text bar
-                documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy'}));
-                documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this));
-                documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
+                documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
+                if (me.mode.isEditTextSupport && (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit))
+                    documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                else
+                    documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
 
                 this.api.UpdateInterfaceState();
             }

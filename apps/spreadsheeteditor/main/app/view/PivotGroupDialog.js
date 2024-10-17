@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,14 +32,11 @@
 /**
  *  PivotGroupDialog.js
  *
- *  Created by Julia Radzhabova 04.03.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 04.03.2021
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.PivotGroupDialog = Common.UI.Window.extend(_.extend({

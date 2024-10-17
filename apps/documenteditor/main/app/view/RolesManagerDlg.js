@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -37,11 +37,9 @@
  *
  */
 
-define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
+define([
+    'text!documenteditor/main/app/template/RolesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView',
-    'documenteditor/main/app/view/RoleEditDlg',
-    'documenteditor/main/app/view/RoleDeleteDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -211,7 +209,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             if (this._isWarningVisible) return;
 
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rolesList.getSelectedRec();
 
             var win = new DE.Views.RoleEditDlg({
@@ -269,7 +267,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
                     }
                 });
             } else {
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 var win = new DE.Views.RoleDeleteDlg({
                     props   : {roles: this.rolesList.store, excludeName: rec.get('name')},
                     handler : function(result, settings) {

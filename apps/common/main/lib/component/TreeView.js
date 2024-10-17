@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -160,11 +160,13 @@ define([
                 allowScrollbar: true,
                 scrollAlwaysVisible: true,
                 emptyItemText: '',
-                keyMoveDirection: 'both'
+                keyMoveDirection: 'both',
+                role: 'tree',
+                roleItem: 'treeitem'
             },
 
             template: _.template([
-                '<div class="treeview inner" style="<%= style %>"></div>'
+                '<div class="treeview inner" style="<%= style %>" role="<%= options.role %>"></div>'
             ].join('')),
 
             initialize : function(options) {
@@ -203,7 +205,9 @@ define([
             onAddItem: function(record, store, opts) {
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
-                    model: record
+                    model: record,
+                    role: this.options.roleItem,
+                    tabindex: this.itemTabindex
                 });
 
                 if (view) {
@@ -233,10 +237,20 @@ define([
                         this.listenTo(view, 'select',      this.onSelectItem);
                         this.listenTo(view, 'contextmenu', this.onContextMenuItem);
 
+                        if (record.get('hasSubItems'))
+                            view.$el.attr('aria-expanded', record.get('isExpanded'));
+                        view.$el.attr('aria-level', record.get('level') + 1);
+
                         if (!this.isSuspendEvents)
                             this.trigger('item:add', this, view, record);
                     }
                 }
+            },
+
+            onChangeItem: function (view, record) {
+                if (record.get('hasSubItems'))
+                    view.$el.attr('aria-expanded', record.get('isExpanded'));
+                Common.UI.DataView.prototype.onChangeItem.call(this, view, record);
             },
 
             onClickItem: function(view, record, e) {
@@ -249,6 +263,7 @@ define([
                     record.set('isExpanded', isExpanded);
                     this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, isExpanded, !isExpanded);
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
@@ -270,17 +285,21 @@ define([
 
             expandRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', true);
                     this.store.expandSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, true, oldExpand);
                 }
             },
 
             collapseRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', false);
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, false, oldExpand);
                 }
             },
 
@@ -353,6 +372,7 @@ define([
                             this.selectRecord(rec);
                             this._fromKeyDown = false;
                             this.scrollToRecord(rec);
+                            $('#' + rec.get('id')).parent().focus();
                         }
                     }
                 } else {

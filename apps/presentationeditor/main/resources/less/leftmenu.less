@@ -107,75 +107,6 @@
 }
 
 #file-menu-panel {
-    .panel-menu {
-        li {
-            list-style: none;
-            position: relative;
-
-            &.fm-btn {
-                height: 27px;
-                margin-bottom: 3px;
-
-                &:hover {
-                    background-color: @highlight-button-hover-ie;
-                    background-color: @highlight-button-hover;
-                }
-
-                &.active {
-                    outline: 0;
-                    background-color: @highlight-button-pressed-ie;
-                    background-color: @highlight-button-pressed;
-
-                    > a {
-                        color: @text-normal-pressed-ie;
-                        color: @text-normal-pressed;
-                    }
-                }
-
-                &.disabled {
-                    > a {
-                        &:extend(.dropdown-menu > .disabled > a);
-
-                        &:hover, &:focus {
-                            &:extend(.dropdown-menu > .disabled > a:hover);
-                            background-color: transparent;
-                        }
-                    }
-
-                    &:hover {
-                        background-color: transparent;
-                    }
-                }
-            }
-
-            &.devider {
-                .dropdown-menu .divider;
-                margin-top: 10px;
-                margin-bottom: 10px;
-            }
-
-            &:first-child {
-                margin-top: 15px;
-            }
-
-            > a {
-                &:extend(.dropdown-menu > li > a);
-                padding-top: 4px;
-                cursor: pointer;
-                .font-size-large();
-                overflow: hidden;
-                text-overflow: ellipsis;
-                &:hover {
-                    text-decoration: none;
-                }
-
-                &:focus {
-                    outline: 0;
-                }
-            }
-        }
-    }
-
     .panel-context {
         width: 100%;
         .padding-left(260px);
@@ -214,7 +145,7 @@
 
                 .header {
                     .font-size-very-huge();
-                    margin-bottom: 20px;
+                    margin-bottom: 24px;
                 }
 
                 .format-items {
@@ -246,8 +177,7 @@
             }
         }
 
-        #panel-settings,
-        #panel-info {
+        #panel-settings {
             padding: 0;
             display: flex;
             flex-direction: column;
@@ -255,10 +185,10 @@
 
         #panel-settings {
             .header {
-                margin: 30px 0 16px 30px;
+                margin: 30px 0 18px 30px;
                 .font-size-very-huge();
                 .rtl & {
-                    margin: 30px 30px 16px 0;
+                    margin: 30px 30px 18px 0;
                 }
             }
 
@@ -312,7 +242,7 @@
                 padding: 0 0 0 10px;
                 white-space: nowrap;
                 margin-top: 30px;
-                margin-bottom: 20px;
+                margin-bottom: 24px;
 
                 .rtl & {
                     padding: 0 10px 10px 0;
@@ -423,7 +353,7 @@
                         height: 100%;
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-                            background-size: 1056px 30px;
+                            background-size: 1032px 30px;
                             &:not(.svg-file-recent) {
                                 .pixel-ratio__1_25 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -451,7 +381,7 @@
                             }
 
                             &pdf, &pdfa {
-                                .format-from-index(14);
+                                .format-from-index(13);
                             }
 
                             &odp {
@@ -459,34 +389,34 @@
                             }
 
                             &potx {
-                                .format-from-index(23);
+                                .format-from-index(22);
                             }
 
                             &otp {
-                                .format-from-index(26);
+                                .format-from-index(25);
                             }
 
                             &ppsx {
-                                .format-from-index(28);
+                                .format-from-index(27);
                             }
 
                             &ppt {
                                 .format-from-index(11);
                             }
                             &pptm {
-                                .format-from-index(38);
+                                .format-from-index(37);
                             }
                             &ppsm {
-                                .format-from-index(39);
+                                .format-from-index(38);
                             }
                             &potm {
-                                .format-from-index(40);
+                                .format-from-index(39);
                             }
                             &fodp {
-                                .format-from-index(41);
+                                .format-from-index(40);
                             }
                             &.neutral {
-                                .format-from-index(43);
+                                .format-from-index(42);
                             }
                         }
                         .svg-file-recent {
@@ -582,17 +512,133 @@
         }
 
         #panel-info {
-            .header {
-                margin: 30px 0 20px 30px;
-                .font-size-very-huge();
+            padding: 30px;
 
-                .rtl & {
-                    margin: 30px 30px 20px 0;
+            .header {
+                .font-size-very-huge();
+                height: unset;
+                line-height: unset;
+            }
+
+            table {
+                display: flex;
+                gap: 24px;
+                flex-direction: column;
+
+                tr {
+                    display: flex;
+                    gap: 24px;
+
+                    td {
+                        .font-size-normal();
+                        line-height: 16px;
+
+                        &.title {
+                            line-height: 20px;
+
+                            label {
+                                .font-size-huge();
+                                font-weight: 700;
+                            }
+                        }
+
+                        &.left {
+                            width: 140px;
+                            flex-shrink: 0;
+                        }
+
+                        &.right {
+                            flex-grow: 1;
+                        }
+                    }
+
+                    &.divider {
+                        height: 10px;
+                    }
                 }
+
+                tbody {
+                    display: flex;
+                    gap: 12px;
+                    flex-direction: column;
+
+                    &.properties-tab {
+                        gap: 10px;
+
+                        tr {
+                            gap: 20px;
+                        }
+
+                        td {
+                            height: unset;
+                        }
+
+                        td.left {
+                            display: flex;
+                            align-items: center;
+
+                            label {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                }
+
+                tr.author-info {
+                    align-items: flex-start;
+
+                    td {
+                        &.left {
+                            height: 22px;
+                        }
+
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                    }
+                }
+
+                .author-info tbody tr:last-child {
+                    margin-bottom: 20px;
+                }
+
+                &.main {
+                    width: 100%;
+                }
+            }
+
+            #fms-flex-add-property {
+                margin-top: 10px;
+                td {
+                    height: unset;
+                }
+            }
+
+            #fminfo-btn-add-property {
+                padding: 0;
+                border: 0;
+                background-color: transparent;
+                height: 24px;
+
+                span {
+                    text-decoration: underline dotted;
+                    text-underline-offset: 4px;
+                }
+            }
+
+            .custom-property-wrapper {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+
+            .tool.close:before, .tool.close:after {
+                margin-top: 2px;
             }
         }
 
-        #panel-info,
         #panel-rights {
             table {
                 tr {
@@ -630,14 +676,14 @@
             }
 
             .userLink {
-                background-position: -81px -234px;
+                background-position: -24px -28px;
                 background-repeat: no-repeat;
                 padding: 0 0 0 17px;
                 width: 16px;
                 height: 16px;
 
                 &.sharedLink {
-                    background-position: -24px -273px;
+                    background-position: -22px -44px;
                 }
                 .rtl & {
                     padding: 0 17px 0 0;
@@ -692,7 +738,7 @@
             }
 
             #fms-btn-invisible-sign {
-                margin-bottom: 20px;
+                margin-bottom: 24px;
             }
 
             #id-fms-lbl-protect-header {

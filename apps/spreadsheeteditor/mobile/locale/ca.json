@@ -366,7 +366,8 @@
     "uploadDocSizeMessage": "S'ha superat el límit màxim de mida del document.",
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
-    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB."
+    "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
   },
   "LongActions": {
     "advDRMPassword": "Contrasenya",
@@ -507,7 +508,8 @@
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",

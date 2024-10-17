@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,7 +41,6 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
     'documenteditor/main/app/view/ViewTab'
@@ -90,7 +89,12 @@ define([
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
-                    'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'saveas:format': _.bind(function(menu, format, ext) {
+                        if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
+                            this.saveAsInWopi(menu, format, ext);
+                        } else
+                            this.clickSaveAsFormat(menu, format, ext);
+                    }, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -169,7 +173,7 @@ define([
                         resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '' && (resolved || !comment.get('resolved'))) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -308,10 +312,11 @@ define([
             }
         },
 
-        _saveAsFormat: function(menu, format, ext, textParams) {
+        _saveAsFormat: function(menu, format, ext, textParams, wopiPath) {
             var needDownload = !!ext;
             var options = new Asc.asc_CDownloadOptions(format, needDownload);
             options.asc_setIsSaveAs(needDownload);
+            wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
 
             if (menu) {
                 options.asc_setTextParams(textParams);
@@ -367,18 +372,19 @@ define([
             }
         },
 
-        clickSaveAsFormat: function(menu, format, ext) { // ext isn't undefined for save copy as
+        clickSaveAsFormat: function(menu, format, ext, wopiPath) { // ext isn't undefined for save copy as
             var me = this,
                 fileType = this.getApplication().getController('Main').document.fileType;
+
             if ( /^pdf|xps|oxps|djvu$/.test(fileType)) {
                 if (format===undefined) {
-                    this._saveAsFormat(undefined, format, ext); // download original
+                    this._saveAsFormat(undefined, format, ext, undefined, wopiPath); // download original
                     menu && menu.hide();
                 } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA || format == Asc.c_oAscFileType.JPG || format == Asc.c_oAscFileType.PNG)
-                    this._saveAsFormat(menu, format, ext);
+                    this._saveAsFormat(menu, format, ext, undefined, wopiPath);
                 else {
                     if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) // don't show message about pdf/xps/oxps
-                        me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                        me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine), wopiPath);
                     else {
                         Common.UI.warning({
                             width: 600,
@@ -387,14 +393,14 @@ define([
                             buttons: ['ok', 'cancel'],
                             callback: _.bind(function(btn){
                                 if (btn == 'ok') {
-                                    me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
+                                    me._saveAsFormat(menu, format, ext, new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine), wopiPath);
                                 }
                             }, this)
                         });
                     }
                 }
             } else
-                this._saveAsFormat(menu, format, ext);
+                this._saveAsFormat(menu, format, ext, undefined, wopiPath);
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -436,6 +442,30 @@ define([
                 }
             }
             this.isFromFileDownloadAs = false;
+        },
+
+        saveAsInWopi: function(menu, format, ext) {
+            var me = this,
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+            !defFileName && (defFileName = me.txtUntitled);
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
+            (new Common.Views.TextInputDialog({
+                label: me.textSelectPath,
+                value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
+                        me.clickSaveAsFormat(menu, format, ext, value);
+                    }
+                }
+            })).show();
         },
 
         applySettings: function(menu) {
@@ -522,6 +552,23 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("de-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("de-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("de-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("de-settings-zoom", newZoomValue);
 
             menu.hide();
         },
@@ -981,7 +1028,8 @@ define([
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
         warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
-        warnReplaceString: '{0} is not a valid special character for the Replace With box.'
+        warnReplaceString: '{0} is not a valid special character for the Replace With box.',
+        textSelectPath: 'Enter a new name for saving the file copy'
 
     }, DE.Controllers.LeftMenu || {}));
 });

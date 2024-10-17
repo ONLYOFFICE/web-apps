@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -262,6 +262,7 @@ define([
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
+                                textComment: me.textComment,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
                                 textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
@@ -950,7 +951,7 @@ define([
                                 arrowView.toggleClass('top', isMoveDown);
                                 arrowView.toggleClass('bottom', !isMoveDown);
                                 arrowView.removeClass('left right');
-                            } else if (sdkBoundsHeight <= outerHeight) {
+                            } else if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight)) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'
@@ -1316,6 +1317,7 @@ define([
         txtAccept: 'Accept',
         txtReject: 'Reject',
         txtEditTip: 'Edit',
-        txtDeleteTip: 'Delete'
+        txtDeleteTip: 'Delete',
+        textComment: 'Comment'
     }, Common.Views.ReviewPopover || {}))
 });

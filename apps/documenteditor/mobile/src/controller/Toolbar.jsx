@@ -105,11 +105,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
         if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > scrollOffsetRef.current) {
+            if(offset > 0 && Math.abs(offset) > Math.abs(scrollOffsetRef.current)) {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset <= scrollOffsetRef.current) {
+            } else if(offset < 0 && Math.abs(offset) <= Math.abs(scrollOffsetRef.current)) {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
@@ -415,6 +415,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             saveForm={saveForm}
             isForm={isForm}
             canFillForms={canFillForms}
+            canSubmitForms={appOptions.canSubmitForms}
         />
     )
 }));

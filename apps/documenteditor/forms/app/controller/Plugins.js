@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,14 +30,12 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 22.02.2022
  */
 
 define([
     'core',
-    'common/main/lib/collection/Plugins',
-    'common/main/lib/view/PluginDlg'
+    'common/main/lib/collection/Plugins'
 ], function () {
     'use strict';
 
@@ -232,7 +230,7 @@ define([
 
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             }

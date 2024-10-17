@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -46,8 +46,6 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LanguageInfo',
     'common/main/lib/util/LocalStorage',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
@@ -55,10 +53,14 @@ define([
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/controller/LaunchController',
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
 ], function () {
     'use strict';
 
@@ -69,8 +71,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {
@@ -199,6 +200,7 @@ define([
                 Common.UI.FocusManager.init();
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
                 Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
@@ -396,6 +398,8 @@ define([
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnLicenseExceeded = me.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnLicenseUsersExceeded = me.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+
+                Common.NotificationCenter.on('script:loaded', _.bind(me.onPostLoadComplete, me));
             },
 
             loadConfig: function(data) {
@@ -524,8 +528,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
                 this.api.asc_setR1C1Mode(value);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
@@ -586,7 +589,9 @@ define([
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_ReferenceData(data.doc.referenceData);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
-
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
+                    
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
                                      this.editorConfig.coEditing.mode || 'fast';
@@ -677,7 +682,7 @@ define([
                 if (data.type == 'mouseup') {
                     var editor = document.getElementById('editor_sdk');
                     if (editor) {
-                        var rect = editor.getBoundingClientRect();
+                        var rect = Common.Utils.getBoundingClientRect(editor);
                         var event = data.event || {};
                         this.api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
                     }
@@ -1005,6 +1010,10 @@ define([
                     /** spellcheck settings end **/
                 }
 
+                value = Common.localStorage.getBool("sse-settings-smooth-scroll", true);
+                Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
+                this.api.asc_SetSmoothScrolling(value);
+
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(me.onActiveSheetChanged, me));
@@ -1069,6 +1078,10 @@ define([
                     Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
+                    value = Common.localStorage.getItem("sse-settings-function-tooltip");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-function-tooltip", parseInt(value));
+
                     me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion) {
@@ -1081,10 +1094,9 @@ define([
                             clearInterval(timer_sl);
 
                             Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
-
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            me.setLanguages();
+                            // me.setLanguages();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1164,6 +1176,12 @@ define([
                     this.showRenameUserDialog();
                 if (this._needToSaveAsFile) // warning received before document is ready
                     this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+            },
+
+            onPostLoadComplete: function() {
+                if (this.appOptions.isEdit) {
+                    this.setLanguages();
+                }
             },
 
             onLicenseChanged: function(params) {
@@ -1385,9 +1403,15 @@ define([
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.isBeta         = params.asc_getIsBeta();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
+
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                    Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
+                    this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                    Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
+
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
-                        this.headerView.setBranding(this.editorConfig.customization);
+                        this.headerView.setBranding(this.editorConfig.customization, this.appOptions);
 
                     this.appOptions.canFavorite = this.appOptions.spreadsheet.info && (this.appOptions.spreadsheet.info.favorite!==undefined && this.appOptions.spreadsheet.info.favorite!==null);
                     this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(this.appOptions.spreadsheet.info.favorite);
@@ -1446,10 +1470,7 @@ define([
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle) {
-                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
-                    this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                     Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                     this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 }
@@ -1523,6 +1544,31 @@ define([
 
                 Common.Utils.InternalSettings.set("sse-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("sse-settings-autosave", autosave);
+            },
+
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             applyModeCommonElements: function() {
@@ -1692,6 +1738,9 @@ define([
                     return;
                 } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
                     this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
+                    return;
+                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
+                    this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
                 }
 
@@ -2147,6 +2196,11 @@ define([
 
                     case Asc.c_oAscError.ID.LockedCellGoalSeek:
                         config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
+                    case Asc.c_oAscError.ID.CircularReference:
+                        config.msg = this.errorCircularReference;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -2842,6 +2896,9 @@ define([
                     case 'generalToFrameData':
                         this.api.asc_getInformationBetweenFrameAndGeneralEditor(data.data);
                         break;
+                    case 'wopi:saveAsComplete':
+                        this.onExternalMessage({msg: this.txtSaveCopyAsComplete});
+                        break;
                     }
                 }
             },
@@ -3323,7 +3380,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -3358,7 +3415,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'xslx'
+                                    fileType: 'xslx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -3379,8 +3437,9 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        arrVersions[arrVersions.length-1].set('documentSha256', changes[changes.length-1].documentSha256);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -3413,7 +3472,11 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'xslx'
+                                                documentSha256: change.documentSha256,
+                                                fileType: 'xslx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -3435,8 +3498,8 @@ define([
                             currentVersion = historyStore.at(0);
                             currentVersion.set('selected', true);
                         }
-                        // if (currentVersion)
-                        //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        if (currentVersion)
+                            this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
                         arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
@@ -3511,491 +3574,7 @@ define([
                 data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
-            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
-            criticalErrorTitle: 'Error',
-            notcriticalErrorTitle: 'Warning',
-            errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "OK" to to back to document list.',
-            openTitleText: 'Opening Document',
-            openTextText: 'Opening document...',
-            saveTitleText: 'Saving Document',
-            saveTextText: 'Saving document...',
-            loadFontsTitleText: 'Loading Data',
-            loadFontsTextText: 'Loading data...',
-            loadImagesTitleText: 'Loading Images',
-            loadImagesTextText: 'Loading images...',
-            loadFontTitleText: 'Loading Data',
-            loadFontTextText: 'Loading data...',
-            loadImageTitleText: 'Loading Image',
-            loadImageTextText: 'Loading image...',
-            downloadTitleText: 'Downloading Document',
-            downloadTextText: 'Downloading document...',
-            printTitleText: 'Printing Document',
-            printTextText: 'Printing document...',
-            uploadImageTitleText: 'Uploading Image',
-            uploadImageTextText: 'Uploading image...',
-            loadingDocumentTitleText: 'Loading spreadsheet',
-            uploadImageSizeMessage: 'Maximium image size limit exceeded.',
-            uploadImageExtMessage: 'Unknown image format.',
-            uploadImageFileCountMessage: 'No images uploaded.',
-            reloadButtonText: 'Reload Page',
-            unknownErrorText: 'Unknown error.',
-            convertationTimeoutText: 'Convertation timeout exceeded.',
-            downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText: 'Your browser is not supported.',
-            requestEditFailedTitleText: 'Access denied',
-            requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
-            warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
-            warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
-            pastInMergeAreaError: 'Cannot change part of a merged cell',
-            textPleaseWait: 'It\'s working hard. Please wait...',
-            errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
-            errorWrongOperator: 'An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.',
-            errorCountArgExceed: 'Found an error in the formula entered.<br>Count of arguments exceeded.',
-            errorCountArg: 'Found an error in the formula entered.<br>Invalid number of arguments.',
-            errorFormulaName: 'Found an error in the formula entered.<br>Incorrect formula name.',
-            errorFormulaParsing: 'Internal error while the formula parsing.',
-            errorArgsRange: 'Found an error in the formula entered.<br>Incorrect arguments range.',
-            errorUnexpectedGuid: 'External error.<br>Unexpected Guid. Please, contact support.',
-            errorDatabaseConnection: 'External error.<br>Database connection error. Please, contact support.',
-            errorFileRequest: 'External error.<br>File Request. Please, contact support.',
-            errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
-            errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-            errorDataRange: 'Incorrect data range.',
-            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
-            errorKeyEncrypt: 'Unknown key descriptor',
-            errorKeyExpire: 'Key descriptor expired',
-            errorUsersExceed: 'Count of users was exceed',
-            errorMoveRange: 'Cann\'t change a part of merged cell',
-            errorBadImageUrl: 'Image url is incorrect',
-            errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The file is password protected and cannot be opened.',
-            errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
-            txtEditingMode: 'Set editing mode...',
-            textLoadingDocument: 'Loading spreadsheet',
-            textConfirm: 'Confirmation',
-            confirmMoveCellRange: 'The destination cell\'s range can contain data. Continue the operation?',
-            textYes: 'Yes',
-            textNo: 'No',
-            textAnonymous: 'Anonymous',
-            txtBasicShapes: 'Basic Shapes',
-            txtFiguredArrows: 'Figured Arrows',
-            txtMath: 'Math',
-            txtCharts: 'Charts',
-            txtStarsRibbons: 'Stars & Ribbons',
-            txtCallouts: 'Callouts',
-            txtButtons: 'Buttons',
-            txtRectangles: 'Rectangles',
-            txtLines: 'Lines',
-            txtDiagramTitle: 'Chart Title',
-            txtXAxis: 'X Axis',
-            txtYAxis: 'Y Axis',
-            txtSeries: 'Seria',
-            warnProcessRightsChange: 'You have been denied the right to edit the file.',
-            errorProcessSaveResult: 'Saving is failed.',
-            errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
-            errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
-            errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
-            errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
-            textCloseTip: 'Click to close the tip.',
-            textShape: 'Shape',
-            errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
-            errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
-            errorUserDrop: 'The file cannot be accessed right now.',
-            txtArt: 'Your text here',
-            errorInvalidRef: 'Enter a correct name for the selection or a valid reference to go to.',
-            errorCreateDefName: 'The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
-            errorPasteMaxRange: 'The copy and paste area does not match. Please select an area with the same size or click the first cell in a row to paste the copied cells.',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
-            errorLockedWorksheetRename: 'The sheet cannot be renamed at the moment as it is being renamed by another user',
-            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
-            textStrict: 'Strict mode',
-            errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
-            errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
-            textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'License limit reached',
-            textContactUs: 'Contact sales',
-            confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
-            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired',
-            openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file',
-            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
-            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
-            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
-            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
-            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
-            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-            titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            errorLockedCellPivot: 'You cannot change data inside a pivot table.',
-            txtAccent: 'Accent',
-            txtStyle_Normal: 'Normal',
-            txtStyle_Heading_1: 'Heading 1',
-            txtStyle_Heading_2: 'Heading 2',
-            txtStyle_Heading_3: 'Heading 3',
-            txtStyle_Heading_4: 'Heading 4',
-            txtStyle_Title: 'Title',
-            txtStyle_Neutral: 'Neutral',
-            txtStyle_Bad: 'Bad',
-            txtStyle_Good: 'Good',
-            txtStyle_Input: 'Input',
-            txtStyle_Output: 'Output',
-            txtStyle_Calculation: 'Calculation',
-            txtStyle_Check_Cell: 'Check Cell',
-            txtStyle_Explanatory_Text: 'Explanatory Text',
-            txtStyle_Note: 'Note',
-            txtStyle_Linked_Cell: 'Linked Cell',
-            txtStyle_Warning_Text: 'Warning Text',
-            txtStyle_Total: 'Total',
-            txtStyle_Currency: 'Currency',
-            txtStyle_Percent: 'Percent',
-            txtStyle_Comma: 'Comma',
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            errorMaxPoints: "The maximum number of points in series per chart is 4096.",
-            warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
-            warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-            warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-            warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-            textClose: 'Close',
-            textPaidFeature: 'Paid feature',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
-            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-            txtShape_textRect: 'Text Box',
-            txtShape_rect: 'Rectangle',
-            txtShape_ellipse: 'Ellipse',
-            txtShape_triangle: 'Triangle',
-            txtShape_rtTriangle: 'Right Triangle',
-            txtShape_parallelogram: 'Parallelogram',
-            txtShape_trapezoid: 'Trapezoid',
-            txtShape_diamond: 'Diamond',
-            txtShape_pentagon: 'Pentagon',
-            txtShape_hexagon: 'Hexagon',
-            txtShape_heptagon: 'Heptagon',
-            txtShape_octagon: 'Octagon',
-            txtShape_decagon: 'Decagon',
-            txtShape_dodecagon: 'Dodecagon',
-            txtShape_pie: 'Pie',
-            txtShape_chord: 'Chord',
-            txtShape_teardrop: 'Teardrop',
-            txtShape_frame: 'Frame',
-            txtShape_halfFrame: 'Half Frame',
-            txtShape_corner: 'Corner',
-            txtShape_diagStripe: 'Diagonal Stripe',
-            txtShape_plus: 'Plus',
-            txtShape_plaque: 'Sign',
-            txtShape_can: 'Can',
-            txtShape_cube: 'Cube',
-            txtShape_bevel: 'Bevel',
-            txtShape_donut: 'Donut',
-            txtShape_noSmoking: '"No" Symbol',
-            txtShape_blockArc: 'Block Arc',
-            txtShape_foldedCorner: 'Folded Corner',
-            txtShape_smileyFace: 'Smiley Face',
-            txtShape_heart: 'Heart',
-            txtShape_lightningBolt: 'Lightning Bolt',
-            txtShape_sun: 'Sun',
-            txtShape_moon: 'Moon',
-            txtShape_cloud: 'Cloud',
-            txtShape_arc: 'Arc',
-            txtShape_bracePair: 'Double Brace',
-            txtShape_leftBracket: 'Left Bracket',
-            txtShape_rightBracket: 'Right Bracket',
-            txtShape_leftBrace: 'Left Brace',
-            txtShape_rightBrace: 'Right Brace',
-            txtShape_rightArrow: 'Right Arrow',
-            txtShape_leftArrow: 'Left Arrow',
-            txtShape_upArrow: 'Up Arrow',
-            txtShape_downArrow: 'Down Arrow',
-            txtShape_leftRightArrow: 'Left Right Arrow',
-            txtShape_upDownArrow: 'Up Down Arrow',
-            txtShape_quadArrow: 'Quad Arrow',
-            txtShape_leftRightUpArrow: 'Left Right Up Arrow',
-            txtShape_bentArrow: 'Bent Arrow',
-            txtShape_uturnArrow: 'U-Turn Arrow',
-            txtShape_leftUpArrow: 'Left Up Arrow',
-            txtShape_bentUpArrow: 'Bent Up Arrow',
-            txtShape_curvedRightArrow: 'Curved Right Arrow',
-            txtShape_curvedLeftArrow: 'Curved Left Arrow',
-            txtShape_curvedUpArrow: 'Curved Up Arrow',
-            txtShape_curvedDownArrow: 'Curved Down Arrow',
-            txtShape_stripedRightArrow: 'Striped Right Arrow',
-            txtShape_notchedRightArrow: 'Notched Right Arrow',
-            txtShape_homePlate: 'Pentagon',
-            txtShape_chevron: 'Chevron',
-            txtShape_rightArrowCallout: 'Right Arrow Callout',
-            txtShape_downArrowCallout: 'Down Arrow Callout',
-            txtShape_leftArrowCallout: 'Left Arrow Callout',
-            txtShape_upArrowCallout: 'Up Arrow Callout',
-            txtShape_leftRightArrowCallout: 'Left Right Arrow Callout',
-            txtShape_quadArrowCallout: 'Quad Arrow Callout',
-            txtShape_circularArrow: 'Circular Arrow',
-            txtShape_mathPlus: 'Plus',
-            txtShape_mathMinus: 'Minus',
-            txtShape_mathMultiply: 'Multiply',
-            txtShape_mathDivide: 'Division',
-            txtShape_mathEqual: 'Equal',
-            txtShape_mathNotEqual: 'Not Equal',
-            txtShape_flowChartProcess: 'Flowchart: Process',
-            txtShape_flowChartAlternateProcess: 'Flowchart: Alternate Process',
-            txtShape_flowChartDecision: 'Flowchart: Decision',
-            txtShape_flowChartInputOutput: 'Flowchart: Data',
-            txtShape_flowChartPredefinedProcess: 'Flowchart: Predefined Process',
-            txtShape_flowChartInternalStorage: 'Flowchart: Internal Storage',
-            txtShape_flowChartDocument: 'Flowchart: Document',
-            txtShape_flowChartMultidocument: 'Flowchart: Multidocument ',
-            txtShape_flowChartTerminator: 'Flowchart: Terminator',
-            txtShape_flowChartPreparation: 'Flowchart: Preparation',
-            txtShape_flowChartManualInput: 'Flowchart: Manual Input',
-            txtShape_flowChartManualOperation: 'Flowchart: Manual Operation',
-            txtShape_flowChartConnector: 'Flowchart: Connector',
-            txtShape_flowChartOffpageConnector: 'Flowchart: Off-page Connector',
-            txtShape_flowChartPunchedCard: 'Flowchart: Card',
-            txtShape_flowChartPunchedTape: 'Flowchart: Punched Tape',
-            txtShape_flowChartSummingJunction: 'Flowchart: Summing Junction',
-            txtShape_flowChartOr: 'Flowchart: Or',
-            txtShape_flowChartCollate: 'Flowchart: Collate',
-            txtShape_flowChartSort: 'Flowchart: Sort',
-            txtShape_flowChartExtract: 'Flowchart: Extract',
-            txtShape_flowChartMerge: 'Flowchart: Merge',
-            txtShape_flowChartOnlineStorage: 'Flowchart: Stored Data',
-            txtShape_flowChartDelay: 'Flowchart: Delay',
-            txtShape_flowChartMagneticTape: 'Flowchart: Sequential Access Storage',
-            txtShape_flowChartMagneticDisk: 'Flowchart: Magnetic Disk',
-            txtShape_flowChartMagneticDrum: 'Flowchart: Direct Access Storage',
-            txtShape_flowChartDisplay: 'Flowchart: Display',
-            txtShape_irregularSeal1: 'Explosion 1',
-            txtShape_irregularSeal2: 'Explosion 2',
-            txtShape_star4: '4-Point Star',
-            txtShape_star5: '5-Point Star',
-            txtShape_star6: '6-Point Star',
-            txtShape_star7: '7-Point Star',
-            txtShape_star8: '8-Point Star',
-            txtShape_star10: '10-Point Star',
-            txtShape_star12: '12-Point Star',
-            txtShape_star16: '16-Point Star',
-            txtShape_star24: '24-Point Star',
-            txtShape_star32: '32-Point Star',
-            txtShape_ribbon2: 'Up Ribbon',
-            txtShape_ribbon: 'Down Ribbon',
-            txtShape_ellipseRibbon2: 'Curved Up Ribbon',
-            txtShape_ellipseRibbon: 'Curved Down Ribbon',
-            txtShape_verticalScroll: 'Vertical Scroll',
-            txtShape_horizontalScroll: 'Horizontal Scroll',
-            txtShape_wave: 'Wave',
-            txtShape_doubleWave: 'Double Wave',
-            txtShape_wedgeRectCallout: 'Rectangular Callout',
-            txtShape_wedgeRoundRectCallout: 'Rounded Rectangular Callout',
-            txtShape_wedgeEllipseCallout: 'Oval Callout',
-            txtShape_cloudCallout: 'Cloud Callout',
-            txtShape_borderCallout1: 'Line Callout 1',
-            txtShape_borderCallout2: 'Line Callout 2',
-            txtShape_borderCallout3: 'Line Callout 3',
-            txtShape_accentCallout1: 'Line Callout 1 (Accent Bar)',
-            txtShape_accentCallout2: 'Line Callout 2 (Accent Bar)',
-            txtShape_accentCallout3: 'Line Callout 3 (Accent Bar)',
-            txtShape_callout1: 'Line Callout 1 (No Border)',
-            txtShape_callout2: 'Line Callout 2 (No Border)',
-            txtShape_callout3: 'Line Callout 3 (No Border)',
-            txtShape_accentBorderCallout1: 'Line Callout 1 (Border and Accent Bar)',
-            txtShape_accentBorderCallout2: 'Line Callout 2 (Border and Accent Bar)',
-            txtShape_accentBorderCallout3: 'Line Callout 3 (Border and Accent Bar)',
-            txtShape_actionButtonBackPrevious: 'Back or Previous Button',
-            txtShape_actionButtonForwardNext: 'Forward or Next Button',
-            txtShape_actionButtonBeginning: 'Beginning Button',
-            txtShape_actionButtonEnd: 'End Button',
-            txtShape_actionButtonHome: 'Home Button',
-            txtShape_actionButtonInformation: 'Information Button',
-            txtShape_actionButtonReturn: 'Return Button',
-            txtShape_actionButtonMovie: 'Movie Button',
-            txtShape_actionButtonDocument: 'Document Button',
-            txtShape_actionButtonSound: 'Sound Button',
-            txtShape_actionButtonHelp: 'Help Button',
-            txtShape_actionButtonBlank: 'Blank Button',
-            txtShape_roundRect: 'Round Corner Rectangle',
-            txtShape_snip1Rect: 'Snip Single Corner Rectangle',
-            txtShape_snip2SameRect: 'Snip Same Side Corner Rectangle',
-            txtShape_snip2DiagRect: 'Snip Diagonal Corner Rectangle',
-            txtShape_snipRoundRect: 'Snip and Round Single Corner Rectangle',
-            txtShape_round1Rect: 'Round Single Corner Rectangle',
-            txtShape_round2SameRect: 'Round Same Side Corner Rectangle',
-            txtShape_round2DiagRect: 'Round Diagonal Corner Rectangle',
-            txtShape_line: 'Line',
-            txtShape_lineWithArrow: 'Arrow',
-            txtShape_lineWithTwoArrows: 'Double Arrow',
-            txtShape_bentConnector5: 'Elbow Connector',
-            txtShape_bentConnector5WithArrow: 'Elbow Arrow Connector',
-            txtShape_bentConnector5WithTwoArrows: 'Elbow Double-Arrow Connector',
-            txtShape_curvedConnector3: 'Curved Connector',
-            txtShape_curvedConnector3WithArrow: 'Curved Arrow Connector',
-            txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
-            txtShape_spline: 'Curve',
-            txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform',
-            errorChangeArray: 'You cannot change part of an array.',
-            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
-            errorEmailClient: 'No email client could be found',
-            txtPrintArea: 'Print_Area',
-            txtTable: 'Table',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            errorNoDataToParse: 'No data was selected to parse.',
-            errorCannotUngroup: 'Cannot ungroup. To start an outline, select the detail rows or columns and group them.',
-            errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
-            waitText: 'Please, wait...',
-            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
-            txtConfidential: 'Confidential',
-            txtPreparedBy: 'Prepared by',
-            txtPage: 'Page',
-            txtPageOf: 'Page %1 of %2',
-            txtPages: 'Pages',
-            txtDate: 'Date',
-            txtTime: 'Time',
-            txtTab: 'Tab',
-            txtFile: 'File',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            errorLabledColumnsPivot: 'To create a pivot table report, you must use data that is organized as a list with labeled columns.',
-            errorPivotOverlap: 'A pivot table report cannot overlap a table.',
-            txtColumn: 'Column',
-            txtRow: 'Row',
-            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
-            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
-            txtByField: '%1 of %2',
-            txtAll: '(All)',
-            txtValues: 'Values',
-            txtGrandTotal: 'Grand Total',
-            txtRowLbls: 'Row Labels',
-            txtColLbls: 'Column Labels',
-            errNoDuplicates: 'No duplicate values found.',
-            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
-            txtMultiSelect: 'Multi-Select',
-            txtClearFilter: 'Clear Filter',
-            txtBlank: '(blank)',
-            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
-            textRemember: 'Remember my choice',
-            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.',
-            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
-            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
-            errorMoveSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.',
-            errorEditView: 'The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.',
-            errorChangeFilteredRange: 'This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.',
-            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
-            errorSetPassword: 'Password could not be set.',
-            textRenameLabel: 'Enter a name to be used for collaboration',
-            textRenameError: 'User name must not be empty.',
-            textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest',
-            txtGroup: 'Group',
-            txtSeconds: 'Seconds',
-            txtMinutes: 'Minutes',
-            txtHours: 'Hours',
-            txtDays: 'Days',
-            txtMonths: 'Months',
-            txtQuarters: 'Quarters',
-            txtYears: 'Years',
-            errorPivotGroup: 'Cannot group that selection.',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-            errorPasteMultiSelect: 'This action cannot be done on a multiple range selection.<br>Select a single range and try again.',
-            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            errorPivotWithoutUnderlying: 'The Pivot Table report was saved without the underlying data.<br>Use the \'Refresh\' button to update the report.',
-            txtQuarter: 'Qtr',
-            txtOr: '%1 or %2',
-            confirmReplaceFormulaInTable: 'Formulas in the header row will be removed and converted to static text.<br>Do you want to continue?',
-            errorChangeOnProtectedSheet: 'The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.',
-            txtUnlockRange: 'Unlock Range',
-            txtUnlockRangeWarning: 'A range you are trying to change is password protected.',
-            txtUnlockRangeDescription: 'Enter the password to change this range:',
-            txtUnlock: 'Unlock',
-            errorWrongPassword: 'The password you supplied is not correct.',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            textDisconnect: 'Connection is lost',
-            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
-            textApplyAll: 'Apply to all equations',
-            textLearnMore: 'Learn More',
-            errorSingleColumnOrRowError: 'Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.',
-            errorLocationOrDataRangeError: 'The reference for the location or data range is not valid.',
-            txtErrorLoadHistory: 'Loading history failed',
-            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
-            errorDeleteColumnContainsLockedCell: 'You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
-            errorDeleteRowContainsLockedCell: 'You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.',
-            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
-            uploadDocExtMessage: 'Unknown document format.',
-            uploadDocFileCountMessage: 'No documents uploaded.',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-            textNeedSynchronize: 'You have an updates',
-            textChangesSaved: 'All changes saved',
-            textFillOtherRows: 'Fill other rows',
-            textFormulaFilledAllRows: 'Formula filled {0} rows have data. Filling other empty rows may take a few minutes.',
-            textFormulaFilledAllRowsWithEmpty: 'Formula filled first {0} rows. Filling other empty rows may take a few minutes.',
-            textFormulaFilledFirstRowsOtherIsEmpty: 'Formula filled only first {0} rows by memory save reason. Other rows in this sheet don\'t have data.',
-            textFormulaFilledFirstRowsOtherHaveData: 'Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.',
-            textReconnect: 'Connection is restored',
-            errorCannotUseCommandProtectedSheet: 'You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.',
-            textRequestMacros: 'A macro makes a request to URL. Do you want to allow the request to the %1?',
-            textRememberMacros: 'Remember my choice for all macros',
-            confirmAddCellWatches: 'This action will add {0} cell watches.<br>Do you want to continue?',
-            confirmAddCellWatchesMax: 'This action will add only {0} cell watches by memory save reason.<br>Do you want to continue?',
-            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
-            textUndo: 'Undo',
-            textContinue: 'Continue',
-            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
-            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the spreadsheet.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            errorConvertXml: 'The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.',
-            textText: 'Text',
-            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-            titleLicenseNotActive: 'License not active',
-            errorProtectedRange: 'This range is not allowed for editing.',
-            errorCreateRange: 'The existing ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
-            txtSheet: 'Sheet',
-            txtNone: 'None',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtSlicer: 'Slicer',
-            txtInfo: 'Info',
-            confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
-            textReplace: 'Replace',
-            textKeep: 'Keep',
-            errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
-            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
-            txtPicture: 'Picture',
-            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.',
-            txtScheme_Aspect: 'Aspect',
-            txtScheme_Blue_Green: 'Blue Green',
-            txtScheme_Blue_II: 'Blue II',
-            txtScheme_Blue_Warm: 'Blue Warm',
-            txtScheme_Blue: 'Blue',
-            txtScheme_Grayscale: 'Grayscale',
-            txtScheme_Green_Yellow: 'Green Yellow',
-            txtScheme_Green: 'Green',
-            txtScheme_Marquee: 'Marquee',
-            txtScheme_Median: 'Median',
-            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
-            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
-            txtScheme_Office: 'Office',
-            txtScheme_Orange_Red: 'Orange Red',
-            txtScheme_Orange: 'Orange',
-            txtScheme_Paper: 'Paper',
-            txtScheme_Red_Orange: 'Red Orange',
-            txtScheme_Red_Violet: 'Red Violet',
-            txtScheme_Red: 'Red',
-            txtScheme_Slipstream: 'Slipstream',
-            txtScheme_Violet_II: 'Violet II',
-            txtScheme_Violet: 'Violet',
-            txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow',
-            txtPivotTable: 'PivotTable',
-            txtView: 'View'
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });

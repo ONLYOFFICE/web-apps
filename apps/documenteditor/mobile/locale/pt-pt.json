@@ -506,7 +506,8 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde..."
+    "waitText": "Aguarde...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -776,7 +777,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Submeter",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -810,6 +810,7 @@
     "textOk": "Aceitar",
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida"
+    "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "btnSend": "Send"
   }
 }

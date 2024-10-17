@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,13 +36,9 @@
  *
  */
 
-define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.template',
+define([
+    'text!documenteditor/main/app/template/ImageSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ComboBoxDataView'
 ], function (contentTemplate) {
     'use strict';
 
@@ -207,26 +203,30 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.radioHSize = new Common.UI.RadioBox({
                 el: $('#shape-radio-hsize'),
                 name: 'asc-radio-width',
-                checked: true
+                checked: true,
+                ariaLabel: this.textAbsoluteWH
             });
             this.radioHSize.on('change', _.bind(this.onRadioHSizeChange, this));
 
             this.radioHSizePc = new Common.UI.RadioBox({
                 el: $('#shape-radio-hsizepc'),
-                name: 'asc-radio-width'
+                name: 'asc-radio-width',
+                ariaLabel: this.textRelativeWH
             });
             this.radioHSizePc.on('change', _.bind(this.onRadioHSizePcChange, this));
 
             this.radioVSize = new Common.UI.RadioBox({
                 el: $('#shape-radio-vsize'),
                 name: 'asc-radio-height',
-                checked: true
+                checked: true,
+                ariaLabel: this.textAbsoluteWH
             });
             this.radioVSize.on('change', _.bind(this.onRadioVSizeChange, this));
 
             this.radioVSizePc = new Common.UI.RadioBox({
                 el: $('#shape-radio-vsizepc'),
-                name: 'asc-radio-height'
+                name: 'asc-radio-height',
+                ariaLabel: this.textRelativeWH
             });
             this.radioVSizePc.on('change', _.bind(this.onRadioVSizePcChange, this));
 
@@ -789,38 +789,44 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.radioHAlign = new Common.UI.RadioBox({
                 el: $('#image-radio-halign'),
                 name: 'asc-radio-horizontal',
-                checked: true
+                checked: true,
+                ariaLabel: this.textHorizontal + ' ' + this.textAlignment
             });
             this.radioHAlign.on('change', _.bind(this.onRadioHAlignChange, this));
 
             this.radioHPosition = new Common.UI.RadioBox({
                 el: $('#image-radio-hposition'),
-                name: 'asc-radio-horizontal'
+                name: 'asc-radio-horizontal',
+                ariaLabel: this.textHorizontal + ' ' + this.textPosition
             });
             this.radioHPosition.on('change', _.bind(this.onRadioHPositionChange, this));
 
             this.radioHPositionPc = new Common.UI.RadioBox({
                 el: $('#image-radio-hpositionpc'),
-                name: 'asc-radio-horizontal'
+                name: 'asc-radio-horizontal',
+                ariaLabel: this.textHorizontal + ' ' + this.textPositionPc
             });
             this.radioHPositionPc.on('change', _.bind(this.onRadioHPositionPcChange, this));
 
             this.radioVAlign = new Common.UI.RadioBox({
                 el: $('#image-radio-valign'),
                 name: 'asc-radio-vertical',
-                checked: true
+                checked: true,
+                ariaLabel: this.textVertical + ' ' + this.textAlignment
             });
             this.radioVAlign.on('change', _.bind(this.onRadioVAlignChange, this));
 
             this.radioVPosition = new Common.UI.RadioBox({
                 el: $('#image-radio-vposition'),
-                name: 'asc-radio-vertical'
+                name: 'asc-radio-vertical',
+                ariaLabel: this.textVertical + ' ' + this.textPosition
             });
             this.radioVPosition.on('change', _.bind(this.onRadioVPositionChange, this));
 
             this.radioVPositionPc = new Common.UI.RadioBox({
                 el: $('#image-radio-vpositionpc'),
-                name: 'asc-radio-vertical'
+                name: 'asc-radio-vertical',
+                ariaLabel: this.textVertical + ' ' + this.textPositionPc
             });
             this.radioVPositionPc.on('change', _.bind(this.onRadioVPositionPcChange, this));
 

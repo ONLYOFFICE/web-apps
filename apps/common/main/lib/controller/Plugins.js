@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,17 +30,13 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 17.05.16
- * Time: 15:38
  */
 
 define([
     'core',
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/PluginDlg',
-    'common/main/lib/view/PluginPanel',
     'common/main/lib/component/Switcher'
 ], function () {
     'use strict';
@@ -116,8 +112,10 @@ define([
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
             this.customPluginsDlg = [];
+            this.macrosPlugin = {el: null, show: false};
 
             this.newInstalledBackgroundPlugins = [];
+            this.customButtonsArr = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -181,6 +179,10 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
+                Common.UI.TooltipManager.addTips({
+                    'moveMacros' : {name: 'help-tip-move-macros', placement: 'bottom-right', text: me.helpMoveMacros, header: me.helpMoveMacrosHeader, target: $('li.ribtab #view').parent(), automove: true}
+                });
+
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
@@ -227,7 +229,7 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = panel.currentPluginFrame.offset();
+                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
                         me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
                                             y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
@@ -413,6 +415,12 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.customButtonsArr.forEach(function(item) {
+                me.toolbar && me.toolbar.addCustomItems({action: item.tab}, undefined, [item.btn])
+            });
+            me.customButtonsArr = [];
+            me.macrosPlugin = {};
+
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.backgroundPlugins = [];
@@ -431,7 +439,23 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        let tab = model.get('tab'),
+                            btn = me.viewPlugins.createPluginButton(model);
+                        if (btn) {
+                            btn.options.separator = tab.separator;
+                            me.toolbar && me.toolbar.addCustomItems(tab, [btn]);
+                            me.customButtonsArr.push({tab: tab.action, btn: btn});
+                            if (model.get('guid') === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
+                                me.macrosPlugin.el = btn.cmpEl;
+                                if (me.toolbar && me.toolbar.isTabActive('plugins')) {
+                                    me.macrosPlugin.show = true;
+                                    Common.UI.TooltipManager.addTips({
+                                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: me.helpUseMacros, header: me.helpUseMacrosHeader, target: me.macrosPlugin.el, automove: true},
+                                    });
+                                    Common.UI.TooltipManager.removeTip('grayTheme');
+                                }
+                            }
+                        }
                         return;
                     }
 
@@ -442,28 +466,29 @@ define([
                         rank = 1.5;
                         rank_plugins++;
                     }
-                    if (new_rank!==rank && rank>-1 && rank_plugins>0) {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group"></div>');
-                        rank_plugins = 0;
-                    } else {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
-                    }
 
                     var btn = me.viewPlugins.createPluginButton(model);
                     if (btn) {
+                        if (new_rank!==rank && rank>-1 && rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group"></div>');
+                            rank_plugins = 0;
+                        } else if (rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
+                        }
+
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
+                        rank = new_rank;
                     }
                     if (new_rank === 1 && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
                         isBackground = true;
                     }
-                    rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
                 if (me.backgroundPlugins.length > 0) {
@@ -474,11 +499,7 @@ define([
                     };
                     me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
                     me.viewPlugins.backgroundBtn.on('click', function () {
-                        if (me.backgroundPluginsTip) {
-                            me.backgroundPluginsTip.close();
-                            me.backgroundPluginsTip = undefined;
-                            me.newInstalledBackgroundPlugins && (me.newInstalledBackgroundPlugins.length = 0);
-                        }
+                        me.closeBackPluginsTip();
                     });
                 }
 
@@ -603,13 +624,15 @@ define([
 
         addPluginToSideMenu: function (plugin, langName, menu) {
             function createUniqueName (name) {
-                var n = name.toLowerCase().replace(/\s/g, '-'),
-                    panelId = 'left-panel-plugins-' + name;
-                var length = $('#' + panelId).length;
-                if (length > 0) {
-                    n = n + '-' + length;
+                var n = name.toLowerCase().replace(/[^a-z0-9\-_:\.]/g, '-'),
+                    panelName = n;
+                var index = 0;
+                while(true) {
+                    if ($('#' + 'panel-plugins-' + panelName).length < 1) break;
+                    index++;
+                    panelName = n + '-' + index;
                 }
-                return n;
+                return panelName;
             }
             var pluginGuid = plugin.get_Guid(),
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
@@ -650,6 +673,10 @@ define([
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
+            if (plugin.get_Guid() === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
+                Common.UI.TooltipManager.closeTip('useMacros');
+            }
+
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
@@ -687,7 +714,7 @@ define([
                             guid: plugin.get_Guid(),
                             cls: isCustomWindow ? 'plain' : '',
                             header: !isCustomWindow,
-                            title: plugin.get_Name(lang),
+                            title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
                             width: size[0], // inner width
                             height: size[1], // inner height
                             url: url,
@@ -757,6 +784,8 @@ define([
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
             this.runAutoStartPlugins();
+
+            Common.UI.LayoutManager.clearCustomItems(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -783,7 +812,7 @@ define([
         
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -831,7 +860,7 @@ define([
         },
 
         parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
-            this.newInstalledBackgroundPlugins.length = 0;
+            this.closeBackPluginsTip();
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -914,6 +943,13 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
+                        if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
+                            item.tab = {
+                                "id": "view",
+                                "separator": true
+                            }
+                        }
+
                         var props = {
                             name : name,
                             guid: item.guid,
@@ -928,7 +964,7 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem,
-                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || '', separator: item.tab.separator} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                         if (fromManager && !updatedItem && props.isBackgroundPlugin) {
@@ -957,6 +993,9 @@ define([
                     });
                     pluginStore.reset(arr);
                     this.appOptions.canPlugins = !pluginStore.isEmpty();
+                    me.newInstalledBackgroundPlugins = _.filter(me.newInstalledBackgroundPlugins, function(item){
+                        return !!pluginStore.findWhere({guid: item.guid});
+                    })
                 }
             }
             else if (!uiCustomize){
@@ -1217,7 +1256,7 @@ define([
 
         onPluginWindowMouseMove: function(frameId, x, y) {
             if (this.customPluginsDlg[frameId]) {
-                var offset = this.customPluginsDlg[frameId].options.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
                 if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -1284,9 +1323,12 @@ define([
 
         onModalClose: function () {
             var plugins = this.newInstalledBackgroundPlugins;
-            if (plugins && plugins.length > 0) {
+            if (plugins && plugins.length > 0 && this.viewPlugins.backgroundBtn && this.viewPlugins.backgroundBtn.isVisible()) {
                 var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
                     Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
+                    this.backgroundPluginsTip.close();
+                }
                 this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
                     placement: 'bottom',
@@ -1304,19 +1346,35 @@ define([
                     this.newInstalledBackgroundPlugins.length = 0;
                 }, this);
                 this.backgroundPluginsTip.on('closeclick', function () {
-                    this.backgroundPluginsTip.close();
-                    this.backgroundPluginsTip = undefined;
-                    this.newInstalledBackgroundPlugins.length = 0;
+                    this.closeBackPluginsTip();
                 }, this);
                 this.backgroundPluginsTip.show();
             }
+            this.macrosPlugin.show && Common.UI.TooltipManager.showTip('moveMacros');
+            this.macrosPlugin.show = false;
         },
 
         onActiveTab: function (tab) {
-            if (tab !== 'plugins' && this.backgroundPluginsTip) {
+            if (tab === 'plugins') {
+                if (this.macrosPlugin.el) {
+                    Common.UI.TooltipManager.addTips({
+                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: this.helpUseMacros, header: this.helpUseMacrosHeader, target: this.macrosPlugin.el, automove: true},
+                    });
+                    Common.UI.TooltipManager.removeTip('grayTheme');
+                    this.macrosPlugin.el && Common.UI.TooltipManager.showTip('moveMacros');
+                }
+            } else {
+                this.closeBackPluginsTip();
+                Common.UI.TooltipManager.closeTip('moveMacros');
+            }
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('useMacros') : Common.UI.TooltipManager.closeTip('useMacros');
+        },
+
+        closeBackPluginsTip: function() {
+            if (this.backgroundPluginsTip) {
                 this.backgroundPluginsTip.close();
                 this.backgroundPluginsTip = undefined;
-                this.newInstalledBackgroundPlugins.length = 0;
+                this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
             }
         },
 

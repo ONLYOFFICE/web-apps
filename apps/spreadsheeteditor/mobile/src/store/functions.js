@@ -15,7 +15,9 @@ export class storeFunctions {
     }
 
     getFunctions (groups, data, separator) {
+        const api = Common.EditorApi.get();
         const functions = {};
+
         for (let g in groups) {
             const group = groups[g];
             const groupname = group.asc_getGroupName();
@@ -23,13 +25,27 @@ export class storeFunctions {
 
             for (let f in funcarr) {
                 const func = funcarr[f];
-                const _name = func.asc_getName();
-                functions[_name] = {
-                    type: _name,
+                const funcName = func.asc_getName();
+                const customFuncInfo = api.asc_getCustomFunctionInfo(funcName);
+                let args = '';
+                let descr = '';
+
+                if (customFuncInfo) {
+                    const arrArgs = customFuncInfo.asc_getArg() || [];
+                    args = '(' + arrArgs.map(function (item) { 
+                        return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                    descr = customFuncInfo.asc_getDescription();
+                } else {
+                    args = ((data && data[funcName]) ? data[funcName].a : '').replace(/[,;]/g, separator);
+                    descr = (data && data[funcName]) ? data[funcName].d : '';
+                }
+
+                functions[funcName] = {
+                    type: funcName,
                     group: groupname,
                     caption: func.asc_getLocaleName(),
-                    args: ((data && data[_name]) ? data[_name].a : '').replace(/[,;]/g, separator),
-                    descr: (data && data[_name]) ? data[_name].d : ''
+                    args,
+                    descr,
                 };
             }
         }

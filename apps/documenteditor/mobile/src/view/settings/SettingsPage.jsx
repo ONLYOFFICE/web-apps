@@ -82,16 +82,6 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                             <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
                         </ListItem>
                     : ''),
-                    (canFillForms && canSubmitForms ?   
-                        <ListItem key='submit-form-link' title={t('Settings.textSubmit')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
-                            <Icon slot="media" icon="icon-save-form"></Icon>
-                        </ListItem> 
-                    : ''),
-                    (_canDownload && canFillForms && !canSubmitForms ? 
-                        <ListItem key='save-form-link' title={t('Settings.textSave')} link='#' className='no-indicator' onClick={settingsContext.saveAsPdf}>
-                            <Icon slot="media" icon="icon-save-form"></Icon>
-                        </ListItem>
-                    : ''),
                     <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
                         <Icon slot="media" icon="icon-clear-fields"></Icon>
                     </ListItem>

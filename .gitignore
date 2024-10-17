@@ -20,6 +20,9 @@ apps/**/main/resources/**/iconsbig*.svg
 apps/**/main/resources/**/iconsbig*.less
 apps/**/main/resources/**/iconshuge*.png
 apps/**/main/resources/**/iconshuge*.less
+apps/**/mobile/dist/*.*
+apps/**/mobile/hot/*.*
+apps/**/mobile/css/*.*
 
 
 # test documents

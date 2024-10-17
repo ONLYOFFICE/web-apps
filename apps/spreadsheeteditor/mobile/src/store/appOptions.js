@@ -17,11 +17,14 @@ export class storeAppOptions {
 
             isDocReady: observable,
             changeDocReady: action,
+
+            customization: observable,
         });
     }
 
     isEdit = false;
     config = {};
+    customization;
     
     canViewComments = false;
     changeCanViewComments(value) {
@@ -105,7 +108,7 @@ export class storeAppOptions {
         if (params.asc_getRights() !== Asc.c_oRights.Edit)
             permissions.edit = false;
         this.canBranding = params.asc_getCustomization();
-        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);
         this.canModifyFilter = permissions.modifyFilter !== false;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();

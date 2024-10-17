@@ -506,7 +506,8 @@
     "txtEditingMode": "Актывацыя рэжыму рэдагавання…",
     "uploadImageTextText": "Запампоўванне выявы…",
     "uploadImageTitleText": "Запампоўванне выявы",
-    "waitText": "Калі ласка, пачакайце..."
+    "waitText": "Калі ласка, пачакайце...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Памылка",
@@ -792,7 +793,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
@@ -806,6 +806,7 @@
     "stayButtonText": "Застацца на старонцы",
     "textCloseHistory": "Закрыць гісторыю",
     "textOk": "Добра",
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",

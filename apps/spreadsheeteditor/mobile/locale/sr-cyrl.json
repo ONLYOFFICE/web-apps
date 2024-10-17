@@ -366,7 +366,8 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
   },
   "LongActions": {
     "advDRMPassword": "Лозинка",
@@ -507,7 +508,8 @@
       "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
       "txtSorting": "Сортирање",
       "txtSortSelected": "Сортирај одабрано",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",

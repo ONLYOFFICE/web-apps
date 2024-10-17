@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -40,13 +40,12 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/TreeView'
-], function () { 'use strict';
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
 
+define([], function () { 'use strict';
     PE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,

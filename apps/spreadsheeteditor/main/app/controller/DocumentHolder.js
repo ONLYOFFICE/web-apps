@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -60,24 +60,7 @@ define([
     'core',
     'common/main/lib/util/utils',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/ListSettingsDialog',
-    'spreadsheeteditor/main/app/view/DocumentHolder',
-    'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-    'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/SetValueDialog',
-    'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog',
-    'spreadsheeteditor/main/app/view/MacroDialog',
-    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
-    'spreadsheeteditor/main/app/view/FillSeriesDialog'
+    'spreadsheeteditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 
@@ -127,6 +110,7 @@ define([
             me.fastcoauthtips = [];
             me._TtHeight = 20;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -137,7 +121,8 @@ define([
 
             this.addListeners({
                 'DocumentHolder': {
-                    'createdelayedelements': this.onCreateDelayedElements
+                    'createdelayedelements': this.onCreateDelayedElements,
+                    'equation:callback': this.equationCallback
                 }
             });
 
@@ -156,6 +141,7 @@ define([
             var me = this;
 
             me.documentHolder = this.createView('DocumentHolder');
+            me.documentHolder._currentTranslateObj = this;
 
 //            me.documentHolder.on('render:after', _.bind(me.onAfterRender, me));
 
@@ -197,10 +183,13 @@ define([
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onCreateDelayedElements: function(view, type) {
             var me = this;
+            me.type = type;
+
             if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
@@ -290,29 +279,7 @@ define([
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
                 view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
                 view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
-
-                if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
-                    var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                            var command = message.data.command;
-                            var data = message.data.data;
-                            if (me.api) {
-                                if (oleEditor.isEditMode())
-                                    me.api.asc_editTableOleObject(data);
-                            }
-                        }, me));
-                        oleEditor.on('hide', _.bind(function(cmp, message) {
-                            if (me.api) {
-                                me.api.asc_enableKeyEvents(true);
-                                me.api.asc_onCloseChartFrame();
-                            }
-                            setTimeout(function(){
-                                view.fireEvent('editcomplete', view);
-                            }, 10);
-                        }, me));
-                    }
-                }
+                view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -364,6 +331,41 @@ define([
             this.onChangeProtectSheet();
         },
 
+        createPostLoadElements: function() {
+            var me = this;
+
+            me.permissions.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
+            if (me.type !== 'edit') {
+                return;
+            }
+
+            if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
+                var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor) {
+                    oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                        var command = message.data.command;
+                        var data = message.data.data;
+                        if (me.api) {
+                            if (oleEditor.isEditMode())
+                                me.api.asc_editTableOleObject(data);
+                        }
+                    }, me));
+                    oleEditor.on('hide', _.bind(function(cmp, message) {
+                        if (me.api) {
+                            me.api.asc_enableKeyEvents(true);
+                            me.api.asc_onCloseChartFrame();
+                        }
+                        setTimeout(function(){
+                            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                        }, 10);
+                    }, me));
+                }
+            }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+        },
+
         loadConfig: function(data) {
             this.editorConfig = data.config;
         },
@@ -396,7 +398,7 @@ define([
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
                 this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
                 this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
-                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
+                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onApiFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
@@ -431,6 +433,23 @@ define([
             this.api.asc_registerCallback('asc_onHideComment',      this.wrapEvents.apiHideComment);
 //            this.api.asc_registerCallback('asc_onShowComment',      this.wrapEvents.apiShowComment);
             /** coauthoring end **/
+        },
+
+        onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onCopyPaste: function(item) {
@@ -1141,12 +1160,8 @@ define([
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments) {
-                        if (comments.length) {
-                            controller.onEditComments(comments);
-                        } else if (this.permissions.canCoAuthoring) {
-                            controller.addDummyComment();
-                        }
+                    if (comments && !comments.length && this.permissions.canCoAuthoring) {
+                        controller.addDummyComment();
                     }
                 }
             }
@@ -1458,6 +1473,10 @@ define([
         },
 
         onChartData: function(btn) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){
@@ -2042,9 +2061,9 @@ define([
 
                         showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
 
-                        var tipheight = filterTip.ref.getBSTip().$tip.width();
-                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
-                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                        var tipheight = filterTip.ref.getBSTip().$tip.height();
+                        if (showPoint[1] + tipheight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - tipheight - 5;
                             showPoint[0] += 20;
                         }
 
@@ -2309,7 +2328,11 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (Common.Utils.String.htmlEncode(props.asc_getColumnName()) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
+            var colName = props.asc_getColumnName();
+            colName && (colName = colName.replace(/\n/g, ' '));
+            if (colName.length>100)
+                colName = colName.substring(0, 100) + '...';
+            str = "<b>" + (Common.Utils.String.htmlEncode(colName) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -2646,6 +2669,15 @@ define([
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
+                var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                documentHolder.menuEditObject.setVisible(pluginGuidAvailable);
+                documentHolder.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                if (pluginGuidAvailable) {
+                    var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    documentHolder.menuEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || isObjLocked);
+                }
+
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
                 documentHolder.menuImgRotate.menu.items[3].setDisabled(isSmartArtInternal);
@@ -2813,9 +2845,9 @@ define([
                 var eqlen = 0;
                 this._currentParaObjDisabled = isObjLocked;
                 if (isEquation) {
-                    eqlen = this.addEquationMenu(4);
+                    eqlen = documentHolder.addEquationMenu(documentHolder.textInShapeMenu, 4);
                 } else
-                    this.clearEquationMenu(4);
+                    documentHolder.clearEquationMenu(documentHolder.textInShapeMenu, 4);
 
                 documentHolder.menuParagraphEquation.setVisible(isEquation);
                 documentHolder.menuParagraphEquation.setDisabled(isObjLocked);
@@ -3309,6 +3341,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
+        onApiFormulaCompleteMenu: function(funcarr, offset) {
+            const me = this;
+            setTimeout(function() {
+                me.onFormulaCompleteMenu(funcarr, offset);
+            }, 0);
+        },
+
         onFormulaCompleteMenu: function(funcarr, offset) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
@@ -3452,15 +3491,24 @@ define([
                 }
 
                 var infocus = me.cellEditor.is(":focus");
+                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
                     menu.menuAlignEl = me.cellEditor;
+                    menu.offset = [
+                        0,
+                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
                     me.focusInCellEditor = true;
                 } else {
                     menu.menuAlignEl = undefined;
+                    menu.offset = [0 ,0];
                     me.focusInCellEditor = false;
                     var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                        showPoint = [
+                            coord.asc_getX() + (offset ? offset[0] : 0),
+                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                        ];
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 }
                 menu.alignPosition();
@@ -3494,6 +3542,8 @@ define([
         },
 
         onFormulaInfo: function(name) {
+            if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
+
             var functip = this.tooltips.func_arg;
 
             if (name) {
@@ -3547,7 +3597,7 @@ define([
                             Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
                 }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
@@ -4020,628 +4070,10 @@ define([
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
-        initEquationMenu: function() {
-            if (!this._currentMathObj) return;
-            var me = this,
-                type = me._currentMathObj.get_Type(),
-                value = me._currentMathObj,
-                mnu, arr = [];
 
-            switch (type) {
-                case Asc.c_oAscMathInterfaceType.Accent:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemoveAccentChar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_AccentCharacter'}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.BorderBox:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtBorderProps,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: value.get_HideTop() ? me.txtAddTop : me.txtHideTop,
-                                    equationProps: {type: type, callback: 'put_HideTop', value: !value.get_HideTop()}
-                                },
-                                {
-                                    caption: value.get_HideBottom() ? me.txtAddBottom : me.txtHideBottom,
-                                    equationProps: {type: type, callback: 'put_HideBottom', value: !value.get_HideBottom()}
-                                },
-                                {
-                                    caption: value.get_HideLeft() ? me.txtAddLeft : me.txtHideLeft,
-                                    equationProps: {type: type, callback: 'put_HideLeft', value: !value.get_HideLeft()}
-                                },
-                                {
-                                    caption: value.get_HideRight() ? me.txtAddRight : me.txtHideRight,
-                                    equationProps: {type: type, callback: 'put_HideRight', value: !value.get_HideRight()}
-                                },
-                                {
-                                    caption: value.get_HideHor() ? me.txtAddHor : me.txtHideHor,
-                                    equationProps: {type: type, callback: 'put_HideHor', value: !value.get_HideHor()}
-                                },
-                                {
-                                    caption: value.get_HideVer() ? me.txtAddVer : me.txtHideVer,
-                                    equationProps: {type: type, callback: 'put_HideVer', value: !value.get_HideVer()}
-                                },
-                                {
-                                    caption: value.get_HideTopLTR() ? me.txtAddLT : me.txtHideLT,
-                                    equationProps: {type: type, callback: 'put_HideTopLTR', value: !value.get_HideTopLTR()}
-                                },
-                                {
-                                    caption: value.get_HideTopRTL() ? me.txtAddLB : me.txtHideLB,
-                                    equationProps: {type: type, callback: 'put_HideTopRTL', value: !value.get_HideTopRTL()}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Bar:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemoveBar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_Bar'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? me.txtUnderbar : me.txtOverbar,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceBarPos.Top) ? Asc.c_oAscMathInterfaceBarPos.Bottom : Asc.c_oAscMathInterfaceBarPos.Top}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Script:
-                    var scripttype = value.get_ScriptType();
-                    if (scripttype == Asc.c_oAscMathInterfaceScript.PreSubSup) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtScriptsAfter,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.SubSup}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtRemScripts,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.None}
-                        });
-                        arr.push(mnu);
-                    } else {
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtScriptsBefore,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: Asc.c_oAscMathInterfaceScript.PreSubSup}
-                            });
-                            arr.push(mnu);
-                        }
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sub ) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtRemSubscript,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sup : Asc.c_oAscMathInterfaceScript.None }
-                            });
-                            arr.push(mnu);
-                        }
-                        if (scripttype == Asc.c_oAscMathInterfaceScript.SubSup || scripttype == Asc.c_oAscMathInterfaceScript.Sup ) {
-                            mnu = new Common.UI.MenuItem({
-                                caption     : me.txtRemSuperscript,
-                                equation    : true,
-                                disabled    : me._currentParaObjDisabled,
-                                equationProps: {type: type, callback: 'put_ScriptType', value: (scripttype == Asc.c_oAscMathInterfaceScript.SubSup) ? Asc.c_oAscMathInterfaceScript.Sub : Asc.c_oAscMathInterfaceScript.None }
-                            });
-                            arr.push(mnu);
-                        }
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Fraction:
-                    var fraction = value.get_FractionType();
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Skewed || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionStacked,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Bar}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Linear) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionSkewed,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Skewed}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.Skewed) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtFractionLinear,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: Asc.c_oAscMathInterfaceFraction.Linear}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (fraction==Asc.c_oAscMathInterfaceFraction.Bar || fraction==Asc.c_oAscMathInterfaceFraction.NoBar) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? me.txtRemFractionBar : me.txtAddFractionBar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_FractionType', value: (fraction==Asc.c_oAscMathInterfaceFraction.Bar) ? Asc.c_oAscMathInterfaceFraction.NoBar : Asc.c_oAscMathInterfaceFraction.Bar}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Limit:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? me.txtLimitUnder : me.txtLimitOver,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceLimitPos.Top) ? Asc.c_oAscMathInterfaceLimitPos.Bottom : Asc.c_oAscMathInterfaceLimitPos.Top}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtRemLimit,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceLimitPos.None}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.Matrix:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HidePlaceholder() ? me.txtShowPlaceholder : me.txtHidePlaceholder,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HidePlaceholder', value: !value.get_HidePlaceholder()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.insertText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.insertRowAboveText,
-                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: true}
-                                },
-                                {
-                                    caption: me.insertRowBelowText,
-                                    equationProps: {type: type, callback: 'insert_MatrixRow', value: false}
-                                },
-                                {
-                                    caption: me.insertColumnLeftText,
-                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: true}
-                                },
-                                {
-                                    caption: me.insertColumnRightText,
-                                    equationProps: {type: type, callback: 'insert_MatrixColumn', value: false}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.deleteText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.deleteRowText,
-                                    equationProps: {type: type, callback: 'delete_MatrixRow'}
-                                },
-                                {
-                                    caption: me.deleteColumnText,
-                                    equationProps: {type: type, callback: 'delete_MatrixColumn'}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtMatrixAlign,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.txtTop,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Top}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Center}
-                                },
-                                {
-                                    caption: me.txtBottom,
-                                    checkable   : true,
-                                    checked     : (value.get_MatrixAlign()==Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom),
-                                    equationProps: {type: type, callback: 'put_MatrixAlign', value: Asc.c_oAscMathInterfaceMatrixMatrixAlign.Bottom}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtColumnAlign,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.leftText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Left),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Left}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Center),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Center}
-                                },
-                                {
-                                    caption: me.rightText,
-                                    checkable   : true,
-                                    checked     : (value.get_ColumnAlign()==Asc.c_oAscMathInterfaceMatrixColumnAlign.Right),
-                                    equationProps: {type: type, callback: 'put_ColumnAlign', value: Asc.c_oAscMathInterfaceMatrixColumnAlign.Right}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.EqArray:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertEqBefore,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_Equation', value: true}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertEqAfter,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_Equation', value: false}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDeleteEq,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'delete_Equation'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.alignmentText,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        menu        : new Common.UI.Menu({
-                            cls: 'shifted-right',
-                            menuAlign: 'tl-tr',
-                            items   : [
-                                {
-                                    caption: me.txtTop,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Top),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Top}
-                                },
-                                {
-                                    caption: me.centerText,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Center),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Center}
-                                },
-                                {
-                                    caption: me.txtBottom,
-                                    checkable   : true,
-                                    checked     : (value.get_Align()==Asc.c_oAscMathInterfaceEqArrayAlign.Bottom),
-                                    equationProps: {type: type, callback: 'put_Align', value: Asc.c_oAscMathInterfaceEqArrayAlign.Bottom}
-                                }
-                            ]
-                        })
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.LargeOperator:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtLimitChange,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_LimitLocation', value: (value.get_LimitLocation() == Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr) ? Asc.c_oAscMathInterfaceNaryLimitLocation.SubSup : Asc.c_oAscMathInterfaceNaryLimitLocation.UndOvr}
-                    });
-                    arr.push(mnu);
-                    if (value.get_HideUpper() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideUpper() ? me.txtShowTopLimit : me.txtHideTopLimit,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideUpper', value: !value.get_HideUpper()}
-                        });
-                        arr.push(mnu);
-                    }
-                    if (value.get_HideLower() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideLower() ? me.txtShowBottomLimit : me.txtHideBottomLimit,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideLower', value: !value.get_HideLower()}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Delimiter:
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertArgBefore,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: true}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtInsertArgAfter,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'insert_DelimiterArgument', value: false}
-                    });
-                    arr.push(mnu);
-                    if (value.can_DeleteArgument()) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteArg,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'delete_DelimiterArgument'}
-                        });
-                        arr.push(mnu);
-                    }
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.has_Separators() ? me.txtDeleteCharsAndSeparators : me.txtDeleteChars,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_DelimiterCharacters'}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HideOpeningBracket() ? me.txtShowOpenBracket : me.txtHideOpenBracket,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HideOpeningBracket', value: !value.get_HideOpeningBracket()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : value.get_HideClosingBracket() ? me.txtShowCloseBracket : me.txtHideCloseBracket,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'put_HideClosingBracket', value: !value.get_HideClosingBracket()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtStretchBrackets,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        checkable   : true,
-                        checked     : value.get_StretchBrackets(),
-                        equationProps: {type: type, callback: 'put_StretchBrackets', value: !value.get_StretchBrackets()}
-                    });
-                    arr.push(mnu);
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtMatchBrackets,
-                        equation    : true,
-                        disabled    : (!value.get_StretchBrackets() || me._currentParaObjDisabled),
-                        checkable   : true,
-                        checked     : value.get_StretchBrackets() && value.get_MatchBrackets(),
-                        equationProps: {type: type, callback: 'put_MatchBrackets', value: !value.get_MatchBrackets()}
-                    });
-                    arr.push(mnu);
-                    break;
-                case Asc.c_oAscMathInterfaceType.GroupChar:
-                    if (value.can_ChangePos()) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? me.txtGroupCharUnder : me.txtGroupCharOver,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: (value.get_Pos()==Asc.c_oAscMathInterfaceGroupCharPos.Top) ? Asc.c_oAscMathInterfaceGroupCharPos.Bottom : Asc.c_oAscMathInterfaceGroupCharPos.Top}
-                        });
-                        arr.push(mnu);
-                        mnu = new Common.UI.MenuItem({
-                            caption     : me.txtDeleteGroupChar,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_Pos', value: Asc.c_oAscMathInterfaceGroupCharPos.None}
-                        });
-                        arr.push(mnu);
-                    }
-                    break;
-                case Asc.c_oAscMathInterfaceType.Radical:
-                    if (value.get_HideDegree() !== undefined) {
-                        mnu = new Common.UI.MenuItem({
-                            caption     : value.get_HideDegree() ? me.txtShowDegree : me.txtHideDegree,
-                            equation    : true,
-                            disabled    : me._currentParaObjDisabled,
-                            equationProps: {type: type, callback: 'put_HideDegree', value: !value.get_HideDegree()}
-                        });
-                        arr.push(mnu);
-                    }
-                    mnu = new Common.UI.MenuItem({
-                        caption     : me.txtDeleteRadical,
-                        equation    : true,
-                        disabled    : me._currentParaObjDisabled,
-                        equationProps: {type: type, callback: 'remove_Radical'}
-                    });
-                    arr.push(mnu);
-                    break;
-            }
-            if (value.can_IncreaseArgumentSize()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtIncreaseArg,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'increase_ArgumentSize'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_DecreaseArgumentSize()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtDecreaseArg,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'decrease_ArgumentSize'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_InsertManualBreak()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtInsertBreak,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'insert_ManualBreak'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_DeleteManualBreak()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtDeleteBreak,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'delete_ManualBreak'}
-                });
-                arr.push(mnu);
-            }
-            if (value.can_AlignToCharacter()) {
-                mnu = new Common.UI.MenuItem({
-                    caption     : me.txtAlignToChar,
-                    equation    : true,
-                    disabled    : me._currentParaObjDisabled,
-                    equationProps: {type: type, callback: 'align_ToCharacter'}
-                });
-                arr.push(mnu);
-            }
-            return arr;
-        },
-
-        addEquationMenu: function(insertIdx) {
-            var me = this;
-            
-            me.clearEquationMenu(insertIdx);
-
-            var equationMenu = me.documentHolder.textInShapeMenu,
-                menuItems = me.initEquationMenu();
-
-            if (menuItems.length > 0) {
-                _.each(menuItems, function(menuItem, index) {
-                    if (menuItem.menu) {
-                        _.each(menuItem.menu.items, function(item) {
-                            item.on('click', _.bind(me.equationCallback, me, item.options.equationProps));
-                        });
-                    } else
-                        menuItem.on('click', _.bind(me.equationCallback, me, menuItem.options.equationProps));
-                    equationMenu.insertItem(insertIdx, menuItem);
-                    insertIdx++;
-                });
-            }
-            return menuItems.length;
-        },
-
-        clearEquationMenu: function(insertIdx) {
-            var me = this;
-            var equationMenu = me.documentHolder.textInShapeMenu;
-            for (var i = insertIdx; i < equationMenu.items.length; i++) {
-                if (equationMenu.items[i].options.equation) {
-                    if (equationMenu.items[i].menu) {
-                        _.each(equationMenu.items[i].menu.items, function(item) {
-                            item.off('click');
-                        });
-                    } else
-                        equationMenu.items[i].off('click');
-                    equationMenu.removeItem(equationMenu.items[i]);
-                    i--;
-                } else
-                    break;
-            }
-        },
-
-        equationCallback: function(eqProps) {
-            var me = this;
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    me.api.asc_SetMathProps(eqObj);
-                }
-            }
-            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
         onTextInShapeAfterRender:function(cmp) {
@@ -4915,6 +4347,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(obj) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.permissions.isEdit && !this._isDisabled) {
                 var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && obj) {
@@ -4929,6 +4362,11 @@ define([
             if (this.permissions && !this.permissions.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -5064,6 +4502,12 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
+
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -5196,7 +4640,8 @@ define([
         },
 
         onPluginContextMenu: function(data) {
-            if (data && data.length>0 && this.documentHolder && this.currentMenu && this.currentMenu.isVisible()){
+            if (data && data.length>0 && this.documentHolder && this.currentMenu && (this.currentMenu !== this.documentHolder.copyPasteMenu) &&
+                                                                (this.currentMenu !== this.documentHolder.fillMenu) && this.currentMenu.isVisible()){
                 this.documentHolder.updateCustomItems(this.currentMenu, data);
             }
         },

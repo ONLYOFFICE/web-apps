@@ -184,6 +184,12 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
@@ -280,7 +286,15 @@
 
       <div class="viewer">
           <div id="editor_sdk" class="sdk-view" style="overflow: hidden;" tabindex="-1"></div>
-          <ul id="worksheets" class="worksheet-list"></ul>
+          <div id="worksheet-container" class="worksheet-list-container">
+              <div class="worksheet-list-buttons">
+                  <button id="worksheet-list-button-prev" class="control-btn svg-icon search-arrow-left" disabled>
+                  </button>
+                  <button id="worksheet-list-button-next" class="control-btn svg-icon search-arrow-right" disabled>
+                  </button>
+              </div>
+              <ul id="worksheets" class="worksheet-list"></ul>
+          </div>
       </div>
 
       <div class="overlay-controls" style="margin-left: -32px">

@@ -110,6 +110,7 @@
                     logo: {
                         image: url,
                         imageDark: url, // logo for dark theme
+                        imageLight: url, // logo for light header
                         imageEmbedded: url, // deprecated, use image instead
                         url: http://...,
                         visible: true // hide logo if visible=false
@@ -204,6 +205,14 @@
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
+                        tabStyle: {
+                            mode: 'fill'/'line' // init value, 'fill' by default,
+                            change: true/false // show/hide feature
+                        } / 'fill'/'line' // if string - use as init value
+                        tabBackground: {
+                            mode: 'header'/'toolbar' // init value, 'header' by default
+                            change: true/false // show/hide feature
+                        } / 'header'/'toolbar' // if string - use as init value
                     },
                     font: {
                         name: "Arial",
@@ -224,7 +233,7 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false,
+                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
@@ -239,7 +248,10 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
-                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                    mobile: {
+                        forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                        standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -513,19 +525,24 @@
 
         (function() {
             var result = /[\?\&]placement=(\w+)&?/.exec(window.location.search);
-            if (!!result && result.length) {
-                if (result[1] == 'desktop') {
-                    _config.editorConfig.targetApp = result[1];
-                    // _config.editorConfig.canBackToFolder = false;
-                    if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
-                    _config.editorConfig.customization.about = false;
-                    _config.editorConfig.customization.compactHeader = false;
-                }
+            if (!!result && result.length && result[1] == 'desktop' ) {
+                console.warn('some errors occurred in the desktop app while document opening. please, contact with support team');
+            }
+
+            if (!!window.AscDesktopEditor)
+            {
+                _config.editorConfig.targetApp = 'desktop';
+                // _config.editorConfig.canBackToFolder = false;
+                if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
+                _config.editorConfig.customization.about = false;
+                _config.editorConfig.customization.compactHeader = false;
             }
         })();
 
         var target = document.getElementById(placeholderId),
             iframe;
+
+        getShardkey(_config);
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
@@ -944,6 +961,17 @@
         }
     };
 
+    function getShardkey(config) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.match(/(.*)api\/documents\/api.js/i)) {
+                var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(scripts[i].src);
+                shardkey && shardkey.length && (config.editorConfig.shardkey = shardkey[1]);
+                break;
+            }
+        }
+    }
+
     function getBasePath() {
         var scripts = document.getElementsByTagName('script'),
             match;
@@ -1024,6 +1052,8 @@
                 if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
+        if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
+            path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = config.type === "mobile" ? "mobile" :
@@ -1065,9 +1095,11 @@
                     } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
                         (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded) && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
-                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
+                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark || config.editorConfig.customization.logo.imageLight)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
                     }
                 }
             }
@@ -1100,6 +1132,13 @@
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
 
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabBackground) {
+            if (typeof config.editorConfig.customization.features.tabBackground === 'object') {
+                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change!==false ? "-ls" : "");
+            } else
+                params += "&tabBackground=" + config.editorConfig.customization.features.tabBackground + "-ls";
+        }
+
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
 
@@ -1111,6 +1150,9 @@
 
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
+
+        if (config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key)
+            params += "&shardkey=" + config.document.key;
 
         if (config.editorConfig) {
             var customization = config.editorConfig.customization;
@@ -1165,6 +1207,18 @@
             }
         }
         return dest;
+    }
+
+    function extendAppPath(config,  path) {
+        if ( !config.isLocalFile ) {
+            const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
+            if ( ver.lastIndexOf('{{') < 0 && path.indexOf(ver) < 0 ) {
+                const pos = path.indexOf('/web-apps/app');
+                if ( pos > 0 )
+                    return [path.slice(0, pos), ver, path.slice(pos)].join('');
+            }
+        }
+        return path;
     }
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);

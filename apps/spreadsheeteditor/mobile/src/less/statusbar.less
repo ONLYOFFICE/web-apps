@@ -40,18 +40,18 @@
     .statusbar--box-tabs {
         overflow-x: auto;
         overflow-y: hidden;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        
         &::-webkit-scrollbar {
-            -webkit-appearance: none;
-            display: none;
-            // width: 0;
-            // height: 0;
+            width: 0;
+            height: 0;
         }
         > ul {
             padding: 0;
             margin: 0;
             height: 100%;
             white-space: nowrap;
-            overflow-x: scroll;
             // position: absolute;
             // left: 0;
             // top: 0;

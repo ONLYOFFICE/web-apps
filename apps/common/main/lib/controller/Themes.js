@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -73,6 +73,11 @@ define([
                 type: 'dark',
                 source: 'static',
             },
+            'theme-gray': {
+                text: locale.txtThemeGray || 'Gray',
+                type: 'light',
+                source: 'static',
+            },
         }
 
 
@@ -94,7 +99,6 @@ define([
             "background-toolbar",
             "background-toolbar-additional",
             "background-primary-dialog-button",
-            "background-tab-underline",
             "background-notification-popover",
             "background-notification-badge",
             "background-scrim",
@@ -109,10 +113,17 @@ define([
             "highlight-primary-dialog-button-hover",
             "highlight-header-button-hover",
             "highlight-header-button-pressed",
-            "highlight-toolbar-tab-underline",
             "highlight-text-select",
             "highlight-accent-button-hover",
             "highlight-accent-button-pressed",
+            "highlight-toolbar-tab-underline-document",
+            "highlight-toolbar-tab-underline-spreadsheet",
+            "highlight-toolbar-tab-underline-presentation",
+            "highlight-toolbar-tab-underline-pdf",
+            "highlight-header-tab-underline-document",
+            "highlight-header-tab-underline-spreadsheet",
+            "highlight-header-tab-underline-presentation",
+            "highlight-header-tab-underline-pdf",
 
             "border-toolbar",
             "border-divider",
@@ -242,7 +253,14 @@ define([
             if ( !!colors && !!id ) {
                 var _css_array = [':root .', id, '{'];
                 for (var c in colors) {
-                    _css_array.push('--', c, ':', colors[c], ';');
+                    if (c==='highlight-toolbar-tab-underline') {
+                        _css_array.push('--', c + '-document', ':', colors[c], ';');
+                        _css_array.push('--', c + '-spreadsheet', ':', colors[c], ';');
+                        _css_array.push('--', c + '-presentation', ':', colors[c], ';');
+                        _css_array.push('--', c + '-pdf', ':', colors[c], ';');
+                        console.log("Obsolete: The 'highlight-toolbar-tab-underline' color for interface themes is deprecated. Please use 'highlight-toolbar-tab-underline-document', 'highlight-toolbar-tab-underline-presentation', etc. instead.");
+                    } else
+                        _css_array.push('--', c, ':', colors[c], ';');
                 }
 
                 _css_array.push('}');
@@ -399,7 +417,7 @@ define([
             this.api.asc_setSkin(colors_obj);
 
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                if ( themes_map[id].source != 'static' ) {
+                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
                     const theme_obj = {
                         id: id,
                         type: themes_map[id].type,
@@ -408,7 +426,7 @@ define([
                     };
 
                     Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                }
+                // }
             }
         }
 
@@ -425,6 +443,12 @@ define([
 
         return {
             init: function (api) {
+                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                    .forEach(function (i) {
+                        document.documentElement.style.removeProperty('--' + i);
+                    });
+
+
                 Common.Gateway.on('opendocument', on_document_open.bind(this));
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme-id' && !Common.Controllers.Desktop.isActive() ) {

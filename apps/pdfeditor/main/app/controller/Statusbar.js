@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,7 +41,8 @@
 define([
     'core',
     'pdfeditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo'
+    'common/main/lib/util/LanguageInfo',
+    'common/main/lib/component/InputField'
 ], function () {
     'use strict';
 
@@ -170,7 +171,9 @@ define([
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if(!this._isDocReady) return;
-            Common.localStorage.setItem('pdfe-last-zoom', percent);
+            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            Common.localStorage.setItem('pdfe-last-zoom', value);
+            Common.Utils.InternalSettings.set('pdfe-last-zoom', value);
         },
 
         setStatusCaption: function(text, force, delay, callback) {

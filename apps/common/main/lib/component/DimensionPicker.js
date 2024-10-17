@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -82,7 +82,7 @@ define([
                 me.options.height = me.options.itemSize* this.options.minRows;
                 var rootEl = this.cmpEl;
 
-                me.borderColor = Common.Utils.isIE ?'#cfcfcf' :Common.UI.Themes.currentThemeColor('--border-regular-control');
+                me.borderColor = Common.Utils.isIE ?'#888888' :Common.UI.Themes.currentThemeColor('--border-preview-select');
                 me.fillColor = Common.Utils.isIE ?'#fff' :Common.UI.Themes.currentThemeColor('--background-normal');
                 me.borderColorHighlighted = Common.Utils.isIE ?'#848484' :Common.UI.Themes.currentThemeColor('--border-control-focus');
                 me.fillColorHighlighted = Common.Utils.isIE ?'#7d858c' :Common.UI.Themes.currentThemeColor('--highlight-button-pressed');
@@ -162,7 +162,7 @@ define([
 
 
             changeColors: function (){
-                this.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
+                this.borderColor = Common.UI.Themes.currentThemeColor('--border-preview-select');
                 this.fillColor = Common.UI.Themes.currentThemeColor('--background-normal');
                 this.borderColorHighlighted = Common.UI.Themes.currentThemeColor('--border-control-focus');
                 this.fillColorHighlighted = Common.UI.Themes.currentThemeColor('--highlight-button-pressed');

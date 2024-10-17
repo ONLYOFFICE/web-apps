@@ -199,11 +199,128 @@ label {
         border-right: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 15px 0 24px;
 
         .rtl & {
             border-right: none;
             border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @scaled-one-px-value solid @border-toolbar;
+        }
+
+        svg.menu-item-icon {
+            display: none;
+        }
+
+        span.menu-item-icon {
+            display: block;
+        }
+
+        li {
+            list-style: none;
+            position: relative;
+            flex-shrink: 0;
+
+            &.fm-btn {
+                height: 28px;
+                padding: 4px 16px 4px 12px;
+                cursor: pointer;
+
+                .rtl & {
+                    padding: 4px 12px 4px 16px;
+                }
+
+                &:hover:not(.disabled),
+                &.highlight-tip {
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
+                }
+
+                &.active:not(.disabled) {
+                    outline: 0;
+                    background-color: @highlight-button-pressed-ie;
+                    background-color: @highlight-button-pressed;
+
+                    > a {
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
+                    }
+
+                    .menu-item-icon {
+                        background-position-x: var(--button-small-active-icon-offset-x, 0);
+                    }
+
+                    svg.menu-item-icon {
+                        fill: @icon-normal-pressed-ie;
+                        fill: @icon-normal-pressed;
+                    }
+                }
+
+                &.disabled > a {
+                    cursor: default;
+                    color: @border-regular-control-ie;
+                    color: @border-regular-control;
+                }
+            }
+
+            &.devider {
+                .dropdown-menu .divider;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            &.devider-small {
+                margin-top: 7px;
+                margin-bottom: 7px;
+            }
+
+            &.devider-last {
+                margin-top: auto;
+                margin-bottom: -4px;
+            }
+
+            .menu-item-icon {
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                position: relative;
+                &:not(:disabled) {
+                    opacity: var(--component-normal-icon-opacity, 0.8);
+                }
+            }
+
+            &.disabled {
+                .menu-item-icon {
+                    opacity: 0.4;
+                }
+            }
+
+            > a {
+                &:extend(.dropdown-menu > li > a);
+                .font-size-large();
+                padding:0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 12px;
+                line-height: 16px;
+                height: 100%;
+                &:hover {
+                    text-decoration: none;
+                }
+
+                &:focus {
+                    outline: 0;
+                }
+
+                &:not(:has(.menu-item-icon)) {
+                    .padding-left-28();
+                }
+            }
         }
     }
 
@@ -222,6 +339,21 @@ label {
         padding: 3px 5px;
         border-radius: 2px;
         .margin-left-10();
+    }
+}
+
+.pixel-ratio__2_5 {
+    #file-menu-panel {
+        .panel-menu {
+            svg.menu-item-icon {
+                fill: var(--icon-normal);
+                display: block;
+            }
+
+            span.menu-item-icon {
+                display: none;
+            }
+        }
     }
 }
 
@@ -453,5 +585,12 @@ body {
 .icon-rtl {
     .rtl & {
         transform: scaleX(-1);
+    }
+}
+
+// only for test screen reader focus manager
+.focus-mode {
+    :focus {
+        outline: 1px solid red !important;
     }
 }

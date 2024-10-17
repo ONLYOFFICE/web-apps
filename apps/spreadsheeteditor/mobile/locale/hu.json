@@ -366,7 +366,8 @@
     "uploadDocSizeMessage": "A maximális dokumentum méret elérve.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
   },
   "LongActions": {
     "advDRMPassword": "Jelszó",
@@ -507,7 +508,8 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak rendezése",
-      "txtYes": "Igen"
+      "txtYes": "Igen",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

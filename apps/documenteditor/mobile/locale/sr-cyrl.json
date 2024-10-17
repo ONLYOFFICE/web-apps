@@ -506,7 +506,8 @@
     "txtEditingMode": "Подеси режим уређивања...",
     "uploadImageTextText": "Отпремљивање слике...",
     "uploadImageTitleText": "Отпремљивање слике",
-    "waitText": "Молимо, сачекајте..."
+    "waitText": "Молимо, сачекајте...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Грешка",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Провера правописа",
     "textStatistic": "Статистика",
     "textSubject": "Субјекат",
-    "textSubmit": "Поднеси",
     "textSymbols": "Симболи",
     "textTheme": "Тема",
     "textTitle": "Наслов",
@@ -810,6 +810,7 @@
     "textOk": "OK",
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
-    "textSwitchedStandardView": "Пребачено на стандардни приказ"
+    "textSwitchedStandardView": "Пребачено на стандардни приказ",
+    "btnSend": "Send"
   }
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -86,6 +86,7 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                searchFields: ['displayValue'], // Property name from the item to be searched by
                 placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
@@ -96,13 +97,13 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -128,6 +129,7 @@ define([
                 this.valueField     = me.options.valueField;
                 this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
+                this.searchFields   = me.options.searchFields;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 this.restoreMenuHeight = me.options.restoreMenuHeight;
@@ -252,6 +254,10 @@ define([
                     this.setDefaultSelection();
 
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.options.hint;
+                    if (ariaLabel)
+                        this.cmpEl.find('.form-control').attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -290,6 +296,7 @@ define([
 
             closeMenu: function() {
                 this.cmpEl.removeClass('open');
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
             },
 
             isMenuOpen: function() {
@@ -352,7 +359,7 @@ define([
                     $selected = $list.find('> li.selected');
 
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = $list.outerHeight();
 
@@ -369,6 +376,8 @@ define([
 
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
 
                 this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
@@ -420,6 +429,7 @@ define([
 
             onAfterHideMenu: function(e, isFromInputControl) {
                 this.cmpEl.find('.dropdown-toggle').blur();
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
@@ -478,26 +488,36 @@ define([
             },
 
             selectCandidate: function() {
-                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+                var me = this,
+                    index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
+                    isFirstCharsEqual = this.searchFields.some(function(field) {
+                        return re.test(me.store.at(index).get(field));
+                    }),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
-                    var item = this.store.at(i);
-                    if (re.test(item.get(this.displayField))) {
-                        if (!itemCandidate) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            if(!isFirstCharsEqual) 
-                                break;  
+                    var item = this.store.at(i),
+                        isBreak = false;
+                    this.searchFields.forEach(function(fieldName) {
+                        if (item.get(fieldName) && re.test(item.get(fieldName))) {
+                            if (!itemCandidate) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                if(!isFirstCharsEqual) {
+                                    isBreak = true;
+                                    return;
+                                }
+                            }
+                            if (me._search.full && i==index || i>index) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                isBreak = true;
+                                return;
+                            }
                         }
-                        if (this._search.full && i==index || i>index) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            break;
-                        }
-                    }
+                    });
+                    if(isBreak) break;
                 }
 
                 if (itemCandidate) {
@@ -506,7 +526,7 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
@@ -577,8 +597,12 @@ define([
 
                 if (this._selectedItem) {
                     record = this._selectedItem.toJSON();
-                    $('.selected', $(this.el)).removeClass('selected');
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 }
 
                 // trigger changed event
@@ -627,8 +651,12 @@ define([
                     this._selectedItem = this.store.findWhere((obj={}, obj[this.displayField]=val, obj));
 
                     if (this._selectedItem) {
-                        $('.selected', $(this.el)).removeClass('selected');
-                        $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                        var $selectedItems = $('.selected', $(this.el)),
+                            $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                        $selectedItems.removeClass('selected');
+                        $selectedItems.find('a').attr('aria-checked', false);
+                        $newSelectedItem.addClass('selected');
+                        $newSelectedItem.find('a').attr('aria-checked', true);
                     }
                 }
             },
@@ -670,11 +698,15 @@ define([
                 var obj;
                 this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     this.setRawValue(this._selectedItem.get(this.displayField));
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 } else {
                     this.setRawValue((defValue!==undefined) ? defValue : value);
                 }
@@ -712,13 +744,19 @@ define([
 
                 this._selectedItem = record;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
                 this.setRawValue(this._selectedItem.get(this.displayField));
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.find('a').attr('aria-checked', true);
             },
 
             clearSelection: function (){
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
                 this._selectedItem = null;
             },
 
@@ -734,8 +772,11 @@ define([
                     this.lastValue = this._selectedItem.get(this.displayField);
                     this._input.val(this.lastValue).trigger('change', { synthetic: true });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
                     el.addClass('selected');
+                    el.find('a').attr('aria-checked', true);
 
                     // trigger changed event
                     this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -764,7 +805,7 @@ define([
                 } else {
                     $(this.el).find('ul').html(_.template([
                         '<% _.each(items, function(item) { %>',
-                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>'
                     ].join(''))({
                         items: this.store.toJSON(),

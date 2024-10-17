@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -39,8 +39,7 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/ViewTab',
-    'spreadsheeteditor/main/app/view/ViewManagerDlg'
+    'spreadsheeteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 
@@ -58,6 +57,7 @@ define([
         onLaunch: function () {
             this._state = {};
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -296,6 +296,14 @@ define([
                     this.view.btnInterfaceTheme.menu.clearAll();
                     menu_item.setChecked(true, true);
                 }
+            }
+        },
+
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
             }
         },
 

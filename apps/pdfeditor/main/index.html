@@ -15,7 +15,7 @@
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
             --highlight-button-hover: #555;
-            --highlight-header-button-hover: rgba(255,255,255,.05);
+            --highlight-header-button-hover: rgba(255,255,255,.15);
             --canvas-background: #555;
             /*--canvas-content-background: #fff;*/
             --skeleton-canvas-page-border: #555;
@@ -28,13 +28,10 @@
         }
 
         .theme-classic-light {
-        }
-
-        .theme-light {
-            --background-toolbar: #f7f7f7;
+            --background-toolbar: #f1f1f1;
             /*--border-toolbar: #cbcbcb;*/
             --highlight-button-hover: #e0e0e0;
-            --highlight-header-button-hover: rgba(255,255,255,.15);
+            --highlight-header-button-hover: rgba(0,0,0,.15);
             --canvas-background: #eee;
             --loadmask-canvas-page-border: #ccc;
         }
@@ -57,6 +54,11 @@
             min-height: 28px;
             background: #AA5252;
             background: var(--toolbar-header-pdf, #AA5252);
+        }
+
+        .loadmask > .brendpanel .underline {
+            background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
         }
 
         .loadmask > .brendpanel > div {
@@ -88,8 +90,14 @@
             height: 12px;
             border-radius: 3px;
             margin: 0 10px;
-            background: rgba(255,255,255,.2);
-            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
+        }
+
+        .loadmask > .brendpanel .underline .rect {
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
+            opacity: 0.4;
         }
 
         .loadmask > .brendpanel .circle {
@@ -98,8 +106,8 @@
             height: 20px;
             border-radius: 20px;
             margin: 0 10px;
-            background: rgba(255,255,255,.2);
-            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {
@@ -152,11 +160,12 @@
         }
 
         .loadmask > .placeholder {
+            box-sizing: border-box;
             background: #fff;
             background: var(--skeleton-canvas-content-background, #fff);
             width: 794px;
             margin: 19px auto 46px;
-            height: 100%;
+            height: 1123px;
             border: 1px solid #bbbec2;
             border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, #bbbec2);
             padding-top: 50px;
@@ -208,10 +217,11 @@
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
-            stopLoading = false;
-        if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
-            var m = /msie (\d+\.\d+)/.exec(userAgent);
-            if (m && parseFloat(m[1]) < 10.0) {
+            stopLoading = false,
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
+            ieVer = /msie (\d+\.\d+)/.exec(userAgent);
+        if (isIEBrowser) {
+            if (ieVer && parseFloat(ieVer[1]) < 10.0) {
                 document.write(
                     '<div class="app-error-panel">' +
                     '<div class="message-block">' +
@@ -254,11 +264,21 @@
                 .replace(/>/g, '&gt;');
         }
 
+        function isDarkColor(str) {
+            str = str.substring(1);
+            let rgb = parseInt(str, 16),
+                r = (rgb >> 16) & 0xff,
+                g = (rgb >>  8) & 0xff,
+                b = (rgb >>  0) & 0xff;
+            return Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))<140;
+        }
+
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
             logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null,
             isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
@@ -275,7 +295,7 @@
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
     <!-- debug end -->
 </head>
-<body>
+<body role="application">
 <script src="../../common/main/lib/util/htmlutils.js"></script>
 <div id="loading-mask" class="loadmask">
     <div class="brendpanel" style="display: none;">
@@ -285,17 +305,18 @@
         <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul>
     </div>
     <div class="placeholder" style="display: none;">
-        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
     </div>
 </div>
 
-<div id="viewport"></div>
+<div id="viewport" role="main"></div>
 
 <script>
     var params = getUrlParams(),
         notoolbar = params["toolbar"] == 'false',
         compact = params["compact"] == 'true',
         view = params["mode"] == 'view',
+        tabBackground = params["tabBackground"],
         visible = true;
 
     if (compact || view || notoolbar) {
@@ -303,15 +324,23 @@
         child && child.parentNode && child.parentNode.removeChild(child);
     }
 
+    if ( !tabBackground || /-ls$/.test(tabBackground)) {// try get tab background from localstorage
+        tabBackground = checkLocalStorage && localStorage.getItem("settings-tab-background") !== null ? localStorage.getItem("settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
+    }
+
     if (compact || view) {
         if (notoolbar) {
             let child = document.querySelector('.brendpanel > :nth-child(1)');
             child && child.parentNode && child.parentNode.removeChild(child);
             visible = false;
-        } else
+        } else {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+            (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('underline');
+        }
     } else if (notoolbar) {
         document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+    } else {
+        (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('underline');
     }
 
     if (compact) {
@@ -339,7 +368,22 @@
         } else {
             var elem = document.querySelector('.loading-logo img');
             if (elem) {
-                (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                var isDarkTheme = /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className),
+                    image = logo || logoDark || logoLight,
+                    isDark = true;
+                if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
+                    var docstyle = getComputedStyle(document.body),
+                        header_color = docstyle.getPropertyValue('--toolbar-header-pdf'),
+                        toolbar_color = docstyle.getPropertyValue('--background-toolbar')
+                    logo_type = (view || compact) && (tabBackground==='toolbar') ? toolbar_color : header_color;
+                    isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabBackground==='toolbar'));
+                    image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
+                }
+                if (image) {
+                    elem.setAttribute('src', image);
+                } else if (!isDark) {
+                    elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
+                }
                 elem.style.opacity = 1;
             }
         }

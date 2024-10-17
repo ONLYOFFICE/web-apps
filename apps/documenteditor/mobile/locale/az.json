@@ -506,7 +506,8 @@
     "uploadImageTextText": "Təsvir yüklənir...",
     "uploadImageTitleText": "Təsvir Yüklənir",
     "waitText": "Lütfən, gözləyin...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Xəta",
@@ -793,7 +794,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -807,6 +807,7 @@
     "stayButtonText": "Bu səhifədə qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
     "textOk": "OK",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",

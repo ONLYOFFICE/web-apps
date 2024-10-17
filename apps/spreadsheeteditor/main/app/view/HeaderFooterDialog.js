@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -37,12 +37,7 @@
  */
 
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBoxFonts'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -982,19 +977,7 @@ define([
                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                 }
             }
-            if (_.isObject(clr)) {
-                var isselected = false;
-                for (var i = 0; i < 10; i++) {
-                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                        fontColorPicker.select(clr, true);
-                        isselected = true;
-                        break;
-                    }
-                }
-                if (!isselected) fontColorPicker.clearSelection();
-            } else {
-                fontColorPicker.select(clr, true);
-            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
         },
 
         tipFontName: 'Font',

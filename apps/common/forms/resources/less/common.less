@@ -6,29 +6,29 @@
 @import "../../../../common/main/resources/less/colors-table-classic.less";
 @import "../../../../common/main/resources/less/colors-table-dark.less";
 @import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
-
+@import "../../../../common/main/resources/less/colors-table-gray.less";
 // Core variables and mixins
 //@import "../../../../../vendor/bootstrap/less/variables.less";
 
-@icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
+//@icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
 
-@import "../../../../../vendor/bootstrap/less/mixins.less";
+@import "../../../../common/main/resources/mods/less/mixins.less";
 
 // Reset
-@import "../../../../../vendor/bootstrap/less/normalize.less";
+@import "../../../../common/main/resources/mods/less/normalize.less";
 //@import "../../../../../vendor/bootstrap/less/print.less";
 
 // Core CSS
-@import "../../../../../vendor/bootstrap/less/scaffolding.less";
-@import "../../../../../vendor/bootstrap/less/type.less";
+@import "../../../../common/main/resources/mods/less/scaffolding.less";
+@import "../../../../common/main/resources/mods/less/type.less";
 //@import "code.less";
 //@import "grid.less";
 //@import "tables.less";
-@import "../../../../../vendor/bootstrap/less/forms.less";
-@import "../../../../../vendor/bootstrap/less/buttons.less";
+@import "../../../../common/main/resources/mods/less/forms.less";
+@import "../../../../common/main/resources/mods/less/buttons.less";
 
 // Components
-@import "../../../../../vendor/bootstrap/less/component-animations.less";
+@import "../../../../common/main/resources/mods/less/component-animations.less";
 //@import "../../../../../vendor/bootstrap/less/glyphicons.less";
 //@import "dropdowns.less";
 //@import "button-groups.less";
@@ -52,16 +52,16 @@
 
 // Components w/ JavaScript
 //@import "../../../../../vendor/bootstrap/less/modals.less";
-@import "../../../../../vendor/bootstrap/less/tooltip.less";
+@import "../../../../common/main/resources/mods/less/tooltip.less";
 //@import "../../../../../vendor/bootstrap/less/popovers.less";
-@import "../../../../../vendor/bootstrap/less/dropdowns.less";
-@import "../../../../../vendor/bootstrap/less/button-groups.less";
-@import "../../../../../vendor/bootstrap/less/input-groups.less";
+@import "../../../../common/main/resources/mods/less/dropdowns.less";
+@import "../../../../common/main/resources/mods/less/button-groups.less";
+@import "../../../../common/main/resources/mods/less/input-groups.less";
 //@import "carousel.less";
 
 // Utility classes
-@import "../../../../../vendor/bootstrap/less/utilities.less";
-@import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
+@import "../../../../common/main/resources/mods/less/utilities.less";
+@import "../../../../common/main/resources/mods/less/responsive-utilities.less";
 
 @import "../../../../common/main/resources/less/buttons.less";
 @import "../../../../common/main/resources/less/dropdown-menu.less";
@@ -563,7 +563,7 @@
 .btn {
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
-            .icon {
+            .svg-icon {
                 @btn-active-icon-offset: -20px;
                 background-position-y: @btn-active-icon-offset;
                 background-position-y: var(--button-small-active-icon-offset-x, 0);

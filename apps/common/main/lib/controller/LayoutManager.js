@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -48,7 +48,9 @@ Common.UI.LayoutManager = new(function() {
     var _config,
         _licensed,
         _api,
-        _lastInternalTabIdx = 10;
+        _lastInternalTabIdx = 10,
+        _toolbar,
+        _arrPlugins = []; // all plugins that add controls to toolbar or menu items to toolbar buttons
     var _init = function(config, licensed, api) {
         _config = config;
         _licensed = licensed;
@@ -172,6 +174,8 @@ Common.UI.LayoutManager = new(function() {
     var _addCustomItems = function (toolbar, data) {
         if (!data) return;
 
+        _toolbar = toolbar;
+
         var lang = Common.Locale.getCurrentLanguage(),
             btns = [];
         data.forEach(function(plugin) {
@@ -217,6 +221,13 @@ Common.UI.LayoutManager = new(function() {
                 if (tab) {
                     var added = [],
                         removed = _findRemovedButtons(toolbar, tab.id, plugin.guid, tab.items);
+
+                    if (!_arrPlugins[plugin.guid])
+                        _arrPlugins[plugin.guid] = {actions: [], tabs: []};
+
+                    if (_.indexOf(_arrPlugins[plugin.guid].tabs, tab)<0)
+                        _arrPlugins[plugin.guid].tabs.push(tab.id);
+
                     tab.items && tab.items.forEach(function(item, index) {
                         var btn = _findCustomButton(toolbar, tab.id, plugin.guid, item.id),
                             _set = Common.enumLock;
@@ -292,13 +303,24 @@ Common.UI.LayoutManager = new(function() {
         return btns;
     };
 
+    var _clearCustomItems = function(guid) {
+        if (!_toolbar) return;
+        if (_arrPlugins[guid] && _arrPlugins[guid].tabs) {
+            _arrPlugins[guid].tabs.forEach(function(tab) {
+                _toolbar.addCustomItems({action: tab}, undefined, _findRemovedButtons(_toolbar, tab, guid));
+            });
+            _arrPlugins[guid].tabs = [];
+        }
+    };
+
     return {
         init: _init,
         applyCustomization: _applyCustomization,
         isElementVisible: _isElementVisible,
         getInitValue: _getInitValue,
         lastTabIdx: _lastInternalTabIdx,
-        addCustomItems: _addCustomItems
+        addCustomItems: _addCustomItems,
+        clearCustomItems: _clearCustomItems, // remove controls added by plugin from toolbar
     }
 })();
 
