@@ -638,9 +638,6 @@ define([
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
-                        var rect = Common.Utils.getBoundingClientRect(tab.$el.get(0)),
-                            parentPos = Common.Utils.getOffset(tab.$el.parent());
-
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
                         if (!_.isUndefined(select)) {
@@ -681,13 +678,16 @@ define([
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
 
-                        this.tabMenu.atposition = (function () {
+                        var tabEl = tab.$el;
+                        this.tabMenu.atposition = function () {
+                            var rect = Common.Utils.getBoundingClientRect(tabEl.get(0)),
+                                parentPos = Common.Utils.getOffset(tabEl.parent());
                             return {
                                 top : rect.top,
                                 left: rect.left - parentPos.left - 2,
                                 right: rect.right - parentPos.left + 2
                             };
-                        })();
+                        };
 
                         this.tabMenu.hide();
                         this.tabMenu.show();
@@ -701,7 +701,8 @@ define([
 
             onTabMenuAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(this.isRtlSheet ? (obj.atposition.right - $(obj.el).width()) : obj.atposition.left);
+                    var pos = this.tabMenu.atposition();
+                    obj.setOffset(Common.UI.isRTL() ? (pos.right - $(obj.el).width()) : pos.left);
                 }
 
                 this.enableKeyEvents = true;
