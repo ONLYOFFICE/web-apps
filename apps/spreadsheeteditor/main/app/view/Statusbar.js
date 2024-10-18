@@ -412,6 +412,7 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
+                this.tabBarDefPosition = this.mode.isEdit ? 129 : 66;
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -533,7 +534,7 @@ define([
             },
 
             updateRtlSheet: function() {
-                this.isRtlSheet = !!this.api.asc_getSheetViewSettings().asc_getRightToLeft();
+                this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
                 this.cntStatusbar.toggleClass('rtl-sheet', this.isRtlSheet);
                 this.cntStatusbar.attr({dir: this.isRtlSheet ? 'rtl' : 'ltr'});
                 this.tabbar.setDirection(this.isRtlSheet);
