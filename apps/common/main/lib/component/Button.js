@@ -998,7 +998,7 @@ define([
                 //     $el.find('i.icon').after(svgIcon);
                 // }
 
-                if (ratio > 1 || ratio < 2) {
+                if (ratio > 1 && ratio < 2) {
                     if (!$el.find('i.icon').length) {
                         $el.find('svg.icon').after(`<i class="icon ${this.iconCls}">&nbsp;</i>`);
                     }
