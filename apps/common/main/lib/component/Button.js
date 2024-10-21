@@ -469,6 +469,16 @@ define([
                     parentEl.html(me.cmpEl);
                     me.$icon = me.$el.find('.icon');
                 }
+            } else {
+                if ( me.options.el ) {
+                    if ( !$('.icon', me.cmpEl).length && (me.iconCls || me.options.iconImg) ) {
+                        const icon_el = _.template(templateBtnIcon)({
+                            iconCls      : me.iconCls,
+                            iconImg      : me.options.iconImg,
+                        });
+                        me.cmpEl.append(icon_el);
+                    }
+                }
             }
 
             if (!me.rendered) {
@@ -980,15 +990,15 @@ define([
                 this.options.scaling = ratio;
 
                 const $el = this.$el.is('button') ? this.$el : this.$el.find('button:first');
-                if (!$el.find('svg.icon').length) {
-                    const iconCls = this.iconCls || $el.find('i.icon').attr('class');
-                    const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
-                    const exportedIconName = /btn-\S+/.exec(iconCls);
-                    const svgIcon = `<svg class="icon ${rtlCls}"><use class="zoom-int" href="#${exportedIconName ? exportedIconName[0] : 'null'}"></use></svg>`;
-                    $el.find('i.icon').after(svgIcon);
-                }
+                // if (!$el.find('svg.icon').length) {
+                //     const iconCls = this.iconCls || $el.find('i.icon').attr('class');
+                //     const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
+                //     const exportedIconName = /btn-\S+/.exec(iconCls);
+                //     const svgIcon = `<svg class="icon ${rtlCls}"><use class="zoom-int" href="#${exportedIconName ? exportedIconName[0] : 'null'}"></use></svg>`;
+                //     $el.find('i.icon').after(svgIcon);
+                // }
 
-                if (ratio > 1 || ratio < 2) {
+                if (ratio > 1 && ratio < 2) {
                     if (!$el.find('i.icon').length) {
                         $el.find('svg.icon').after(`<i class="icon ${this.iconCls}">&nbsp;</i>`);
                     }
