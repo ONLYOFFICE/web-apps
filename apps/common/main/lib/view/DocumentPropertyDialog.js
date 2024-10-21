@@ -47,15 +47,15 @@ define([], function () { 'use strict';
 
             this.template = [
                 '<div style="display: flex; flex-direction: column; margin: 0 20px;">',
-                    '<div style="margin-bottom: 10px;">',
+                    '<div style="margin-bottom: 10px;flex-shrink:0;">',
                         '<label>' + this.txtPropertyTitleLabel + '</label>',
                         '<div id="id-dlg-title"></div>',
                     '</div>',
-                    '<div style="margin-bottom: 10px;">',
+                    '<div style="margin-bottom: 10px;flex-shrink:0;">',
                         '<label>' + this.txtPropertyTypeLabel + '</label>',
                         '<div id="id-dlg-type"></div>',
                     '</div>',
-                    '<div>',
+                    '<div style="flex-shrink:0;">',
                         '<label>' + this.txtPropertyValueLabel + '</label>',
                         '<div id="id-dlg-value-input"></div>',
                         '<div id="id-dlg-value-date"></div>',
