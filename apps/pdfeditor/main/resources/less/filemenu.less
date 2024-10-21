@@ -520,13 +520,7 @@
 
 #panel-info {
   #file-menu-panel & {
-    padding: 30px;
-
-    .flex-settings {
-      gap: 30px;
-      display: flex;
-      flex-direction: column;
-    }
+    padding: 0 30px;
   }
 
   .header {
@@ -535,14 +529,17 @@
     line-height: unset;
   }
 
+  table.main {
+    margin: 30px 0 18px;
+  }
+
   table {
     display: flex;
-    gap: 24px;
     flex-direction: column;
 
     tr {
       display: flex;
-      gap: 24px;
+      margin-bottom: 12px;
 
       td {
         .font-size-normal();
@@ -558,8 +555,10 @@
         }
 
         &.left {
+          display: block;
           width: 140px;
           flex-shrink: 0;
+          .margin-right(24px);
         }
 
         &.right {
@@ -574,13 +573,91 @@
 
     tbody {
       display: flex;
-      gap: 12px;
       flex-direction: column;
+
+      &:not(:last-of-type) {
+        margin-bottom: 12px;
+      }
+
+      &.properties-tab {
+        margin-bottom: 0;
+
+        tr {
+          margin-bottom: 10px;
+        }
+
+        td {
+          height: unset;
+        }
+
+        td.left {
+          display: flex;
+          align-items: center;
+          .margin-right-20();
+
+          label {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    tr.author-info {
+      align-items: flex-start;
+
+      td {
+        &.left {
+          height: 22px;
+        }
+
+        display: flex;
+        align-items: center;
+        & > *:not(:last-child) {
+          .margin-right-5();
+        }
+      }
+    }
+
+    .author-info tbody tr:last-child {
+      margin-bottom: 20px;
     }
 
     &.main {
       width: 100%;
     }
+  }
+
+  #fms-flex-add-property {
+    margin-top: 10px;
+    td {
+      height: unset;
+    }
+  }
+
+  #fminfo-btn-add-property {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    height: 24px;
+
+    span {
+      border-bottom: 1px dotted currentColor;
+      padding-bottom: 2px;
+    }
+  }
+
+  .custom-property-wrapper {
+    display: flex;
+    align-items: center;
+    & > *:not(:last-child) {
+      .margin-right-5();
+    }
+  }
+
+  .tool.close:before, .tool.close:after {
+    margin-top: 2px;
   }
 }
 
