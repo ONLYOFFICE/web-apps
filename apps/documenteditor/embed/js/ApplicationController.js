@@ -671,6 +671,7 @@ DE.ApplicationController = new(function(){
         appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
         api.asc_setViewMode(!appOptions.canFillForms);
+        api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
 

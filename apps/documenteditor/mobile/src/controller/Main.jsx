@@ -573,6 +573,7 @@ class MainController extends Component {
     applyMode (appOptions) {
         this.api.asc_enableKeyEvents(appOptions.isEdit);
         this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
+        this.appOptions.isCorePDF && this.api.asc_setPdfViewer(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
         appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
 
