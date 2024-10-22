@@ -70,8 +70,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         if(logo && isBranding) {
             isHideLogo = logo.visible === false;
 
-            if(logo.image || logo.imageDark) {
-                customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+            if(logo.image || logo.imageDark || logo.imageLight) {
+                customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image ?? logo.imageLight : logo.imageLight ?? logo.image ?? logo.imageDark;
                 customLogoUrl = logo.url;
             }
         } else {
