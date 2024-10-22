@@ -691,6 +691,25 @@ define([
                     buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
                     primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
 
+                if (saveAs)
+                    me.api.asc_DownloadAs()
+                else if (canDownload) {
+                    var options = new Asc.asc_CDownloadOptions();
+                    options.asc_setIsDownloadEvent(false);
+                    options.asc_setIsSaveAs(false);
+                    me.api.asc_DownloadOrigin(options);
+                } else {
+                    Common.UI.info({
+                        maxwidth: 500,
+                        msg: this.errorAccessDeny,
+                        callback: function(btn) {
+                            Common.NotificationCenter.trigger('edit:complete', toolbar);
+                        }
+                    });
+                }
+                Common.NotificationCenter.trigger('edit:complete', toolbar);
+                return;
+
                 Common.UI.info({
                     maxwidth: 500,
                     // buttons: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? ['ok'] : buttons.concat(['cancel']),

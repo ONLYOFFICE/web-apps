@@ -778,8 +778,8 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',

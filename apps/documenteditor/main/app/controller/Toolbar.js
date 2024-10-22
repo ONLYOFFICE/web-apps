@@ -1114,6 +1114,24 @@ define([
                     buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
                     primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
 
+                if (saveAs)
+                    me.api.asc_DownloadAs()
+                else if (canDownload) {
+                    var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    options.asc_setIsSaveAs(false);
+                    me.api.asc_DownloadAs(options);
+                } else {
+                    Common.UI.info({
+                        maxwidth: 500,
+                        msg: this.errorAccessDeny,
+                        callback: function(btn) {
+                            Common.NotificationCenter.trigger('edit:complete', toolbar);
+                        }
+                    });
+                }
+                Common.NotificationCenter.trigger('edit:complete', toolbar);
+                return;
+
                 Common.UI.info({
                     maxwidth: 500,
                     buttons: !mode.canDownload ? ['ok'] : buttons.concat(['cancel']),

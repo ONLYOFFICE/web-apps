@@ -460,7 +460,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
+                me.btnSave.updateHint(appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')) : me.tipDownload);
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
@@ -485,7 +485,7 @@ define([
                 var arr = [];
                 if (me.btnSave) {
                     arr.push({
-                        caption: me.tipSave,
+                        caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.tipDownload,
                         value: 'save',
                         checkable: true
                     });
@@ -1033,7 +1033,8 @@ define([
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true) && me.btnPrintQuick.hide();
                     }
                     if (config.showSaveButton) {
-                        me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                        let save_icon = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                        me.btnSave = createTitleButton('toolbar__icon icon--inverse ' + save_icon, $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
                     }
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',

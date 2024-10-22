@@ -613,6 +613,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download file",
   "Common.Views.DocumentAccessDialog.textLoading": "Loading...",
   "Common.Views.DocumentAccessDialog.textTitle": "Sharing settings",
   "Common.Views.DocumentPropertyDialog.errorDate": "You can choose a value from the calendar to store the value as Date.<br>If you enter a value manually, it will be stored as Text.",

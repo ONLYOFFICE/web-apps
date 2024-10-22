@@ -180,8 +180,8 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave + Common.Utils.String.platformKey('Ctrl+S') : this.tipDownload;
 
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
@@ -1779,8 +1779,8 @@ define([
                         }
                     );
                     if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
-                        this.btnSaveCls = 'btn-save';
-                        this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+                        this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                        this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave + Common.Utils.String.platformKey('Ctrl+S') : this.tipDownload;
 
                         this.btnPrint = new Common.UI.Button({
                             id: 'id-toolbar-btn-print',
