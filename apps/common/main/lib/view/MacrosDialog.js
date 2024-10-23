@@ -166,8 +166,7 @@ define([
             this.listMacros = new Common.UI.ListView({
                 el: $('#list-macros', this.$window),
                 store: new Common.UI.DataViewStore(),
-                tabindex: 1,
-                cls: 'dbl-clickable',
+                simpleAddMode: true,
                 itemTemplate: _.template([
                     '<div class="listitem-autostart">',
                         '<% if (autostart) { %>',
@@ -548,27 +547,30 @@ define([
 
         makeDragable: function() {
             var me = this;
-            var indActive = 0;
-            var activeElement;
             var currentElement;
-            var nextElement;
+            var currentIndex = 0;
+            var insertIndex;
             var macrosList = document.getElementById("list-macros");
             var functionList = document.getElementById("menu_functions");
 
-            function getNextElement(cursorPosition, currentElement) {
+            function getInsertIndex(cursorPosition, currentElement, elements) {
                 // cursorPosition = cursorPosition * ((1 + (1 - zoom)).toFixed(1));
-                const currentElementCoord = currentElement.getBoundingClientRect();
-                const currentElementCenter = currentElementCoord.y + currentElementCoord.height * 0.45;
-                return (cursorPosition < currentElementCenter) ? currentElement : currentElement.nextElementSibling;
+                var currentIndex = elements.index(currentElement);
+                var nextIndex = currentIndex;
+                var currentElementCoord = currentElement.getBoundingClientRect();
+                var currentElementCenter = currentElementCoord.y + currentElementCoord.height * 0.45;
+                if(cursorPosition > currentElementCenter) {
+                    nextIndex += 1;
+                }
+                return nextIndex
             }
 
             function handleDragstart(list, e) {
                 var id = $(e.target).children('.list-item').attr('id');
                 e.dataTransfer.setData("text/plain", id);
                 e.dataTransfer.effectAllowed = "move";
-                activeElement = e.target;
                 e.target.classList.add('dragged');
-                indActive = list.store.indexOf(list.store.findWhere({ id: id }));
+                currentIndex = list.store.indexOf(list.store.findWhere({ id: id }));
                 e.target.click();
             }
 
@@ -576,23 +578,17 @@ define([
                 e.target.classList.remove('dragged');
                 $('.dragHovered').removeClass("dragHovered");
 
-                if (currentElement === activeElement || !nextElement)
-                    return;
+                if (currentIndex === insertIndex || insertIndex == null) return;
 
-                var indNext = list.store.indexOf(list.store.findWhere({
-                    id: $(nextElement).children('.list-item').attr('id')
-                }));
-                if (indNext === -1)
-                    indNext = me.listMacros.store.length;
-
-                if (indActive < indNext)
-                    indNext--;
+                if (insertIndex === -1) insertIndex = list.store.length;
+                if (currentIndex < insertIndex) insertIndex--;
 
                 var newStoreArr = list.store.models.slice();
-                let tmp = newStoreArr.splice(indActive, 1)[0];
-                newStoreArr.splice(indNext, 0, tmp);
+                let tmp = newStoreArr.splice(currentIndex, 1)[0];
+                newStoreArr.splice(insertIndex, 0, tmp);
+
                 list.store.reset(newStoreArr);
-                indActive = 0;
+                currentIndex = 0;
             }
 
             function handleDragover(list, elementModeType, e) {
@@ -604,16 +600,13 @@ define([
                 if (!isMoveable || !bDragAllowed)
                     return;
 
-                nextElement = getNextElement(e.clientY, currentElement);
-                console.log(nextElement);
+                insertIndex = getInsertIndex(e.clientY, currentElement, $(list).find('.item'));
                 $('.dragHovered').removeClass("dragHovered")
-                if (nextElement) {
-                    if($(nextElement).attr('role') == 'listitem') {
-                        $(list).find('.item').last().removeClass(['dragHovered', 'last']);
-                        nextElement.classList.add('dragHovered');
-                    } else {
-                        $(list).find('.item').last().addClass(['dragHovered', 'last']);
-                    }
+                if(insertIndex < $(list).find('.item').length) {
+                    $(list).find('.item').last().removeClass(['dragHovered', 'last']);
+                    $(list).find('.item')[insertIndex].classList.add('dragHovered');
+                } else {
+                    $(list).find('.item').last().addClass(['dragHovered', 'last']);
                 }
             }
 
@@ -625,7 +618,7 @@ define([
                     ) return;
 
                     $('.dragHovered').removeClass("dragHovered");
-                    nextElement = null;
+                    insertIndex = null;
                 }
             }
 
@@ -783,10 +776,11 @@ define([
             this.codeEditor.setReadOnly(false);
             this._state.isDisable = false;
 
-            // TODO: Блокировать кнопку Run, если выбран элемент customFunction
             this.codeEditor.focus();
             this.codeEditor.selection.clearSelection();
             this.codeEditor.scrollToRow(0);
+
+            this.btnMacrosRun.setDisabled(false);
 
             this.listFunctions && this.listFunctions.deselectAll();
         },
@@ -828,6 +822,7 @@ define([
             } else {
                 this.codeEditor.setValue('');
                 this.codeEditor.setReadOnly(true);
+                this.btnMacrosRun.setDisabled(true);
             }
         },
         onDeleteMacros: function() {
@@ -905,10 +900,11 @@ define([
             this.codeEditor.setReadOnly(false);
             this._state.isDisable = false;
 
-            // TODO: Блокировать кнопку Run, если выбран элемент customFunction
             this.codeEditor.focus();
             this.codeEditor.selection.clearSelection();
             this.codeEditor.scrollToRow(0);
+
+            this.btnMacrosRun.setDisabled(true);
 
             this.listMacros && this.listMacros.deselectAll();
         },
