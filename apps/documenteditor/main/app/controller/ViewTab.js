@@ -328,9 +328,14 @@ define([
         },
 
         onClickMacros: function() {
-            new Common.Views.MacrosDialog({
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
                 api: this.api,
-            }).show();
+            });
+            macrosWindow.show();
+            macrosWindow.on('close', function() {
+                me.view.btnMacros.toggle(false)
+            });
         },
 
         onChangeDarkMode: function (isdarkmode) {

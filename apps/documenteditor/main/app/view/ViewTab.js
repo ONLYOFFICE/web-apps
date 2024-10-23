@@ -141,7 +141,7 @@ define([
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
                     cmb.on('show:after', _.bind(me.onComboOpen, this, true));
                 });
-                me.btnMacros.on('click', function (btn, e) {
+                me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
             },

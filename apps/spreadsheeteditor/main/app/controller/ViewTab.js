@@ -39,7 +39,8 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/ViewTab'
+    'spreadsheeteditor/main/app/view/ViewTab',
+    'common/main/lib/view/MacrosDialog'
 ], function () {
     'use strict';
 
@@ -99,7 +100,8 @@ define([
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
-                    'viewtab:viewmode': this.onPreviewMode
+                    'viewtab:viewmode': this.onPreviewMode,
+                    'macros:click':  this.onClickMacros
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -309,6 +311,17 @@ define([
 
         onPreviewMode: function(value) {
             this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
+            macrosWindow.on('close', function() {
+                me.view.btnMacros.toggle(false)
+            });
         },
 
         onApiUpdateSheetViewType: function(index) {
