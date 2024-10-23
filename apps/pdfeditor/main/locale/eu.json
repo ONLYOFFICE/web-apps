@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }

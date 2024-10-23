@@ -485,7 +485,7 @@ define([
                 var arr = [];
                 if (me.btnSave) {
                     arr.push({
-                        caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.tipDownload,
+                        caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.textDownload,
                         value: 'save',
                         checkable: true
                     });
@@ -1387,7 +1387,8 @@ define([
             helpQuickAccess: 'Hide or show the functional buttons of your choice.',
             helpQuickAccessHeader: 'Customize Quick Access',
             ariaQuickAccessToolbar: 'Quick access toolbar',
-            textAnnotateDesc: 'Fill forms or annotate'
+            textAnnotateDesc: 'Fill forms or annotate',
+            textDownload: 'Download'
         }
     }(), Common.Views.Header || {}))
 });

@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }

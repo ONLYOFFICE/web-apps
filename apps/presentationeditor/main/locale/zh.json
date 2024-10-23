@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "显示辅助线",
   "PE.Views.ViewTab.tipInterfaceTheme": "界面主题",
   "PE.Views.ViewTab.tipNormal": "正常",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

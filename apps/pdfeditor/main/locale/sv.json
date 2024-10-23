@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }

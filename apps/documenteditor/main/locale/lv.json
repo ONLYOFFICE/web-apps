@@ -3661,5 +3661,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "DE.Views.Toolbar.tipDownload": "Download file"
 }

@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }

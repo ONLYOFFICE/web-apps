@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

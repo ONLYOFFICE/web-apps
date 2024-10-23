@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }

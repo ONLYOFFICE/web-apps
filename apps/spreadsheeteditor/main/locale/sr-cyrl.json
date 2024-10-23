@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

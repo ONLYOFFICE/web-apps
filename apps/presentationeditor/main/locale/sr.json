@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "Prikaži vodiče",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
   "PE.Views.ViewTab.tipNormal": "Normalno",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

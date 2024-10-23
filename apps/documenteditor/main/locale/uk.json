@@ -3661,5 +3661,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Напівпрозорий",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Підкреслений",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "DE.Views.Toolbar.tipDownload": "Download file"
 }

@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "ガイドを表示",
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

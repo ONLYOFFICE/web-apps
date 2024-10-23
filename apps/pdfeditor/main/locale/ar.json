@@ -2018,5 +2018,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "Common.Views.Header.textDownload": "Download",
+  "PDFE.Views.Toolbar.tipDownload": "Download file"
 }
