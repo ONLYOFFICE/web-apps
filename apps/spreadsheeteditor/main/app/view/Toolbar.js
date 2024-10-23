@@ -2343,7 +2343,7 @@ define([
                 tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                 is_file_active = me.isTabActive('file');
 
-            if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -3299,7 +3299,7 @@ define([
             if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
-
+            me._isDocReady = true;
             if(me.btnPrint.menu) {
                 me.btnPrint.setMenu(
                     new Common.UI.Menu({

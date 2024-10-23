@@ -2562,6 +2562,8 @@ define([
                         })
                     }
                 });
+                this.disableEditing(true);
+                Common.NotificationCenter.trigger('api:disconnect');
             },
 
             onServerVersion: function(buildVersion) {
