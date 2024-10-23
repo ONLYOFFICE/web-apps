@@ -11,16 +11,14 @@
     .content {
       display: flex;
       flex: 1;
+      height: calc(100% - 37px);  // 37px - footer height
+
       .common_menu {
         display: flex;
         flex-direction: column;
         height: 100%;
         width: 30%;
         overflow: hidden;
-
-        border-right-color: #CBCBCB;
-        border-right-style: solid;
-        border-right-width: 1px;
 
         #menu_macros {
           height: 50%;
@@ -49,7 +47,7 @@
           }
         }
       }
-      #list-macros {
+      #list-macros, #list-functions {
         height: calc(100% - 45px);
 
         .listview {
@@ -113,6 +111,96 @@
       #code-editor {
         width: 100%;
         flex: 1;
+
+        .ace_content {
+          background: @background-normal;
+          color: @text-normal;
+        }
+        .ace_layer.ace_gutter-layer.ace_folding-enabled {
+          color: @text-normal;
+        }
+        .divHeader {
+          border-color: @border-divider;
+        }
+        .ace_scroller {
+          border-left: none;
+        }
+        .ace_cursor {
+          color: @text-normal;
+        }
+        .Ace-Tern-tooltip, .Ace-Tern-jsdoc-param-description {
+          color: @text-normal;
+          background-color: @background-toolbar;
+        }
+
+        .ace-chrome .ace_marker-layer .ace_selected-word {
+          background: rgb(250, 250, 255, 0.3) !important;
+          border: 1px solid rgb(200, 200, 250);
+        }
+        .ace_active-line {
+          border-color: #333 !important;
+        }
+        .ace_active-line, .ace_gutter-active-line, .ace_gutter-active-line-bg {
+          border-bottom: 1px solid;
+          border-top: 1px solid;
+          border-color: @border-divider !important;
+          background: @background-normal;
+        }
+        .oo_highlight {
+          background-color: #555 !important;
+        }
+        .ace_line-hover {
+          background-color: #333 !important; border-color: #555 !important;
+        }
+        .ace_completion-highlight {
+          color: #4FC1FF !important; text-shadow: 0 0 0.01em;
+        }
+        .Ace-Tern-farg {
+          color: gray;
+        }
+        .Ace-Tern-farg-current {
+          color: gray;
+        }
+        .Ace-Tern-type {
+          color: #569CD6;
+        }
+        .Ace-Tern-jsdoc-param-name {
+          color: gray;
+        }
+        .ace_gutter, .gutter_bg {
+          background: @background-normal !important;
+        }
+        .Ace-Tern-jsdoc-tag {
+          color: #FF5E5C;
+        }
+        .Ace-Tern-farg-current-description {
+          color : #FFFFFF;
+        }
+        .Ace-Tern-farg-current-name {
+          color : white;
+        }
+        .Ace-Tern-tooltip {
+          font-size: 11px;
+          border-radius: 0;
+          border: none;
+          border-top: 1px solid var(--border-divider);
+          background: @background-toolbar;
+          color: @text-normal;
+          width: 100%;
+          max-width: 100%;
+          bottom: 0;
+
+          .Ace-Tern-tooltip-boxclose {
+            color: @icon-normal !important;
+            opacity: 0.7;
+
+            &:hover {
+              opacity: 1;
+              background: none;
+              text-decoration: none;
+            }
+          }
+        }
       }
     }
   }
