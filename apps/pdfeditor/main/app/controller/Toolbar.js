@@ -725,6 +725,7 @@ define([
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.UI.TooltipManager.closeTip('pdfSave');
+                Common.NotificationCenter.trigger('edit:complete', toolbar);
             }
         },
 

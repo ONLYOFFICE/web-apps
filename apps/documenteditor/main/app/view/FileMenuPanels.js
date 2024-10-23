@@ -1429,19 +1429,17 @@ define([], function () {
                             '<td class="right"><div id="id-info-comment"></div></td>',
                         '</tr>',
                     '</tbody>',
-                '</table>',
-                '<div id="fms-flex-add-property">',
-                    '<table class="main">',
-                        '<tr style="gap: 20px;">',
+                    '<tbody>',
+                        '<tr>',
                             '<td class="left"></td>',
                             '<td class="right">',
-                                '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
-                                    '<span>' + this.txtAddProperty + '</span>',
-                                '</button>',
+                            '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                            '<span>' + this.txtAddProperty + '</span>',
+                            '</button>',
                             '</td>',
                         '</tr>',
-                    '</table>',
-                '</div>',
+                    '</tbody>',
+                '</table>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
