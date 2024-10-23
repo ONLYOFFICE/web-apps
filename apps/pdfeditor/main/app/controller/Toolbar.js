@@ -738,7 +738,7 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.UI.TooltipManager.closeTip('pdfSave');
@@ -1195,7 +1195,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified());
+            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton);
             this._state.activated = true;
         },
 

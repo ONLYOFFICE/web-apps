@@ -802,7 +802,7 @@ define([
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -2052,7 +2052,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
 
                     if (this.appOptions.canSaveToFile) {
                         !isSyncButton && !isDisabled ? Common.UI.TooltipManager.showTip('pdfSave') : Common.UI.TooltipManager.closeTip('pdfSave');
@@ -2073,7 +2073,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
                     if (this.appOptions.canSaveToFile) {
                         !isSyncButton && !isDisabled ? Common.UI.TooltipManager.showTip('pdfSave') : Common.UI.TooltipManager.closeTip('pdfSave');
                     }
