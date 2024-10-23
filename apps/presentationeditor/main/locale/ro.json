@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "Afișare ghiduri",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfeței",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive"
+  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }

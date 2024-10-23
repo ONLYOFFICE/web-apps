@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "הצג מדריכים",
   "PE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
   "PE.Views.ViewTab.tipNormal": "רגיל",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
 }
