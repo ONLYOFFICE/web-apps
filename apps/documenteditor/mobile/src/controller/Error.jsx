@@ -296,7 +296,7 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
             text    : config.msg,
             buttons: [
                 {
-                    text: 'OK',
+                    text: _t.textOk,
                     onClick: config.callback
                 }
             ]

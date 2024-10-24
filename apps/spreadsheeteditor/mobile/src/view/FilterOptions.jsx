@@ -23,9 +23,7 @@ const FilterOptions = inject('storeAppOptions')(observer(props => {
                 title: _t.textErrorTitle,
                 text: _t.textErrorMsg,
                 buttons: [
-                    {
-                        text: 'OK',
-                    }
+                    { text: _t.textOk }
                 ]
             }).open();
         }
