@@ -292,9 +292,11 @@ define([
                 me.view.btnProtectWB.toggle(me.api.asc_isProtectedWorkbook(), true);
 
                 var props = me.getWSProps();
-                me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
-                Common.Utils.lockControls(Common.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
-                Common.Utils.lockControls(Common.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
+                if (props) {
+                    me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
+                    Common.Utils.lockControls(Common.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
+                    Common.Utils.lockControls(Common.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
+                }
             });
         },
 

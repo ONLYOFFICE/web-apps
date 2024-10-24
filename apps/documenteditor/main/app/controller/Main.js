@@ -862,8 +862,9 @@ define([
               return"#"+("000000"+color.toString(16)).substr(-6);
             },
 
-            disableEditing: function(disable, temp) {
-                var app = this.getApplication();
+            disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
+                var temp = type==='reconnect';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
@@ -885,8 +886,9 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false,
-                    header: {docmode: true}
-                }, temp ? 'reconnect' : 'disconnect');
+                    header: {docmode: true, search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -944,9 +946,15 @@ define([
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
                 }
 
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
+                }
+
                 if (options.header) {
                     if (options.header.docmode)
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
+                    if (options.header.search)
+                        appHeader && appHeader.lockHeaderBtns('search', disable);
                 }
 
                 if (prev_options) {
@@ -1100,7 +1108,7 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
-                    this.disableEditing(false, true);
+                    this.disableEditing(false, 'reconnect');
                     this.getApplication().getController('Statusbar').hideDisconnectTip();
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 }
@@ -1206,7 +1214,7 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
-                        this.disableEditing(true, true);
+                        this.disableEditing(true, 'reconnect');
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
@@ -1891,7 +1899,8 @@ define([
                         toolbar: true,
                         plugins: true,
                         protect: true,
-                        header: {docmode: !!disableModeButton}
+                        header: {docmode: !!disableModeButton, search: false},
+                        shortcuts: false
                     }, 'view');
 
                     if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
@@ -2561,6 +2570,8 @@ define([
                         })
                     }
                 });
+                this.disableEditing(true, 'not-loaded');
+                Common.NotificationCenter.trigger('api:disconnect');
             },
 
             onServerVersion: function(buildVersion) {
@@ -3054,7 +3065,7 @@ define([
             warningDocumentIsLocked: function() {
                 var me = this;
                 var _disable_ui = function (disable) {
-                    me.disableEditing(disable, true);
+                    me.disableEditing(disable, 'reconnect');
                 };
 
                 Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});

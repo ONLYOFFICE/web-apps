@@ -1363,7 +1363,7 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
-                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+                if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -1468,6 +1468,7 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                me._isDocReady = true;
                 if (!config.isEdit) return;
 
                 if(me.btnPrint.menu) {

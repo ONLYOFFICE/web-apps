@@ -125,7 +125,7 @@ define([
                 });
             }
 
-            me.btnFreezePanes && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
+            me.btnFreezePanes && me.btnFreezePanes.menu && (typeof me.btnFreezePanes.menu === 'object') && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
                 if (item.value === 'shadow') {
                     me.fireEvent('viewtab:freezeshadow', [item.checked]);
                 } else {

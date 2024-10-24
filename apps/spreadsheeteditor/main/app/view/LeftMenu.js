@@ -261,15 +261,15 @@ define([
             if (!this._state.pluginIsRunning)
                 this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
-            if (this.mode.canCoAuthoring) {
+            if (this.mode && this.mode.canCoAuthoring) {
                 if (this.mode.canViewComments) {
-                    this.panelComments['hide']();
+                    this.panelComments && this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);
                     this.btnComments.toggle(false, true);
                 }
                 if (this.mode.canChat) {
-                    this.panelChat['hide']();
+                    this.panelChat && this.panelChat['hide']();
                     this.btnChat.toggle(false);
                 }
             }
