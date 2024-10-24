@@ -46,7 +46,7 @@ define([
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
         template:
-            '<div class="content">' +
+            '<div class="content invisible">' +
                 '<div class="common_menu noselect">' +
                     '<div id="menu_macros" class="menu_macros_long" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
                         '<div class="menu_header">' +
@@ -101,8 +101,9 @@ define([
                 aceLoadedModules: {
                     tern: false,
                     langTools: window.isIE,
-                    htmlBeautify: false
+                    htmlBeautify: false,
                 },
+                initCounter: 0,
                 isFunctionsSupport: !!window.SSE,
                 macrosItemMenuOpen: null,
                 functionItemMenuOpen: null,
@@ -266,10 +267,10 @@ define([
         createCodeEditor: function() {
             var me = this;
             function onInitServer(type){
-                if (type === (window.initCounter & type))
+                if (type === (me._state.initCounter & type))
                     return;
-                window.initCounter |= type;
-                if (window.initCounter === 3) {
+                me._state.initCounter |= type;
+                if (me._state.initCounter === 3) {
                     var nameDocEditor = 'word';
                     if(!!window.SSE) nameDocEditor = 'cell';
                     else if(!!window.PE) nameDocEditor = 'slide';
