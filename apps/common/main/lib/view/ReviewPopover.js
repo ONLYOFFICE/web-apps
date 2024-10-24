@@ -103,7 +103,7 @@ define([
             this.canRequestSendNotify = options.canRequestSendNotify;
             this.mentionShare = options.mentionShare;
             this.api = options.api;
-            this._state = {commentsVisible: false, reviewVisible: false};
+            this._state = {commentsVisible: false, reviewVisible: false, arrowCls: 'left'};
 
             _options.tpl = _.template(this.template)(_options);
 
@@ -777,6 +777,12 @@ define([
                     // LEFT CORNER
 
                     if (!_.isUndefined(posX)) {
+                        var isRtlSheet = !_.isUndefined(leftX) && (posX<leftX);
+                        if (isRtlSheet) {
+                            let tmp = posX;
+                            posX = leftX;
+                            leftX = tmp;
+                        }
 
                         sdkPanelRight = $('#id_vertical_scroll');
                         if (sdkPanelRight.length) {
@@ -800,7 +806,7 @@ define([
                             this.sdkBounds.width -= sdkPanelThumbsWidth;
                         }
 
-                        if (!Common.UI.isRTL()) {
+                        if (!isRtlSheet) {
                             leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
                             leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
                         } else {
@@ -808,15 +814,17 @@ define([
                             leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
                         }
 
+                        this._state.arrowCls = 'left';
                         arrowView.removeClass('right top bottom').addClass('left');
                         arrowView.css({left: ''});
 
                         if (!_.isUndefined(leftX)) {
                             windowWidth = this.$window.outerWidth();
                             if (windowWidth) {
-                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth) || (Common.UI.isRTL() && sdkBoundsLeft + this.leftX > windowWidth + this.arrow.width)) {
-                                    leftPos = sdkBoundsLeft + this.leftX - windowWidth - this.arrow.width;
+                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (leftX > windowWidth) || (isRtlSheet && sdkBoundsLeft + leftX > windowWidth + this.arrow.width)) {
+                                    leftPos = sdkBoundsLeft + leftX - windowWidth - this.arrow.width;
                                     arrowView.removeClass('left').addClass('right');
+                                    this._state.arrowCls = 'right';
                                 } else {
                                     leftPos = sdkBoundsLeft + posX + this.arrow.width;
                                 }
@@ -963,8 +971,8 @@ define([
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
                                 arrowView.css({top: arrowPosY + 'px', left: ''});
-                                arrowView.removeClass('top bottom right');
-                                arrowView.addClass('left');
+                                arrowView.removeClass('top bottom right left');
+                                arrowView.addClass(this._state.arrowCls);
                                 this.scroller.scrollTop(scrollPos);
                             } else {
 
@@ -983,8 +991,8 @@ define([
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
                                 arrowView.css({top: arrowPosY + 'px', left: ''});
-                                arrowView.removeClass('top bottom right');
-                                arrowView.addClass('left');
+                                arrowView.removeClass('top bottom right left');
+                                arrowView.addClass(this._state.arrowCls);
                             }
                         }
                     }
