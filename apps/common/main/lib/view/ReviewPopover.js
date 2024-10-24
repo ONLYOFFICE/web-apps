@@ -104,6 +104,7 @@ define([
             this.mentionShare = options.mentionShare;
             this.api = options.api;
             this._state = {commentsVisible: false, reviewVisible: false, arrowCls: 'left'};
+            this.isDocEditor = !!window.DE;
 
             _options.tpl = _.template(this.template)(_options);
 
@@ -777,8 +778,9 @@ define([
                     // LEFT CORNER
 
                     if (!_.isUndefined(posX)) {
-                        var isRtlSheet = !_.isUndefined(leftX) && (posX<leftX);
-                        if (isRtlSheet) {
+                        let isOnSheet = !_.isUndefined(leftX),
+                            isRtl = isOnSheet ? posX < leftX : Common.UI.isRTL();
+                        if (isOnSheet && isRtl) {
                             let tmp = posX;
                             posX = leftX;
                             leftX = tmp;
@@ -806,25 +808,28 @@ define([
                             this.sdkBounds.width -= sdkPanelThumbsWidth;
                         }
 
-                        if (!isRtlSheet) {
+                        if (!isRtl) {
                             leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
                             leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
-                        } else {
+                        } else if (this.isDocEditor) {
                             leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + 25, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - posX + 7);
+                            leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
+                        } else {
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth, sdkBoundsLeft + posX - this.$window.outerWidth() - this.arrow.width - 25);
                             leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
                         }
 
-                        this._state.arrowCls = 'left';
-                        arrowView.removeClass('right top bottom').addClass('left');
+                        this._state.arrowCls = isOnSheet && Common.UI.isRTL() ? 'right' : 'left';
+                        arrowView.removeClass('right top bottom').addClass(this._state.arrowCls);
                         arrowView.css({left: ''});
 
-                        if (!_.isUndefined(leftX)) {
+                        if (isOnSheet) {
                             windowWidth = this.$window.outerWidth();
                             if (windowWidth) {
-                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (leftX > windowWidth) || (isRtlSheet && sdkBoundsLeft + leftX > windowWidth + this.arrow.width)) {
+                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (leftX > windowWidth) || (isRtl && sdkBoundsLeft + leftX > windowWidth + this.arrow.width)) {
                                     leftPos = sdkBoundsLeft + leftX - windowWidth - this.arrow.width;
-                                    arrowView.removeClass('left').addClass('right');
-                                    this._state.arrowCls = 'right';
+                                    this._state.arrowCls = Common.UI.isRTL() ? 'left' : 'right';
+                                    arrowView.removeClass('left right').addClass(this._state.arrowCls);
                                 } else {
                                     leftPos = sdkBoundsLeft + posX + this.arrow.width;
                                 }
