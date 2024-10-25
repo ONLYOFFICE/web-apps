@@ -179,7 +179,8 @@
       "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
       "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
+      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -230,7 +231,8 @@
     "unknownErrorText": "Nepoznata greška.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",

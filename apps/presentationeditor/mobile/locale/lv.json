@@ -177,6 +177,7 @@
       "warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
       "warnProcessRightsChange": "Jums nav atļaujas rediģēt failu.",
       "textNoLicenseTitle": "License limit reached",
+      "textOk": "Ok",
       "titleLicenseNotActive": "License not active",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
@@ -230,7 +231,8 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-    "errorSetPassword": "Password could not be set."
+    "errorSetPassword": "Password could not be set.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Ielādē datus...",

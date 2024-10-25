@@ -462,14 +462,14 @@
     "splitDividerErrorText": "The number of rows must be a divisor of %1",
     "splitMaxColsErrorText": "The number of columns must be less than %1",
     "splitMaxRowsErrorText": "The number of rows must be less than %1",
+    "textOk": "OK",
     "unknownErrorText": "Unknown error.",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
