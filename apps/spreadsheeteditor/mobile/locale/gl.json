@@ -40,6 +40,12 @@
       "textStandartColors": "Cores estándar",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "system": "Igual que o sistema",
+      "dark": "Dark",
+      "light": "Light",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anónimo",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -788,6 +788,7 @@
       "textRestartApplication": "Reinicie o aplicativo para que os cambios teñan efecto",
       "textRight": "Á dereita",
       "textRightToLeft": "Da dereita á esquerda",
+      "textSameAsSystem": "Igual que o sistema",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -857,7 +858,6 @@
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
   }

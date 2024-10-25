@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",

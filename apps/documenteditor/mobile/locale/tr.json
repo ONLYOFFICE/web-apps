@@ -462,6 +462,7 @@
     "splitDividerErrorText": "Satır sayısı %1'in böleni olmalıdır",
     "splitMaxColsErrorText": "Sütun sayısı %1 geçmemelidir",
     "splitMaxRowsErrorText": "Satır sayısı %1 geçmemelidir",
+    "textOk": "Tamam",
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadDocExtMessage": "Bilinmeyen belge biçimi.",
     "uploadDocFileCountMessage": "Hiçbir belge yüklenmedi",

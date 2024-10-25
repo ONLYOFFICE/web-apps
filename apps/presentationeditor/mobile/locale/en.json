@@ -157,6 +157,7 @@
       "textNo": "No",
       "textNoLicenseTitle": "License limit reached",
       "textNoMatches": "No Matches",
+      "textOk": "Ok",
       "textOpenFile": "Enter a password to open the file",
       "textPaidFeature": "Paid feature",
       "textRemember": "Remember my choice",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
       "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
       "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-      "warnProcessRightsChange": "You don't have permission to edit the file.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
   "Error": {
@@ -228,11 +228,11 @@
     "splitDividerErrorText": "The number of rows must be a divisor of %1",
     "splitMaxColsErrorText": "The number of columns must be less than %1",
     "splitMaxRowsErrorText": "The number of rows must be less than %1",
+    "textOk": "OK",
     "unknownErrorText": "Unknown error.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",

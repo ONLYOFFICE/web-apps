@@ -41,9 +41,9 @@
       "textThemeColors": "Themakleuren"
     },
     "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
+      "dark": "Donker",
+      "light": "Licht",
+      "system": "Zelfde als systeem",
       "textTheme": "Theme"
     },
     "VersionHistory": {
@@ -734,6 +734,7 @@
       "textComments": "Opmerkingen",
       "textCreated": "Aangemaakt",
       "textCustomSize": "Aangepaste grootte",
+      "textDark": "Donker",
       "textDarkTheme": "Donker thema",
       "textDelimeter": "Scheidingsteken",
       "textDisableAll": "Alles uitschakelen",
@@ -763,6 +764,7 @@
       "textLastModifiedBy": "Laatst aangepast door",
       "textLeft": "Links",
       "textLeftToRight": "Links naar rechts",
+      "textLight": "Licht",
       "textLocation": "Locatie",
       "textLookIn": "Zoeken in",
       "textMacrosSettings": "Macro instellingen",
@@ -783,6 +785,7 @@
       "textReplaceAll": "Alles vervangen",
       "textResolvedComments": "Opgeloste opmerkingen",
       "textRight": "Rechts",
+      "textSameAsSystem": "Zelfde als systeem",
       "textSearch": "Zoeken",
       "textSearchBy": "Zoeken",
       "textSearchIn": "Zoeken in",
@@ -846,16 +849,13 @@
       "txtZh": "Chinees",
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
       "textClose": "Close",
-      "textDark": "Dark",
       "textDirection": "Direction",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
-      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"

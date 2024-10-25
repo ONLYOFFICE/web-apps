@@ -462,6 +462,7 @@
     "splitDividerErrorText": "Число строк должно являться делителем для %1",
     "splitMaxColsErrorText": "Число столбцов должно быть меньше, чем %1",
     "splitMaxRowsErrorText": "Число строк должно быть меньше, чем %1",
+    "textOk": "Ок",
     "unknownErrorText": "Неизвестная ошибка.",
     "uploadDocExtMessage": "Неизвестный формат документа.",
     "uploadDocFileCountMessage": "Ни одного документа не загружено.",

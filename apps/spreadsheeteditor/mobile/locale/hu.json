@@ -40,6 +40,12 @@
       "textStandartColors": "Alapértelmezett Színek",
       "textThemeColors": "Téma színek"
     },
+    "Themes": {
+      "dark": "Sötét",
+      "light": "Világos",
+      "system": "A rendszerrel megegyező",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -734,6 +734,7 @@
       "textComments": "Hozzászólások",
       "textCreated": "Létrehozva",
       "textCustomSize": "Egyéni Méret",
+      "textDark": "Sötét",
       "textDarkTheme": "Sötét téma",
       "textDelimeter": "Elválasztó",
       "textDirection": "Irány",
@@ -765,6 +766,7 @@
       "textLastModifiedBy": "Utoljára módosította",
       "textLeft": "Bal",
       "textLeftToRight": "Balról jobbra",
+      "textLight": "Világos",
       "textLocation": "Hely",
       "textLookIn": "Keres",
       "textMacrosSettings": "Makró beállítások",
@@ -788,6 +790,7 @@
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
       "textRight": "Jobb",
       "textRightToLeft": "Jobbról balra",
+      "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSearchBy": "Keresés",
       "textSearchIn": "Keresés ebben:",
@@ -853,11 +856,8 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "textClose": "Close",
-      "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textLight": "Light",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
   }

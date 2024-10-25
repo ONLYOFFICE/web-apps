@@ -462,6 +462,7 @@
     "splitDividerErrorText": "El número de filas debe ser un divisor de %1",
     "splitMaxColsErrorText": "El número de columnas debe ser menor que %1",
     "splitMaxRowsErrorText": "El número de filas debe ser menor que %1",
+    "textOk": "OK",
     "unknownErrorText": "Error desconocido.",
     "uploadDocExtMessage": "Formato de documento desconocido.",
     "uploadDocFileCountMessage": "No se ha subido ningún documento.",

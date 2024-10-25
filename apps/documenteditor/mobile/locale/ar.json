@@ -462,6 +462,7 @@
     "splitDividerErrorText": "عدد الصفوف يجب أن يكون أحد عوامل العدد %1\n(يقبل %1 القسمة عليه) ",
     "splitMaxColsErrorText": "عدد الأعمدة يجب أن يكون أقل من %1",
     "splitMaxRowsErrorText": "عدد الصفوف يجب ان يقل عن %1",
+    "textOk": "موافق",
     "unknownErrorText": "خطأ غير معروف",
     "uploadDocExtMessage": "صيغة المستند غير معروفة",
     "uploadDocFileCountMessage": "لم يتم رفع أية مستندات.",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "التحضير للحفظ. برجاء الانتظار...",
     "saveTextText": "جار حفظ المستند...",
     "saveTitleText": "حفظ المستند",
+    "savingText": "حفظ",
     "sendMergeText": "يتم إرسال دمج...",
     "sendMergeTitle": "إرسال دمج",
     "textContinue": "متابعة",
@@ -506,8 +508,7 @@
     "txtEditingMode": "بدء وضع التحرير...",
     "uploadImageTextText": "جار رفع الصورة...",
     "uploadImageTitleText": "رفع الصورة...",
-    "waitText": "الرجاء الانتظار...",
-    "savingText": "Saving"
+    "waitText": "الرجاء الانتظار..."
   },
   "Main": {
     "criticalErrorTitle": "خطأ",
@@ -638,7 +639,7 @@
     "textRemember": "تذَكر اختياراتي",
     "textReplaceSkipped": "تم عمل الاستبدال. {0} حالات تم تجاوزها",
     "textReplaceSuccess": "انتهى البحث. الحالات المستبدلة: {0}",
-    "textRequestMacros": "يقدم الماكرو طلبًا إلى URL. هل تريد السماح بالطلب إلى %1؟",
+    "textRequestMacros": "يقوم الماكرو بإرسال طلب إلى عنوان \"URL\". هل ترغب في السماح بالطلب إلى %1؟",
     "textSaveAsPdf": "Pdfحفظ بصيغة ",
     "textYes": "نعم",
     "titleDialogProtectedDocument": "هذا المستند محمي",
@@ -647,7 +648,7 @@
     "titleServerVersion": "تم تحديث المحرر",
     "titleUpdateVersion": "تم تغيير الإصدار",
     "warnDownloadAsPdf": "سيتم تحويل {0} إلى تنسيق قابل للتعديل. قد يستغرق هذا وقتا. المستند الناتج سيتم تحسينه ليسمح لك بتعديل النص، لذلك شكله قد لا يكون تماما مثل الأصلي {0}، خاصة إذا كان الملف الأصلي يحتوي على الكثير من الرسومات",
-    "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين\n.\nسيتم فتح هذا المستند للعرض فقط<br>",
+    "warnLicenseAnonymous": "تم رفض الوصول للمستخدمين المجهولين.<br>سيكون هذا المستند متاحًا للعرض فقط.",
     "warnLicenseBefore": "الترخيص ليس مفعلا.<br>برجاء التواصل مع مسئولك",
     "warnLicenseExceeded": "لقد وصلت إلى الحد الأقصى من الاتصالات المتزامنة لـ %1 محررات.هذا. هذا المستند سيكون للقراءة فقط برجاء التواصل مع المسؤول الخاص بك لمعرفة المزيد",
     "warnLicenseExp": "الترخيص منتهي الصلاحية.الرجاء تحديث الترخيص الخاص بك واعادة تحميل الصفحة",
@@ -801,6 +802,7 @@
     "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
   },
   "Toolbar": {
+    "btnSend": "إرسال",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
@@ -810,7 +812,6 @@
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
-    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي"
   }
 }
