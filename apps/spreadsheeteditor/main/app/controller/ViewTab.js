@@ -39,8 +39,7 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/ViewTab',
-    'common/main/lib/view/MacrosDialog'
+    'spreadsheeteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 

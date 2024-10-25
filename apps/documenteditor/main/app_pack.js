@@ -28,6 +28,7 @@ require([
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
 
     'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',

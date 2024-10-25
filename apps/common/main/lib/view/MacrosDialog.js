@@ -40,9 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
         template:
@@ -132,7 +130,9 @@ define([
             this.loadMask.setTitle(this.textLoading);
             this.loadMask.show();
             require(['../vendor/ace/ace'], function(ace) {
-                me.createCodeEditor();
+                require(['../vendor/ace/ext-language_tools'], function() {
+                    me.createCodeEditor();
+                });
             });
         },
 
@@ -326,9 +326,9 @@ define([
 
 
             if (!window.isIE) {
-                me._state.aceLoadedModules.langTools = true;
-                me.onAceLoadModule();
                 ace.config.loadModule('ace/ext/language_tools', function () {
+                    me._state.aceLoadedModules.langTools = true;
+                    me.onAceLoadModule();
                     me.codeEditor.setOptions({
                         enableBasicAutocompletion: false,
                         enableLiveAutocompletion: true
@@ -393,7 +393,7 @@ define([
 
             if(macrosList.length > 0) {
                 macrosList.forEach(function (macros) {
-                    macros.autostart = macros.autostart ?? false;
+                    macros.autostart = !!macros.autostart;
                 });
                 this.listMacros.store.reset(macrosList);
                 var selectItem = this.listMacros.store.at(data.current);

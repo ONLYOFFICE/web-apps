@@ -40,8 +40,7 @@
 define([
     'core',
     'presentationeditor/main/app/view/ViewTab',
-    'presentationeditor/main/app/view/GridSettings',
-    'common/main/lib/view/MacrosDialog'
+    'presentationeditor/main/app/view/GridSettings'
 ], function () {
     'use strict';
 

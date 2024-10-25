@@ -26,6 +26,7 @@ require([
     'common/main/lib/view/SignDialog',
     'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
 
     'presentationeditor/main/app/view/FileMenuPanels',
     'presentationeditor/main/app/view/DocumentHolderExt',
