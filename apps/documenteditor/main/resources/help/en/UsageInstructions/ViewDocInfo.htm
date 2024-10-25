@@ -15,36 +15,24 @@
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>View document information</h1>
-			<p>To access the detailed information about the currently edited document in the <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>, click the <b>File</b> tab of the top toolbar and select the <b>Document Info</b> option.</p>
-			<h3>General Information</h3>
-            <p>The document information includes a number of the file properties which describe the document. Some of these properties are updated automatically, and some of them can be edited.</p>
+			<p>To access the detailed information about the currently edited document in the <a href="https://www.onlyoffice.com/en/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a>, click the <b>File</b> tab of the top toolbar and select the <b>Info</b> option.</p>
+            <h3>Common</h3>
             <ul>
-                <li class ="onlineDocumentFeatures"><b>Location</b> - the folder in the <b>Documents</b> module where the file is stored. <b>Owner</b> - the name of the user who has created the file. <b>Uploaded</b> - the date and time when the file has been created. These properties are available in the <em>online version</em> only.</li>
-                <li><b>Statistics</b> - the number of pages, paragraphs, words, symbols, symbols with spaces.</li>
-                <li><b>Title</b>, <b>Subject</b>, <b>Comment</b> - these properties allow yoy to simplify your documents classification. You can specify the necessary text in the properties fields.</li>
-                <li><b>Last Modified</b> - the date and time when the file was last modified.</li>
-                <li><b>Last Modified By</b> - the name of the user who has made the latest change to the document. This option is available if the document has been shared and can be edited by several users.</li>
-                <li><b>Application</b> - the application the document has been created with.</li>
-                <li><b>Author</b> - the person who has created the file. You can enter the necessary name in this field. Press <em>Enter</em> to add a new field that allows you to specify one more author.</li>
+                <li><b>Owner</b> - the person who has created the file.</li>
+                <li><b>Uploaded</b> - the date when the file has been uploaded to the server.</li>
+                <li><b>Last Modified</b> - the date when the file has last been edited.</li>
             </ul>
-            <p>If you changed the file properties, click the <b>Apply</b> button to apply the changes.</p>
-            <div class="onlineDocumentFeatures">
-                <p class="note"><b>Note</b>: The online Editors allow you to change the name of the document directly in the editor interface. To do that, click the <b>File</b> tab of the top toolbar and select the <b>Rename</b> option, then enter the necessary <b>File name</b> in a new window that will appear and click <b>OK</b>.</p>
-            </div>  
-                <div class="onlineDocumentFeatures">
-                    <h3>Permission Information</h3>
-                    <p>In the <em>online version</em>, you can view the information about permissions to the files stored in the cloud.</p>
-                    <p class="note"><b>Note</b>: this option is not available for users with the <b>Read Only</b> permissions.</p>
-                    <p>To find out who have rights to view or edit the document, select the <b>Access Rights...</b> option on the left sidebar.</p>
-                    <p>You can also change currently selected access rights by pressing the <b>Change access rights</b> button in the <b>Persons who have rights</b> section.</p>
-                    <h3>Version History</h3>
-                    <p>In the <em>online version</em>, you can view the version history for the files stored in the cloud.</p>
-                    <p class="note"><b>Note</b>: this option is not available for users with the <b>Read Only</b> permissions.</p>
-                    <p>To view all the changes made to this document, select the <b>Version History</b> option at the left sidebar. It's also possible to open the history of versions using the <span class = "icon icon-versionhistoryicon"></span> <b>Version History</b> icon on the <b>Collaboration</b> tab of the top toolbar. You'll see the list of this document versions (major changes) and revisions (minor changes) with the indication of each version/revision author and creation date and time. For document versions, the version number is also specified (e.g. <em>ver. 2</em>). To know exactly which changes have been made in each separate version/revision, you can view the one you need by clicking it on the left sidebar. The changes made by the version/revision author are marked with the color which is displayed next to the author's name on the left sidebar. You can use the <b>Restore</b> link below the selected version/revision to restore it. <!--To hide the list of the revisions within a certain version, use the <div class = "icon icon-collapse"></div> icon next to the version. To display revisions again, use the <div class = "icon icon-expand"></div> icon.--> </p>
-                    <p><img alt="Version History" src="../images/versionhistory.png" /></p>
-                    <p>To return to the current version of the document, use the <b>Close History</b> option on the top of the version list.</p>
-                </div>
-                <p>To close the <b>File</b> panel and return to document editing, select the <b>Close Menu</b> option.</p>
-            </div>
+            <h3>Statistics</h3>
+            <p>This subsection displays the number of pages, paragraphs, words, symbols, and symbols with spaces within the file.</p>
+            <h3>Properties</h3>
+            <ul>
+                <li><b>Author</b> - you can enter the necessary name in this field. Press <em>Enter</em> to add a new field that allows you to specify one more author. To delete additional authors, click the cross button next to the corresponding fields.</li>
+                <li><b>Title</b> - enter the title of the document. Please do not confuse it with the file name as these are different file properties.</li>
+                <li><b>Tags</b> - enter necessary tags for better file classification.</li>
+                <li><b>Subject</b> - enter the document subject.</li>
+                <li><b>Comment</b> - enter the comment to the file. Please do not confuse it with the <a href="../HelpfulHints/Commenting.aspx" target="_blank">Comments</a> as these are different features.</li>
+                <li>Click the <b>Add property</b> button to add custom fields, entering the <em>Title</em> of the field, its <em>Type</em>, i.e., its format, and its <em>Value</em>. Click <b>OK</b> when ready. To delete additional fields, click the cross button next to them.</li>
+            </ul>
+        </div>
 	</body>
 </html>
