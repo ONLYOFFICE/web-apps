@@ -2297,19 +2297,22 @@ define([
                 me.toolbar.updateComboAutoshapeMenu(collection);
                 menu.off('show:before', onComboShowBefore);
             }
+            var onComboClick = function(btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
+                if (record) {
+                    me.toolbar.cmbsInsertShape.forEach(function(cmb) {
+                        cmb.updateComboView(record);
+                    });
+                    me.onInsertShape(record.get('data').shapeType);
+                }
+            }
             me.toolbar.cmbsInsertShape.forEach(function(cmb) {
                 cmb.openButton.menu.on('show:before', onComboShowBefore);
                 cmb.fillComboView(collection);
-                cmb.on('click', function (btn, record, cancel) {
-                    if (cancel) {
-                        me._addAutoshape(false);
-                        return;
-                    }
-                    if (record) {
-                        cmb.updateComboView(record);
-                        me.onInsertShape(record.get('data').shapeType);
-                    }
-                });
+                cmb.on('click', onComboClick);
             });
         },
 
