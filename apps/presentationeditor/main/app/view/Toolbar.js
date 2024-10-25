@@ -261,23 +261,8 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    me.btnAddSlide.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-addslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
-                                {caption: '--'},
-                                {
-                                    caption: me.txtDuplicateSlide,
-                                    value: 'duplicate'
-                                }
-                            ]
-                        })
-                    );
                     me.btnAddSlide.on('click', function (btn, e) {
                         me.fireEvent('add:slide');
-                    });
-                    me.btnAddSlide.menu.on('item:click', function (menu, item) {
-                        (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
                     });
                     me.slideOnlyControls.push(me.btnAddSlide);
 
@@ -319,13 +304,6 @@ define([
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
                     });
-                    me.btnChangeSlide.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-changeslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
-                            ]
-                        })
-                    );
                     me.slideOnlyControls.push(me.btnChangeSlide);
 
                     me.btnPreview = new Common.UI.Button({
@@ -339,21 +317,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
-                    me.btnPreview.setMenu(
-                        new Common.UI.Menu({
-                            items: [
-                                {caption: me.textShowBegin, value: 0},
-                                {caption: me.textShowCurrent, value: 1},
-                                {caption: me.textShowPresenterView, value: 2},
-                                {caption: '--'},
-                                me.mnuShowSettings = new Common.UI.MenuItem({
-                                    caption: me.textShowSettings,
-                                    value: 3,
-                                    lock: [Common.enumLock.lostConnect]
-                                })
-                            ]
-                        })
-                    );
                     me.slideOnlyControls.push(me.btnPreview);
 
                     me.btnSelectAll = new Common.UI.Button({
@@ -1500,6 +1463,46 @@ define([
                             ]
                         }));
                 }
+
+                me.btnAddSlide.setMenu(
+                    new Common.UI.Menu({
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-addslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
+                            {caption: '--'},
+                            {
+                                caption: me.txtDuplicateSlide,
+                                value: 'duplicate'
+                            }
+                        ]
+                    })
+                );
+                me.btnAddSlide.menu.on('item:click', function (menu, item) {
+                    (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
+                });
+
+                me.btnChangeSlide.setMenu(
+                    new Common.UI.Menu({
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-changeslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
+                        ]
+                    })
+                );
+
+                me.btnPreview.setMenu(
+                    new Common.UI.Menu({
+                        items: [
+                            {caption: me.textShowBegin, value: 0},
+                            {caption: me.textShowCurrent, value: 1},
+                            {caption: me.textShowPresenterView, value: 2},
+                            {caption: '--'},
+                            me.mnuShowSettings = new Common.UI.MenuItem({
+                                caption: me.textShowSettings,
+                                value: 3,
+                                lock: [Common.enumLock.lostConnect]
+                            })
+                        ]
+                    })
+                );
 
                 me.btnsInsertImage.forEach(function (btn) {
                     btn.updateHint(me.tipInsertImage);
