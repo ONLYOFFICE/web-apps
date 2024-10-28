@@ -3062,21 +3062,21 @@ define([
             Common.UI.TooltipManager.closeTip('masterSlide');
         },
 
-        showStaticElements() {
+        showStaticElements: function() {
             var me = this;
             var showingStaticElements = [
                 {
-                    el: this.toolbar.btnAddSlide.$el.closest('.group'),
+                    el: this.toolbar.btnAddSlide ? this.toolbar.btnAddSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
                     viewMode: 'normal'
                 },
                 {
-                    el: this.toolbar.btnChangeSlide.$el.closest('.group'),
+                    el: this.toolbar.btnChangeSlide ? this.toolbar.btnChangeSlide.$el.closest('.group') : null,
                     tabs: ['home', 'design'],
                     viewMode: 'normal'
                 },
                 {
-                    el: this.toolbar.btnAddSlideMaster.$el.closest('.group'),
+                    el: this.toolbar.btnChangbtnAddSlideMastereSlide ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
                     viewMode: 'master'
                 }
@@ -3084,6 +3084,8 @@ define([
             var countShowingButtons = 0;
 
             showingStaticElements.forEach(function(item) {
+                if(!item.el) return;
+                
                 if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
                     item.el.show();
                     countShowingButtons += 1;

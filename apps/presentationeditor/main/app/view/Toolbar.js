@@ -998,7 +998,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-colorschemas',
                         lock: [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        caption: 'Colors',
+                        caption: me.txtColors,
                         menu: new Common.UI.Menu({
                             cls: 'shifted-left',
                             items: [],
@@ -1142,7 +1142,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-slidesize',
                         lock: [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                        caption: 'Slide size',
+                        caption: me.txtSlideSize,
                         menu: new Common.UI.Menu({
                             items: [
                                 {
@@ -2213,7 +2213,6 @@ define([
             updateComboAutoshapeMenu: function (collection) {
                 var me = this,
                     recents = Common.localStorage.getItem('pe-recent-shapes');
-                collection.models.forEach(((item, index) => item.attributes.groupId = index));
                 recents = recents ? JSON.parse(recents) : null;
                 me.cmbsInsertShape.forEach(function (cmb) {
                     cmb.setMenuPicker(collection, recents, me.textRecentlyUsed);

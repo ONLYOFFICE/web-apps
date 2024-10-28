@@ -2824,6 +2824,8 @@
   "PE.Views.Toolbar.tipViewSettings": "View settings",
   "PE.Views.Toolbar.txtDistribHor": "Distribute horizontally",
   "PE.Views.Toolbar.txtDistribVert": "Distribute vertically",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
   "PE.Views.Toolbar.txtDuplicateSlide": "Duplicate slide",
   "PE.Views.Toolbar.txtGroup": "Group",
   "PE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
