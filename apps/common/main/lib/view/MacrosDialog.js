@@ -186,6 +186,7 @@ define([], function () {
 
             this.ctxMenuMacros = new Common.UI.Menu({
                 cls: 'shifted-right',
+                additionalAlign: this.menuAddAlign,
                 items: [
                     new Common.UI.MenuItem({
                         caption     : this.textRun,
@@ -244,6 +245,7 @@ define([], function () {
 
                 this.ctxMenuFunction = new Common.UI.Menu({
                     cls: 'shifted-right',
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         new Common.UI.MenuItem({
                             caption     : this.textRename,
