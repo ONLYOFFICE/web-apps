@@ -129,13 +129,9 @@
         }
 
         .loadmask > .sktoolbar li.fat {
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            left: 795px;
-            width: inherit;
-            height: 44px;
+            width: 140px;
+            height: 46px;
+            margin-top: -46px;
         }
         .rtl .loadmask > .sktoolbar li.fat {
             right: 795px;
@@ -305,8 +301,8 @@
             <div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 138px;"/><li class="space"/><li style="width: 70px;"/><li class="fat"/></ul>
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 70px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 250px;"/><li style="width: 70px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="space"/><li class="fat"/><li class="space"/><li style="width: 70px;"/></ul>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div>

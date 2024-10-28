@@ -312,7 +312,9 @@ define([
             });
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
-                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    PE.getController('Toolbar').toolbar.cmbsInsertShape.forEach(function(cmb) {
+                        cmb.updateComboView(record);
+                    });
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
@@ -422,7 +424,7 @@ define([
                 this._isFromFile = false;
             }
         },
-        
+
         openAdvancedSettings: function(e) {
             if (this.linkAdvanced.hasClass('disabled')) return;
 
@@ -519,7 +521,7 @@ define([
 
         disableControls: function(disable) {
             if (this._initSettings) return;
-            
+
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

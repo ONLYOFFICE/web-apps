@@ -4501,5 +4501,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Rimuovi la protezione del foglio",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Inserisci una password per rimuovere la protezione del libro di lavoro",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists.",
+  "SSE.Controllers.Main.errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+  "SSE.Controllers.Main.errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
 }

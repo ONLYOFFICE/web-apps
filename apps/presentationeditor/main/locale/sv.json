@@ -2932,5 +2932,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

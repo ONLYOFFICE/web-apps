@@ -2932,5 +2932,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "PE.Views.Toolbar.textTabDesign": "Design",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size"
 }

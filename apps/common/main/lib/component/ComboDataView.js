@@ -340,6 +340,7 @@ define([
                     cmbDataViewEl.css('top', '50%');
                     cmbDataViewEl.css('bottom', '50%');
                     cmbDataViewEl.css('margin', 'auto 0');
+                    cmbDataViewEl.css('width', wrapEl.width() + 'px');
                 }
 
                 return widthCalc;

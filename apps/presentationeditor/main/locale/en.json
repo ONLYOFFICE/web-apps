@@ -2854,6 +2854,8 @@
   "PE.Views.Toolbar.tipViewSettings": "View settings",
   "PE.Views.Toolbar.txtDistribHor": "Distribute horizontally",
   "PE.Views.Toolbar.txtDistribVert": "Distribute vertically",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
   "PE.Views.Toolbar.txtDuplicateSlide": "Duplicate slide",
   "PE.Views.Toolbar.txtGroup": "Group",
   "PE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
@@ -2932,5 +2934,6 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

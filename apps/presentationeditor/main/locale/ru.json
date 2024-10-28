@@ -2932,5 +2932,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
   "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

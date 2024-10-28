@@ -2932,5 +2932,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

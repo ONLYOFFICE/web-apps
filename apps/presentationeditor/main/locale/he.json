@@ -2932,5 +2932,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "PE.Views.Toolbar.txtColors": "Colors",
+  "PE.Views.Toolbar.txtSlideSize": "Slide size",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }
