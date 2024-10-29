@@ -136,7 +136,7 @@ define([
             this.txtExpectVal = new Common.UI.InputField({
                 el          : $('#goal-seek-expect-val'),
                 style       : 'width: 100%;',
-                maskExp     : /[0-9,\-]/,
+                maskExp     : /[0-9,\.\-]/,
                 allowBlank  : true,
                 validateOnChange: true
             });
