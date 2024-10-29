@@ -101,13 +101,15 @@ define([
 
                     if ( obj.singlewindow !== undefined ) {
                         // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
-                        native.features.singlewindow = obj.singlewindow;
 
                         if ( config.isFillFormApp ) {
                             $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                         } else {
                             titlebuttons && titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                         }
+
+                        native.features.singlewindow = obj.singlewindow;
+                        Common.NotificationCenter.trigger('desktop:window', {"compositetitle": native.features.singlewindow});
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
