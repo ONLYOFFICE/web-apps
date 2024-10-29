@@ -274,7 +274,7 @@ define([
                 this.onResetItems();
             },
 
-            openMenu: function(delay) {
+            openMenu: function(delay, callback) {
                 if (this.store.length<1) return;
 
                 var me = this;
@@ -291,6 +291,7 @@ define([
 
                 _.delay(function(){
                     me.cmpEl.addClass('open');
+                    callback && callback();
                 }, delay || 0);
             },
 
@@ -442,10 +443,12 @@ define([
             },
 
             onAfterKeydownMenu: function(e) {
+                var me = this;
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
                     this.onBeforeShowMenu();
-                    this.openMenu();
-                    this.onAfterShowMenu();
+                    this.openMenu(0, function() {
+                        me.onAfterShowMenu();
+                    });
                     return false;
                 } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
                     var $items = this.cmpEl.find('ul > li a');
@@ -471,7 +474,6 @@ define([
                 }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
                     if (typeof this._search !== 'object') return;
 
-                    var me = this;
                     clearTimeout(this._search.timer);
                     this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
 
@@ -548,8 +550,9 @@ define([
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                     if (!this.isMenuOpen()) {
-                        this.openMenu();
-                        this.onAfterShowMenu();
+                        this.openMenu(0, function() {
+                            me.onAfterShowMenu();
+                        });
                     }
 
                     _.delay(function() {
