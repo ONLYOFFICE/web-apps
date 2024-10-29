@@ -387,7 +387,7 @@ define([
 
                 this.btnMacros = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-menu-navigation',
+                    iconCls: 'toolbar__icon btn-macros',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMacros,
                     enableToggle: true,

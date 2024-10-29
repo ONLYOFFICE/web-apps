@@ -157,6 +157,7 @@ define([], function () {
         },
 
         renderAfterAceLoaded: function() {
+            var me = this;
             this.btnMacrosRun = new Common.UI.Button({
                 parentEl: $('#btn-macros-run'),
                 cls: 'btn-toolbar borders--small',
@@ -181,7 +182,7 @@ define([], function () {
                         '<% } %>',
                     '</div>',
                     '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="listitem-icon toolbar__icon btn-more-vertical"></div>'
+                    '<div class="listitem-icon toolbar__icon btn-more"></div>'
                 ].join(''))
             });
             this.listMacros.on('item:add',  _.bind(this.onAddListItem, this));
@@ -214,6 +215,9 @@ define([], function () {
                     }).on('click', _.bind(this.onCopyMacros, this)),
                 ]
             });
+            this.ctxMenuMacros.on('hide:after', function() {
+                me.listMacros.$el.find('.listitem-icon').removeClass('active');
+            });
 
             if(this._state.isFunctionsSupport) {
                 this.btnFunctionAdd = new Common.UI.Button({
@@ -231,7 +235,7 @@ define([], function () {
                     itemTemplate: _.template([
                         '<div class="listitem-autostart"></div>',
                         '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                        '<div class="listitem-icon toolbar__icon btn-more-vertical"></div>'
+                        '<div class="listitem-icon toolbar__icon btn-more"></div>'
                     ].join(''))
                 });
                 this.listFunctions.on('item:add',  _.bind(this.onAddListItem, this));
@@ -255,6 +259,10 @@ define([], function () {
                         }).on('click', _.bind(this.onCopyFunction, this)),
                     ]
                 });
+                this.ctxMenuFunction.on('hide:after', function() {
+                    me.listFunctions.$el.find('.listitem-icon').removeClass('active');
+                });
+    
             }
 
             this.makeDragable();
@@ -747,6 +755,7 @@ define([], function () {
 
             var btn = $(event.target);
             if (btn && btn.hasClass('listitem-icon')) {
+                itemView.$el.find('.listitem-icon').addClass('active');
                 this.openContextMenuMacros(record, event);
             }
         },
@@ -869,6 +878,7 @@ define([], function () {
 
             var btn = $(event.target);
             if (btn && btn.hasClass('listitem-icon')) {
+                itemView.$el.find('.listitem-icon').addClass('active');
                 this.openContextMenuFunction(record, event);
             }
         },
