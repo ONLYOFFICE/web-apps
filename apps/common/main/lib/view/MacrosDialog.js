@@ -160,20 +160,14 @@ define([], function () {
             this.btnMacrosRun = new Common.UI.Button({
                 parentEl: $('#btn-macros-run'),
                 cls: 'btn-toolbar borders--small',
-                iconCls: 'icon toolbar__icon btn-zoomdown',
-                hint: this.tipMacrosRun,
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'small'
+                iconCls: 'icon toolbar__icon btn-run',
+                hint: this.tipMacrosRun
             });
             this.btnMacrosAdd = new Common.UI.Button({
                 parentEl: $('#btn-macros-add'),
                 cls: 'btn-toolbar borders--small',
                 iconCls: 'icon toolbar__icon btn-zoomup',
-                hint: this.tipMacrosAdd,
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'small'
+                hint: this.tipMacrosAdd
             }).on('click', _.bind(this.onCreateMacros, this));
 
             this.listMacros = new Common.UI.ListView({
@@ -201,28 +195,22 @@ define([], function () {
                 additionalAlign: this.menuAddAlign,
                 items: [
                     new Common.UI.MenuItem({
-                        caption     : this.textRun,
-                        checkable   : false
+                        caption     : this.textRun
                     }).on('click', _.bind(this.onRunMacros, this)),
                     new Common.UI.MenuItem({
-                        caption     : this.textMakeAutostart,
-                        checkable   : false
+                        caption     : this.textMakeAutostart
                     }).on('click', _.bind(this.onMakeAutostartMacros, this)),
                     new Common.UI.MenuItem({
-                        caption     : this.textUnMakeAutostart,
-                        checkable   : false
+                        caption     : this.textUnMakeAutostart
                     }).on('click', _.bind(this.onUnMakeAutostartMacros, this)),
                     new Common.UI.MenuItem({
-                        caption     : this.textRename,
-                        checkable   : false
+                        caption     : this.textRename
                     }).on('click', _.bind(this.onRenameMacros, this)),
                     new Common.UI.MenuItem({
-                        caption     : this.textDelete,
-                        checkable   : false
+                        caption     : this.textDelete
                     }).on('click', _.bind(this.onDeleteMacros, this)),
                     new Common.UI.MenuItem({
-                        caption     : this.textCopy,
-                        checkable   : false
+                        caption     : this.textCopy
                     }).on('click', _.bind(this.onCopyMacros, this)),
                 ]
             });
@@ -232,10 +220,7 @@ define([], function () {
                     parentEl: $('#btn-function-add'),
                     cls: 'btn-toolbar borders--small',
                     iconCls: 'icon toolbar__icon btn-zoomup',
-                    hint: this.tipFunctionAdd,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    hint: this.tipFunctionAdd
                 }).on('click', _.bind(this.onCreateFunction, this));
 
                 this.listFunctions = new Common.UI.ListView({
@@ -260,16 +245,13 @@ define([], function () {
                     additionalAlign: this.menuAddAlign,
                     items: [
                         new Common.UI.MenuItem({
-                            caption     : this.textRename,
-                            checkable   : false
+                            caption     : this.textRename
                         }).on('click', _.bind(this.onRenameFunction, this)),
                         new Common.UI.MenuItem({
-                            caption     : this.textDelete,
-                            checkable   : false
+                            caption     : this.textDelete
                         }).on('click', _.bind(this.onDeleteFunction, this)),
                         new Common.UI.MenuItem({
-                            caption     : this.textCopy,
-                            checkable   : false
+                            caption     : this.textCopy
                         }).on('click', _.bind(this.onCopyFunction, this)),
                     ]
                 });
@@ -399,7 +381,7 @@ define([], function () {
                             guid: me.createGuid(),
                             name: name,
                             autostart: false,
-                            value: '(function()\n{\n\t/* Enter your code here. */\n})();\n\n/*\nExecution of VBA commands does not support.\n' + macros + '*/',
+                            value: '(function()\n{\n\t/* Enter your code here. */\n})();\n\n/*\nExecution of VBA commands does not support.\n' + macros + '*/'
                         });
                     }
                 });
@@ -462,7 +444,7 @@ define([], function () {
                 });
             }
 
-            var menuContainerRect = menuContainer[0].getBoundingClientRect();
+            var menuContainerRect = Common.Utils.getBoundingClientRect(menuContainer[0]);
 
             ctxMenu.menuAlignEl = currentTarget;
             ctxMenu.setOffset(event.clientX - menuContainerRect.x, -currentTarget.height()/2 - 3);
@@ -479,13 +461,8 @@ define([], function () {
             var isOpen = this.openContextMenu(this.CurrentElementModeType.Macros, macrosItem, event);
             if(isOpen) {
                 this._state.macrosItemMenuOpen = macrosItem;
-                if(macrosItem.get('autostart')) {
-                    this.ctxMenuMacros.items[1].setVisible(false);
-                    this.ctxMenuMacros.items[2].setVisible(true);
-                } else {
-                    this.ctxMenuMacros.items[1].setVisible(true);
-                    this.ctxMenuMacros.items[2].setVisible(false);
-                }
+                this.ctxMenuMacros.items[1].setVisible(!macrosItem.get('autostart'));
+                this.ctxMenuMacros.items[2].setVisible(macrosItem.get('autostart'));
             }
         },
         openContextMenuFunction: function(functionItem, event) {
@@ -514,7 +491,7 @@ define([], function () {
                 buttons: ['ok', 'cancel']
             }).on('render:after', _.bind(onRender, this));
 
-            var macrosWindowRect = this.$window[0].getBoundingClientRect();
+            var macrosWindowRect = Common.Utils.getBoundingClientRect(this.$window[0]);
             window.show(
                 macrosWindowRect.left + (macrosWindowRect.width - windowSize.width) / 2,
                 macrosWindowRect.top + (macrosWindowRect.height - windowSize.height) / 2
@@ -536,10 +513,7 @@ define([], function () {
                     validateOnBlur: false,
                     style: 'width: 100%;',
                     type: 'text',
-                    value: selectedItem.get('name'),
-                    dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'small'
+                    value: selectedItem.get('name')
                 });
                 input.$el.find('input').select();
 
@@ -572,7 +546,7 @@ define([], function () {
                 // cursorPosition = cursorPosition * ((1 + (1 - zoom)).toFixed(1));
                 var currentIndex = elements.index(currentElement);
                 var nextIndex = currentIndex;
-                var currentElementCoord = currentElement.getBoundingClientRect();
+                var currentElementCoord = Common.Utils.getBoundingClientRect(currentElement);
                 var currentElementCenter = currentElementCoord.y + currentElementCoord.height * 0.45;
                 if(cursorPosition > currentElementCenter) {
                     nextIndex += 1;
@@ -768,8 +742,7 @@ define([], function () {
             });
             this.listMacros.selectRecord(this.listMacros.store.at(-1));
         },
-        onClickListMacrosItem: function(listView, itemView, record) {
-            var event = window.event ? window.event : window._event;
+        onClickListMacrosItem: function(listView, itemView, record, event) {
             if(!event) return;
 
             var btn = $(event.target);
@@ -887,13 +860,11 @@ define([], function () {
             this.listFunctions.store.add({
                 guid: this.createGuid(),
                 name : (macrosTextTranslate + " " + indexMax),
-                value : "(function()\n{\n\t/**\n\t * Function that returns the argument\n\t * @customfunction\n\t * @param {any} arg Any data.\n     * @returns {any} The argumet of the function.\n\t*/\n\tfunction myFunction(arg) {\n\t    return arg;\n\t}\n\tApi.AddCustomFunction(myFunction);\n})();",
-                autostart: false
+                value : "(function()\n{\n\t/**\n\t * Function that returns the argument\n\t * @customfunction\n\t * @param {any} arg Any data.\n     * @returns {any} The argumet of the function.\n\t*/\n\tfunction myFunction(arg) {\n\t    return arg;\n\t}\n\tApi.AddCustomFunction(myFunction);\n})();"
             });
             this.listFunctions.selectRecord(this.listFunctions.store.at(-1));
         },
-        onClickListFunctionItem: function(listView, itemView, record) {
-            var event = window.event ? window.event : window._event;
+        onClickListFunctionItem: function(listView, itemView, record, event) {
             if(!event) return;
 
             var btn = $(event.target);
