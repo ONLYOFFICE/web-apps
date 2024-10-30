@@ -279,7 +279,7 @@
     "errorDataValidate": "El valor que ha introducido no es válido.<br>Un usuario ha restringido los valores que pueden ser introducidos en esta celda.",
     "errorDefaultMessage": "Código de error: %1",
     "errorDeleteColumnContainsLockedCell": "Está intentando eliminar una columna que contiene una celda bloqueada. Las celdas bloqueadas no pueden borrarse mientras la hoja esté protegida.<br>Para borrar una celda bloqueada, desproteja la hoja. Es posible que se le solicite que introduzca una contraseña.",
-    "errorDeleteRowContainsLockedCell": "Está tratando de eliminar una fila la cual contiene una celda bloqueada. Las celdas bloqueadas no pueden ser eliminadas mientras la hoja de cálculo esté protegida.<br>Para eliminar una celda bloqueada desproteja la hoja de cálculo. Es posible que se le solicite introducir su contraseña.",
+    "errorDeleteRowContainsLockedCell": "Está intentando eliminar una fila que contiene una celda bloqueada. Las celdas bloqueadas no se pueden eliminar mientras la hoja esté protegida.<br>Para eliminar una celda bloqueada, desproteja la hoja. Es posible que se le solicite que introduzca una contraseña.",
     "errorDependentsNoFormulas": "El comando de rastreo de dependencias de celdas no encontró formulas que hagan referencia a la celda activa.",
     "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Utilice la opción 'Descargar' para guardar la copia de seguridad del archivo localmente.",

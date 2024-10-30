@@ -35,16 +35,16 @@
       "textSharingSettings": "Sharing Settings",
       "textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode."
     },
+    "Themes": {
+      "system": "Сістэмная",
+      "dark": "Dark",
+      "light": "Light",
+      "textTheme": "Theme"
+    },
     "ThemeColorPalette": {
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -95,16 +95,8 @@
       "criticalErrorTitle": "Памылка",
       "errorProcessSaveResult": "Не атрымалася захаваць.",
       "notcriticalErrorTitle": "Увага",
-      "textAnonymous": "Ананімны карыстальнік",
-      "textClose": "Закрыць",
-      "textRequestMacros": "Макрас робіць запыт да URL. Хочаце дазволіць запыт да %1?",
-      "textYes": "Так",
-      "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
-      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
-      "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
-      "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
-      "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "SDK": {
+        "Grayscale": "Адценні шэрага",
         "%1 of %2": "%1 of %2",
         "%1 or %2": "%1 or %2",
         "(All)": "(All)",
@@ -157,7 +149,6 @@
         "File": "File",
         "Good": "Good",
         "Grand Total": "Grand Total",
-        "Grayscale": "Grayscale",
         "Green": "Green",
         "Green Yellow": "Green Yellow",
         "Group": "Group",
@@ -215,6 +206,15 @@
         "Yellow Orange": "Yellow Orange",
         "Your text here": "Your text here"
       },
+      "textAnonymous": "Ананімны карыстальнік",
+      "textClose": "Закрыць",
+      "textRequestMacros": "Макрас робіць запыт да URL. Хочаце дазволіць запыт да %1?",
+      "textYes": "Так",
+      "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
+      "errorOpensource": "Using the free Community version, you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
+      "errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
+      "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
+      "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "textBuyNow": "Visit website",
       "textContactUs": "Contact sales",
       "textCustomLoader": "Sorry, you are not entitled to change the loader. Please, contact our sales department to get a quote.",
@@ -721,6 +721,7 @@
       "textFindAndReplace": "Пошук і замена",
       "textOpenFile": "Каб адкрыць файл, увядзіце пароль",
       "textRegionalSettings": "Рэгіянальныя налады",
+      "textSameAsSystem": "Сістэмная",
       "textSearch": "Пошук",
       "textSearchBy": "Пошук",
       "textSearchIn": "Месца пошуку",
@@ -801,7 +802,6 @@
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",

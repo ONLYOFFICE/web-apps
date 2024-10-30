@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",

@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Excedeu o limite de tamanho para o documento.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",

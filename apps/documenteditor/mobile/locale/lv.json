@@ -466,6 +466,7 @@
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
+    "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded."

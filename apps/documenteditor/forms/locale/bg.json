@@ -1,4 +1,10 @@
 {
+  "Common.UI.Themes.txtThemeClassicLight": "Класически светла",
+  "Common.UI.Themes.txtThemeContrastDark": "Контрастна тъмна",
+  "Common.UI.Themes.txtThemeDark": "Тъмна",
+  "Common.UI.Themes.txtThemeGray": "Сива",
+  "Common.UI.Themes.txtThemeLight": "Светла",
+  "Common.UI.Themes.txtThemeSystem": "Същото като в системата",
   "DE.Controllers.ApplicationController.convertationErrorText": "Конвертирането е неуспешно.",
   "DE.Controllers.ApplicationController.convertationTimeoutText": "Превишава се времето на изтичане на реализациите.",
   "DE.Controllers.ApplicationController.criticalErrorTitle": "Грешка",
@@ -21,6 +27,7 @@
   "DE.Controllers.ApplicationController.unknownErrorText": "Неизвестна грешка.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Вашият браузър не се поддържа.",
   "DE.Controllers.ApplicationController.waitText": "Моля изчакай...",
+  "DE.Views.ApplicationView.txtDarkMode": "Тъмен режим",
   "DE.Views.ApplicationView.txtDownload": "Изтегли",
   "DE.Views.ApplicationView.txtDownloadDocx": "Изтеглете като docx",
   "DE.Views.ApplicationView.txtDownloadPdf": "Изтеглете като PDF",

@@ -462,6 +462,7 @@
     "splitDividerErrorText": "Տողերի թիվը պետք է %1-ի բաժանարար լինի",
     "splitMaxColsErrorText": "Սյունակների թիվը %1-ից պակաս պիտի լինի",
     "splitMaxRowsErrorText": "Տողերի թիվը պետք է %1-ից պակաս լինի",
+    "textOk": "Լավ",
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadDocExtMessage": "Անհայտ փաստաթղթի ձևաչափ:",
     "uploadDocFileCountMessage": "Ոչ մի փաստաթուղթ չի վերբեռնվել:",
