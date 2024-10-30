@@ -56,8 +56,8 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
     ui_rtl = window.nativeprocvars.rtl;
 } else {
     if ( isLangRtl(lang) )
-        if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
-            ui_rtl = localStorage.getItem("ui-rtl") === '1';
+        if ( checkLocalStorage && localStorage.getItem("settings-ui-rtl") !== null )
+            ui_rtl = localStorage.getItem("settings-ui-rtl") === '1';
         else ui_rtl = true;
 }
 
