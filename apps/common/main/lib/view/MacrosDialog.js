@@ -480,66 +480,35 @@ define([], function () {
             }
         },
         openWindowRename: function() {
+            var me = this;
             var windowSize = {
                 width: 300,
                 height: 90
             };
-            var windowRenameTpl =
-                '<div class="box" style="height: 22px">' +
-                    '<div id="macros-rename-field"></div>' +
-                '</div>';
+            var macrosWindowRect = Common.Utils.getBoundingClientRect(this.$window[0]);
+            var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
+                ? me.listMacros.getSelectedRec()
+                : me.listFunctions.getSelectedRec();
 
-            var window = new Common.UI.Window({
-                id: 'macros-rename-dialog',
-                header: false,
+            (new Common.Views.TextInputDialog({
+                value: selectedItem.get('name'),
                 width: windowSize.width,
                 height: windowSize.height,
-                cls: 'modal-dlg',
-                tpl: windowRenameTpl,
-                buttons: ['ok', 'cancel']
-            }).on('render:after', _.bind(onRender, this));
-
-            var macrosWindowRect = Common.Utils.getBoundingClientRect(this.$window[0]);
-            window.show(
+                inputConfig: {
+                    allowBlank  : false,
+                    validation: function(value) {
+                        return value.trim().length > 0 ? true : '';
+                    }
+                },
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        selectedItem.set('name', value.trim());
+                    }
+                }
+            })).show(
                 macrosWindowRect.left + (macrosWindowRect.width - windowSize.width) / 2,
                 macrosWindowRect.top + (macrosWindowRect.height - windowSize.height) / 2
             );
-
-            function onRender(windowView) {
-                function inputValidation(value) {
-                    return value.trim().length > 0;
-                }
-
-                var me = this;
-                var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
-                    ? me.listMacros.getSelectedRec()
-                    : me.listFunctions.getSelectedRec();
-                var input = new Common.UI.InputField({
-                    el: $('#macros-rename-field'),
-                    allowBlank: true,
-                    validation: inputValidation,
-                    validateOnBlur: false,
-                    style: 'width: 100%;',
-                    type: 'text',
-                    value: selectedItem.get('name')
-                });
-                input.$el.find('input').select();
-
-                var buttons = $(windowView.$window[0]).find('.btn');
-                buttons.on('click', function (e){
-                    var type = $(e.target).attr('result');
-                    if(type == 'ok') {
-                        if(input.checkValidate() === true) {
-                            if(selectedItem) {
-                                selectedItem.set('name', input.getValue().trim());
-                            }
-                            windowView.close();
-                        }
-                    } else {
-                        windowView.close();
-                    }
-                });
-            };
         },
 
         makeDragable: function() {
