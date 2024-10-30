@@ -3828,10 +3828,16 @@ define([
                 showPoint = [],
                 btnSize = [31, 20],
                 right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
-                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1];
+                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1],
+                showAtBottom = false;
 
+            var controller = this.getApplication().getController('Common.Controllers.Comments');
+            if (controller) {
+                var comments = this.api.asc_getCellInfo().asc_getComments();
+                showAtBottom = comments && comments.length>0 && controller.getPopover().isVisible() && controller.findPopupComment(controller.findComment(comments[0].asc_getId()).get('id'));
+            }
 
-            if (right > width) {
+            if (right > width || showAtBottom) {
                 showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);
