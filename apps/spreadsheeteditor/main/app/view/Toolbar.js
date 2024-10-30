@@ -2360,6 +2360,7 @@ define([
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
                     this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    Common.NotificationCenter.on('desktop:window', _.bind(me.onDesktopWindow, me));
                 }
 
                 me.setTab('home');
@@ -3508,6 +3509,12 @@ define([
         getSymbolDescription: function(symbol){
             var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
             return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+        },
+
+        onDesktopWindow: function() {
+            if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                this.synchTooltip.show(); // change position for visible tip
+            }
         }
     }, SSE.Views.Toolbar || {}));
 });

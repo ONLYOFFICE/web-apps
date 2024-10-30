@@ -1374,6 +1374,7 @@ define([
                 if ( mode.isEdit ) {
                     me.setTab('home');
                     me.processPanelVisible();
+                    Common.NotificationCenter.on('desktop:window', _.bind(me.onDesktopWindow, me));
                 }
 
                 if ( me.isCompactView )
@@ -2405,6 +2406,12 @@ define([
             getSymbolDescription: function(symbol){
                 var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
                 return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+            },
+
+            onDesktopWindow: function() {
+                if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                    this.synchTooltip.show(); // change position for visible tip
+                }
             },
 
             tipNumCapitalLetters: 'A. B. C.',

@@ -1214,6 +1214,7 @@ define([
                     this.showSynchTip = !Common.localStorage.getBool("pdfe-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
+                    Common.NotificationCenter.on('desktop:window', _.bind(this.onDesktopWindow, this));
                 }
                 (mode.isEdit || mode.isRestrictedEdit) && me.setTab('home');
 
@@ -1777,6 +1778,11 @@ define([
                 }
             },
 
+            onDesktopWindow: function() {
+                if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                    this.synchTooltip.show(); // change position for visible tip
+                }
+            },
             /** coauthoring end **/
 
             lockToolbar: function (causes, lock, opts) {
