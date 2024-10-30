@@ -3052,6 +3052,7 @@
   "SSE.Views.GoalSeekDlg.textTitle": "Goal seek",
   "SSE.Views.GoalSeekDlg.textToValue": "To value",
   "SSE.Views.GoalSeekDlg.txtEmpty": "This field is required",
+  "SSE.Views.GoalSeekDlg.txtErrorNumber": "Your entry cannot be used. An integer or decimal number may be required.",
   "SSE.Views.GoalSeekStatusDlg.textContinue": "Continue",
   "SSE.Views.GoalSeekStatusDlg.textCurrentValue": "Current value:",
   "SSE.Views.GoalSeekStatusDlg.textFoundSolution": "Goal seeking with cell {0} found a solution.",

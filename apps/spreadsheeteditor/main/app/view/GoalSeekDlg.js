@@ -118,8 +118,8 @@ define([
                 name        : 'range',
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
-                allowBlank  : true,
-                validateOnChange: true
+                validateOnBlur: false,
+                hideErrorOnInput: true
             });
             this.txtFormulaCell.on('button:click', _.bind(this.onSelectData, this, 'formula'));
 
@@ -128,8 +128,8 @@ define([
                 name        : 'range',
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
-                allowBlank  : true,
-                validateOnChange: true
+                validateOnBlur: false,
+                hideErrorOnInput: true
             });
             this.txtChangeCell.on('button:click', _.bind(this.onSelectData, this, 'change'));
 
@@ -137,8 +137,8 @@ define([
                 el          : $('#goal-seek-expect-val'),
                 style       : 'width: 100%;',
                 maskExp     : /[0-9,\.\-]/,
-                allowBlank  : true,
-                validateOnChange: true
+                validateOnBlur: false,
+                hideErrorOnInput: true
             });
 
             this.afterRender();
@@ -159,15 +159,6 @@ define([
         },
 
         _setDefaults: function (props) {
-            this.txtFormulaCell.validation = function(value) {
-                return true;
-            };
-            this.txtChangeCell.validation = function(value) {
-                return true;
-            };
-            this.txtExpectVal.validation = function(value) {
-                return true;
-            };
             this.txtFormulaCell.setValue(this.api.asc_getActiveRangeStr(Asc.referenceType.A));
         },
 
@@ -207,6 +198,9 @@ define([
             if (_.isEmpty(this.txtExpectVal.getValue())) {
                 isvalid = false;
                 txtError = this.txtEmpty;
+            } else if (!Common.UI.isValidNumber(this.txtExpectVal.getValue())) {
+                isvalid = false;
+                txtError = this.txtErrorNumber;
             }
             if (!isvalid) {
                 this.txtExpectVal.showError([txtError]);
@@ -282,6 +276,7 @@ define([
         textMustSingleCell: 'Reference must be to a single cell',
         textMustContainFormula: 'The cell must contain a formula',
         textMustFormulaResultNumber: 'Formula in cell must result in a number',
-        textMustContainValue: 'Cell must contain a value'
+        textMustContainValue: 'Cell must contain a value',
+        txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.'
     }, SSE.Views.GoalSeekDlg || {}))
 });

@@ -1591,4 +1591,16 @@ define([], function () {
         cls: 'palette-large',
         paletteWidth: 174
     };
+
+    Common.UI.isValidNumber = function (val) {
+        let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
+        if (typeof val === 'string') {
+            let findComma = val.match(/,/g);
+            if (findComma && findComma.length === 1) {
+                val = val.replace(',','.');
+            }
+        }
+
+        return (typeof val === 'number') ||  !(val === '' || !regstr.test(val.trim()) || isNaN(parseFloat(val)));
+    };
 });
