@@ -136,7 +136,7 @@ define([
             if (this.options.scaling !== ratio) {
                 this.options.scaling = ratio;
 
-                if (ratio > 1 || ratio < 2) {
+                if (ratio > 1 && ratio < 2) {
                     if (!this.$label.find('i.icon').length) {
                         this.$label.find('svg.icon').after(`<i class="icon ${this.iconCls}"></i>`);
                     }

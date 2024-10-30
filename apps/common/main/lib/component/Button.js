@@ -184,7 +184,7 @@ define([
             '<% if ( iconImg ) { %>' +
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
-                '<svg class="icon uni-scale <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>">' +
+                '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>">' +
                     '<use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use>' +
                 '</svg>' +
             '<% } %>';
@@ -285,7 +285,7 @@ define([
                     '<img src="<%= iconImg %>" alt="Icon">',
                 '<% } else if (iconCls) { %>',
                     '<% if (/btn-[^\\s]+/.test(iconCls)) { %>',
-                        '<svg class="icon uni-scale <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
+                        '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
                     '<% } else { %>',
                         '<i class="icon <% iconCls %>"></i>',
                     '<% } %>',
@@ -430,8 +430,7 @@ define([
                         if ( me.split === true ) {
                             !!me.cls && (me.cls = me.cls.replace(/\s?(?:x-huge|icon-top)/g, ''));
                             this.template = _.template(templateHugeSplitCaption);
-                        } else
-                        if ( !!me.menu ) {
+                        } else if ( !!me.menu ) {
                             this.template = _.template(templateHugeMenuCaption);
                         } else {
                             this.template = _.template(templateHugeCaption);
@@ -470,7 +469,7 @@ define([
                     me.$icon = me.$el.find('.icon');
                 }
             } else {
-                if ( me.options.el ) {
+                if (me.options.el || me.cmpEl) {
                     if ( !$('.icon', me.cmpEl).length && (me.iconCls || me.options.iconImg) ) {
                         const icon_el = _.template(templateBtnIcon)({
                             iconCls      : me.iconCls,
@@ -990,14 +989,6 @@ define([
                 this.options.scaling = ratio;
 
                 const $el = this.$el.is('button') ? this.$el : this.$el.find('button:first');
-                // if (!$el.find('svg.icon').length) {
-                //     const iconCls = this.iconCls || $el.find('i.icon').attr('class');
-                //     const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
-                //     const exportedIconName = /btn-\S+/.exec(iconCls);
-                //     const svgIcon = `<svg class="icon ${rtlCls}"><use class="zoom-int" href="#${exportedIconName ? exportedIconName[0] : 'null'}"></use></svg>`;
-                //     $el.find('i.icon').after(svgIcon);
-                // }
-
                 if (ratio > 1 && ratio < 2) {
                     if (!$el.find('i.icon').length) {
                         $el.find('svg.icon').after(`<i class="icon ${this.iconCls}">&nbsp;</i>`);

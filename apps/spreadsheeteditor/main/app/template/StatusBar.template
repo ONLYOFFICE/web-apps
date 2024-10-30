@@ -1,24 +1,24 @@
 
 <div class="statusbar">
     <div id="status-tabs-scroll" class="status-group float-left" dir="ltr">
-        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>
-        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>
+        <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"></button>
+        <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"></button>
     </div>
     <div id="status-addtabs-box" class="status-group float-left">
-        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+        <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"></button>
         <div class="cnt-tabslist">
-            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"><i class="icon toolbar__icon btn-sheet-list">&nbsp;</i></button>
+            <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"></button>
         </div>
     </div>
     <div id="status-zoom-box" class="status-group">
         <div class="separator short"></div>
-        <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
+        <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"></button>
         <div class="cnt-zoom">
             <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
-        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
+        <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"></button>
     </div>
     <div id="status-math-box" class="status-group padding-right-4">
         <div class="separator short"></div>

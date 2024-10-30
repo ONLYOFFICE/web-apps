@@ -107,7 +107,8 @@ define([
                     hint: this.tipFitPage,
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
-                    enableToggle: true
+                    enableToggle: true,
+                    iconCls: 'toolbar__icon btn-ic-zoomtoslide'
                 });
 
                 this.btnZoomToWidth = new Common.UI.Button({
@@ -115,19 +116,22 @@ define([
                     hint: this.tipFitWidth,
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
-                    enableToggle: true
+                    enableToggle: true,
+                    iconCls: 'toolbar__icon btn-ic-zoomtowidth'
                 });
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#btn-zoom-down',this.el),
                     hint: this.tipZoomOut+Common.Utils.String.platformKey('Ctrl+-'),
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-zoomdown'
                 });
 
                 this.btnZoomUp = new Common.UI.Button({
                     el: $('#btn-zoom-up',this.el),
                     hint: this.tipZoomIn+Common.Utils.String.platformKey('Ctrl++'),
-                    hintAnchor: 'top-right'
+                    hintAnchor: 'top-right',
+                    iconCls: 'toolbar__icon btn-zoomup'
                 });
 
                 this.cntZoom = new Common.UI.Button({

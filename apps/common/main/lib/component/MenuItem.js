@@ -440,7 +440,7 @@ define([
         applyScaling: function (ratio) {
             if (this.options.scaling !== ratio) {
                 this.options.scaling = ratio;
-                if (ratio > 1 || ratio < 2) {
+                if (ratio > 1 && ratio < 2) {
                     const firstChild = this.cmpEl.children(':first');
                     if (!firstChild.find('span.menu-item-icon').length) {
                         firstChild.find('svg.menu-item-icon').after(`<span class="menu-item-icon ${this.iconCls}"></span>`);
