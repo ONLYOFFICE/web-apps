@@ -89,34 +89,39 @@ define([
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
                     hint: this.tipZoomOut+' (Ctrl+-)',
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-zoomdown'
                 });
 
                 this.btnZoomUp = new Common.UI.Button({
                     el: $('#status-btn-zoomup',this.el),
                     hint: this.tipZoomIn+' (Ctrl++)',
-                    hintAnchor: 'top-right'
+                    hintAnchor: 'top-right',
+                    iconCls: 'toolbar__icon btn-zoomup'
                 });
 
                 this.btnScrollBack = new Common.UI.Button({
                     el: $('#status-btn-tabback',this.el),
                     hint: this.tipPrev,
                     disabled: true,
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-previtem'
                 });
 
                 this.btnScrollNext = new Common.UI.Button({
                     el: $('#status-btn-tabnext',this.el),
                     hint: this.tipNext,
                     disabled: true,
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-nextitem'
                 });
 
                 this.btnAddWorksheet = new Common.UI.Button({
                     el: $('#status-btn-addtab',this.el),
                     hint: this.tipAddTab,
                     disabled: true,
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-zoomup'
                 });
 
                 this.cntSheetList = new Common.UI.Button({
@@ -124,7 +129,12 @@ define([
                     hint: this.tipListOfSheets,
                     hintAnchor: 'top'
                 });
-                this.btnSheetList = $('#status-btn-tabslist',this.$el);
+
+                this.btnSheetList = new Common.UI.Button({
+                    el: $('#status-btn-tabslist', this.$el),
+                    iconCls: 'toolbar__icon btn-sheet-list'
+                });
+
                 this.sheetListMenu = new Common.UI.Menu({
                     style: 'margin-top:-3px;',
                     menuAlign: 'bl-tl',

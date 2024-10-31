@@ -193,26 +193,30 @@ define([
                     hintAnchor: 'top',
                     toggleGroup: 'select-tools',
                     enableToggle: true,
-                    allowDepress: false
+                    allowDepress: false,
+                    iconCls: 'toolbar__icon btn-select-tool'
                 });
 
                 this.btnHandTool = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'select-tools',
                     enableToggle: true,
-                    allowDepress: false
+                    allowDepress: false,
+                    iconCls: 'toolbar__icon btn-hand-tool'
                 });
 
                 this.btnZoomToPage = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
-                    enableToggle: true
+                    enableToggle: true,
+                    iconCls: 'toolbar__icon btn-ic-zoomtopage'
                 });
 
                 this.btnZoomToWidth = new Common.UI.Button({
                     hintAnchor: 'top',
                     toggleGroup: 'status-zoom',
-                    enableToggle: true
+                    enableToggle: true,
+                    iconCls: 'toolbar__icon btn-ic-zoomtowidth'
                 });
 
                 this.cntZoom = new Common.UI.Button({
@@ -220,11 +224,14 @@ define([
                 });
 
                 this.btnZoomDown = new Common.UI.Button({
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    iconCls: 'toolbar__icon btn-zoomdown'
                 });
 
                 this.btnZoomUp = new Common.UI.Button({
-                    hintAnchor: 'top-right'
+                    hintAnchor: 'top-right',
+                    iconCls: 'toolbar__icon btn-zoomup'
+
                 });
 
                 this.btnLanguage = new Common.UI.Button({

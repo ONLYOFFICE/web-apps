@@ -56,12 +56,13 @@ define([
             caption     : ''
         },
 
-        template    : _.template('<label class="label-cmp <%= cls %>" style="<%= style %>">' +
-                                    '<% if ( iconCls ) { %>' +
-                                        '<i class="icon <%= iconCls %>"></i>' +
-                                    '<% } %>' +
-                                    '<span class="caption"><%= caption %></span>' +
-                                 '</label>'),
+        template: _.template('<label class="label-cmp <%= cls %>" style="<%= style %>">' +
+            '<% if ( iconCls ) { %>' +
+                '<svg class="icon"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>' +
+            '<% } %>' +
+            '<span class="caption"><%= caption %></span>' +
+            '</label>'
+        ),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -108,9 +109,7 @@ define([
                 this.applyScaling(Common.UI.Scaling.currentRatio());
 
                 this.$label.on('app:scaling', function (e, info) {
-                    if (me.options.scaling != info.ratio) {
-                        me.applyScaling(info.ratio);
-                    }
+                    me.applyScaling(info.ratio);
                 });
             }
 
@@ -134,17 +133,12 @@ define([
         },
 
         applyScaling: function (ratio) {
-            if (this.options.scaling != ratio) {
+            if (this.options.scaling !== ratio) {
                 this.options.scaling = ratio;
 
-                if (ratio > 2) {
-                    if (!this.$label.find('svg.icon').length) {
-                        var iconCls = this.iconCls,
-                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
-                            icon_name = re_icon_name ? re_icon_name[0] : "null",
-                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
-
-                        this.$label.find('i.icon').after(svg_icon);
+                if (ratio > 1 && ratio < 2) {
+                    if (!this.$label.find('i.icon').length) {
+                        this.$label.find('svg.icon').after(`<i class="icon ${this.iconCls}"></i>`);
                     }
                 }
             }

@@ -231,7 +231,7 @@ define([
         applyScaling: function (ratio) {
             this.scaling = ratio;
 
-            if (ratio > 2) {
+            if (ratio === 1 || ratio >= 2) {
                 var el = this.$el || $(this.el),
                     icon = el.find('.options__icon');
                 if (icon.length > 0) {
