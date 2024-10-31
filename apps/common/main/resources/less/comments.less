@@ -352,11 +352,11 @@
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
-        margin: 0 0 0 5px;
+        margin: 1px 0 0 5px;
         background-color: transparent;
 
         .rtl & {
-            margin: 0 5px 0 0;
+            margin: 1px 5px 0 0;
         }
     }
 
@@ -431,7 +431,19 @@
         }
     }
 
-    .btn-resolve, .btn-accept, .icon-resolve {
+    .btn-resolve.comment-resolved, .icon-resolve.i-comment-resolved {
+        background-position: 0px -63px;
+        width: 17px;
+        height: 18px;
+        margin: 0 0 0 4px;
+
+        .rtl & {
+            margin: 0px 4px 0 0;
+        }
+        filter: none;
+    }
+
+    .btn-resolve:not(.comment-resolved), .btn-accept{
         position: relative;
 
         &:after {
@@ -445,19 +457,6 @@
             height: 12px;
             left: 6px;
             top: 0px;
-        }
-
-        &.comment-resolved, &.i-comment-resolved {
-            &:after {
-                border-color: @icon-success-ie;
-                border-color: @icon-success;
-                width: 5px;
-                height: 9px;
-                top: 3px;
-            }
-            .box-shadow(0 0 0 1px @icon-success-ie);
-            .box-shadow(0 0 0 1px @icon-success);
-            border-radius: 18px;
         }
     }
 

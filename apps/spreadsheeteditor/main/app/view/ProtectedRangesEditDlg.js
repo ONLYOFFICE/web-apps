@@ -451,7 +451,7 @@ define([], function () {
             this.cmbUser.setRawValue(str);
 
             if (arr.length>0)
-                this.cmbUser.openMenu()
+                this.cmbUser.openMenu();
             else {
                 this.cmbUser.closeMenu();
                 this.cmbUser.focus();

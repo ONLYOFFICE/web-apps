@@ -324,8 +324,8 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-smooth-scroll"></div></td>',
                 '</tr>',
                 /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -478,6 +478,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chSmoothScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-smooth-scroll'),
+                labelText: this.strSmoothScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -867,14 +875,6 @@ define([], function () {
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
-            this.chRTL = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-rtl-ui'),
-                labelText: this.strRTLSupport,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chTabBack = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-tab-background'),
                 labelText: this.txtTabBack,
@@ -1016,7 +1016,6 @@ define([], function () {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
-            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -1038,6 +1037,7 @@ define([], function () {
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
             this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
+            this.chSmoothScroll.setValue(!Common.Utils.InternalSettings.get("sse-settings-smooth-scroll"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             this.rbCoAuthModeFast.setValue(fast_coauth);
@@ -1112,7 +1112,6 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1209,6 +1208,7 @@ define([], function () {
             }
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("sse-settings-smooth-scroll", this.chSmoothScroll.isChecked() ? 0 : 1);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("sse-settings-cachemode", item && !item.get('checked') ? 0 : 1);
@@ -1246,8 +1246,6 @@ define([], function () {
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
 
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
-            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
@@ -1294,16 +1292,6 @@ define([], function () {
                     this.inputMaxChange.getValue() && value.asc_setMaxChange(Common.Utils.String.parseFloat(this.inputMaxChange.getValue()));
                     this.api.asc_UpdateCalcSettings(value);
                 }
-            }
-
-            if (isRtlChanged) {
-                var config = {
-                    title: this.txtWorkspaceSettingChange,
-                    msg: this.txtRestartEditor,
-                    iconCls: 'warn',
-                    buttons: ['ok']
-                };
-                Common.UI.alert(config);
             }
         },
 
@@ -1361,6 +1349,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton,
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('sse-quick-access-save', true),
                     print: Common.localStorage.getBool('sse-quick-access-print', true),
@@ -1411,7 +1400,6 @@ define([], function () {
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
         txtCacheMode: 'Default cache mode',
-        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
@@ -1482,8 +1470,6 @@ define([], function () {
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
-        txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
         txtScreenReader: 'Turn on screen reader support',
@@ -1615,6 +1601,7 @@ define([], function () {
                         '<td class="left"><label>' + this.txtUploaded + '</label></td>',
                         '<td class="right"><label id="id-info-uploaded">-</label></td>',
                     '</tr>',
+                    '<tr></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
                         '<td class="right"><label id="id-info-modify-date"></label></td>',
@@ -1661,17 +1648,17 @@ define([], function () {
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
                 '</tbody>',
-            '</table>',
-            '<div id="fms-flex-add-property">',
-                '<table class="main">',
-                    '<tr style="gap: 20px;">',
+                '<tbody>',
+                    '<tr>',
                         '<td class="left"></td>',
                         '<td class="right">',
-                            '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><span>'+ this.txtAddProperty +'</span></button>',
+                        '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                        '<span>' + this.txtAddProperty + '</span>',
+                        '</button>',
                         '</td>',
                     '</tr>',
-                '</table>',
-            '</div>',
+                '</tbody>',
+            '</table>',
             ].join(''));
 
             this.menu = options.menu;

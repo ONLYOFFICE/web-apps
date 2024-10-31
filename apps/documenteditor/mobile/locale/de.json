@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "Speichervorbereitung. Bitte warten...",
     "saveTextText": "Dokument wird gespeichert...",
     "saveTitleText": "Dokument wird gespeichert...",
+    "savingText": "Wird gespeichert",
     "sendMergeText": "Merge wird versandt...",
     "sendMergeTitle": "Ergebnisse der Zusammenführung werden gesendet",
     "textContinue": "Fortsetzen",
@@ -779,7 +781,6 @@
     "textSpellcheck": "Rechtschreibprüfung",
     "textStatistic": "Statistik",
     "textSubject": "Betreff",
-    "textSubmit": "Senden",
     "textSymbols": "Symbole",
     "textTheme": "Thema",
     "textTitle": "Titel",
@@ -801,6 +802,7 @@
     "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
+    "btnSend": "Senden",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",

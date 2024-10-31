@@ -195,7 +195,8 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    action: 'interface-theme'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
@@ -260,6 +261,7 @@ define([
                 this.lockedControls.push(this.chRulers);
 
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -325,7 +327,7 @@ define([
                 var created = this.btnsFitToPage.concat(this.btnsFitToWidth).concat(this.cmbsZoom);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
-
+                Common.UI.LayoutManager.addControls(created);
                 return this.$el;
             },
 

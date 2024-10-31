@@ -22,7 +22,7 @@
     "textCenterTop": "顶部中间",
     "textColumnBreak": "分栏",
     "textColumns": "列",
-    "textComment": "評論",
+    "textComment": "批注",
     "textContinuousPage": "连续页",
     "textCurrentPosition": "当前位置",
     "textDisplay": "显示",
@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图片格式",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "正在保存，请稍候...",
     "saveTextText": "正在保存文档...",
     "saveTitleText": "正在保存文件",
+    "savingText": "保存中",
     "sendMergeText": "发送合并中...",
     "sendMergeTitle": "发送合并",
     "textContinue": "继续",
@@ -779,7 +781,6 @@
     "textSpellcheck": "拼字檢查",
     "textStatistic": "统计",
     "textSubject": "主题",
-    "textSubmit": "提交",
     "textSymbols": "符号",
     "textTheme": "主题",
     "textTitle": "标题",
@@ -801,6 +802,7 @@
     "txtProtected": "输入密码并打开文件后，将重置当前密码"
   },
   "Toolbar": {
+    "btnSend": "发送",
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",

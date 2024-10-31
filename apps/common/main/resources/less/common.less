@@ -201,7 +201,6 @@ label {
         background-color: @background-toolbar;
         display: flex;
         flex-direction: column;
-        gap: 4px;
         padding: 15px 0 24px;
 
         .rtl & {
@@ -233,6 +232,7 @@ label {
             list-style: none;
             position: relative;
             flex-shrink: 0;
+            margin-bottom: 4px;
 
             &.fm-btn {
                 height: 28px;
@@ -243,7 +243,8 @@ label {
                     padding: 4px 12px 4px 16px;
                 }
 
-                &:hover:not(.disabled) {
+                &:hover:not(.disabled),
+                &.highlight-tip {
                     background-color: @highlight-button-hover-ie;
                     background-color: @highlight-button-hover;
                 }
@@ -259,7 +260,8 @@ label {
                     }
 
                     .menu-item-icon {
-                        background-position-x: var(--button-small-active-icon-offset-x, 0);
+                        background-position-x: -20px;
+                        background-position-x: @button-small-active-icon-offset-x;
                     }
 
                     svg.menu-item-icon {
@@ -278,12 +280,12 @@ label {
             &.devider {
                 .dropdown-menu .divider;
                 margin-top: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 14px;
             }
 
             &.devider-small {
                 margin-top: 7px;
-                margin-bottom: 7px;
+                margin-bottom: 11px;
             }
 
             &.devider-last {
@@ -297,7 +299,8 @@ label {
                 line-height: 20px;
                 position: relative;
                 &:not(:disabled) {
-                    opacity: var(--component-normal-icon-opacity, 0.8);
+                    opacity: 0.8;
+                    opacity: @component-normal-icon-opacity;
                 }
             }
 
@@ -313,7 +316,6 @@ label {
                 padding:0;
                 display: flex;
                 align-items: center;
-                gap: 8px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: 12px;
@@ -327,7 +329,11 @@ label {
                     outline: 0;
                 }
 
-                &:not(:has(.menu-item-icon)) {
+                .menu-item-icon {
+                    .margin-right-8();
+                }
+
+                &[data-no-icon] {
                     .padding-left-28();
                 }
             }

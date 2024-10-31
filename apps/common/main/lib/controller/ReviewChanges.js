@@ -919,7 +919,8 @@ define([
                 toolbar: true,
                 plugins: true,
                 protect: true,
-                header: {docmode: true}
+                header: {docmode: true, search: false},
+                shortcuts: false
             }, 'review');
         },
 

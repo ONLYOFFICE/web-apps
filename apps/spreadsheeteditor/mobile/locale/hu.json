@@ -40,6 +40,12 @@
       "textStandartColors": "Alapértelmezett Színek",
       "textThemeColors": "Téma színek"
     },
+    "Themes": {
+      "dark": "Sötét",
+      "light": "Világos",
+      "system": "A rendszerrel megegyező",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -367,7 +367,10 @@
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Jelszó",
@@ -734,6 +737,7 @@
       "textComments": "Hozzászólások",
       "textCreated": "Létrehozva",
       "textCustomSize": "Egyéni Méret",
+      "textDark": "Sötét",
       "textDarkTheme": "Sötét téma",
       "textDelimeter": "Elválasztó",
       "textDirection": "Irány",
@@ -765,6 +769,7 @@
       "textLastModifiedBy": "Utoljára módosította",
       "textLeft": "Bal",
       "textLeftToRight": "Balról jobbra",
+      "textLight": "Világos",
       "textLocation": "Hely",
       "textLookIn": "Keres",
       "textMacrosSettings": "Makró beállítások",
@@ -788,6 +793,7 @@
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
       "textRight": "Jobb",
       "textRightToLeft": "Jobbról balra",
+      "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSearchBy": "Keresés",
       "textSearchIn": "Keresés ebben:",
@@ -853,11 +859,8 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "textClose": "Close",
-      "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textLight": "Light",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
   }

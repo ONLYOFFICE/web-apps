@@ -473,7 +473,6 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -838,7 +837,7 @@ define([
                 }
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
-                    this.disableEditing(false, true);
+                    this.disableEditing(false, 'reconnect');
                     this.getApplication().getController('Statusbar').hideDisconnectTip();
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
                 }
@@ -922,7 +921,7 @@ define([
                         title    = this.textDisconnect;
                         text     = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
-                        this.disableEditing(true, true);
+                        this.disableEditing(true, 'reconnect');
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
@@ -1009,6 +1008,10 @@ define([
                     this.api.asc_ignoreNumbers(ignoreNumbers);
                     /** spellcheck settings end **/
                 }
+
+                value = Common.localStorage.getBool("sse-settings-smooth-scroll", true);
+                Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
+                this.api.asc_SetSmoothScrolling(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
@@ -1270,7 +1273,9 @@ define([
                 }
             },
 
-            disableEditing: function(disable, temp) {
+            disableEditing: function(disable, type) {
+                !type && (type = 'disconnect');
+                var temp = type==='reconnect';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     allowSignature: false,
@@ -1285,8 +1290,10 @@ define([
                     viewport: true,
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
-                    celleditor: {previewMode: true}
-                }, temp ? 'reconnect' : 'disconnect');
+                    celleditor: {previewMode: true},
+                    header: {search: type==='not-loaded'},
+                    shortcuts: type==='not-loaded'
+                }, type || 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -1336,6 +1343,14 @@ define([
                 }
                 if (options.celleditor && options.celleditor.previewMode) {
                     app.getController('CellEditor').setPreviewMode(disable);
+                }
+
+                if (options.shortcuts) {
+                    disable ? Common.util.Shortcuts.suspendEvents() : Common.util.Shortcuts.resumeEvents();
+                }
+                if (options.header) {
+                    if (options.header.search)
+                        this.headerView && this.headerView.lockHeaderBtns('search', disable);
                 }
 
                 if (prev_options) {
@@ -1977,6 +1992,18 @@ define([
                         config.msg = this.errorPivotOverlap;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotFieldNameExists:
+                        config.msg = this.errorPivotFieldNameExists;
+                        break;
+
+                    case Asc.c_oAscError.ID.FormulaInPivotFieldName:
+                        config.msg = this.errorFormulaInPivotFieldName;
+                        break;
+
+                    case Asc.c_oAscError.ID.PasteInPivot:
+                        config.msg = this.errorPasteInPivot;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;
@@ -2457,6 +2484,8 @@ define([
                         })
                     }
                 });
+                this.disableEditing(true, 'not-loaded');
+                Common.NotificationCenter.trigger('api:disconnect');
             },
 
             onServerVersion: function(buildVersion) {
@@ -3201,7 +3230,7 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
-                        me.disableEditing(disable, true);
+                        me.disableEditing(disable, 'reconnect');
                 }});
             },
 

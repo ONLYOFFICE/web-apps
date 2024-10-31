@@ -367,9 +367,6 @@ define([], function () {
                 '<tr class="edit">',
                     '<td colspan="2"><div id="fms-chb-annotation-bar"></div></td>',
                 '</tr>',
-                '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
-                '</tr>',
                 /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
@@ -673,14 +670,6 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
-            this.chRTL = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-rtl-ui'),
-                labelText: this.strRTLSupport,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chTabBack = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-tab-background'),
                 labelText: this.txtTabBack,
@@ -769,7 +758,6 @@ define([], function () {
             $('tr.coauth.changes-show', this.el)[!mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
-            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
             $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
@@ -851,7 +839,6 @@ define([], function () {
             }
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
@@ -876,13 +863,9 @@ define([], function () {
             Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.chLiveComment.isChecked());
             Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked());
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave) {
-                // in first version with co-editing don't save co-editing mode to local storate
-                // this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
-                // Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
-                //     this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
-                this.mode.canChangeCoAuthoring && Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !!this.rbCoAuthModeFast.getValue());
-                Common.Utils.InternalSettings.set(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
-                                                  this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
+                this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
+                Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
+                    this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
             } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
                 Common.localStorage.setItem("pdfe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
@@ -890,17 +873,13 @@ define([], function () {
             Common.localStorage.setItem("pdfe-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("pdfe-settings-cachemode", item && !item.get('checked') ? 0 : 1);
-            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"))) {
-                Common.Utils.InternalSettings.set("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
-                this.mode.isOffline && Common.localStorage.setItem("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
-            }
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")))
+                Common.localStorage.setItem("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pdfe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
 
             Common.localStorage.setItem("pdfe-settings-unit", this.cmbUnit.getValue());
 
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
-            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
@@ -914,16 +893,6 @@ define([], function () {
                 this.menu.fireEvent('settings:apply', [this.menu]);
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
-            }
-
-            if (isRtlChanged) {
-                var config = {
-                    title: this.txtWorkspaceSettingChange,
-                    msg: this.txtRestartEditor,
-                    iconCls: 'warn',
-                    buttons: ['ok']
-                };
-                Common.UI.alert(config);
             }
         },
 
@@ -956,6 +925,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton,
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('pdfe-quick-access-save', true),
                     print: Common.localStorage.getBool('pdfe-quick-access-print', true),
@@ -986,7 +956,6 @@ define([], function () {
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         txtCacheMode: 'Default cache mode',
-        strRTLSupport: 'RTL interface',
         strTheme: 'Theme',
         txtDarkMode: 'Turn on document dark mode',
         txtEditingSaving: 'Editing and saving',
@@ -1003,8 +972,6 @@ define([], function () {
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
-        txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
         txtLastUsed: 'Last used',
         txtScreenReader: 'Turn on screen reader support',
         strUnit: 'Unit of Measurement',
@@ -1240,20 +1207,18 @@ define([], function () {
                             '<td class="right"><label id="id-info-page-size"></label></td>',
                         '</tr>',
                     '</tbody>',
+                    '<tbody>',
+                        '<tr>',
+                            '<td class="left"></td>',
+                            '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
+                        '</tr>',
+                    '</tbody>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
                 '</table>',
             '</div>',
-            '<div id="fms-flex-apply">',
-                '<table class="main">',
-                    '<tr>',
-                        '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
-                    '</tr>',
-                '</table>',
-            '</div>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};

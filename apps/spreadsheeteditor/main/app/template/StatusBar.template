@@ -1,10 +1,10 @@
 
 <div class="statusbar">
-    <div id="status-tabs-scroll" class="status-group float-left" dir="ltr">
+    <div id="status-tabs-scroll" class="status-group" dir="ltr">
         <button id="status-btn-tabback" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="G"></button>
         <button id="status-btn-tabnext" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="J"></button>
     </div>
-    <div id="status-addtabs-box" class="status-group float-left">
+    <div id="status-addtabs-box" class="status-group">
         <button id="status-btn-addtab" type="button" class="btn small btn-toolbar" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="X"></button>
         <div class="cnt-tabslist">
             <button id="status-btn-tabslist" type="button" class="btn small btn-toolbar dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="small" data-hint-title="N"></button>
@@ -20,7 +20,7 @@
         </div>
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"></button>
     </div>
-    <div id="status-math-box" class="status-group padding-right-4">
+    <div id="status-math-box" class="status-group">
         <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>

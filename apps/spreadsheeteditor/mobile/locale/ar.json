@@ -266,6 +266,7 @@
     "errorChangeArray": "لا يمكنك تغيير جزء من مصفوفة",
     "errorChangeFilteredRange": "سيؤدي هذا إلى تغيير النطاق الذي تمت تصفيته في ورقة العمل الخاصة بك.<br>لإكمال هذه المهمة، يرجى إزالة عوامل التصفية التلقائية.",
     "errorChangeOnProtectedSheet": "الخلية أو المخطط الذي تحاول تغييره موجود في ورقة محمية. لإجراء تغيير ، قم بإلغاء حماية الورقة. قد يُطلب منك إدخال كلمة مرور.",
+    "errorCircularReference": "هناك واحد او أكثر من المراجع الدائرية حيث تشير الى خلية واحدة او أكثر بشكل مباشر او غير مباشر.\nحاول ازالة او تغيير الصيغ الى خلايا مختلفة،<br>",
     "errorComboSeries": "لإنشاء مخطط مختلط، حدد سلسلتين من البيانات على الأقل.",
     "errorConnectToServer": "لم يمكن حفظ هذا المستند. تحقق من اتصالك أو قم بالتواصل مع المسئول  .<br> عند ضغطك على موافق سيطلب منك تحميل المستند",
     "errorCopyMultiselectArea": "لا يمكن استخدام هذا الأمر مع تحديدات متعددة.<br> حدد نطاقًا واحدًا وحاول مرة أخرى.",
@@ -367,7 +368,9 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",

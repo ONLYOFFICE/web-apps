@@ -1143,6 +1143,7 @@ define([
             me.itemTemplate   = me.options.itemTemplate   || null;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
@@ -1595,8 +1596,24 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
+        focus: function(index) {
             this.cmpEl && this.cmpEl.find('.dataview').focus();
+            var rec;
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    rec = this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 

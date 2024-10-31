@@ -344,7 +344,7 @@ define([
                         } else if (index === 0) {
                             menuRoot.prepend(item.render().el);
                         } else {
-                            menuRoot.children('li:nth-child(' + (index+1) + ')').before(item.render().el);
+                            menuRoot.children('li:nth-child(' + (index) + ')').after(item.render().el);
                         }
 
                         item.on('click',  _.bind(me.onItemClick, me));
@@ -353,8 +353,19 @@ define([
                 }
             },
 
-            addItem: function(item) {
-                this.insertItem(-1, item);
+            addItem: function(item, beforeCustom) { // if has custom items insert before first custom
+                if (!beforeCustom)
+                    this.insertItem(-1, item);
+                else {
+                    var customIdx = -1;
+                    for (var i=0; i<this.items.length; i++) {
+                        if (this.items[i].isCustomItem) {
+                            customIdx = i;
+                            break;
+                        }
+                    }
+                    this.insertItem(customIdx, item);
+                }
             },
 
             removeItem: function(item) {
@@ -380,15 +391,15 @@ define([
                 this.items.splice(from, len);
             },
 
-            removeAll: function() {
-                var me = this;
-
-                _.each(me.items, function(item){
-                    item.off('click').off('toggle');
-                    item.remove();
-                });
-
-                me.items = [];
+            removeAll: function(keepCustom) { // remove only not-custom items when keepCustom is true
+                for (var i=0; i<this.items.length; i++) {
+                    if (!keepCustom || !this.items[i].isCustomItem) {
+                        this.items[i].off('click').off('toggle');
+                        this.items[i].remove();
+                        this.items.splice(i, 1);
+                        i--;
+                    }
+                }
             },
 
             onBeforeShowMenu: function(e) {
@@ -618,7 +629,7 @@ define([
                     }, 10);
                     return;
                 }
-                this.trigger('item:click', this, item, e);
+                this.trigger(item.isCustomItem ? 'item:custom-click' : 'item:click', this, item, e);
             },
 
             onItemToggle: function(item, state, e) {
@@ -740,19 +751,35 @@ define([
                 }
             },
 
-            getChecked: function() {
+            getChecked: function(exceptCustom) { // check only not-custom items if exceptCustom is true
                 for (var i=0; i<this.items.length; i++) {
                     var item = this.items[i];
-                    if (item.isChecked && item.isChecked())
+                    if (item.isChecked && item.isChecked() && (!exceptCustom || !item.isCustomItem))
                         return item;
                 }
             },
 
-            clearAll: function() {
+            clearAll: function(keepCustom) { // clear only not-custom items when keepCustom is true
                 _.each(this.items, function(item){
-                    if (item.setChecked)
+                    if (item.setChecked && (!keepCustom || !item.isCustomItem))
                         item.setChecked(false, true);
                 });
+            },
+
+            getItems: function(exceptCustom) { // return only not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items;
+
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                });
+            },
+
+            getItemsLength: function(exceptCustom) { // return count of not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items.length;
+
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                }).length;
             }
 
         }), {

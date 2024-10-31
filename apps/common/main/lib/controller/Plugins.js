@@ -112,8 +112,10 @@ define([
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
             this.customPluginsDlg = [];
+            this.macrosPlugin = {el: null, show: false};
 
             this.newInstalledBackgroundPlugins = [];
+            this.customButtonsArr = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -177,6 +179,10 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
+                Common.UI.TooltipManager.addTips({
+                    'moveMacros' : {name: 'help-tip-move-macros', placement: 'bottom-right', text: me.helpMoveMacros, header: me.helpMoveMacrosHeader, target: $('li.ribtab #view').parent(), automove: true}
+                });
+
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
@@ -409,6 +415,12 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.customButtonsArr.forEach(function(item) {
+                me.toolbar && me.toolbar.addCustomControls({action: item.tab}, undefined, [item.btn])
+            });
+            me.customButtonsArr = [];
+            me.macrosPlugin = {};
+
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.backgroundPlugins = [];
@@ -427,7 +439,23 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        let tab = model.get('tab'),
+                            btn = me.viewPlugins.createPluginButton(model);
+                        if (btn) {
+                            btn.options.separator = tab.separator;
+                            me.toolbar && me.toolbar.addCustomControls(tab, [btn]);
+                            me.customButtonsArr.push({tab: tab.action, btn: btn});
+                            if (model.get('guid') === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
+                                me.macrosPlugin.el = btn.cmpEl;
+                                if (me.toolbar && me.toolbar.isTabActive('plugins')) {
+                                    me.macrosPlugin.show = true;
+                                    Common.UI.TooltipManager.addTips({
+                                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: me.helpUseMacros, header: me.helpUseMacrosHeader, target: me.macrosPlugin.el, automove: true},
+                                    });
+                                    Common.UI.TooltipManager.removeTip('grayTheme');
+                                }
+                            }
+                        }
                         return;
                     }
 
@@ -438,28 +466,29 @@ define([
                         rank = 1.5;
                         rank_plugins++;
                     }
-                    if (new_rank!==rank && rank>-1 && rank_plugins>0) {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group"></div>');
-                        rank_plugins = 0;
-                    } else {
-                        _group.appendTo(me.$toolbarPanelPlugins);
-                        $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
-                        _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
-                    }
 
                     var btn = me.viewPlugins.createPluginButton(model);
                     if (btn) {
+                        if (new_rank!==rank && rank>-1 && rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group"></div>');
+                            rank_plugins = 0;
+                        } else if (rank_plugins>0) {
+                            _group.appendTo(me.$toolbarPanelPlugins);
+                            $('<div class="separator long invisible"></div>').appendTo(me.$toolbarPanelPlugins);
+                            _group = $('<div class="group" style="' + (Common.UI.isRTL() ? 'padding-right: 0;' : 'padding-left: 0;') + '"></div>');
+                        }
+
                         var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
+                        rank = new_rank;
                     }
                     if (new_rank === 1 && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
                         isBackground = true;
                     }
-                    rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
                 if (me.backgroundPlugins.length > 0) {
@@ -644,6 +673,10 @@ define([
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
+            if (plugin.get_Guid() === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
+                Common.UI.TooltipManager.closeTip('useMacros');
+            }
+
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
@@ -751,6 +784,9 @@ define([
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
             this.runAutoStartPlugins();
+
+            Common.UI.LayoutManager.clearCustomMenuItems(guid); // remove custom menu items in toolbar
+            Common.UI.LayoutManager.clearCustomControls(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -908,6 +944,13 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
+                        if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
+                            item.tab = {
+                                "id": "view",
+                                "separator": true
+                            }
+                        }
+
                         var props = {
                             name : name,
                             guid: item.guid,
@@ -922,7 +965,7 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem,
-                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || '', separator: item.tab.separator} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                         if (fromManager && !updatedItem && props.isBackgroundPlugin) {
@@ -951,6 +994,9 @@ define([
                     });
                     pluginStore.reset(arr);
                     this.appOptions.canPlugins = !pluginStore.isEmpty();
+                    me.newInstalledBackgroundPlugins = _.filter(me.newInstalledBackgroundPlugins, function(item){
+                        return !!pluginStore.findWhere({guid: item.guid});
+                    })
                 }
             }
             else if (!uiCustomize){
@@ -1278,7 +1324,7 @@ define([
 
         onModalClose: function () {
             var plugins = this.newInstalledBackgroundPlugins;
-            if (plugins && plugins.length > 0) {
+            if (plugins && plugins.length > 0 && this.viewPlugins.backgroundBtn && this.viewPlugins.backgroundBtn.isVisible()) {
                 var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
                     Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
                 if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
@@ -1305,10 +1351,24 @@ define([
                 }, this);
                 this.backgroundPluginsTip.show();
             }
+            this.macrosPlugin.show && Common.UI.TooltipManager.showTip('moveMacros');
+            this.macrosPlugin.show = false;
         },
 
         onActiveTab: function (tab) {
-            (tab !== 'plugins') && this.closeBackPluginsTip();
+            if (tab === 'plugins') {
+                if (this.macrosPlugin.el) {
+                    Common.UI.TooltipManager.addTips({
+                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: this.helpUseMacros, header: this.helpUseMacrosHeader, target: this.macrosPlugin.el, automove: true},
+                    });
+                    Common.UI.TooltipManager.removeTip('grayTheme');
+                    this.macrosPlugin.el && Common.UI.TooltipManager.showTip('moveMacros');
+                }
+            } else {
+                this.closeBackPluginsTip();
+                Common.UI.TooltipManager.closeTip('moveMacros');
+            }
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('useMacros') : Common.UI.TooltipManager.closeTip('useMacros');
         },
 
         closeBackPluginsTip: function() {

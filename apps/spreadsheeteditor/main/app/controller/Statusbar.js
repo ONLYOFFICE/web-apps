@@ -315,7 +315,6 @@ define([
         onApiEditCell: function(state) {
             var disableAdd = (state == Asc.c_oAscCellEditorState.editFormula),
                 disable = (state != Asc.c_oAscCellEditorState.editEnd),
-                mask = $('.statusbar-mask'),
                 statusbar = this.statusbar;
 
             statusbar.isEditFormula = disableAdd;
@@ -326,14 +325,6 @@ define([
             statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
 
             statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
-
-            if (disableAdd && mask.length>0 || !disableAdd && mask.length==0) return;
-            statusbar.$el.find('.statusbar').toggleClass('masked', disableAdd);
-            if(disableAdd) {
-                mask = $("<div class='statusbar-mask'>").appendTo(statusbar.$el);
-            } else {
-                mask.remove();
-            }
         },
 
         createDelayedElements: function() {
@@ -604,6 +595,7 @@ define([
                 supportBooks: supportBooks,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
+                isOffline: me.statusbar.mode.isOffline,
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {

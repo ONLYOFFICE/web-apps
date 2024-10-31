@@ -203,13 +203,15 @@ define([
         SetDisabled: function(disable, options) {
             if (this.leftMenu._state.disabled !== disable) {
                 this.leftMenu._state.disabled = disable;
-                if (disable) {
-                    this.previsEdit = this.mode.isEdit;
-                    this.prevcanEdit = this.mode.canEdit;
-                    this.mode.isEdit = this.mode.canEdit = !disable;
-                } else {
-                    this.mode.isEdit = this.previsEdit;
-                    this.mode.canEdit = this.prevcanEdit;
+                if (this.mode) {
+                    if (disable) {
+                        this.previsEdit = this.mode.isEdit;
+                        this.prevcanEdit = this.mode.canEdit;
+                        this.mode.isEdit = this.mode.canEdit = !disable;
+                    } else {
+                        this.mode.isEdit = this.previsEdit;
+                        this.mode.canEdit = this.prevcanEdit;
+                    }
                 }
             }
 
@@ -517,6 +519,10 @@ define([
             value = Common.localStorage.getBool("sse-settings-r1c1");
             Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
             this.api.asc_setR1C1Mode(value);
+
+            value = Common.localStorage.getBool("sse-settings-smooth-scroll");
+            Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
+            this.api.asc_SetSmoothScrolling(value);
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {

@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "Preparando para salvar. Por favor, aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
+    "savingText": "Salvando",
     "sendMergeText": "Enviando mesclar...",
     "sendMergeTitle": "Enviando Mesclar",
     "textContinue": "Continuar",
@@ -779,7 +781,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -801,6 +802,7 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
+    "btnSend": "Enviar",
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",

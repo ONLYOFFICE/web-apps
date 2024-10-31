@@ -462,6 +462,7 @@
     "splitDividerErrorText": "El número de filas debe ser un divisor de %1",
     "splitMaxColsErrorText": "El número de columnas debe ser menor que %1",
     "splitMaxRowsErrorText": "El número de filas debe ser menor que %1",
+    "textOk": "OK",
     "unknownErrorText": "Error desconocido.",
     "uploadDocExtMessage": "Formato de documento desconocido.",
     "uploadDocFileCountMessage": "No se ha subido ningún documento.",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "Preparando para guardar. Espere por favor...",
     "saveTextText": "Guardando documento...",
     "saveTitleText": "Guardando documento",
+    "savingText": "Guardando",
     "sendMergeText": "Envío de los resultados de la fusión...",
     "sendMergeTitle": "Envío de los resultados de la fusión",
     "textContinue": "Continuar",
@@ -779,7 +781,6 @@
     "textSpellcheck": "Corrección ortográfica",
     "textStatistic": "Estadísticas",
     "textSubject": "Asunto",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -801,6 +802,7 @@
     "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
   },
   "Toolbar": {
+    "btnSend": "Enviar",
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",

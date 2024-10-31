@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -506,7 +507,8 @@
     "txtEditingMode": "Подеси режим уређивања...",
     "uploadImageTextText": "Отпремљивање слике...",
     "uploadImageTitleText": "Отпремљивање слике",
-    "waitText": "Молимо, сачекајте..."
+    "waitText": "Молимо, сачекајте...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Грешка",
@@ -779,7 +781,6 @@
     "textSpellcheck": "Провера правописа",
     "textStatistic": "Статистика",
     "textSubject": "Субјекат",
-    "textSubmit": "Поднеси",
     "textSymbols": "Симболи",
     "textTheme": "Тема",
     "textTitle": "Наслов",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
-    "textSwitchedStandardView": "Пребачено на стандардни приказ"
+    "textSwitchedStandardView": "Пребачено на стандардни приказ",
+    "btnSend": "Send"
   }
 }

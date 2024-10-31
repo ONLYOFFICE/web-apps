@@ -337,6 +337,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
+                    action: 'change-case',
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
@@ -460,6 +461,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-horizontal',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -505,6 +507,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-vertical',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -550,6 +553,7 @@ define([
                             {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                         ]
                     }),
+                    action: 'line-space',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -593,6 +597,7 @@ define([
                             {caption: this.textColumnsCustom, value: 'advanced'}
                         ]
                     }),
+                    action: 'insert-columns',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -674,6 +679,7 @@ define([
                             this.mniAlignObjects
                         ]
                     }),
+                    action: 'object-align',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -721,6 +727,7 @@ define([
                             // })
                         ]
                     }),
+                    action: 'object-arrange',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -756,9 +763,10 @@ define([
                             {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
                         ]
                     }),
+                    action: 'rotate-page',
                 });
                 arr.push(this.btnRotatePage);
-
+                Common.UI.LayoutManager.addControls(arr);
                 return arr;
             },
 
@@ -778,8 +786,8 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
@@ -813,6 +821,7 @@ define([
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
+                        action: 'insert-text-comment',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -1156,6 +1165,7 @@ define([
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls).concat(me.shapeControls);
+                    Common.UI.LayoutManager.addControls(this.lockControls);
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
@@ -1204,6 +1214,7 @@ define([
                     this.showSynchTip = !Common.localStorage.getBool("pdfe-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
+                    Common.NotificationCenter.on('desktop:window', _.bind(this.onDesktopWindow, this));
                 }
                 (mode.isEdit || mode.isRestrictedEdit) && me.setTab('home');
 
@@ -1218,7 +1229,7 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
-                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+                if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -1374,6 +1385,7 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                me._isDocReady = true;
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -1686,7 +1698,7 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
-                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit) || Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")) return;
 
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {
@@ -1708,6 +1720,7 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
+                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {
@@ -1739,7 +1752,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -1765,6 +1778,11 @@ define([
                 }
             },
 
+            onDesktopWindow: function() {
+                if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                    this.synchTooltip.show(); // change position for visible tip
+                }
+            },
             /** coauthoring end **/
 
             lockToolbar: function (causes, lock, opts) {

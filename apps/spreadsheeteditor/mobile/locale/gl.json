@@ -40,6 +40,12 @@
       "textStandartColors": "Cores estándar",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "system": "Igual que o sistema",
+      "dark": "Dark",
+      "light": "Light",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anónimo",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -367,7 +367,10 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "errorProtectedRange": "This range is not allowed for editing.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Contrasinal",
@@ -788,6 +791,7 @@
       "textRestartApplication": "Reinicie o aplicativo para que os cambios teñan efecto",
       "textRight": "Á dereita",
       "textRightToLeft": "Da dereita á esquerda",
+      "textSameAsSystem": "Igual que o sistema",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -857,7 +861,6 @@
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
   }

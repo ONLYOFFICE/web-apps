@@ -21,7 +21,7 @@
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
 
-                span {
+                div {
                     display: block;
                     height: 100%;
 
@@ -45,7 +45,7 @@
                         background-size: auto 14px;
                     }
 
-                    .pixel-ratio__2 & {
+                    .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                         mask-image: data-uri('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMyIgaGVpZ2h0PSI3IiB2aWV3Qm94PSIwIDAgMTMgNyI+DQogICAgPHBhdGggZD0iTTAsNWwwLTNoMXYzSDB6IE0yLDVWMmgxdjNIMnogTTQsNVYyaDF2M0g0eiBNNiw1VjJoMXYzSDZ6IE04LDVWMmgxdjNIOHogTTEwLDVWMmgxdjNIMTB6IE0xMiw1VjJoMXYzSDEyeiIvPg0KPC9zdmc+DQo=');
                         background-color: @canvas-scroll-arrow;
 
@@ -66,16 +66,18 @@
             }
         }
 
-        &:hover,
-        .hover {
+        &:hover, .hover {
+            background-color: @background-toolbar-additional-ie;
+            background-color: @background-toolbar-additional;
+
             .ps-scrollbar-x {
                 &.always-visible-x {
                     background-color: @canvas-scroll-thumb-hover-ie;
                     background-color: @canvas-scroll-thumb-hover;
                     background-position: center -7px;
 
-                    span {
-                        .pixel-ratio__2 & {
+                    div {
+                        .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
                     }
@@ -84,6 +86,9 @@
         }
 
         &.in-scrolling {
+            background-color: @background-toolbar-additional-ie;
+            background-color: @background-toolbar-additional;
+
             .ps-scrollbar-x {
                 &.always-visible-x {
                     background-color: @canvas-scroll-thumb-hover-ie;
@@ -92,8 +97,8 @@
                     border-color: @canvas-scroll-thumb-border-hover;
                     background-position: center -7px;
 
-                    span {
-                        .pixel-ratio__2 & {
+                    div {
+                        .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
                     }
@@ -124,7 +129,7 @@
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
 
-                span {
+                div {
                     display: block;
                     height: 100%;
 
@@ -149,7 +154,7 @@
                         background-position: @scaled-one-px-value center;
                     }
 
-                    .pixel-ratio__2 & {
+                    .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                         mask-image: data-uri('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDcgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8cGF0aCBkPSJNMiAwaDN2MUgyem0wIDJoM3YxSDJ6bTAgMmgzdjFIMnptMCAyaDN2MUgyem0wIDJoM3YxSDJ6bTAgMmgzdjFIMnptMCAyaDN2MUgyeiIgZmlsbD0iY3VycmVudENvbG9yIi8+Cjwvc3ZnPgo=');
                         background-color: @canvas-scroll-arrow;
 
@@ -179,8 +184,8 @@
                     background-color: @canvas-scroll-thumb-hover-ie;
                     background-color: @canvas-scroll-thumb-hover;
 
-                    span {
-                        .pixel-ratio__2 & {
+                    div {
+                        .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
                     }
@@ -199,8 +204,8 @@
                     border-color: @canvas-scroll-thumb-border-hover-ie;
                     border-color: @canvas-scroll-thumb-border-hover;
 
-                    span {
-                        .pixel-ratio__2 & {
+                    div {
+                        .pixel-ratio__2 &, .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
                     }

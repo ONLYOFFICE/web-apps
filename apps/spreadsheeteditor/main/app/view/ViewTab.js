@@ -125,7 +125,7 @@ define([
                 });
             }
 
-            me.btnFreezePanes && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
+            me.btnFreezePanes && me.btnFreezePanes.menu && (typeof me.btnFreezePanes.menu === 'object') && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
                 if (item.value === 'shadow') {
                     me.fireEvent('viewtab:freezeshadow', [item.checked]);
                 } else {
@@ -194,6 +194,7 @@ define([
                         caption: me.capBtnSheetView,
                         lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                         menu: true,
+                        action: 'sheet-view',
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -231,6 +232,7 @@ define([
                         iconCls: 'toolbar__icon btn-freeze-panes',
                         caption: this.capBtnFreeze,
                         menu: true,
+                        action: 'freeze-panes',
                         lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -323,7 +325,8 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    action: 'interface-theme'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
@@ -374,7 +377,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLeftMenu);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -496,7 +499,7 @@ define([
                         function _add_tab_styles() {
                             let btn = me.btnInterfaceTheme;
                             if ( typeof(btn.menu) === 'object' )
-                                btn.menu.addItem({caption: '--'});
+                                btn.menu.addItem({caption: '--'}, true);
                             else
                                 btn.setMenu(new Common.UI.Menu());
                             let mni = new Common.UI.MenuItem({
@@ -516,17 +519,18 @@ define([
                             mni.menu.on('item:click', _.bind(function (menu, item) {
                                 Common.UI.TabStyler.setStyle(item.value);
                             }, me));
-                            btn.menu.addItem(mni);
+                            btn.menu.addItem(mni, true);
                             me.menuTabStyle = mni.menu;
                         }
                         function _fill_themes() {
                             let btn = this.btnInterfaceTheme;
-                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll(true);
                             else btn.setMenu(new Common.UI.Menu());
 
-                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                                idx = 0;
                             for (var t in Common.UI.Themes.map()) {
-                                btn.menu.addItem({
+                                btn.menu.insertItem(idx++, {
                                     value: t,
                                     caption: Common.UI.Themes.get(t).text,
                                     checked: t === currentTheme,
@@ -540,7 +544,10 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
-                        if (me.btnInterfaceTheme.menu.items.length) {
+                        me.btnInterfaceTheme.menu && me.btnInterfaceTheme.menu.on('show:after', function() {
+                            Common.UI.TooltipManager.closeTip('grayTheme');
+                        });
+                        if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);

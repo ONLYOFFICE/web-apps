@@ -90,6 +90,7 @@
                                 '--toolbar-header-presentation: #1e1e1e; --toolbar-header-pdf: #1e1e1e;}');
 
     let objtheme = window.uitheme.colors ? window.uitheme : localstorage.getItem("ui-theme");
+    const header_tokens = ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf'];
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
                 objtheme.indexOf("}", objtheme.length - 1) !== -1 )
@@ -108,8 +109,7 @@
                 }
 
                 if ( objtheme.colors ) {
-                    ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
-                        .forEach(function (i) {
+                    header_tokens.forEach(function (i) {
                             !!objtheme.colors[i] && document.documentElement.style.setProperty('--' + i, objtheme.colors[i]);
                         });
 
@@ -121,6 +121,12 @@
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
             }
+        }
+    } else {
+        if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
+            header_tokens.forEach(function (i) {
+                !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
+            });
         }
     }
 }();

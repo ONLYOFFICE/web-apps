@@ -636,7 +636,7 @@ define([
                 }
             },
 
-            addCustomItems: function(tab, added, removed) {
+            addCustomControls: function(tab, added, removed) {
                 if (!tab.action) return;
 
                 var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,

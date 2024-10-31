@@ -367,7 +367,10 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Συνθηματικό",
@@ -388,7 +391,7 @@
     "loadImageTextText": "Φόρτωση εικόνας...",
     "loadImageTitleText": "Φόρτωση Εικόνας",
     "loadingDocumentTextText": "Φόρτωση εγγράφου...",
-    "loadingDocumentTitleText": "Φόρτωση εγγράφου",
+    "loadingDocumentTitleText": "Γίνεται φόρτωση",
     "notcriticalErrorTitle": "Προειδοποίηση",
     "openTextText": "Άνοιγμα εγγράφου...",
     "openTitleText": "Άνοιγμα εγγράφου",
@@ -401,7 +404,7 @@
     "textCancel": "Ακύρωση",
     "textContinue": "Συνέχεια",
     "textErrorWrongPassword": "Το συνθηματικό που βάλατε δεν είναι σωστό.",
-    "textLoadingDocument": "Φόρτωση εγγράφου",
+    "textLoadingDocument": "Γίνεται φόρτωση",
     "textNo": "Όχι",
     "textOk": "Εντάξει",
     "textUndo": "Αναίρεση",
