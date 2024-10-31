@@ -287,6 +287,8 @@ define([
                 '<% } else if (iconCls) { %>',
                     '<% if (/btn-[^\\s]+/.test(iconCls)) { %>',
                         '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
+                    '<% } else if (/svg-[^\\s]+/.test(iconCls)) { %>',
+                        '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /svg-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
                     '<% } else { %>',
                         '<i class="icon <% iconCls %>"></i>',
                     '<% } %>',
@@ -993,7 +995,7 @@ define([
 
                 const $el = this.$el.is('button') ? this.$el : this.$el.find('button:first');
                 if (ratio > 1 && ratio < 2) {
-                    if (!$el.find('i.icon').length) {
+                    if (!$el.find('i.icon').length && !this.options.iconCls.includes('svgicon')) {
                         $el.find('svg.icon').after(`<i class="icon ${this.iconCls}">&nbsp;</i>`);
                     }
                 }

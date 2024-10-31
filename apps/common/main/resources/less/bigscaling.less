@@ -58,15 +58,21 @@
 .btn-options,
 .dataview,
 .label-cmp {
-    .pixel-ratio__1_25 &, .pixel-ratio__1_5 &, .pixel-ratio__1_75 & {
-        svg.icon {
-            display: none;
-        }
-    }
-
     body:not(.pixel-ratio__1_25, .pixel-ratio__1_5, .pixel-ratio__1_75) & {
         i.icon {
             &:not(.scaling-off) {
+                display: none;
+            }
+        }
+    }
+
+    .pixel-ratio__1_25 &, .pixel-ratio__1_5 &, .pixel-ratio__1_75 & {
+        svg.icon:not(.permanent-icon) {
+            display: none;
+        }
+
+        &:has(svg.permanent-icon) {
+            i.icon {
                 display: none;
             }
         }
