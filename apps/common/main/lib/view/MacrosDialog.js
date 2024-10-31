@@ -651,6 +651,7 @@ define([], function () {
         close: function(suppressevent) {
             var $window = this.getChild();
             if (!$window.find('.combobox.open').length) {
+                this.codeEditor.destroy();
                 Common.UI.Window.prototype.close.call(this, arguments);
             }
         },

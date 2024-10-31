@@ -1827,6 +1827,7 @@ ace.define("ace/tern/tern_server",["require","exports","module","ace/range","ace
         this.lastAutoCompleteFireTime = null;
         this.queryTimeout = 3000;
         if (this.options.queryTimeout && !isNaN(parseInt(this.options.queryTimeout))) this.queryTimeout = parseInt(this.options.queryTimeout);
+        popupSelectBound = false;
     };
     var Pos = function (line, ch) {
         return {
