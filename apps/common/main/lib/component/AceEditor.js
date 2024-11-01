@@ -65,6 +65,9 @@ define([], function () {
             this._eventfunc = function(msg) {
                 me._onMessage(msg);
             };
+            this._updatebind = function() {
+                me.updateTheme();
+            };
             this._bindWindowEvents.call(this);
         },
 
@@ -74,6 +77,7 @@ define([], function () {
             } else if (window.attachEvent) {
                 window.attachEvent("onmessage", this._eventfunc);
             }
+            Common.NotificationCenter.on('uitheme:changed', this._updatebind);
         },
 
         _unbindWindowEvents: function() {
@@ -82,6 +86,7 @@ define([], function () {
             } else if (window.detachEvent) {
                 window.detachEvent("onmessage", this._eventfunc);
             }
+            Common.NotificationCenter.off('uitheme:changed', this._updatebind);
         },
 
         _postMessage: function(wnd, msg) {

@@ -137,6 +137,18 @@ var onThemeChanged = function(data) {
 
     if (!data.colors) return;
 
+    let styles = document.querySelectorAll("style"),
+        i = 0;
+    if (styles) {
+        while (i < styles.length) {
+            if (styles[i].id === 'ace-chrome') {
+                styles[i].parentNode.removeChild(styles[i]);
+                break;
+            }
+            i++;
+        }
+    }
+
     var theme_type = data.type || 'light',
         colors = data.colors;
     if ( !!colors ) {

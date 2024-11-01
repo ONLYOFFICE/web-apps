@@ -264,7 +264,9 @@ define([], function () {
             this.codeEditor.on('ready', function() {
                 me.codeEditor.updateTheme();
                 me.codeEditor.setValue(me._state.currentValue);
-                me.$window.find('#code-editor').removeClass('invisible');
+                setTimeout(function() {
+                    me.$window.find('#code-editor').removeClass('invisible');
+                }, 10);
                 // me.loadMask.hide();
             });
             this.codeEditor.on('change', function(value) {
