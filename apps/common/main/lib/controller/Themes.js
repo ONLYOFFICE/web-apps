@@ -575,6 +575,14 @@ define([
 
             toggleTheme: function () {
                 this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
+            },
+
+            getThemeColors: function() {
+                const theme_id = window.uitheme.relevant_theme_id();
+                const obj = get_current_theme_colors();
+                obj.type = themes_map[theme_id].type;
+                obj.name = theme_id;
+                return obj;
             }
         }
     })(Common.UI.Themes);

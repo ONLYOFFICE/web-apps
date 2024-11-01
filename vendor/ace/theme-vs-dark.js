@@ -111,7 +111,7 @@ color: #4FC1FF;\
 color : #C586C0; \
 }\
 .ace_gutter-active-line {\
-background : #303030 !important\
+background-color: #303030 !important\
 }\
 .ace-chrome .ace_string.ace_regex, \
 .ace-chrome .ace_string {\

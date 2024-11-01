@@ -134,44 +134,56 @@ var _postMessage = function(msg) {
         window.isDisable = false;
     };
 
-    var onThemeChanged = function(data) {
-        try {
-            data = window.JSON.parse(data)
-        } catch(e) {
-            data = {};
-        }
-
-        if (!data.colors) return;
+    var onThemeChanged = function(colors) {
+        if (!colors) return;
 
         let styles = document.querySelectorAll("style"),
             i = 0;
         if (styles) {
             while (i < styles.length) {
-                if (styles[i].id === 'ace-chrome') {
+                if (styles[i].id === 'ace-chrome' || styles[i].id === 'ace-custom-theme') {
                     styles[i].parentNode.removeChild(styles[i]);
-                    break;
                 }
                 i++;
             }
         }
 
-        var theme_type = data.type || 'light',
-            colors = data.colors;
-        if ( !!colors ) {
-            var _css_array = [':root ', '{'];
-            for (var c in colors) {
-                _css_array.push('--', c, ':', colors[c], ';');
-            }
-            _css_array.push('}');
-            var _css = _css_array.join('');
+        var _css = '';
+        if (colors['text-normal'])
+            _css += '.ace_content, .ace_layer.ace_gutter-layer.ace_folding-enabled, .ace_cursor, .Ace-Tern-tooltip, .Ace-Tern-jsdoc-param-description { color: ' + colors['text-normal'] + ' !important; }';
 
+        if (colors['icon-normal'])
+            _css += '.Ace-Tern-tooltip .Ace-Tern-tooltip-boxclose { color: ' + colors['icon-normal'] + ' !important; }';
+
+        if (colors['background-normal']) {
+            _css += '.ace_content, .ace_gutter, .gutter_bg { background: ' + colors['background-normal'] + ' !important; }';
+            _css += '.ace_active-line, .ace_gutter-active-line, .ace_gutter-active-line-bg { background-color: ' + colors['background-normal'] + ' !important; }';
+        }
+
+        if (colors['background-toolbar'])
+            _css += '.Ace-Tern-tooltip, .Ace-Tern-jsdoc-param-description { background-color: ' + colors['background-toolbar'] + ' !important; }';
+
+        if (colors['highlight-button-hover'])
+        _css += '.ace_line-hover, .ace_autocomplete .ace_active-line { background-color: ' + colors['highlight-button-hover'] + ' !important; }';
+
+        if (colors['canvas-background'])
+        _css += '.ace_active-line, .ace_gutter-active-line, .ace_gutter-active-line-bg { border-color: ' + colors['canvas-background'] + ' !important; }';
+
+        if (colors['border-divider'])
+        _css += '.Ace-Tern-tooltip { border-color: ' + colors['border-divider'] + ' !important; }';
+
+        if (colors['canvas-scroll-thumb-pressed'] && colors['canvas-scroll-thumb'])
+        _css += '.ace_autocomplete { scrollbar-color: ' + colors['canvas-scroll-thumb-pressed'] + ' ' + colors['canvas-scroll-thumb'] + ' !important; }';
+
+        if (_css) {
             var style = document.createElement('style');
+            style.id = 'ace-custom-theme';
             style.type = 'text/css';
             style.innerHTML = _css;
             document.getElementsByTagName('head')[0].appendChild(style);
         }
 
-        if (theme_type === 'dark')
+        if (colors.type === 'dark')
             editor.setTheme("ace/theme/vs-dark");
         else
             editor.setTheme("ace/theme/vs-light");

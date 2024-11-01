@@ -138,7 +138,7 @@ define([], function () {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'setTheme',
                 referer: 'ace-editor',
-                data: Common.localStorage.getItem('ui-theme')
+                data: Common.UI.Themes.getThemeColors()
             });
         },
 
