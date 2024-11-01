@@ -44,7 +44,7 @@ define([], function () {
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
         template:
-            '<div class="content invisible">' +
+            '<div class="content">' +
                 '<div class="common_menu noselect">' +
                     '<div id="menu_macros" class="menu_macros_long" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
                         '<div class="menu_header">' +
@@ -66,7 +66,7 @@ define([], function () {
                     '</div>' +
                 '</div>' +
                 '<div class="separator vertical" style="position: relative"></div>' +
-                '<div id="code-editor"></div>' +
+                '<div id="code-editor" class="invisible"></div>' +
             '</div>'+
             '<div class="separator horizontal" style="position: relative"></div>',
 
@@ -105,8 +105,8 @@ define([], function () {
                 isFunctionsSupport: !!window.SSE,
                 macrosItemMenuOpen: null,
                 functionItemMenuOpen: null,
-                isDisable: false,
-                currentElementMode: this.CurrentElementModeType.Macros
+                currentElementMode: this.CurrentElementModeType.Macros,
+                currentValue: ''
             };
 
             _options.tpl = _.template(this.template)({
@@ -137,23 +137,12 @@ define([], function () {
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            // this.loadMask = new Common.UI.LoadMask({owner: this.$window.find('.body')[0]});
+            // this.loadMask.setTitle(this.textLoading);
+            // this.loadMask.show();
 
-            this.loadMask = new Common.UI.LoadMask({owner: this.$window.find('.body')[0]});
-            this.loadMask.setTitle(this.textLoading);
-            this.loadMask.show();
-            require(['../vendor/ace/ace'], function(ace) {
-                require(['../vendor/ace/ext-language_tools'], function() {
-                    me.createCodeEditor();
-                });
-            });
-        },
-
-        onAceLoadModule: function() {
-            if( _.values(this._state.aceLoadedModules).every(function(val) { return val })) {
-                this.renderAfterAceLoaded();
-                this.loadMask.hide();
-                this.$window.find('.content').removeClass('invisible');
-            }
+            me.createCodeEditor();
+            me.renderAfterAceLoaded();
         },
 
         renderAfterAceLoaded: function() {
@@ -270,94 +259,19 @@ define([], function () {
 
         createCodeEditor: function() {
             var me = this;
-            function onInitServer(type){
-                if (type === (me._state.initCounter & type))
-                    return;
-                me._state.initCounter |= type;
-                if (me._state.initCounter === 3) {
-                    var nameDocEditor = 'word';
-                    if(!!window.SSE) nameDocEditor = 'cell';
-                    else if(!!window.PE) nameDocEditor = 'slide';
-                    loadLibrary("onlyoffice", "../../../vendor/ace/libs/" + nameDocEditor + "/api.js");
-                }
-            }
 
-            function loadLibrary(name, url) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.onreadystatechange = function()
-                {
-                    if (xhr.readyState == 4)
-                    {
-                        var EditSession = ace.require("ace/edit_session").EditSession;
-                        var editDoc = new EditSession(xhr.responseText, "ace/mode/javascript");
-                        me.codeEditor.ternServer.addDoc(name, editDoc);
-                    }
-                };
-                xhr.send();
-            }
-
-            this.codeEditor = ace.edit("code-editor");
-            this.codeEditor.session.setMode("ace/mode/javascript");
-            this.codeEditor.container.style.lineHeight = "20px";
-            this.codeEditor.setValue("");
-
-            this.codeEditor.getSession().setUseWrapMode(true);
-            this.codeEditor.getSession().setWrapLimitRange(null, null);
-            this.codeEditor.setShowPrintMargin(false);
-            this.codeEditor.$blockScrolling = Infinity;
-            this.codeEditor.setTheme(Common.UI.Themes.isDarkTheme() ? "ace/theme/vs-dark" : "ace/theme/vs-light");
-
-            onInitServer(2);
-
-            ace.config.loadModule('ace/ext/tern', function () {
-                me._state.aceLoadedModules.tern = true;
-                me.onAceLoadModule();
-                me.codeEditor.setOptions({
-                    enableTern: {
-                        defs: ['browser', 'ecma5'],
-                        plugins: { doc_comment: { fullDocs: true } },
-                        useWorker: !!window.Worker,
-                        switchToDoc: function (name, start) {},
-                        startedCb: function () {
-                            onInitServer(1);
-                        },
-                    },
-                    enableSnippets: false,
-                    tooltipContainer: '#code-editor'
-                });
+            this.codeEditor = new Common.UI.AceEditor({parentEl: '#code-editor'});
+            this.codeEditor.on('ready', function() {
+                me.codeEditor.updateTheme();
+                me.codeEditor.setValue(me._state.currentValue);
+                me.$window.find('#code-editor').removeClass('invisible');
+                // me.loadMask.hide();
             });
-
-
-            if (!window.isIE) {
-                ace.config.loadModule('ace/ext/language_tools', function () {
-                    me._state.aceLoadedModules.langTools = true;
-                    me.onAceLoadModule();
-                    me.codeEditor.setOptions({
-                        enableBasicAutocompletion: false,
-                        enableLiveAutocompletion: true
-                    });
-                });
-            }
-
-            ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
-                me._state.aceLoadedModules.htmlBeautify = true;
-                me.onAceLoadModule();
-                me.codeEditor.setOptions({
-                    autoBeautify: true,
-                    htmlBeautify: true,
-                });
-                window.beautifyOptions = beautify.options;
-            });
-
-            this.codeEditor.getSession().on('change', function() {
+            this.codeEditor.on('change', function(value) {
                 var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
                     ? me.listMacros.getSelectedRec()
                     : me.listFunctions.getSelectedRec();
-                if(!selectedItem || me._state.isDisable) {
-                    return;
-                }
-                selectedItem.set('value', me.codeEditor.getValue());
+                selectedItem && selectedItem.set('value', value);
             });
         },
 
@@ -649,11 +563,8 @@ define([], function () {
         },
 
         close: function(suppressevent) {
-            var $window = this.getChild();
-            if (!$window.find('.combobox.open').length) {
-                this.codeEditor.destroy();
-                Common.UI.Window.prototype.close.call(this, arguments);
-            }
+            this.codeEditor.destroyEditor();
+            Common.UI.Window.prototype.close.call(this, arguments);
         },
         _handleInput: function(state) {
             if (this.options.handler) {
@@ -738,17 +649,10 @@ define([], function () {
         },
         onSelectListMacrosItem: function(listView, itemView, record) {
             this._state.currentElementMode = this.CurrentElementModeType.Macros;
-            this._state.isDisable = true;
             this.codeEditor.setValue(record.get('value'));
-            this.codeEditor.setReadOnly(false);
-            this._state.isDisable = false;
-
-            this.codeEditor.focus();
-            this.codeEditor.selection.clearSelection();
-            this.codeEditor.scrollToRow(0);
+            this._state.currentValue = record.get('value');
 
             this.btnMacrosRun.setDisabled(false);
-
             this.listFunctions && this.listFunctions.deselectAll();
         },
         onRunMacros: function() {
@@ -788,7 +692,6 @@ define([], function () {
                 list.selectByIndex(selectedIndex);
             } else {
                 this.codeEditor.setValue('');
-                this.codeEditor.setReadOnly(true);
                 this.btnMacrosRun.setDisabled(true);
             }
         },
@@ -861,14 +764,7 @@ define([], function () {
         },
         onSelectListFunctionItem: function(listView, itemView, record) {
             this._state.currentElementMode = this.CurrentElementModeType.CustomFunction;
-            this._state.isDisable = true;
             this.codeEditor.setValue(record.get('value'));
-            this.codeEditor.setReadOnly(false);
-            this._state.isDisable = false;
-
-            this.codeEditor.focus();
-            this.codeEditor.selection.clearSelection();
-            this.codeEditor.scrollToRow(0);
 
             this.btnMacrosRun.setDisabled(true);
 

@@ -224,6 +224,7 @@ require([
                     'common/main/lib/util/define',
                     'common/main/lib/view/DocumentPropertyDialog',
                     'common/main/lib/view/MacrosDialog',
+                    'common/main/lib/component/AceEditor',
 
                     'documenteditor/main/app/view/FileMenuPanels',
                     'documenteditor/main/app/view/DocumentHolderExt',
