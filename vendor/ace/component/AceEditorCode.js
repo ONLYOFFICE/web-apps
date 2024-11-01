@@ -105,103 +105,106 @@ ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
     window.beautifyOptions = beautify.options;
 });
 
-editor.getSession().on('change', function() {
-    if (window.isDisable) return;
-    _postMessage({
-        command: 'changeValue',
-        data: editor.getValue(),
-        referer: 'ace-editor'
-    });
-});
-
-on_init_server(2);
-
-var editorSetValue = function(data) {
-    window.isDisable = true;
-    editor.setValue(data.value || '');
-    editor.setReadOnly(!!data.readonly);
-    if (!data.readonly) {
-        editor.focus();
-        editor.selection.clearSelection();
-        editor.scrollToRow(0);
-    }
-    window.isDisable = false;
-};
-
-var onThemeChanged = function(data) {
-    try {
-        data = window.JSON.parse(data)
-    } catch(e) {
-        data = {};
-    }
-
-    if (!data.colors) return;
-
-    let styles = document.querySelectorAll("style"),
-        i = 0;
-    if (styles) {
-        while (i < styles.length) {
-            if (styles[i].id === 'ace-chrome') {
-                styles[i].parentNode.removeChild(styles[i]);
-                break;
-            }
-            i++;
-        }
-    }
-
-    var theme_type = data.type || 'light',
-        colors = data.colors;
-    if ( !!colors ) {
-        var _css_array = [':root ', '{'];
-        for (var c in colors) {
-            _css_array.push('--', c, ':', colors[c], ';');
-        }
-        _css_array.push('}');
-        var _css = _css_array.join('');
-
-        var style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = _css;
-        document.getElementsByTagName('head')[0].appendChild(style);
-    }
-
-    if (theme_type === 'dark')
-        editor.setTheme("ace/theme/vs-dark");
-    else
-        editor.setTheme("ace/theme/vs-light");
-
-};
-
 var _postMessage = function(msg) {
     window.parent && window.JSON && window.parent.postMessage(window.JSON.stringify(msg), "*");
 };
 
-var _onMessage = function(msg) {
-    var data = msg.data;
-    if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
-        return;
-    }
-    var cmd, handler;
+(function (window, undefined) {
 
-    try {
-        cmd = window.JSON.parse(data)
-    } catch(e) {
-        cmd = '';
-    }
+    editor.getSession().on('change', function() {
+        if (window.isDisable) return;
+        _postMessage({
+            command: 'changeValue',
+            data: editor.getValue(),
+            referer: 'ace-editor'
+        });
+    });
 
-    if (cmd && cmd.referer == "ace-editor") {
-        if (cmd.command==='setValue') {
-            editorSetValue(cmd.data);
-        } else if (cmd.command==='setTheme') {
-            onThemeChanged(cmd.data);
+    on_init_server(2);
+
+    var editorSetValue = function(data) {
+        window.isDisable = true;
+        editor.setValue(data.value || '');
+        editor.setReadOnly(!!data.readonly);
+        if (!data.readonly) {
+            editor.focus();
+            editor.selection.clearSelection();
+            editor.scrollToRow(0);
         }
+        window.isDisable = false;
+    };
+
+    var onThemeChanged = function(data) {
+        try {
+            data = window.JSON.parse(data)
+        } catch(e) {
+            data = {};
+        }
+
+        if (!data.colors) return;
+
+        let styles = document.querySelectorAll("style"),
+            i = 0;
+        if (styles) {
+            while (i < styles.length) {
+                if (styles[i].id === 'ace-chrome') {
+                    styles[i].parentNode.removeChild(styles[i]);
+                    break;
+                }
+                i++;
+            }
+        }
+
+        var theme_type = data.type || 'light',
+            colors = data.colors;
+        if ( !!colors ) {
+            var _css_array = [':root ', '{'];
+            for (var c in colors) {
+                _css_array.push('--', c, ':', colors[c], ';');
+            }
+            _css_array.push('}');
+            var _css = _css_array.join('');
+
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = _css;
+            document.getElementsByTagName('head')[0].appendChild(style);
+        }
+
+        if (theme_type === 'dark')
+            editor.setTheme("ace/theme/vs-dark");
+        else
+            editor.setTheme("ace/theme/vs-light");
+
+    };
+
+    var _onMessage = function(msg) {
+        var data = msg.data;
+        if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
+            return;
+        }
+        var cmd, handler;
+
+        try {
+            cmd = window.JSON.parse(data)
+        } catch(e) {
+            cmd = '';
+        }
+
+        if (cmd && cmd.referer == "ace-editor") {
+            if (cmd.command==='setValue') {
+                editorSetValue(cmd.data);
+            } else if (cmd.command==='setTheme') {
+                onThemeChanged(cmd.data);
+            }
+        }
+    };
+
+    var fn = function(e) { _onMessage(e); };
+
+    if (window.attachEvent) {
+        window.attachEvent('onmessage', fn);
+    } else {
+        window.addEventListener('message', fn, false);
     }
-};
-
-var fn = function(e) { _onMessage(e); };
-
-if (window.attachEvent) {
-    window.attachEvent('onmessage', fn);
-} else {
-    window.addEventListener('message', fn, false);
-}
+})(window, undefined);
