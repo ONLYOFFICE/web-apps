@@ -96,11 +96,6 @@ define([], function () {
                 Macros 			: 1
             };
             this._state = {
-                aceLoadedModules: {
-                    tern: false,
-                    langTools: window.isIE,
-                    htmlBeautify: false,
-                },
                 initCounter: 0,
                 isFunctionsSupport: !!window.SSE,
                 macrosItemMenuOpen: null,
@@ -143,13 +138,16 @@ define([], function () {
             this.loadMask.show();
             require(['../vendor/ace/ace'], function(ace) {
                 require(['../vendor/ace/ext-language_tools'], function() {
-                    me.createCodeEditor();
+                    me.isVisible() && me.createCodeEditor();
                 });
             });
         },
 
         onAceLoadModule: function() {
-            if( _.values(this._state.aceLoadedModules).every(function(val) { return val })) {
+            var isAllLoaded =  _.values(ace.config.loadedModules).every(function(module) { 
+                return module.isLoaded 
+            });
+            if(isAllLoaded && this.isVisible()) {
                 this.renderAfterAceLoaded();
                 this.loadMask.hide();
                 this.$window.find('.content').removeClass('invisible');
@@ -270,32 +268,82 @@ define([], function () {
 
         createCodeEditor: function() {
             var me = this;
-            function onInitServer(type){
-                if (type === (me._state.initCounter & type))
-                    return;
-                me._state.initCounter |= type;
-                if (me._state.initCounter === 3) {
-                    var nameDocEditor = 'word';
-                    if(!!window.SSE) nameDocEditor = 'cell';
-                    else if(!!window.PE) nameDocEditor = 'slide';
-                    loadLibrary("onlyoffice", "../../../vendor/ace/libs/" + nameDocEditor + "/api.js");
-                }
-            }
+            var loadModules = {
+                tern: {
+                    name: 'ace/ext/tern',
+                    workInIE: true,
+                    handler: function() {
+                        me.codeEditor.setOptions({
+                            enableTern: {
+                                defs: ['browser', 'ecma5'],
+                                plugins: { doc_comment: { fullDocs: true } },
+                                useWorker: !!window.Worker,
+                                switchToDoc: function (name, start) {},
+                                startedCb: function() {
+                                    function loadLibrary() {
+                                        return new Promise((resolve, reject) => {
+                                            if (ace.config.loadedModules.tern.libraryText) {
+                                                resolve();
+                                            } else {
+                                                var nameDocEditor = 'word';
+                                                if (window.SSE) nameDocEditor = 'cell';
+                                                else if (window.PE) nameDocEditor = 'slide';
+                                    
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.open("GET", "../../../vendor/ace/libs/" + nameDocEditor + "/api.js", true);
+                                                xhr.send();
 
-            function loadLibrary(name, url) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.onreadystatechange = function()
-                {
-                    if (xhr.readyState == 4)
-                    {
-                        var EditSession = ace.require("ace/edit_session").EditSession;
-                        var editDoc = new EditSession(xhr.responseText, "ace/mode/javascript");
-                        me.codeEditor.ternServer.addDoc(name, editDoc);
+                                                xhr.onreadystatechange = function() {
+                                                    if (xhr.readyState === 4) {
+                                                        if (xhr.status === 200) {
+                                                            ace.config.loadedModules.tern.libraryText = xhr.responseText;
+                                                            resolve();
+                                                        } else {
+                                                            reject(new Error('Failed to load library with status ' + xhr.status));
+                                                        }
+                                                    }
+                                                };
+                                            }
+                                        });
+                                    }
+
+                                    loadLibrary().then(function() {
+                                        if(!me.isVisible()) return;
+                                        
+                                        var EditSession = ace.require("ace/edit_session").EditSession;
+                                        var sessionDoc = new EditSession(ace.config.loadedModules.tern.libraryText, "ace/mode/javascript");
+                                        me.codeEditor.ternServer.addDoc('onlyoffice', sessionDoc);
+                                    }).catch(function(error) {
+                                        console.error('Error loading library for Ace editor:', error);
+                                    });
+                                },
+                            },
+                            enableSnippets: false,
+                            tooltipContainer: '#code-editor'
+                        });
                     }
-                };
-                xhr.send();
-            }
+                },
+                langTools: {
+                    name: 'ace/ext/language_tools',
+                    workInIE: false,
+                    handler: function() {
+                        me.codeEditor.setOptions({
+                            enableBasicAutocompletion: false,
+                            enableLiveAutocompletion: true
+                        });
+                    }
+                },
+                htmlBeautify: {
+                    name: 'ace/ext/html_beautify',
+                    workInIE: true,
+                    handler: function () {
+                        me.codeEditor.setOptions({
+                            autoBeautify: true,
+                            htmlBeautify: true,
+                        });
+                    }
+                }
+            };
 
             this.codeEditor = ace.edit("code-editor");
             this.codeEditor.session.setMode("ace/mode/javascript");
@@ -308,47 +356,39 @@ define([], function () {
             this.codeEditor.$blockScrolling = Infinity;
             this.codeEditor.setTheme(Common.UI.Themes.isDarkTheme() ? "ace/theme/vs-dark" : "ace/theme/vs-light");
 
-            onInitServer(2);
-
-            ace.config.loadModule('ace/ext/tern', function () {
-                me._state.aceLoadedModules.tern = true;
-                me.onAceLoadModule();
-                me.codeEditor.setOptions({
-                    enableTern: {
-                        defs: ['browser', 'ecma5'],
-                        plugins: { doc_comment: { fullDocs: true } },
-                        useWorker: !!window.Worker,
-                        switchToDoc: function (name, start) {},
-                        startedCb: function () {
-                            onInitServer(1);
-                        },
+            // Create a custom property in the global Ace object to track loaded modules
+            if(!ace.config.loadedModules) {
+                ace.config.loadedModules = {
+                    tern: {
+                        isLoaded: !loadModules.tern.workInIE,
+                        libraryText: null
                     },
-                    enableSnippets: false,
-                    tooltipContainer: '#code-editor'
-                });
-            });
-
-
-            if (!window.isIE) {
-                ace.config.loadModule('ace/ext/language_tools', function () {
-                    me._state.aceLoadedModules.langTools = true;
-                    me.onAceLoadModule();
-                    me.codeEditor.setOptions({
-                        enableBasicAutocompletion: false,
-                        enableLiveAutocompletion: true
-                    });
-                });
+                    langTools: {
+                        isLoaded: !loadModules.langTools.workInIE,
+                    },
+                    htmlBeautify: {
+                        isLoaded: !loadModules.htmlBeautify.workInIE,
+                    }
+                };
             }
 
-            ace.config.loadModule('ace/ext/html_beautify', function (beautify) {
-                me._state.aceLoadedModules.htmlBeautify = true;
-                me.onAceLoadModule();
-                me.codeEditor.setOptions({
-                    autoBeautify: true,
-                    htmlBeautify: true,
-                });
-                window.beautifyOptions = beautify.options;
+            Object.entries(loadModules).forEach(function(module) {
+                var key = module[0];
+                var props = module[1];
+                
+                if(props.workInIE || !Common.Utils.isIE) {
+                    if(!ace.config.loadedModules[key].isLoaded) {
+                        ace.config.loadModule(props.name, function () {
+                            ace.config.loadedModules[key].isLoaded = true;
+                            me.onAceLoadModule();
+                            props.handler();
+                        });
+                    } else {
+                        props.handler();
+                    }
+                }
             });
+            me.onAceLoadModule();
 
             this.codeEditor.getSession().on('change', function() {
                 var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
@@ -651,7 +691,7 @@ define([], function () {
         close: function(suppressevent) {
             var $window = this.getChild();
             if (!$window.find('.combobox.open').length) {
-                this.codeEditor.destroy();
+                this.codeEditor && this.codeEditor.destroy();
                 Common.UI.Window.prototype.close.call(this, arguments);
             }
         },
