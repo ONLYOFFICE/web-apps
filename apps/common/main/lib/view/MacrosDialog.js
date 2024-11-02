@@ -137,6 +137,8 @@ define([], function () {
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            me.aceContainer = $window.find('#code-editor');
+
             // this.loadMask = new Common.UI.LoadMask({owner: this.$window.find('.body')[0]});
             // this.loadMask.setTitle(this.textLoading);
             // this.loadMask.show();
@@ -264,8 +266,9 @@ define([], function () {
             this.codeEditor.on('ready', function() {
                 me.codeEditor.updateTheme();
                 me.codeEditor.setValue(me._state.currentValue);
+                me.codeEditor.disableDrop();
                 setTimeout(function() {
-                    me.$window.find('#code-editor').removeClass('invisible');
+                    me.aceContainer.removeClass('invisible');
                 }, 10);
                 // me.loadMask.hide();
             });
@@ -274,6 +277,14 @@ define([], function () {
                     ? me.listMacros.getSelectedRec()
                     : me.listFunctions.getSelectedRec();
                 selectedItem && selectedItem.set('value', value);
+            });
+            this.codeEditor.on('mouseup', function(x, y) {
+                if (me.binding.dragStop) me.binding.dragStop();
+                if (me.binding.resizeStop) me.binding.resizeStop();
+            });
+            this.codeEditor.on('mousemove', function(x, y) {
+                if (me.binding.drag) me.binding.drag({ pageX: x, pageY: y });
+                if (me.binding.resize) me.binding.resize({ pageX: x, pageY: y });
             });
         },
 

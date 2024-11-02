@@ -134,6 +134,27 @@ var _postMessage = function(msg) {
         window.isDisable = false;
     };
 
+    var editorDisableDrop = function() {
+        let el = document.getElementById('editor');
+        el.ondrop = function(e) {
+            if (e && e.preventDefault)
+                e.preventDefault();
+            return false;
+        };
+        el.ondragenter = function(e) {
+            if (e && e.preventDefault)
+                e.preventDefault();
+            return false;
+        };
+        el.ondragover = function(e) {
+            if (e && e.preventDefault)
+                e.preventDefault();
+            if (e && e.dataTransfer)
+                e.dataTransfer.dropEffect = "none";
+            return false;
+        };
+    };
+
     var onThemeChanged = function(colors) {
         if (!colors) return;
 
@@ -208,15 +229,43 @@ var _postMessage = function(msg) {
                 editorSetValue(cmd.data);
             } else if (cmd.command==='setTheme') {
                 onThemeChanged(cmd.data);
+            }else if (cmd.command==='disableDrop') {
+                editorDisableDrop();
             }
         }
     };
 
     var fn = function(e) { _onMessage(e); };
 
+    var onMouseUp = function(e) {
+        _postMessage({
+            command: 'mouseUp',
+            data: {
+                x: (undefined === e.clientX) ? e.pageX : e.clientX,
+                y: (undefined === e.clientY) ? e.pageY : e.clientY
+            },
+            referer: 'ace-editor'
+        });
+    };
+
+    var onMouseMove = function(e) {
+        _postMessage({
+            command: 'mouseMove',
+            data: {
+                x: (undefined === e.clientX) ? e.pageX : e.clientX,
+                y: (undefined === e.clientY) ? e.pageY : e.clientY
+            },
+            referer: 'ace-editor'
+        });
+    };
+
     if (window.attachEvent) {
         window.attachEvent('onmessage', fn);
+        window.attachEvent("onmouseup", onMouseUp);
+        window.attachEvent("onmousemove", onMouseMove);
     } else {
         window.addEventListener('message', fn, false);
+        window.addEventListener("mouseup", onMouseUp, false);
+        window.addEventListener("mousemove", onMouseMove, false);
     }
 })(window, undefined);

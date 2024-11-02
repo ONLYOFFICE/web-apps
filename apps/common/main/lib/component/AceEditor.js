@@ -109,10 +109,20 @@ define([], function () {
             }
 
             if (cmd && cmd.referer == "ace-editor") {
-                if (cmd.command==='changeValue') {
-                    this.fireEvent('change', cmd.data);
-                }else if (cmd.command==='aceEditorReady') {
-                    this.fireEvent('ready', cmd.data);
+                switch (cmd.command) {
+                    case 'changeValue':
+                        this.fireEvent('change', cmd.data);
+                        break;
+                    case 'aceEditorReady':
+                        this.fireEvent('ready', cmd.data);
+                        break;
+                    case 'mouseUp':
+                    case 'mouseMove':
+                        var offset = Common.Utils.getOffset(this.parentEl);
+                        var x = cmd.data.x * Common.Utils.zoom() + offset.left,
+                            y = cmd.data.y * Common.Utils.zoom() + offset.top;
+                        this.fireEvent(cmd.command.toLowerCase(), x, y);
+                        break;
                 }
             }
         },
@@ -139,6 +149,13 @@ define([], function () {
                 command: 'setTheme',
                 referer: 'ace-editor',
                 data: Common.UI.Themes.getThemeColors()
+            });
+        },
+
+        disableDrop: function() {
+            this._postMessage(this.iframe.contentWindow, {
+                command: 'disableDrop',
+                referer: 'ace-editor'
             });
         },
 
