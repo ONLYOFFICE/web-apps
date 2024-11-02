@@ -81,7 +81,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-paragraph',
+                iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -90,7 +90,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-image',
+                iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -99,7 +99,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-chart',
+                iconCls: 'btn-menu-chart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -108,7 +108,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-shape',
+                iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -118,7 +118,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-textart',
+                iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -128,7 +128,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-table',
+                iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -138,7 +138,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Pivot,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-pivot-sum',
+                iconCls: 'btn-pivot-sum',
                 visible: false,
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
@@ -148,7 +148,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Cell,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-cell',
+                iconCls: 'btn-menu-cell',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -157,7 +157,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Slicer,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-slicer',
+                iconCls: 'btn-slicer',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -230,7 +230,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.Signature,
                     enableToggle: true,
                     disabled: true,
-                    iconCls: 'toolbar__icon btn-menu-signature',
+                    iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });

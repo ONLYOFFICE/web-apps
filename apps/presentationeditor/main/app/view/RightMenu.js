@@ -79,7 +79,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-paragraph',
+                iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -88,7 +88,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-table',
+                iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -97,7 +97,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-image',
+                iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -106,7 +106,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Slide,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-slide',
+                iconCls: 'btn-menu-slide',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -115,7 +115,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-chart',
+                iconCls: 'btn-menu-chart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -124,7 +124,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-shape',
+                iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -134,7 +134,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-textart',
+                iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -198,7 +198,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.Signature,
                     enableToggle: true,
                     disabled: true,
-                    iconCls: 'toolbar__icon btn-menu-signature',
+                    iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });

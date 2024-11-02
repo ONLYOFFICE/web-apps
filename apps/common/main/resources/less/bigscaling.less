@@ -1,13 +1,13 @@
-//body:not(.pixel-ratio__1_25):not(.pixel-ratio__1_5):not(.pixel-ratio__1_75) {
+.pixel-ratio__2_5 {
     .btn-toolbar,
     .btn-header,
     .btn-category,
     .btn-options,
     .label-cmp {
         i.icon {
-            //&:not(.scaling-off) {
-                //display: none;
-            //}
+            &:not(.scaling-off) {
+                display: none;
+            }
         }
     }
 
@@ -50,40 +50,23 @@
             }
         }
     }
-//}
+}
 
 .btn-toolbar,
 .btn-header,
 .btn-category,
 .btn-options,
 .dataview,
-.label-cmp {
-    body:not(.pixel-ratio__1_25, .pixel-ratio__1_5, .pixel-ratio__1_75) & {
-        i.icon {
-            &:not(.scaling-off) {
-                display: none;
-            }
-        }
-    }
-
-    .pixel-ratio__1_25 &, .pixel-ratio__1_5 &, .pixel-ratio__1_75 & {
-        svg.icon:not(.permanent-icon) {
-            display: none;
-        }
-
-        &:has(svg.permanent-icon) {
-            i.icon {
-                display: none;
-            }
-        }
+.label-cmp
+{
+    svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+        display: none;
     }
 }
 
 .dropdown-menu .menu-item {
-    .pixel-ratio__1_25 &, .pixel-ratio__1_5 &, .pixel-ratio__1_75 & {
-        svg.menu-item-icon {
-            display: none;
-        }
+    svg.menu-item-icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+        display: none;
     }
 }
 
@@ -95,7 +78,7 @@
     &:active,
     &.active {
         &:not(.disabled) {
-            svg.icon {
+            svg.icon:not(.uni-scale) {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
                 .btn& {
@@ -105,7 +88,7 @@
         }
     }
 
-    svg.icon {
+    svg.icon:not(.uni-scale) {
         fill: @icon-normal-ie;
         fill: @icon-normal;
 

@@ -56,15 +56,9 @@ define([
 
             template:_.template([
                 '<label class="title float-left"><%= options.caption %></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-up float-right">',
-                    '<i class="icon menu__icon <%= options.iconUpCls %>">&nbsp;</i>',
-                    '<svg class="icon uni-scale"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(options.iconUpCls)[0] %>"></use></svg>',
-                '</button>',
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-up float-right"><i class="icon menu__icon <%= options.iconUpCls %>">&nbsp;</i></button>',
                 '<label class="updown-picker-value float-right" style="min-width: <%= options.minWidth %>px;"></label>',
-                '<button type="button" class="btn small btn-toolbar updown-picker-button-down float-right">',
-                    '<i class="icon menu__icon <%= options.iconDownCls %>">&nbsp;</i>',
-                    '<svg class="icon uni-scale"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(options.iconDownCls)[0] %>"></use></svg>',
-                '</button>'
+                '<button type="button" class="btn small btn-toolbar updown-picker-button-down float-right"><i class="icon menu__icon <%= options.iconDownCls %>">&nbsp;</i></button>'
             ].join('')),
 
             initialize : function(options) {

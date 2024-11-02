@@ -72,7 +72,7 @@ define([
                 el: $markup.elementById('#left-btn-searchbar'),
                 hint: this.tipSearch,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-search',
+                iconCls: 'btn-menu-search',
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
@@ -84,7 +84,7 @@ define([
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-about',
+                iconCls: 'btn-menu-about',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
@@ -94,7 +94,7 @@ define([
                 el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-support'
+                iconCls: 'btn-menu-support'
             });
             this.btnSupport.on('click', _.bind(function() {
                 var config = this.mode.customization;
@@ -109,7 +109,7 @@ define([
                 hint: this.tipComments +  Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-comments',
+                iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
@@ -120,7 +120,7 @@ define([
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-menu-chat',
+                iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
@@ -134,7 +134,7 @@ define([
                 hint: this.tipSpellcheck,
                 enableToggle: true,
                 disabled: true,
-                iconCls: 'toolbar__icon btn-ic-docspell',
+                iconCls: 'btn-ic-docspell',
                 toggleGroup: 'leftMenuGroup'
             });
             this.btnSpellcheck.hide();

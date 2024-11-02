@@ -23,16 +23,16 @@
     </div>
     <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
         <div class="ct-btn-category arrow-left"></div>
-        <button id="id-right-menu-cell" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-cell-settings"></button>
-        <button id="id-right-menu-table" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-table-settings"></button>
-        <button id="id-right-menu-shape" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-shape-settings"></button>
-        <button id="id-right-menu-image" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-image-settings"></button>
-        <button id="id-right-menu-chart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-chart-settings"></button>
-        <button id="id-right-menu-text" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-paragraph-settings"></button>
-        <button id="id-right-menu-textart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-textart-settings"></button>
-        <button id="id-right-menu-pivot" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-pivot-settings"></button>
-        <button id="id-right-menu-slicer" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-slicer-settings"></button>
-        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"></button>
+        <button id="id-right-menu-cell" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-cell-settings"><i class="icon toolbar__icon btn-menu-cell">&nbsp;</i></button>
+        <button id="id-right-menu-table" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-table-settings"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>
+        <button id="id-right-menu-shape" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-shape-settings"><i class="icon toolbar__icon btn-menu-shape">&nbsp;</i></button>
+        <button id="id-right-menu-image" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-image-settings"><i class="icon toolbar__icon btn-menu-image">&nbsp;</i></button>
+        <button id="id-right-menu-chart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-chart-settings"><i class="icon toolbar__icon btn-menu-chart">&nbsp;</i></button>
+        <button id="id-right-menu-text" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-paragraph-settings"><i class="icon toolbar__icon btn-paragraph">&nbsp;</i></button>
+        <button id="id-right-menu-textart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-textart-settings"><i class="icon toolbar__icon btn-menu-textart">&nbsp;</i></button>
+        <button id="id-right-menu-pivot" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-pivot-settings"><i class="icon toolbar__icon btn-pivot-sum">&nbsp;</i></button>
+        <button id="id-right-menu-slicer" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-slicer-settings"><i class="icon toolbar__icon btn-slicer">&nbsp;</i></button>
+        <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
         <div id="slot-right-menu-more"></div>
     </div>
 </div>
