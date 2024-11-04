@@ -72,16 +72,19 @@ define([], function () {
 
 
         initialize : function(options) {
-            var _options = {};
+            var _options = {},
+                innerHeight = Math.max(Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top'), 512),
+                innerWidth = Math.max(Common.Utils.innerWidth(), 600);
+
             _.extend(_options, {
                 id: 'macros-dialog',
                 title: this.textTitle,
                 header: true,
                 help: true,
-                width: 800,
-                height: 600,
-                minwidth: 800,
-                minheight: 512,
+                width: Math.min(800, innerWidth),
+                height: Math.min(512, innerHeight),
+                minwidth: 600,
+                minheight: 350,
                 resizable: true,
                 cls: 'modal-dlg invisible-borders',
                 buttons: [{
