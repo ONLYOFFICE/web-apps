@@ -110,6 +110,7 @@ var _postMessage = function(msg) {
 };
 
 (function (window, undefined) {
+    var _dropDisabled = undefined;
 
     editor.getSession().on('change', function() {
         if (window.isDisable) return;
@@ -134,25 +135,31 @@ var _postMessage = function(msg) {
         window.isDisable = false;
     };
 
-    var editorDisableDrop = function() {
-        let el = document.getElementById('editor');
-        el.ondrop = function(e) {
-            if (e && e.preventDefault)
-                e.preventDefault();
-            return false;
-        };
-        el.ondragenter = function(e) {
-            if (e && e.preventDefault)
-                e.preventDefault();
-            return false;
-        };
-        el.ondragover = function(e) {
-            if (e && e.preventDefault)
-                e.preventDefault();
-            if (e && e.dataTransfer)
-                e.dataTransfer.dropEffect = "none";
-            return false;
-        };
+    var editorDisableDrop = function(disable) {
+        if (_dropDisabled===undefined) {
+            let el = document.getElementById('editor');
+            el.ondrop = function(e) {
+                if (!_dropDisabled) return;
+                if (e && e.preventDefault)
+                    e.preventDefault();
+                return false;
+            };
+            el.ondragenter = function(e) {
+                if (!_dropDisabled) return;
+                if (e && e.preventDefault)
+                    e.preventDefault();
+                return false;
+            };
+            el.ondragover = function(e) {
+                if (!_dropDisabled) return;
+                if (e && e.preventDefault)
+                    e.preventDefault();
+                if (e && e.dataTransfer)
+                    e.dataTransfer.dropEffect = "none";
+                return false;
+            };
+        }
+        _dropDisabled = disable;
     };
 
     var onThemeChanged = function(colors) {
@@ -230,7 +237,7 @@ var _postMessage = function(msg) {
             } else if (cmd.command==='setTheme') {
                 onThemeChanged(cmd.data);
             }else if (cmd.command==='disableDrop') {
-                editorDisableDrop();
+                editorDisableDrop(cmd.data);
             }
         }
     };

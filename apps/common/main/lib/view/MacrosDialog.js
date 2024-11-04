@@ -266,7 +266,6 @@ define([], function () {
             this.codeEditor.on('ready', function() {
                 me.codeEditor.updateTheme();
                 me.codeEditor.setValue(me._state.currentValue);
-                me.codeEditor.disableDrop();
                 setTimeout(function() {
                     me.aceContainer.removeClass('invisible');
                 }, 10);
@@ -459,6 +458,8 @@ define([], function () {
             }
 
             function handleDragstart(list, e) {
+                me.codeEditor.disableDrop(true);
+
                 var id = $(e.target).children('.list-item').attr('id');
                 e.dataTransfer.setData("text/plain", id);
                 e.dataTransfer.effectAllowed = "move";
@@ -468,6 +469,8 @@ define([], function () {
             }
 
             function handleDragend(list, e) {
+                me.codeEditor.disableDrop(false);
+
                 e.target.classList.remove('dragged');
                 $('.dragHovered').removeClass("dragHovered");
 

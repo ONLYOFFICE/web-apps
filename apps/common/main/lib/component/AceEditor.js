@@ -152,10 +152,11 @@ define([], function () {
             });
         },
 
-        disableDrop: function() {
+        disableDrop: function(disable) {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'disableDrop',
-                referer: 'ace-editor'
+                referer: 'ace-editor',
+                data: disable
             });
         },
 
