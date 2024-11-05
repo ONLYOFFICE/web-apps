@@ -66,7 +66,6 @@
     {"src": "UsageInstructions/Translator.htm", "name": "Translate text" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Replace a word by a synonym" },
     {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communicate while editing"},
-	{"src": "UsageInstructions/Zoom.htm", "name": "Host and schedule Zoom meetings"},
     { "src": "UsageInstructions/ChatGPT.htm", "name": "Use AI to write text" },
     {"src": "UsageInstructions/Pixabay.htm", "name": "Add pictures"},
     { "src": "UsageInstructions/ViewDocInfo.htm", "name": "View file information", "headername": "Tools and settings" },    
