@@ -395,7 +395,7 @@ define([
                 formTemplate: _.template([
                     '<input type="text" class="form-control" spellcheck="false">',
                 ].join('')),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon permanent-icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                 takeFocusOnClose: true,
                 updateFormControl: function(record) {
                     $(this.el).find('input').val(record ? record.get('tip') : '');

@@ -954,7 +954,7 @@ define([
                 allowScrollbar: false,
                 groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                 store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon permanent-icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                 delayRenderTips: true
             });
             this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));

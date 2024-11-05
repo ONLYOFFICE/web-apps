@@ -183,10 +183,14 @@ define([
     var templateBtnIcon =
             '<% if ( iconImg ) { %>' +
                 '<img src="<%= iconImg %>">' +
-            '<% } else { %>' +
+            '<% } else if (/btn-[^\\s]+/.test(iconCls)) { %>' +
                 '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>">' +
-                    '<use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use>' +
+                    '<use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use>' +
                 '</svg>' +
+            '<% } else if (/svgicon/.test(iconCls)) { %>' +
+                '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /svgicon\\s(\\S+)/.exec(iconCls)[1] %>"></use></svg>' +
+            '<% } else { %>' +
+                '<i class="icon <% iconCls %>"></i>' +
             '<% } %>';
 
     var templateBtnCaption =
@@ -286,9 +290,9 @@ define([
                     '<img src="<%= iconImg %>" alt="Icon">',
                 '<% } else if (iconCls) { %>',
                     '<% if (/btn-[^\\s]+/.test(iconCls)) { %>',
-                        '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
-                    '<% } else if (/svg-[^\\s]+/.test(iconCls)) { %>',
-                        '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" xlink:href="#<%= /svg-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
+                        '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
+                    '<% } else if (/svgicon/.test(iconCls)) { %>',
+                        '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /svgicon\\s(\\S+)/.exec(iconCls)[1] %>"></use></svg>',
                     '<% } else { %>',
                         '<i class="icon <% iconCls %>"></i>',
                     '<% } %>',
@@ -768,16 +772,21 @@ define([
         },
 
         setIconCls: function(cls) {
-            var btnIconEl = $(this.el).find('i.icon'),
-                oldCls = this.iconCls,
-                svgIcon = $(this.el).find('.icon use.zoom-int');
+            const svgIcon = $(this.el).find('.icon use.zoom-int');
 
             this.iconCls = cls;
-            svgIcon.attr('xlink:href', cls.length > 0 ? '#' + /btn-[^\s]+/.exec(this.iconCls)[0] : '');
-            btnIconEl.removeClass(oldCls);
-            btnIconEl.addClass(cls || '');
-            if (this.options.scaling === false) {
-                btnIconEl.addClass('scaling-off');
+            if (/svgicon/.test(this.iconCls)) {
+                const icon = /svgicon\s(\S+)/.exec(this.iconCls);
+                svgIcon.attr('href', icon && icon.length > 1 ? '#' + icon[1] : '');
+            } else {
+                const btnIconEl = $(this.el).find('i.icon'), oldCls = this.iconCls;
+                const icon = /btn-[^\s]+/.exec(this.iconCls);
+                svgIcon.attr('href', icon ? '#' + icon[0] : '');
+                btnIconEl.removeClass(oldCls);
+                btnIconEl.addClass(cls || '');
+                if (this.options.scaling === false) {
+                    btnIconEl.addClass('scaling-off');
+                }
             }
         },
 
