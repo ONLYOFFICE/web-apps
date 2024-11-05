@@ -85,7 +85,6 @@
     { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communicate while editing" },
     {"src": "UsageInstructions/Jitsi.htm", "name": "Make Audio and Video Calls"},
     {"src": "UsageInstructions/Drawio.htm", "name": "Create and insert diagrams"},
-	{"src": "UsageInstructions/Zoom.htm", "name": "Host and schedule Zoom meetings"},
     { "src": "UsageInstructions/ChatGPT.htm", "name": "Use AI to write text" },
     { "src": "UsageInstructions/TerMef.htm", "name": "Insert definitions" },
     {"src": "UsageInstructions/Pixabay.htm", "name": "Add pictures"},
