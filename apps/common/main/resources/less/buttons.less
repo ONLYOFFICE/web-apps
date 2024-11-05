@@ -622,10 +622,6 @@
 // The clickable button for toggling the menu
 // Remove the gradient and set the same inset shadow as the :active state
 .btn-group {
-    > .btn-toolbar {
-        float: none;
-    }
-
     > .btn {
         + .dropdown-toggle {
             padding: 0 4px 0 3px;
@@ -645,6 +641,10 @@
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
             }
+        }
+
+        &.btn-toolbar {
+            float: none;
         }
     }
 
