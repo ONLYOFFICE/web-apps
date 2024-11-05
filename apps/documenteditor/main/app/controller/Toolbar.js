@@ -3523,7 +3523,6 @@ define([
             this.attachUIEvents(this.toolbar);
             this.onChangeProtectDocument();
 
-            Common.Utils.injectSvgIcons();
         },
 
         createDelayedElementsRestrictedEditForms: function() {
