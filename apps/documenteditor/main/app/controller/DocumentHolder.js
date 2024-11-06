@@ -236,6 +236,8 @@ define([
                 if (this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                    Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+                    Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
                 this.documentHolder.setApi(this.api);
@@ -1757,16 +1759,112 @@ define([
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
+                    } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
+                        this.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
                     } else
-                        this.api.asc_addImage(obj);
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                        this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
                     this.onShowListActions(obj, x, y);
                     break;
+            }
+        },
+
+        onShowImageActions: function(obj, x, y) {
+            var cmpEl = this.documentHolder.cmpEl,
+                menu = this.imageControlMenu,
+                menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this.internalFormObj = obj ? obj.pr : null;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.imageControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tl-bl',
+                    items: [
+                        {caption: this.documentHolder.mniImageFromFile, value: 0},
+                        {caption: this.documentHolder.mniImageFromUrl, value: 1},
+                        {caption: this.documentHolder.mniImageFromStorage, value: 2, visible: this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1}
+                    ]
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.onImageSelect(menu, item);
+                    }, 1);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        selectFormImage: function(item, obj) {
+            this.internalFormObj = obj;
+            this.onImageSelect(null, item);
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                this.api.asc_addImage(this.internalFormObj);
+                this._isFromFile = false;
+            }
+        },
+
+        setImageUrl: function(url, token) {
+            this.api && this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
