@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "اليسار",
   "DE.Views.DocumentHolder.loadSpellText": "جاري تحميل البدائل...",
   "DE.Views.DocumentHolder.mergeCellsText": "دمج الخلايا",
+  "DE.Views.DocumentHolder.mniImageFromFile": "صورة من ملف",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "صورة من وحدة التخزين",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "صورة من رابط",
   "DE.Views.DocumentHolder.moreText": "المزيد من البدائل",
   "DE.Views.DocumentHolder.noSpellVariantsText": "لم يتم العثور على بدائل",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "تحذير",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
 }

@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Αριστερά",
   "DE.Views.DocumentHolder.loadSpellText": "Φόρτωση παραλλαγών...",
   "DE.Views.DocumentHolder.mergeCellsText": "Συγχώνευση κελιών",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Εικόνα από αρχείο",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Εικόνα από αποθηκευτικό χώρο",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Εικόνα από διεύθυνση URL",
   "DE.Views.DocumentHolder.moreText": "Περισσότερες παραλλαγές...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Καμιά παραλλαγή",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Προειδοποίηση",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

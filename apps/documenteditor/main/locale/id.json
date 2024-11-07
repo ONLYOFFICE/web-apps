@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Kiri",
   "DE.Views.DocumentHolder.loadSpellText": "Memuat varian...",
   "DE.Views.DocumentHolder.mergeCellsText": "Gabungkan Sel",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "Varian lain...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Tidak ada varian",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Peringatan",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Vlevo",
   "DE.Views.DocumentHolder.loadSpellText": "Načítání variant…",
   "DE.Views.DocumentHolder.mergeCellsText": "Sloučit buňky",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Obrázek ze souboru",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Obrázek z úložiště",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Obrázek z adresy URL",
   "DE.Views.DocumentHolder.moreText": "Více variant…",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Žádné varianty",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Varování",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
 }

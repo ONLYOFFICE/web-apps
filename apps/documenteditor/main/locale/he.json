@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "שמאל",
   "DE.Views.DocumentHolder.loadSpellText": "טעינת גרסאות...",
   "DE.Views.DocumentHolder.mergeCellsText": "מיזוג תאים",
+  "DE.Views.DocumentHolder.mniImageFromFile": "תמונה מקובץ",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "תמונה מאחסון",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "תמונה מURL",
   "DE.Views.DocumentHolder.moreText": "גרסאות נוספות...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "אין גרסאות",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "אזהרה",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
 }

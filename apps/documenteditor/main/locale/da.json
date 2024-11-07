@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Venstre",
   "DE.Views.DocumentHolder.loadSpellText": "Indlæser variationer...",
   "DE.Views.DocumentHolder.mergeCellsText": "Fusioner celler",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "Flere varianter...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Ingen varianter",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Advarsel",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }
