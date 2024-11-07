@@ -414,6 +414,9 @@
     <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
     <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <inline src="resources/img/form-points.svg" />
+    <inline src="resources/img/iconssmall@2.5x.svg" />
+    <inline src="resources/img/iconsbig@2.5x.svg" />
+    <inline src="resources/img/iconshuge@2.5x.svg" />
     <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script src="../../../vendor/requirejs/require.js"></script>

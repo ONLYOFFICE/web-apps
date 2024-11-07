@@ -1479,7 +1479,6 @@ define([
                     }
                     documentHolderController.getView().createDelayedElementsViewer();
                     toolbarController.createDelayedElementsViewer();
-                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }
