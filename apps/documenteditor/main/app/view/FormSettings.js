@@ -831,7 +831,6 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
-            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
         },
 
@@ -1152,41 +1151,8 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalId, token);
-        },
-
-        insertImageFromStorage: function(data) {
-            if (data && data._urls && data.c=='control') {
-                this.setImageUrl(data._urls[0], data.token);
-            }
-        },
-
         onImageSelect: function(menu, item) {
-            if (item.value==1) {
-                var me = this;
-                (new Common.Views.ImageFromUrlDialog({
-                    handler: function(result, value) {
-                        if (result == 'ok') {
-                            if (me.api) {
-                                var checkUrl = value.replace(/ /g, '');
-                                if (!_.isEmpty(checkUrl)) {
-                                    me.setImageUrl(checkUrl);
-                                }
-                            }
-                        }
-                        me.fireEvent('editcomplete', me);
-                    }
-                })).show();
-            } else if (item.value==2) {
-                Common.NotificationCenter.trigger('storage:image-load', 'control');
-            } else {
-                if (this._isFromFile) return;
-                this._isFromFile = true;
-                if (this.api) this.api.asc_addImage(this._originalProps);
-                this.fireEvent('editcomplete', this);
-                this._isFromFile = false;
-            }
+            Common.NotificationCenter.trigger('forms:image-select', item, this._originalProps);
         },
 
         onColorBGSelect: function(btn, color) {

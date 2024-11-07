@@ -1438,7 +1438,7 @@ define([
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this.internalFormObj = obj ? obj.pr : null;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -1527,7 +1527,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
         insertImage: function(data) { // gateway
