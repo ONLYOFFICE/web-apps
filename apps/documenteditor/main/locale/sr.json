@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Levo",
   "DE.Views.DocumentHolder.loadSpellText": "Učitavanje varijanti...",
   "DE.Views.DocumentHolder.mergeCellsText": "Spoji ćelije",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Slika iz fajla",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Slika iz skladišta ",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Slika iz URL",
   "DE.Views.DocumentHolder.moreText": "Više varijanti...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Bez varijacija",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Upozorenje ",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
 }

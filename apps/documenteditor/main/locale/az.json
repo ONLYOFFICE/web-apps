@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Sol",
   "DE.Views.DocumentHolder.loadSpellText": "Variantlar yüklənir...",
   "DE.Views.DocumentHolder.mergeCellsText": "Xanaları Birləşdir",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "Daha çox variant...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Variant yoxdur",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Xəbərdarlıq",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
 }

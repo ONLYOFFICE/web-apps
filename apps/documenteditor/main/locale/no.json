@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Venstre",
   "DE.Views.DocumentHolder.loadSpellText": "Loading variants...",
   "DE.Views.DocumentHolder.mergeCellsText": "Merge cells",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "More variants...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "No variants",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Advarsel",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreking",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

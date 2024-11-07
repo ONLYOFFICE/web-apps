@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "左",
   "DE.Views.DocumentHolder.loadSpellText": "加载变体...",
   "DE.Views.DocumentHolder.mergeCellsText": "合并单元格",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "更多变体...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "没有变体",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "警告",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }

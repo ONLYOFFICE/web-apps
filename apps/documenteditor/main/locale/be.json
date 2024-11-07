@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "Па леваму краю",
   "DE.Views.DocumentHolder.loadSpellText": "Загрузка варыянтаў…",
   "DE.Views.DocumentHolder.mergeCellsText": "Аб’яднаць ячэйкі",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
   "DE.Views.DocumentHolder.moreText": "Больш варыянтаў…",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Няма варыянтаў",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Увага",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
 }

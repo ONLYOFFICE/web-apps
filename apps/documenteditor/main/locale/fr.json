@@ -1903,6 +1903,9 @@
   "DE.Views.DocumentHolder.leftText": "À gauche",
   "DE.Views.DocumentHolder.loadSpellText": "Chargement des variantes en cours...",
   "DE.Views.DocumentHolder.mergeCellsText": "Fusionner les cellules",
+  "DE.Views.DocumentHolder.mniImageFromFile": "Image à partir d'un fichier",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "Image à partir du stockage",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "Image à partir d'une URL",
   "DE.Views.DocumentHolder.moreText": "Plus de variantes...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "Pas de variantes",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "Attention",
@@ -2272,7 +2275,7 @@
   "DE.Views.FileMenuPanels.Settings.txtHieroglyphs": "Hiéroglyphes",
   "DE.Views.FileMenuPanels.Settings.txtInch": "Pouce",
   "DE.Views.FileMenuPanels.Settings.txtLast": "Récents",
-  "DE.Views.FileMenuPanels.Settings.txtLastUsed": "Récemment utilisés",
+  "DE.Views.FileMenuPanels.Settings.txtLastUsed": "Récemment utilisé",
   "DE.Views.FileMenuPanels.Settings.txtMac": "comme OS X",
   "DE.Views.FileMenuPanels.Settings.txtNative": "Natif",
   "DE.Views.FileMenuPanels.Settings.txtNone": "Aucun élément à afficher",
@@ -3661,8 +3664,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Souligné",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la police",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police"
 }
