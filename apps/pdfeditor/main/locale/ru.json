@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Неверный пароль.<br>Убедитесь, что отключена клавиша CAPS LOCK и используется правильный регистр.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Сбой при сохранении.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "Этот файл содержит изображение водяного знака, привязанное к другому домену.<br>Чтобы сделать его видимым в PDF, обновите изображение водяного знака, чтобы оно было связано с тем же доменом, что и документ, или загрузите его со своего компьютера.",
   "PDFE.Controllers.Main.errorServerVersion": "Версия редактора была обновлена. Страница будет перезагружена, чтобы применить изменения.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Время сеанса редактирования документа истекло. Пожалуйста, обновите страницу.",
   "PDFE.Controllers.Main.errorSessionIdle": "Документ долгое время не редактировался. Пожалуйста, обновите страницу.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

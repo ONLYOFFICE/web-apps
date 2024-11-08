@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "За съжаление, не е възможно да се отпечатат повече от 1500 страници едновременно в текущата версия на програмата. <br> Това ограничение ще бъде премахнато в предстоящите издания.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Запазване не бе успешно",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Версията на редактора е актуализирана. Страницата ще бъде презаредена, за да приложи промените.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Сесията за редактиране на документ изтече. Моля, презаредете страницата.",
   "SSE.Controllers.Main.errorSessionIdle": "Документът не е редактиран дълго време. Моля, презаредете страницата.",
@@ -4500,6 +4501,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
-  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
 }

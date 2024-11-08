@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "යතුරු සූචකය කල් ඉකුත්ය",
   "PE.Controllers.Main.errorLoadingFont": "රුවකුරු පූරණය වී නැත.<br>ඔබගේ ලේඛන සේවාදායකයේ පරිපාලක අමතන්න.",
   "PE.Controllers.Main.errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
   "PE.Controllers.Main.errorSessionAbsolute": "ලේඛනය සංස්කරණ වාරය කල් ඉකුත් වී ඇත. පිටුව නැවත පූරණය කරන්න.",
   "PE.Controllers.Main.errorSessionIdle": "ලේඛනය සෑහෙන වේලාවකින් සංස්කරණය කර නැත. පිටුව නැවත පූරණය කරන්න.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "මගපෙන්වීම් පෙන්වන්න",
   "PE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
 }

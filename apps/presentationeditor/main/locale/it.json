@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Descrittore di chiave scaduto",
   "PE.Controllers.Main.errorLoadingFont": "I caratteri non sono caricati.<br>Si prega di contattare il tuo amministratore di Document Server.",
   "PE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare le modifiche.",
   "PE.Controllers.Main.errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Si prega di ricaricare la pagina.",
   "PE.Controllers.Main.errorSessionIdle": "È passato troppo tempo dall'ultima modifica apportata al documento. Si prega di ricaricare la pagina.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "Mostra guide",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
   "PE.Views.ViewTab.tipNormal": "Normale",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

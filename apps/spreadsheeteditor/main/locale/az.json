@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Təəssüf ki, proqramın cari versiyasında eyni vaxtda 1500-dən çox səhifə çap etmək mümkün deyil.<br>Bu məhdudiyyət gələcək buraxılışlarda aradan qaldırılacaq.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Saxlama prosesi uğursuz oldu",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Sənədin redaktə sessiyasının vaxtı bitdi. Səhifəni yenidən yükləyin.",
   "SSE.Controllers.Main.errorSessionIdle": "Sənəd uzun müddətdir ki, redaktə olunmayıb. Səhifəni yenidən yükləyin.",
@@ -4500,6 +4501,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
-  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et"
 }

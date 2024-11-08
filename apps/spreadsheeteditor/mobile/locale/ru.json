@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "Команда Влияющие ячейки требует, чтобы активная ячейка содержала формулу с действительными ссылками.",
     "errorPrintMaxPagesCount": "К сожалению, в текущей версии программы нельзя напечатать более 1500 страниц за один раз.<br>Это ограничение будет устранено в последующих версиях.",
     "errorProtectedRange": "Этот диапазон нельзя редактировать.",
+    "errorSaveWatermark": "Этот файл содержит изображение водяного знака, привязанное к другому домену.<br>Чтобы сделать его видимым в PDF, обновите изображение водяного знака, чтобы оно было связано с тем же доменом, что и документ, или загрузите его со своего компьютера.",
     "errorSessionAbsolute": "Время сеанса редактирования документа истекло. Пожалуйста, обновите страницу.",
     "errorSessionIdle": "Документ долгое время не редактировался. Пожалуйста, обновите страницу.",
     "errorSessionToken": "Подключение к серверу было прервано. Пожалуйста, обновите страницу.",
@@ -367,8 +368,7 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",

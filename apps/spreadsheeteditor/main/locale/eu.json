@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Tamalez, ez da posible 1500 orrialde baino gehiago aldi bakarrean inprimatzea uneko programaren bertsioarekin.<br>Muga hau hurrengo bertsioetan kenduko da.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Gordetzeak huts egin du",
   "SSE.Controllers.Main.errorProtectedRange": "Barruti hau ezin da editatu.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Dokumentua editatzeko saioa iraungi da. Kargatu berriro orria.",
   "SSE.Controllers.Main.errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Kargatu orria berriro.",
@@ -4500,6 +4501,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari",
-  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari"
 }

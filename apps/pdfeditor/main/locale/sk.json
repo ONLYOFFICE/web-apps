@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Štýly písma nie sú načítané<br>Prosím kontaktujte Vášho administrátora dokumentových serverov.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Zadané heslo nie je správne.<br>Skontrolujte, že máte vypnutý CAPS LOCK a správnu veľkosť písmen.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Ukladanie zlyhalo.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Režim editácie dokumentu vypršal. Prosím, načítajte stránku znova.",
   "PDFE.Controllers.Main.errorSessionIdle": "Dokument nebol dlho upravovaný. Prosím, načítajte stránku znova.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prispôsobiť na stranu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia"
 }

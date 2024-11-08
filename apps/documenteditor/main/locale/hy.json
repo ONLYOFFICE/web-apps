@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Արդիացնելու համար բովանդակություն չկա: Կարող եք զետեղել այն հղումներ ներդիրից:",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Ձեր տրամադրած գաղտնաբառը ճիշտ չէ:<br>Ստուգեք, որ CAPS LOCK ստեղնը անջատված է և օգտագործեք ճիշտ գլխատառացումը:",
   "DE.Controllers.Main.errorProcessSaveResult": "Պահումը ձախողվել է:",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Խմբագրիչի տարբերակը արդիացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
   "DE.Controllers.Main.errorSessionAbsolute": "Փաստաթղթի խմբագրման գործաժամը սպառվել է։ Նորի՛ց բեռնեք էջը։",
   "DE.Controllers.Main.errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։ Նորի՛ց բեռնեք էջը։",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
 }

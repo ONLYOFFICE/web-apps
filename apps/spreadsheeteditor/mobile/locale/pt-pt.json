@@ -357,6 +357,7 @@
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
     "errorPivotGroup": "Cannot group that selection.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
     "errorSingleColumnOrRowError": "Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.",
     "errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
@@ -367,8 +368,7 @@
     "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",

@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Yazı tipleri yüklenmedi.<br>Lütfen Doküman Sunucusu yöneticinize başvurun.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Verdiğiniz parola doğru değil.<br>CAPS LOCK anahtarının kapalı olduğunu doğrulayın ve doğru büyük/küçük harf kullandığınızdan emin olun.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Kaydetme başarısız.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Editör versiyonu güncellendi. Sayfa yenilenerek değişiklikler uygulanacaktır.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Doküman düzenleme oturumu sona erdi. Lütfen sayfayı yeniden yükleyin.",
   "PDFE.Controllers.Main.errorSessionIdle": "Belge oldukça uzun süredir düzenlenmedi. Lütfen sayfayı yeniden yükleyin.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sayfaya Sığdır",
   "PDFE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıklar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması"
 }

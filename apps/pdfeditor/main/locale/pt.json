@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "A senha fornecida não está correta. <br> Verifique se a tecla CAPS LOCK está desligada e use a capitalização correta.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Salvamento falhou.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
   "PDFE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "A sessão de edição de documentos expirou. Atualize a página.",
   "PDFE.Controllers.Main.errorSessionIdle": "O documento ficou sem edição por muito tempo. Por favor atualize a página.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }

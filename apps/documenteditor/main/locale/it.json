@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Non è presente alcun indice da aggiornare. Puoi inserirne uno dalla scheda Riferimenti.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "La password che hai fornito non è corretta.<br>Verifica che il tasto CAPS LOCK sia disattivato e assicurati di utilizzare maiuscole corrette.",
   "DE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare le modifiche.",
   "DE.Controllers.Main.errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Si prega di ricaricare la pagina.",
   "DE.Controllers.Main.errorSessionIdle": "È passato troppo tempo dall'ultima modifica apportata al documento. Si prega di ricaricare la pagina.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitrasparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sottolineato",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome carattere",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere"
 }

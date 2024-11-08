@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "גופנים אינם נטענים. <br> נדרש ליצור קשר עם מנהל שרת המסמכים שלך.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "הסיסמה שסופקה אינה נכונה. <br> נא לודא ש-CAPS LOCK כבוי ולהקפיד להשתמש באותיות רישיות נכונות.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "שמירה נכשלה.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "פג תוקפו של הפעלת עריכת המסמכים. נא לטעון מחדש את הדף.",
   "PDFE.Controllers.Main.errorSessionIdle": "המסמך לא נערך די הרבה זמן. נא לטעון מחדש את הדף.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

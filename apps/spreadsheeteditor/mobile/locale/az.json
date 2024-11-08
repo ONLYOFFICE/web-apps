@@ -363,12 +363,12 @@
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorProtectedRange": "This range is not allowed for editing.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textFillOtherRows": "Fill other rows",
     "textFormulaFilledAllRows": "Formula filled {0} rows have data. Filling other empty rows may take a few minutes.",
     "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",
     "textFormulaFilledFirstRowsOtherHaveData": "Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.",
-    "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data."
   },
   "LongActions": {
     "advDRMPassword": "Parol",

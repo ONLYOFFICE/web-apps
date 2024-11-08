@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Шрыфты не загрузіліся.<br>Звярніцеся да адміністратара сервера дакументаў.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Вы ўвялі няправільны пароль.<br>Пераканайцеся, што клавіша CAPS LOCK адключаная і літары ўводзяцца ў патрэбным рэгістры.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Не ўдалося захаваць.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Рэдактар быў абноўлены. Старонка перазагрузіцца, каб ужыць змены.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Час сеанса рэдагавання дакумента сышоў. Калі ласка, абнавіце старонку.",
   "PDFE.Controllers.Main.errorSessionIdle": "Дакумент працяглы час не рэдагаваўся. Калі ласка, абнавіце старонку.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

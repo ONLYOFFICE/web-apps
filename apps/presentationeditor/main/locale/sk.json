@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Kľúč deskriptora vypršal",
   "PE.Controllers.Main.errorLoadingFont": "Fonty sa nenahrali.<br>Kontaktujte prosím svojho administrátora Servera dokumentov.",
   "PE.Controllers.Main.errorProcessSaveResult": "Ukladanie zlyhalo.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
   "PE.Controllers.Main.errorSessionAbsolute": "Režim editácie dokumentu vypršal. Prosím, načítajte stránku znova.",
   "PE.Controllers.Main.errorSessionIdle": "Dokument nebol dlho upravovaný. Prosím, načítajte stránku znova.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

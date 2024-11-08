@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "글꼴 불러오기에 실패하였습니다.<br>문서 시스템 관리자에게 문의하세요.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "잘못된 비밀번호.<br>캡 잠금 버튼이 꺼져 있는지 확인하고 올바른 대문자를 사용해야 합니다.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "저장하지 못했습니다.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "문서 편집 세션이 만료되었습니다. 페이지를 새로 고침하십시오.",
   "PDFE.Controllers.Main.errorSessionIdle": "문서가 오랫동안 편집되지 않았습니다. 페이지를 새로고침 하십시오.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

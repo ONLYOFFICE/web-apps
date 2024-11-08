@@ -231,9 +231,9 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
-    "textOk": "OK",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Ielādē datus...",

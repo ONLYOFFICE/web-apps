@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "PE.Controllers.Main.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PE.Controllers.Main.errorProcessSaveResult": "Сбой при сохранении.",
+  "PE.Controllers.Main.errorSaveWatermark": "Этот файл содержит изображение водяного знака, привязанное к другому домену.<br>Чтобы сделать его видимым в PDF, обновите изображение водяного знака, чтобы оно было связано с тем же доменом, что и документ, или загрузите его со своего компьютера.",
   "PE.Controllers.Main.errorServerVersion": "Версия редактора была обновлена. Страница будет перезагружена, чтобы применить изменения.",
   "PE.Controllers.Main.errorSessionAbsolute": "Время сеанса редактирования документа истекло. Пожалуйста, обновите страницу.",
   "PE.Controllers.Main.errorSessionIdle": "Документ долгое время не редактировался. Пожалуйста, обновите страницу.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "Показать направляющие",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
 }

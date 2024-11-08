@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Os tipos de letra não foram carregados.<br>Contacte o administrador do servidor de documentos.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "A palavra-passe introduzida não está correta.<br>Verifique se a tecla CAPS LOCK está ativa e não se esqueça de utilizar a capitalização correta.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Falha ao guardar.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "A sessão de edição caducou. Recarregue a página.",
   "PDFE.Controllers.Main.errorSessionIdle": "Este documento não foi editado durante muito tempo. Recarregue a página.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar à página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface"
 }

@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "키 설명자가 만료되었습니다",
   "PE.Controllers.Main.errorLoadingFont": "글꼴이 로드되지 않았습니다. <br>문서 관리 관리자에게 문의하십시오.",
   "PE.Controllers.Main.errorProcessSaveResult": "저장하지 못했습니다.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "에디터 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
   "PE.Controllers.Main.errorSessionAbsolute": "문서 편집 세션이 만료되었습니다. 페이지를 새로 고침하십시오.",
   "PE.Controllers.Main.errorSessionIdle": "문서가 오랫동안 편집되지 않았습니다. 페이지를 새로고침 하십시오.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "가이드 표시",
   "PE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

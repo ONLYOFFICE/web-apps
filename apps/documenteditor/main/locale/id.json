@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Tidak ada daftar isi yang harus diperbarui. Anda dapat menyisipkan satu daftar isi dari tab Referensi.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Kata sandi yang Anda masukkan tidak tepat.<br>Pastikan CAPS LOCK sudah mati dan pastikan telah menggunakan huruf besar dengan tepat.",
   "DE.Controllers.Main.errorProcessSaveResult": "Gagal menyimpan.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
   "DE.Controllers.Main.errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
   "DE.Controllers.Main.errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

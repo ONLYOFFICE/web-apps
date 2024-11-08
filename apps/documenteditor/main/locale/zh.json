@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "没有要更新的目录。可以从“参考”选项卡插入一个。",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "您提供的密码不正确<br>验证CAPS LOCK键是否关闭，并确保使用正确的大写字母。",
   "DE.Controllers.Main.errorProcessSaveResult": "保存失败",
+  "DE.Controllers.Main.errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
   "DE.Controllers.Main.errorServerVersion": "编辑器版本已更新。页面将被重新加载以应用更改。",
   "DE.Controllers.Main.errorSessionAbsolute": "文档编辑会话已过期。请重新加载页面",
   "DE.Controllers.Main.errorSessionIdle": "这份文件已经很长时间没有编辑了。请重新加载页面。",
@@ -1903,9 +1904,9 @@
   "DE.Views.DocumentHolder.leftText": "左",
   "DE.Views.DocumentHolder.loadSpellText": "加载变体...",
   "DE.Views.DocumentHolder.mergeCellsText": "合并单元格",
-  "DE.Views.DocumentHolder.mniImageFromFile": "Image from File",
-  "DE.Views.DocumentHolder.mniImageFromStorage": "Image from Storage",
-  "DE.Views.DocumentHolder.mniImageFromUrl": "Image from URL",
+  "DE.Views.DocumentHolder.mniImageFromFile": "图片文件",
+  "DE.Views.DocumentHolder.mniImageFromStorage": "存储设备中的图片",
+  "DE.Views.DocumentHolder.mniImageFromUrl": "来自URL地址的图片",
   "DE.Views.DocumentHolder.moreText": "更多变体...",
   "DE.Views.DocumentHolder.noSpellVariantsText": "没有变体",
   "DE.Views.DocumentHolder.notcriticalErrorTitle": "警告",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }

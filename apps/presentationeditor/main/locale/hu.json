@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Lejárt kulcsleíró",
   "PE.Controllers.Main.errorLoadingFont": "A betűtípusok nincsenek betöltve.<br>Kérjük forduljon a dokumentumszerver rendszergazdájához.",
   "PE.Controllers.Main.errorProcessSaveResult": "Sikertelen mentés.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
   "PE.Controllers.Main.errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Kérjük, töltse be újra az oldalt.",
   "PE.Controllers.Main.errorSessionIdle": "A dokumentumot sokáig nem szerkesztették. Kérjük, töltse be újra az oldalt.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "Iránymutatás",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interfész témája",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

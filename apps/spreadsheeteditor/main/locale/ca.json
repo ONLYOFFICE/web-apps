@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "No és possible imprimir més de 1500 pàgines alhora a la versió actual del programa. <br> Aquesta restricció s'eliminarà a les pròximes versions.",
   "SSE.Controllers.Main.errorProcessSaveResult": "No s'ha pogut desar",
   "SSE.Controllers.Main.errorProtectedRange": "No es permet editar aquest interval.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
   "SSE.Controllers.Main.errorSessionAbsolute": "La sessió d’edició del document ha caducat. Torna a carregar la pàgina.",
   "SSE.Controllers.Main.errorSessionIdle": "Fa temps que no s'obre el document. Torna a carregar la pàgina.",
@@ -4500,6 +4501,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
-  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball"
 }
