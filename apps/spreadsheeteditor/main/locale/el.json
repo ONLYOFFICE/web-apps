@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -2018,5 +2018,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

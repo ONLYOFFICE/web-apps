@@ -469,7 +469,8 @@
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
     "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",

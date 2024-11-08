@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

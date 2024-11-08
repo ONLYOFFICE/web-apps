@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het blad op te heffen",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

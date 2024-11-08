@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "මගපෙන්වීම් පෙන්වන්න",
   "PE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

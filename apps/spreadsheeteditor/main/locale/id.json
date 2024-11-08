@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

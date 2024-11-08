@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "显示辅助线",
   "PE.Views.ViewTab.tipInterfaceTheme": "界面主题",
   "PE.Views.ViewTab.tipNormal": "正常",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -469,7 +469,8 @@
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
     "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",

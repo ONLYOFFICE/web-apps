@@ -367,7 +367,8 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "密码",

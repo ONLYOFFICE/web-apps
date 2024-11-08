@@ -3664,5 +3664,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

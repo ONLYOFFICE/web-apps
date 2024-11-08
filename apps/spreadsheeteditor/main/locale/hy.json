@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ թերթը չպաշտպանելու համար",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Չպաշտպանել թերթիկը",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Չպաշտպանել աշխատանքային գրքույկը"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Չպաշտպանել աշխատանքային գրքույկը",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

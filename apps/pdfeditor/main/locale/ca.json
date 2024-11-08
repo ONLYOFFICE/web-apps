@@ -2018,5 +2018,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }
