@@ -809,7 +809,7 @@
   "Common.Views.SignSettingsDialog.textInfoName": "Signataire suggéré",
   "Common.Views.SignSettingsDialog.textInfoTitle": "Titre du signataire suggéré",
   "Common.Views.SignSettingsDialog.textInstructions": "Instructions pour les signataires",
-  "Common.Views.SignSettingsDialog.textShowDate": "Afficher la date de signature à côté de la ligne de signature",
+  "Common.Views.SignSettingsDialog.textShowDate": "Afficher la date de signature à côté de la zone de signature",
   "Common.Views.SignSettingsDialog.textTitle": "Configuration de signature",
   "Common.Views.SignSettingsDialog.txtEmpty": "Ce champ est obligatoire.",
   "Common.Views.SymbolTableDialog.textCharacter": "Caractère",
@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Il n'y a pas de table des matières à mettre à jour. Vous pouvez en insérer une à partir de l'onglet Références.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct.<br>Vérifiez que la touche CAPS LOCK est désactivée et assurez-vous d'utiliser la bonne majuscule.",
   "DE.Controllers.Main.errorProcessSaveResult": "Échec de l'enregistrement",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
   "DE.Controllers.Main.errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
   "DE.Controllers.Main.errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Souligné",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la police",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police"
 }

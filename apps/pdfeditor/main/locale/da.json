@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Skrifttyper er ikke indlæst.<br>Kontakt din dokument server administrator.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Den adgangskode, du har angivet, er ikke korrekt.<br>Bekræft, at CAPS LOCK-tasten er slået fra, og sørg for at bruge den korrekte brug af store bogstaver.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Kunne ikke gemme",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Redigeringsversionen er blevet opdatere. Siden vil blive genindlæst for at anvende ændringerne. ",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Sessionen for dokumentredigering er udløbet. Genindlæs venligst siden. ",
   "PDFE.Controllers.Main.errorSessionIdle": "Dokumentet er ikke blevet redigeret i et stykke tid. Genindlæs venligst siden.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Tilpas til side",
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
 }

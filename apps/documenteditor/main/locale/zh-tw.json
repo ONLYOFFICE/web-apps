@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "沒有目錄可更新。您可以從「參考」標籤中插入一個。",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "您提供的密碼不正確。<br>請確保大寫鎖定鍵已關閉，並確保使用正確的大小寫。",
   "DE.Controllers.Main.errorProcessSaveResult": "儲存失敗",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "編輯器版本已更新。將重新載入頁面以更新改動。",
   "DE.Controllers.Main.errorSessionAbsolute": "文件編輯會話已過期。請重新載入頁面。",
   "DE.Controllers.Main.errorSessionIdle": "該文件已經有一段時間未編輯。請重新載入頁面。",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "底線",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字型名稱",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字型大小"
 }

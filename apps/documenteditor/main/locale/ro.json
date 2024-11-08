@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Parola introdusă este incorectă.<br>Verificaţi dacă nu este activată tasta CAPS LOCK și vă asigurați că utilizați introducerea corectă a majusculelor.",
   "DE.Controllers.Main.errorProcessSaveResult": "Salvarea nu a reușit.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
   "DE.Controllers.Main.errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
   "DE.Controllers.Main.errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliniat",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Denumire font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font"
 }

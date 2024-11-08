@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Nav satura rādītāja, ko atjaunināt. Varat to ievietot no cilnes Atsauces.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Jūsu sniegtā parole nav pareiza.<br>Pārbaudiet, vai CAPS LOCK taustiņš ir izslēgts, un vai pareizi izmantojat lielos un mazos burtus.",
   "DE.Controllers.Main.errorProcessSaveResult": "Neizdevās saglabāt.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
   "DE.Controllers.Main.errorSessionAbsolute": "Dokumentu rediģēšanas sesija ir beigusies. Ielādējiet lapu atkārtoti.",
   "DE.Controllers.Main.errorSessionIdle": "Dokuments nav rediģēts ilgāku laiku. Ielādējiet lapu atkārtoti.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }

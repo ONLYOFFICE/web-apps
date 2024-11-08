@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Platnost popisovače klíče skončila",
   "PE.Controllers.Main.errorLoadingFont": "Písma nejsou načtená.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
   "PE.Controllers.Main.errorProcessSaveResult": "Ukládání se nezdařilo.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se změny uplatnily.",
   "PE.Controllers.Main.errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
   "PE.Controllers.Main.errorSessionIdle": "Po dost dlouhou dobu jste s otevřeným dokumentem nepracovali. Načtete stránku znovu.",
@@ -2931,6 +2932,5 @@
   "PE.Views.ViewTab.tipGuides": "Zobrazit vodítka",
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

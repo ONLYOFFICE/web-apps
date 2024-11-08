@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Valitettavasti ei ole mahdollista tulostaa enempää kuin 1500 sivua kerralla nykyisessä ohjelman versiossa.<br>Tämä rajoitus tulee poistumaan tulevissa versioissa.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Talletus epäonnistui",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Asiakirjan muokkauksen istunnon aika on erääntynyt. Ole hyvä ja lataa uudelleen sivu.",
   "SSE.Controllers.Main.errorSessionIdle": "Asiakirjaa ei ole muokattu pitkään aikaan. Ole hyvä ja lataa sivu uudelleen.",
@@ -4500,6 +4501,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
-  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
 }

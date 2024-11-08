@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "No s'han carregat les famílies tipogràfiques.<br>Posa't en contacte amb l'administrador del servidor de documents.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "La contrasenya que has introduït no és correcta.<br>Verifica que la tecla Bloq Maj està desactivada i assegura't que fas servir les majúscules correctes.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "S'ha produït un error en desar.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "S'ha actualitzat la versió de l'editor. Es tornarà a carregar la pàgina per aplicar els canvis.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "La sessió d'edició del document ha caducat. Torneu a carregar la pàgina.",
   "PDFE.Controllers.Main.errorSessionIdle": "Fa temps que no s'obre el document. Torneu a carregar la pàgina.",
@@ -2018,6 +2019,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
-  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
 }

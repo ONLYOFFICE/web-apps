@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "合并失败",
     "errorNoTOC": "没有要更新的目录。可以从“参考”选项卡插入一个。",
     "errorPasswordIsNotCorrect": "您提供的密码不正确。确认CAPS LOCK键已关闭，并确保使用正确的大写字母。",
+    "errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
     "errorSessionAbsolute": "该文件编辑窗口已过期。请刷新该页。",
     "errorSessionIdle": "该文档已经很久没有编辑了。请重新加载页面。",
     "errorSessionToken": "与服务器的连接被打断。请刷新该页。",
@@ -462,15 +463,14 @@
     "splitDividerErrorText": "该行数必须是%1的除数。",
     "splitMaxColsErrorText": "列数必须小于%1",
     "splitMaxRowsErrorText": "行数必须小于%1",
+    "textOk": "OK",
     "unknownErrorText": "未知错误。",
     "uploadDocExtMessage": "未知文件格式。",
     "uploadDocFileCountMessage": "未上传任何文档。",
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图片格式",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "textOk": "OK",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",

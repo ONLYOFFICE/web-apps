@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "No hay ninguna tabla de contenido que actualizar. Se puede insertar una desde la pestaña «Referencias».",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "La contraseña que ha proporcionado no es correcta.<br>Verifique que la tecla «Bloq Mayús» esté desactivada y asegúrese de utilizar las mayúsculas correctamente.",
   "DE.Controllers.Main.errorProcessSaveResult": "No se ha podido guardar el documento debido a un error.",
+  "DE.Controllers.Main.errorSaveWatermark": "Este archivo contiene una imagen de marca de agua vinculada a otro dominio.<br>Para que sea visible en PDF, actualice la imagen de marca de agua para que se vincule desde el mismo dominio que su documento, o cárguela desde su ordenador.",
   "DE.Controllers.Main.errorServerVersion": "La versión del editor se ha actualizado. La página se recargará para aplicar los cambios.",
   "DE.Controllers.Main.errorSessionAbsolute": "La sesión ha expirado. Por favor, recargue la página.",
   "DE.Controllers.Main.errorSessionIdle": "El documento no ha sido editado durante bastante tiempo. Por favor, recargue la página.",
@@ -3664,6 +3665,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
-  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente"
 }
