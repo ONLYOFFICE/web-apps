@@ -924,6 +924,7 @@
   "DE.Controllers.Main.errorUserDrop": "The file cannot be accessed right now.",
   "DE.Controllers.Main.errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
   "DE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print it until the connection is restored and page is reloaded.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To save the file as a PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click \"Stay on This Page\", then \"Save\" to save them. Click \"Leave This Page\" to discard all the unsaved changes.",
   "DE.Controllers.Main.leavePageTextOnClose": "All unsaved changes in this document will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "DE.Controllers.Main.loadFontsTextText": "Loading data...",
