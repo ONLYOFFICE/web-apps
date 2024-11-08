@@ -3664,5 +3664,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

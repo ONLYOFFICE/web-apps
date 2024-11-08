@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

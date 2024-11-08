@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

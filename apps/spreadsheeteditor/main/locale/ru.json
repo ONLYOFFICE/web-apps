@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введите пароль для отключения защиты листа",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

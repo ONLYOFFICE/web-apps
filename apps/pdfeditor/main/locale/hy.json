@@ -2018,5 +2018,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

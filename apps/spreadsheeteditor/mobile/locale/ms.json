@@ -367,7 +367,8 @@
     "textOk": "Ok",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",

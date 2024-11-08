@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

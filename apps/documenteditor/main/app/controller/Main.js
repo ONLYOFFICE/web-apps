@@ -2261,6 +2261,11 @@ define([
                         config.msg = this.errorPasswordIsNotCorrect;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotSaveWatermark:
+                        config.maxwidth = 600;
+                        config.msg = this.errorSaveWatermark;
+                        break;
+
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
                         if (errData === 'pdf')

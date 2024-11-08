@@ -469,7 +469,8 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",

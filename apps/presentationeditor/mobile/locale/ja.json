@@ -232,7 +232,8 @@
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
     "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",

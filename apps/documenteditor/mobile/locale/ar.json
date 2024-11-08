@@ -469,7 +469,8 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",

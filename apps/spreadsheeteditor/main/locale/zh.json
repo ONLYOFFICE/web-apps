@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

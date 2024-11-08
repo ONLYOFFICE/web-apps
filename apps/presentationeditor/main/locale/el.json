@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "Εμφάνιση οδηγών",
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

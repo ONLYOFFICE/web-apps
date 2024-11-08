@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "عرض الخطوط الدلالية",
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

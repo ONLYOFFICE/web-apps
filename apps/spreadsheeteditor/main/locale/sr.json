@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Unesite lozinku da nezaštitite list",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

@@ -354,6 +354,7 @@
     "textCancel": "Cancel",
     "textClose": "Close",
     "textErrorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textFillOtherRows": "Fill other rows",
     "textFormulaFilledAllRows": "Formula filled {0} rows have data. Filling other empty rows may take a few minutes.",
     "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",

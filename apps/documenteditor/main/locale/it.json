@@ -3664,5 +3664,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitrasparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sottolineato",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome carattere",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

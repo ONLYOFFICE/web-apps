@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "הצג מדריכים",
   "PE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
   "PE.Views.ViewTab.tipNormal": "רגיל",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

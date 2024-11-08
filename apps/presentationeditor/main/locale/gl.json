@@ -2931,5 +2931,6 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

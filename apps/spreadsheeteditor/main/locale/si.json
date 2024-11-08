@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "පත්‍රය අනාරක්‍ෂණයට මුරපදයක් යොදන්න",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }

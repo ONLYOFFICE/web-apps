@@ -4500,5 +4500,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Каб зняць абарону аркуша, увядзіце пароль",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняць абарону аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняць абарону працоўнай кнігі"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняць абарону працоўнай кнігі",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
 }
