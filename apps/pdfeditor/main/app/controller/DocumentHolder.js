@@ -2758,7 +2758,7 @@ define([
         },
 
         onRotatePage: function(angle, item) {
-            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(item.options.value) + angle);
+            this.api && this.api.asc_RotatePage(angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },

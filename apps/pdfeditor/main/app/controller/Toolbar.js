@@ -2220,12 +2220,12 @@ define([
         },
 
         onRotatePage: function() {
-            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + 90);
+            this.api && this.api.asc_RotatePage(90);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePageMenu: function(menu, item) {
-            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + item.value);
+            this.api && this.api.asc_RotatePage(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
