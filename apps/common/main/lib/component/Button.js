@@ -189,9 +189,9 @@ define([
                 '</svg>' +
             '<% } else if (/svgicon/.test(iconCls)) { %>' +
                 '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /svgicon\\s(\\S+)/.exec(iconCls)[1] %>"></use></svg>' +
-            '<% } else { %>' +
-                '<i class="icon <% iconCls %>"></i>' +
-            '<% } %>';
+            '<% } else { ' +
+                'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
+            ' } %>';
 
     var templateBtnCaption =
         '<%= caption %>' +
@@ -293,9 +293,9 @@ define([
                         '<svg class="icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
                     '<% } else if (/svgicon/.test(iconCls)) { %>',
                         '<svg class="icon permanent-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>"><use class="zoom-int" href="#<%= /svgicon\\s(\\S+)/.exec(iconCls)[1] %>"></use></svg>',
-                    '<% } else { %>',
-                        '<i class="icon <% iconCls %>"></i>',
-                    '<% } %>',
+                    '<% } else { ',
+                        'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ',
+                    ' } %>',
                 '<% } %>',
             '<% } %>',
             '<% if ( !menu && onlyIcon ) { %>',
@@ -474,7 +474,6 @@ define([
                     }
 
                     parentEl.html(me.cmpEl);
-                    me.$icon = me.$el.find('.icon');
                 }
             } else {
                 if (me.options.el || me.cmpEl) {
@@ -791,8 +790,7 @@ define([
         },
 
         changeIcon: function(opts) {
-            let btnIconEl = $(this.el).find('i.icon');
-            let svgIcon = $(this.el).find('.icon use.zoom-int');
+            const svgIcon = $(this.el).find('.icon use.zoom-int'), btnIconEl = $(this.el).find('i.icon');
 
             if (opts && (opts.curr || opts.next)) {
                 if (opts.curr) {
@@ -816,7 +814,8 @@ define([
         },
 
         hasIcon: function(iconcls) {
-            return this.$icon.hasClass(iconcls);
+            const iconHref = this.$el.find('use.zoom-int').attr('href');
+            return iconHref.includes(iconcls);
         },
 
         setVisible: function(visible) {
@@ -1083,7 +1082,10 @@ define([
         },
 
         updateIcon: function() {
-            this.$icon && this.$icon.css({'background-image': 'url('+ (this.cmpButtonFirst && (this.cmpButtonFirst.hasClass('active') || this.cmpButtonFirst.is(':active')) ? this.iconActiveImg : this.iconNormalImg) +')'});
+            this.$el.find('i.icon').css({
+                'background-image': 'url('+ (this.cmpButtonFirst && (this.cmpButtonFirst.hasClass('active') || this.cmpButtonFirst.is(':active')) ? this.iconActiveImg : this.iconNormalImg) +')',
+                'display': 'inline-block'
+            });
         },
 
         applyScaling: function (ratio) {

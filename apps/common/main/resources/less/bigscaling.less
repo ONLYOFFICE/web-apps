@@ -40,9 +40,12 @@
 
     .dropdown-menu {
         .menu-item {
-            span.menu-item-icon {
-                display: none;
+            body:not(.pixel-ratio__1_25, .pixel-ratio__1_5, .pixel-ratio__1_75) & {
+                span.menu-item-icon {
+                    display: none;
+                }
             }
+
             svg.menu-item-icon {
                 fill: @icon-normal-ie;
                 fill: @icon-normal;

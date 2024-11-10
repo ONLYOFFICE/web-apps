@@ -114,9 +114,9 @@ define([
         template: _.template([
             '<a id="<%= id %>" class="menu-item" <% if (_.isEmpty(iconCls)) { %> data-no-icon <% } %> style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
-                    '<svg class="menu-item-icon <%= (iconCls ? iconCls.indexOf("icon-rtl") : -1) > -1 ? "icon-rtl" : "" %>">',
-                        '<use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use>',
-                    '</svg>',
+                    '<% if (/btn-[^\\s]+/.test(iconCls)) { %>',
+                        '<svg class="menu-item-icon"><use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>',
+                    '<% } %>',
                 '<% } else if (!_.isEmpty(iconImg)) { %>',
                     '<img src="<%= iconImg %>" class="menu-item-icon">',
                 '<% } %>',

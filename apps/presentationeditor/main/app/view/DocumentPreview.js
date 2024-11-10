@@ -73,9 +73,9 @@ define([
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
                 '<div id="preview-controls-panel" class="preview-controls"">',
                     '<div class="preview-group" style="">',
-                        !Common.UI.isRTL() ? '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>' : '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play">&nbsp;</i></button>',
-                        !Common.UI.isRTL() ? '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>' : '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"></button>' : '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"></button>' : '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"></button>',
                     '<div class="separator"></div>',
                     '</div>',
                     '<div class="preview-group dropup">',
@@ -87,9 +87,9 @@ define([
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"></div>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-fullscreen">&nbsp;</i></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"></button>',
                         '<div class="separator fullscreen"></div>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-close">&nbsp;</i></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"></button>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -109,7 +109,8 @@ define([
                 el: $('#btn-preview-prev',this.el),
                 hint: this.txtPrev,
                 hintAnchor: 'top',
-                hintContainer: '#pe-preview'
+                hintContainer: '#pe-preview',
+                iconCls: 'toolbar__icon btn-previtem'
             });
             this.btnPrev.on('click', _.bind(function() {
                 if (this.api) this.api.DemonstrationPrevSlide();
@@ -119,7 +120,8 @@ define([
                 el: $('#btn-preview-next',this.el),
                 hint: this.txtNext,
                 hintAnchor: 'top',
-                hintContainer: '#pe-preview'
+                hintContainer: '#pe-preview',
+                iconCls: 'toolbar__icon btn-nextitem'
             });
             this.btnNext.on('click', _.bind(function() {
                 if (this.api) this.api.DemonstrationNextSlide();
@@ -129,11 +131,11 @@ define([
                 el: $('#btn-preview-play',this.el),
                 hint: this.txtPlay,
                 hintAnchor: 'top',
-                hintContainer: '#pe-preview'
+                hintContainer: '#pe-preview',
+                iconCls: 'toolbar__icon btn-play'
             });
             this.btnPlay.on('click', _.bind(function(btn) {
-                var iconEl = $('.icon', this.btnPlay.cmpEl);
-                if (iconEl.hasClass('btn-preview-pause')) {
+                if (btn.hasIcon('btn-preview-pause')) {
                     this.btnPlay.changeIcon({curr: 'btn-preview-pause', next: 'btn-play'});
                     this.btnPlay.updateHint(this.txtPlay);
                     if (this.api)
@@ -150,7 +152,8 @@ define([
                 el: $('#btn-preview-close',this.el),
                 hint: this.txtClose,
                 hintAnchor: 'top',
-                hintContainer: '#pe-preview'
+                hintContainer: '#pe-preview',
+                iconCls: 'toolbar__icon btn-close'
             });
             this.btnClose.on('click', _.bind(function() {
                 if (this.api) this.api.EndDemonstration();
@@ -160,7 +163,8 @@ define([
                 el: $('#btn-preview-fullscreen',this.el),
                 hint: this.txtFullScreen,
                 hintAnchor: 'top',
-                hintContainer: '#pe-preview'
+                hintContainer: '#pe-preview',
+                iconCls: 'toolbar__icon btn-fullscreen'
             });
             this.btnFullScreen.on('click', _.bind(function(btn) {
                 this.toggleFullScreen();

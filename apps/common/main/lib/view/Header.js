@@ -585,6 +585,9 @@ define([
             var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item"><div>' +
                                             '<% if (!_.isEmpty(iconCls)) { %>' +
                                                 '<span class="menu-item-icon <%= iconCls %>"></span>' +
+                                                '<% if (/btn-[^\\s]+/.test(iconCls)) { %>' +
+                                                '<svg class="menu-item-icon"><use class="zoom-int" href="#<%= /btn-[^\\s]+/.exec(iconCls)[0] %>"></use></svg>' +
+                                                '<% } %>' +
                                             '<% } %>' +
                                             '<b><%= caption %></b></div>' +
                                             '<% if (options.description !== null) { %><label class="margin-left-10 description"><%= options.description %></label>' +
