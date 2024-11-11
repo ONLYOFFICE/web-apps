@@ -29,9 +29,12 @@
     }
 
     .dataview {
-        &:not(.scaling-off) .options__icon {
-            display: none;
+        body:not(.pixel-ratio__1_25, .pixel-ratio__1_5, .pixel-ratio__1_75) & {
+            .options__icon {
+                display: none;
+            }
         }
+
         svg.icon {
             max-width: 100%;
             max-height: 100%;
