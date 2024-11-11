@@ -266,6 +266,7 @@ define([
                         origin: origin,
                         args: (descrarr && descrarr[origin]) ? descrarr[origin].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()) : args,
                         desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : '',
+                        argsDesc: (descrarr && descrarr[origin] && descrarr[origin].ad) ? descrarr[origin].ad.split('!') : [],
                         custom: !!custom
                     };
 
