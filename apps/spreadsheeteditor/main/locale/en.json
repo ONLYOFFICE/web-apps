@@ -3041,6 +3041,8 @@
   "SSE.Views.FormulaWizard.textText": "text",
   "SSE.Views.FormulaWizard.textTitle": "Function arguments",
   "SSE.Views.FormulaWizard.textValue": "Formula result",
+  "SSE.Views.FormulaWizard.textNoArgsDesc": "this argument has no description",
+  "SSE.Views.FormulaWizard.textReadMore": "Read more",
   "SSE.Views.GoalSeekDlg.textChangingCell": "By changing cell",
   "SSE.Views.GoalSeekDlg.textDataRangeError": "The formula is missing a range",
   "SSE.Views.GoalSeekDlg.textMustContainFormula": "The cell must contain a formula",
