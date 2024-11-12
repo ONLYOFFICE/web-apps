@@ -179,7 +179,8 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de utilizadores para os editores %1. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
       "warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro."
+      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -230,7 +231,9 @@
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",

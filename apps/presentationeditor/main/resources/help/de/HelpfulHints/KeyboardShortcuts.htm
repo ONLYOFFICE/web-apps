@@ -13,9 +13,9 @@
 	</head>
 	<body>
 		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
-        </div>
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+			</div>
 			<h1>Tastenkombinationen</h1>
 			<h3>Tastenkombinationen für Key-Tipps</h3>
 			<p>Verwenden Sie <b>Tastenkombinationen</b> für einen schnelleren und einfacheren Zugriff auf die Funktionen des <a target="_blank" href="https://www.onlyoffice.com/en/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditors</b></a> ohne eine Maus zu verwenden.</p>
@@ -32,12 +32,11 @@
 				<li>Drücken Sie <b>Alt</b>, um alle Tastentipps auszublenden, oder drücken Sie <b>Escape</b>, um zur vorherigen Gruppe von Tastentipps zurückzukehren.</li>
 			</ol>
 			<p>In der folgenden Liste finden Sie die gängigsten Tastenkombinationen:</p>
+			<p class="note">Bitte beachten: Unter macOS enthalten einige Tastenkombinationen die Tasten <kbd>POS1</kbd>, <kbd>ENDE</kbd>, <kbd>Bild auf</kbd> und <kbd>Bild ab</kbd>, die nur auf der erweiterten Tastatur verfügbar sind. Wenn Sie diese Tasten nicht haben, verwenden Sie die oben angegebenen Tastenkombinationen (d. h. verwenden Sie <kbd>^ STRG</kbd>/<kbd>⌘ Cmd</kbd>+<kbd>←</kbd> oder <kbd>Fn</kbd>+<kbd>←</kbd> statt <kbd>POS1</kbd>, <kbd>^ STRG</kbd>/<kbd>⌘ Cmd</kbd>+<kbd>→</kbd> oder <kbd>Fn</kbd>+<kbd>→</kbd> statt <kbd>ENDE</kbd>, <kbd>Fn</kbd>+<kbd>↑</kbd> statt <kbd>Bild auf</kbd>, <kbd>Fn</kbd>+<kbd>↓</kbd> statt <kbd>Bild ab</kbd>).</p>
 			<ul class="shortcut_variants">
-                <li class="shortcut_toggle pc_option left_option">Windows/Linux</li>
-				<!--
-				-->
-				<li class="shortcut_toggle mac_option right_option">Mac OS</li>
-            </ul>
+				<li class="shortcut_toggle pc_option left_option">Windows/Linux</li>
+				<li class="shortcut_toggle mac_option right_option">macOS</li>
+			</ul>
 			<table class="keyboard_shortcuts_table">
 				<tr>
 					<th colspan="4" class="keyboard_section">Eine Präsentation bearbeiten</th>
@@ -53,6 +52,12 @@
 					<td><kbd>STRG</kbd>+<kbd>F</kbd></td>
 					<td><kbd>^ STRG</kbd>+<kbd>F</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>F</kbd></td>
 					<td>Über das Dialogfeld <b>Suchen</b> können Sie in der aktuellen Präsentation nach Zeichen/Wörtern/Phrasen suchen.</td>
+				</tr>
+				<tr>
+					<td>Dialogbox „Suchen und Ersetzen“ mit dem Ersetzungsfeld öffnen</td>
+					<td><kbd>STRG</kbd>+<kbd>H</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>H</kbd></td>
+					<td>Öffnen Sie das Fenster <b>Suchen und Ersetzen</b>, um ein oder mehrere Ergebnisse der gefundenen Zeichen zu ersetzen.</td>
 				</tr>
 				<tr>
 					<td>Kommentarleiste öffnen</td>
@@ -109,6 +114,18 @@
 					<td>Auf der Registerkarte <b>Lokale Datei öffnen</b> unter <b>Desktop-Editoren</b> wird das Standarddialogfeld geöffnet, in dem Sie eine vorhandene Datei auswählen können.</td>
 				</tr>
 				<tr>
+					<td>Zur nächsten Registerkarte wechseln</td>
+					<td><kbd>STRG</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Zur nächsten Dateiregisterkarte in <b>Desktop-Editoren</b> oder zur nächsten Browserregisterkarte in <b>Online-Editoren</b> wechseln.</td>
+				</tr>
+				<tr>
+					<td>Zur vorherigen Registerkarte wechseln</td>
+					<td><kbd>STRG</kbd>+<kbd>UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Zur vorherigen Dateiregisterkarte in <b>Desktop-Editoren</b> oder zur Browser-Registerkarte in <b>Online-Editoren</b> wechseln.</td>
+				</tr>
+				<tr>
 					<td>Datei schließen (Desktop-Editoren)</td>
 					<td><kbd>STRG</kbd>+<kbd>W</kbd>,<br /><kbd>STRG</kbd>+<kbd>F4</kbd></td>
 					<td><kbd>^ STRG</kbd>+<kbd>W</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>W</kbd></td>
@@ -119,6 +136,12 @@
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>F10</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>F10</kbd></td>
 					<td>Öffnen des ausgewählten Element-<b>Kontextmenüs</b>.</td>
+				</tr>
+				<tr>
+					<td>Menü oder modales Fenster schließen, Modi zurücksetzen usw.</td>
+					<td><kbd>Esc</kbd></td>
+					<td><kbd>Esc</kbd></td>
+					<td>Ein Menü oder modales Fenster schließen. Popups und Sprechblasen mit Kommentaren zurücksetzen und Änderungen überprüfen. Den Zeichen- und Löschmodus für Tabellen zurücksetzen. Text-Drag-and-Drop zurücksetzen. Markierungsauswahlmodus zurücksetzen. Format-Painter-Modus zurücksetzen. Formen abwählen. Modus zum Hinzufügen von Formen zurücksetzen. Kopf-/Fußzeile verlassen. Ausfüllen der Formulare beenden.</td>
 				</tr>
 				<tr>
 					<td>Parameter „Zoom“ zurücksetzen</td>
@@ -181,6 +204,12 @@
 					<td>Eine neue Folie erstellen und nach der ausgewählten Folie in der Liste einfügen.</td>
 				</tr>
 				<tr>
+					<td>Folie entfernen</td>
+					<td><kbd>ENTF</kbd>,<br /><kbd>Rücktaste</kbd></td>
+					<td><kbd>ENTF</kbd>,<br /><kbd>Fn</kbd>+<kbd>Rücktaste</kbd></td>
+					<td>Entfernt die aktuell ausgewählte Folie in der Liste oder mehrere ausgewählte Folien.</td>
+				</tr>
+				<tr>
 					<td>Folie duplizieren</td>
 					<td><kbd>STRG</kbd>+<kbd>D</kbd></td>
 					<td><kbd>&#8984; Cmd</kbd>+<kbd>D</kbd></td>
@@ -214,6 +243,24 @@
 					<th colspan="4" class="keyboard_section"><a id="workwithobjects"></a>Objekte bearbeiten</th>
 				</tr>
 				<tr>
+					<td>Mit Formen arbeiten</td>
+					<td><kbd>↵ Eingabetaste</kbd></td>
+					<td><kbd>Zurück</kbd></td>
+					<td>Wenn die Form ausgewählt ist und keinen Inhalt enthält, erstellen Sie Inhalt und bewegen Sie den Cursor an den Anfang der Zeile. Wenn der Inhalt leer ist, bewegen Sie den Cursor dorthin, andernfalls wählen Sie den gesamten Inhalt aus.</td>
+				</tr>
+				<tr>
+					<td>Mit Diagrammen arbeiten</td>
+					<td><kbd>↵ Eingabetaste</kbd></td>
+					<td></td>
+					<td>Wenn der Diagrammtitel ausgewählt ist und der Titel leer ist, bewegen Sie den Cursor an den Zeilenanfang, andernfalls wählen Sie den Text aus.</td>
+				</tr>
+				<tr>
+					<td>Eine Kopie beim Ziehen erstellen</td>
+					<td><kbd>STRG</kbd></td>
+					<td><kbd>^ STRG</kbd></td>
+					<td>Wählen Sie ein Objekt aus und halten Sie beim Ziehen des Objekts die angegebene Taste gedrückt, um eine Kopie des Objekts an der Position zu erstellen, an die es verschoben wurde.</td>
+				</tr>
+				<tr>
 					<td>Kopie erstellen</td>
 					<td><kbd>STRG</kbd> + ziehen,<br /><kbd>STRG</kbd>+<kbd>D</kbd></td>
 					<td><kbd>^ STRG</kbd> + ziehen,<br /><kbd>&#8984; Cmd</kbd> + ziehen,<br /><kbd>^ STRG</kbd>+<kbd>D</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>D</kbd></td>
@@ -244,10 +291,22 @@
 					<td>Das vorherige Objekt vor dem aktuellen auswählen.</td>
 				</tr>
 				<tr>
-					<td>Gerade Linie oder Pfeil zeichnen</td>
-					<td><kbd>⇧ UMSCHALT</kbd> + ziehen (beim Ziehen von Linien/Pfeilen)</td>
-					<td><kbd>⇧ UMSCHALT</kbd> + ziehen (beim Ziehen von Linien/Pfeilen)</td>
-					<td>Zeichnen einer geraden vertikalen/horizontalen/45-Grad Linie oder eines solchen Pfeils.</td>
+					<td>Winkel der Linie/des Pfeils beim Zeichnen ändern</td>
+					<td><kbd>⇧ UMSCHALT</kbd> + ziehen (beim Zeichnen von Linien/Pfeilen)</td>
+					<td><kbd>⇧ UMSCHALT</kbd> + ziehen (beim Zeichnen von Linien/Pfeilen)</td>
+					<td>Halten Sie beim Zeichnen der Linie/des Pfeils die <kbd>Umschalttaste</kbd> gedrückt und drehen Sie die Pfeilspitze/das Linienende, um den Winkel der Linie/des Pfeils beim Zeichnen zu ändern. Die Linie/der Pfeil wird dabei um genau 45 Grad gedreht.</td>
+				</tr>
+				<tr>
+					<td>Bewegung Pixel für Pixel</td>
+					<td><kbd>STRG</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td><kbd>&#8984; Cmd</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td>Halten Sie die angegebene Taste gedrückt und verwenden Sie die Pfeiltasten der Tastatur, um das ausgewählte Objekt jeweils um ein Pixel nach links, rechts, oben oder unten zu verschieben.</td>
+				</tr>
+				<tr>
+					<td>Form um einen großen Schritt verschieben</td>
+					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td>Verwenden Sie die Pfeiltasten der Tastatur, um das ausgewählte Objekt einen großen Schritt nach links, rechts, oben oder unten zu verschieben.</td>
 				</tr>
 				<tr>
 					<th colspan="4" class="keyboard_section">Objekte ändern</th>
@@ -271,12 +330,6 @@
 					<td>Das Seitenverhältnis des gewählten Objekts wird bei der Größenänderung beibehalten.</td>
 				</tr>
 				<tr>
-					<td>Bewegung Pixel für Pixel</td>
-					<td><kbd>STRG</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-					<td><kbd>&#8984; Cmd</kbd>+<kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
-					<td>Halten Sie die Taste <kbd>STRG</kbd> (<kbd>&#8984; Cmd</kbd> bei Mac) gedrückt und nutzen Sie die Pfeile auf der Tastatur, um das gewählte Objekt jeweils um ein Pixel zu verschieben.</td>
-				</tr>
-				<tr>
 					<th colspan="4" class="keyboard_section"><a id="workwithtables"></a>Tabellen bearbeiten</th>
 				</tr>
 				<tr>
@@ -286,7 +339,7 @@
 					<td>Zur nächsten Zelle in einer Zeile wechseln.</td>
 				</tr>
 				<tr>
-					<td>Zur nächsten Zelle in einer Tabellenzeile wechseln.</td>
+					<td>Zur nächsten Zelle in einer Tabellenzeile wechseln</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
 					<td>Zur vorherigen Zelle in einer Zeile wechseln.</td>
@@ -304,7 +357,7 @@
 					<td>Zur vorherigen Zeile in einer Tabelle wechseln.</td>
 				</tr>
 				<tr>
-					<td>Neuen Abstz beginnen</td>
+					<td>Neuen Absatz beginnen</td>
 					<td><kbd>↵ Eingabetaste</kbd></td>
 					<td><kbd>↵ Zurück</kbd></td>
 					<td>Einen neuen Absatz in einer Zelle beginnen.</td>
@@ -337,10 +390,28 @@
 					<td>Vorschau der vorherigen Animation oder zur vorherigen Folie übergehen.</td>
 				</tr>
 				<tr>
-					<td>Vorschau beenden</td>
+					<td>Zur ersten Folie navigieren</td>
+					<td><kbd>POS1</kbd></td>
+					<td><kbd>Fn</kbd>+<kbd>←</kbd><br /><br /><kbd>POS1</kbd></td>
+					<td>Navigieren Sie zur ersten Folie.</td>
+				</tr>
+				<tr>
+					<td>Zur letzten Folie navigieren</td>
+					<td><kbd>ENDE</kbd></td>
+					<td><kbd>Fn</kbd>+<kbd>→</kbd><br /><br /><kbd>ENDE</kbd></td>
+					<td>Navigieren Sie zur letzten Folie.</td>
+				</tr>
+				<tr>
+					<td>Zur angegebenen Folie navigieren</td>
+					<td>Foliennummer+<kbd>Eingabetaste</kbd></td>
+					<td>Foliennummer+<kbd>↵ Eingabetaste</kbd></td>
+					<td>Navigieren Sie zur angegebenen Folie.</td>
+				</tr>
+				<tr>
+					<td>Vorschau schließen</td>
 					<td><kbd>ESC</kbd></td>
 					<td><kbd>ESC</kbd></td>
-					<td>Die Vorschau wird beendet.</td>
+					<td>Eine Präsentation beenden. Bei der Webversion beendet das erste Drücken von <kbd>Esc</kbd> den Vollbildmodus des Browsers; beendet das zweite Drücken den Demonstrationsmodus.</td>
 				</tr>
 				<tr>
 					<th colspan="4" class="keyboard_section">Rückgängig machen und Wiederholen</th>
@@ -397,6 +468,48 @@
 					<td>Wendet die vorher kopierte Formatierung auf den Text in der aktuellen Präsentation an.</td>
 				</tr>
 				<tr>
+					<th colspan="4" class="keyboard_section">Optionen für Spezielles Einfügen<sup><a href="#PasteSpecial">1</a></sup></th>
+				</tr>
+				<tr>
+					<td>Zielthema verwenden</td>
+					<td><kbd>STRG</kbd> dann <kbd>H</kbd></td>
+					<td><kbd>^ STRG</kbd> dann <kbd>H</kbd></td>
+					<td>Wenden Sie die durch das Design der aktuellen Präsentation angegebene Formatierung an.</td>
+				</tr>
+				<tr>
+					<td>Quellformatierung beibehalten</td>
+					<td><kbd>STRG</kbd> dann <kbd>K</kbd></td>
+					<td><kbd>^ STRG</kbd> dann <kbd>K</kbd></td>
+					<td>Behalten Sie die Quellformatierung des kopierten Textes bei.</td>
+				</tr>
+				<tr>
+					<td>Als Bild einfügen</td>
+					<td><kbd>STRG</kbd> dann <kbd>U</kbd></td>
+					<td><kbd>^ STRG</kbd> dann <kbd>U</kbd></td>
+					<td>Fügen Sie den Text als Bild ein, sodass er nicht bearbeitet werden kann.</td>
+				</tr>
+				<tr>
+					<td>Nur Text behalten</td>
+					<td><kbd>STRG</kbd> dann <kbd>T</kbd></td>
+					<td><kbd>^ STRG</kbd> dann <kbd>T</kbd></td>
+					<td>Fügen Sie den Text ohne seine ursprüngliche Formatierung ein.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Arbeiten mit Hyperlinks</th>
+				</tr>
+				<tr>
+					<td>Hyperlink einfügen</td>
+					<td><kbd>STRG</kbd>+<kbd>K</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>K</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>K</kbd></td>
+					<td>Fügen Sie einen Hyperlink ein, der zu einer Webadresse oder einer bestimmten Folie in der Präsentation führt.</td>
+				</tr>
+				<tr>
+					<td>Hyperlink besuchen</td>
+					<td><kbd>Eingabetaste</kbd></td>
+					<td><kbd>Eingabetaste</kbd></td>
+					<td>Besuchen Sie einen Hyperlink (mit dem Cursor im Hyperlink).</td>
+				</tr>
+				<tr>
 					<th colspan="4" class="keyboard_section">Auswahl mit der Maus</th>
 				</tr>
 				<tr>
@@ -415,61 +528,91 @@
 					<td>Alle Folien (in der Folienliste) auswählen oder alle Objekte auf einer Folie (im Bereich für die Folienbearbeitung) oder den ganzen Text (im Textblock) - abhängig von der Cursorposition.</td>
 				</tr>
 				<tr>
-					<td>Textabschnitt auswählen</td>
-					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>→</kbd> <kbd>←</kbd></td>
-					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>→</kbd> <kbd>←</kbd></td>
-					<td>Den Text Zeichen für Zeichen auswählen.</td>
+					<td>Die nächste Folie in der Folienliste zur Auswahl hinzufügen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>Bild ab</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>↓</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↓</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>↓</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>↓</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>Bild ab</kbd></td>
+					<td>Die nächste Folie in der Folienliste zur Auswahl hinzufügen (wenn der Fokus auf Miniaturansichten liegt).</td>
 				</tr>
 				<tr>
-					<td>Text von der aktuellen Cursorposition bis zum Zeilenanfang auswählen</td>
+					<td>Vorherige Folie in der Folienliste zur Auswahl hinzufügen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>Bild auf</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>↑</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↑</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>↑</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>↑</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>Bild auf</kbd></td>
+					<td>Die vorherige Folie in der Folienliste zur Auswahl hinzufügen (wenn der Fokus auf den Miniaturansichten liegt).</td>
+				</tr>
+				<tr>
+					<td>Bis zur ersten Folie auswählen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>POS1</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>←</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>POS1</kbd></td>
+					<td>Wählen Sie Folien bis zur ersten Folie aus, beginnend mit der aktuellen Folie, auf der sich der Fokus in der Miniaturansichtsliste befindet.</td>
+				</tr>
+				<tr>
+					<td>Bis zur letzten Folie auswählen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>ENDE</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>→</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>ENDE</kbd></td>
+					<td>Wählen Sie Folien bis zur letzten Folie aus, beginnend mit der aktuellen Folie, auf der sich der Fokus in der Miniaturansichtsliste befindet.</td>
+				</tr>
+				<tr>
+					<td>Text vom Cursor bis zum Zeilenanfang auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>POS1</kbd></td>
-					<td></td>
-					<td>Einen Textabschnitt von der aktuellen Cursorposition bis zum Anfang der aktuellen Zeile auswählen.</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>←</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>POS1</kbd></td>
+					<td>Wählen Sie ein Textfragment vom Cursor bis zum Anfang der aktuellen Zeile aus.</td>
 				</tr>
 				<tr>
-					<td>Text ab der Cursorposition bis Ende der Zeile auswählen</td>
+					<td>Text vom Cursor bis zum Zeilenende auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>ENDE</kbd></td>
-					<td></td>
-					<td>Einen Textabschnitt von der aktuellen Cursorposition bis zum Ende der aktuellen Zeile auswählen.</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>→</kbd><br /><br /><kbd>⇧ UMSCHALT</kbd>+<kbd>ENDE</kbd></td>
+					<td>Wählen Sie ein Textfragment vom Cursor bis zum Ende der aktuellen Zeile aus.</td>
 				</tr>
 				<tr>
-					<td>Ein Zeichen nach rechts auswählen</td>
+					<td>Ein Zeichen rechts auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>→</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>→</kbd></td>
-					<td>Das Zeichen rechts neben dem Mauszeiger wird ausgewählt.</td>
+					<td>Wählen Sie ein Zeichen rechts von der Cursorposition aus.</td>
 				</tr>
 				<tr>
-					<td>Ein Zeichen nach links auswählen</td>
+					<td>Ein Zeichen links auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>←</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>←</kbd></td>
-					<td>Das Zeichen links neben dem Mauszeiger wird ausgewählt.</td>
+					<td>Wählen Sie ein Zeichen links von der Cursorposition aus.</td>
 				</tr>
 				<tr>
-					<td>Bis zum Wortende auswählen</td>
+					<td>Bis zum Ende eines Wortes auswählen</td>
 					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>→</kbd></td>
-					<td></td>
-					<td>Einen Textfragment vom Cursor bis zum Ende eines Wortes wird ausgewählt.</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>⌥ Option</kbd>+<kbd>→</kbd></td>
+					<td>Wählen Sie ein Textfragment vom Cursor bis zum Ende eines Wortes aus.</td>
 				</tr>
 				<tr>
-					<td>Bis zum Wortanfang auswählen</td>
+					<td>Bis zum Anfang eines Wortes auswählen</td>
 					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>←</kbd></td>
-					<td></td>
-					<td>Einen Textfragment vom Cursor bis zum Anfang eines Wortes wird ausgewählt.</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>⌥ Option</kbd>+<kbd>←</kbd></td>
+					<td>Wählen Sie ein Textfragment vom Cursor bis zum Wortanfang aus.</td>
 				</tr>
 				<tr>
-					<td>Eine Reihe nach oben auswählen</td>
+					<td>Eine Zeile nach oben auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↑</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↑</kbd></td>
-					<td>Eine Reihe nach oben auswählen (mit dem Cursor am Zeilenanfang).</td>
+					<td>Bewegen Sie den Cursor eine Zeile nach oben und wählen Sie alle Symbole zwischen der vorherigen und der aktuellen Cursorposition aus.</td>
 				</tr>
 				<tr>
-					<td>Eine Reihe nach unten auswählen</td>
+					<td>Eine Zeile nach unten auswählen</td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↓</kbd></td>
 					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↓</kbd></td>
-					<td>Eine Reihe nach unten auswählen (mit dem Cursor am Zeilenanfang).</td>
+					<td>Bewegen Sie den Cursor eine Zeile nach unten und wählen Sie alle Symbole zwischen der vorherigen und der aktuellen Cursorposition aus.</td>
+				</tr>
+				<tr>
+					<td>Auswahl aufheben</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Esc</kbd></td>
+					<td><kbd>Esc</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>Esc</kbd></td>
+					<td>Heben Sie die gesamte Auswahl auf.</td>
 				</tr>
 				<tr>
 					<th colspan="4" class="keyboard_section">Textformatierung</th>
+				</tr>
+				<tr>
+					<td>Unsichtbare Zeichen</td>
+					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>8</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>8</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>8</kbd></td>
+					<td>Blendet die Anzeige nicht druckbarer Zeichen ein oder aus.</td>
 				</tr>
 				<tr>
 					<td>Fett</td>
@@ -521,14 +664,14 @@
 				</tr>
 				<tr>
 					<td>Schrift vergrößern</td>
-					<td><kbd>STRG</kbd>+<kbd>]</kbd></td>
-					<td><kbd>^ STRG</kbd>+<kbd>]</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>]</kbd></td>
+					<td><kbd>STRG</kbd>+<kbd>´</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>´</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>´</kbd></td>
 					<td>Vergrößert die Schrift des gewählten Textabschnitts um 1 Punkt.</td>
 				</tr>
 				<tr>
 					<td>Schrift verkleinern</td>
-					<td><kbd>STRG</kbd>+<kbd>[</kbd></td>
-					<td><kbd>^ STRG</kbd>+<kbd>[</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>[</kbd></td>
+					<td><kbd>STRG</kbd>+<kbd>ß</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>ß</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>ß</kbd></td>
 					<td>Verkleinert die Schrift des gewählten Textabschnitts um 1 Punkt.</td>
 				</tr>
 				<tr>
@@ -580,87 +723,144 @@
 					<td>Das Zeichen rechts neben dem Mauszeiger wird gelöscht.</td>
 				</tr>
 				<tr>
+					<td>Wort/Auswahl/grafisches Objekt links vom Cursor löschen</td>
+					<td><kbd>STRG</kbd>+<kbd>← Rücktaste</kbd></td>
+					<td><kbd>⌥ Option</kbd>+<kbd>ENTF</kbd></td>
+					<td>Löscht ein Wort/eine Auswahl/ein grafisches Objekt links vom Cursor.</td>
+				</tr>
+				<tr>
+					<td>Wort/Auswahl/grafisches Objekt rechts vom Cursor löschen</td>
+					<td><kbd>STRG</kbd>+<kbd>ENTF</kbd></td>
+					<td><kbd>Fn</kbd>+<kbd>⌥ Option</kbd>+<kbd>ENTF</kbd></td>
+					<td>Löscht ein Wort/eine Auswahl/ein grafisches Objekt rechts vom Cursor.</td>
+				</tr>
+				<tr>
+					<td>Listenelementebene hinzufügen</td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td>Fügt der Nummerierung eines Absatzes eine Ebene hinzu (mit dem Cursor am Zeilenanfang).</td>
+				</tr>
+				<tr>
+					<td>Listenelementebene entfernen</td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Entfernen einer Ebene aus der Nummerierung eines Absatzes (mit dem Cursor am Zeilenanfang).</td>
+				</tr>
+				<tr>
+					<td>Tabulatorzeichen zum Absatz hinzufügen</td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd></td>
+					<td>Fügen Sie einem Absatz das Tabulatorzeichen hinzu.</td>
+				</tr>
+				<tr>
+					<td>Neuen Platzhalter zum Gleichungsargument hinzufügen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>Eingabetaste</kbd>,<br /><kbd>Eingabetaste</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Eingabetaste</kbd>,<br /><kbd>Eingabetaste</kbd></td>
+					<td>Fügen Sie dem Gleichungsargument einen neuen Platzhalter hinzu.</td>
+				</tr>
+				<tr>
+					<td>Zeilenumbruch zum Text hinzufügen</td>
+					<td><kbd>UMSCHALT</kbd>+<kbd>Eingabetaste</kbd></td>
+					<td><kbd>⇧ UMSCHALT</kbd>+<kbd>Eingabetaste</kbd></td>
+					<td>Fügen Sie dem Text einen Zeilenumbruch hinzu.</td>
+				</tr>
+				<tr>
+					<td>Absatz hinzufügen</td>
+					<td><kbd>Eingabetaste</kbd></td>
+					<td><kbd>Eingabetaste</kbd></td>
+					<td>Fügen Sie dem Platzhalter für Titel/Untertitel einen neuen Absatz oder eine neue Zeile hinzu.</td>
+				</tr>
+				<tr>
+					<th colspan="4" class="keyboard_section">Einfügen von Sonderzeichen</th>
+				</tr>
+				<tr>
+					<td>Das Eurozeichen einfügen</td>
+					<td><kbd>STRG</kbd>+<kbd>Alt</kbd>+<kbd>E</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>⌥ Option</kbd>+<kbd>E</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>⌥ Option</kbd>+<kbd>E</kbd></td>
+					<td>Fügt das Eurozeichen (€) an der aktuellen Cursorposition ein.</td>
+				</tr>
+				<tr>
+					<td>Einen Gedankenstrich einfügen</td>
+					<td></td>
+					<td><kbd>⌥ Option</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>-</kbd></td>
+					<td>Fügt an der aktuellen Cursorposition einen Gedankenstrich „—“ ein.</td>
+				</tr>
+				<tr>
+					<td>Einen Bindestrich einfügen</td>
+					<td></td>
+					<td><kbd>⌥ Option</kbd>+<kbd>-</kbd></td>
+					<td>Fügen Sie an der aktuellen Cursorposition einen Bindestrich „-“ ein.</td>
+				</tr>
+				<tr>
+					<td>Geschütztes Leerzeichen erstellen</td>
+					<td><kbd>STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>␣ Leertaste</kbd></td>
+					<td><kbd>^ STRG</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>␣ Leertaste</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>⇧ UMSCHALT</kbd>+<kbd>Fn</kbd>+<kbd>␣ Leertaste</kbd></td>
+					<td>Erstellen Sie ein Leerzeichen zwischen Zeichen, das nicht zum Beginnen einer neuen Zeile verwendet werden kann.</td>
+				</tr>
+				<tr>
+					<td>Arbeiten mit einer Tastatur, die die Möglichkeit zum Einfügen von Unicode-Symbolen unterstützt</td>
+					<td></td>
+					<td><kbd>⌥ Option</kbd>+<kbd>Q</kbd>,<br /><kbd>⌥ Option</kbd>+<kbd>F</kbd>,<br /><kbd>⇧ UMSCHALT</kbd>+<kbd>⌥ Option</kbd>+<kbd>7</kbd>,<br />and others</td>
+					<td>
+						Bei Verwendung der Tastenkombinationen <kbd>⌥ Option</kbd>+<kbd>Tastatursymbol</kbd> werden für Tastaturen, die das Einfügen von Unicode-Symbolen unterstützen, die Tastatursymbole hinzugefügt. Die Beispiele sind unten aufgeführt.<br />
+						Beim englischen ABC-Layout fügt die Tastenkombination <kbd>⌥ Option</kbd>+<kbd>Q</kbd> das Symbol „œ“ ein, die Tastenkombination <kbd>⌥ Option</kbd>+<kbd>F</kbd> fügt das Funktionssymbol „ƒ“ ein.<br />
+						Beim US-International-Layout ohne Deadkeys fügt die Tastenkombination <kbd>⌥ Option</kbd>+<kbd>Q</kbd> das Symbol „ä“ ein.<br />
+						Beim schweizerisch-deutschen Layout fügt die Tastenkombination <kbd>⇧ UMSCHALT</kbd>+<kbd>⌥ Option</kbd>+<kbd>7</kbd> das Symbol „\“ ein.
+					</td>
+				</tr>
+				<tr>
 					<th colspan="4" class="keyboard_section">Im Text navigieren</th>
 				</tr>
 				<tr>
-					<td>Ein Zeichen nach links bewegen</td>
-					<td><kbd>←</kbd></td>
-					<td><kbd>←</kbd></td>
-					<td>Der Mauszeiger bewegt sich ein Zeichen nach links.</td>
+					<td>Ein Zeichen nach links/rechts oder eine Zeile nach oben/unten bewegen</td>
+					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td>
+					<td>Bewegen Sie den Cursor ein Zeichen nach links/rechts oder eine Zeile nach oben/unten.</td>
 				</tr>
 				<tr>
-					<td>Ein Zeichen nach rechts bewegen</td>
-					<td><kbd>→</kbd></td>
-					<td><kbd>→</kbd></td>
-					<td>Der Mauszeiger bewegt sich ein Zeichen nach rechts.</td>
-				</tr>
-				<tr>
-					<td>Eine Reihe nach oben</td>
-					<td><kbd>↑</kbd></td>
-					<td><kbd>↑</kbd></td>
-					<td>Der Mauszeiger wird eine Reihe nach oben verschoben.</td>
-				</tr>
-				<tr>
-					<td>Eine Reihe nach unten</td>
-					<td><kbd>↓</kbd></td>
-					<td><kbd>↓</kbd></td>
-					<td>Der Mauszeiger wird eine Reihe nach unten verschoben.</td>
-				</tr>
-				<tr>
-					<td>Zum Anfang eines Wortes oder ein Wort nach links bewegen</td>
+					<td>Zum Anfang eines Wortes oder ein Wort nach links gehen</td>
 					<td><kbd>STRG</kbd>+<kbd>←</kbd></td>
-					<td><kbd>&#8984; Cmd</kbd>+<kbd>←</kbd></td>
-					<td>Der Mauszeiger wird zum Anfang eines Wortes oder ein Wort nach links verschoben.</td>
+					<td><kbd>⌥ Option</kbd>+<kbd>←</kbd></td>
+					<td>Bewegen Sie den Cursor an den Anfang eines Wortes oder ein Wort nach links.</td>
 				</tr>
 				<tr>
-					<td>Ein Wort nach rechts bewegen</td>
+					<td>Ein Wort nach rechts verschieben</td>
 					<td><kbd>STRG</kbd>+<kbd>→</kbd></td>
-					<td><kbd>&#8984; Cmd</kbd>+<kbd>→</kbd></td>
-					<td>Der Mauszeiger bewegt sich ein Wort nach rechts.</td>
+					<td><kbd>⌥ Option</kbd>+<kbd>→</kbd></td>
+					<td>Bewegen Sie den Cursor ein Wort nach rechts.</td>
 				</tr>
 				<tr>
-					<td>Zum nächsten Platzhalter wechseln</td>
+					<td>Zum nächsten Platzhalter wechseln oder neue Folie erstellen</td>
 					<td><kbd>STRG</kbd>+<kbd>↵ Eingabetaste</kbd></td>
-					<td><kbd>^ STRG</kbd>+<kbd>↵ Zurück</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>↵ Zurück</kbd></td>
-					<td>Zum nächsten Titel oder zum nächsten Textplatzhalter wechseln Handelt es sich um den letzten Platzhalter auf einer Folie, wird eine neue Folie mit demselben Folienlayout wie die ursprüngliche Folie eingefügt</td>
+					<td><kbd>^ STRG</kbd>+<kbd>↵ Eingabetaste</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>↵ Eingabetaste</kbd></td>
+					<td>Zum nächsten Titel- oder Textkörperplatzhalter wechseln. Wenn es sich um den letzten Platzhalter auf einer Folie handelt, wird eine neue Folie mit demselben Folienlayout wie die ursprüngliche Folie eingefügt.</td>
 				</tr>
-				<!--<tr>
-		<td>One paragraph up</td>
-		<td><kbd>Ctrl</kbd>+<kbd>↑</kbd></td>
-		<td></td>
-		<td>Move the cursor one paragraph up.</td>
-	</tr>
-	<tr>
-		<td>One paragraph down</td>
-		<td><kbd>Ctrl</kbd>+<kbd>↓</kbd></td>
-		<td></td>
-		<td>Move the cursor one paragraph down.</td>
-	</tr>-->
 				<tr>
-					<td>Zum Anfang einer Zeile springen</td>
+					<td>Zum Zeilenanfang springen</td>
 					<td><kbd>POS1</kbd></td>
-					<td><kbd>POS1</kbd></td>
-					<td>Der Cursor wird an den Anfang der aktuellen Zeile verschoben.</td>
+					<td><kbd>&#8984; Cmd</kbd>+<kbd>←</kbd><br /><br /><kbd>POS1</kbd></td>
+					<td>Setzen Sie den Cursor an den Anfang der aktuell bearbeiteten Zeile.</td>
 				</tr>
 				<tr>
 					<td>Zum Ende der Zeile springen</td>
 					<td><kbd>ENDE</kbd></td>
-					<td><kbd>ENDE</kbd></td>
-					<td>Der Cursor wird an das Ende der aktuellen Zeile verschoben.</td>
+					<td><kbd>&#8984; Cmd</kbd>+<kbd>→</kbd><br /><br /><kbd>ENDE</kbd></td>
+					<td>Setzen Sie den Cursor an das Ende der aktuell bearbeiteten Zeile.</td>
 				</tr>
 				<tr>
-					<td>Zum Anfang des Textfelds springen</td>
+					<td>Zum Anfang des Inhalts springen</td>
 					<td><kbd>STRG</kbd>+<kbd>POS1</kbd></td>
-					<td></td>
-					<td>Der Cursor wird an den Anfang des aktuell bearbeiteten Textfelds verschoben.</td>
+					<td><kbd>^ STRG</kbd>+<kbd>Fn</kbd>+<kbd>←</kbd><br /><br /><kbd>^ STRG</kbd>+<kbd>POS1</kbd></td>
+					<td>Setzen Sie den Cursor an den Anfang des aktuell bearbeiteten Textfelds oder in die obere linke Zelle einer Tabelle.</td>
 				</tr>
 				<tr>
-					<td>Zum Ende des Textfelds springen</td>
+					<td>Zum Ende des Inhalts springen</td>
 					<td><kbd>STRG</kbd>+<kbd>ENDE</kbd></td>
-					<td></td>
-					<td>Der Cursor wird an das Ende des aktuell bearbeiteten Textfelds verschoben.</td>
+					<td><kbd>^ STRG</kbd>+<kbd>Fn</kbd>+<kbd>→</kbd><br /><br /><kbd>^ STRG</kbd>+<kbd>ENDE</kbd></td>
+					<td>Setzen Sie den Cursor an das Ende des aktuell bearbeiteten Textfelds oder in die untere rechte Zelle einer Tabelle.</td>
 				</tr>
 			</table>
+			<p id="PasteSpecial" class="note">Fügen Sie die kopierten Daten mit <kbd>Strg</kbd>+<kbd>V</kbd> unter Windows bzw. <kbd>Cmd</kbd>+<kbd>V</kbd> unter macOS ein. Öffnen Sie nach dem Einfügen der kopierten Daten mit der Taste <kbd>Strg</kbd> das Menü <b>Spezielles einfügen</b> und drücken Sie dann die Buchstabentaste, die der gewünschten Option entspricht.</p>
 		</div>
 	</body>
 </html>

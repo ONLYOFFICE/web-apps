@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas de uma vez na versão de programa atual.<br>Esta restrição será removida nos lançamentos futuros.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Salvamento falhou",
   "SSE.Controllers.Main.errorProtectedRange": "Este intervalo não é permitido para edição.",
+  "SSE.Controllers.Main.errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
   "SSE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "SSE.Controllers.Main.errorSessionAbsolute": "A sessão de edição de documentos expirou. Atualize a página.",
   "SSE.Controllers.Main.errorSessionIdle": "O documento ficou sem edição por muito tempo. Atualize a página.",

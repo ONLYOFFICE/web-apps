@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Шрифти не завантажені.<br>Будь ласка, зверніться до адміністратора Сервера документів.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Зазначено неправильний пароль.<br>Пересвідчитесь, що не натиснуто кнопку CAPS LOCK, зверніть увагу на регістр паролю, який ви вводите.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Помилка збереження.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Версія редактора була оновлена. Сторінка буде перезавантажена, щоб застосувати зміни.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Сесія редагування документа закінчилася. Будь ласка, перезавантажте сторінку.",
   "PDFE.Controllers.Main.errorSessionIdle": "Цей документ не редагувався протягом тривалого часу. Перезавантажте сторінку.",

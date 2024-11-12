@@ -2901,11 +2901,12 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot;
+                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit && !inPivot || needshow);
 
                 needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);

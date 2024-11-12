@@ -944,6 +944,8 @@ define([
                 value = Common.localStorage.getBool('pe-hidden-notes', this.appOptions.customization && this.appOptions.customization.hideNotes===true);
                 me.api.asc_ShowNotes(!value);
 
+                me.api.asc_setViewerTargetType(this.appOptions.customization && this.appOptions.customization.pointerMode==='hand' ? 'hand' : 'select');
+
                 function checkWarns() {
                     if (!Common.Controllers.Desktop.isActive()) {
                         var tips = [];
@@ -1779,6 +1781,11 @@ define([
                             config.msg = this.errorInconsistentExtPptx.replace('%1', this.document.fileType || '');
                         else
                             config.msg = this.errorInconsistentExt;
+                        break;
+
+                    case Asc.c_oAscError.ID.CannotSaveWatermark:
+                        config.maxwidth = 600;
+                        config.msg = this.errorSaveWatermark;
                         break;
 
                     default:

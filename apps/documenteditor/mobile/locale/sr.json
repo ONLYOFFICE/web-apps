@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Bez otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",

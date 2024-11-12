@@ -1696,7 +1696,7 @@ define([
                 this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm; // save to file or save to file copy (for pdf-form viewer)
 
-                if (this.appOptions.isPDFForm && !this.appOptions.isEdit) {
+                if (this.appOptions.isPDFForm && !this.appOptions.isEdit && !this.appOptions.isRestrictedEdit) {
                     if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
                         this.appOptions.canRequestEditRights = false; // if open form in viewer - check permissions.edit option
                     this.appOptions.canFillForms = this.appOptions.isRestrictedEdit = true; // can fill forms in viewer!
@@ -2259,6 +2259,11 @@ define([
 
                     case Asc.c_oAscError.ID.PasswordIsNotCorrect:
                         config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.CannotSaveWatermark:
+                        config.maxwidth = 600;
+                        config.msg = this.errorSaveWatermark;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:

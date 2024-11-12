@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "I caratteri non sono stati caricati.<br>Ti preghiamo di contattare l'amministratore di Document Server.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "La password che hai fornito non è corretta.<br>Verifica che il tasto BLOC MAIUSC sia disattivato e assicurati di utilizzare maiuscole/minuscole, corrette.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare i cambiamenti.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
   "PDFE.Controllers.Main.errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",

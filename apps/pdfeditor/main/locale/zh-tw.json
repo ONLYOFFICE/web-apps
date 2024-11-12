@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "字體未載入。<br>請聯絡檔案伺服器管理員。",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "密碼錯誤。<br>核實蓋帽封鎖鍵關閉並且是肯定使用正確資本化。",
   "PDFE.Controllers.Main.errorProcessSaveResult": "儲存失敗",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "編輯器版本已更新。該頁面將被重新加載以應用更改。",
   "PDFE.Controllers.Main.errorSessionAbsolute": "該檔案編輯時效已逾期。請重新載入此頁面。",
   "PDFE.Controllers.Main.errorSessionIdle": "此文件已經在編輯狀態有很長時間, 請重新載入此頁面。",

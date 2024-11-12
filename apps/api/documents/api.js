@@ -248,6 +248,7 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
+                    pointerMode: 'select'/'hand' // set cursor mode in presentation editor, select by default
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'

@@ -175,6 +175,12 @@
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
     },
+    "Themes": {
+      "system": "Сістэмная",
+      "dark": "Dark",
+      "light": "Light",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Увага",
       "textAnonymous": "Ананімны карыстальнік",
@@ -188,12 +194,6 @@
       "txtErrorLoadHistory": "Не атрымалася загрузіць гісторыю",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -460,6 +460,7 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorMailMergeLoadFile": "Loading failed",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -468,7 +469,8 @@
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
-    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page."
+    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
@@ -533,6 +535,7 @@
       "First Page ": "Першая старонка",
       "Footer": "Ніжні калантытул",
       "footnote text": "Тэкст зноскі",
+      "Grayscale": "Адценні шэрага",
       "Header": "Верхні калантытул",
       "Heading 1": "Загаловак 1",
       "Heading 2": "Загаловак 2",
@@ -583,7 +586,6 @@
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
       "footnote reference": "Footnote reference",
-      "Grayscale": "Grayscale",
       "Green": "Green",
       "Green Yellow": "Green Yellow",
       "Intense Emphasis": "Intense emphasis",
@@ -743,6 +745,7 @@
     "textResolvedComments": "Вырашаныя каментары",
     "textRight": "Правае",
     "textRightToLeft": "Справа ўлева",
+    "textSameAsSystem": "Сістэмная",
     "textSave": "Захаваць",
     "textSearch": "Пошук",
     "textSetPassword": "Прызначыць пароль",
@@ -792,7 +795,6 @@
     "textRequirePassword": "Require Password",
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
-    "textSameAsSystem": "Same as system",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",

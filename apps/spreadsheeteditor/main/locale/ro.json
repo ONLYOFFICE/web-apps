@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Din păcate, imprimarea a 1500 de pagini deodată nu este posibilă la versiunea curentă<br>Această restricție va fi eliminată într-o versiunea nouă.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Salverea a eșuat",
   "SSE.Controllers.Main.errorProtectedRange": "Modificarea acestei zone nu este permisă.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
   "SSE.Controllers.Main.errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",

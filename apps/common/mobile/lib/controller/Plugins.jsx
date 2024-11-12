@@ -10,7 +10,7 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     let modal, iframe;
 
     useEffect(() => {
-        if (storeAppOptions.customization && !!storeAppOptions.customization.plugins) {
+        if (storeAppOptions.customization && storeAppOptions.customization.plugins!==false) {
             const api = Common.EditorApi.get();
 
             api.asc_registerCallback("asc_onPluginShow", showPluginModal);
@@ -246,9 +246,9 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                     refConfigPlugins.current.plugins = loaded;
                     mergePlugins();
                 });
-            if (configPlugins.config.options) {
+            if (refConfigPlugins.current.config.options) {
                 const api = Common.EditorApi.get();
-                api && api.setPluginsOptions(configPlugins.config.options);
+                api && api.setPluginsOptions(refConfigPlugins.current.config.options);
             }
         } else {
             refConfigPlugins.current.plugins = false;

@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Descriptor cheie a expirat",
   "PE.Controllers.Main.errorLoadingFont": "Fonturile nu sunt încărcate.<br>Contactați administratorul dvs de Server Documente.",
   "PE.Controllers.Main.errorProcessSaveResult": "Salvarea nu a reușit.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "Editorul a fost actualizat. Pagina va fi reîmprospătată pentru a aplica această actualizare.",
   "PE.Controllers.Main.errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
   "PE.Controllers.Main.errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",

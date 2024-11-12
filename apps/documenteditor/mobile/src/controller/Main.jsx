@@ -305,12 +305,16 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const storeAppOptions = this.props.storeAppOptions;
-                const isForm = storeAppOptions.isForm;
                 const editorConfig = window.native?.editorConfig;
                 const config = storeAppOptions.config;
                 const customization = config.customization;
-                const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
-                const isForceView = customization?.mobile?.forceView ?? true;
+                let isMobileForceView = undefined;
+                if ( customization && customization.mobileForceView !== undefined )
+                    isMobileForceView = customization.mobileForceView;
+                else if ( editorConfig && editorConfig.mobileForceView !== undefined )
+                    isMobileForceView = editorConfig.mobileForceView;
+
+                const isForceView = isMobileForceView ?? customization?.mobile?.forceView ?? true;
 
                 if(customization?.mobileForceView !== undefined && customization?.mobileForceView !== null) {
                     console.warn("Obsolete: The mobileForceView parameter is deprecated. Please use the forceView parameter from customization.mobile block");
@@ -320,12 +324,14 @@ class MainController extends Component {
 
                 this.applyMode(storeAppOptions);
 
-                if(!isForm && (isMobileForceView || isForceView)) {
-                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
-                } else if(!isForm && !isMobileForceView) {
-                    storeAppOptions.changeViewerMode(false);
+                if ( storeAppOptions.isForm ) {
+                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 } else {
-                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
+                    if( isForceView ) {
+                        this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                    } else {
+                        storeAppOptions.changeViewerMode(false);
+                    }
                 }
 
                 this.api.asc_LoadDocument();
@@ -567,6 +573,7 @@ class MainController extends Component {
     applyMode (appOptions) {
         this.api.asc_enableKeyEvents(appOptions.isEdit);
         this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
+        this.appOptions.isCorePDF && this.api.asc_setPdfViewer(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
         appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
 
@@ -664,7 +671,7 @@ class MainController extends Component {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text : _t.errorOpensource,
-                    buttons: [{text: 'OK'}]
+                    buttons: [{ text: _t.textOk }]
                 }).open();
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
@@ -687,11 +694,11 @@ class MainController extends Component {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text : _t.warnLicenseAnonymous,
-                buttons: [{text: 'OK'}]
+                buttons: [{ text: _t.textOk }]
             }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
-            let buttons = [{text: 'OK'}];
+            let buttons = [{ text: _t.textOk }];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)

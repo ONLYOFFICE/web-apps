@@ -462,13 +462,15 @@
     "splitDividerErrorText": "Satır sayısı %1'in böleni olmalıdır",
     "splitMaxColsErrorText": "Sütun sayısı %1 geçmemelidir",
     "splitMaxRowsErrorText": "Satır sayısı %1 geçmemelidir",
+    "textOk": "Tamam",
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadDocExtMessage": "Bilinmeyen belge biçimi.",
     "uploadDocFileCountMessage": "Hiçbir belge yüklenmedi",
     "uploadDocSizeMessage": "Maksimum belge boyutu sınırı aşıldı.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",

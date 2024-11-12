@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "密鑰描述符已過期",
   "PE.Controllers.Main.errorLoadingFont": "字型未載入。<br>請聯絡您的文件伺服器管理員。",
   "PE.Controllers.Main.errorProcessSaveResult": "儲存失敗",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "編輯器版本已更新。將重新載入頁面以更新改動。",
   "PE.Controllers.Main.errorSessionAbsolute": "文件編輯會話已過期。請重新加載頁面。",
   "PE.Controllers.Main.errorSessionIdle": "該文件已經有一段時間未編輯。請重新載入頁面。",

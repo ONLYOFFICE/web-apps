@@ -462,13 +462,15 @@
     "splitDividerErrorText": "Ο αριθμός των γραμμών πρέπει να είναι διαιρέτης του %1",
     "splitMaxColsErrorText": "Ο αριθμός στηλών πρέπει να είναι μικρότερος από %1",
     "splitMaxRowsErrorText": "Ο αριθμός των γραμμών πρέπει να είναι μικρότερος από %1",
+    "textOk": "Εντάξει",
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadDocExtMessage": "Άγνωστη μορφή κειμένου.",
     "uploadDocFileCountMessage": "Δεν μεταφορτώθηκαν έγγραφα.",
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -801,6 +803,7 @@
     "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
   },
   "Toolbar": {
+    "btnSend": "Αποστολή",
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
@@ -810,7 +813,6 @@
     "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
-    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
-    "btnSend": "Send"
+    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή"
   }
 }

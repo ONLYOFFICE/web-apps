@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Descritor de chave caducado",
   "PE.Controllers.Main.errorLoadingFont": "Os tipos de letra não foram carregados.<br>Contacte o administrador do servidor de documentos.",
   "PE.Controllers.Main.errorProcessSaveResult": "Falha ao guardar.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "PE.Controllers.Main.errorSessionAbsolute": "A sessão de edição caducou. Recarregue a página.",
   "PE.Controllers.Main.errorSessionIdle": "Este documento não foi editado durante muito tempo. Tente recarregar a página.",

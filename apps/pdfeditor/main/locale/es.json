@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Las fuentes no están cargadas.<br>Por favor, póngase en contacto con el administrador del servidor de documentos.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "La contraseña que ha proporcionado no es correcta.<br>Verifique que la tecla «Bloq Mayús» esté desactivada y asegúrese de utilizar las mayúsculas correctamente.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Error al guardar.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "Este archivo contiene una imagen de marca de agua vinculada a otro dominio.<br>Para que sea visible en PDF, actualice la imagen de marca de agua para que se vincule desde el mismo dominio que su documento, o cárguela desde su ordenador.",
   "PDFE.Controllers.Main.errorServerVersion": "La versión del editor se ha actualizado. La página se recargará para aplicar los cambios.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "La sesión de editar el documento ha expirado. Por favor, recargue la página.",
   "PDFE.Controllers.Main.errorSessionIdle": "El documento no se ha editado durante bastante tiempo. Por favor, recargue la página.",
