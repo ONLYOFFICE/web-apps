@@ -164,7 +164,7 @@ define([
                 props.custom ?  this.$window.find('#formula-wizard-help').css('visibility', 'hidden') :
                                 this.$window.find('#formula-wizard-help').on('click', function (e) {
                                     me.showHelp();
-                                })
+                                });
             }
 
             if (this.props) {
@@ -218,6 +218,7 @@ define([
                     this.fillArgs(this.repeatedArg);
                     this.scrollerY.update();
                 }
+                this.recalcMaxArgDesc();
 
                 _.delay(function(){
                     me._noApply = true;
@@ -238,6 +239,24 @@ define([
                 });
             else
                 this.scrollerY.update();
+        },
+
+        recalcMaxArgDesc: function() {
+            var me = this,
+                oldHeight = parseInt(this.lblArgDesc.css('height')),
+                maxheight = oldHeight;
+            this.argsDesc && this.argsDesc.forEach(function(item, index) {
+                var name = me.args[index] ? me.args[index].argName || '' : '';
+                item && me.lblArgDesc.html('<b>' + name + ': </b><span>' + item + '</span>');
+                var height = parseInt(me.lblArgDesc.find('span').height());
+                if (height>maxheight)
+                    maxheight = height;
+            });
+            me.lblArgDesc.text('');
+            if (maxheight>oldHeight) {
+                this.lblArgDesc.css('height', maxheight+4);
+                this.setInnerHeight();
+            }
         },
 
         parseArgsDesc: function(args) {
