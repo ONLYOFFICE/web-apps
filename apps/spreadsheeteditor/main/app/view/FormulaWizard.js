@@ -414,7 +414,7 @@ define([
         onSelectArgument: function(input) {
             var index = input.options.index,
                 arg = this.args[index];
-            this.lblArgDesc.html('<b>' + arg.argName + ': </b><span style="opacity: 0.7;">' + (arg.argDesc || this.textNoArgsDesc)) + '</span>';
+            this.lblArgDesc.html('<b>' + arg.argName + ': </b><span style="opacity: 0.7;">' + (arg.argDesc || this.textNoArgsDesc) + '</span>');
             if (!this._noApply && index==this.args.length-1 && this.repeatedArg && index+this.repeatedArg.length<this.maxArgCount) {// add new repeated arguments
                 this.fillArgs(this.repeatedArg);
                 this.scrollerY.update();
