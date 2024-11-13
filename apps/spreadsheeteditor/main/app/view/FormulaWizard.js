@@ -57,7 +57,7 @@ define([
                                 '<tr><td>',
                                 '<div id="formula-wizard-panel-desc" style="word-break: break-word;">',
                                 '<label id="formula-wizard-args" style="display: block;margin-bottom: 2px;"></label>',
-                                '<label id="formula-wizard-desc" style="display: inline;margin-bottom: 8px;" class="margin-right-5 text-secondary"></label>',
+                                '<label id="formula-wizard-desc" style="display: inline;margin-bottom: 8px;opacity: 0.7;" class="margin-right-5"></label>',
                                 '<label id="formula-wizard-help" style="margin-bottom: 8px;" class="link">' + this.textReadMore + '</label>',
                                 '</div>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -414,7 +414,7 @@ define([
         onSelectArgument: function(input) {
             var index = input.options.index,
                 arg = this.args[index];
-            this.lblArgDesc.html('<b>' + arg.argName + ': </b><span class="text-secondary">' + (arg.argDesc || this.textNoArgsDesc)) + '</span>';
+            this.lblArgDesc.html('<b>' + arg.argName + ': </b><span style="opacity: 0.7;">' + (arg.argDesc || this.textNoArgsDesc)) + '</span>';
             if (!this._noApply && index==this.args.length-1 && this.repeatedArg && index+this.repeatedArg.length<this.maxArgCount) {// add new repeated arguments
                 this.fillArgs(this.repeatedArg);
                 this.scrollerY.update();
