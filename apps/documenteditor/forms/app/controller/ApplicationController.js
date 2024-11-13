@@ -694,6 +694,8 @@ define([
                         return;
                     }
                     me.api.asc_SendForm();
+                    Common.Controllers.Desktop.process('goback');
+                    Common.Controllers.Desktop.requestClose();
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {
