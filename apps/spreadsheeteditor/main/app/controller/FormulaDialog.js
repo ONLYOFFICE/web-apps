@@ -62,6 +62,7 @@ define([
             var me = this;
             me.langJson = {};
             me.langDescJson = {};
+            me.formulasLoaded = false;
 
             this.addListeners({
                 'FileMenu': {
@@ -176,6 +177,8 @@ define([
         },
 
         reloadTranslations: function (lang, suppressEvent) {
+            this.formulasLoaded = false;
+
             lang = (lang || 'en').toLowerCase();
             var index = _.indexOf(SSE.Collections.formulasLangs, lang);
             if (index<0) {
@@ -249,6 +252,8 @@ define([
         },
 
         onSendFunctionWizardInfo: function(props) {
+            if (!this.formulasLoaded) return;
+
             if (props) {
                 // show formula settings
                 var me = this;
@@ -266,6 +271,7 @@ define([
                         origin: origin,
                         args: (descrarr && descrarr[origin]) ? descrarr[origin].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()) : args,
                         desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : '',
+                        argsDesc: (descrarr && descrarr[origin] && descrarr[origin].ad) ? descrarr[origin].ad.split('!') : [],
                         custom: !!custom
                     };
 
@@ -430,6 +436,7 @@ define([
                     last10FunctionsGroup && last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
                 }
             }
+            this.formulasLoaded = true;
             (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
         },
 
