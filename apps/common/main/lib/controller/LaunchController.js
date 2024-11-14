@@ -46,7 +46,7 @@ define([
         const load_scripts = function () {
             const me = this;
 
-            const app = window.DE || window.PE || window.SSE || window.PDFE;
+            const app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
             !app.postLaunchScripts && (app.postLaunchScripts = []);
             // console.log('on_app_ready', app.postLaunchScripts);
 

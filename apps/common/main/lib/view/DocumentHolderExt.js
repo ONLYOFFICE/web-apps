@@ -33,7 +33,7 @@
 define([], function () {
     'use strict';
 
-    let _editor = window.DE || window.PDFE ||window.PDFE || window.PE || window.SSE;
+    let _editor = window.DE || window.PDFE ||window.PDFE || window.PE || window.SSE || window.VE;
     if (_editor && _editor.Views && _editor.Views.DocumentHolder) {
         let dh = _editor.Views.DocumentHolder.prototype;
 

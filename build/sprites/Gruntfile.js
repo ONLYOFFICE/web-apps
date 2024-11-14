@@ -361,6 +361,64 @@ module.exports = function (grunt, rootpathprefix) {
                 scale: '1.75x',
                 extpath: 'huge'
             }),
+
+            'draw-1x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name,
+                scale: '1x'
+            }),
+            'draw-big-1x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name_big,
+                scale: '1x',
+                extpath: 'big'
+            }),
+            'draw-2x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name,
+                scale: '2x'
+            }),
+            'draw-big-2x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name_big,
+                scale: '2x',
+                extpath: 'big'
+            }),
+            'draw-1.5x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name,
+                scale: '1.5x'
+            }),
+            'draw-big-1.5x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name_big,
+                scale: '1.5x',
+                extpath: 'big'
+            }),
+
+            'draw-1.25x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name,
+                scale: '1.25x'
+            }),
+            'draw-big-1.25x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name_big,
+                scale: '1.25x',
+                extpath: 'big'
+            }),
+
+            'draw-1.75x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name,
+                scale: '1.75x'
+            }),
+            'draw-big-1.75x': configTemplate({
+                editor:'visioeditor',
+                spritename: sprite_name_big,
+                scale: '1.75x',
+                extpath: 'big'
+            }),
         },
         svg_sprite: {
             options: {
@@ -560,6 +618,48 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            veiconssmall: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/*.svg`,
+                    `${_prefix}apps/visioeditor/main/resources/img/toolbar/2.5x/*.svg`],
+                dest: `${_prefix}apps/visioeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            veiconsbig: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
+                    `${_prefix}apps/visioeditor/main/resources/img/toolbar/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/visioeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            veiconshuge: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
+                    `${_prefix}apps/visioeditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/visioeditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
         },
     });
 
@@ -584,6 +684,11 @@ module.exports = function (grunt, rootpathprefix) {
                                         'sprite:pdf1.5x', 'sprite:pdf-big-1.5x', 'sprite:pdf-huge-1.5x',
                                         'sprite:pdf1.75x', 'sprite:pdf-big-1.75x', 'sprite:pdf-huge-1.75x']);
 
-    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','pdf-icons','svg_sprite']);
+    grunt.registerTask('draw-icons', ['sprite:draw-1x', 'sprite:draw-big-1x', 'sprite:draw-2x', 'sprite:draw-big-2x',
+                                        'sprite:draw-1.25x', 'sprite:draw-big-1.25x',
+                                        'sprite:draw-1.5x', 'sprite:draw-big-1.5x',
+                                        'sprite:draw-1.75x', 'sprite:draw-big-1.75x']);
+
+    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','pdf-icons','draw-icons','svg_sprite']);
     grunt.registerTask('default', ['all-icons-sprite']);
 };
