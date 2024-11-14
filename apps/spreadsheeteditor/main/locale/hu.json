@@ -4504,5 +4504,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Munkalap védelmének megszüntetése",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Írjon be egy jelszót a munkafüzet védelmének megszüntetéséhez",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download"
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
+  "SSE.Views.FormulaWizard.textNoArgsDesc": "this argument has no description",
+  "SSE.Views.FormulaWizard.textReadMore": "Read more",
+  "SSE.Views.GoalSeekDlg.txtErrorNumber": "Your entry cannot be used. An integer or decimal number may be required."
 }

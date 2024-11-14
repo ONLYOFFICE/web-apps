@@ -4504,5 +4504,8 @@
   "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists.",
   "SSE.Controllers.Main.errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-  "SSE.Controllers.Main.errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+  "SSE.Controllers.Main.errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+  "SSE.Views.FormulaWizard.textNoArgsDesc": "this argument has no description",
+  "SSE.Views.FormulaWizard.textReadMore": "Read more",
+  "SSE.Views.GoalSeekDlg.txtErrorNumber": "Your entry cannot be used. An integer or decimal number may be required."
 }
