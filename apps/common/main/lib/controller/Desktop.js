@@ -409,8 +409,6 @@ define([
                     });
                 }
             }
-
-            _checkHelpAvailable.call(this);
         }
 
         const _onHidePreloader = function (mode) {
@@ -636,6 +634,8 @@ define([
                         config.isFillFormApp = true;
                         $('#header-logo, .brand-logo').hide();
                     }
+
+                    _checkHelpAvailable.call(this);
                 }
             },
             process: function (opts) {
