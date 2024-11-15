@@ -195,14 +195,10 @@ define([
                     this.getApplication().getController('Viewport').setApi(this.api);
                     this.getApplication().getController('Statusbar').setApi(this.api);
 
-                    // this.contComments = this.getApplication().getController('Common.Controllers.Comments');
-
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
                             if (/msg-reply/.test(e.target.className)) {
-                                me.dontCloseDummyComment = true;
-                                me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
                             } else if (/textarea-control/.test(e.target.className))
                                 me.inTextareaControl = true;
                             else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
@@ -229,13 +225,7 @@ define([
                                         me.api.asc_enableKeyEvents(true);
                                 } else
                                     me.api.asc_enableKeyEvents(true);
-                                if (me.dontCloseDummyComment && /msg-reply/.test(e.target.className)) {
-                                    if ($(e.target).closest('.user-comment-item').find(e.relatedTarget).length<1) /* Check if focus goes to buttons in the comment window */
-                                        me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
-                                    else
-                                        me.beforeCloseDummyComment = true;
-                                }
-                                else if (/textarea-control/.test(e.target.className))
+                                if (/textarea-control/.test(e.target.className))
                                     me.inTextareaControl = false;
                             }
                         }
@@ -257,9 +247,6 @@ define([
                             }
                         }
                     }).on('mouseup', function(e){
-                        me.beforeCloseDummyComment && setTimeout(function(){ // textbox in dummy comment lost focus
-                            me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
-                        }, 10);
                     });
 
                     Common.Utils.isChrome && $(document.body).on('keydown', 'textarea', function(e) {// chromium bug890248 (Bug 39614)
@@ -459,7 +446,6 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
-//                    docInfo.put_Review(this.permissions.review);
 
                     // var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                     //     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -562,15 +548,13 @@ define([
                     viewMode: disable,
                     allowSignature: false,
                     statusBar: true,
-                    // rightMenu: {clear: !temp, disable: true},
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true},
-                    comments: {disable: !temp, previewMode: true},
                     chat: true,
                     viewport: true,
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
-                    // plugins: false,
+                    plugins: false,
                     header: {search: type==='not-loaded'},
                     shortcuts: type==='not-loaded'
                 }, type || 'disconnect');
@@ -609,14 +593,9 @@ define([
                     if (options.leftMenu.disable)
                         app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 }
-                if (options.comments) {
-                    var comments = this.getApplication().getController('Common.Controllers.Comments');
-                    if (comments && options.comments.previewMode)
-                        comments.setPreviewMode(disable);
+                if (options.plugins) {
+                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable, options.reviewMode, options.fillFormMode);
                 }
-                // if (options.plugins) {
-                //     app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable, options.reviewMode, options.fillFormMode);
-                // }
                 if (options.header) {
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
@@ -760,7 +739,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -906,9 +885,6 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                // Common.Utils.InternalSettings.set("ve-settings-livecomment", true);
-                // Common.Utils.InternalSettings.set("ve-settings-resolvedcomment", false);
-
                 if (zf == -1) {
                     this.api.zoomFitToPage();
                 } else if (zf == -2) {
@@ -964,15 +940,15 @@ define([
                     statusbarController         = application.getController('Statusbar'),
                     documentHolderController    = application.getController('DocumentHolder'),
                     leftmenuController          = application.getController('LeftMenu'),
-                    chatController              = application.getController('Common.Controllers.Chat');
-                    // pluginsController           = application.getController('Common.Controllers.Plugins');
+                    chatController              = application.getController('Common.Controllers.Chat'),
+                    pluginsController           = application.getController('Common.Controllers.Plugins');
 
 
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.createDelayedElements().setApi(me.api);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
-                // pluginsController.setApi(me.api);
+                pluginsController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
                 statusbarController.createDelayedElements();
@@ -1180,7 +1156,7 @@ define([
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canComments    = false;//this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = false;//this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canViewComments = false;//this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                 (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat!==undefined) {
@@ -1192,12 +1168,12 @@ define([
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
-                this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
+                this.appOptions.canEditComments= false;//this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
+                this.appOptions.canDeleteComments= false;//this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
                     console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
                     if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
-                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
+                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = false;//this.appOptions.isOffline;
                 }
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
@@ -1341,9 +1317,6 @@ define([
                 (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.Utils.InternalSettings.set("ve-settings-unit", value);
-
-                // this.contComments.setMode(this.appOptions);
-                // this.contComments.setConfig({config: this.editorConfig}, this.api);
 
                 toolbarController.setApi(this.api);
             },

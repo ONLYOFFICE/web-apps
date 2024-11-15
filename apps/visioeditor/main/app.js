@@ -141,7 +141,6 @@ require([
             'ViewTab',
             'Search',
             'Common.Controllers.Chat',
-            // 'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
         ]
     });
@@ -163,7 +162,6 @@ require([
                 'visioeditor/main/app/controller/ViewTab',
                 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils',
-                // 'common/main/lib/controller/Comments',
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
                 'common/main/lib/controller/Plugins'

@@ -78,8 +78,6 @@ define([
                 },
                 'LeftMenu': {
                     'panel:show':    _.bind(this.menuExpand, this),
-                    'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide'),
                     'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'FileMenu': {
@@ -111,7 +109,6 @@ define([
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
-            // Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
@@ -127,9 +124,6 @@ define([
                 // 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                 'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
                 'esc': _.bind(this.onShortcut, this, 'escape'),
-                /** coauthoring begin **/
-                // 'command+shift+h,ctrl+shift+h': _.bind(this.onShortcut, this, 'comments'),
-                /** coauthoring end **/
                 'f1': _.bind(this.onShortcut, this, 'help')
             };
             keymap[Common.Utils.isMac ? 'ctrl+alt+f' : 'alt+f'] = _.bind(this.onShortcut, this, 'file');
@@ -148,19 +142,6 @@ define([
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
                     this.api.asc_registerCallback('asc_onCoAuthoringChatReceiveMessage', _.bind(this.onApiChatMessage, this));
-                // if (this.mode.canComments) {
-                //     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
-                //     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                //     var collection = this.getApplication().getCollection('Common.Collections.Comments'),
-                //         resolved = Common.Utils.InternalSettings.get("ve-settings-resolvedcomment");
-                //     for (var i = 0; i < collection.length; ++i) {
-                //         var comment = collection.at(i);
-                //         if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '' && (resolved || !comment.get('resolved'))) {
-                //             this.leftMenu.markCoauthOptions('comments', true);
-                //             break;
-                //         }
-                //     }
-                // }
             }
             /** coauthoring end **/
             var value = Common.UI.LayoutManager.getInitValue('leftMenu');
@@ -181,20 +162,13 @@ define([
         },
 
         createDelayedElements: function() {
-            /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                // this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                // if (this.mode.canViewComments)
-                //     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView());
-
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
                 if (this.mode.canChat)
                     this.leftMenu.setOptionsPanel('chat', this.getApplication().getController('Common.Controllers.Chat').getView('Common.Views.Chat'));
             } else {
                 this.leftMenu.btnChat.hide();
-                this.leftMenu.btnComments.hide();
             }
-            /** coauthoring end **/
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             Common.util.Shortcuts.resumeEvents();
@@ -465,10 +439,7 @@ define([
             this.mode.isEdit = false;
             this.leftMenu.close();
 
-            /** coauthoring begin **/
-            // this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
-            /** coauthoring end **/
             this.leftMenu.setDisabledPluginButtons(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
@@ -503,58 +474,15 @@ define([
 
             if (disable) this.leftMenu.close();
 
-            // if (!options || options.comments && options.comments.disable)
-            //     this.leftMenu.btnComments.setDisabled(disable);
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
             this.leftMenu.btnThumbs.setDisabled(disable);
             this.leftMenu.setDisabledPluginButtons(disable);
         },
 
-        /** coauthoring begin **/
         onApiChatMessage: function() {
             this.leftMenu.markCoauthOptions('chat');
         },
-
-        onApiAddComment: function(id, data) {
-            var resolved = Common.Utils.InternalSettings.get("ve-settings-resolvedcomment");
-            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName()))
-                this.leftMenu.markCoauthOptions('comments');
-        },
-
-        onApiAddComments: function(data) {
-            var resolved = Common.Utils.InternalSettings.get("ve-settings-resolvedcomment");
-            for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved()) && AscCommon.UserInfoParser.canViewComment(data.asc_getUserName())) {
-                    this.leftMenu.markCoauthOptions('comments');
-                    break;
-                }
-            }
-        },
-
-        onAppAddComment: function(sender) {
-            var me = this;
-            if ( this.api.can_AddQuotedComment() === false ) {
-                (new Promise(function(resolve, reject) {
-                    resolve();
-                })).then(function () {
-                    Common.UI.Menu.Manager.hideAll();
-                    me.leftMenu.showMenu('comments');
-
-                    var ctrl = VE.getController('Common.Controllers.Comments');
-                    ctrl.getView().showEditContainer(true);
-                    ctrl.onAfterShow();
-                });
-            }
-        },
-
-        commentsShowHide: function(mode) {
-            if (mode === 'show') {
-                this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-            }
-                $(this.leftMenu.btnComments.el).blur();
-        },
-        /** coauthoring end **/
 
         aboutShowHide: function(value) {
             if (this.api)
@@ -563,7 +491,6 @@ define([
             if (value && this.leftMenu._state.pluginIsRunning) {
                 this.leftMenu.panelPlugins.show();
                 if (this.mode.canCoAuthoring) {
-                    // this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
@@ -576,12 +503,6 @@ define([
         onMenuChange: function (value) {
             if ('hide' === value) {
                 if (this.api) {
-                    // if (this.leftMenu.btnComments.isActive()) {
-                    //     this.leftMenu.btnComments.toggle(false);
-                    //     this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
-                    //     // focus to sdk
-                    //     this.api.asc_enableKeyEvents(true);
-                    // } else
                     if (this.leftMenu.btnSearchBar.isActive()) {
                         this.leftMenu.btnSearchBar.toggle(false);
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
@@ -682,21 +603,12 @@ define([
                         return false;
                     }
                     break;
-            /** coauthoring begin **/
                 case 'chat':
                     if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('chat');
                     }
                     return false;
-                // case 'comments':
-                //     if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
-                //         Common.UI.Menu.Manager.hideAll();
-                //         this.leftMenu.showMenu('comments');
-                //         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
-                //     }
-                //     return false;
-            /** coauthoring end **/
             }
         },
 
@@ -748,10 +660,6 @@ define([
 
         isSearchPanelVisible: function () {
             return this.leftMenu && this.leftMenu.panelSearch && this.leftMenu.panelSearch.isVisible();
-        },
-
-        isCommentsVisible: function() {
-            return this.leftMenu && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible();
         },
 
         onLeftMenuHide: function (view, status) {

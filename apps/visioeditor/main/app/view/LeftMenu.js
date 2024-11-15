@@ -107,18 +107,6 @@ define([
                     window.open('{{SUPPORT_URL}}');
             }, this));
 
-            /** coauthoring begin **/
-            // this.btnComments = new Common.UI.Button({
-            //     el: $markup.elementById('#left-btn-comments'),
-            //     hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
-            //     enableToggle: true,
-            //     disabled: true,
-            //     iconCls: 'btn-menu-comments',
-            //     toggleGroup: 'leftMenuGroup'
-            // });
-            // this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
-            // this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
-
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'),
@@ -129,10 +117,7 @@ define([
             });
             this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
 
-            // this.btnComments.hide();
             this.btnChat.hide();
-
-            /** coauthoring end **/
 
             this.menuFile = new VE.Views.FileMenu();
             this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
@@ -164,11 +149,6 @@ define([
             VE.getController('Toolbar').DisableToolbar(state==true);
             if (!this.supressEvents)
                 Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
-        },
-
-        onBtnCommentsToggle: function(btn, state) {
-            if (!state)
-                this.fireEvent('comments:hide', this);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -207,14 +187,7 @@ define([
         },
 
         onCoauthOptions: function(e) {
-            /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                // if (this.mode.canViewComments) {
-                //     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
-                //         this.btnComments.$el.removeClass('notify');
-                //     this.panelComments[this.btnComments.pressed?'show':'hide']();
-                //     this.fireEvent((this.btnComments.pressed) ? 'comments:show' : 'comments:hide', this);
-                // }
                 if (this.mode.canChat) {
                     if (this.btnChat.pressed) {
                         if (this.btnChat.$el.hasClass('notify'))
@@ -234,7 +207,6 @@ define([
                     this.panelSearch.hide();
                 }
             }
-            /** coauthoring end **/
         },
 
         getFocusElement: function () {
@@ -251,26 +223,18 @@ define([
             /** coauthoring begin **/
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
-            } else if (name == 'comment') {
-                this.panelComments = panel;
             } else /** coauthoring end **/
             if (name == 'advancedsearch') {
                 this.panelSearch = panel.render('#left-panel-search');
             }
         },
 
-        /** coauthoring begin **/
         markCoauthOptions: function(opt, ignoreDisabled) {
             if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                     !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
-            // if (opt=='comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) && !this.btnComments.pressed &&
-            //                     (!this.btnComments.isDisabled() || ignoreDisabled) ) {
-            //     this.btnComments.$el.addClass('notify');
-            // }
         },
-        /** coauthoring end **/
 
         close: function(menu) {
             if ( this.menuFile.isVisible() ) {
@@ -280,20 +244,12 @@ define([
                 this.btnThumbs.toggle(false, !this.mode);
                 if (!this._state.pluginIsRunning)
                     this.$el.width(SCALE_MIN);
-                /** coauthoring begin **/
                 if (this.mode && this.mode.canCoAuthoring) {
-                    // if (this.mode.canViewComments) {
-                    //     this.panelComments && this.panelComments['hide']();
-                    //     if (this.btnComments.pressed)
-                    //         this.fireEvent('comments:hide', this);
-                    //     this.btnComments.toggle(false, true);
-                    // }
                     if (this.mode.canChat) {
                         this.panelChat && this.panelChat['hide']();
                         this.btnChat.toggle(false);
                     }
                 }
-                /** coauthoring end **/
                 if (this.panelSearch) {
                     this.panelSearch['hide']();
                     this.btnSearchBar.toggle(false, true);
@@ -305,7 +261,7 @@ define([
         isOpened: function() {
             var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
-            !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
+            !isopened && (isopened = this.btnChat.pressed);
             /** coauthoring end **/
             return isopened;
         },
@@ -314,10 +270,7 @@ define([
             this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
-            /** coauthoring begin **/
-            // this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
-            /** coauthoring end **/
             this.btnThumbs.setDisabled(disable);
             this.setDisabledAllMoreMenuItems(false);
         },
@@ -331,7 +284,6 @@ define([
                 }
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
-                /** coauthoring begin **/
                 if (menu == 'chat') {
                     if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
                             !this.btnChat.isDisabled() && !this.btnChat.pressed) {
@@ -339,13 +291,6 @@ define([
                         this.onBtnMenuClick(this.btnChat);
                         this.panelChat.focus();
                     }
-                // } else
-                // if (menu == 'comments') {
-                //     if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
-                //             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
-                //         this.btnComments.toggle(true);
-                //         this.onBtnMenuClick(this.btnComments);
-                //     }
                 } else if (menu == 'advancedsearch') {
                     if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
@@ -355,7 +300,6 @@ define([
                         !suspendAfter && this.fireEvent('search:aftershow', this);
                     }
                 }
-                /** coauthoring end **/
             }
         },
 
@@ -452,14 +396,11 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnSearchBar, this.btnThumbs, /*this.btnComments,*/ this.btnChat, this.btnSupport, this.btnAbout];
+            var allButtons = [this.btnSearchBar, this.btnThumbs, this.btnChat, this.btnSupport, this.btnAbout];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
-        /** coauthoring begin **/
-        // tipComments : 'Comments',
         tipChat     : 'Chat',
-        /** coauthoring end **/
         tipAbout    : 'About',
         tipSupport  : 'Feedback & Support',
         tipSearch   : 'Search',
