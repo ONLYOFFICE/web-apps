@@ -290,7 +290,7 @@ define([
                 }, this));
             }
             if (this.header.btnSearch.pressed) {
-                var selectedText = this.api.asc_GetSelectedText(),
+                var selectedText = '',//this.api.asc_GetSelectedText(),
                     searchController = this.getApplication().getController('Search'),
                     resultsNumber = searchController.getResultsNumber();
                 this.searchBar.show(selectedText && selectedText.trim() || searchController.getSearchText());

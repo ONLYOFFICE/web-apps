@@ -604,7 +604,7 @@ define([
                     this.leftMenu.btnAbout.toggle(false);
                     full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
 
-                    var selectedText = this.api.asc_GetSelectedText();
+                    var selectedText = '';//this.api.asc_GetSelectedText();
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                         this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');

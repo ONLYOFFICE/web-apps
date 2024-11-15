@@ -374,7 +374,7 @@ define([
                 viewport.searchBar.hide();
             }
 
-            var selectedText = this.api.asc_GetSelectedText(),
+            var selectedText = '',//this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             this.checkPunctuation(text);
             if (text) {
