@@ -84,11 +84,12 @@ define([
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
-                    'saveas:format': _.bind(function(menu, format, ext) {
+                    'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(function(menu, format, ext) {
                         if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
                             this.saveAsInWopi(menu, format, ext);
                         } else
-                            this.clickSaveAsFormat(menu, format, ext);
+                            this.clickSaveCopyAsFormat(menu, format, ext);
                     }, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
@@ -97,8 +98,7 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other'),
-                    // 'save:disabled': this.changeToolbarSaveState.bind(this)
+                    'file:close': this.clickToolbarTab.bind(this, 'other')
                 },
                 'ViewTab': {
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
@@ -121,7 +121,7 @@ define([
             };
 
             var keymap = {
-                // 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
+                'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                 'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
                 'esc': _.bind(this.onShortcut, this, 'escape'),
                 'f1': _.bind(this.onShortcut, this, 'help')
@@ -138,12 +138,10 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
-            /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
                     this.api.asc_registerCallback('asc_onCoAuthoringChatReceiveMessage', _.bind(this.onApiChatMessage, this));
             }
-            /** coauthoring end **/
             var value = Common.UI.LayoutManager.getInitValue('leftMenu');
             value = (value!==undefined) ? !value : false;
             this.isThumbsShown = !Common.localStorage.getBool("ve-hidden-leftmenu", value);
@@ -186,7 +184,6 @@ define([
             switch (action) {
             case 'back':
                 break;
-            case 'save': Common.NotificationCenter.trigger('leftmenu:save'); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'saveas':
                 if ( isopts ) close_menu = false;
@@ -199,8 +196,8 @@ define([
             case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
-                this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
-                Common.Gateway.requestEditRights();
+                // this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
+                // Common.Gateway.requestEditRights();
                 break;
             case 'new':
                 if ( isopts ) close_menu = false;
@@ -321,8 +318,6 @@ define([
             Common.Utils.InternalSettings.set("ve-settings-fontrender", value);
             this.api.SetFontRenderingMode(parseInt(value));
 
-            if (this.mode.isEdit) {
-            }
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
@@ -389,17 +384,10 @@ define([
                 this.clickMenuFileItem(null, 'print');
         },
 
-        changeToolbarSaveState: function (state) {
-            var btnSave = this.leftMenu.menuFile.getButton('save');
-            btnSave && btnSave.setDisabled(state);
-        },
-
-        /** coauthoring begin **/
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
-        /** coauthoring end **/
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -712,7 +700,6 @@ define([
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',
         notcriticalErrorTitle: 'Warning',
-        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         txtUntitled: 'Untitled',
         textSelectPath: 'Enter a new name for saving the file copy'
 

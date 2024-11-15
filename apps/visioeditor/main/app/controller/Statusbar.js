@@ -180,10 +180,6 @@ define([
             this.statusbar.$el.css('z-index', '');
         },
 
-        synchronizeChanges: function() {
-            this.setStatusCaption('');
-        },
-
         showDisconnectTip: function () {
             var me = this;
             if (!this.disconnectTip) {
@@ -210,12 +206,6 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
-        },
-
-        onSelectTool: function (type, btn, e) {
-            if (this.api) {
-                this.api.asc_setViewerTargetType(type);
-            }
         },
 
         zoomText        : 'Zoom {0}%',

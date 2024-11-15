@@ -61,7 +61,6 @@ define([
             this._isDisabled = false;
             this._preventCustomClick = null;
             this._hasCustomItems = false;
-            this._pagesCount = 0;
         },
 
         render: function () {

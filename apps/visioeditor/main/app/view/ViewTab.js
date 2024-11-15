@@ -152,7 +152,7 @@ define([
                 this.btnFitToSlide = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtoslide',
-                    caption: this.textFitToSlide,
+                    caption: this.textFitPage,
                     lock: [_set.disableOnStart],
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
@@ -165,7 +165,7 @@ define([
                 this.btnFitToWidth = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-ic-zoomtowidth',
-                    caption: this.textFitToWidth,
+                    caption: this.textFitWidth,
                     lock: [_set.disableOnStart],
                     toggleGroup: 'view-zoom',
                     enableToggle: true,
@@ -246,8 +246,8 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
-                    me.btnFitToSlide.updateHint(me.tipFitToSlide);
-                    me.btnFitToWidth.updateHint(me.tipFitToWidth);
+                    me.btnFitToSlide.updateHint(me.tipFitPage);
+                    me.btnFitToWidth.updateHint(me.tipFitWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     if (!Common.UI.Themes.available()) {
                         me.btnInterfaceTheme.$el.closest('.group').remove();
@@ -320,9 +320,6 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
-                        me.btnInterfaceTheme.menu && me.btnInterfaceTheme.menu.on('show:after', function() {
-                            Common.UI.TooltipManager.closeTip('grayTheme');
-                        });
                         if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                                 var value = item.value;
@@ -368,13 +365,13 @@ define([
             },
 
             textZoom: 'Zoom',
-            textFitToSlide: 'Fit To Page',
-            textFitToWidth: 'Fit To Width',
+            textFitPage: 'Fit To Page',
+            textFitWidth: 'Fit To Width',
             textInterfaceTheme: 'Interface theme',
             textStatusBar: 'Status Bar',
             textAlwaysShowToolbar: 'Always show toolbar',
-            tipFitToSlide: 'Fit to page',
-            tipFitToWidth: 'Fit to width',
+            tipFitPage: 'Fit to page',
+            tipFitWidth: 'Fit to width',
             tipInterfaceTheme: 'Interface theme',
             textLeftMenu: 'Left panel',
             textTabStyle: 'Tab style',

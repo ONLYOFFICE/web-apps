@@ -56,10 +56,6 @@ define([
         initialize: function() {
             this._state = {
                 activated: false,
-                can_copy: undefined,
-                can_cut: undefined,
-                pageCount: 1,
-                currentPage: 0,
                 initEditing: true
             };
             this.editMode = true;
@@ -68,14 +64,11 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'change:compact'    : this.onClickChangeCompact,
-                    'home:open'         : this.onHomeOpen,
-                    'tab:active'        : this.onActiveTab,
                     'tab:collapse'      : this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
                     'menu:show': this.onFileMenu.bind(this, 'show'),
-                    'settings:apply': this.applySettings.bind(this),
                 },
                 'Common.Views.Header': {
                     'print': function (opts) {
@@ -85,9 +78,6 @@ define([
                     'print-quick': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrintQuick();
-                    },
-                    'save': function (opts) {
-                        this.tryToSave();
                     },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
@@ -99,7 +89,9 @@ define([
 
                         var _supported = [
                             Asc.c_oAscFileType.VSDX,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.PNG,
+                            Asc.c_oAscFileType.JPG
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -108,7 +100,7 @@ define([
                         _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
-                        Common.Gateway.requestEditRights();
+                        // Common.Gateway.requestEditRights();
                     }
                 },
                 'ViewTab': {
@@ -154,8 +146,6 @@ define([
         },
 
         attachCommonApiEvents: function() {
-            this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
-            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
@@ -197,18 +187,6 @@ define([
             }
         },
 
-        onContextMenu: function() {
-            this.toolbar.collapse();
-        },
-
-        onCountPages: function(count) {
-            this._state.pageCount = count;
-        },
-
-        onCurrentPage: function(value) {
-            this._state.currentPage = value;
-        },
-
         onNewDocument: function(btn, e) {
             if (this.api)
                 this.api.OpenNewDocument();
@@ -223,43 +201,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
-        },
-
-        onPrint: function(e) {
-            if (this.toolbar.btnPrint.options.printType == 'print') {
-                Common.NotificationCenter.trigger('file:print', this.toolbar);
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            } else {
-                var _main = this.getApplication().getController('Main');
-                _main.onPrintQuick();
-            }
-            Common.component.Analytics.trackEvent('Print');
-            Common.component.Analytics.trackEvent('ToolBar', 'Print');
-
-        },
-
-        onPrintMenu: function (btn, e){
-            var oldType = this.toolbar.btnPrint.options.printType;
-            var newType = e.value;
-
-            if(newType != oldType) {
-                this.toolbar.btnPrint.changeIcon({
-                    next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnPrint.menu.getItems().filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
-                });
-                this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
-                this.toolbar.btnPrint.options.printType = newType;
-            }
-            this.onPrint(e);
-        },
-
-        tryToSave: function () {
-            var toolbar = this.toolbar,
-                mode = toolbar.mode,
-                me = this;
-            if (!mode.canSaveToFile) {
-            } else if (this.api) {
-            }
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -291,13 +232,6 @@ define([
                 }
             }
             this._state.isFromToolbarDownloadAs = false;
-        },
-
-        onBtnChangeState: function(prop) {
-            if ( /\:disabled$/.test(prop) ) {
-                var _is_disabled = arguments[2];
-                this.toolbar.fireEvent(prop, [_is_disabled]);
-            }
         },
 
         activateControls: function() {
@@ -356,16 +290,6 @@ define([
             if ( config.isEdit) {
                 me.toolbar.setMode(config);
                 if (!config.compactHeader) {
-                    // hide 'print' and 'save' buttons group and next separator
-                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
-
-                    // hide 'undo' and 'redo' buttons and retrieve parent container
-                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
-
-                    // move 'paste' button to the container instead of 'undo' and 'redo'
-                    me.toolbar.btnPaste.$el.detach().appendTo($box);
-                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
-                    me.toolbar.btnCopy.$el.removeClass('split');
                     me.toolbar.processPanelVisible(null, true);
                 }
             }
@@ -403,13 +327,7 @@ define([
             }
         },
 
-        onActiveTab: function(tab) {
-        },
-
         onTabCollapse: function(tab) {
-        },
-
-        applySettings: function() {
         },
 
         onPluginToolbarMenu: function(data) {

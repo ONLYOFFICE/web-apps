@@ -12,7 +12,6 @@ require([
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/CustomizeQuickAccessDialog',
-    'common/main/lib/view/PasswordDialog',
 
     'visioeditor/main/app/view/FileMenuPanels',
     'visioeditor/main/app/view/DocumentHolderExt'

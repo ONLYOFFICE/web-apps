@@ -38,25 +38,6 @@
  *
  */
 
-var c_paragraphLinerule = {
-    LINERULE_LEAST: 0,
-    LINERULE_AUTO: 1,
-    LINERULE_EXACT: 2
-};
-
-var c_paragraphTextAlignment = {
-    RIGHT: 0,
-    LEFT: 1,
-    CENTERED: 2,
-    JUSTIFIED: 3
-};
-
-var c_paragraphSpecial = {
-    NONE_SPECIAL: 0,
-    FIRST_LINE: 1,
-    HANGING: 2
-};
-
 define([
     'core',
     'visioeditor/main/app/view/DocumentHolder'
@@ -75,17 +56,12 @@ define([
             this.addListeners({
                 'DocumentHolder': {
                     'createdelayedelements': this.createDelayedElements
-                },
-                'FileMenu': {
-                    'settings:apply': _.bind(this.applySettings, this)
-                },
+                }
             });
 
             var me = this;
 
             me._TtHeight        = 20;
-            me.usertips = [];
-            me.fastcoauthtips = [];
             me._isDisabled = false;
             me._state = {};
             me.mode = {};
@@ -104,11 +80,6 @@ define([
                 isHidden: true,
                 isVisible: false
             };
-            me.userTooltip = true;
-            me.wrapEvents = {
-                userTipMousover: _.bind(me.userTipMousover, me),
-                userTipMousout: _.bind(me.userTipMousout, me)
-            };
         },
 
         onLaunch: function() {
@@ -121,20 +92,14 @@ define([
                 'window:show': function(e){
                     me.screenTip.toolTip.hide();
                     me.screenTip.isVisible = false;
-                    me.userTipHide();
                     me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
 
                 },
                 'modal:show': function(e){
-                    me.hideTips();
                 },
                 'layout:changed': function(e){
                     me.screenTip.toolTip.hide();
                     me.screenTip.isVisible = false;
-                    /** coauthoring begin **/
-                    me.userTipHide();
-                    /** coauthoring end **/
-                    me.hideTips();
                     me.onDocumentHolderResize();
                 }
             });
@@ -231,8 +196,6 @@ define([
         },
 
         fillViewMenuProps: function(selectedElements) {
-            // if (!selectedElements || !_.isArray(selectedElements)) return;
-
             var documentHolder = this.documentHolder;
             if (!documentHolder.viewModeMenu)
                 documentHolder.createDelayedElementsViewer();
@@ -247,7 +210,7 @@ define([
                 documentHolder.createDelayedElementsEditor();
 
             if (!selectedElements || !_.isArray(selectedElements) || selectedElements.length<1)
-                return {menu_to_show: documentHolder.editModeMenu, menu_props: {}}
+                return {menu_to_show: documentHolder.editModeMenu, menu_props: {}};
 
             var me = this,
                 menu_props = {},
@@ -276,12 +239,12 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 return;
             }
-
             var me = this;
             _.delay(function(){
-                if (event.get_Type() == Asc.c_oAscPdfContextMenuTypes.Thumbnails) {
-                } else
+                if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
+                } else {
                     me.showObjectMenu.call(me, event);
+                }
             },10);
         },
 
@@ -339,7 +302,7 @@ define([
                         event.stopPropagation();
                         return false;
                     } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
-                        me.api.zoom(100);
+                        me.api.zoomFitToPage();
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
@@ -360,10 +323,7 @@ define([
 
         onDocumentHolderResize: function(e){
             var me = this;
-            me._XY = [
-                Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
-                Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
-            ];
+            me._XY          = undefined;
             me._Height = me.documentHolder.cmpEl.height();
             me._Width = me.documentHolder.cmpEl.width();
             me._BodyWidth = $('body').width();
@@ -387,7 +347,11 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
-                    if (e.target.localName == 'canvas' && $(e.target).closest('[type=menuitem]').length<1)
+                    if (e.target.localName == 'canvas')
+                        Common.UI.Menu.Manager.hideAll();
+                });
+                meEl.on('touchstart', function(e){
+                    if (e.target.localName == 'canvas')
                         Common.UI.Menu.Manager.hideAll();
                 });
 
@@ -408,75 +372,6 @@ define([
             $(window).on('resize', _.bind(me.onDocumentHolderResize, me));
             var viewport = me.getApplication().getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag', _.bind(me.onDocumentHolderResize, me));
-        },
-
-        getUserName: function(id){
-            var usersStore = VE.getCollection('Common.Collections.Users');
-            if (usersStore){
-                var rec = usersStore.findUser(id);
-                if (rec)
-                    return AscCommon.UserInfoParser.getParsedName(rec.get('username'));
-            }
-            return this.documentHolder.guestText;
-        },
-
-        isUserVisible: function(id){
-            var usersStore = VE.getCollection('Common.Collections.Users');
-            if (usersStore){
-                var rec = usersStore.findUser(id);
-                if (rec)
-                    return !rec.get('hidden');
-            }
-            return true;
-        },
-
-        userTipMousover: function (evt, el, opt) {
-            var me = this;
-            if (me.userTooltip===true) {
-                me.userTooltip = new Common.UI.Tooltip({
-                    owner: evt.currentTarget,
-                    title: me.documentHolder.tipIsLocked
-                });
-
-                me.userTooltip.show();
-            }
-        },
-
-        userTipHide: function () {
-            var me = this;
-            if (typeof me.userTooltip == 'object') {
-                me.userTooltip.hide();
-                me.userTooltip = undefined;
-
-                for (var i=0; i<me.usertips.length; i++) {
-                    me.usertips[i].off('mouseover', me.wrapEvents.userTipMousover);
-                    me.usertips[i].off('mouseout', me.wrapEvents.userTipMousout);
-                }
-            }
-        },
-
-        userTipMousout: function (evt, el, opt) {
-            var me = this;
-            if (typeof me.userTooltip == 'object') {
-                if (me.userTooltip.$element && evt.currentTarget === me.userTooltip.$element[0]) {
-                    me.userTipHide();
-                }
-            }
-        },
-
-        hideTips: function() {
-            var me = this;
-            /** coauthoring begin **/
-            if (typeof me.userTooltip == 'object') {
-                me.userTooltip.hide();
-                me.userTooltip = true;
-            }
-            _.each(me.usertips, function(item) {
-                item.remove();
-            });
-            me.usertips = [];
-            me.usertipcount = 0;
-            /** coauthoring end **/
         },
 
         onHyperlinkClick: function(url) {
@@ -505,21 +400,7 @@ define([
         },
 
         onMouseMoveStart: function() {
-            var me = this;
-            me.screenTip.isHidden = true;
-            /** coauthoring begin **/
-            if (me.usertips.length>0) {
-                if (typeof me.userTooltip == 'object') {
-                    me.userTooltip.hide();
-                    me.userTooltip = true;
-                }
-                _.each(me.usertips, function(item) {
-                    item.remove();
-                });
-            }
-            me.usertips = [];
-            me.usertipcount = 0;
-            /** coauthoring end **/
+            this.screenTip.isHidden = true;
         },
 
         onMouseMoveEnd: function() {
@@ -539,14 +420,14 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl,
                 screenTip = me.screenTip;
-            if (me._XY === undefined) {
+            if (_.isUndefined(me._XY)) {
                 me._XY = [
                     Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
                     Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
-                me._Height = cmpEl.height();
-                me._Width = cmpEl.width();
-                me._BodyWidth = $('body').width();
+                me._Width       = cmpEl.width();
+                me._Height      = cmpEl.height();
+                me._BodyWidth   = $('body').width();
             }
 
             if (moveData) {
@@ -597,46 +478,13 @@ define([
                         showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                         recalc = true;
                     }
-                    if (showPoint[1] - screenTip.tipHeight < 0) {
-                        showPoint[1] = (recalc) ? showPoint[1]+30 : 0;
-                    } else
-                        showPoint[1] -= screenTip.tipHeight;
-
+                    showPoint[1] -= screenTip.tipHeight;
+                    if (showPoint[1]<0)
+                        showPoint[1] = 0;
+                    if (showPoint[0] + screenTip.tipWidth > me._BodyWidth )
+                        showPoint[0] = me._BodyWidth - screenTip.tipWidth;
                     screenTip.toolTip.getBSTip().$tip.css({top: showPoint[1] + 'px', left: showPoint[0] + 'px'});
                 }
-                /** coauthoring begin **/
-                else if (moveData.get_Type()==Asc.c_oAscMouseMoveDataTypes.LockedObject && me.mode.isEdit && me.isUserVisible(moveData.get_UserId())) { // 2 - locked object
-                    var src;
-                    if (me.usertipcount >= me.usertips.length) {
-                        src = $(document.createElement("div"));
-                        src.addClass('username-tip');
-                        src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', visibility: 'visible'});
-                        $(document.body).append(src);
-                        if (me.userTooltip) {
-                            src.on('mouseover', me.wrapEvents.userTipMousover);
-                            src.on('mouseout', me.wrapEvents.userTipMousout);
-                        }
-
-                        me.usertips.push(src);
-                    }
-                    src = me.usertips[me.usertipcount];
-                    me.usertipcount++;
-
-                    ToolTip = me.getUserName(moveData.get_UserId());
-
-                    showPoint = [moveData.get_X()+me._XY[0], moveData.get_Y()+me._XY[1]];
-                    var maxwidth = showPoint[0];
-                    showPoint[0] = me._BodyWidth - showPoint[0];
-                    showPoint[1] -= ((moveData.get_LockedObjectType()==2) ? me._TtHeight : 0);
-
-                    if (showPoint[1] > me._XY[1] && showPoint[1]+me._TtHeight < me._XY[1]+me._Height)  {
-                        src.text(ToolTip);
-                        src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px', 'max-width': maxwidth + 'px'});
-                    } else {
-                        src.css({visibility: 'hidden'});
-                    }
-                }
-                /** coauthoring end **/
             }
         },
 
@@ -681,18 +529,6 @@ define([
             me.editComplete();
         },
 
-        onPrintSelection: function(item){
-            if (this.api){
-                var printopt = new Asc.asc_CAdjustPrint();
-                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
-                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isOpera || Common.Utils.isGecko && Common.Utils.firefoxVersion>86); // if isChrome or isOpera == true use asc_onPrintUrl event
-                opts.asc_setAdvancedOptions(printopt);
-                this.api.asc_Print(opts);
-                this.editComplete();
-                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
-            }
-        },
-
         onPluginContextMenu: function(data) {
             if (data && data.length>0 && this.documentHolder && this.documentHolder.currentMenu && this.documentHolder.currentMenu.isVisible()){
                 this.documentHolder.updateCustomItems(this.documentHolder.currentMenu, data);
@@ -701,9 +537,6 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
-        },
-
-        applySettings: function() {
         },
 
         clearSelection: function() {

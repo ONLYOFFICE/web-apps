@@ -163,7 +163,6 @@ require([
                 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Chat',
-                /** coauthoring end **/
                 'common/main/lib/controller/Plugins'
             ], function() {
                 app.postLaunchScripts = [

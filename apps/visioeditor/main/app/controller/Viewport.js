@@ -329,9 +329,6 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
-        },
-
-        textFitPage: 'Fit to Page',
-        textFitWidth: 'Fit to Width'
+        }
     }, VE.Controllers.Viewport));
 });

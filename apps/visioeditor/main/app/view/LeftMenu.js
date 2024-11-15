@@ -43,7 +43,6 @@ define([
     'backbone',
     'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
-    'common/main/lib/view/About',
     'common/main/lib/view/Chat',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
@@ -125,7 +124,7 @@ define([
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
                 el: $markup.elementById('#left-btn-thumbs'),
-                hint: this.tipSlides,
+                hint: this.tipPages,
                 enableToggle: true,
                 disabled: true,
                 iconCls: 'btn-menu-thumbs',
@@ -157,11 +156,11 @@ define([
 
             if (btn.options.action == 'thumbs') {
                 if (!btn.pressed && this._state.pluginIsRunning) {
-                    this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
+                    this.$el.width(Common.localStorage.getItem('ve-mainmenu-width') || MENU_SCALE_PART);
                 } else {
                     var width = this.$el.width();
                     if (width > SCALE_MIN) {
-                        Common.localStorage.setItem('pe-mainmenu-width',width);
+                        Common.localStorage.setItem('ve-mainmenu-width',width);
                         this.$el.width(SCALE_MIN);
                     }
                     if (this._state.pluginIsRunning) // hide comments or chat panel when plugin is running
@@ -220,10 +219,9 @@ define([
         },
 
         setOptionsPanel: function(name, panel) {
-            /** coauthoring begin **/
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
-            } else /** coauthoring end **/
+            } else
             if (name == 'advancedsearch') {
                 this.panelSearch = panel.render('#left-panel-search');
             }
@@ -260,9 +258,7 @@ define([
 
         isOpened: function() {
             var isopened = this.btnSearchBar.pressed;
-            /** coauthoring begin **/
             !isopened && (isopened = this.btnChat.pressed);
-            /** coauthoring end **/
             return isopened;
         },
 
@@ -405,7 +401,7 @@ define([
         tipSupport  : 'Feedback & Support',
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
-        tipSlides: 'Slides',
+        tipPages: 'Pages',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',

@@ -150,8 +150,8 @@ define([
                     this.api.setSpeechEnabled(value);
 
                     if ( !Common.Utils.isIE ) {
-                        if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
-                            const _url_obj = new URL('{{HELP_CENTER_WEB_DE}}');
+                        if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_VE}}') ) {
+                            const _url_obj = new URL('{{HELP_CENTER_WEB_VE}}');
                             if ( !!_url_obj.searchParams )
                                 _url_obj.searchParams.set('lang', Common.Locale.getCurrentLanguage());
 
@@ -168,7 +168,6 @@ define([
                     this.api.asc_registerCallback('asc_onDocumentName',             _.bind(this.onDocumentName, this));
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
-                    // this.api.asc_registerCallback('asc_onThumbnailsShow',           _.bind(this.onThumbnailsShow, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -191,7 +190,6 @@ define([
                     Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
-//                $(window.top).resize(_.bind(this.onDocumentResize, this));
                     this.getApplication().getController('Viewport').setApi(this.api);
                     this.getApplication().getController('Statusbar').setApi(this.api);
 
@@ -273,7 +271,6 @@ define([
                             if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
-                        'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
                         },
                         'dataview:blur': function(e){
@@ -301,11 +298,11 @@ define([
                 }
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
-                me.warnNoLicense  = me.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
-                me.textNoLicenseTitle = me.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseExceeded = me.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
-                me.warnLicenseUsersExceeded = me.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoLicense  = (me.warnNoLicense || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = (me.warnNoLicenseUsers || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = (me.textNoLicenseTitle || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseExceeded = (me.warnLicenseExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseUsersExceeded = (me.warnLicenseUsersExceeded || '').replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -363,11 +360,11 @@ define([
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.canPlugins      = false;
-                // this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
+                this.appOptions.canMakeActionLink = false;//this.editorConfig.canMakeActionLink;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
-                // this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+                this.appOptions.canRequestInsertImage = false;//this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
@@ -518,7 +515,9 @@ define([
                     _supported = [
                         Asc.c_oAscFileType.VSDX,
                         Asc.c_oAscFileType.PDF,
-                        Asc.c_oAscFileType.PDFA
+                        Asc.c_oAscFileType.PDFA,
+                        Asc.c_oAscFileType.PNG,
+                        Asc.c_oAscFileType.JPG
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
@@ -546,7 +545,6 @@ define([
                 var temp = type==='reconnect';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
-                    allowSignature: false,
                     statusBar: true,
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true},
@@ -576,11 +574,11 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
-                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
+                    options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable);
                 }
                 if (options.leftMenu) {
                     if (options.leftMenu.disable)
@@ -594,7 +592,7 @@ define([
                         app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
                 }
                 if (options.plugins) {
-                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable, options.reviewMode, options.fillFormMode);
+                    app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').SetDisabled(disable);
                 }
                 if (options.header) {
                     if (options.header.search)
@@ -680,14 +678,6 @@ define([
                     toolbarView = toolbarController.getView();
 
                 application.getController('DocumentHolder').getView().focus();
-
-                // if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
-                //     var cansave = this.api.asc_isDocumentCanSave(),
-                //         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                //         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                //         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                //     toolbarView.btnSave.setDisabled(isDisabled);
-                // }
                 Common.UI.HintManager.clearHints(true);
             },
 
@@ -722,12 +712,6 @@ define([
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
-
-                // if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
-                //     this.synchronizeChanges();
-                // else if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) &&
-                //         this._state.fastCoauth)
-                //     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
@@ -923,7 +907,6 @@ define([
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
-                // me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -961,12 +944,6 @@ define([
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
                 if (me.appOptions.isEdit) {
-                    if (me.appOptions.isEdit && me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
-                        me.appOptions.forcesave = Common.localStorage.getBool("ve-settings-forcesave", me.appOptions.canForcesave);
-                        Common.Utils.InternalSettings.set("ve-settings-forcesave", me.appOptions.forcesave);
-                        me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
-                    }
-
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
 
@@ -994,7 +971,7 @@ define([
                 setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
                 if (this.appOptions.canAnalytics && false)
-                    Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
+                    Common.component.Analytics.initialize('UA-12442749-13', 'Visio Editor');
 
                 Common.Gateway.on('applyeditrights',        _.bind(me.onApplyEditRights, me));
                 // Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
@@ -1310,7 +1287,6 @@ define([
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
-                // this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                 var value = Common.localStorage.getItem('ve-settings-unit');
                 value = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[this.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
@@ -1647,33 +1623,6 @@ define([
                 }
             },
 
-            onDocumentModifiedChanged: function() {
-                var isModified = this.api.asc_isDocumentCanSave();
-                if (this._state.isDocModified !== isModified) {
-                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
-                }
-
-                this.updateWindowTitle();
-
-                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
-                if (toolbarView && toolbarView.btnCollabChanges) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    toolbarView.btnSave.setDisabled(isDisabled);
-                }
-            },
-
-            onDocumentCanSaveChanged: function (isCanSave) {
-                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
-                if ( toolbarView ) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    toolbarView.btnSave.setDisabled(isDisabled);
-                }
-            },
-
             onContextMenu: function(event){
                 var canCopyAttr = event.target.getAttribute('data-can-copy'),
                     isInputEl   = (event.target instanceof HTMLInputElement) || (event.target instanceof HTMLTextAreaElement);
@@ -1684,27 +1633,6 @@ define([
                     event.preventDefault();
                     return false;
                 }
-            },
-
-            onBeforeUnload: function() {
-                Common.localStorage.save();
-
-                if (this.api.isDocumentModified()) {
-                    var me = this;
-                    this.api.asc_stopSaving();
-                    this._state.unloadTimer = 1000;
-                    this.continueSavingTimer = window.setTimeout(function() {
-                        me.api.asc_continueSaving();
-                        me._state.unloadTimer = 0;
-                    }, 500);
-
-                    return this.leavePageText;
-                } else
-                    this._state.unloadTimer = 10000;
-            },
-
-            onUnload: function() {
-                if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
             },
 
             onBeforeUnloadView: function() {
@@ -1794,25 +1722,6 @@ define([
                 return false;
             },
 
-            /** coauthoring begin **/
-//            fillUserStore: function(users){
-//                if (!_.isEmpty(users)){
-//                    var userStore = this.getCommonStoreUsersStore();
-//
-//                    if (userStore)
-//                        userStore.add(users);
-//                }
-//            },
-
-            unitsChanged: function(m) {
-                var value = Common.localStorage.getItem("ve-settings-unit");
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-                Common.Utils.Metric.setCurrentMetric(value);
-                Common.Utils.InternalSettings.set("ve-settings-unit", value);
-                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
-                this.getApplication().getController('Toolbar').getView().updateMetricUnit();
-            },
-
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
@@ -1849,29 +1758,6 @@ define([
                 }
             },
 
-            onTryUndoInFastCollaborative: function() {
-                if (!Common.localStorage.getBool("ve-hide-try-undoredo"))
-                    Common.UI.info({
-                        width: 500,
-                        msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
-                        iconCls: 'info',
-                        buttons: this.appOptions.canChangeCoAuthoring ? [{value: 'custom', caption: this.textStrict}, 'cancel'] : ['ok'],
-                        primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
-                        dontshow: true,
-                        callback: _.bind(function(btn, dontshow){
-                            if (dontshow) Common.localStorage.setItem("ve-hide-try-undoredo", 1);
-                            if (btn == 'custom') {
-                                Common.localStorage.setItem("ve-settings-coauthmode", 0);
-                                this.api.asc_SetFastCollaborative(false);
-                                Common.Utils.InternalSettings.set("ve-settings-coauthmode", false);
-                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
-                                this._state.fastCoauth = false;
-                            }
-                            this.onEditComplete();
-                        }, this)
-                    });
-            },
-
             onAuthParticipantsChanged: function(users) {
                 var length = 0;
                 _.each(users, function(item){
@@ -1901,17 +1787,6 @@ define([
             },
 
             applySettings: function() {
-                // if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                //     var oldval = this._state.fastCoauth;
-                //     this._state.fastCoauth = Common.localStorage.getBool("ve-settings-coauthmode", true);
-                //     if (this._state.fastCoauth && !oldval)
-                //         this.synchronizeChanges();
-                // }
-                // if (this.appOptions.canForcesave) {
-                //     this.appOptions.forcesave = Common.localStorage.getBool("ve-settings-forcesave", this.appOptions.canForcesave);
-                //     Common.Utils.InternalSettings.set("ve-settings-forcesave", this.appOptions.forcesave);
-                //     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
-                // }
             },
 
             onDocumentName: function(name) {
@@ -2060,24 +1935,6 @@ define([
                     return false;
                 }
                 return true;
-            },
-
-            onConfirmAction: function(id, apiCallback, data) {
-                var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmMaxChangesSize,
-                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
-                        maxwidth: 600,
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'ok');
-                            }
-                            me.onEditComplete();
-                        }, this)
-                    });
-                }
             },
 
             onLostEditRights: function() {

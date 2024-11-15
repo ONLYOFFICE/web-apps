@@ -56,7 +56,6 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
-                    this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
                     var $item = $(event.currentTarget);
                     if ($item.hasClass('disabled')) {
                         return;
@@ -104,34 +103,6 @@ define([
                 dataHintDirection: 'left-top',
                 dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-previtem'
-            });
-
-            this.miSave = new Common.UI.MenuItem({
-                el      : $markup.elementById('#fm-btn-save'),
-                action  : 'save',
-                caption : this.btnSaveCaption,
-                canFocused: false,
-                disabled: true,
-                dataHint: 1,
-                dataHintDirection: 'left-top',
-                dataHintOffset: [-2, 22],
-                dataHintTitle: 'S',
-                iconCls: 'menu__icon btn-save'
-            });
-            if ( !!this.options.miSave ) {
-                this.miSave.setDisabled(this.options.miSave.isDisabled());
-                delete this.options.miSave;
-            }
-
-            this.miEdit = new Common.UI.MenuItem({
-                el      : $markup.elementById('#fm-btn-edit'),
-                action  : 'edit',
-                caption : this.btnToEditCaption,
-                canFocused: false,
-                dataHint: 1,
-                dataHintDirection: 'left-top',
-                dataHintOffset: [-2, 22],
-                iconCls: 'menu__icon btn-edit'
             });
 
             this.miDownload = new Common.UI.MenuItem({
@@ -272,8 +243,6 @@ define([
             this.items = [];
             this.items.push(
                 this.miClose,
-                this.miSave,
-                this.miEdit,
                 this.miDownload,
                 this.miSaveCopyAs,
                 this.miSaveAs,
@@ -332,12 +301,10 @@ define([
 
             this.api && this.api.asc_enableKeyEvents(false);
 
-            this.mode.isEdit && Common.UI.TooltipManager.showTip('customInfo');
             this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
-            this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
             // this.api && this.api.asc_enableKeyEvents(true);
@@ -368,12 +335,9 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
-            this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint ||
-                                !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
+            separatorVisible = (this.mode.canDownload || this.mode.canPrint || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
             separatorVisible && (lastSeparator = this.miRename.$el.find('+.devider'));
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
@@ -578,16 +542,10 @@ define([
 
         getButton: function(type) {
             if ( !this.rendered ) {
-                if (type == 'save') {
-                    return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
-                } else
                 if (type == 'rename') {
                     return this.options.miRename ? this.options.miRename : (this.options.miRename = new Common.UI.MenuItem({}));
                 }
             } else {
-                if (type == 'save') {
-                    return this.miSave;
-                } else
                 if (type == 'rename') {
                     return this.miRename;
                 }
@@ -597,7 +555,6 @@ define([
         SetDisabled: function(disable, options) {
         },
 
-        btnSaveCaption          : 'Save',
         btnDownloadCaption      : 'Download as...',
         btnInfoCaption          : 'Document Info...',
         btnRightsCaption        : 'Access Rights...',
@@ -606,7 +563,6 @@ define([
         btnPrintCaption         : 'Print',
         btnHelpCaption          : 'Help...',
         btnReturnCaption        : 'Back to Document',
-        btnToEditCaption        : 'Edit Document',
         btnBackCaption          : 'Go to Documents',
         btnSettingsCaption      : 'Advanced Settings...',
         btnSaveAsCaption        : 'Save as',

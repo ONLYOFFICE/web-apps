@@ -92,7 +92,7 @@ define([], function () {
 
         render: function() {
             this.$el.html(this.template({rows:this.formats,
-                fileType: (this.fileType || 'pptx').toLowerCase(),
+                fileType: (this.fileType || 'vsdx').toLowerCase(),
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'VE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -185,7 +185,7 @@ define([], function () {
 
         render: function() {
             this.$el.html(this.template({rows:this.formats,
-                fileType: (this.fileType || 'pptx').toLowerCase(),
+                fileType: (this.fileType || 'vsdx').toLowerCase(),
                 header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'VE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -332,7 +332,7 @@ define([], function () {
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
                     { value: -3, displayValue: this.txtLastUsed },
-                    { value: -1, displayValue: this.txtFitSlide },
+                    { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
@@ -515,7 +515,6 @@ define([], function () {
         setMode: function(mode) {
             this.mode = mode;
 
-            var fast_coauth = Common.Utils.InternalSettings.get("ve-settings-coauthmode");
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
@@ -575,18 +574,10 @@ define([], function () {
 
         applySettings: function() {
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
-            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
-                Common.localStorage.setItem("ve-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-                Common.localStorage.setBool("ve-spellcheck-ignore-uppercase-words", this.chIgnoreUppercase.isChecked());
-                Common.localStorage.setBool("ve-spellcheck-ignore-numbers-words", this.chIgnoreNumbers.isChecked());
-            }
             Common.localStorage.setItem("ve-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("ve-settings-show-alt-hints", Common.localStorage.getBool("ve-settings-show-alt-hints"));
-
             Common.localStorage.setItem("ve-settings-zoom", this.cmbZoom.getValue());
-
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
-            /** coauthoring begin **/
             Common.localStorage.setItem("ve-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("ve-settings-cachemode", item && !item.get('checked') ? 0 : 1);
@@ -624,11 +615,8 @@ define([], function () {
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
                 mode: this.mode,
                 props: {
-                    save: Common.localStorage.getBool('ve-quick-access-save', true),
                     print: Common.localStorage.getBool('ve-quick-access-print', true),
-                    quickPrint: Common.localStorage.getBool('ve-quick-access-quick-print', true),
-                    undo: Common.localStorage.getBool('ve-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('ve-quick-access-redo', true)
+                    quickPrint: Common.localStorage.getBool('ve-quick-access-quick-print', true)
                 }
             });
             this.dlgQuickAccess.show();
@@ -636,7 +624,7 @@ define([], function () {
 
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
-        txtFitSlide: 'Fit to Slide',
+        txtFitPage: 'Fit to Page',
         txtWin: 'as Windows',
         txtMac: 'as OS X',
         txtNative: 'Native',
@@ -654,7 +642,6 @@ define([], function () {
         txtThemeLight: 'Light',
         txtThemeDark: 'Dark',
         txtWorkspace: 'Workspace',
-        txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
         txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         txtAdvancedSettings: 'Advanced Settings',
@@ -803,10 +790,6 @@ define([], function () {
                             '<td class="right"><label id="id-info-appname"></label></td>',
                         '</tr>',
                     '</tbody>',
-                    // '<tr>',
-                    //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
-                    //     '<td class="right"><label id="id-info-edittime"></label></td>',
-                    // '</tr>',
                     '<tbody class="properties-tab">',
                         '<tr><td class="title"><label>' + this.txtProperties + '</label></td></tr>',
                         '<tr class="author-info">',
@@ -1061,14 +1044,6 @@ define([], function () {
                 value;
 
             this.coreProps = props;
-            // var app = (this.api) ? this.api.asc_getAppProps() : null;
-            // if (app) {
-            //     value = app.asc_getTotalTime();
-            //     if (value)
-            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
-            // }
-            // this._ShowHideInfoItem(this.lblEditTime, !!value);
-
             var visible = false;
             value = props ? props.asc_getModified() : '';
             this.lblModifyDate.text(this.dateToString(value));
@@ -1223,7 +1198,6 @@ define([], function () {
         txtOwner: 'Owner',
         txtUploaded: 'Uploaded',
         txtAppName: 'Application',
-        txtEditTime: 'Total Editing time',
         txtTitle: 'Title',
         txtTags: 'Tags',
         txtSubject: 'Subject',
@@ -1241,8 +1215,7 @@ define([], function () {
         txtProperties: 'Properties',
         txtDocumentPropertyUpdateTitle: "Document Property",
         txtYes: 'Yes',
-        txtNo: 'No',
-        txtPropertyTitleConflictError: 'Property with this title already exists'
+        txtNo: 'No'
     }, VE.Views.FileMenuPanels.DocumentInfo || {}));
 
     VE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

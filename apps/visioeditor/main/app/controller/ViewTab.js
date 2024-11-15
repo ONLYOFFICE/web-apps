@@ -193,10 +193,6 @@ define([
             }
         },
 
-        onComboBlur: function() {
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
         onTabStyleChange: function () {
             if (this.view && this.view.menuTabStyle) {
                 _.each(this.view.menuTabStyle.items, function(item){

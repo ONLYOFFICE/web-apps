@@ -60,14 +60,9 @@ define([
         Common.enumLock = {};
 
     var enumLock = {
-        copyLock:       'can-copy',
-        cutLock:        'can-cut',
-        inLightTheme:   'light-theme',
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
-        firstPage: 'first-page',
-        lastPage: 'last-page',
         fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
@@ -96,9 +91,7 @@ define([
                  * UI Components
                  */
 
-                this._state = {
-                    hasCollaborativeChanges: undefined
-                };
+                this._state = {};
                 Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
                 return this;
             },
@@ -191,9 +184,6 @@ define([
             },
 
             rendererComponentsCommon: function($host) {
-                var _injectComponent = function (id, cmp) {
-                    Common.Utils.injectComponent($host.findById(id), cmp);
-                };
             },
 
             rendererComponents: function (html, mode) {
@@ -212,7 +202,6 @@ define([
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
-                    if ( !config.isEdit ) return;
                 });
             },
 
@@ -221,8 +210,6 @@ define([
 
             createDelayedElementsEdit: function() {
                 if (!this.mode.isEdit) return;
-
-                // this.updateMetricUnit();
             },
 
             createDelayedElements: function () {
@@ -238,111 +225,28 @@ define([
 
             setApi: function (api) {
                 this.api = api;
-                /** coauthoring begin **/
-                // this.api.asc_registerCallback('asc_onCollaborativeChanges', _.bind(this.onCollaborativeChanges, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged', _.bind(this.onApiUsersChanged, this));
-                /** coauthoring end **/
                 return this;
             },
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(Common.enumLock.lostConnect, true);
-                    if ( this.synchTooltip )
-                        this.synchTooltip.hide();
                     if (!mode.enableDownload)
-                        this.lockToolbar(Common.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                        this.toolbar.fireEvent('print:disabled', [true]);
                 } else {
-                    this.lockToolbar(Common.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
-                    !mode.canPrint && this.btnPrint.hide();
+                    this.toolbar.fireEvent('print:disabled', [!mode.canPrint]);
                 }
 
                 this.mode = mode;
             },
 
             /** coauthoring begin **/
-            onCollaborativeChanges: function () {
-                if (!this.mode.isEdit || Common.Utils.InternalSettings.get("ve-settings-coauthmode")) return;
-
-                if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnCollabChanges.rendered || this._state.previewmode) {
-                    this.needShowSynchTip = true;
-                    return;
-                }
-
-                this._state.hasCollaborativeChanges = true;
-                this.btnCollabChanges.cmpEl.addClass('notify');
-                if (this.showSynchTip) {
-                    this.btnCollabChanges.updateHint('');
-                    if (this.synchTooltip === undefined)
-                        this.createSynchTip();
-
-                    this.synchTooltip.show();
-                } else {
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
-                }
-
-                this.btnSave.setDisabled(!this.mode.isEdit && this.mode.canSaveToFile);
-                Common.Gateway.collaborativeChanges();
-            },
-
-            createSynchTip: function () {
-                var direction = Common.UI.isRTL() ? 'left' : 'right';
-                this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
-                    placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
-                    target: this.btnCollabChanges.$el
-                });
-                this.synchTooltip.on('dontshowclick', function () {
-                    this.showSynchTip = false;
-                    this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
-                    Common.localStorage.setItem("ve-hide-synch", 1);
-                }, this);
-                this.synchTooltip.on('closeclick', function () {
-                    this.synchTooltip.hide();
-                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
-                }, this);
-            },
-
-            synchronizeChanges: function () {
-                if (this.btnCollabChanges.rendered) {
-                    var me = this;
-
-                    if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
-                        me.btnCollabChanges.cmpEl.removeClass('notify');
-                        if (this.synchTooltip)
-                            this.synchTooltip.hide();
-                        this.btnCollabChanges.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
-
-                        this._state.hasCollaborativeChanges = false;
-                    }
-                }
-            },
-
             onApiUsersChanged: function (users) {
-                var editusers = [];
-                _.each(users, function (item) {
-                    if (!item.asc_getView())
-                        editusers.push(item);
-                });
-
-                var length = _.size(editusers);
-                var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
-                    this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
-                    this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnCollabChanges.changeIcon({next: cls, curr: this.btnSaveCls});
-                    this.btnSaveCls = cls;
-                }
             },
 
             onDesktopWindow: function() {
-                if (this.synchTooltip && this.synchTooltip.isVisible()) {
-                    this.synchTooltip.show(); // change position for visible tip
-                }
             },
             /** coauthoring end **/
 

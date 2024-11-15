@@ -136,12 +136,10 @@ define([
 
         setMode: function(mode) {
             if (mode.isDisconnected) {
-                /** coauthoring begin **/
                 if (_.isUndefined(this.mode))
                     this.mode = {};
 
                 this.mode.canCoAuthoring = false;
-                /** coauthoring end **/
             } else {
                 this.mode = mode;
             }
