@@ -836,16 +836,6 @@ define([], function () {
                             '<td class="right"><div id="id-info-comment"></div></td>',
                         '</tr>',
                     '</tbody>',
-                    '<tbody>',
-                        '<tr>',
-                            '<td class="left"></td>',
-                            '<td class="right">',
-                            '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
-                            '<span>' + this.txtAddProperty + '</span>',
-                            '</button>',
-                            '</td>',
-                        '</tr>',
-                    '</tbody>',
                 '</table>',
             ].join(''));
 
@@ -984,11 +974,6 @@ define([], function () {
                 me.api.asc_setCoreProps(me.coreProps);
             }).on('keydown:before', keyDownBefore);
 
-            this.btnAddProperty = new Common.UI.Button({
-                el: $markup.findById('#fminfo-btn-add-property')
-            });
-            this.btnAddProperty.on('click', _.bind(this.onAddPropertyClick, this));
-
             this.rendered = true;
 
             this.updateInfo(this.doc);
@@ -1060,11 +1045,9 @@ define([], function () {
             this._ShowHideInfoItem(this.lblApplication, !!appname);
 
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
-            if (this.coreProps) {
-                var value = this.coreProps.asc_getCreated();
-                this.lblDate.text(this.dateToString(value));
-                this._ShowHideInfoItem(this.lblDate, !!value);
-            }
+            var value = this.coreProps ? this.coreProps.asc_getCreated() : '';
+            this.lblDate.text(this.dateToString(value));
+            this._ShowHideInfoItem(this.lblDate, !!value);
 
             this.renderCustomProperties();
         },
@@ -1086,38 +1069,36 @@ define([], function () {
             // }
             // this._ShowHideInfoItem(this.lblEditTime, !!value);
 
-            if (props) {
-                var visible = false;
-                value = props.asc_getModified();
-                this.lblModifyDate.text(this.dateToString(value));
-                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
-                value = props.asc_getLastModifiedBy();
-                if (value)
-                    this.lblModifyBy.text(AscCommon.UserInfoParser.getParsedName(value));
-                visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
-                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+            var visible = false;
+            value = props ? props.asc_getModified() : '';
+            this.lblModifyDate.text(this.dateToString(value));
+            visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+            value = props ? props.asc_getLastModifiedBy() : '';
+            if (value)
+                this.lblModifyBy.text(AscCommon.UserInfoParser.getParsedName(value));
+            visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
+            $('tr.divider.modify', this.el)[visible?'show':'hide']();
 
-                value = props.asc_getTitle();
-                this.inputTitle.setValue(value || '');
-                value = props.asc_getKeywords();
-                this.inputTags.setValue(value || '');
-                value = props.asc_getSubject();
-                this.inputSubject.setValue(value || '');
-                value = props.asc_getDescription();
-                this.inputComment.setValue(value || '');
+            value = props ? props.asc_getTitle() : '';
+            this.inputTitle.setValue(value || '');
+            value = props ? props.asc_getKeywords() : '';
+            this.inputTags.setValue(value || '');
+            value = props ? props.asc_getSubject() : '';
+            this.inputSubject.setValue(value || '');
+            value = props ? props.asc_getDescription() : '';
+            this.inputComment.setValue(value || '');
 
-                this.inputAuthor.setValue('');
-                this.tblAuthor.find('tr:not(:last-of-type)').remove();
-                this.authors = [];
-                value = props.asc_getCreator();//"123\"\"\"\<\>,456";
-                value && value.split(/\s*[,;]\s*/).forEach(function(item) {
-                    var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
-                    me.trAuthor.before(div);
-                    me.authors.push(item);
-                });
-                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
-                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
-            }
+            this.inputAuthor.setValue('');
+            this.tblAuthor.find('tr:not(:last-of-type)').remove();
+            this.authors = [];
+            value = props ? props.asc_getCreator() : '';//"123\"\"\"\<\>,456";
+            value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
+                me.trAuthor.before(div);
+                me.authors.push(item);
+            });
+            this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+            !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             this.SetDisabled();
         },
 
@@ -1172,31 +1153,10 @@ define([], function () {
 
                     var btn = $propertyEl.find(e.target);
                     if (btn.hasClass('close')) {
-                        me.api.asc_removeCustomProperty(idx);
+                        // me.api.asc_removeCustomProperty(idx);
                         me.renderCustomProperties();
                     } else if (btn.hasClass('form-control')) {
-                        (new Common.Views.DocumentPropertyDialog({
-                            title: me.txtDocumentPropertyUpdateTitle,
-                            lang: me.mode.lang,
-                            defaultValue: {
-                                name: name,
-                                type: type,
-                                value: value
-                            },
-                            nameValidator: function(newName) {
-                                if (newName !== name && _.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
-                                    return me.txtPropertyTitleConflictError;
-                                }
-
-                                return true;
-                            },
-                            handler: function(result, name, type, value) {
-                                if (result === 'ok') {
-                                    me.api.asc_modifyCustomProperty(idx, name, type, value);
-                                    me.renderCustomProperties();
-                                }
-                            }
-                        })).show();
+                        // edit custom props
                     }
                 });
             }, this));
@@ -1207,27 +1167,6 @@ define([], function () {
                 $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
                 $(prop).find('div.close')[disable ? 'hide' : 'show']();
             })
-        },
-
-        onAddPropertyClick: function() {
-            var me = this;
-            (new Common.Views.DocumentPropertyDialog({
-                lang: me.mode.lang,
-                nameValidator: function(newName) {
-                    var properties = me.api.asc_getAllCustomProperties();
-                    if (_.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
-                        return me.txtPropertyTitleConflictError;
-                    }
-
-                    return true;
-                },
-                handler: function(result, name, type, value) {
-                    if (result === 'ok') {
-                        me.api.asc_addCustomProperty(name, type, value);
-                        me.renderCustomProperties();
-                    }
-                }
-            })).show();
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1244,7 +1183,6 @@ define([], function () {
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.btnAddProperty.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1278,7 +1216,6 @@ define([], function () {
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnAddProperty.setDisabled(disable);
             this.setDisabledCustomProperties(disable);
         },
 
@@ -1303,10 +1240,9 @@ define([], function () {
         txtCommon: 'Common',
         txtProperties: 'Properties',
         txtDocumentPropertyUpdateTitle: "Document Property",
-        txtAddProperty: 'Add property',
         txtYes: 'Yes',
         txtNo: 'No',
-        txtPropertyTitleConflictError: 'Property with this title already exists',
+        txtPropertyTitleConflictError: 'Property with this title already exists'
     }, VE.Views.FileMenuPanels.DocumentInfo || {}));
 
     VE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
