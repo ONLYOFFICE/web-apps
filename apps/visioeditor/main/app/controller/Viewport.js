@@ -98,10 +98,6 @@ define([
                             me.header.btnPrint.setDisabled(state);
                         if ( me.header.btnPrintQuick )
                             me.header.btnPrintQuick.setDisabled(state);
-                    },
-                    'save:disabled' : function (state) {
-                        if ( me.header.btnSave )
-                            me.header.btnSave.setDisabled(state);
                     }
                 }
             });
@@ -194,7 +190,6 @@ define([
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
 
                 toolbar = me.getApplication().getController('Toolbar').getView('Toolbar');
-                toolbar.btnCollabChanges = me.header.btnSave;
             }
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
