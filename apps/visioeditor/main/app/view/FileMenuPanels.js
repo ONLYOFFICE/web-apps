@@ -51,6 +51,9 @@ define([], function () {
             {name: 'VSDX',  imgCls: 'vsdx',  type: Asc.c_oAscFileType.VSDX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA}
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
         ]],
 
 
@@ -142,6 +145,9 @@ define([], function () {
             {name: 'VSDX',  imgCls: 'vsdx',  type: Asc.c_oAscFileType.VSDX, ext: '.vsdx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'}
+        ], [
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
         ]],
 
         template: _.template([
