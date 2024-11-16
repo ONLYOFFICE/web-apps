@@ -4654,7 +4654,6 @@ define([
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
                     Common.UI.TooltipManager.showTip('insPivot');
-                    me.toolbar.onAppReady(config);
                 }
             });
         },

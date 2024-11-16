@@ -170,7 +170,7 @@ define([
                 { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
                 { value: Asc.c_oAscNumFormatType.Text,      format: this.ascFormatOptions.Text,        displayValue: this.txtText,         exampleval: '100' }
             ];
-
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             return this;
         },
 
@@ -3328,10 +3328,11 @@ define([
         },
 
         onAppReady: function (config) {
-            if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
+            this._isDocReady = true;
+
+            if (!config.isEdit || config.isEditMailMerge || config.isEditDiagram || config.isEditOle) return;
 
             var me = this;
-            me._isDocReady = true;
             if(me.btnPrint.menu) {
                 me.btnPrint.setMenu(
                     new Common.UI.Menu({
