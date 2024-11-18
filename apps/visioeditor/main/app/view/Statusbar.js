@@ -117,7 +117,7 @@ define([
                 }
 
                 this.editMode = false;
-                this.isRtlSheet = false;
+                this.isRtlSheet = Common.UI.isRTL();
                 this.tabBarDefPosition = 106;
 
                 this.btnZoomDown = new Common.UI.Button({
@@ -227,6 +227,8 @@ define([
                 this.boxAction = $('#status-action', this.el);
                 this.boxAction.hide();
                 this.labelAction = $('#label-action', this.boxAction);
+
+                this.updateRtlSheet();
 
                 this.fireEvent('render:after', [this]);
 
