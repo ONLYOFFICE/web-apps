@@ -275,7 +275,7 @@ define([
                             sheetindex    : i,
                             index         : items.length,
                             active        : sindex == i,
-                            label         : me.txtPage + i,
+                            label         : this.api.asc_getPageName(i) || me.txtPage + (i+1),
                             isLockTheDrag : true
                         };
                         items.push(tab);
