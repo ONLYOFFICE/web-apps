@@ -57,42 +57,38 @@ define([
             var me = this;
             this.addListeners({
                 'Statusbar': {
-                    'zoom:value': function(value) {
-                        this.api.zoom(value);
-                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-                    }.bind(this)
+                    'show:tab': _.bind(this.showTab, this)
                 },
                 'ViewTab': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me),
+                    'statusbar:setcompact': _.bind(me.onChangeViewMode, me)
                 }
             });
+            this._state = {
+                zoom_type: undefined,
+                zoom_percent: undefined
+            };
         },
 
         events: function() {
             return {
-                'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
-                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
-                'click #btn-zoom-topage': _.bind(this.onBtnZoomTo, this, 'topage'),
-                'click #btn-zoom-towidth': _.bind(this.onBtnZoomTo, this, 'towidth')
+                'click #status-btn-zoomdown': _.bind(this.zoomDocument,this,'down'),
+                'click #status-btn-zoomup': _.bind(this.zoomDocument,this,'up'),
+                'click .cnt-zoom': _.bind(this.onZoomShow, this)
             };
         },
 
 
         onLaunch: function() {
-            this.statusbar = this.createView('Statusbar', {
-                // storeUsers: this.getApplication().getCollection('Common.Collections.Users')
-            });
+            this.statusbar = this.createView('Statusbar').render();
+            this.statusbar.$el.css('z-index', 10);
+            this.statusbar.labelZoom.css('min-width', 80);
+            this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
+            this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
+            this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
+            this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
-            var me = this;
-            Common.NotificationCenter.on('app:face', function (cfg) {
-                me.statusbar.render(cfg);
-                me.statusbar.$el.css('z-index', 1);
-
-                var lblzoom = $('.statusbar #label-zoom');
-                lblzoom.css('min-width', 80);
-                lblzoom.text(Common.Utils.String.format(me.zoomText, 100));
-            });
-            Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         onAppReady: function (config) {
@@ -102,6 +98,7 @@ define([
                 resolve();
             })).then(function () {
                 me.bindViewEvents(me.statusbar, me.events);
+                me.statusbar.update();
             });
         },
 
@@ -120,27 +117,25 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
+            Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
+            this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+
             this.statusbar.setApi(api);
         },
 
-        onBtnZoomTo: function(d, e) {
-            var _btn, _func;
-            if ( d == 'topage' ) {
-                _btn = 'btnZoomToPage';
-                _func = 'zoomFitToPage';
-            } else {
-                _btn = 'btnZoomToWidth';
-                _func = 'zoomFitToWidth';
-            }
-
-            if ( !this.statusbar[ _btn ].pressed )
+        onBtnZoomTo: function(d, b, e) {
+            this._state.zoom_type = undefined;
+            this._state.zoom_percent = undefined;
+            if (!b.pressed)
                 this.api.zoomCustomMode(); else
-                this.api[ _func ]();
-
+                this.api[d=='topage'?'zoomFitToPage':'zoomFitToWidth']();
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         zoomDocument: function(d,e) {
+            this._state.zoom_type = undefined;
+            this._state.zoom_percent = undefined;
             switch (d) {
                 case 'up':      this.api.zoomIn(); break;
                 case 'down':    this.api.zoomOut(); break;
@@ -148,18 +143,37 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
+        menuZoomClick: function(menu, item) {
+            this._state.zoom_type = undefined;
+            this._state.zoom_percent = undefined;
+            this.api.zoom(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+        },
+
+        onZoomShow: function(e){
+            if (e.target.classList.contains('disabled')) {
+                return false;
+            }
+        },
+
         /*
         *   api events
         * */
 
         _onZoomChange: function(percent, type) {
-            this.statusbar.btnZoomToPage.toggle(type == 2, true);
-            this.statusbar.btnZoomToWidth.toggle(type == 1, true);
-            $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
-            if(!this._isDocReady) return;
-            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
-            Common.localStorage.setItem('ve-last-zoom', value);
-            Common.Utils.InternalSettings.set('ve-last-zoom', value);
+            if (this._state.zoom_type !== type) {
+                this.statusbar.btnZoomToPage.toggle(type == 2, true);
+                this.statusbar.btnZoomToWidth.toggle(type == 1, true);
+                this._state.zoom_type = type;
+            }
+            if (this._state.zoom_percent !== percent) {
+                this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, percent));
+                this._state.zoom_percent = percent;
+                if(!this._isDocReady ) return;
+                var value = this._state.zoom_type !== undefined ? this._state.zoom_type == 2 ? -1 : (this._state.zoom_type == 1 ? -2 : percent) : percent;
+                Common.localStorage.setItem('ve-last-zoom', value);
+                Common.Utils.InternalSettings.set('ve-last-zoom', value);
+            }
         },
 
         setStatusCaption: function(text, force, delay, callback) {
@@ -178,6 +192,26 @@ define([
 
         createDelayedElements: function() {
             this.statusbar.$el.css('z-index', '');
+            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus')) {
+                this.statusbar.boxAction.addClass('hide');
+            }
+
+            Common.NotificationCenter.on('window:resize', _.bind(this.onWindowResize, this));
+        },
+
+        onWindowResize: function(area) {
+            this.statusbar.updateTabbarBorders();
+            this.statusbar.onTabInvisible(undefined, this.statusbar.tabbar.checkInvisible(true));
+        },
+
+        showTab: function (sheetIndex) {
+            if (this.api && this._state.pageCurrent !== sheetIndex) {
+                this.api.goToPage(sheetIndex);
+            }
+            var me = this;
+            setTimeout(function(){
+                me.statusbar.sheetListMenu.hide();
+            }, 1);
         },
 
         showDisconnectTip: function () {
@@ -206,6 +240,36 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onApiDisconnect: function() {
+            this.SetDisabled(true);
+        },
+
+        SetDisabled: function(state) {
+            this.statusbar.setMode({isDisconnected: state});
+            this.statusbar.update();
+        },
+
+        onCurrentPage: function (index) {
+            this.statusbar.sheetListMenu.hide();
+            if (this.statusbar.sheetListMenu.items[index]) {
+                this.statusbar.sheetListMenu.clearAll();
+                this.statusbar.sheetListMenu.items[index].setChecked(true);
+            }
+            var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: index});
+            if (tab) {
+                this.statusbar.tabbar.setActive(tab);
+            }
+        },
+
+        onChangeViewMode: function(item, compact, suppressEvent) {
+            this.statusbar.fireEvent('view:compact', [this.statusbar, compact]);
+            !suppressEvent && Common.localStorage.setBool('ve-compact-statusbar', compact);
+            Common.NotificationCenter.trigger('layout:changed', 'status');
+            this.statusbar.onChangeCompact(compact);
+
+            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         zoomText        : 'Zoom {0}%',
