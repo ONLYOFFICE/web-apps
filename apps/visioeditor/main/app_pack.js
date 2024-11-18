@@ -5,7 +5,7 @@ require([
     'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SearchDialog',
+    // 'common/main/lib/view/SearchDialog',
     'common/main/lib/view/RenameDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',

@@ -129,9 +129,9 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
-            'Search'
-            ,'Common.Controllers.Chat'
-            ,'Common.Controllers.Plugins'
+            // 'Search',
+            'Common.Controllers.Chat',
+            'Common.Controllers.Plugins'
         ]
     });
 
@@ -152,7 +152,7 @@ require([
                 'visioeditor/main/app/controller/LeftMenu',
                 'visioeditor/main/app/controller/Main',
                 'visioeditor/main/app/controller/ViewTab',
-                'visioeditor/main/app/controller/Search',
+                // 'visioeditor/main/app/controller/Search',
                 'common/main/lib/util/utils'
                 ,'common/main/lib/controller/Chat'
                 ,'common/main/lib/controller/Plugins'
@@ -165,7 +165,7 @@ require([
                     'common/main/lib/view/CopyWarningDialog',
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/SelectFileDlg',
-                    'common/main/lib/view/SearchDialog',
+                    // 'common/main/lib/view/SearchDialog',
                     'common/main/lib/view/RenameDialog',
                     'common/main/lib/view/PluginDlg',
                     'common/main/lib/view/PluginPanel',

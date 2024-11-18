@@ -42,7 +42,7 @@
 define([
     'core',
     'common/main/lib/view/Header',
-    'common/main/lib/view/SearchBar',
+    // 'common/main/lib/view/SearchBar',
     'visioeditor/main/app/view/Viewport',
     'visioeditor/main/app/view/LeftMenu'
 ], function (Viewport) {
@@ -83,7 +83,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
-
+                        me.header.btnSearch.hide();
                         /*var value = Common.localStorage.getBool("ve-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("ve-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -150,7 +150,7 @@ define([
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-            Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
+            // Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
         },
 
         onAppShowed: function (config) {
@@ -192,7 +192,7 @@ define([
                 toolbar = me.getApplication().getController('Toolbar').getView('Toolbar');
             }
 
-            me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
+            // me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
 
         onAppReady: function (config) {

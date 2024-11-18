@@ -392,7 +392,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnSearchBar, this.btnThumbs, this.btnChat, this.btnSupport, this.btnAbout];
+            var allButtons = [/*this.btnSearchBar,*/ this.btnThumbs, this.btnChat, this.btnSupport, this.btnAbout];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 

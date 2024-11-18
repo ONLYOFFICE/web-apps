@@ -103,9 +103,9 @@ define([
                 'ViewTab': {
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
                 },
-                'SearchBar': {
-                    'search:show': _.bind(this.onShowHideSearch, this)
-                }
+                // 'SearchBar': {
+                //     'search:show': _.bind(this.onShowHideSearch, this)
+                // }
             });
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -122,7 +122,7 @@ define([
 
             var keymap = {
                 'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
+                // 'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
                 'esc': _.bind(this.onShortcut, this, 'escape'),
                 'f1': _.bind(this.onShortcut, this, 'help')
             };
@@ -147,8 +147,8 @@ define([
             this.isThumbsShown = !Common.localStorage.getBool("ve-hidden-leftmenu", value);
             this.leftMenu.btnThumbs.toggle(this.isThumbsShown);
             this.leftMenu.getMenu('file').setApi(api);
-            this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
-            this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
+            // this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
+            // this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
             return this;
         },
 
@@ -508,6 +508,7 @@ define([
 
             switch (s) {
                 case 'search':
+                    return false; 
                     Common.UI.Menu.Manager.hideAll();
                     var full_menu_pressed = this.leftMenu.btnAbout.pressed;
                     this.leftMenu.btnAbout.toggle(false);
