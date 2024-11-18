@@ -848,7 +848,7 @@ define([
 
                 value = Common.localStorage.getItem("ve-settings-zoom");
                 Common.Utils.InternalSettings.set("ve-settings-zoom", value);
-                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
+                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 value = Common.localStorage.getItem("ve-last-zoom");
                 var lastZoom = (value!==null) ? parseInt(value):0;
 
