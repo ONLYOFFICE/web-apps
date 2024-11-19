@@ -1398,6 +1398,9 @@ define([], function () {
             "extension" : { origin : "", values : [] }
         };
 
+        // For bug in version <= 8.2.0
+        let initScaleAddon = "";
+
         let param_parse = function(name) {
             let posOrigin = icons.indexOf("%" + name + "%");
             if (posOrigin === -1)
@@ -1408,7 +1411,10 @@ define([], function () {
                 return;
             let pos2 = icons.indexOf(")", pos1);
             params_array[name].origin = icons.substring(posOrigin, pos2 + 1);
-            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");                    
+            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");
+
+            if ("scale" === name && posOrigin > 0 && icons.charCodeAt(posOrigin - 1) == 47)
+                initScaleAddon = "icon";
         };
 
         for (let name in params_array)
@@ -1487,7 +1493,7 @@ define([], function () {
 
                     let urlAll = url;
                     if (params_array["scale"].origin != "")
-                        urlAll = urlAll.replaceAll(params_array["scale"].origin, addonScale);
+                        urlAll = urlAll.replaceAll(params_array["scale"].origin, initScaleAddon + addonScale);
                     if (params_array["extension"].origin != "")
                         urlAll = urlAll.replaceAll(params_array["extension"].origin, (isAll && isSvgPresent) ? "svg" : rasterExt);
 
@@ -1584,5 +1590,17 @@ define([], function () {
         columns: 5,
         cls: 'palette-large',
         paletteWidth: 174
+    };
+
+    Common.UI.isValidNumber = function (val) {
+        let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
+        if (typeof val === 'string') {
+            let findComma = val.match(/,/g);
+            if (findComma && findComma.length === 1) {
+                val = val.replace(',','.');
+            }
+        }
+
+        return (typeof val === 'number') ||  !(val === '' || !regstr.test(val.trim()) || isNaN(parseFloat(val)));
     };
 });

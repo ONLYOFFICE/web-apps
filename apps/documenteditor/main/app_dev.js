@@ -222,6 +222,7 @@ require([
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
+                    'common/main/lib/view/PdfSignDialog',
                     'common/main/lib/view/DocumentPropertyDialog',
                     'common/main/lib/view/MacrosDialog',
                     'common/main/lib/component/AceEditor',

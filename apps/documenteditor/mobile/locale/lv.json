@@ -466,6 +466,7 @@
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
+    "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded."
@@ -506,7 +507,8 @@
     "txtEditingMode": "Uzstāda rediģēšanas režīmu...",
     "uploadImageTextText": "Augšupielādē attēlu...",
     "uploadImageTitleText": "Augšupielādē attēlu",
-    "waitText": "Uzgaidiet..."
+    "waitText": "Uzgaidiet...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Kļūda",
@@ -796,7 +798,6 @@
     "textRequirePassword": "Require Password",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing"
   },
@@ -809,6 +810,7 @@
     "textOk": "Labi",
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"
   }

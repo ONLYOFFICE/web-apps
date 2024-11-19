@@ -254,8 +254,15 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
-                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+            this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
+                'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
+            }) : Common.UI.TooltipManager.addTips({
+                'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
+                'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
+            });
+            Common.UI.TooltipManager.addTips({
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320}
             });
         },
 
@@ -279,6 +286,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
         },
 
         attachUIEvents: function(toolbar) {
@@ -413,6 +421,7 @@ define([
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
+            toolbar.btnTextFromFile.menu.on('show:after', _.bind(this.onTextFromFileShowAfter, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -482,6 +491,7 @@ define([
                     this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                     this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
                     this.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(this.onChangeViewerTargetType, this));
+                    Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
@@ -1106,6 +1116,24 @@ define([
                     buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
                     primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
 
+                if (saveAs)
+                    me.api.asc_DownloadAs()
+                else if (canDownload) {
+                    var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    options.asc_setIsSaveAs(false);
+                    me.api.asc_DownloadAs(options);
+                } else {
+                    Common.UI.info({
+                        maxwidth: 500,
+                        msg: this.errorAccessDeny,
+                        callback: function(btn) {
+                            Common.NotificationCenter.trigger('edit:complete', toolbar);
+                        }
+                    });
+                }
+                Common.NotificationCenter.trigger('edit:complete', toolbar);
+                return;
+
                 Common.UI.info({
                     maxwidth: 500,
                     buttons: !mode.canDownload ? ['ok'] : buttons.concat(['cancel']),
@@ -1470,8 +1498,6 @@ define([
             if (!(e && e.target===e.currentTarget))
                 return;
 
-            Common.UI.TooltipManager.closeTip('pageColor');
-
             var picker = this.toolbar.mnuPageColorPicker,
                 color = this.api.asc_getPageColor();
 
@@ -1605,6 +1631,13 @@ define([
             } else if (type === 'storage') {
                 Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
             }
+        },
+
+        onTextFromFileShowAfter: function(menu, e) {
+            if (!(e && e.target === e.currentTarget))
+                return;
+
+            Common.UI.TooltipManager.closeTip('textFromFile');
         },
 
         onMarkerSettingsClick: function(type) {
@@ -3913,12 +3946,13 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+            (tab === 'ins') ? Common.UI.TooltipManager.showTip('textFromFile') : Common.UI.TooltipManager.closeTip('textFromFile');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('pageColor');
+            Common.UI.TooltipManager.closeTip('textFromFile');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         }
 
     }, DE.Controllers.Toolbar || {}));

@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "חריגה ממגבלת גודל המסמך המרבי.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -498,6 +499,7 @@
     "savePreparingTitle": "היערכות לשמירה נא להמתין...",
     "saveTextText": "שמירת מסמך...",
     "saveTitleText": "שמירת מסמך",
+    "savingText": "חיסכון",
     "sendMergeText": "שליחת מיזוג...",
     "sendMergeTitle": "שליחת מיזוג",
     "textContinue": "המשך",
@@ -779,7 +781,6 @@
     "textSpellcheck": "בדיקת איות",
     "textStatistic": "סטטיסטיקה",
     "textSubject": "נושא",
-    "textSubmit": "הגשה",
     "textSymbols": "סמלים",
     "textTheme": "ערכת נושא",
     "textTitle": "כותרת",
@@ -801,6 +802,7 @@
     "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
   },
   "Toolbar": {
+    "btnSend": "שלח",
     "dlgLeaveMsgText": "יש שינויים שלא נשמרו. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "יציאה מדף הזה",

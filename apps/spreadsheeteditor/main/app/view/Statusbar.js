@@ -83,6 +83,8 @@ define([
 
                 this.editMode = false;
                 this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
+                this.isRtlSheet = false;
+                this.tabBarDefPosition = 129;
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
@@ -224,7 +226,7 @@ define([
                         {caption: '--'},
                         {
                             id: "id-tab-menu-new-color",
-                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
+                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (me.isRtlSheet ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
                         }
                     ]
                 });
@@ -401,6 +403,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSheetsChanged', _.bind(this.update, this));
+                this.api.asc_registerCallback('asc_onUpdateSheetViewSettings', _.bind(this.onUpdateSheetViewSettings, this));
                 return this;
             },
 
@@ -409,6 +412,7 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
+                this.tabBarDefPosition = this.mode.isEdit ? 129 : 66;
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -513,6 +517,7 @@ define([
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
+                    this.updateRtlSheet();
                     this.updateNumberOfSheet(sindex, wc);
                     this.updateTabbarBorders();
 
@@ -520,6 +525,24 @@ define([
                     me.fireEvent('sheet:updateColors', [true]);
                     Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
                 }
+            },
+
+            onUpdateSheetViewSettings: function() {
+                var oldRtl = this.isRtlSheet;
+                this.updateRtlSheet();
+                (oldRtl !== this.isRtlSheet) && this.updateTabbarBorders();
+            },
+
+            updateRtlSheet: function() {
+                this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+                this.cntStatusbar.toggleClass('rtl-sheet', this.isRtlSheet);
+                this.cntStatusbar.attr({dir: this.isRtlSheet ? 'rtl' : 'ltr'});
+                this.tabbar.setDirection(this.isRtlSheet);
+                var dir = (this.isCompact ? this.isRtlSheet : Common.UI.isRTL()) ? 'rtl' : 'ltr';
+                this.boxZoom.attr({dir: dir});
+                this.boxMath.attr({dir: dir});
+                this.boxFiltered.attr({dir: dir});
+                this.sheetListMenu.menuAlign = this.isRtlSheet ? 'br-tr' : 'bl-tl';
             },
 
             setMathInfo: function(info) {
@@ -600,6 +623,8 @@ define([
                     this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
                 }
 
+                this.updateRtlSheet();
+                this.updateTabbarBorders();
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);
 
@@ -613,9 +638,6 @@ define([
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles) &&
                     !this.mode.isDisconnected ) {
                     if (tab && tab.sheetindex >= 0) {
-                        var rect = Common.Utils.getBoundingClientRect(tab.$el.get(0)),
-                            parentPos = Common.Utils.getOffset(tab.$el.parent());
-
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
                         if (!_.isUndefined(select)) {
@@ -656,13 +678,16 @@ define([
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
 
-                        this.tabMenu.atposition = (function () {
+                        var tabEl = tab.$el;
+                        this.tabMenu.atposition = function () {
+                            var rect = Common.Utils.getBoundingClientRect(tabEl.get(0)),
+                                parentPos = Common.Utils.getOffset(tabEl.parent());
                             return {
                                 top : rect.top,
                                 left: rect.left - parentPos.left - 2,
                                 right: rect.right - parentPos.left + 2
                             };
-                        })();
+                        };
 
                         this.tabMenu.hide();
                         this.tabMenu.show();
@@ -676,7 +701,8 @@ define([
 
             onTabMenuAfterShow: function (obj) {
                 if (obj.atposition) {
-                    obj.setOffset(Common.UI.isRTL() ? (obj.atposition.right - $(obj.el).width()) : obj.atposition.left);
+                    var pos = this.tabMenu.atposition();
+                    obj.setOffset(Common.UI.isRTL() ? (pos.right - $(obj.el).width()) : pos.left);
                 }
 
                 this.enableKeyEvents = true;
@@ -719,33 +745,33 @@ define([
 
             updateTabbarBorders: function() {
                 var visible = false;
-                var right = parseInt(this.boxZoom.css('width'));
+                var right = parseFloat(this.boxZoom.css('width'));
                 if (this.boxMath.is(':visible')) {
-                    if (Common.UI.isRTL()) {
-                        this.boxMath.css({'left': right + 'px'});
+                    if (this.isCompact && this.isRtlSheet || !this.isCompact && Common.UI.isRTL()) {
+                        this.boxMath.css({'left': right + 'px', 'right': 'auto'});
                     } else {
-                        this.boxMath.css({'right': right + 'px'});
+                        this.boxMath.css({'right': right + 'px', 'left': 'auto'});
                     }
-                    right += parseInt(this.boxMath.css('width'));
+                    right += parseFloat(this.boxMath.css('width'));
                     visible = true;
                 }
                 if (this.boxFiltered.is(':visible')) {
-                    if (Common.UI.isRTL()) {
-                        this.boxFiltered.css({'left': right + 'px'});
+                    if (this.isCompact && this.isRtlSheet || !this.isCompact && Common.UI.isRTL()) {
+                        this.boxFiltered.css({'left': right + 'px', 'right': 'auto'});
                     } else {
-                        this.boxFiltered.css({'right': right + 'px'});
+                        this.boxFiltered.css({'right': right + 'px', 'left': 'auto'});
                     }
-                    right += parseInt(this.boxFiltered.css('width'));
+                    right += parseFloat(this.boxFiltered.css('width'));
                     visible = true;
                 }
 
                 if (this.isCompact) {
+                    var tabsWidth = this.tabbar.getWidth();
                     if (this.boxAction.is(':visible')) {
-                        var tabsWidth = this.tabbar.getWidth();
                         var actionWidth = this.actionWidth || 140;
-                        if (Common.Utils.innerWidth() - right - 129 - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
-                            var left = tabsWidth + 129;
-                            if (Common.UI.isRTL()) {
+                        if (Common.Utils.innerWidth() - right - this.tabBarDefPosition - actionWidth - tabsWidth > 0) { // docWidth - right - left - this.boxAction.width
+                            var left = tabsWidth + this.tabBarDefPosition;
+                            if (this.isRtlSheet) {
                                 this.boxAction.css({'left': right + 'px', 'right': left + 'px', 'width': 'auto'});
                                 this.boxAction.find('.separator').css('border-right-color', 'transparent');
                             } else {
@@ -753,7 +779,7 @@ define([
                                 this.boxAction.find('.separator').css('border-left-color', 'transparent');
                             }
                         } else {
-                            if (Common.UI.isRTL()) {
+                            if (this.isRtlSheet) {
                                 this.boxAction.css({'left': right + 'px', 'right': 'auto', 'width': actionWidth + 'px'});
                                 this.boxAction.find('.separator').css('border-right-color', '');
                             } else {
@@ -763,15 +789,20 @@ define([
                             visible = true;
                         }
                         right += parseInt(this.boxAction.css('width'));
-                    }
+                    } else if (Common.Utils.innerWidth() - right - this.tabBarDefPosition - tabsWidth <=0)
+                       visible = true;
 
                     this.boxMath.is(':visible') && this.boxMath.css({'top': '0px', 'bottom': 'auto'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': '0px', 'bottom': 'auto'});
                     this.boxZoom.css({'top': '0px', 'bottom': 'auto'});
-                    if (Common.UI.isRTL()) {
+                    if (this.isRtlSheet) {
                         this.tabBarBox.css('left', right + 'px');
+                        this.tabBarBox.css('right', this.tabBarDefPosition + 'px');
+                        this.boxZoom.find('.separator').css('border-right-color', visible ? '' : 'transparent');
                     } else {
+                        this.tabBarBox.css('left', this.tabBarDefPosition + 'px');
                         this.tabBarBox.css('right', right + 'px');
+                        this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
                     }
                 } else {
                     if (this.boxAction.is(':visible')) {
@@ -786,12 +817,13 @@ define([
                     this.boxMath.is(':visible') && this.boxMath.css({'top': 'auto', 'bottom': '0px'});
                     this.boxFiltered.is(':visible') && this.boxFiltered.css({'top': 'auto', 'bottom': '0px'});
                     this.boxZoom.css({'top': 'auto', 'bottom': '0px'});
-                    if (Common.UI.isRTL()) {
+                    this.boxZoom.find('.separator').css(Common.UI.isRTL() ? 'border-right-color' : 'border-left-color', visible ? '' : 'transparent');
+                    if (this.isRtlSheet) {
                         this.tabBarBox.css('left', '0px');
-                        this.boxZoom.find('.separator').css('border-right-color', visible ? '' : 'transparent');
+                        this.tabBarBox.css('right', this.tabBarDefPosition + 'px');
                     } else {
+                        this.tabBarBox.css('left', this.tabBarDefPosition + 'px');
                         this.tabBarBox.css('right', '0px');
-                        this.boxZoom.find('.separator').css('border-left-color', visible ? '' : 'transparent');
                     }
                 }
 
@@ -820,9 +852,9 @@ define([
 
             changeViewMode: function (mode) {
                 var edit = mode.isEdit,
-                    styleLeft = Common.UI.isRTL() ? 'right' : 'left';
+                    styleLeft = this.isRtlSheet ? 'right' : 'left';
                 if (edit) {
-                    this.tabBarBox.css(styleLeft, '129px');
+                    this.tabBarBox.css(styleLeft, this.tabBarDefPosition + 'px');
                 } else {
                     this.tabBarBox.css(styleLeft, '');
                 }
@@ -897,6 +929,7 @@ define([
                     this.boxNumberSheets.show();
                     //this.boxAction.show();
                 }
+                this.updateRtlSheet();
                 this.updateTabbarBorders();
                 (this.tabbar.getCount()>0) && this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
@@ -1138,7 +1171,7 @@ define([
                     changed: false,
                     opened: false
                 };
-                if (this.options.isDesktopApp) {
+                if (this.options.isDesktopApp && this.options.isOffline) {
                     this.spreadsheets.data.push({displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1});
                 }
 

@@ -96,6 +96,7 @@ define([
             me.showMathTrackOnLoad = false;
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
+            me.lastAnnotBarOnTop = true;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -1437,7 +1438,7 @@ define([
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this.internalFormObj = obj ? obj.pr : null;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -1526,7 +1527,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
         insertImage: function(data) { // gateway
@@ -2757,12 +2758,12 @@ define([
         },
 
         onRotatePage: function(angle, item) {
-            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(item.options.value) + angle);
+            this.api && this.api.asc_RotatePage(angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
-        onShowAnnotBar: function(bounds) {
+        onShowAnnotBar: function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
             if (_.isUndefined(this._XY)) {
@@ -2776,6 +2777,7 @@ define([
             }
 
             this.lastAnnotBarBounds = bounds;
+            (mouseOnTop!==undefined) && (this.lastAnnotBarOnTop = mouseOnTop);
             if (bounds[3] < 0 || bounds[1] > this._Height || !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar')) {
                 this.onHideAnnotBar();
                 return;
@@ -2813,11 +2815,8 @@ define([
                 this.api.UpdateInterfaceState();
             }
 
-            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
-            if (showPoint[1]<0) {
-                showPoint[1] = (bounds[3] > me._Height) ? 0 : bounds[3] + 10;
-            }
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
             textContainer.css({left: showPoint[0], top : showPoint[1]});
 

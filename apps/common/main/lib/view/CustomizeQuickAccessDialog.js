@@ -82,7 +82,7 @@ define([], function () { 'use strict';
             if (this.options.showSave) {
                 this.chSave = new Common.UI.CheckBox({
                     el: $('#quick-access-chb-save'),
-                    labelText: this.textSave,
+                    labelText: this.options.mode && (this.options.mode.canSaveToFile || this.options.mode.isDesktopApp && this.options.mode.isOffline) ? this.textSave : this.textDownload,
                     value: this.props.save
                 });
                 this.focusedComponents.push(this.chSave);
@@ -131,13 +131,13 @@ define([], function () { 'use strict';
         },
 
         onBtnClick: function(event) {
-            if (event.currentTarget.attributes['result'].value == 'ok') {
+            if (event.currentTarget.attributes['result'].value === 'ok') {
                 Common.NotificationCenter.trigger('quickaccess:changed', {
-                    save: this.chSave.getValue() == 'checked',
-                    print: this.chPrint.getValue() == 'checked',
-                    quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() == 'checked' : undefined,
-                    undo: this.chUndo.getValue() == 'checked',
-                    redo: this.chRedo.getValue() == 'checked'
+                    save: this.chSave ? this.chSave.getValue() === 'checked' : undefined,
+                    print: this.chPrint ? this.chPrint.getValue() === 'checked' : undefined,
+                    quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() === 'checked' : undefined,
+                    undo: this.chUndo.getValue() === 'checked',
+                    redo: this.chRedo.getValue() === 'checked'
                 });
             }
 
@@ -150,6 +150,7 @@ define([], function () { 'use strict';
         textPrint: 'Print',
         textQuickPrint: 'Quick Print',
         textUndo: 'Undo',
-        textRedo: 'Redo'
+        textRedo: 'Redo',
+        textDownload: 'Download file'
     }, Common.Views.CustomizeQuickAccessDialog || {}))
 });

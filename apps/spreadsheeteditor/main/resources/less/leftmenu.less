@@ -181,7 +181,7 @@
         }
 
         #panel-info {
-            padding: 30px;
+            padding: 0 30px;
 
             .header {
                 .font-size-very-huge();
@@ -189,14 +189,17 @@
                 line-height: unset;
             }
 
+            table.main {
+                margin: 30px 0 18px;
+            }
+
             table {
                 display: flex;
-                gap: 24px;
                 flex-direction: column;
 
                 tr {
                     display: flex;
-                    gap: 24px;
+                    margin-bottom: 12px;
 
                     td {
                         .font-size-normal();
@@ -212,8 +215,10 @@
                         }
 
                         &.left {
+                            display: block;
                             width: 140px;
                             flex-shrink: 0;
+                            .margin-right(24px);
                         }
 
                         &.right {
@@ -228,14 +233,17 @@
 
                 tbody {
                     display: flex;
-                    gap: 12px;
                     flex-direction: column;
 
+                    &:not(:last-of-type) {
+                        margin-bottom: 12px;
+                    }
+
                     &.properties-tab {
-                        gap: 10px;
+                        margin-bottom: 0;
 
                         tr {
-                            gap: 20px;
+                            margin-bottom: 10px;
                         }
 
                         td {
@@ -245,6 +253,7 @@
                         td.left {
                             display: flex;
                             align-items: center;
+                            .margin-right-20();
 
                             label {
                                 text-overflow: ellipsis;
@@ -264,8 +273,10 @@
                         }
 
                         display: flex;
-                        gap: 5px;
                         align-items: center;
+                        & > *:not(:last-child) {
+                            .margin-right-5();
+                        }
                     }
                 }
 
@@ -292,15 +303,17 @@
                 height: 24px;
 
                 span {
-                    text-decoration: underline dotted;
-                    text-underline-offset: 4px;
+                    border-bottom: 1px dotted currentColor;
+                    padding-bottom: 2px;
                 }
             }
 
             .custom-property-wrapper {
                 display: flex;
-                gap: 5px;
                 align-items: center;
+                & > *:not(:last-child) {
+                    .margin-right-5();
+                }
             }
 
             .tool.close:before, .tool.close:after {
@@ -571,7 +584,7 @@
                         height: 100%;
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-                            background-size: 1056px 30px;
+                            background-size: 1032px 30px;
                             &:not(.svg-file-recent) {
                                 .pixel-ratio__1_25 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -598,7 +611,7 @@
                                 .format-from-index(6);
                             }
                             &pdf, &pdfa {
-                                .format-from-index(14);
+                                .format-from-index(13);
                             }
                             &ods {
                                 .format-from-index(8);
@@ -607,31 +620,31 @@
                                 .format-from-index(9);
                             }
                             &xltx {
-                                .format-from-index(22);
+                                .format-from-index(21);
                             }
                             &ots {
-                                .format-from-index(25);
+                                .format-from-index(24);
                             }
                             &xls {
                                 .format-from-index(7);
                             }
                             &xps {
-                                .format-from-index(16);
+                                .format-from-index(15);
                             }
                             &xlsb {
-                                .format-from-index(31);
+                                .format-from-index(30);
                             }
                             &xltm {
-                                .format-from-index(35);
+                                .format-from-index(34);
                             }
                             &xlsm {
-                                .format-from-index(36);
+                                .format-from-index(35);
                             }
                             &fods {
-                                .format-from-index(37);
+                                .format-from-index(36);
                             }
                             &.neutral {
-                                .format-from-index(43);
+                                .format-from-index(42);
                             }
                         }
                         .svg-file-recent {

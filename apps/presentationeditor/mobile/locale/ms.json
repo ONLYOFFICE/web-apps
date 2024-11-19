@@ -177,6 +177,7 @@
       "warnNoLicenseUsers": "Anda telah mencapai had pengguna untuk editor %1. Hubungi pasukan jualan %1 untuk naik taraf terma peribadi.",
       "warnProcessRightsChange": "Anda tidak mempunyai keizinan untuk edit fail ini.",
       "textNoMatches": "No Matches",
+      "textOk": "Ok",
       "titleLicenseNotActive": "License not active",
       "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
       "warnLicenseBefore": "License not active.<br>Please contact your administrator."
@@ -230,7 +231,8 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorSetPassword": "Password could not be set.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
-    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator."
+    "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Data dimuatkan…",

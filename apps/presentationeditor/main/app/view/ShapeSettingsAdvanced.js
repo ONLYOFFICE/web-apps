@@ -672,7 +672,7 @@ define([
                 this.btnsCategory[4].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal()
+                this.btnsCategory[5].setDisabled(props.get_FromSmartArtInternal() || props.get_FromSmartArt()
                     || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'

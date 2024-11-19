@@ -264,7 +264,7 @@
     "errorCannotUngroup": "Imposibil de anulat grupare. Pentru a crea o schiță, selectați rândurile sau coloanele de detalii și le grupați.",
     "errorCannotUseCommandProtectedSheet": "Nu puteți folosi această comandă într-o foaie de calcul protejată. Ca să o folosiți, protejarea foii trebuie anulată.<br> Introducerea parolei poate fi necesară.",
     "errorChangeArray": "Nu puteți modifica parte dintr-o matrice.",
-    "errorChangeFilteredRange": "Operațiunea va afecta zonă filtrată din foaia de calcul.<br>Pentru a termina operațiunea dezactivați filtrarea automată. ",
+    "errorChangeFilteredRange": "Operațiunea va afecta zonă filtrată din foaia de calcul.<br>Pentru a termina operațiunea, dezactivați filtrarea automată. ",
     "errorChangeOnProtectedSheet": "Celula sau diagrama pe care încercați să schimbați este din foaia de calcul protejată. Dezactivați protejarea foii de calcul dacă doriți s-o schimați.Este posibil să fie necesară introducerea parolei.",
     "errorCircularReference": "Există una sau mai multe referințe circulare în formula care în mod direct sau indirect face referire la celula în care se află.<br> Încercați să eliminați sau să schimbați aceste referințe, sau să mutați formulele în celule diferite.",
     "errorComboSeries": "Pentru a crea o diagramă combinație, trebuie să selectați cel puțin două serii de date.",

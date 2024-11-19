@@ -175,6 +175,12 @@
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
     },
+    "Themes": {
+      "system": "Сістэмная",
+      "dark": "Dark",
+      "light": "Light",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Увага",
       "textAnonymous": "Ананімны карыстальнік",
@@ -188,12 +194,6 @@
       "txtErrorLoadHistory": "Не атрымалася загрузіць гісторыю",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -468,7 +468,8 @@
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",
-    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page."
+    "scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please, reload the page.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка даных…",
@@ -506,7 +507,8 @@
     "txtEditingMode": "Актывацыя рэжыму рэдагавання…",
     "uploadImageTextText": "Запампоўванне выявы…",
     "uploadImageTitleText": "Запампоўванне выявы",
-    "waitText": "Калі ласка, пачакайце..."
+    "waitText": "Калі ласка, пачакайце...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Памылка",
@@ -532,6 +534,7 @@
       "First Page ": "Першая старонка",
       "Footer": "Ніжні калантытул",
       "footnote text": "Тэкст зноскі",
+      "Grayscale": "Адценні шэрага",
       "Header": "Верхні калантытул",
       "Heading 1": "Загаловак 1",
       "Heading 2": "Загаловак 2",
@@ -582,7 +585,6 @@
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
       "footnote reference": "Footnote reference",
-      "Grayscale": "Grayscale",
       "Green": "Green",
       "Green Yellow": "Green Yellow",
       "Intense Emphasis": "Intense emphasis",
@@ -742,6 +744,7 @@
     "textResolvedComments": "Вырашаныя каментары",
     "textRight": "Правае",
     "textRightToLeft": "Справа ўлева",
+    "textSameAsSystem": "Сістэмная",
     "textSave": "Захаваць",
     "textSearch": "Пошук",
     "textSetPassword": "Прызначыць пароль",
@@ -791,8 +794,6 @@
     "textRequirePassword": "Require Password",
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
-    "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
@@ -806,6 +807,7 @@
     "stayButtonText": "Застацца на старонцы",
     "textCloseHistory": "Закрыць гісторыю",
     "textOk": "Добра",
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",

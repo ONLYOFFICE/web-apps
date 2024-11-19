@@ -462,6 +462,7 @@
     "splitDividerErrorText": "Տողերի թիվը պետք է %1-ի բաժանարար լինի",
     "splitMaxColsErrorText": "Սյունակների թիվը %1-ից պակաս պիտի լինի",
     "splitMaxRowsErrorText": "Տողերի թիվը պետք է %1-ից պակաս լինի",
+    "textOk": "Լավ",
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadDocExtMessage": "Անհայտ փաստաթղթի ձևաչափ:",
     "uploadDocFileCountMessage": "Ոչ մի փաստաթուղթ չի վերբեռնվել:",
@@ -506,7 +507,8 @@
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Սխալ",
@@ -779,7 +781,6 @@
     "textSpellcheck": "Ուղղագրության ստուգում",
     "textStatistic": "Վիճակագրություն",
     "textSubject": "Նյութ",
-    "textSubmit": "Հաստատել",
     "textSymbols": "Նշաններ",
     "textTheme": "Ոճ",
     "textTitle": "Վերնագիր",
@@ -810,6 +811,7 @@
     "textOk": "Լավ",
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
-    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի"
+    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
+    "btnSend": "Send"
   }
 }

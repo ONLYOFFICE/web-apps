@@ -408,7 +408,7 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.main.js.requirejs.options.out %>'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>','<%= pkg.main.js.postload.options.out %>'],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,

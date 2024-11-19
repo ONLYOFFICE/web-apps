@@ -129,7 +129,7 @@ define([
                 });
             }
 
-            me.btnFreezePanes && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
+            me.btnFreezePanes && me.btnFreezePanes.menu && (typeof me.btnFreezePanes.menu === 'object') && me.btnFreezePanes.menu.on('item:click', function (menu, item, e) {
                 if (item.value === 'shadow') {
                     me.fireEvent('viewtab:freezeshadow', [item.checked]);
                 } else {
@@ -564,6 +564,9 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
+                        me.btnInterfaceTheme.menu && me.btnInterfaceTheme.menu.on('show:after', function() {
+                            Common.UI.TooltipManager.closeTip('grayTheme');
+                        });
                         if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                                 var value = item.value;

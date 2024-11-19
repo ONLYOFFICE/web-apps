@@ -352,11 +352,11 @@
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
-        margin: 0 0 0 5px;
+        margin: 1px 0 0 5px;
         background-color: transparent;
 
         .rtl & {
-            margin: 0 5px 0 0;
+            margin: 1px 5px 0 0;
         }
     }
 
@@ -432,7 +432,15 @@
     }
 
     .btn-resolve.comment-resolved, .icon-resolve.i-comment-resolved {
-        background-position: 0px -64px;
+        background-position: 0px -63px;
+        width: 17px;
+        height: 18px;
+        margin: 0 0 0 4px;
+
+        .rtl & {
+            margin: 0px 4px 0 0;
+        }
+        filter: none;
     }
 
     .btn-resolve:not(.comment-resolved), .btn-accept{

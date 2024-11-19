@@ -462,6 +462,7 @@
     "splitDividerErrorText": "The number of rows must be a divisor of %1",
     "splitMaxColsErrorText": "The number of columns must be less than %1",
     "splitMaxRowsErrorText": "The number of rows must be less than %1",
+    "textOk": "OK",
     "unknownErrorText": "Unknown error.",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
@@ -741,7 +742,6 @@
     "textSpellcheck": "Spell Checking",
     "textStatistic": "Statistic",
     "textSubject": "Subject",
-    "textSubmit": "Submit",
     "textSymbols": "Symbols",
     "textTheme": "Theme",
     "textTitle": "Title",
@@ -790,6 +790,7 @@
     "savePreparingTitle": "Preparing to save. Please wait...",
     "saveTextText": "Saving document...",
     "saveTitleText": "Saving Document",
+    "savingText": "Saving",
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textContinue": "Continue",
@@ -801,6 +802,7 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",

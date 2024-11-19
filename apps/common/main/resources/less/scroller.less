@@ -21,7 +21,7 @@
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
 
-                span {
+                div {
                     display: block;
                     height: 100%;
 
@@ -79,9 +79,13 @@
                 &.always-visible-x {
                     background-color: @canvas-scroll-thumb-hover-ie;
                     background-color: @canvas-scroll-thumb-hover;
-                    background-position: center -7px;
 
-                    span {
+                    div {
+                        background-position: center -7px;
+                        .pixel-ratio__1_75 & {
+                            background-position: center -6px;
+                        }
+
                         .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
@@ -100,9 +104,13 @@
                     background-color: @canvas-scroll-thumb-hover;
                     border-color: @canvas-scroll-thumb-border-hover-ie;
                     border-color: @canvas-scroll-thumb-border-hover;
-                    background-position: center -7px;
 
-                    span {
+                    div {
+                        background-position: center -7px;
+                        .pixel-ratio__1_75 & {
+                            background-position: center -6px;
+                        }
+
                         .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
@@ -134,7 +142,7 @@
                 background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
 
-                span {
+                div {
                     display: block;
                     height: 100%;
 
@@ -194,7 +202,12 @@
                     background-color: @canvas-scroll-thumb-hover-ie;
                     background-color: @canvas-scroll-thumb-hover;
 
-                    span {
+                    div {
+                        background-position: -7px center;
+                        .pixel-ratio__1_75 & {
+                            background-position: -6px center;
+                        }
+
                         .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }
@@ -214,7 +227,8 @@
                     border-color: @canvas-scroll-thumb-border-hover-ie;
                     border-color: @canvas-scroll-thumb-border-hover;
 
-                    span {
+                    div {
+                        background-position: -7px center;
                         .pixel-ratio__2_5 & {
                             background-color: @canvas-scroll-arrow-hover;
                         }

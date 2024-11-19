@@ -101,7 +101,9 @@ define([
                 can_copycut: undefined,
                 needCallApiBullets: undefined,
                 isLockedSlideHeaderAppyToAll: false,
-                customPluginItems: undefined
+                customPluginItems: undefined,
+                activeTab: 'home',
+                viewMode: 'normal'
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -214,33 +216,26 @@ define([
 
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                            me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
-                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id ||
-                            me.toolbar.btnInsertPlaceholder.pressed && me.toolbar.btnInsertPlaceholder.id !== btn_id)
+                        me.toolbar.cmbsInsertShape.some(function(cmb) {
+                            return cmb.isComboViewRecActive() && cmb.id !== btn_id;
+                        }) ||
+                        me.toolbar.btnInsertPlaceholder.pressed && me.toolbar.btnInsertPlaceholder.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
                         me._addAutoshape(false);
-                        me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
-                        me.toolbar.cmbInsertShape.deactivateRecords();
+                        me.toolbar.cmbsInsertShape.forEach(function(cmb) {
+                            cmb.deactivateRecords();
+                        });
                         me.toolbar.btnInsertPlaceholder.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    } else
-                    if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
-                        _.defer(function(){
-                            me.api.StartAddShape('', false);
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }, 100);
                     }
                 }
             };
 
             this.onApiEndAddShape = function() {
                 this.toolbar.fireEvent('insertshape', this.toolbar);
-
-                if ( this.toolbar.btnsInsertShape.pressed() )
-                    this.toolbar.btnsInsertShape.toggle(false, true);
 
                 if ( this.toolbar.btnsInsertText.pressed() ) {
                     this.toolbar.btnsInsertText.toggle(false, true);
@@ -249,8 +244,10 @@ define([
                     });
                 }
 
-                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
-                    this.toolbar.cmbInsertShape.deactivateRecords();
+                this.toolbar.cmbsInsertShape.forEach(function(cmb) {
+                    if (cmb.isComboViewRecActive())
+                        cmb.deactivateRecords();
+                });
 
                 if (this.toolbar.btnInsertPlaceholder.pressed)
                     this.toolbar.btnInsertPlaceholder.toggle(false, true);
@@ -305,19 +302,20 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', automove: true},
-                'animPane' : {name: 'pe-help-tip-anim-pane', placement: 'bottom-left', text: this.helpAnimPane, header: this.helpAnimPaneHeader, target: '#animation-button-pane', automove: true},
-                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'}
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             });
+
         },
 
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
              */
+            const me = this;
 
-            toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
-            toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
+            toolbar.btnPreview.on('click',                                         _.bind(me.onPreviewBtnClick, me));
+            toolbar.btnPreview.menu.on('item:click',                               _.bind(me.onPreviewItemClick, me));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -797,14 +795,14 @@ define([
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: [
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.cmbsInsertShape.concat([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
-                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.cmbInsertShape,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
-                ]});
+                ])});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
-                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
+                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
                 if (this.btnsDrawTab)
@@ -1944,9 +1942,6 @@ define([
             if (this.api) 
                 this._addAutoshape(btn.pressed, type);
 
-            if ( this.toolbar.btnsInsertShape.pressed() )
-                this.toolbar.btnsInsertShape.toggle(false, true);
-
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
@@ -1954,9 +1949,6 @@ define([
         onInsertShape: function (type) {
             var me = this;
             if ( type == 'menu:hide' ) {
-                if ( me.toolbar.btnsInsertShape.pressed() && !me._isAddingShape ) {
-                    me.toolbar.btnsInsertShape.toggle(false, true);
-                }
                 me._isAddingShape = false;
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1977,9 +1969,6 @@ define([
 
             me.toolbar.fireEvent('inserttextart', me.toolbar);
             me.api.AddTextArt(data);
-
-            if ( me.toolbar.btnsInsertShape.pressed() )
-                me.toolbar.btnsInsertShape.toggle(false, true);
 
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
@@ -2062,7 +2051,6 @@ define([
                 var item = _.find(menu.getItems(true), function(item) { return item.value == value; });
                 (item) ? item.setChecked(true) : menu.clearAll(true);
             }
-            Common.UI.TooltipManager.closeTip('colorSchema');
         },
 
         onSlideSize: function(menu, item) {
@@ -2305,28 +2293,26 @@ define([
         onResetAutoshapes: function () {
             var me = this,
                 collection = PE.getCollection('ShapeGroups');
-            var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, collection);
-                menu.off('show:before', onShowBefore);
-            };
-            me.toolbar.btnsInsertShape.forEach(function (btn, index) {
-                btn.menu.on('show:before', onShowBefore);
-            });
             var onComboShowBefore = function (menu) {
                 me.toolbar.updateComboAutoshapeMenu(collection);
                 menu.off('show:before', onComboShowBefore);
             }
-            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
-            me.toolbar.cmbInsertShape.fillComboView(collection);
-            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+            var onComboClick = function(btn, record, cancel) {
                 if (cancel) {
                     me._addAutoshape(false);
                     return;
                 }
                 if (record) {
-                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.toolbar.cmbsInsertShape.forEach(function(cmb) {
+                        cmb.updateComboView(record);
+                    });
                     me.onInsertShape(record.get('data').shapeType);
                 }
+            }
+            me.toolbar.cmbsInsertShape.forEach(function(cmb) {
+                cmb.openButton.menu.on('show:before', onComboShowBefore);
+                cmb.fillComboView(collection);
+                cmb.on('click', onComboClick);
             });
         },
 
@@ -2359,9 +2345,6 @@ define([
 
                             if (me.toolbar.btnsInsertText.pressed()) {
                                 me.toolbar.btnsInsertText.toggle(false, true);
-                            }
-                            if (me.toolbar.btnsInsertShape.pressed()) {
-                                me.toolbar.btnsInsertShape.toggle(false, true);
                             }
 
                             if (e.type !== 'click')
@@ -2705,8 +2688,8 @@ define([
             toolbar.hideMoreBtns();
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            if (toolbar.btnsAddSlide) // toolbar buttons are rendered
-                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
+            if (toolbar.btnAddSlide) // toolbar buttons are rendered
+                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: [toolbar.btnAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview]});
 
             var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h',
                 hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
@@ -2834,7 +2817,6 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
-            config.isEdit && Common.UI.TooltipManager.showTip('colorSchema');
         },
 
         onFileMenu: function (opts) {
@@ -2984,7 +2966,11 @@ define([
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
             this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
-            isMaster && this.toolbar.setTab('ins');
+            this._state.viewMode = mode;
+
+            if(isMaster) this.toolbar.setTab('ins');
+            else this.showStaticElements();
+
             Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
             Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
         },
@@ -3080,15 +3066,46 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
-            (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            this._state.activeTab = tab;
+            this.showStaticElements();
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('colorSchema');
-            Common.UI.TooltipManager.closeTip('animPane');
-            Common.UI.TooltipManager.closeTip('masterSlide');
+            Common.UI.TooltipManager.closeTip('grayTheme');
+        },
+
+        showStaticElements: function() {
+            var me = this;
+            var showingStaticElements = [
+                {
+                    el: this.toolbar.btnAddSlide ? this.toolbar.btnAddSlide.$el.closest('.group') : null,
+                    tabs: ['home', 'design', 'ins'],
+                    viewMode: 'normal'
+                },
+                {
+                    el: this.toolbar.btnChangeSlide ? this.toolbar.btnChangeSlide.$el.closest('.group') : null,
+                    tabs: ['home', 'design'],
+                    viewMode: 'normal'
+                },
+                {
+                    el: this.toolbar.btnChangbtnAddSlideMastereSlide ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
+                    tabs: ['home', 'design', 'ins'],
+                    viewMode: 'master'
+                }
+            ];
+            var countShowingButtons = 0;
+
+            showingStaticElements.forEach(function(item) {
+                if(!item.el) return;
+                
+                if(item.tabs.includes(me._state.activeTab) && (item.viewMode === me._state.viewMode || !item.viewMode)) {
+                    item.el.show();
+                    countShowingButtons += 1;
+                }
+                else item.el.hide();
+            });
+            this.toolbar.$el.find('#id-toolbar-separator-end-static')[countShowingButtons > 0 ? 'show' : 'hide']();
         }
 
     }, PE.Controllers.Toolbar || {}));

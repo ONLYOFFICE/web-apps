@@ -468,7 +468,8 @@
     "uploadDocSizeMessage": "Excedeu o limite de tamanho para o documento.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -506,7 +507,8 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde..."
+    "waitText": "Aguarde...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -776,7 +778,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Submeter",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -810,6 +811,7 @@
     "textOk": "Aceitar",
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida"
+    "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "btnSend": "Send"
   }
 }

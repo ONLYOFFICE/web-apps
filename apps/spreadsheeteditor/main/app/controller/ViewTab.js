@@ -269,7 +269,7 @@ define([
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
-            this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
+            this.view.btnFreezePanes.menu && (typeof this.view.btnFreezePanes.menu === 'object') && this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
             this.view.chZeros.setValue(!!params.asc_getShowZeros(), true);
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();

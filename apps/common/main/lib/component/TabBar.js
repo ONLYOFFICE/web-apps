@@ -286,6 +286,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.saved = [];
+            this.isRTL = options.isRTL || false;
         },
 
         render: function () {
@@ -567,8 +568,8 @@ define([
 
         checkInvisible: function(suppress) {
             var result = {
-                first: !this.isTabVisible(Common.UI.isRTL() ? this.tabs.length-1 : 0),
-                last: !this.isTabVisible(Common.UI.isRTL() ? 0 : this.tabs.length-1)
+                first: !this.isTabVisible(this.isRTL ? this.tabs.length-1 : 0),
+                last: !this.isTabVisible(this.isRTL ? 0 : this.tabs.length-1)
             };
 
             !suppress && this.fireEvent('tab:invisible', this, result);
@@ -630,5 +631,9 @@ define([
             });
             return width;
         },
+
+        setDirection: function(isRTL) {
+            this.isRTL = isRTL;
+        }
     });
 });

@@ -276,6 +276,7 @@ Common.UI.LayoutManager = new(function() {
                             btn = new Common.UI.ButtonCustom({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconsSet: item.icons,
+                                baseUrl: '', // base url is included in icon path
                                 caption: item.text || ' ',
                                 menu: item.items,
                                 split: item.items && !!item.split,

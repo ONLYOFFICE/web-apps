@@ -786,8 +786,8 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
@@ -1214,6 +1214,7 @@ define([
                     this.showSynchTip = !Common.localStorage.getBool("pdfe-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
+                    Common.NotificationCenter.on('desktop:window', _.bind(this.onDesktopWindow, this));
                 }
                 (mode.isEdit || mode.isRestrictedEdit) && me.setTab('home');
 
@@ -1228,7 +1229,7 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
-                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+                if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -1384,6 +1385,7 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                me._isDocReady = true;
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -1696,7 +1698,7 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
-                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit) || Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")) return;
 
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {
@@ -1718,6 +1720,7 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
+                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {
@@ -1749,7 +1752,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -1775,6 +1778,11 @@ define([
                 }
             },
 
+            onDesktopWindow: function() {
+                if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                    this.synchTooltip.show(); // change position for visible tip
+                }
+            },
             /** coauthoring end **/
 
             lockToolbar: function (causes, lock, opts) {

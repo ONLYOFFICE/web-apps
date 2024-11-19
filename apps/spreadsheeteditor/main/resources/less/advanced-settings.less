@@ -81,11 +81,23 @@
     }
 }
 
-.preview-canvas-container {
+.preview-canvas-container,
+#formula-wizard-panel-args {
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
 }
 
+#formula-wizard-panel-args-desc {
+    background: @background-toolbar-ie;
+    background: @background-toolbar;
+}
+
+#formula-wizard-help {
+    opacity: 0.7;
+    &:hover {
+        opacity: 1;
+    }
+}
 #id-chart-settings-dlg-layout {
     #chart-dlg-check-series {
         margin: 20px 0 9px 7px;

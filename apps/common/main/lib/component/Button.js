@@ -1036,10 +1036,11 @@ define([
             options.iconCls = 'icon-custom ' + (options.iconCls || '');
             Common.UI.Button.prototype.initialize.call(this, options);
 
+            this.baseUrl = options.baseUrl || '';
             this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconNormalImg = icons['normal'];
-            this.iconActiveImg = icons['active'];
+            this.iconNormalImg = this.baseUrl + icons['normal'];
+            this.iconActiveImg = this.baseUrl + icons['active'];
         },
 
         render: function (parentEl) {
@@ -1061,7 +1062,6 @@ define([
                     attributeFilter : ['class'],
                 });
 
-            if (this.menu && !this.split) {
                 var onMouseDown = function (e) {
                     _callback();
                     $(document).on('mouseup',   onMouseUp);
@@ -1071,7 +1071,6 @@ define([
                     $(document).off('mouseup',   onMouseUp);
                 };
                 this.cmpButtonFirst.on('mousedown', _.bind(onMouseDown, this));
-            }
 
             this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
@@ -1079,8 +1078,8 @@ define([
 
         updateIcons: function() {
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconNormalImg = icons['normal'];
-            this.iconActiveImg = icons['active'];
+            this.iconNormalImg = this.baseUrl + icons['normal'];
+            this.iconActiveImg = this.baseUrl + icons['active'];
             this.updateIcon();
         },
 

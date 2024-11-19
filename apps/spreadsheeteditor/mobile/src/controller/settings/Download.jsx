@@ -65,7 +65,7 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
     Common.Notifications.trigger('preloader:close');
     Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
     const buttons = [{
-        text: 'OK',
+        text: _t.textOk,
         bold: true,
         onClick: function () {
             const password = document.getElementById('modal-password').value;
@@ -80,7 +80,7 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
         f7.dialog.create({
             text: _t.txtIncorrectPwd,
             buttons : [{
-                text: 'OK',
+                text: _t.textOk,
                 bold: true,
             }]
         }).open();

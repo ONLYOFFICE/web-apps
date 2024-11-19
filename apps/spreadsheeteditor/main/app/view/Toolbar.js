@@ -2192,6 +2192,17 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnRtlSheet = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-sheet-rtl',
+                    lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    caption: this.textRtlSheet + ' (Beta)',
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -2264,7 +2275,7 @@ define([
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -2349,6 +2360,7 @@ define([
                     me.onUpdateLastCustomMargins();
                     Common.NotificationCenter.on('margins:update', _.bind(me.onUpdateLastCustomMargins, me));
                     this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    Common.NotificationCenter.on('desktop:window', _.bind(me.onDesktopWindow, me));
                 }
 
                 me.setTab('home');
@@ -2364,7 +2376,7 @@ define([
                 tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                 is_file_active = me.isTabActive('file');
 
-            if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -2467,6 +2479,7 @@ define([
             _injectComponent('#slot-btn-printtitles',   this.btnPrintTitles);
             _injectComponent('#slot-chk-print-gridlines', this.chPrintGridlines);
             _injectComponent('#slot-chk-print-headings',  this.chPrintHeadings);
+            _injectComponent('#slot-btn-rtl-sheet',       this.btnRtlSheet);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -2570,6 +2583,7 @@ define([
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
             _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
             _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
+            _updateHint(this.btnRtlSheet, this.tipRtlSheet + ' (Beta)');
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -3317,7 +3331,7 @@ define([
             if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram || this.mode.isEditOle) return;
 
             var me = this;
-
+            me._isDocReady = true;
             if(me.btnPrint.menu) {
                 me.btnPrint.setMenu(
                     new Common.UI.Menu({
@@ -3495,6 +3509,12 @@ define([
         getSymbolDescription: function(symbol){
             var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
             return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
+        },
+
+        onDesktopWindow: function() {
+            if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                this.synchTooltip.show(); // change position for visible tip
+            }
         }
     }, SSE.Views.Toolbar || {}));
 });
