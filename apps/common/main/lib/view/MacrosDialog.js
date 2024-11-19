@@ -73,7 +73,7 @@ define([], function () {
 
         initialize : function(options) {
             var _options = {},
-                innerHeight = Math.max(Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top'), 512),
+                innerHeight = Math.max(Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top'), 350),
                 innerWidth = Math.max(Common.Utils.innerWidth(), 600);
 
             _.extend(_options, {
