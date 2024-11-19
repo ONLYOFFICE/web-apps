@@ -162,6 +162,25 @@ var _postMessage = function(msg) {
         _dropDisabled = disable;
     };
 
+    var fillDefaultColors = function(colors) {
+        if (colors.type==='dark') {
+            var defColors = {'text-normal': 'rgba(255, 255, 255, 0.8)', 'icon-normal': 'rgba(255, 255, 255, 0.8)', 'background-normal': '#333', 'background-toolbar': '#404040', 'highlight-button-hover': '#555',
+                            'canvas-background': '#555', 'border-divider': '#505050', 'canvas-scroll-thumb-pressed': '#adadad', 'canvas-scroll-thumb': '#404040'},
+                hasOwnProps = false;
+            for (var color in defColors) {
+                if (colors.hasOwnProperty(color)) {
+                    hasOwnProps = true;
+                    break;
+                }
+            }
+            if (!hasOwnProps) {
+                for (var color in defColors) {
+                    colors[color] = defColors[color];
+                }
+            }
+        }
+    };
+
     var onThemeChanged = function(colors) {
         if (!colors) return;
 
@@ -175,6 +194,8 @@ var _postMessage = function(msg) {
                 i++;
             }
         }
+
+        fillDefaultColors(colors);
 
         var _css = '';
         if (colors['text-normal'])
