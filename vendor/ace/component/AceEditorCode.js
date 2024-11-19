@@ -205,7 +205,7 @@ var _postMessage = function(msg) {
             _css += '.Ace-Tern-tooltip .Ace-Tern-tooltip-boxclose { color: ' + colors['icon-normal'] + ' !important; }';
 
         if (colors['background-normal']) {
-            _css += '.ace_content, .ace_gutter, .gutter_bg { background: ' + colors['background-normal'] + ' !important; }';
+            _css += '.ace_editor, .ace_content, .ace_gutter, .gutter_bg { background: ' + colors['background-normal'] + ' !important; }';
             _css += '.ace_active-line, .ace_gutter-active-line, .ace_gutter-active-line-bg { background-color: ' + colors['background-normal'] + ' !important; }';
         }
 
