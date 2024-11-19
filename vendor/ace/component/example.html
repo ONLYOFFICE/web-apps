@@ -73,13 +73,18 @@
         console.log("onMouseMove");
     };
 
+    var onLoad = function (event) {
+        console.log("onLoad");
+    };
+
     var config = {
         editorType: 'word',
         events: {
             onChangeValue: onChangeValue,
             onEditorReady: onEditorReady,
             onMouseUp: onMouseUp,
-            onMouseMove: onMouseMove
+            onMouseMove: onMouseMove,
+            onLoad: onLoad
         }
     };
 

@@ -3,10 +3,11 @@
     * config = {
     *   editorType: 'cell'/'slide'/'word'
     *   events: {
-    *       onChangeValue
-    *       onEditorReady
+    *       onChangeValue // text in editor is changed
+    *       onEditorReady // editor is ready for use
     *       onMouseUp
     *       onMouseMove
+    *       onLoad // frame with editor is loaded
     *   }
     * }
     * */
@@ -97,15 +98,24 @@
             }
         };
 
+
+        var _onLoad = function() {
+            var handler = (_config.events || {})['onLoad'];
+            if (handler && typeof handler == "function") {
+                res = handler.call(_self);
+            }
+        };
+
         if (parentEl) {
             iframe = createIframe(_config);
+            iframe.onload = _onLoad;
             var _msgDispatcher = new MessageDispatcher(_onMessage, this);
             parentEl.appendChild(iframe);
         }
 
         return {
-            setValue: _setValue, // string
-            disableDrop: _disableDrop, // true/false
+            setValue: _setValue, // string // set text to editor
+            disableDrop: _disableDrop, // true/false // disable/enable drop elements to editor
             destroyEditor: _destroyEditor,
             updateTheme: _updateTheme // type: 'dark'/'light',
                                        // colors: {'text-normal': '', 'icon-normal': '', 'background-normal': '', 'background-toolbar': '', 'highlight-button-hover': '',
@@ -134,7 +144,6 @@
         iframe.align        = "top";
         iframe.frameBorder  = 0;
         iframe.scrolling    = "no";
-        iframe.onload       = _onLoad;
         iframe.src = getBasePath() + 'AceEditor.html' + (config.editorType ? '?editorType=' + config.editorType : '');
 
         return iframe;
@@ -177,8 +186,5 @@
             unbindEvents: _unbindEvents
         }
     };
-
-    function _onLoad() {
-    }
 
 })(window, document);
