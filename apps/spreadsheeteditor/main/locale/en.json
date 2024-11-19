@@ -4481,6 +4481,7 @@
   "SSE.Views.ViewTab.txtViewNormal": "Normal",
   "SSE.Views.ViewTab.txtViewPageBreak": "Page Break Preview",
   "SSE.Views.ViewTab.textMacros": "Macros",
+  "SSE.Views.ViewTab.tipMacros": "Macros",
   "SSE.Views.WatchDialog.closeButtonText": "Close",
   "SSE.Views.WatchDialog.textAdd": "Add watch",
   "SSE.Views.WatchDialog.textBook": "Book",

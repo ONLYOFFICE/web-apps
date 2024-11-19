@@ -362,6 +362,7 @@ define([
                 this.btnsFitToWidth.forEach(function (btn) {
                     btn.updateHint(me.tipFitToWidth);
                 });
+                this.btnMacros.updateHint(this.tipMacros);
 
                 var value = Common.UI.LayoutManager.getInitValue('leftMenu');
                 value = (value!==undefined) ? !value : false;
@@ -424,7 +425,8 @@ define([
             textTabStyle: 'Tab style',
             textFill: 'Fill',
             textLine: 'Line',
-            textMacros: 'Macros'
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), DE.Views.ViewTab || {}));
 });

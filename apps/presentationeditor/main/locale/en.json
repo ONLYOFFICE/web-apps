@@ -2946,5 +2946,6 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.ViewTab.textMacros": "Macros"
+  "PE.Views.ViewTab.textMacros": "Macros",
+  "PE.Views.ViewTab.tipMacros": "Macros"
 }

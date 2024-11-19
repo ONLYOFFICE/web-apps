@@ -447,7 +447,7 @@ define([
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
                     }
-
+                    me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
 
                     if (config.isEdit) {
@@ -692,7 +692,8 @@ define([
             textTabStyle: 'Tab style',
             textFill: 'Fill',
             textLine: 'Line',
-            textMacros: 'Macros'
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

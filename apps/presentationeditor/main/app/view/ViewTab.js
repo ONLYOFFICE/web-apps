@@ -440,7 +440,8 @@ define([
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
-
+                    me.btnMacros.updateHint(me.tipMacros);
+                    
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         cls: 'shifted-right',
                         items: [
@@ -632,7 +633,8 @@ define([
             textTabStyle: 'Tab style',
             textFill: 'Fill',
             textLine: 'Line',
-            textMacros: 'Macros'
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), PE.Views.ViewTab || {}));
 });

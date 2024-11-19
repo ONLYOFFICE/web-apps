@@ -99,12 +99,6 @@ define([], function () {
                 Macros 			: 1
             };
             this._state = {
-                aceLoadedModules: {
-                    tern: false,
-                    langTools: window.isIE,
-                    htmlBeautify: false,
-                },
-                initCounter: 0,
                 isFunctionsSupport: !!window.SSE,
                 macrosItemMenuOpen: null,
                 functionItemMenuOpen: null,
@@ -117,18 +111,6 @@ define([], function () {
             });
 
             this.on('help', this.onHelp);
-
-            let styles = document.querySelectorAll("style"),
-                i = 0;
-            if (styles) {
-                while (i < styles.length) {
-                    if (styles[i].id === 'ace-chrome') {
-                        styles[i].parentNode.removeChild(styles[i]);
-                        break;
-                    }
-                    i++;
-                }
-            }
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
