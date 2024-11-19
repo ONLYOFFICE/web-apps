@@ -270,9 +270,8 @@ define([
                 this.btnMacros = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-macros',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.lostConnect, _set.disableOnStart],
                     caption: this.textMacros,
-                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

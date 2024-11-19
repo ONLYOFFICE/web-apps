@@ -3662,6 +3662,7 @@ define([
                 me.toolbar.addTab(tab, $panel, 8);
                 me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
+            config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
         },
 
         onAppReady: function (config) {

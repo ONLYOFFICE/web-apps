@@ -318,9 +318,6 @@ define([
                 api: this.api,
             });
             macrosWindow.show();
-            macrosWindow.on('close', function() {
-                me.view.btnMacros.toggle(false)
-            });
         },
 
         onApiUpdateSheetViewType: function(index) {

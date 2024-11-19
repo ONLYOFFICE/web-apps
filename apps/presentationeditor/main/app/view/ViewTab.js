@@ -389,7 +389,6 @@ define([
                     iconCls: 'toolbar__icon btn-macros',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textMacros,
-                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
