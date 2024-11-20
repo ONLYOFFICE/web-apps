@@ -25,7 +25,9 @@ require([
     'common/main/lib/view/SignDialog',
     'common/main/lib/view/SignSettingsDialog',
     'common/main/lib/view/DocumentPropertyDialog',
-
+    'common/main/lib/view/MacrosDialog',
+    'common/main/lib/component/AceEditor',
+    
     'spreadsheeteditor/main/app/view/FileMenuPanels',
     'spreadsheeteditor/main/app/view/DocumentHolderExt',
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',

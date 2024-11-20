@@ -86,7 +86,8 @@ define([
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
-                    'darkmode:change': _.bind(this.onChangeDarkMode, this)
+                    'darkmode:change': _.bind(this.onChangeDarkMode, this),
+                    'macros:click':  _.bind(this.onClickMacros, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -326,6 +327,14 @@ define([
             this.api.asc_SetViewRulers(checked);
             Common.NotificationCenter.trigger('layout:changed', 'rulers');
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
         },
 
         onChangeDarkMode: function (isdarkmode) {

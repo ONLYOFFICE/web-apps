@@ -111,7 +111,8 @@ define([
                     'gridlines:snap': _.bind(this.onGridlinesSnap, this),
                     'gridlines:spacing': _.bind(this.onGridlinesSpacing, this),
                     'gridlines:custom': _.bind(this.onGridlinesCustom, this),
-                    'gridlines:aftershow': _.bind(this.onGridlinesAfterShow, this)
+                    'gridlines:aftershow': _.bind(this.onGridlinesAfterShow, this),
+                    'macros:click':  _.bind(this.onClickMacros, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -382,6 +383,14 @@ define([
                 menu.items[1].setDisabled(this._state.lock_viewProps); // snap to grid
                 menu.items[items.length-1].setDisabled(this._state.lock_viewProps); // custom
             }
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
         },
 
         onLockViewProps: function(lock) {

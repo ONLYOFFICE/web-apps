@@ -101,6 +101,10 @@ define([
                         '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
                     '</div>' +
                 '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+                '</div>' +
             '</section>';
         return {
             options: {},
@@ -182,6 +186,9 @@ define([
                 me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
+                me.btnMacros.on('click', function () {
+                    me.fireEvent('macros:click');
+                });
             },
 
             initialize: function (options) {
@@ -376,6 +383,17 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLeftMenu);
+
+                this.btnMacros = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-macros',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.textMacros,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnMacros);
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -405,6 +423,7 @@ define([
                 this.btnGridlines.render($host.find('#slot-btn-gridlines'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
+                this.btnMacros.render($host.find('#slot-btn-macros'));
                 return this.$el;
             },
 
@@ -420,7 +439,8 @@ define([
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
-
+                    me.btnMacros.updateHint(me.tipMacros);
+                    
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         cls: 'shifted-right',
                         items: [
@@ -614,7 +634,9 @@ define([
             tipSlideMaster: 'Slide master',
             textTabStyle: 'Tab style',
             textFill: 'Fill',
-            textLine: 'Line'
+            textLine: 'Line',
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), PE.Views.ViewTab || {}));
 });
