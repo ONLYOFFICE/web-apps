@@ -731,10 +731,13 @@ define([
             this.api.asc_LoadDocument();
             this.api.Resize();
         },
-
+        // buildVersion：传入的params.asc_getBuildVersion()，来自this.licenseResult['buildVersion']，
+        // 在server/Common/sources/commondefines.js中有设置
+        // compareVersions来自哪儿。看着是检测本地文件是否都一致
+        // DocsAPI.DocEditor.version()是'{{PRODUCT_VERSION}}';
         onServerVersion: function(buildVersion) {
             if (this.changeServerVersion) return true;
-
+            console.log("onServerVersion test", DocsAPI.DocEditor.version(), buildVersion, window.compareVersions)
             if (DocsAPI.DocEditor.version() !== buildVersion && !window.compareVersions) {
                 this.changeServerVersion = true;
                 Common.UI.warning({

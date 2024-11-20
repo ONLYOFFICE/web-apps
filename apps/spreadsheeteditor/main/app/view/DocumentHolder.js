@@ -163,7 +163,18 @@ define([
             me.pmiPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,
-                value       : 'paste'
+                value       : 'paste',
+                // axing add code: test is
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        { caption: me.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove},
+                        { caption: me.insertRowBelowText, value: Asc.c_oAscInsertOptions.InsertTableRowBelow},
+                        { caption: me.insertColumnLeftText,  value: Asc.c_oAscInsertOptions.InsertTableColLeft},
+                        { caption: me.insertColumnRightText, value: Asc.c_oAscInsertOptions.InsertTableColRight}
+                    ]
+                })
             });
 
             me.pmiSelectTable = new Common.UI.MenuItem({
@@ -1381,6 +1392,7 @@ define([
                 value       : 'copy'
             });
 
+            // 插入中，文字当中的paste显示，不是我们想要的
             me.pmiTextPaste = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,

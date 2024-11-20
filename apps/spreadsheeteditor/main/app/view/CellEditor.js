@@ -96,9 +96,15 @@ define([
 
         updateCellInfo: function(info) {
             if (info) {
-                console.log("axing updateCellInfo", info);
+                this.saveToLocalstorage(info);
+                console.log("axing updateCellInfo", info, typeof(info)=='string' ? info : info.asc_getName());
                 this.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
             }
+        },
+
+        // axing
+        saveToLocalstorage: function (info) {
+            window.localStorage.setItem("changeCellData", {modefy: this.$cellname.val(), rowCol: typeof(info)=='string' ? info : info.asc_getName()});
         },
 
         cellNameDisabled: function(disabled){

@@ -2150,6 +2150,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.UpdateVersion:
+                        // 在断开连接时更新版本错误
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
                         break;
@@ -2503,6 +2504,7 @@ define([
 
                 const cur_version = this.getApplication().getController('LeftMenu').leftMenu.getMenu('about').txtVersionNum;
                 const cropped_version = cur_version.match(/^(\d+.\d+.\d+)/);
+                console.log("onServerVersion test", cur_version, buildVersion, cropped_version, window.compareVersions)
                 if (!window.compareVersions && (!cropped_version || cropped_version[1] !== buildVersion)) {
                     this.changeServerVersion = true;
                     Common.UI.warning({
