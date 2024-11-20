@@ -949,7 +949,7 @@ define([
                             //     "id": "view",
                             //     "separator": true
                             // }
-                            // return; // hide macros plugin
+                            return; // hide macros plugin
                         }
 
                         var props = {
