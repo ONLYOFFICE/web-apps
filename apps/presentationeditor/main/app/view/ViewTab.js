@@ -501,12 +501,8 @@ define([
                     if (!config.isEdit) {
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
-                        var group = me.$el.find('#slot-btn-slide-master').closest('.group');
-                        group.next().remove();
-                        group.remove();
-                        group = me.$el.find('#slot-btn-macros').closest('.group');
-                        group.prev().remove();
-                        group.remove();
+                        me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
+                        me.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
                     if (Common.UI.Themes.available()) {

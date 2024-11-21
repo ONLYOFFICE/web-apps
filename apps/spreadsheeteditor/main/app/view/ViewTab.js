@@ -483,9 +483,7 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
-                        var group = me.toolbar.$el.find('#slot-btn-macros').closest('.group');
-                        group.prev().remove();
-                        group.remove();
+                        me.toolbar.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
                     if (!Common.UI.Themes.available()) {

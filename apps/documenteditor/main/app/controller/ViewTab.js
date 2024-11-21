@@ -171,9 +171,7 @@ define([
                         me.view.chRulers.$el.closest('.group').remove();
                         me.view.chRulers.$el.remove();
                         me.view.$el.find('.separator-rulers').remove();
-                        var group = me.view.$el.find('#slot-btn-macros').closest('.group');
-                        group.prev().remove();
-                        group.remove();
+                        me.view.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
                     me.view.cmbsZoom.forEach(function (cmb) {
