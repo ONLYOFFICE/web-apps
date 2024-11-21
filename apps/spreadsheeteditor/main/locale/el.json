@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Δυστυχώς, δεν είναι δυνατή η εκτύπωση περισσότερων από 1500 σελίδων ταυτόχρονα στην τρέχουσα έκδοση του προγράμματος.<br>Αυτός ο περιορισμός θα καταργηθεί στις επερχόμενες εκδόσεις.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Αποτυχία αποθήκευσης",
   "SSE.Controllers.Main.errorProtectedRange": "Αυτό το εύρος δεν επιτρέπεται για επεξεργασία.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Αναβαθμίστηκε η έκδοση του συντάκτη. Η σελίδα θα φορτωθεί ξανά για να εφαρμοστούν οι αλλαγές.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Η περίοδος επεξεργασίας εγγράφων έχει λήξει. Παρακαλούμε φορτώστε ξανά τη σελίδα.",
   "SSE.Controllers.Main.errorSessionIdle": "Το έγγραφο δεν έχει επεξεργαστεί εδώ και πολύ ώρα. Παρακαλούμε φορτώστε ξανά τη σελίδα.",

@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Det finns ingen innehållsförteckning att uppdatera. Du kan infoga en från fliken Referenser.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Lösenordet som du angav är felaktigt.<br>Se till att CAPS LOCK inte är aktiverat och säkerställ att du använder rätt storlek på tecknen i lösenordet.",
   "DE.Controllers.Main.errorProcessSaveResult": "Sparar felaktig.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Textredigerarens version har uppdaterats. Sidan kommer att laddas om för att verkställa ändringarna.",
   "DE.Controllers.Main.errorSessionAbsolute": "Dokumentet redigeringssession har löpt ut. Vänligen ladda om sidan.",
   "DE.Controllers.Main.errorSessionIdle": "Dokumentet har inte redigerats under en ganska lång tid. Var vänlig att ladda om sidan.",

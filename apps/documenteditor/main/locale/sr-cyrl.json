@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Нема табеле садржаја за ажурирање. Можете убацити једну са Референце картице.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Лозинка коју сте снабдели није тачна.<br>Верификуј да је CAPS LOCK дугме искључено и будите сигурни да користите одговарајућу величину слова.",
   "DE.Controllers.Main.errorProcessSaveResult": "Чување неуспешно.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
   "DE.Controllers.Main.errorSessionAbsolute": "Фаза уређивања документа је истекла. Молимо поново учитајте страницу.",
   "DE.Controllers.Main.errorSessionIdle": "Документ се није уређивао већ дуже време. Молимо поново учитајте страницу.",

@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Բանալու նկարագրիչի ժամկետը սպառվել է",
   "PE.Controllers.Main.errorLoadingFont": "Տառատեսակները բեռնված չեն:<br>Խնդրում ենք կապվել ձեր փաստաթղթերի սերվերի ադմինիստրատորի հետ:",
   "PE.Controllers.Main.errorProcessSaveResult": "Պահումը ձախողվել է:",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "Խմբագրիչի տարբերակը արդիացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
   "PE.Controllers.Main.errorSessionAbsolute": "Փաստաթղթի խմբագրման գործաժամը սպառվել է։ Նորի՛ց բեռնեք էջը։",
   "PE.Controllers.Main.errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։ Նորի՛ց բեռնեք էջը։",

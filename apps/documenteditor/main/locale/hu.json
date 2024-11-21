@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Nincs frissítendő tartalomjegyzék. A Hivatkozások lapon beilleszthet egyet.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "A megadott jelszó helytelen.<br>Győződjön meg arról, hogy a CAPS LOCK billentyű ki van kapcsolva, és ügyeljen arra, hogy a megfelelő nagybetűket használja.",
   "DE.Controllers.Main.errorProcessSaveResult": "Sikertelen mentés.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
   "DE.Controllers.Main.errorSessionAbsolute": "A dokumentumszerkesztési munkamenet lejárt. Kérjük, töltse be újra az oldalt.",
   "DE.Controllers.Main.errorSessionIdle": "A dokumentumot sokáig nem szerkesztették. Kérjük, töltse be újra az oldalt.",

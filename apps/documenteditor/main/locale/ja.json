@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "更新する目次がありません。「参考文献」タブから挿入できます",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "入力されたパスワードが正しくありません。<br>CAPS LOCKキーがオフになっていることを確認し、大文字を正しく使用するようにしてください。",
   "DE.Controllers.Main.errorProcessSaveResult": "保存に失敗しました",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
   "DE.Controllers.Main.errorSessionAbsolute": "ドキュメント編集セッションが終了しました。 ページを再度読み込みしてください。",
   "DE.Controllers.Main.errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込みしてください。",

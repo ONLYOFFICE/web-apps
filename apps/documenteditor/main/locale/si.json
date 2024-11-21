@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "යාවත්කාල කිරීමට පටුනක් නැත. නිර්දේශ පටිත්තෙන් ඇතුළු කළ හැකිය.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "ඔබ සැපයූ මුරපදය නිවැරදි නොවේ.<br>ලොකු අකුරු යතුර ක්‍රියා විරහිත බව තහවුරු කර නිවැරදි ලොකු අකුරු භාවිතයට ද වග බලා ගන්න.",
   "DE.Controllers.Main.errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
   "DE.Controllers.Main.errorSessionAbsolute": "ලේඛනය සංස්කරණ වාරය කල් ඉකුත් වී ඇත. පිටුව නැවත පූරණය කරන්න.",
   "DE.Controllers.Main.errorSessionIdle": "ලේඛනය සෑහෙන වේලාවකින් සංස්කරණය කර නැත. පිටුව නැවත පූරණය කරන්න.",

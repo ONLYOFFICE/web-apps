@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "O comando Trace Precedents requer que a célula ativa contenha uma fórmula que inclua referências válidas.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas ao mesmo tempo na versão atual do programa.<br>Esta restrição será eliminada nos próximos lançamentos.",
     "errorProtectedRange": "Este intervalo não é permitido para edição.",
+    "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",

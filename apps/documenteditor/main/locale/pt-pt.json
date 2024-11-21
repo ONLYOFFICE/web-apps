@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Não existem alterações a fazer no índice remissivo. Pode introduzir alterações no separador Referências.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "A palavra-passe que introduziu não está correta.<br>Verifique se a tecla CAPS LOCK está desligada e não se esqueça de utilizar a capitalização correta.",
   "DE.Controllers.Main.errorProcessSaveResult": "Falha ao guardar.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "DE.Controllers.Main.errorSessionAbsolute": "A sessão de edição caducou. Recarregue a página.",
   "DE.Controllers.Main.errorSessionIdle": "Este documento não foi editado durante muito tempo. Tente recarregar a página.",

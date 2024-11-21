@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "لم يتم تحميل الخطوط. <br> الرجاء الاتصال بمسؤول خادم المستندات لديك.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "كلمة المرور التي أدخلتها غير صحيحة.<br>تحقق من إيقاف تشغيل مفتاح CAPS LOCK وتأكد من استخدام الأحرف الكبيرة الصحيحة.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "فشل الحفظ",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
   "PDFE.Controllers.Main.errorSessionAbsolute": "انتهت صلاحية جلسة تحرير المستند. الرجاء إعادة تحميل الصفحة.",
   "PDFE.Controllers.Main.errorSessionIdle": "لم يتم تحرير المستند لفترة طويلة. رجاء أعد تحميل الصفحة.",

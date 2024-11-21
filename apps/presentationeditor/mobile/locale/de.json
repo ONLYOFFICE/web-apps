@@ -157,6 +157,7 @@
       "textNo": "Nein",
       "textNoLicenseTitle": "Lizenzlimit erreicht",
       "textNoMatches": "Keine Treffer",
+      "textOk": "OK",
       "textOpenFile": "Kennwort zum Öffnen der Datei eingeben",
       "textPaidFeature": "Kostenpflichtige Funktion",
       "textRemember": "Auswahl speichern",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
       "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
       "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um individuelle Upgrade-Bedingungen zu erhalten.",
-      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Unbekannter Schlüssel Deskriptor",
     "errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
     "errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an die Administration des Dokumenten-Servers.",
+    "errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon eine lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
@@ -228,11 +229,11 @@
     "splitDividerErrorText": "Die Anzahl der Zeilen muss einen Teiler von %1 sein. ",
     "splitMaxColsErrorText": "Spaltenanzahl muss weniger als %1 sein",
     "splitMaxRowsErrorText": "Die Anzahl der Zeilen muss weniger als %1 sein",
+    "textOk": "OK",
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Das Bild ist zu groß. Die maximale Größe beträgt 25 MB.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Das Bild ist zu groß. Die maximale Größe beträgt 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",

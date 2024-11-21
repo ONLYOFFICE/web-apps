@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Şriftlər yüklənməyib.<br> Sənəd Serveri administratorunuzla əlaqə saxlayın.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Təqdim etdiyiniz parol düzgün deyil.<br>CAPS LOCK düyməsinin söndürüldüyünü yoxlayın və düzgün böyük hərfdən istifadə etdiyinizdən əmin olun.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Saxlama prosesi uğursuz oldu",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Redaktor versiyası yeniləndi. Dəyişiklikləri tətbiq etmək üçün səhifə yenidən yüklənəcək.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Sənədin redaktə sessiyasının vaxtı bitdi. Səhifəni yenidən yükləyin.",
   "PDFE.Controllers.Main.errorSessionIdle": "Sənəd uzun müddətdir ki, redaktə olunmayıb. Səhifəni yenidən yükləyin.",

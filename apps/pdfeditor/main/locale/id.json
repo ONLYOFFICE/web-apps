@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Password yang Anda sediakan tidak tepat.<br>Pastikan bahwa CAPS LOCK sudah mati dan pastikan sudah menggunakan huruf besar dengan tepat.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Gagal menyimpan.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
   "PDFE.Controllers.Main.errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",

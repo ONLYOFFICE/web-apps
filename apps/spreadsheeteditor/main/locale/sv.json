@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Tyvärr är det inte möjligt att skriva ut mer än 1500 sidor samtidigt i den aktuella programversionen. <br> Denna begränsning kommer att tas bort i de kommande utgåvorna.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Fel vid spara",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Textredigerarens version har uppdaterats. Sidan kommer att laddas om för att verkställa ändringarna.",
   "SSE.Controllers.Main.errorSessionAbsolute": "Dokumentet redigeringssession har löpt ut. Vänligen ladda om sidan.",
   "SSE.Controllers.Main.errorSessionIdle": "Dokumentet har inte redigerats under en ganska lång tid. Var vänlig att ladda om sidan.",

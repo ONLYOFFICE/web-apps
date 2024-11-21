@@ -1832,6 +1832,10 @@ define([
                         config.msg = this.errorEmailClient;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotSaveWatermark:
+                        config.msg = this.errorSaveWatermark;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;

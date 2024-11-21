@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Δεν υπάρχει πίνακας περιεχομένων για ενημέρωση. Μπορείτε να εισαγάγετε ένα από την καρτέλα Αναφορές.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Ο κωδικός που εισάγατε δεν είναι σωστός.<br>Βεβαιωθείτε ότι το πλήκτρο CAPS LOCK είναι ανενεργό και ότι χρησιμοποιείτε κεφαλαία όπου χρειάζεται.",
   "DE.Controllers.Main.errorProcessSaveResult": "Αποτυχία αποθήκευσης.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Αναβαθμίστηκε η έκδοση του συντάκτη. Η σελίδα θα φορτωθεί ξανά για να εφαρμοστούν οι αλλαγές.",
   "DE.Controllers.Main.errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε επαναφορτώστε τη σελίδα.",
   "DE.Controllers.Main.errorSessionIdle": "Το έγγραφο δεν έχει επεξεργαστεί εδώ και πολύ ώρα. Παρακαλούμε φορτώστε ξανά τη σελίδα.",

@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Er is geen inhoudsopgave om bij te werken. U kunt er een invoegen vanaf het tabblad Referenties.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
   "DE.Controllers.Main.errorProcessSaveResult": "Opslaan mislukt.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
   "DE.Controllers.Main.errorSessionAbsolute": "De bewerksessie voor het document is vervallen. Laad de pagina opnieuw.",
   "DE.Controllers.Main.errorSessionIdle": "Het document is al lang niet meer bewerkt. Laad de pagina opnieuw.",

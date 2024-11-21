@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "キー記述子の有効期限が切れました",
   "PE.Controllers.Main.errorLoadingFont": "フォントが読み込まれていません。<br>ドキュメントサーバーの管理者に連絡してください。",
   "PE.Controllers.Main.errorProcessSaveResult": "保存に失敗しました。",
+  "PE.Controllers.Main.errorSaveWatermark": "このファイルには、別のドメインにリンクされた透かし画像が含まれています。<br>PDFで見えるようにするには、文書と同じドメインからリンクされるように透かし画像を更新するか、コンピュータからアップロードしてください。",
   "PE.Controllers.Main.errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
   "PE.Controllers.Main.errorSessionAbsolute": "ドキュメント編集セッションが終了しました。 ページを再度読み込みしてください。",
   "PE.Controllers.Main.errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込みしてください。",

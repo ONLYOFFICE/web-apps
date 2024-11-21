@@ -42,7 +42,6 @@
   { "src": "UsageInstructions/HighlightedCode.htm", "name": "Hervorgehobenen Code einfügen" },
   { "src": "UsageInstructions/Translator.htm", "name": "Text übersetzen" },
   { "src": "UsageInstructions/Thesaurus.htm", "name": "Wort durch Synonym ersetzen" },
-  {"src": "UsageInstructions/Zoom.htm", "name": "Zoom-Meetings veranstalten und planen"},
   {"src": "UsageInstructions/ChatGPT.htm", "name": "KI verwenden"},
   { "src": "UsageInstructions/PreviewPresentation.htm", "name": "Präsentationseigenschaften anzeigen", "headername": "Werkzeuge und Einstellungen" },
   { "src": "UsageInstructions/SavePrintDownload.htm", "name": "Präsentation speichern/drucken/herunterladen" },

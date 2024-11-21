@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "“追踪先例”命令要求活动单元格包含包含有效引用的公式。",
     "errorPrintMaxPagesCount": "不好意思，当前版本的程序无法一次打印超过 1500 页。<br>我们将在日后的版本中解除此限制。",
     "errorProtectedRange": "不允许编辑此范围。",
+    "errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
     "errorSessionAbsolute": "文档编辑会话已过期。请重新加载页面。",
     "errorSessionIdle": "该文档已经很长时间没有编辑了。请重新加载页面。",
     "errorSessionToken": "与服务器的连接已中断。请重新加载页面。",

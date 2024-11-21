@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Não há índice para atualizar. Você pode inserir um na guia Referências.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "A senha fornecida não está correta. <br> Verifique se a tecla CAPS LOCK está desligada e use a capitalização correta.",
   "DE.Controllers.Main.errorProcessSaveResult": "Salvamento falhou.",
+  "DE.Controllers.Main.errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
   "DE.Controllers.Main.errorServerVersion": "A versão do editor foi atualizada. A página será recarregada para aplicar as alterações.",
   "DE.Controllers.Main.errorSessionAbsolute": "A sessão de edição de documentos expirou. Por Favor atualize a página.",
   "DE.Controllers.Main.errorSessionIdle": "O documento ficou sem edição por muito tempo. Por favor atualize a página.",

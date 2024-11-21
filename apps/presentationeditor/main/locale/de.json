@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
   "PE.Controllers.Main.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
   "PE.Controllers.Main.errorProcessSaveResult": "Speichern ist fehlgeschlagen.",
+  "PE.Controllers.Main.errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
   "PE.Controllers.Main.errorServerVersion": "Editor-Version wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
   "PE.Controllers.Main.errorSessionAbsolute": "Die Bearbeitungssitzung des Dokumentes ist abgelaufen. Laden Sie die Seite neu.",
   "PE.Controllers.Main.errorSessionIdle": "Das Dokument wurde lange nicht bearbeitet. Laden Sie die Seite neu.",

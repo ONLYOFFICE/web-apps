@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "密钥描述符已过期",
   "PE.Controllers.Main.errorLoadingFont": "字体未加载<br>请与您的文档服务器管理员联系。",
   "PE.Controllers.Main.errorProcessSaveResult": "保存失败",
+  "PE.Controllers.Main.errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
   "PE.Controllers.Main.errorServerVersion": "编辑器版本已经更新。该页面将被重新加载以应用更改。",
   "PE.Controllers.Main.errorSessionAbsolute": "文档编辑会话已过期。请重新加载页面。",
   "PE.Controllers.Main.errorSessionIdle": "这份文件已经很长时间没有编辑了。请重新加载页面。",

@@ -2226,6 +2226,11 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotSaveWatermark:
+                        config.maxwidth = 600;
+                        config.msg = this.errorSaveWatermark;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;

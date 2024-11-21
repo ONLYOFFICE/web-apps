@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Няма зместу, які патрэбна абнавіць. Вы можаце ўставіць яго ва ўкладцы спасылак.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Вы ўвялі няправільны пароль.<br>Пераканайцеся, што клавіша CAPS LOCK адключаная і літары ўводзяцца ў патрэбным рэгістры.",
   "DE.Controllers.Main.errorProcessSaveResult": "Не ўдалося захаваць.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Рэдактар быў абноўлены. Старонка перазагрузіцца, каб ужыць змены.",
   "DE.Controllers.Main.errorSessionAbsolute": "Час сеанса рэдагавання дакумента сышоў. Калі ласка, абнавіце старонку.",
   "DE.Controllers.Main.errorSessionIdle": "Дакумент працяглы час не рэдагаваўся. Калі ласка, абнавіце старонку.",

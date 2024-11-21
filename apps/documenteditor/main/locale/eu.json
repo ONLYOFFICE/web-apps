@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Ez dago aurkibiderik eguneratzeko. Bat txertatu dezakezu Erreferentziak fitxatik.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Emandako pasahitza ez da zuzena.<br>Egiaztatu BLOK MAIUS tekla desaktibatuta dagoela eta ziurtatu maiuskula/minuskula zuzenak erabiltzen ari zarela.",
   "DE.Controllers.Main.errorProcessSaveResult": "Gordetzeak huts egin du.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
   "DE.Controllers.Main.errorSessionAbsolute": "Dokumentua editatzeko saioa iraungi da. Kargatu berriro orria.",
   "DE.Controllers.Main.errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Kargatu orria berriro.",

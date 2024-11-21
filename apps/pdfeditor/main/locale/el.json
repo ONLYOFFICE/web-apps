@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Οι γραμματοσειρές δεν έχουν φορτωθεί.<br>Παρακαλούμε επικοινωνήστε με τον διαχειριστή του εξυπηρετητή εγγράφων σας.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Ο κωδικός που εισάγατε δεν είναι σωστός.<br>Βεβαιωθείτε ότι το πλήκτρο CAPS LOCK είναι ανενεργό και ότι χρησιμοποιείτε κεφαλαία όπου χρειάζεται.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Αποτυχία αποθήκευσης.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Η έκδοση του προγράμματος επεξεργασίας έχει ενημερωθεί. Η σελίδα θα φορτωθεί ξανά για να εφαρμοστούν οι αλλαγές.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε φορτώστε ξανά τη σελίδα.",
   "PDFE.Controllers.Main.errorSessionIdle": "Το έγγραφο δεν έχει επεξεργαστεί εδώ και πολύ ώρα. Παρακαλούμε φορτώστε ξανά τη σελίδα.",

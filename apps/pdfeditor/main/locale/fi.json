@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Fontteja ei ole ladattu.<br>Ota yhteyttä asiakirjapalvelimen ylläpitäjään.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Tallennus epäonnistui.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Editori on päivitetty. Sivu ladataan uudelleen, jotta muutokset voidaan tehdä.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Asiakirjan muokkauksen istunnon aika on erääntynyt. Ole hyvä ja lataa uudelleen sivu.",
   "PDFE.Controllers.Main.errorSessionIdle": "Asiakirjaa ei ole muokattu pitkään aikaan. Ole hyvä ja lataa sivu uudelleen.",

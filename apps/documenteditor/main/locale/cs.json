@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Chybí obsah k aktualizaci. Obsah můžete vložit pomocí záložky Odkazy.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Zadáno nesprávné heslo.<br> Zkontrolujte, že máte vypnutý CAPS LOCK a správnou velikosti písmen.",
   "DE.Controllers.Main.errorProcessSaveResult": "Ukládání se nezdařilo.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Verze editoru byla aktualizována. Stránka bude znovu načtena, aby se provedly změny.",
   "DE.Controllers.Main.errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
   "DE.Controllers.Main.errorSessionIdle": "Po dost dlouhou dobu jste s dokumentem nepracovali. Načtete stránku znovu.",

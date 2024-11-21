@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Ցավոք, հնարավոր չէ ծրագրի այս տարբերակում միանգամից տպել 1500-ից ավելի էջ։<br>Այս սահմանափակումը կվերացվի գալիք թողարկումներում։",
   "SSE.Controllers.Main.errorProcessSaveResult": "Պահպանումը խափանվեց",
   "SSE.Controllers.Main.errorProtectedRange": "Այս ընդգրկույթը թույլատրված չէ խմբագրման համար:",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Խմբագրիչի տարբերակը արդիացվել է։ Որպեսզի փոփոխումները տեղի ունենան, էջը նորից կբեռնվի։",
   "SSE.Controllers.Main.errorSessionAbsolute": "Փաստաթղթի խմբագրման գործաժամը սպառվել է։ Նորի՛ց բեռնեք էջը։",
   "SSE.Controllers.Main.errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։ Նորի՛ց բեռնեք էջը։",

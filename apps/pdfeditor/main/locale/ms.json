@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Fon tidak dimuatkan.<br>Sila hubungi pentadbir Pelayan Dokumen anda.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Kata laluan yang anda bekalkan tidak betul.<br>Sahkan bahawa kunci CAPS LOCK dimatikan dan pastikan guna penghurufbesaran yang betul.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Gagal disimpan.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Versi editor telah dikemas kinikan. Halaman akan dimuat semula untuk menggunakan perubahan.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Sesi pengeditan dokumen telah tamat tempoh. Sila muat semula halaman.",
   "PDFE.Controllers.Main.errorSessionIdle": "Dokumen tidak diedit buat masa yang lama. Sila muat semula halaman.",

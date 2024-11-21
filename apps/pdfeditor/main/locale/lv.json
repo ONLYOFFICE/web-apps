@@ -906,6 +906,7 @@
   "PDFE.Controllers.Main.errorLoadingFont": "Fonti netiek ielādēti.<br>Sazinieties ar savu dokumentu servera administratoru.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Jūsu sniegtā parole nav pareiza.<br>Pārbaudiet, vai CAPS LOCK taustiņš ir izslēgts, un vai pareizi izmantojat lielos un mazos burtus.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Neizdevās saglabāt.",
+  "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
   "PDFE.Controllers.Main.errorSessionAbsolute": "Dokumentu rediģēšanas sesija ir beigusies. Ielādējiet lapu atkārtoti.",
   "PDFE.Controllers.Main.errorSessionIdle": "Dokuments nav rediģēts ilgāku laiku. Ielādējiet lapu atkārtoti.",

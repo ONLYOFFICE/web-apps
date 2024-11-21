@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Helaas is het met de huidige programmaversie niet mogelijk om meer dan 1500 pagina's in één keer af te drukken.<br>Deze beperking wordt opgeheven in komende releases.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Opslaan mislukt",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
   "SSE.Controllers.Main.errorSessionAbsolute": "De bewerksessie voor het document is vervallen. Laad de pagina opnieuw.",
   "SSE.Controllers.Main.errorSessionIdle": "Het document is al lang niet meer bewerkt. Laad de pagina opnieuw.",

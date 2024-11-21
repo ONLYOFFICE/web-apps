@@ -503,6 +503,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorCircularReference');
                 break;
 
+            case Asc.c_oAscError.ID.CannotSaveWatermark:
+                config.msg = t('Error.errorSaveWatermark');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

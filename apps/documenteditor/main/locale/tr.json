@@ -909,6 +909,7 @@
   "DE.Controllers.Main.errorNoTOC": "Güncellenecek içindekiler tablosu yok.  Referanslar sekmesinden bir tane ekleyebilirsiniz.",
   "DE.Controllers.Main.errorPasswordIsNotCorrect": "Verdiğiniz parola doğru değil.<br>CAPS LOCK anahtarının kapalı olduğunu doğrulayın ve doğru büyük/küçük harf kullandığınızdan emin olun.",
   "DE.Controllers.Main.errorProcessSaveResult": "Kaydetme başarısız.",
+  "DE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "DE.Controllers.Main.errorServerVersion": "Editör versiyonu güncellendi. Sayfa yenilenerek değişiklikler uygulanacaktır.",
   "DE.Controllers.Main.errorSessionAbsolute": "Doküman düzenleme oturumu sona erdi. Lütfen sayfayı yeniden yükleyin.",
   "DE.Controllers.Main.errorSessionIdle": "Belge oldukça uzun süredir düzenlenmedi. Lütfen sayfayı yeniden yükleyin.",

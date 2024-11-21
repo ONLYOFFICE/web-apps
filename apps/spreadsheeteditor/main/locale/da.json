@@ -1077,6 +1077,7 @@
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Det er desværre ikke muligt at printe mere end 1500 sider på en gang i den nuværende program version.<br>Denne begrænsning fjernes i de kommen opdateringer.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Kunne ikke gemme",
   "SSE.Controllers.Main.errorProtectedRange": "This range is not allowed for editing.",
+  "SSE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "SSE.Controllers.Main.errorServerVersion": "Programmet er blevet opdateret. Siden vil blive genindlæst for at anvende ændringerne. ",
   "SSE.Controllers.Main.errorSessionAbsolute": "Sessionen for dokumentredigering er udløbet. Genindlæs venligst siden. ",
   "SSE.Controllers.Main.errorSessionIdle": "Dokumentet er ikke blevet redigeret i et stykke tid. Genindlæs venligst siden.",

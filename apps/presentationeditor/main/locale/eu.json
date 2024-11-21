@@ -952,6 +952,7 @@
   "PE.Controllers.Main.errorKeyExpire": "Gakoaren deskriptorea iraungi da",
   "PE.Controllers.Main.errorLoadingFont": "Letra-tipoak ez dira kargatu.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PE.Controllers.Main.errorProcessSaveResult": "Gordetzeak huts egin du.",
+  "PE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PE.Controllers.Main.errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
   "PE.Controllers.Main.errorSessionAbsolute": "Dokumentua editatzeko saioa iraungi da. Kargatu berriro orria.",
   "PE.Controllers.Main.errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Kargatu orria berriro.",

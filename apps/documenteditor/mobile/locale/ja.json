@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "結合に失敗しました。",
     "errorNoTOC": "更新する目次がありません。「参考文献」タブから挿入できます",
     "errorPasswordIsNotCorrect": "入力したパスワードが正しくありません。CAPS LOCKキーがオフになっていることを確認し、正しい大文字を使用するようにしてください。",
+    "errorSaveWatermark": "このファイルには、別のドメインにリンクされた透かし画像が含まれています。<br>PDFで見えるようにするには、文書と同じドメインからリンクされるように透かし画像を更新するか、コンピュータからアップロードしてください。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -462,14 +463,14 @@
     "splitDividerErrorText": "行の数は％1の約数である必要があります",
     "splitMaxColsErrorText": "列の数は％1未満である必要があります",
     "splitMaxRowsErrorText": "行の数は％1未満である必要があります",
+    "textOk": "OK",
     "unknownErrorText": "不明なエラー",
     "uploadDocExtMessage": "不明な文書形式",
     "uploadDocFileCountMessage": "アップロードされた文書がありません。",
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
