@@ -247,16 +247,29 @@ SSE.ApplicationController = new(function(){
                 var scrollWidth = $container[0].scrollWidth;
                 var containerWidth = $container.innerWidth();
 
-                if (scrollLeft === 0) {
-                    $prevButton.prop('disabled', true);
-                    $nextButton.prop('disabled', false);
-                } else if (scrollLeft + containerWidth >= scrollWidth) {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', true);
+                if (window.isRtl) {
+                    if (Math.abs(scrollLeft) + containerWidth >= scrollWidth - 1) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else if (scrollLeft >= 0 ) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
                 } else {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', false);
-                }
+                    if (scrollLeft === 0) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else if (scrollLeft + containerWidth >= scrollWidth) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
+                } 
             } else {
                 $prevButton.prop('disabled', true);
                 $nextButton.prop('disabled', true);
@@ -271,28 +284,53 @@ SSE.ApplicationController = new(function(){
         var buttonWidth = $('.worksheet-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
-            $($box.children().get().reverse()).each(function () {
-                var $tab = $(this);
-                var left = common.utils.getPosition($tab).left - buttonWidth;
-
-                if (left < 0) {
-                    $container.scrollLeft($container.scrollLeft() + left - 26);
-                    return false;
-                }
-            });
+            if (window.isRtl) {
+                var rightBound = $container.width();
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth() + buttonWidth;
+    
+                    if (right > rightBound ) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            } else {
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            }
         });
 
         $nextButton.on('click', function() {
-            var rightBound = $container.width();
-            $box.children().each(function () {
-                var $tab = $(this);
-                var right = common.utils.getPosition($tab).left + $tab.outerWidth();
-
-                if (right > rightBound) {
-                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
-                    return false;
-                }
-            });
+            if (window.isRtl) {
+                $($box.children()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            } else {
+                var rightBound = $container.width();
+                $box.children().each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth();
+    
+                    if (right > rightBound) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            }
         });
     }
 
