@@ -51,6 +51,11 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
                 '<div class="separator long slide-master-separator"></div>' +
+                '<div class="group group-tool-select">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>' +
+                '</div>' +
+                '<div class="separator long group-tool-select"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -189,6 +194,12 @@ define([
                 me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
+                me.btnSelectTool && me.btnSelectTool.on('toggle', _.bind(function(btn, state) {
+                    state && me.fireEvent('pointer:select');
+                }, me));
+                me.btnHandTool && me.btnHandTool.on('toggle', _.bind(function(btn, state) {
+                    state && me.fireEvent('pointer:hand');
+                }, me));
             },
 
             initialize: function (options) {
@@ -394,6 +405,36 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnMacros);
+                if (!this.appConfig.isEdit && !this.appConfig.isRestrictedEdit) {
+                    this.btnSelectTool = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-select',
+                        lock: [_set.disableOnStart],
+                        caption: me.capBtnSelect,
+                        toggleGroup: 'select-tools-tb',
+                        enableToggle: true,
+                        allowDepress: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnSelectTool);
+
+                    this.btnHandTool = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-hand-tool',
+                        lock: [_set.disableOnStart],
+                        caption: me.capBtnHand,
+                        toggleGroup: 'select-tools-tb',
+                        enableToggle: true,
+                        allowDepress: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnHandTool);
+                }
+
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -424,6 +465,8 @@ define([
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
                 this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnSelectTool && this.btnSelectTool.render($host.find('#slot-btn-select-tool'));
+                this.btnHandTool && this.btnHandTool.render($host.find('#slot-btn-hand-tool'));
                 return this.$el;
             },
 
@@ -440,6 +483,8 @@ define([
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
                     me.btnMacros.updateHint(me.tipMacros);
+                    me.btnSelectTool && me.btnSelectTool.updateHint(me.tipSelectTool);
+                    me.btnHandTool && me.btnHandTool.updateHint(me.tipHandTool);
                     
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         cls: 'shifted-right',
@@ -500,6 +545,9 @@ define([
                         me.btnGuides.$el.closest('.group').remove();
                         me.btnSlideMaster.$el.closest('.group').remove();
                         me.$el.find('.slide-master-separator').remove();
+                    }
+                    if (config.isEdit || config.isRestrictedEdit) {
+                        me.$el.find('.group-tool-select').remove();
                     }
 
                     if (Common.UI.Themes.available()) {
