@@ -51,11 +51,11 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
                 '<div class="separator long slide-master-separator"></div>' +
-                '<div class="group group-tool-select">' +
+                '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>' +
                 '</div>' +
-                '<div class="separator long group-tool-select"></div>' +
+                '<div class="separator long"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -547,7 +547,7 @@ define([
                         me.$el.find('.slide-master-separator').remove();
                     }
                     if (config.isEdit || config.isRestrictedEdit) {
-                        me.$el.find('.group-tool-select').remove();
+                        me.$el.find('#slot-btn-hand-tool').closest('.group').next().addBack().remove();
                     }
 
                     if (Common.UI.Themes.available()) {
