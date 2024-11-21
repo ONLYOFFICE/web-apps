@@ -85,7 +85,7 @@ define([
 ], function () {
     'use strict';
 
-    PE.Controllers.DocumentHolder = Backbone.Controller.extend({
+    PE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend({
         models: [],
         collections: [],
         views: [
@@ -420,6 +420,8 @@ define([
             view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
             view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
+            view.mnuRenameMaster.on('click', _.bind(me.onRename, me));
+            view.mnuRenameLayout.on('click', _.bind(me.onRename, me));
         },
 
         createPostLoadElements: function() {
@@ -2825,6 +2827,38 @@ define([
 
         onDeleteLayout: function () {
             this.api.asc_DeleteLayout();
+        },
+
+        onRename: function() {
+            var me = this;
+            var currentName = ''; 
+            var selectedElements = me.api.getSelectedElements();
+            var isMaster;
+            if (selectedElements && _.isArray(selectedElements)) {
+                _.each(selectedElements, function(element) {
+                    if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                        var elValue = element.get_ObjectValue();
+                        isMaster = elValue.get_IsMasterSelected()
+                        currentName = isMaster ? elValue.get_MasterName() : elValue.get_LayoutName(); 
+                    }
+                });
+            }
+            new Common.Views.TextInputDialog({
+                title: isMaster ? me.textRenameTitleMaster : me.textRenameTitleLayout,
+                label: isMaster ? me.textNameMaster : me.textNameLayout,  
+                value: currentName || '',
+                inputConfig: {
+                    allowBlank  : false,
+                    validation: function(value) {
+                        return value.length<255 ? true : me.textLongName;
+                    }
+                },   
+                handler: function(result, value) {
+                    if (result === 'ok' && value) {
+                        me.api[isMaster ? 'asc_SetMasterName' : 'asc_SetLayoutName'](value);
+                    }
+                }
+            }).show();
         }
-    });
+    },PE.Controllers.DocumentHolder || {}));
 });

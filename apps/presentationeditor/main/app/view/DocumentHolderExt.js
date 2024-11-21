@@ -489,17 +489,43 @@ define([], function () {
                 value : 'delete-layout'
             });
 
+            me.mnuRenameMaster = new Common.UI.MenuItem({
+                caption : me.textRenameMaster,
+                value : 'Rename-master'
+            });
+
+            me.mnuRenameLayout = new Common.UI.MenuItem({
+                caption : me.textRenameLayout,
+                value : 'Rename-layout'
+            });
+
             me.slideMasterMenu = new Common.UI.Menu({
                 //cls: 'shifted-right',
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var isMaster = value.isMaster;
+                    var currentName = ''; 
+
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)) {
+                        _.each(selectedElements, function(element) {
+                            if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                                var elValue = element.get_ObjectValue();
+                                currentName = isMaster ? elValue.get_MasterName() : elValue.get_LayoutName();
+                            }
+                        });
+                    }
+                    
+                    me.mnuRenameMaster.setDisabled(currentName === undefined);
+                    me.mnuRenameLayout.setDisabled(currentName === undefined);
 
                     me.mnuDuplicateMaster.setVisible(isMaster);
                     me.mnuDeleteMaster.setVisible(isMaster);
+                    me.mnuRenameMaster.setVisible(isMaster);
                     me.mnuDuplicateLayout.setVisible(!isMaster);
                     me.mnuDeleteLayout.setVisible(!isMaster);
+                    me.mnuRenameLayout.setVisible(!isMaster);
 
                     isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
@@ -511,7 +537,9 @@ define([], function () {
                     me.mnuDuplicateLayout,
                     {caption: '--'},
                     me.mnuDeleteMaster,
-                    me.mnuDeleteLayout
+                    me.mnuRenameMaster,
+                    me.mnuDeleteLayout,
+                    me.mnuRenameLayout
                 ]
             });
 
