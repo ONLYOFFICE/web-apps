@@ -82,7 +82,7 @@
             }
         }
         #status-btn-zoomup {
-            .margin-right(40px);
+            .margin-right-10();
         }
 
         #status-btn-zoomdown {
@@ -425,7 +425,6 @@
         display: flex;
         justify-content: flex-start;
         .status-label {
-            .font-weight-bold();
             color: @text-normal;
             margin-top: 6px;
             width: 100%;
@@ -436,6 +435,10 @@
     #status-number-of-sheet {
         width: 135px;
         left: 0;
+        #label-sheets {
+            .text-align-left();
+            .margin-left-10();              
+        }
         .rtl & {
             left: auto;
             right: 0;
