@@ -50,7 +50,7 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
-                '<div class="separator long slide-master-separator"></div>' +
+                '<div class="separator long"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -111,10 +111,10 @@ define([
 
             setEvents: function () {
                 var me = this;
-                me.btnNormal.on('toggle', _.bind(function(btn, state) {
+                me.btnNormal && me.btnNormal.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:normal', [state]);
                 }, me));
-                me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
+                me.btnSlideMaster && me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
                     me.fireEvent('mode:master', [state]);
                 }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
@@ -186,7 +186,7 @@ define([
                 me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
-                me.btnMacros.on('click', function () {
+                me.btnMacros && me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
             },
@@ -201,34 +201,35 @@ define([
 
                 var me = this;
 
-                this.btnNormal = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-normal',
-                    caption: this.textNormal,
-                    lock: [_set.disableOnStart],
-                    enableToggle: true,
-                    allowDepress: true,
-                    pressed: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnNormal);
+                if (this.appConfig.isEdit) {
+                    this.btnNormal = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-normal',
+                        caption: this.textNormal,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNormal);
 
-                this.btnSlideMaster = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-slide-master',
-                    caption: this.textSlideMaster,
-                    lock: [_set.disableOnStart],
-                    enableToggle: true,
-                    allowDepress: true,
-                    pressed: false,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnSlideMaster);
-
+                    this.btnSlideMaster = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-slide-master',
+                        caption: this.textSlideMaster,
+                        lock: [_set.disableOnStart],
+                        enableToggle: true,
+                        allowDepress: true,
+                        pressed: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnSlideMaster);
+                }
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
@@ -384,16 +385,18 @@ define([
                 });
                 this.lockedControls.push(this.chLeftMenu);
 
-                this.btnMacros = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-macros',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.textMacros,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnMacros);
+                if (this.appConfig.isEdit) {
+                    this.btnMacros = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-macros',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textMacros,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnMacros);
+                }
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -408,8 +411,8 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
-                this.btnNormal.render($host.find('#slot-btn-normal'));
-                this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
+                this.btnNormal && this.btnNormal.render($host.find('#slot-btn-normal'));
+                this.btnSlideMaster && this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
                 this.cmbZoom.render($host.find('#slot-field-zoom'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnFitToSlide.render($host.find('#slot-btn-fts'));
@@ -423,7 +426,7 @@ define([
                 this.btnGridlines.render($host.find('#slot-btn-gridlines'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
-                this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 return this.$el;
             },
 
@@ -432,15 +435,15 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
-                    me.btnNormal.updateHint(me.tipNormal);
-                    me.btnSlideMaster.updateHint(me.tipSlideMaster);
+                    me.btnNormal && me.btnNormal.updateHint(me.tipNormal);
+                    me.btnSlideMaster && me.btnSlideMaster.updateHint(me.tipSlideMaster);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
-                    me.btnMacros.updateHint(me.tipMacros);
-                    
+                    me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
+
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         cls: 'shifted-right',
                         items: [
@@ -498,8 +501,8 @@ define([
                     if (!config.isEdit) {
                         me.chRulers.hide();
                         me.btnGuides.$el.closest('.group').remove();
-                        me.btnSlideMaster.$el.closest('.group').remove();
-                        me.$el.find('.slide-master-separator').remove();
+                        me.$el.find('#slot-btn-slide-master').closest('.group').next().addBack().remove();
+                        me.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
                     if (Common.UI.Themes.available()) {
