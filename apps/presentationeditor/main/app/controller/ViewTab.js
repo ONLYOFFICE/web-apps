@@ -409,6 +409,8 @@ define([
         },
 
         changeViewMode: function (mode) {
+            if (!this.view.btnSlideMaster || !this.view.btnNormal) return;
+            
             var isMaster = mode === 'master';
             this.view.btnSlideMaster.toggle(isMaster, true);
             this.view.btnNormal.toggle(!isMaster, true);
