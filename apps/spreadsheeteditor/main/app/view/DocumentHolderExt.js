@@ -974,6 +974,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+            
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
                 iconCls : 'menu__icon btn-arrange-front',
@@ -1140,6 +1145,7 @@ define([], function () {
                     me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,

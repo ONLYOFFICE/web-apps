@@ -1134,6 +1134,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+            
             me.menuImgSaveAsPicture = new Common.UI.MenuItem({
                 caption     : me.textSaveAsPicture
             });
@@ -1646,6 +1651,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
 
+                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(disabled);  
+
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
@@ -1700,6 +1709,7 @@ define([], function () {
                     me.menuImgSaveAsPicture,
                     menuImgSaveAsPictureSeparator,     //Separator
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
                     me.menuImageAdvanced,

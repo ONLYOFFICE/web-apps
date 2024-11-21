@@ -348,6 +348,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+
             me.menuImgRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
@@ -492,6 +497,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
 
+                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(islocked);
+
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
@@ -574,6 +583,7 @@ define([], function () {
                     me.menuSaveAsPicture,
                     menuSaveAsPictureSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
