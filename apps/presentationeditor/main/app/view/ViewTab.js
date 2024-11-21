@@ -186,7 +186,7 @@ define([
                 me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
-                me.btnMacros.on('click', function () {
+                me.btnMacros && me.btnMacros.on('click', function () {
                     me.fireEvent('macros:click');
                 });
             },
@@ -384,16 +384,18 @@ define([
                 });
                 this.lockedControls.push(this.chLeftMenu);
 
-                this.btnMacros = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-macros',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.textMacros,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnMacros);
+                if (this.appConfig.isEdit) {
+                    this.btnMacros = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-macros',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textMacros,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnMacros);
+                }
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -423,7 +425,7 @@ define([
                 this.btnGridlines.render($host.find('#slot-btn-gridlines'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
-                this.btnMacros.render($host.find('#slot-btn-macros'));
+                this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 return this.$el;
             },
 
@@ -439,8 +441,8 @@ define([
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
                     me.btnGuides.updateHint(me.tipGuides);
                     me.btnGridlines.updateHint(me.tipGridlines);
-                    me.btnMacros.updateHint(me.tipMacros);
-                    
+                    me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
+
                     me.btnGuides.setMenu( new Common.UI.Menu({
                         cls: 'shifted-right',
                         items: [
@@ -500,6 +502,9 @@ define([
                         me.btnGuides.$el.closest('.group').remove();
                         me.btnSlideMaster.$el.closest('.group').remove();
                         me.$el.find('.slide-master-separator').remove();
+                        group = me.$el.find('#slot-btn-macros').closest('.group');
+                        group.prev().remove();
+                        group.remove();
                     }
 
                     if (Common.UI.Themes.available()) {
