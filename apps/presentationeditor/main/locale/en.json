@@ -2952,5 +2952,9 @@
   "PE.Views.ViewTab.tipSlideMaster": "Slide master",
   "PE.Views.Toolbar.textTabDesign": "Design",
   "PE.Views.ViewTab.textMacros": "Macros",
-  "PE.Views.ViewTab.tipMacros": "Macros"
+  "PE.Views.ViewTab.tipMacros": "Macros",
+  "PE.Views.ViewTab.capBtnHand": "Hand",
+  "PE.Views.ViewTab.capBtnSelect": "Select",
+  "PE.Views.ViewTab.tipSelectTool": "Select tool",
+  "PE.Views.ViewTab.tipHandTool": "Hand tool"
 }

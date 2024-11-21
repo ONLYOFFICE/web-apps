@@ -67,6 +67,7 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         setApi: function (api) {
@@ -112,7 +113,9 @@ define([
                     'gridlines:spacing': _.bind(this.onGridlinesSpacing, this),
                     'gridlines:custom': _.bind(this.onGridlinesCustom, this),
                     'gridlines:aftershow': _.bind(this.onGridlinesAfterShow, this),
-                    'macros:click':  _.bind(this.onClickMacros, this)
+                    'macros:click':  _.bind(this.onClickMacros, this),
+                    'pointer:select': _.bind(this.onPointerType, this, 'select'),
+                    'pointer:hand': _.bind(this.onPointerType, this, 'hand')
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -430,12 +433,32 @@ define([
             this.changeViewMode(mode);
         },
 
+        onPointerType: function (type) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+                Common.NotificationCenter.trigger('edit:complete', this.view);
+            }
+        },
+
         onTabStyleChange: function () {
             if (this.view && this.view.menuTabStyle) {
                 _.each(this.view.menuTabStyle.items, function(item){
                     item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                 });
             }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function () {
+                if (me.view && me.view.btnHandTool) {
+                    var hand = config && config.customization && config.customization.pointerMode==='hand';
+                    me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
+                    me.view[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
+                }
+            });
         }
 
     }, PE.Controllers.ViewTab || {}));
