@@ -112,7 +112,6 @@ define([
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
             this.customPluginsDlg = [];
-            this.macrosPlugin = {el: null, show: false};
 
             this.newInstalledBackgroundPlugins = [];
             this.customButtonsArr = [];
@@ -179,10 +178,6 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
-                Common.UI.TooltipManager.addTips({
-                    'moveMacros' : {name: 'help-tip-move-macros', placement: 'bottom-right', text: me.helpMoveMacros, header: me.helpMoveMacrosHeader, target: $('li.ribtab #view').parent(), automove: true}
-                });
-
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
@@ -419,7 +414,6 @@ define([
                 me.toolbar && me.toolbar.addCustomControls({action: item.tab}, undefined, [item.btn])
             });
             me.customButtonsArr = [];
-            me.macrosPlugin = {};
 
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
@@ -445,16 +439,6 @@ define([
                             btn.options.separator = tab.separator;
                             me.toolbar && me.toolbar.addCustomControls(tab, [btn]);
                             me.customButtonsArr.push({tab: tab.action, btn: btn});
-                            if (model.get('guid') === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
-                                me.macrosPlugin.el = btn.cmpEl;
-                                if (me.toolbar && me.toolbar.isTabActive('plugins')) {
-                                    me.macrosPlugin.show = true;
-                                    Common.UI.TooltipManager.addTips({
-                                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: me.helpUseMacros, header: me.helpUseMacrosHeader, target: me.macrosPlugin.el, automove: true},
-                                    });
-                                    Common.UI.TooltipManager.removeTip('grayTheme');
-                                }
-                            }
                         }
                         return;
                     }
@@ -673,10 +657,6 @@ define([
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
-            if (plugin.get_Guid() === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
-                Common.UI.TooltipManager.closeTip('useMacros');
-            }
-
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
@@ -1352,24 +1332,13 @@ define([
                 }, this);
                 this.backgroundPluginsTip.show();
             }
-            this.macrosPlugin.show && Common.UI.TooltipManager.showTip('moveMacros');
-            this.macrosPlugin.show = false;
         },
 
         onActiveTab: function (tab) {
             if (tab === 'plugins') {
-                if (this.macrosPlugin.el) {
-                    Common.UI.TooltipManager.addTips({
-                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: this.helpUseMacros, header: this.helpUseMacrosHeader, target: this.macrosPlugin.el, automove: true},
-                    });
-                    Common.UI.TooltipManager.removeTip('grayTheme');
-                    this.macrosPlugin.el && Common.UI.TooltipManager.showTip('moveMacros');
-                }
             } else {
                 this.closeBackPluginsTip();
-                Common.UI.TooltipManager.closeTip('moveMacros');
             }
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('useMacros') : Common.UI.TooltipManager.closeTip('useMacros');
         },
 
         closeBackPluginsTip: function() {
