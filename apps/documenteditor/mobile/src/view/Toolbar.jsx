@@ -96,6 +96,7 @@ const ToolbarView = props => {
                             <Link key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   icon='icon-settings' href={false}
+                                  id='btn-settings'
                                   onClick={() => props.openOptions('settings')}></Link>,
                             <Link key='send-form-link'
                                   id='btn-submit-form'
