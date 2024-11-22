@@ -62,7 +62,7 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
-                    ((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
+                    ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();
                             props.openOptions('snackbar');

@@ -347,7 +347,6 @@ class MainController extends Component {
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
                 const customization = appOptions.customization;
-                const isStandardView = customization?.mobile?.standardView ?? false;
 
                 f7.emit('resize');
 
@@ -378,10 +377,10 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
-               
-                value = LocalStorage.getBool('mobile-view');
+                value = LocalStorage.itemExists('mobile-view') ?
+                            LocalStorage.getBool('mobile-view') : !(customization?.mobile?.standardView ?? false);
 
-                if(value || !isStandardView) {
+                if(appOptions.isMobileViewAvailable && value) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -466,7 +465,8 @@ class MainController extends Component {
 
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
-                    this.appOptions   = {isCorePDF: isPDF};
+                    this.appOptions = {isCorePDF: isPDF};
+                    this.props.storeAppOptions.isMobileViewAvailable = !this.appOptions.isCorePDF;
                     this.bindEvents();
 
                     Common.Gateway.on('init',           loadConfig);

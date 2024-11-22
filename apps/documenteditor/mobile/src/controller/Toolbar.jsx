@@ -418,6 +418,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isViewer={isViewer}
             turnOnViewerMode={turnOnViewerMode}
             isMobileView={isMobileView}
+            isMobileViewAvailable={appOptions.isMobileViewAvailable}
             changeMobileView={changeMobileView}
             changeTitleHandler={changeTitleHandler}
             isVersionHistoryMode={isVersionHistoryMode}
