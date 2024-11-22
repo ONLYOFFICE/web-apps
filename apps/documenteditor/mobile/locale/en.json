@@ -804,7 +804,6 @@
   },
   "Toolbar": {
     "btnSend": "Send",
-    "warnEmptyRequiredField": "Fill all required fields to send form.",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -814,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

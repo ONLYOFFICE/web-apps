@@ -809,6 +809,7 @@
     "stayButtonText": "Quedarse nesta páxina",
     "textCloseHistory": "Pechar historial",
     "textOk": "Aceptar",
+    "warnEmptyRequiredField": "Encha todos os campos obrigatorios para poder enviar o formulario.",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",

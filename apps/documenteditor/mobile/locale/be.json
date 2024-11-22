@@ -808,6 +808,7 @@
     "stayButtonText": "Застацца на старонцы",
     "textCloseHistory": "Закрыць гісторыю",
     "textOk": "Добра",
+    "warnEmptyRequiredField": "Запоўніце ўсе абавязковыя палі, патрэбныя для адпраўлення формы. ",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textEnterNewFileName": "Enter a new file name",

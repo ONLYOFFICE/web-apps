@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Переименовать файл",
     "textSwitchedMobileView": "Переключено на мобильный вид",
-    "textSwitchedStandardView": "Переключено на стандартный вид"
+    "textSwitchedStandardView": "Переключено на стандартный вид",
+    "warnEmptyRequiredField": "Заполните все обязательные поля для отправки формы."
   }
 }

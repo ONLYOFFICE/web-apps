@@ -813,6 +813,7 @@
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
     "textSwitchedStandardView": "Пребачено на стандардни приказ",
+    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца.",
     "btnSend": "Send"
   }
 }

@@ -813,6 +813,7 @@
     "textRenameFile": "Canvia el nom del fitxer",
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
     "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
+    "warnEmptyRequiredField": "Emplena tots els camps necessaris per enviar el formulari.",
     "btnSend": "Send"
   }
 }

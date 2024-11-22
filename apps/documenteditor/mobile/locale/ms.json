@@ -808,6 +808,7 @@
     "leaveButtonText": "Tinggalkan Halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
     "textOk": "Okey",
+    "warnEmptyRequiredField": "Isi semua medan diperlukan untuk menyerahkan borang.",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",

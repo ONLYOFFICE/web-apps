@@ -813,6 +813,7 @@
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
     "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
+    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:",
     "btnSend": "Send"
   }
 }

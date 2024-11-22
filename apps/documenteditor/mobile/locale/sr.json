@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
-    "textSwitchedStandardView": "Prebačeno na standardni prikaz"
+    "textSwitchedStandardView": "Prebačeno na standardni prikaz",
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
   }
 }

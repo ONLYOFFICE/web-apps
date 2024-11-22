@@ -813,6 +813,7 @@
     "textRenameFile": "Ganti Nama File",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
     "textSwitchedStandardView": "Beralih ke Tampilan standar",
+    "warnEmptyRequiredField": "Isi semua ruas yang dibutuhkan untuk mengirim formulir.",
     "btnSend": "Send"
   }
 }

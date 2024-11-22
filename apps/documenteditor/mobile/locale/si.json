@@ -813,6 +813,7 @@
     "textOk": "හරි",
     "textRenameFile": "ගොනුව නම් කරන්න",
     "textSwitchedMobileView": "ජංගම දැක්මට මාරු විය",
-    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය"
+    "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය",
+    "warnEmptyRequiredField": "ආකෘතිපත්‍රය යැවීමට වුවමනා සියළුම ක්‍ෂේත්‍ර පුරවන්න."
   }
 }
