@@ -2954,5 +2954,12 @@
   "PE.Views.ViewTab.textMacros": "Macros",
   "PE.Views.ViewTab.tipHandTool": "Hand tool",
   "PE.Views.ViewTab.tipMacros": "Macros",
-  "PE.Views.ViewTab.tipSelectTool": "Select tool"
+  "PE.Views.ViewTab.tipSelectTool": "Select tool",
+  "PE.Controllers.DocumentHolder.textRenameTitleMaster": "Rename Master",
+  "PE.Controllers.DocumentHolder.textNameMaster": "Master name",
+  "PE.Controllers.DocumentHolder.textRenameTitleLayout": "Rename Layout",
+  "PE.Controllers.DocumentHolder.textNameLayout": "Layout name",
+  "PE.Controllers.DocumentHolder.textLongName": "Enter a name that is less than 255 characters.",
+  "PE.Views.DocumentHolder.textRenameMaster": "Rename Master",
+  "PE.Views.DocumentHolder.textRenameLayout": "Rename Layout"
 }
