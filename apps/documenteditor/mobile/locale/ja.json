@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "ファイル名の変更",
     "textSwitchedMobileView": "モバイルビューに切り替えました",
-    "textSwitchedStandardView": "標準ビューに切り替えました"
+    "textSwitchedStandardView": "標準ビューに切り替えました",
+    "warnEmptyRequiredField": "必須事項をすべて入力し、送信してください。"
   }
 }

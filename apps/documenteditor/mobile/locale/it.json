@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Rinomina file",
     "textSwitchedMobileView": "Passato alla visualizzazione per dispositivi mobili",
-    "textSwitchedStandardView": "Passato alla visualizzazione standard"
+    "textSwitchedStandardView": "Passato alla visualizzazione standard",
+    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo."
   }
 }

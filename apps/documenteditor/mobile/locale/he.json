@@ -813,6 +813,7 @@
     "textOk": "בסדר",
     "textRenameFile": "שינוי שם קובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
-    "textSwitchedStandardView": "החלפה לתצוגה רגילה"
+    "textSwitchedStandardView": "החלפה לתצוגה רגילה",
+    "warnEmptyRequiredField": "מלא את כל השדות הדרושים כדי לשלוח טופס."
   }
 }

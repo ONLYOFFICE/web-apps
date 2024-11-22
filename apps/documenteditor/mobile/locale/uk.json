@@ -807,6 +807,7 @@
     "dlgLeaveTitleText": "Ви виходите з програми",
     "leaveButtonText": "Залишити цю сторінку",
     "stayButtonText": "Залишитися на сторінці",
+    "warnEmptyRequiredField": "Заповніть всі обов'язкові поля для відправлення форми.",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",

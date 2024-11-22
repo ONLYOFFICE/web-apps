@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
-    "textSwitchedStandardView": "Standard-Ansicht aktiviert"
+    "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
   }
 }

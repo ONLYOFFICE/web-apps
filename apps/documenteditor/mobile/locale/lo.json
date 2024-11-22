@@ -807,6 +807,7 @@
     "dlgLeaveTitleText": "ທ່ານໄດ້ອອກຈາກໜ້າຄໍາຮ້ອງສະຫມັກ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "warnEmptyRequiredField": "ຕື່ມຂໍ້ມູນໃສ່ທຸກຊ່ອງທີ່ຕ້ອງການເພື່ອສົ່ງແບບຟອມ.",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",

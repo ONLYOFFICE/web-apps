@@ -807,6 +807,7 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
+    "warnEmptyRequiredField": "Vyplňte všetky požadované polia, aby ste formulár mohli odoslať.",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
