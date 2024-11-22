@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -296,7 +296,8 @@ define([
             if ( !!titlebuttons.quickprint ) {
                 const var_name = window.SSE ? 'sse-settings-quick-print-button' :
                                     window.PE ? 'pe-settings-quick-print-button' :
-                                    window.PDFE ? 'pdfe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                                    window.PDFE ? 'pdfe-settings-quick-print-button' :
+                                    window.VE ? 've-settings-quick-print-button' : 'de-settings-quick-print-button';
                 const is_btn_visible = Common.localStorage.getBool(var_name, false);
 
                 if ( titlebuttons.quickprint.visible != is_btn_visible ) {
@@ -617,7 +618,7 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' :
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.VE ? 'draw' : !!window.PDFE ? 'form' :
                                                             window.PDFE || config.isPDFForm ? 'form' : 'word'));
                                     menu.hide();
                                 }
@@ -651,7 +652,7 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :!!window.VE ? 'draw' :
                                                     window.PDFE || config.isPDFForm ? 'form' : 'word');
                             return true;
                         }
@@ -693,7 +694,8 @@ define([
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' :
-                                        window.PDFE ? 'pdfeditor' : 'documenteditor';
+                                        window.PDFE ? 'pdfeditor' :
+                                            window.VE ? 'visioeditor' : 'documenteditor';
                     return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 

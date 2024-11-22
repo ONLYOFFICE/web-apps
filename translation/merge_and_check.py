@@ -70,7 +70,7 @@ def compareJsonInFolder(path):
 if os.path.exists(f'{path_to_compare}/en.json'):
     compareJsonInFolder(f'{path_to_compare}/en.json')
 else:
-    for editor in ['documenteditor','spreadsheeteditor','presentationeditor','pdfeditor']:
+    for editor in ['documenteditor','spreadsheeteditor','presentationeditor','pdfeditor','visioeditor']:
         path = f'{path_to_compare}/{editor}/main/locale/en.json'
         if os.path.exists(path):
             compareJsonInFolder(path)
