@@ -1706,7 +1706,7 @@
   "PE.Controllers.Viewport.textFitPage": "Fit to slide",
   "PE.Controllers.Viewport.textFitWidth": "Fit to width",
   "PE.Controllers.DocumentHolder.textRenameTitleMaster": "Rename Master",
-  "PE.Controllers.DocumentHolder.textNameMaster": "Master name:",
+  "PE.Controllers.DocumentHolder.textNameMaster": "Master name",
   "PE.Controllers.DocumentHolder.textRenameTitleLayout": "Rename Layout",
   "PE.Controllers.DocumentHolder.textNameLayout": "Layout name",
   "PE.Controllers.DocumentHolder.textLongName": "Enter a name that is less than 255 characters.",
