@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "Comanda Trasare precedente nu a găsit nicio formulă care face referire la celula activă.",
     "errorPrintMaxPagesCount": "Din păcate, imprimarea a 1500 de pagini deodată nu este posibilă la versiunea curentă a aplicației<br>Această restricție va fi eliminată într-o versiunea nouă.",
     "errorProtectedRange": "Modificarea acestei zone nu este permisă.",
+    "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -370,8 +371,7 @@
     "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Parola",

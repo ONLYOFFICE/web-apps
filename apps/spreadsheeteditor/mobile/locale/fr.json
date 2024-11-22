@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "La commande Tracer les précédents exige que la cellule active contienne une formule qui inclut des références valides.",
     "errorPrintMaxPagesCount": "Malheureusement, il n’est pas possible d’imprimer plus de 1500 pages à la fois sous version actuelle.<br>Cette restriction sera supprimée dans une version future.",
     "errorProtectedRange": "Cette plage ne peut pas être modifiée.",
+    "errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
@@ -370,8 +371,7 @@
     "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
@@ -484,7 +484,7 @@
       "textHeadersTableHint": "Renvoie les titres des colonnes du tableau ou les colonnes spécifiées du tableau.",
       "textImage": "Image",
       "textImageURL": "URL d'image",
-      "textInsert": "Insérer",
+      "textInsert": "Insertion",
       "textInsertImage": "Insérer une image",
       "textInternalDataRange": "Plage de données interne",
       "textInvalidRange": "ERREUR! La plage de cellules n'est pas valide",
@@ -803,7 +803,7 @@
       "textSearchIn": "Rechercher dans",
       "textSettings": "Paramètres",
       "textSheet": "Feuille",
-      "textShowNotification": "Montrer la notification",
+      "textShowNotification": "Afficher la notification",
       "textSpreadsheetFormats": "Formats de classeur",
       "textSpreadsheetInfo": "Infos sur classeur",
       "textSpreadsheetSettings": "Paramètres de classeur",

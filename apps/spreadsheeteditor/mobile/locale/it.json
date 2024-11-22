@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "Il comando Traccia precedenti richiede che la cella attiva contenga una formula che include un riferimento valido.",
     "errorPrintMaxPagesCount": "Sfortunatamente, non è possibile stampare più di 1500 pagine contemporaneamente nella versione corrente del programma.<br>Questa restrizione verrà eliminata nelle prossime versioni.",
     "errorProtectedRange": "Questo intervallo non può essere modificato.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -370,8 +371,7 @@
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Password",

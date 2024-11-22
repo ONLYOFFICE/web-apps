@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Δημιουργία από πρότυπο",
   "Common.Controllers.History.notcriticalErrorTitle": "Προειδοποίηση",
   "Common.Controllers.History.txtErrorLoadHistory": "Η φόρτωση ιστορικού απέτυχε",
-  "Common.Controllers.Plugins.helpMoveMacros": "Για να ξεκινήσετε να εργάζεστε με μακροεντολές, μεταβείτε στην καρτέλα Προβολή.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "Το κουμπί μακροεντολών που μετακινήθηκαν",
   "Common.Controllers.Plugins.helpUseMacros": "Βρείτε το κουμπί Μακροεντολές εδώ",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Ενημερωμένη πρόσβαση σε μακροεντολές",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Τα πρόσθετα εγκαταστάθηκαν με επιτυχία. Μπορείτε να αποκτήσετε πρόσβαση σε όλα τα πρόσθετα φόντου εδώ.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "για αντιγραφή",
   "Common.Views.CopyWarningDialog.textToCut": "για αποκοπή",
   "Common.Views.CopyWarningDialog.textToPaste": "για επικόλληση",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Ελέγξτε τις εντολές που θα εμφανίζονται στη γραμμή εργαλείων γρήγορης πρόσβασης",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Εκτύπωση",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Γρήγορη εκτύπωση",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Σχολιασμός",
   "Common.Views.Header.textCommentDesc": "Όλες οι αλλαγές θα αποθηκευτούν στο αρχείο. Συνεργασία σε πραγματικό χρόνο",
   "Common.Views.Header.textCompactView": "Απόκρυψη γραμμής εργαλείων",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Επεξεργασία",
   "Common.Views.Header.textEditDesc": "Όλες οι αλλαγές θα αποθηκευτούν στο αρχείο. Συνεργασία σε πραγματικό χρόνο",
   "Common.Views.Header.textEditDescNoCoedit": "Προσθέστε ή επεξεργαστείτε κείμενο, σχήματα, εικόνες κ.λπ.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Μείωση μεγέθους γραμματοσειράς",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Μείωση εσοχής",
   "PDFE.Views.Toolbar.tipDelPage": "Διαγραφή σελίδας",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Κατεβάστε ένα αρχείο ως συμπληρώσιμο PDF",
   "PDFE.Views.Toolbar.tipEditMode": "Προσθέστε ή επεξεργαστείτε κείμενο, σχήματα, εικόνες κ.λπ.",
   "PDFE.Views.Toolbar.tipEditText": "Επεξεργασία κειμένου",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

@@ -701,6 +701,20 @@
     "txtOk": "Ok",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
+  "Toolbar": {
+    "warnEmptyRequiredField": "Za pošiljanje obrazca izpolnite vsa potrebna polja,",
+    "btnSend": "Send",
+    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
+    "dlgLeaveTitleText": "You leave the application",
+    "leaveButtonText": "Leave this Page",
+    "stayButtonText": "Stay on this page",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
@@ -801,18 +815,5 @@
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
     "waitText": "Please, wait..."
-  },
-  "Toolbar": {
-    "btnSend": "Send",
-    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

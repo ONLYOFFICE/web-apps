@@ -813,6 +813,7 @@
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
     "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
     "btnSend": "Send"
   }
 }

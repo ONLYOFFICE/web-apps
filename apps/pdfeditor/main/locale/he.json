@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "ליצור מתבנית",
   "Common.Controllers.History.notcriticalErrorTitle": "אזהרה",
   "Common.Controllers.History.txtErrorLoadHistory": "טעינת ההיסטוריה נכשלה",
-  "Common.Controllers.Plugins.helpMoveMacros": "כדי להתחיל לעבוד עם פקודות מאקרו, עבור אל הכרטיסיה תצוגה.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "לחצן פקודות המאקרו שהועברו",
   "Common.Controllers.Plugins.helpUseMacros": "מצא את לחצן פקודות מאקרו כאן",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "גישה מעודכנת לפקודות מאקרו",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "תוספים הותקנו בהצלחה. אפשר לגשת לכל תוספי הרקע כאן.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "עבור עותק",
   "Common.Views.CopyWarningDialog.textToCut": "עבור חיתוך",
   "Common.Views.CopyWarningDialog.textToPaste": "עבור הדבקה",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "בדוק את הפקודות שיוצגו בסרגל הכלים לגישה מהירה",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "הדפס",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "הדפסה מהירה",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "הערות",
   "Common.Views.Header.textCommentDesc": "כל השינויים יישמרו בקובץ. שיתוף פעולה בזמן אמת",
   "Common.Views.Header.textCompactView": "הסתר סרגל כלים",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "עריכה",
   "Common.Views.Header.textEditDesc": "כל השינויים יישמרו בקובץ. שיתוף פעולה בזמן אמת",
   "Common.Views.Header.textEditDescNoCoedit": "הוסף או ערוך טקסט, צורות, תמונות וכו '.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "הפחתת גודל גופן ",
   "PDFE.Views.Toolbar.tipDecPrLeft": "הפחתת כניסה",
   "PDFE.Views.Toolbar.tipDelPage": "מחיקת עמוד",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "הורדת קובץ כקובץ PDF שניתן למלא",
   "PDFE.Views.Toolbar.tipEditMode": "הוסף או ערוך טקסט, צורות, תמונות וכו '.",
   "PDFE.Views.Toolbar.tipEditText": "עריכת טקסט",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

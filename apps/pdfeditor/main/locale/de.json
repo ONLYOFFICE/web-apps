@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Von Vorlage erstellen",
   "Common.Controllers.History.notcriticalErrorTitle": "Achtung",
   "Common.Controllers.History.txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen ",
-  "Common.Controllers.Plugins.helpMoveMacros": "Um mit Makros zu arbeiten, wechseln Sie auf die Registerkarte Ansicht.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "Die verschobene Schaltfläche \"Makros\"",
   "Common.Controllers.Plugins.helpUseMacros": "Die Schaltfläche \"Makros\" finden Sie hier.",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Geänderter Zugriff auf Makros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Die Plugins wurden erfolgreich installiert. Sie können hier auf alle Hintergrund-Plugins zugreifen.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "zum Kopieren",
   "Common.Views.CopyWarningDialog.textToCut": "zum Ausschneiden",
   "Common.Views.CopyWarningDialog.textToPaste": "zum Einfügen",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Markieren Sie die Befehle, die in der Symbolleiste für den Schnellzugriff angezeigt werden sollen",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Drucken",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Schnelldruck",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Kommentieren",
   "Common.Views.Header.textCommentDesc": "Alle Änderungen werden in der Datei gespeichert. Zusammenarbeit in Echtzeit",
   "Common.Views.Header.textCompactView": "Symbolleiste ausblenden",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Bearbeitung",
   "Common.Views.Header.textEditDesc": "Alle Änderungen werden in der Datei gespeichert. Zusammenarbeit in Echtzeit",
   "Common.Views.Header.textEditDescNoCoedit": "Fügen Sie Text, Formen, Bilder usw. hinzu oder bearbeiten Sie sie.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Schriftart verkleinern",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Einzug verkleinern",
   "PDFE.Views.Toolbar.tipDelPage": "Seite löschen",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Die Datei als ausfüllbares PDF-Dokument herunterladen",
   "PDFE.Views.Toolbar.tipEditMode": "Fügen Sie Text, Formen, Bilder usw. hinzu oder bearbeiten Sie sie.",
   "PDFE.Views.Toolbar.tipEditText": "Text bearbeiten",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }

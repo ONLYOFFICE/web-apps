@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Criar a partir de um modelo",
   "Common.Controllers.History.notcriticalErrorTitle": "Aviso",
   "Common.Controllers.History.txtErrorLoadHistory": "O carregamento de histórico falhou",
-  "Common.Controllers.Plugins.helpMoveMacros": "Para começar a trabalhar com macros, vá para a guia Exibir.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "O botão Macros movido",
   "Common.Controllers.Plugins.helpUseMacros": "Localize o botão Macros aqui",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Acesso atualizado a macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Os plug-ins foram instalados com sucesso. Você pode acessar todos os plugins de fundo aqui.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "para Copiar",
   "Common.Views.CopyWarningDialog.textToCut": "para Cortar",
   "Common.Views.CopyWarningDialog.textToPaste": "para Colar",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Verifique os comandos que serão exibidos na Barra de Ferramentas de Acesso Rápido",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Imprimir",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Impressão rápida",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Comentar",
   "Common.Views.Header.textCommentDesc": "Todas as alterações serão salvas no arquivo. Colaboração em tempo real",
   "Common.Views.Header.textCompactView": "Ocultar Barra de Ferramentas",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Editando",
   "Common.Views.Header.textEditDesc": "Todas as alterações serão salvas no arquivo. Colaboração em tempo real",
   "Common.Views.Header.textEditDescNoCoedit": "Adicione ou edite texto, formas, imagens etc.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Diminuir tamanho da fonte",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Diminuir recuo",
   "PDFE.Views.Toolbar.tipDelPage": "Excluir página",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Baixar um arquivo como um documento PDF preenchível",
   "PDFE.Views.Toolbar.tipEditMode": "Adicione ou edite texto, formas, imagens etc.",
   "PDFE.Views.Toolbar.tipEditText": "Editar texto",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }

@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Креирај из шаблона",
   "Common.Controllers.History.notcriticalErrorTitle": "Warning",
   "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
-  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
   "Common.Controllers.Plugins.helpUseMacros": "Find the Macros button here",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plugins are successfully installed. You can access all background plugins here.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "за копирање",
   "Common.Views.CopyWarningDialog.textToCut": "за исецање",
   "Common.Views.CopyWarningDialog.textToPaste": "за лепљење",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Check the commands that will be displayed on the Quick Access Toolbar",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Print",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Коментарисање",
   "Common.Views.Header.textCommentDesc": "Све промене ће бити сачуване у датотеци. Сарадња у реалном времену.",
   "Common.Views.Header.textCompactView": "Сакриј Алатну траку",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Уређивање",
   "Common.Views.Header.textEditDesc": "Све промене ће бити сачуване у датотеци. Сарадња у реалном времену.",
   "Common.Views.Header.textEditDescNoCoedit": "Додај или уреди текст, облике, слике итд.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Смањи величину фонта",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Смањи увлачење",
   "PDFE.Views.Toolbar.tipDelPage": "Обриши страницу",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Преузми фајл као PDF документ са пољима за попуњавање",
   "PDFE.Views.Toolbar.tipEditMode": "Додај или уреди текст, облике, слике итд.",
   "PDFE.Views.Toolbar.tipEditText": "Уреди текст",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

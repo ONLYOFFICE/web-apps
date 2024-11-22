@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Fusione fallita.",
     "errorNoTOC": "Non è presente alcun indice da aggiornare. Puoi inserirne uno dalla scheda Riferimenti.",
     "errorPasswordIsNotCorrect": "La password fornita non è corretta. Verifica che il tasto BLOCCO MAIUSCOLE sia disattivato e assicurati di utilizzare le maiuscole corrette.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -462,15 +463,14 @@
     "splitDividerErrorText": "Il numero di righe deve essere un divisore di %1",
     "splitMaxColsErrorText": "Il numero di colonne deve essere inferiore a% 1",
     "splitMaxRowsErrorText": "Il numero di righe deve essere inferiore a% 1",
+    "textOk": "OK",
     "unknownErrorText": "Errore sconosciuto.",
     "uploadDocExtMessage": "Formato documento sconosciuto.",
     "uploadDocFileCountMessage": "Nessun documento caricato.",
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Rinomina file",
     "textSwitchedMobileView": "Passato alla visualizzazione per dispositivi mobili",
-    "textSwitchedStandardView": "Passato alla visualizzazione standard"
+    "textSwitchedStandardView": "Passato alla visualizzazione standard",
+    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo."
   }
 }

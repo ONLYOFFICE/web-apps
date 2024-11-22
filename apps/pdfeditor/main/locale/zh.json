@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "用模板创建",
   "Common.Controllers.History.notcriticalErrorTitle": "警告",
   "Common.Controllers.History.txtErrorLoadHistory": "历史记录加载失败",
-  "Common.Controllers.Plugins.helpMoveMacros": "若要使用宏，请切换到“视图”选项卡。",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "移动了的宏按钮",
   "Common.Controllers.Plugins.helpUseMacros": "在这里可以找到宏按钮",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "更新了对宏的访问",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "插件已成功安装。您可以在这里访问所有后台插件。",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "用于复制",
   "Common.Views.CopyWarningDialog.textToCut": "用于剪切",
   "Common.Views.CopyWarningDialog.textToPaste": "用于粘贴",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "请检查快速访问工具栏上的命令",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "打印",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "快速打印",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "批注",
   "Common.Views.Header.textCommentDesc": "所有更改都将保存到文件中。实时协作",
   "Common.Views.Header.textCompactView": "隐藏工具栏",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "编辑",
   "Common.Views.Header.textEditDesc": "所有更改都将保存到文件中。实时协作",
   "Common.Views.Header.textEditDescNoCoedit": "添加或编辑文本、形状、图像等。",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "递减字体大小",
   "PDFE.Views.Toolbar.tipDecPrLeft": "减少缩进",
   "PDFE.Views.Toolbar.tipDelPage": "删除页面",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "将文件下载为可填写的PDF文档",
   "PDFE.Views.Toolbar.tipEditMode": "添加或编辑文本、形状、图像等。",
   "PDFE.Views.Toolbar.tipEditText": "编辑文本",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

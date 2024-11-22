@@ -813,6 +813,7 @@
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
-    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي"
+    "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
+    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة."
   }
 }

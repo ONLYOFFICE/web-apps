@@ -813,6 +813,7 @@
     "textRenameFile": "Berrizendatu fitxategia",
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
     "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
+    "warnEmptyRequiredField": "Bete derrigorrezko eremu guztiak formularioa bidaltzeko.",
     "btnSend": "Send"
   }
 }

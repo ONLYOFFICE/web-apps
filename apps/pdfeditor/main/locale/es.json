@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Crear a partir de una plantilla",
   "Common.Controllers.History.notcriticalErrorTitle": "Advertencia",
   "Common.Controllers.History.txtErrorLoadHistory": "Error al cargar el historial",
-  "Common.Controllers.Plugins.helpMoveMacros": "Para empezar a trabajar con macros, cambie a la pestaña Vista.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "El botón Macros desplazado",
   "Common.Controllers.Plugins.helpUseMacros": "Encuentre el botón Macros aquí",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Acceso actualizado a las macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Los plugins se han instalado correctamente. Puede acceder a todos los plugins de fondo aquí.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "para copiar",
   "Common.Views.CopyWarningDialog.textToCut": "para cortar",
   "Common.Views.CopyWarningDialog.textToPaste": "para pegar",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Marque los comandos que se mostrarán en la barra de herramientas Acceso rápido",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Imprimir",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Impresión rápida",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Comentario",
   "Common.Views.Header.textCommentDesc": "Todos los cambios se guardarán en el archivo. Colaboración en tiempo real",
   "Common.Views.Header.textCompactView": "Ocultar barra de herramientas",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Edición",
   "Common.Views.Header.textEditDesc": "Todos los cambios se guardarán en el archivo. Colaboración en tiempo real",
   "Common.Views.Header.textEditDescNoCoedit": "Añada o edite texto, formas, imágenes, etc.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Reducir tamaño de letra",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Reducir sangría",
   "PDFE.Views.Toolbar.tipDelPage": "Eliminar página",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Descargar el archivo como documento PDF rellenable",
   "PDFE.Views.Toolbar.tipEditMode": "Añada o edite texto, formas, imágenes, etc.",
   "PDFE.Views.Toolbar.tipEditText": "Editar texto",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a la página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar al ancho",
   "PDFE.Views.ViewTab.tipHeadings": "Encabezados",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
 }

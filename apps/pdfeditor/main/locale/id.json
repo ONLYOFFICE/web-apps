@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Buat dari templat",
   "Common.Controllers.History.notcriticalErrorTitle": "Peringatan",
   "Common.Controllers.History.txtErrorLoadHistory": "Pemuatan riwayat gagal",
-  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
   "Common.Controllers.Plugins.helpUseMacros": "Temukan tombol Makro di sini",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plugins are successfully installed. You can access all background plugins here.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "untuk Salin",
   "Common.Views.CopyWarningDialog.textToCut": "untuk Potong",
   "Common.Views.CopyWarningDialog.textToPaste": "untuk Tempel",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Memeriksa perintah yang akan ditampilkan pada Bilah Alat Akses Cepat",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Cetak",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Mengomentari",
   "Common.Views.Header.textCommentDesc": "Semua perubahan akan disimpan ke berkas. Kolaborasi real time",
   "Common.Views.Header.textCompactView": "Sembunyikan Toolbar",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Penyuntingan",
   "Common.Views.Header.textEditDesc": "Semua perubahan akan disimpan ke berkas. Kolaborasi real time",
   "Common.Views.Header.textEditDescNoCoedit": "Tambah atau edit teks, bentuk, gambar, dsb.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Kurangi ukuran fonta",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Kurangi indentasi",
   "PDFE.Views.Toolbar.tipDelPage": "Hapus halaman",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Download a file as a fillable PDF",
   "PDFE.Views.Toolbar.tipEditMode": "Tambah atau edit teks, bentuk, gambar, dsb.",
   "PDFE.Views.Toolbar.tipEditText": "Edit teks",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }

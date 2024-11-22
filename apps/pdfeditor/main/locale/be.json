@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
   "Common.Controllers.History.notcriticalErrorTitle": "Warning",
   "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
-  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
   "Common.Controllers.Plugins.helpUseMacros": "Find the Macros button here",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plugins are successfully installed. You can access all background plugins here.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "для капіявання",
   "Common.Views.CopyWarningDialog.textToCut": "для выразання",
   "Common.Views.CopyWarningDialog.textToPaste": "для ўстаўляння",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Check the commands that will be displayed on the Quick Access Toolbar",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Print",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Commenting",
   "Common.Views.Header.textCommentDesc": "All changes will be saved to the file. Real time collaboration",
   "Common.Views.Header.textCompactView": "Схаваць панэль прылад",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Editing",
   "Common.Views.Header.textEditDesc": "All changes will be saved to the file. Real time collaboration",
   "Common.Views.Header.textEditDescNoCoedit": "Add or edit text, shapes, images etc.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Decrement font size",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Decrease indent",
   "PDFE.Views.Toolbar.tipDelPage": "Delete page",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Спампаваць файл як дакумент PDF",
   "PDFE.Views.Toolbar.tipEditMode": "Add or edit text, shapes, images etc.",
   "PDFE.Views.Toolbar.tipEditText": "Edit text",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

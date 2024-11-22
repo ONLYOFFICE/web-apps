@@ -811,6 +811,7 @@
     "textOk": "Labi",
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
+    "warnEmptyRequiredField": "Aizpildiet visus obligātos laukus, lai nosūtītu veidlapu.",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"

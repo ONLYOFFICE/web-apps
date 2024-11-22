@@ -813,6 +813,7 @@
     "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
-    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή"
+    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
+    "warnEmptyRequiredField": "Συμπληρώστε όλα τα απαιτούμενα πεδία για την αποστολή της φόρμας."
   }
 }

@@ -311,7 +311,7 @@
     "errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
     "errorLocationOrDataRangeError": "The reference for the location or data range is not valid.",
     "errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
-    "errorLockedCellPivot": "We can't change this part of the pivot table.",
+    "errorLockedCellPivot": "You cannot change data inside a pivot table.",
     "errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
     "errorMaxPoints": "The maximum number of points in series per chart is 4096.",
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",

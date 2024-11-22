@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Vytvořit ze šablony",
   "Common.Controllers.History.notcriticalErrorTitle": "Varování",
   "Common.Controllers.History.txtErrorLoadHistory": "Načítání historie se nezdařilo",
-  "Common.Controllers.Plugins.helpMoveMacros": "To start working with macros, switch to the View tab.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "The moved Macros button",
   "Common.Controllers.Plugins.helpUseMacros": "Find the Macros button here",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Updated access to macros",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Zásuvné moduly úspěšně nainstalovány. Ke všem zásuvným modulům na pozadí můžete přistupovat zde.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "pro kopírování",
   "Common.Views.CopyWarningDialog.textToCut": "pro vyjmutí",
   "Common.Views.CopyWarningDialog.textToPaste": "pro vložení",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Zkontrolovat příkazy, které budou zobrazeny v Panelu rychlého přístupu",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Tisk",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Rychlý tisk",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Komentovat",
   "Common.Views.Header.textCommentDesc": "Všechny změny budou uloženy do souboru. Spolupráce v reálném čase",
   "Common.Views.Header.textCompactView": "Skrýt panel nástrojů",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Upravení",
   "Common.Views.Header.textEditDesc": "Všechny změny budou uloženy do souboru. Spolupráce v reálném čase",
   "Common.Views.Header.textEditDescNoCoedit": "Přidat nebo upravit text, obrazce, obrázky atd.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Zmenšit velikost písma",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Zmenšit odsazení",
   "PDFE.Views.Toolbar.tipDelPage": "Odstranit stránku",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Stáhnout jako plnitelný dokument PDF",
   "PDFE.Views.Toolbar.tipEditMode": "Přidat nebo upravit text, obrazce, obrázky atd.",
   "PDFE.Views.Toolbar.tipEditText": "Upravit text",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Přízpůsobit stránce",
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní"
 }

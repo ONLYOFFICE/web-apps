@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorNoTOC": "Il n'y a pas de table des matières à mettre à jour. Vous pouvez en insérer une à partir de l'onglet Références.",
     "errorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct. Vérifiez que la touche CAPS LOCK n'est pas activée et assurez-vous d'utiliser les bonnes majuscules.",
+    "errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
@@ -462,15 +463,14 @@
     "splitDividerErrorText": "Le nombre de lignes doit être un diviseur de %1",
     "splitMaxColsErrorText": "Le nombre de colonnes doit être moins que %1",
     "splitMaxRowsErrorText": "Le nombre de lignes doit être moins que %1",
+    "textOk": "OK",
     "unknownErrorText": "Erreur inconnue.",
     "uploadDocExtMessage": "Format de fichier inconnu.",
     "uploadDocFileCountMessage": "Aucun fichier n'a été chargé.",
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -777,7 +777,7 @@
     "textSearch": "Rechercher",
     "textSetPassword": "Définir un mot de passe",
     "textSettings": "Paramètres",
-    "textShowNotification": "Montrer  la notification",
+    "textShowNotification": "Afficher la notification",
     "textSpaces": "Espaces",
     "textSpellcheck": "Vérification orthographique",
     "textStatistic": "Statistique",
@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
-    "textSwitchedStandardView": "Passé à l'affichage standard"
+    "textSwitchedStandardView": "Passé à l'affichage standard",
+    "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire."
   }
 }

@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "إنشاء باستخدام قالب",
   "Common.Controllers.History.notcriticalErrorTitle": "تحذير",
   "Common.Controllers.History.txtErrorLoadHistory": "فشل تحميل التاريخ",
-  "Common.Controllers.Plugins.helpMoveMacros": "للبدء في استخدام الـ\"Macros\"، انتقل إلى علامة التبويب \"عرض\".",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "زر ال\"Macros\" المنقول",
   "Common.Controllers.Plugins.helpUseMacros": "ستجد زر ال\"Macros\" هنا",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "تم تحديث الوصول إلى وحدات ال\"Macros\"",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "تم تثبيت الإضافات بنجاح. يمكنك الوصول إلى جميع الاضافات للخلفية هنا.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "للنسخ",
   "Common.Views.CopyWarningDialog.textToCut": "للقص",
   "Common.Views.CopyWarningDialog.textToPaste": "للصق",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "تحقق من الأوامر التي سيتم عرضها على شريط أدوات الوصول السريع",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "طباعة",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "طباعة سريعة",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "تعليق",
   "Common.Views.Header.textCommentDesc": "كل التعديلات سيتم حفظها في الملف. تعاون في الوقت الفعلي",
   "Common.Views.Header.textCompactView": "إخفاء شريط الأدوات",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "تحرير",
   "Common.Views.Header.textEditDesc": "كل التعديلات سيتم حفظها في الملف. تعاون في الوقت الفعلي",
   "Common.Views.Header.textEditDescNoCoedit": "إضافة أو تحرير نص، أشكال، صور..إلخ",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "تقليل حجم الخط",
   "PDFE.Views.Toolbar.tipDecPrLeft": "تقليل المسافة البادئة",
   "PDFE.Views.Toolbar.tipDelPage": "حذف صفحة",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "تحميل الملف كمستند PDF قابل للملئ",
   "PDFE.Views.Toolbar.tipEditMode": "إضافة أو تحرير نص، أشكال، صور..إلخ",
   "PDFE.Views.Toolbar.tipEditText": "تحرير النص",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

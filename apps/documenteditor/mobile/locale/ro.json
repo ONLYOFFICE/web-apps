@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -462,15 +463,14 @@
     "splitDividerErrorText": "Numărul de rânduri trebuie împărțit la %1",
     "splitMaxColsErrorText": "Numărul maxim de coloane este de %1",
     "splitMaxRowsErrorText": "Numărul maxim de rânduri este %1",
+    "textOk": "OK",
     "unknownErrorText": "Eroare necunoscută.",
     "uploadDocExtMessage": "Format de fișier necunoscut.",
     "uploadDocFileCountMessage": "Nu există nicun document încărcat.",
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -813,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

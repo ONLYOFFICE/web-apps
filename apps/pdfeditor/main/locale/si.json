@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "අච්චුවකින් සාදන්න",
   "Common.Controllers.History.notcriticalErrorTitle": "අවවාදයයි",
   "Common.Controllers.History.txtErrorLoadHistory": "ඉතිහාසය පූරණයට අසමත් විය",
-  "Common.Controllers.Plugins.helpMoveMacros": "දැක්ම පටිත්තට මාරු වී සාර්ව සමඟ වැඩ කරන්න.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "ගෙනගිය සාර්ව බොත්තම",
   "Common.Controllers.Plugins.helpUseMacros": "මෙහි සාර්ව බොත්තම සොයාගන්න",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "සාර්ව වෙත ප්‍රවේශය යාවත්කාලීන විය",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "පේනු සාර්ථකව ස්ථාපනය වී ඇත. ඔබට මෙහි සියලුම පසුබිම් පේනු වෙත ප්‍රවේශ වීමට හැකිය.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "පිටපත් කිරීමට",
   "Common.Views.CopyWarningDialog.textToCut": "කැපීම සඳහා",
   "Common.Views.CopyWarningDialog.textToPaste": "ඇලවීමට",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "ඉක්මන් ප්‍රවේශ මෙවලම් තීරුවේ දිස්වන විධාන පරීක්ෂා කරන්න",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "මුද්‍රණය",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "ඉක්මන් මුද්‍රණය",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "අදහස් දැක්වීම",
   "Common.Views.Header.textCommentDesc": "සියලුම වෙනස්කම් ගොනුවට සුරැකෙනු ඇත. තත්‍ය කාලීන සහයෝගිත්වය",
   "Common.Views.Header.textCompactView": "මෙවලම් පටිය සඟවන්න",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "සංස්කරණය",
   "Common.Views.Header.textEditDesc": "සියලුම වෙනස්කම් ගොනුවට සුරැකෙනු ඇත. තත්‍ය කාලීන සහයෝගිත්වය",
   "Common.Views.Header.textEditDescNoCoedit": "රූප, හැඩ, පෙළ සංස්කරණය හෝ එක් කරන්න",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "රුවකුරේ තරම අඩු කරන්න",
   "PDFE.Views.Toolbar.tipDecPrLeft": "අනූච්ඡේදනය අඩු කරන්න",
   "PDFE.Views.Toolbar.tipDelPage": "පිටුව මකන්න",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "පිරවිය හැකි පීඩීඑෆ් ලේඛනයක් ලෙස ගොනුවක් බාගන්න",
   "PDFE.Views.Toolbar.tipEditMode": "රූප, හැඩ, පෙළ සංස්කරණය හෝ එක් කරන්න",
   "PDFE.Views.Toolbar.tipEditText": "පෙළ සංස්කරණය",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

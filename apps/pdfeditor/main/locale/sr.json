@@ -4,8 +4,6 @@
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Kreiraj iz šablona",
   "Common.Controllers.History.notcriticalErrorTitle": "Upozorenje ",
   "Common.Controllers.History.txtErrorLoadHistory": "Učitavanje istorije nije uspelo",
-  "Common.Controllers.Plugins.helpMoveMacros": "Za početak rada sa makroima, pređite na karticu Pregled.",
-  "Common.Controllers.Plugins.helpMoveMacrosHeader": "Premešteno dugme Makroi",
   "Common.Controllers.Plugins.helpUseMacros": "Pronađite dugme Makroi ovde",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Ažuriran pristup makroima",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Dodaci su uspešno instalirani. Ocde možete pristupiti svim pozadinskim dodacima.",
@@ -194,6 +192,7 @@
   "Common.Views.CopyWarningDialog.textToCopy": "za Kopiranje ",
   "Common.Views.CopyWarningDialog.textToCut": "za Isecanje",
   "Common.Views.CopyWarningDialog.textToPaste": "za Lepljenje",
+  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
   "Common.Views.CustomizeQuickAccessDialog.textMsg": "Proveri komande koje će biti prikazane na Traci za Brzi Pristup",
   "Common.Views.CustomizeQuickAccessDialog.textPrint": "Štampaj",
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Brzo štampanje",
@@ -221,6 +220,7 @@
   "Common.Views.Header.textComment": "Komentarisanje",
   "Common.Views.Header.textCommentDesc": "Sve promene će biti sačuvane u datoteci. Saradnja u realnom vremenu",
   "Common.Views.Header.textCompactView": "Sakrij Alatnu Traku",
+  "Common.Views.Header.textDownload": "Download",
   "Common.Views.Header.textEdit": "Uređivanje",
   "Common.Views.Header.textEditDesc": "Sve promene će biti sačuvane u datoteci. Saradnja u realnom vremenu",
   "Common.Views.Header.textEditDescNoCoedit": "Dodaj ili uredi tekst, oblike, slike itd.",
@@ -1943,6 +1943,7 @@
   "PDFE.Views.Toolbar.tipDecFont": "Smanji veličinu fonta",
   "PDFE.Views.Toolbar.tipDecPrLeft": "Smanji uvlačenje",
   "PDFE.Views.Toolbar.tipDelPage": "Obriši stranicu",
+  "PDFE.Views.Toolbar.tipDownload": "Download file",
   "PDFE.Views.Toolbar.tipDownloadForm": "Preuzmi fajl kao PDF dokument sa poljima za popunjavanje",
   "PDFE.Views.Toolbar.tipEditMode": "Dodaj ili uredi tekst, oblike, slike itd.",
   "PDFE.Views.Toolbar.tipEditText": "Uredi tekst",
@@ -2019,8 +2020,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "Common.Views.CustomizeQuickAccessDialog.textDownload": "Download",
-  "Common.Views.Header.textDownload": "Download",
-  "PDFE.Views.Toolbar.tipDownload": "Download file"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
 }
