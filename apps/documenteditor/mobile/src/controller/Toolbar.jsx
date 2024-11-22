@@ -379,7 +379,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const api = Common.EditorApi.get();
         if (!api.asc_IsAllRequiredFormsFilled()) {
             f7.dialog.create({
-                title   : '',
+                title   : t('Main.notcriticalErrorTitle'),
                 text    : t('Toolbar.warnEmptyRequiredField'),
                 buttons : [
                     {
