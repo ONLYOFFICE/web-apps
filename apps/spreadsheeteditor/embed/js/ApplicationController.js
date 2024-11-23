@@ -39,7 +39,8 @@ SSE.ApplicationController = new(function(){
         appOptions = {},
         maxPages = 0,
         created = false,
-        iframePrint = null;
+        iframePrint = null,
+        isRtlSheet = false;
     var $ttEl,
         $tooltip,
         ttOffset = [6, -15],
@@ -177,6 +178,7 @@ SSE.ApplicationController = new(function(){
         $box.find('#worksheet' + index).addClass('active');
 
         api.asc_showWorksheet(index);
+        updateRtlSheet();
     }
 
     function onSheetsChanged(){
@@ -235,6 +237,13 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
+    function updateRtlSheet() {
+        var $container = $('#worksheet-container');
+        isRtlSheet = api ? !!api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+        $container.toggleClass('rtl-sheet', isRtlSheet);
+        $container.attr({dir: isRtlSheet ? 'rtl' : 'ltr'});
+    }
+
     function setupScrollButtons() {
         var $container = $('#worksheet-container');
         var $prevButton = $('#worksheet-list-button-prev');
@@ -247,7 +256,7 @@ SSE.ApplicationController = new(function(){
                 var scrollWidth = $container[0].scrollWidth;
                 var containerWidth = $container.innerWidth();
 
-                if (window.isRtl) {
+                if (isRtlSheet) {
                     if (Math.abs(scrollLeft) + containerWidth >= scrollWidth - 1) {
                         $prevButton.prop('disabled', false);
                         $nextButton.prop('disabled', true);
@@ -284,7 +293,7 @@ SSE.ApplicationController = new(function(){
         var buttonWidth = $('.worksheet-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
-            if (window.isRtl) {
+            if (isRtlSheet) {
                 var rightBound = $container.width();
                 $($box.children().get().reverse()).each(function () {
                     var $tab = $(this);
@@ -309,7 +318,7 @@ SSE.ApplicationController = new(function(){
         });
 
         $nextButton.on('click', function() {
-            if (window.isRtl) {
+            if (isRtlSheet) {
                 $($box.children()).each(function () {
                     var $tab = $(this);
                     var left = common.utils.getPosition($tab).left - buttonWidth;
