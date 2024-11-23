@@ -89,6 +89,12 @@
     overflow: hidden;
 }
 
+.embed-body.rtl-font {
+    &[applang=ar] {
+        font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
+    }
+}
+
 // Document Viewer
 // -------------------------
 .viewer {
@@ -671,6 +677,7 @@
     text-align: center;
 
     .close {
+        font-family: Arial, sans-serif;
         margin-top: 0;
         opacity: 0.5;
         .rtl & {
@@ -820,6 +827,9 @@
 
     .tooltip-arrow {
         display: none;
+    }
+    .embed-body.rtl-font[applang=ar] & {
+        font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }
 
