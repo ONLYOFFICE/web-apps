@@ -620,7 +620,7 @@
   "Common.Views.OpenDialog.txtPassword": "סיסמה",
   "Common.Views.OpenDialog.txtPreview": "תצוגה מקדימה",
   "Common.Views.OpenDialog.txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית לקובץ תאופס.",
-  "Common.Views.OpenDialog.txtTitle": "בחר % 1 אפשרויות",
+  "Common.Views.OpenDialog.txtTitle": "בחר %1 אפשרויות",
   "Common.Views.OpenDialog.txtTitleProtected": "קובץ מוגן",
   "Common.Views.PasswordDialog.txtDescription": "הגדר סיסמה כדי להגן על מסמך זה",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "סיסמת האישור אינה זהה",

@@ -562,7 +562,7 @@
   "Common.Views.OpenDialog.txtSemicolon": "נקודה-פסיק",
   "Common.Views.OpenDialog.txtSpace": "רווח",
   "Common.Views.OpenDialog.txtTab": "טאב",
-  "Common.Views.OpenDialog.txtTitle": "בחר % 1 אפשרויות",
+  "Common.Views.OpenDialog.txtTitle": "בחר %1 אפשרויות",
   "Common.Views.OpenDialog.txtTitleProtected": "קובץ מוגן",
   "Common.Views.PasswordDialog.txtDescription": "הגדר סיסמה כדי להגן על מסמך זה",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "סיסמת האישור אינה זהה",

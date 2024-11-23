@@ -75,7 +75,7 @@
   "Common.Views.OpenDialog.txtPassword": "סיסמה",
   "Common.Views.OpenDialog.txtPreview": "תצוגה מקדימה",
   "Common.Views.OpenDialog.txtProtected": "לאחר שתזין את הסיסמה ותפתח את הקובץ, הסיסמה הנוכחית לקובץ תאופס.",
-  "Common.Views.OpenDialog.txtTitle": "בחר אפשרויות % 1",
+  "Common.Views.OpenDialog.txtTitle": "בחר %1 אפשרויות",
   "Common.Views.OpenDialog.txtTitleProtected": "קובץ שמור",
   "Common.Views.SaveAsDlg.textLoading": "מוריד",
   "Common.Views.SaveAsDlg.textTitle": "תיקייה לשמירה",
