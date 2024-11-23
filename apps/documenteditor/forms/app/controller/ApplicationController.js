@@ -696,6 +696,7 @@ define([
                     me.api.asc_SendForm();
                     Common.Controllers.Desktop.process('goback');
                     Common.Controllers.Desktop.requestClose();
+                    Common.Controllers.Desktop.removeRecent();
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {

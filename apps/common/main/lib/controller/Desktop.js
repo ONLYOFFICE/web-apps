@@ -663,6 +663,11 @@ define([
                     native.execCommand('editor:event', JSON.stringify({action:'file:close', url: config.customization.goback.url}));
                 }
             },
+            removeRecent: function () {
+                if ( config.isDesktopApp && !!native ) {
+                    native.execCommand('recent:forget');
+                }
+            },
             isActive: function () {
                 return !!native;
             },
