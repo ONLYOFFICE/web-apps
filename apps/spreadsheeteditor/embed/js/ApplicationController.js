@@ -39,7 +39,8 @@ SSE.ApplicationController = new(function(){
         appOptions = {},
         maxPages = 0,
         created = false,
-        iframePrint = null;
+        iframePrint = null,
+        isRtlSheet = false;
     var $ttEl,
         $tooltip,
         ttOffset = [6, -15],
@@ -177,6 +178,7 @@ SSE.ApplicationController = new(function(){
         $box.find('#worksheet' + index).addClass('active');
 
         api.asc_showWorksheet(index);
+        updateRtlSheet();
     }
 
     function onSheetsChanged(){
@@ -235,6 +237,13 @@ SSE.ApplicationController = new(function(){
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
+    function updateRtlSheet() {
+        var $container = $('#worksheet-container');
+        isRtlSheet = api && !common.utils.isIE ? !!api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+        $container.toggleClass('rtl-sheet', isRtlSheet);
+        $container.attr({dir: isRtlSheet ? 'rtl' : 'ltr'});
+    }
+
     function setupScrollButtons() {
         var $container = $('#worksheet-container');
         var $prevButton = $('#worksheet-list-button-prev');
@@ -247,16 +256,29 @@ SSE.ApplicationController = new(function(){
                 var scrollWidth = $container[0].scrollWidth;
                 var containerWidth = $container.innerWidth();
 
-                if (scrollLeft === 0) {
-                    $prevButton.prop('disabled', true);
-                    $nextButton.prop('disabled', false);
-                } else if (scrollLeft + containerWidth >= scrollWidth) {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', true);
+                if (isRtlSheet) {
+                    if (Math.abs(scrollLeft) + containerWidth >= scrollWidth - 1) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else if (scrollLeft >= 0 ) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
                 } else {
-                    $prevButton.prop('disabled', false);
-                    $nextButton.prop('disabled', false);
-                }
+                    if (scrollLeft === 0) {
+                        $prevButton.prop('disabled', true);
+                        $nextButton.prop('disabled', false);
+                    } else if (scrollLeft + containerWidth >= scrollWidth) {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', true);
+                    } else {
+                        $prevButton.prop('disabled', false);
+                        $nextButton.prop('disabled', false);
+                    }
+                } 
             } else {
                 $prevButton.prop('disabled', true);
                 $nextButton.prop('disabled', true);
@@ -271,28 +293,53 @@ SSE.ApplicationController = new(function(){
         var buttonWidth = $('.worksheet-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
-            $($box.children().get().reverse()).each(function () {
-                var $tab = $(this);
-                var left = common.utils.getPosition($tab).left - buttonWidth;
-
-                if (left < 0) {
-                    $container.scrollLeft($container.scrollLeft() + left - 26);
-                    return false;
-                }
-            });
+            if (isRtlSheet) {
+                var rightBound = $container.width();
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth() + buttonWidth;
+    
+                    if (right > rightBound ) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            } else {
+                $($box.children().get().reverse()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            }
         });
 
         $nextButton.on('click', function() {
-            var rightBound = $container.width();
-            $box.children().each(function () {
-                var $tab = $(this);
-                var right = common.utils.getPosition($tab).left + $tab.outerWidth();
-
-                if (right > rightBound) {
-                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
-                    return false;
-                }
-            });
+            if (isRtlSheet) {
+                $($box.children()).each(function () {
+                    var $tab = $(this);
+                    var left = common.utils.getPosition($tab).left - buttonWidth;
+    
+                    if (left < 0) {
+                        $container.scrollLeft($container.scrollLeft() + left - 26);
+                        return false;
+                    }
+                });
+            } else {
+                var rightBound = $container.width();
+                $box.children().each(function () {
+                    var $tab = $(this);
+                    var right = common.utils.getPosition($tab).left + $tab.outerWidth();
+    
+                    if (right > rightBound) {
+                        $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                        return false;
+                    }
+                });
+            }
         });
     }
 
@@ -789,6 +836,7 @@ SSE.ApplicationController = new(function(){
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
                     });
+                    $ttEl.data('bs.tooltip').options.title = me.txtPressLink;
                 }
 
                 if (!$tooltip) {
@@ -923,6 +971,7 @@ SSE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        txtPressLink: 'Click the link to open it'
     }
 })();

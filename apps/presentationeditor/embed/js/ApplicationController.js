@@ -233,6 +233,7 @@ PE.ApplicationController = new(function(){
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
                     });
+                    $ttEl.data('bs.tooltip').options.title = me.txtPressLink;
                 }
 
                 if ( !$tooltip ) {
@@ -879,6 +880,7 @@ PE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        txtPressLink: 'Click the link to open it'
     }
 })();

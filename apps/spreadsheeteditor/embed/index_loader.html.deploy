@@ -182,7 +182,7 @@
   </head>
 
   <body class="embed-body">
-
+    <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
     <script>
        var  userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); };
@@ -319,7 +319,7 @@
           </div>
       </div>
 
-      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Click the link to open it" style="display:none;"></div>
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="" style="display:none;"></div>
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
