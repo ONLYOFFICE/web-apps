@@ -182,7 +182,7 @@
   </head>
 
   <body class="embed-body">
-
+    <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
     <script>
        var  userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); };
