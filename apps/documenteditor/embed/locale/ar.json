@@ -50,7 +50,7 @@
   "DE.ApplicationController.titleLicenseNotActive": "الترخيص غير مُفعّل",
   "DE.ApplicationController.txtClose": "إغلاق",
   "DE.ApplicationController.txtEmpty": "(فارغ)",
-  "DE.ApplicationController.txtPressLink": "ثم قم بالنقر على الرابط %1 اضغط",
+  "DE.ApplicationController.txtPressLink": "إضغط على %1 و إضغط على الرابط",
   "DE.ApplicationController.unknownErrorText": "خطأ غير معروف.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "متصفحك غير مدعوم.",
   "DE.ApplicationController.waitText": "يُرجى الانتظار...",
