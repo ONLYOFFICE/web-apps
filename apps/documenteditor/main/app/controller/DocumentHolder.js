@@ -392,6 +392,7 @@ define([
             view.menuImgRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
             view.menuImgRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+            view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuImgControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveForm.on('click', _.bind(me.onControlsSelect, me));
@@ -2309,6 +2310,15 @@ define([
             } else {
                 item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
             }
+            this.editComplete();
+        },
+
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.ImgApply(properties);
             this.editComplete();
         },
 

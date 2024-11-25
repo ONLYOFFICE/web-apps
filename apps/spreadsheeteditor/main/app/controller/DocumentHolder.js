@@ -246,6 +246,7 @@ define([
                 view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
                 view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
                 view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
+                view.menuImgResetCrop.on('click',                   _.bind(me.onImgResetCrop, me))
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
@@ -1245,6 +1246,15 @@ define([
                     item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.asc_setGraphicObjectProps(properties);
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
@@ -2685,6 +2695,9 @@ define([
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);
+
+                documentHolder.menuImgResetCrop.setVisible(documentHolder.mnuImgAdvanced.imageInfo.asc_getIsCrop()); 
+                documentHolder.menuImgResetCrop.setDisabled(isObjLocked); 
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
