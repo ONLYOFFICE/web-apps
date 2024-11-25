@@ -505,8 +505,8 @@ define([
                         this.tabbar.$bar.scrollLeft(this.tabBarScroll.scrollLeft);
                         this.tabBarScroll = undefined;
                     }
-                    if (!this.tabbar.isTabVisible(sindex))
-                        this.tabbar.setTabVisible(sindex);
+
+                    this.updateRtlSheet(true);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || wbprotected || me.api.isCellEdited);
                     if (this.mode.isEdit) {
@@ -517,9 +517,7 @@ define([
 
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
-                    this.updateRtlSheet();
                     this.updateNumberOfSheet(sindex, wc);
-                    this.updateTabbarBorders();
 
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
@@ -528,12 +526,11 @@ define([
             },
 
             onUpdateSheetViewSettings: function() {
-                var oldRtl = this.isRtlSheet;
                 this.updateRtlSheet();
-                (oldRtl !== this.isRtlSheet) && this.updateTabbarBorders();
             },
 
-            updateRtlSheet: function() {
+            updateRtlSheet: function(force) {
+                var oldRtl = this.isRtlSheet;
                 this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
                 this.cntStatusbar.toggleClass('rtl-sheet', this.isRtlSheet);
                 this.cntStatusbar.attr({dir: this.isRtlSheet ? 'rtl' : 'ltr'});
@@ -543,6 +540,13 @@ define([
                 this.boxMath.attr({dir: dir});
                 this.boxFiltered.attr({dir: dir});
                 this.sheetListMenu.menuAlign = this.isRtlSheet ? 'br-tr' : 'bl-tl';
+
+                if (oldRtl !== this.isRtlSheet || force)
+                    this.updateTabbarBorders();
+
+                var index = this.api.asc_getActiveWorksheetIndex();
+                var tab = _.findWhere(this.tabbar.tabs, {sheetindex: index});
+                tab && !this.tabbar.isTabVisible(tab.index) && this.tabbar.setTabVisible(tab.index);
             },
 
             setMathInfo: function(info) {
@@ -612,19 +616,13 @@ define([
 
             onSheetChanged: function(o, index, tab) {
                 this.api.asc_showWorksheet(tab.sheetindex);
-
                 this.updateNumberOfSheet(tab.sheetindex, this.api.asc_getWorksheetsCount());
-
-                if (this.hasTabInvisible && !this.tabbar.isTabVisible(index)) {
-                    this.tabbar.setTabVisible(index);
-                }
+                this.updateRtlSheet(true);
 
                 if (this.mode.isEdit) {
                     this.tabbar.addDataHint(index, this.mode.isEditOle ? '1' : '0');
                 }
 
-                this.updateRtlSheet();
-                this.updateTabbarBorders();
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);
 
@@ -929,8 +927,7 @@ define([
                     this.boxNumberSheets.show();
                     //this.boxAction.show();
                 }
-                this.updateRtlSheet();
-                this.updateTabbarBorders();
+                this.updateRtlSheet(true);
                 (this.tabbar.getCount()>0) && this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
             },
 

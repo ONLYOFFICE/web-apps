@@ -653,8 +653,11 @@ define([
                 this.api.asc_showWorksheet(sheetIndex);
                 this.loadTabColor(sheetIndex);
             } else {
-                this.statusbar.tabbar.setTabVisible(sheetIndex);
-                this.statusbar.sheetListMenu.items[sheetIndex].setChecked(true);
+                var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sheetIndex});
+                if (tab) {
+                    this.statusbar.tabbar.setTabVisible(tab.index);
+                    this.statusbar.sheetListMenu.items[sheetIndex].setChecked(true);
+                }
             }
             var me = this;
             setTimeout(function(){
