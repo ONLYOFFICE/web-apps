@@ -767,7 +767,7 @@ define([], function () {
 
                     me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
                     if (me.menuImgResetCrop.isVisible()) 
-                        me.menuImgResetCrop.setDisabled(islocked); 
+                        me.menuImgResetCrop.setDisabled(disabled); 
 
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);

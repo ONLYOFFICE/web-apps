@@ -628,7 +628,7 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_ResetCrop(true);
                 this.api.asc_setGraphicObjectProps(properties);;
-                this.fireEvent('editcomplete', this);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
