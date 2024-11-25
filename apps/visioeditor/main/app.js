@@ -51,8 +51,8 @@ require.config({
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         socketio        : '../vendor/socketio/socket.io.min',
-        // allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/word/sdk-all-min',
+        allfonts        : '../../sdkjs/common/AllFonts',
+        sdk             : '../../sdkjs/draw/sdk-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -93,7 +93,7 @@ require.config({
         sdk: {
             deps: [
                 'jquery',
-                // 'allfonts',
+                'allfonts',
                 'xregexp',
                 'socketio'
             ]
@@ -152,6 +152,8 @@ require([
                 'common/main/lib/mods/tooltip',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
+                'common/main/lib/controller/Themes',
+                'common/main/lib/controller/TabStyler',
                 'common/main/lib/controller/Desktop',
                 'visioeditor/main/app/controller/Viewport',
                 'visioeditor/main/app/controller/DocumentHolder',
