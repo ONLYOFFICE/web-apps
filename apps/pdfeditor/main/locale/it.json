@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Adatta alla pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

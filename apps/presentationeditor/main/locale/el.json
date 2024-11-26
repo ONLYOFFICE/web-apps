@@ -2961,5 +2961,7 @@
   "PE.Controllers.DocumentHolder.textNameLayout": "Layout name",
   "PE.Controllers.DocumentHolder.textLongName": "Enter a name that is less than 255 characters.",
   "PE.Views.DocumentHolder.textRenameMaster": "Rename Master",
-  "PE.Views.DocumentHolder.textRenameLayout": "Rename Layout"
+  "PE.Views.DocumentHolder.textRenameLayout": "Rename Layout",
+  "PE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

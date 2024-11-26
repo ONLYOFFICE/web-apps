@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi stran",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi širino",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }
