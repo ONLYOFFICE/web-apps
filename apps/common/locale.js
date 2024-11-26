@@ -43,7 +43,7 @@ Common.Locale = new(function() {
         _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
 
     var _applyLocalization = function(callback) {
-        _fixRtl();
+        _clearRtl();
         try {
             callback && (loadcallback = callback);
             if (l10n) {
@@ -161,7 +161,7 @@ Common.Locale = new(function() {
             });
     };
 
-    var _fixRtl = function(prop, scope) {
+    var _clearRtl = function() {
         if (!_isCurrentRtl() && document.body.classList.contains('rtl')) {
             document.body.removeAttribute('dir');
             document.body.classList.remove('rtl');
