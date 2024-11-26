@@ -694,6 +694,9 @@ define([
                         return;
                     }
                     me.api.asc_SendForm();
+                    Common.Controllers.Desktop.removeRecent();
+                    Common.Controllers.Desktop.process('goback');
+                    Common.Controllers.Desktop.requestClose();
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {
@@ -2126,93 +2129,4 @@ define([
         savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
-
-/*    var Desktop = function () {
-        var features = {
-            version: '{{PRODUCT_VERSION}}',
-            // eventloading: true,
-            uitype: 'fillform',
-            uithemes: true
-        };
-        var api, nativevars;
-
-        var native = window.desktop || window.AscDesktopEditor;
-        !!native && native.execCommand('webapps:features', JSON.stringify(features));
-
-        if ( !!native ) {
-            $('#header-logo, .brand-logo').hide();
-
-            nativevars = window.RendererProcessVariable;
-
-            window.on_native_message = function (cmd, param) {
-                if (/theme:changed/.test(cmd)) {
-                    if ( Common.UI.Themes && !!Common.UI.Themes.setTheme )
-                        Common.UI.Themes.setTheme(param);
-                } else
-                if (/window:features/.test(cmd)) {
-                    var obj = JSON.parse(param);
-                    if ( obj.singlewindow !== undefined ) {
-                        native.features.singlewindow = obj.singlewindow;
-                        $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
-                    }
-                }
-            };
-
-            if ( !!window.native_message_cmd ) {
-                for ( var c in window.native_message_cmd ) {
-                    window.on_native_message(c, window.native_message_cmd[c]);
-                }
-            }
-
-            Common.NotificationCenter.on({
-                'uitheme:changed' : function (name) {
-                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
-                    } else {
-                        const theme = Common.UI.Themes.get(name);
-                        if ( theme )
-                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
-                    }
-                },
-            });
-
-            Common.Gateway.on('opendocument', function () {
-                api = DE.getController('ApplicationController').api;
-
-                $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
-
-                var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
-                Common.UI.Themes.setAvailable(!is_win_xp);
-            });
-        }
-
-        return {
-            isActive: function () {
-                return !!native;
-            },
-            isOffline: function () {
-                return api && api.asc_isOffline();
-            },
-            process: function (opts) {
-                if ( !!native && !!api ) {
-                    if ( opts == 'goback' ) {
-                        var config = DE.getController('ApplicationController').editorConfig;
-                        native.execCommand('go:folder',
-                            api.asc_isOffline() ? 'offline' : config.customization.goback.url);
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-            systemThemeType: function () {
-                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
-                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            },
-        }
-    };
- */
-    // DE.Controllers.Desktop = new Desktop();
-    // Common.Controllers = Common.Controllers || {};
-    // Common.Controllers.Desktop = DE.Controllers.Desktop;
 });
