@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

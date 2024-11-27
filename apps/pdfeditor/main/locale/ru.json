@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

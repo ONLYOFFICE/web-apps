@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Tilpas til side",
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

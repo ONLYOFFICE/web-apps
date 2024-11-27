@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Dopasuj do strony",
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

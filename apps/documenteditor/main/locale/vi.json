@@ -3682,5 +3682,7 @@
   "Common.Views.MacrosDialog.tipMacrosAdd": "Add macros",
   "Common.Views.MacrosDialog.tipMacrosRun": "Run",
   "DE.Views.ViewTab.textMacros": "Macros",
-  "DE.Views.ViewTab.tipMacros": "Macros"
+  "DE.Views.ViewTab.tipMacros": "Macros",
+  "DE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "DE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

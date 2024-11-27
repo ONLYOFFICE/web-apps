@@ -2020,5 +2020,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
 }

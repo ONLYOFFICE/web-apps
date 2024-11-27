@@ -400,19 +400,6 @@
         };
 
         var _onAppReady = function() {
-            if (_config.type === 'mobile') {
-                document.body.onfocus = function(e) {
-                    setTimeout(function(){
-                        iframe.contentWindow.focus();
-
-                        _sendCommand({
-                            command: 'resetFocus',
-                            data: {}
-                        })
-                    }, 10);
-                };
-            }
-
             _attachMouseEvents();
 
             if (_config.editorConfig) {

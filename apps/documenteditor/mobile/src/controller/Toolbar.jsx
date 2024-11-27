@@ -377,7 +377,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const submitForm = () => {
         const api = Common.EditorApi.get();
-        api.asc_SendForm();
+        if (!api.asc_IsAllRequiredFormsFilled()) {
+            f7.dialog.create({
+                title   : t('Main.notcriticalErrorTitle'),
+                text    : t('Toolbar.warnEmptyRequiredField'),
+                buttons : [
+                    {
+                        text: t('Toolbar.textOk'),
+                        onClick: () => api.asc_MoveToFillingForm(true, true, true)
+                    }
+                ]
+            }).open();
+        } else {
+            api.asc_SendForm();
+        }
     }
 
     return (
@@ -405,6 +418,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isViewer={isViewer}
             turnOnViewerMode={turnOnViewerMode}
             isMobileView={isMobileView}
+            isMobileViewAvailable={appOptions.isMobileViewAvailable}
             changeMobileView={changeMobileView}
             changeTitleHandler={changeTitleHandler}
             isVersionHistoryMode={isVersionHistoryMode}

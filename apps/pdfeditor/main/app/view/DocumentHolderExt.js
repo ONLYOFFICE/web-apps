@@ -765,7 +765,7 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
 
-                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    me.menuImgResetCrop.setVisible(isimage && value.imgProps.value.asc_getIsCrop()); 
                     if (me.menuImgResetCrop.isVisible()) 
                         me.menuImgResetCrop.setDisabled(disabled); 
 

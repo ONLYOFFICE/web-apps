@@ -2696,7 +2696,7 @@ define([
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);
 
-                documentHolder.menuImgResetCrop.setVisible(documentHolder.mnuImgAdvanced.imageInfo.asc_getIsCrop()); 
+                documentHolder.menuImgResetCrop.setVisible(isimagemenu && documentHolder.mnuImgAdvanced.imageInfo.asc_getIsCrop()); 
                 documentHolder.menuImgResetCrop.setDisabled(isObjLocked); 
 
                 var isInSign = !!signGuid;
