@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect } from 'react';
 import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,15 @@ const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
+
+    useEffect(() => {
+        if ( $$('.skl-container').length ) {
+            $$('.skl-container').remove();
+        }
+
+        return () => {
+        }
+    }, []);
 
     return (
         <Fragment>
