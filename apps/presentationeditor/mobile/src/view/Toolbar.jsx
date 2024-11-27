@@ -11,6 +11,15 @@ const ToolbarView = props => {
     const isVersionHistoryMode = props.isVersionHistoryMode;
     const isOpenModal = props.isOpenModal;
 
+    useEffect(() => {
+        if ( $$('.skl-container').length ) {
+            $$('.skl-container').remove();
+        }
+
+        return () => {
+        }
+    }, []);
+
     return (
         <Fragment>
             <NavLeft>

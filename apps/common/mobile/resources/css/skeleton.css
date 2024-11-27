@@ -14,10 +14,12 @@ body.theme-type-dark {
     --background-navbar-word: #232323;
     --background-navbar-cell: #232323;
     --background-navbar-slide: #232323;
+
+    background-color: var(--background-primary, #232323);
 }
 
 .skl-navbar {
-    --box-logo-height: 0;
+    --box-logo-height: 0px;
     --skl-navbar-height: 44px;
     --skl-pixel-ratio: 1;
 }
