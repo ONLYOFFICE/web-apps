@@ -169,9 +169,6 @@ class MainPage extends Component {
                                 <div className="slide-h">
                                     <div className="slide-v">
                                         <div className="slide-container">
-                                            <div className="line"></div>
-                                            <div className="line empty"></div>
-                                            <div className="line"></div>
                                         </div>
                                     </div>
                                 </div>
