@@ -206,10 +206,120 @@
             ]
         }
     },
+    "mobile": {
+        "clean": {
+            "deploy": [
+                "../deploy/web-apps/apps/visioeditor/mobile"
+            ],
+            "template-backup": [
+                "../apps/visioeditor/mobile/app/template/backup"
+            ]
+        },
+        "js": {
+            "src": "../apps/visioeditor/mobile/dist/js/app.js",
+            "dest": "../deploy/web-apps/apps/visioeditor/mobile/dist/js/app.js"
+        },
+        "css": {
+            "ios": {
+                "src": [
+                    "../apps/visioeditor/mobile/resources/css/app-ios.css"
+                ],
+                "dist": "../deploy/web-apps/apps/visioeditor/mobile/resources/css/app-ios.css"
+            },
+            "material": {
+                "src": [
+                    "../apps/visioeditor/mobile/resources/css/app-material.css"
+                ],
+                "dist": "../deploy/web-apps/apps/visioeditor/mobile/resources/css/app-material.css"
+            }
+        },
+        "htmlmin": {
+            "templates": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/visioeditor/mobile/app/template/"
+                }
+            ]
+        },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/visioeditor/mobile/**/*.json"
+        },
+        "copy": {
+            "assets": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/css",
+                    "src": "*.css",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/css"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/dist",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/dist"
+                }
+            ],
+            "template-backup": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/app/template/",
+                    "src": "*.template",
+                    "dest": "../apps/visioeditor/mobile/app/template/backup/",
+                    "filter": "isFile"
+                }
+            ],
+            "template-restore": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/app/template/backup/",
+                    "src": "*.template",
+                    "dest": "../apps/visioeditor/mobile/app/template/",
+                    "filter": "isFile"
+                }
+            ],
+            "index-page": {
+                "../deploy/web-apps/apps/visioeditor/mobile/index.html": "../apps/visioeditor/mobile/index.html",
+                "../deploy/web-apps/apps/visioeditor/mobile/index_loader.html": "../apps/visioeditor/mobile/index.html"
+            },
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/locale/"
+                }
+            ],
+            "images-app": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/mobile/resources/img/",
+                    "src": "**/*.{png,svg}",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/resources/img/"
+                }
+            ],
+            "images-common": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/mobile/resources/img/",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/resources/img/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/img/about",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/visioeditor/mobile/resources/img/about"
+                }
+            ]
+        }
+    },
     "tasks": {
         "deploy": [
             "increment-build",
-            "deploy-app-main"
+            "deploy-app-main",
+            "deploy-app-mobile"
         ]
     }
 }

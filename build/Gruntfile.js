@@ -668,7 +668,8 @@ module.exports = function(grunt) {
                     },
                     cmd: function() {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
-                                        packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
+                                        packageFile.name == 'spreadsheeteditor' ? 'cell' :
+                                        packageFile.name == 'visioeditor' ? 'visio' : 'word';
                         return `npm run deploy-${editor}`;
 
                         // const addon_path = `${packageFile.mobile.js.reactjs && !!packageFile.mobile.js.reactjs.features ? `ADDON_ENV=${packageFile.mobile.js.reactjs.features}` : ''}`;
