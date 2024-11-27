@@ -1561,6 +1561,19 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+
+                    me.btnShapesMerge = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon',
+                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capShapesMerge,
+                        menu: true,
+                        action: 'shapes-merge',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-frwd',
@@ -1643,7 +1656,7 @@ define([
                     });
 
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor, me.btnShapesMerge);
 
                     //
                     // Menus
@@ -2112,10 +2125,11 @@ define([
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
-                _injectComponent('#slot-img-group', this.btnImgGroup);
+                _injectComponent('#slot-img-group', this.btnImgGroup); 
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
+                _injectComponent('#slot-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
                 _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
                 _injectComponent('#slot-spin-ind-left', this.numIndentsLeft);
@@ -2361,6 +2375,38 @@ define([
                             me.mniAlignToPage,
                             me.mniAlignToMargin,
                             me.mniAlignObjects
+                        ]
+                    }));
+
+                    me.btnShapesMerge.updateHint(me.tipShapesMerge);
+                    me.btnShapesMerge.setMenu(new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            {
+                                caption: me.textShapesUnion, 
+                                iconCls: 'menu__icon btn-shapes-union',
+                                value: 'unite',
+                            },
+                            {
+                                caption: me.textShapesCombine, 
+                                iconCls: 'menu__icon btn-shapes-combine',
+                                value: 'exclude',
+                            },
+                            {
+                                caption: me.textShapesFragment, 
+                                iconCls: 'menu__icon btn-shapes-fragment',
+                                value: 'divide',
+                            },
+                            {
+                                caption: me.textShapesIntersect, 
+                                iconCls: 'menu__icon btn-shapes-intersect',
+                                value: 'intersect',
+                            },
+                            {
+                                caption: me.textShapesSubtract, 
+                                iconCls: 'menu__icon btn-shapes-subtract',
+                                value: 'subtract',
+                            },
                         ]
                     }));
 

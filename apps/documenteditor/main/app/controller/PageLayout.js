@@ -79,6 +79,8 @@ define([
                 toolbar.btnImgForward.on('click', me.onClickMenuForward.bind(me, 'forward'));
                 toolbar.btnImgBackward.on('click', me.onClickMenuForward.bind(me, 'backward'));
 
+                toolbar.btnShapesMerge.menu.on('item:click', me.onClickMenuShapesMerge.bind(me));
+
                 toolbar.btnsPageBreak.forEach( function(btn) {
                     var _menu_section_break = btn.menu.items[2].menu;
                     _menu_section_break.on('item:click', function (menu, item, e) {
@@ -179,10 +181,10 @@ define([
                         paraProps = objects[i].get_ObjectValue()
                     }
                 }
-                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping]});
-                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(Common.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup]});
+                me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
+                me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnShapesMerge]});
+                me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
+                me.toolbar.lockToolbar(Common.enumLock.inImageInline, wrapping == Asc.c_oAscWrapStyle2.Inline, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnShapesMerge]});
                 me.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, shapeProps && shapeProps.asc_getFromSmartArtInternal(), {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
                 me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
                 me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
@@ -218,6 +220,14 @@ define([
                 } else if (item.value == 7){
                     this.api.DistributeVertically(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                }
+                this.toolbar.fireEvent('editcomplete', this.toolbar);
+            },
+
+            onClickMenuShapesMerge: function (menu, item, e) {
+                if (item && item.value) {
+                    this.api.asc_mergeSelectedShapes(item.value); 
+                    Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },
