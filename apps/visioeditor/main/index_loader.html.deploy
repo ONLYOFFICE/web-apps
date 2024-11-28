@@ -245,7 +245,7 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-        window.uitype = 'draw';
+        window.uitype = 'visio';
 
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';

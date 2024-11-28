@@ -295,7 +295,7 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-        window.uitype = 'draw';
+        window.uitype = 'visio';
     </script>
 
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>

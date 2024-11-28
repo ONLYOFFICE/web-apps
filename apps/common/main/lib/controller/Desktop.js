@@ -618,7 +618,7 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.VE ? 'draw' : !!window.PDFE ? 'form' :
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : !!window.PDFE ? 'form' :
                                                             window.PDFE || config.isPDFForm ? 'form' : 'word'));
                                     menu.hide();
                                 }
@@ -652,7 +652,7 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :!!window.VE ? 'draw' :
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :!!window.VE ? 'visio' :
                                                     window.PDFE || config.isPDFForm ? 'form' : 'word');
                             return true;
                         }

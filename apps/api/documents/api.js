@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'draw' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'visio' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -455,11 +455,11 @@
                         'cell': 'xlsx',
                         'slide': 'pptx',
                         'pdf': 'pdf',
-                        'draw': 'vsdx'
+                        'visio': 'vsdx'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/draw.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/visio.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -483,7 +483,7 @@
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
                         if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
                         if (typeof type[4] === 'string') _config.documentType = 'word'; else
-                        if (typeof type[5] === 'string') _config.documentType = 'draw';
+                        if (typeof type[5] === 'string') _config.documentType = 'visio';
                     }
                 }
 
@@ -1009,7 +1009,7 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
-                'draw': 'visioeditor',
+                'visio': 'visioeditor',
                 'common': 'common'
             },
             appType = 'word',
@@ -1041,7 +1041,7 @@
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
                 if (type && typeof type[4] === 'string') appType = 'slide'; else
-                if (type && typeof type[6] === 'string') appType = 'draw';
+                if (type && typeof type[6] === 'string') appType = 'visio';
             }
         }
         if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
