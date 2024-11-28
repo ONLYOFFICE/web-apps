@@ -23,7 +23,7 @@ import '../../../../common/main/lib/util/LanguageInfo.js'
     )
 class MainController extends Component {
     constructor (props) {
-        super(props)
+        super(props);
         window.editorType = 've';
 
         this.LoadingDocument = -256;
@@ -37,7 +37,6 @@ class MainController extends Component {
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
-        this.stackMacrosRequests = [];
 
         const { t } = this.props;
         this._t = t('Controller.Main', {returnObjects:true});
@@ -178,7 +177,7 @@ class MainController extends Component {
             processArrayScripts(dep_scripts, promise_get_script)
                 .then(() => {
                     const { t } = this.props;
-                    let _translate = t('Controller.Main.SDK', { returnObjects:true })
+                    let _translate = t('Controller.Main.SDK', { returnObjects:true });
 
                     if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
                         _translate = this.fallbackSdkTranslations
@@ -283,7 +282,7 @@ class MainController extends Component {
         } else {
             let arr = (appOptions.lang || 'en').split(/[\-_]/);
 
-            if (arr.length > 1) region = arr[arr.length - 1]
+            if (arr.length > 1) region = arr[arr.length - 1];
             if (!region) {
                 arr = (navigator.language || '').split(/[\-_]/);
                 if (arr.length > 1) region = arr[arr.length - 1]
@@ -346,7 +345,6 @@ class MainController extends Component {
         this._isDocReady = true;
 
         const appOptions = this.props.storeAppOptions;
-        const appSettings = this.props.storeApplicationSettings;
 
         this.api.SetDrawingFreeze(false);
 

@@ -106,12 +106,12 @@ export class storeAppOptions {
         this.buildVersion = params.asc_getBuildVersion();
         this.canCoAuthoring = !this.isLightVersion;
         this.isOffline = Common.EditorApi.get().asc_isOffline();
-        this.isReviewOnly = (permissions.review === true) && (permissions.edit === false);
+        this.isReviewOnly = false;//(permissions.review === true) && (permissions.edit === false);
         this.canRequestEditRights = this.config.canRequestEditRights;
-        this.canEdit = (permissions.edit !== false || permissions.review === true) && // can edit or review
-            (this.config.canRequestEditRights || this.config.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
-            (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
-            isSupportEditFeature;
+        this.canEdit = false;//(permissions.edit !== false || permissions.review === true) && // can edit or review
+            // (this.config.canRequestEditRights || this.config.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
+            // (!this.isReviewOnly || this.canLicense) && // if isReviewOnly==true -> canLicense must be true
+            // isSupportEditFeature;
         this.isEdit = this.canLicense && this.canEdit && this.config.mode !== 'view';
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
         this.canUseHistory = this.canLicense && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp && !this.isOffline;
@@ -119,9 +119,9 @@ export class storeAppOptions {
         this.canHistoryRestore= this.config.canHistoryRestore;
         this.canUseMailMerge = this.canLicense && this.canEdit && !this.isDesktopApp;
         this.canSendEmailAddresses = this.canLicense && this.config.canSendEmailAddresses && this.canEdit && this.canCoAuthoring;
-        this.canComments = this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
+        this.canComments = false;//this.canLicense && (permissions.comment === undefined ? this.isEdit : permissions.comment) && (this.config.mode !== 'view');
         this.canComments = this.canComments && !((typeof (this.customization) == 'object') && this.customization.comments===false);
-        this.canViewComments = this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
+        this.canViewComments = false;//this.canComments || !((typeof (this.customization) == 'object') && this.customization.comments===false);
         this.canEditComments = this.isOffline || !permissions.editCommentAuthorOnly;
         this.canDeleteComments= this.isOffline || !permissions.deleteCommentAuthorOnly;
         if ((typeof (this.customization) == 'object') && this.customization.commentAuthorOnly===true) {
@@ -129,16 +129,14 @@ export class storeAppOptions {
             if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
                 this.canEditComments = this.canDeleteComments = this.isOffline;
         }
-        // this.isForm = !!window.isPDFForm;
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;
         this.trialMode = params.asc_getLicenseMode();
 
-        const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(document.fileType);
-        this.canDownloadOrigin = permissions.download !== false && (type && typeof type[1] === 'string');
-        this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
+        this.canDownloadOrigin = false;
+        this.canDownload = permissions.download !== false;
 
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);

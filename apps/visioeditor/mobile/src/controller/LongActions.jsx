@@ -29,7 +29,6 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             api.asc_registerCallback('asc_onStartAction', onLongActionBegin);
             api.asc_registerCallback('asc_onEndAction', onLongActionEnd);
             api.asc_registerCallback('asc_onOpenDocumentProgress', onOpenDocument);
-            api.asc_registerCallback('asc_onConfirmAction', onConfirmAction);
         };
 
         const api = Common.EditorApi.get();
@@ -46,7 +45,6 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
                 api.asc_unregisterCallback('asc_onStartAction', onLongActionBegin);
                 api.asc_unregisterCallback('asc_onEndAction', onLongActionEnd);
                 api.asc_unregisterCallback('asc_onOpenDocumentProgress', onOpenDocument);
-                api.asc_unregisterCallback('asc_onConfirmAction', onConfirmAction);
             }
 
             Common.Notifications.off('engineCreated', on_engine_created);
@@ -176,29 +174,6 @@ const LongActionsController = inject('storeAppOptions')(({storeAppOptions}) => {
             } else {
                 loadMask = f7.dialog.preloader(title);
             }
-        }
-    };
-
-    const onConfirmAction = (id, apiCallback, data) => {
-        const api = Common.EditorApi.get();
-
-        if (id === Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
-            f7.dialog.create({
-                title: _t.notcriticalErrorTitle,
-                text: _t.confirmMaxChangesSize,
-                buttons: [
-                    {text: _t.textUndo,
-                        onClick: () => {
-                            if (apiCallback) apiCallback(true);
-                        }
-                    },
-                    {text: _t.textContinue,
-                        onClick: () => {
-                            if (apiCallback) apiCallback(false);
-                        }
-                    }
-                ],
-            }).open();
         }
     };
 

@@ -106,10 +106,6 @@ const ErrorController = inject('storeAppOptions','storeVisioInfo')(({storeAppOpt
                 config.msg = _t.errorFilePassProtect;
                 break;
 
-            case Asc.c_oAscError.ID.StockChartError:
-                config.msg = _t.errorStockChart;
-                break;
-
             case Asc.c_oAscError.ID.Database:
                 config.msg = _t.errorDatabaseConnection;
                 break;

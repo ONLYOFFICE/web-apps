@@ -11,9 +11,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
     const appOptions = props.storeAppOptions;
     const isDisconnected = props.users.isDisconnected;
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
-
-    const isEditLocked = true;
-
     const storeToolbarSettings = props.storeToolbarSettings;
     const disabledControls = storeToolbarSettings.disabledControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
@@ -98,7 +95,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
                 parent.location.href = href;
             }
         }
-    }
+    };
 
     const activateControls = () => {
         storeToolbarSettings.setDisabledControls(false);
@@ -172,7 +169,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
                 }
             }
         }).open();
-    }
+    };
 
     const cutDocName = name => {
         if(name.length <= docExt.length) return name;
@@ -212,7 +209,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
                 storeVisioInfo.changeTitle(newTitle);
             }
         }
-    }
+    };
 
     return (
         <ToolbarView 
@@ -220,7 +217,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
             isEdit={appOptions.isEdit}
             docTitle={docTitle}
             isShowBack={isShowBack}
-            disabledEdit={isEditLocked}
             disabledControls={disabledControls}
             disabledSettings={disabledSettings}
             displayCollaboration={displayCollaboration}

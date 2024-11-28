@@ -6,17 +6,13 @@ import { useTranslation } from "react-i18next";
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const storeApplicationSettings = props.storeApplicationSettings;
-    const unitMeasurement = storeApplicationSettings.unitMeasurement;
 
     // set mode
-    const appOptions = props.storeAppOptions;
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
     const themes = storeThemes.themes;
     const typeTheme = colorTheme.type;
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
-    // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
 
     return (
         <Page>
@@ -56,6 +52,5 @@ const PageThemeSettings = props => {
 
 const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
-// const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
 export {ApplicationSettings, ThemeSettings};

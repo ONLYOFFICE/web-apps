@@ -4,7 +4,7 @@ import MainPage from '../page/main';
 var routes = [
     {
         path: '/',
-        component: MainPage,
+        component: MainPage
     }
 ];
 
