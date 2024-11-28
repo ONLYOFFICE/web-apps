@@ -56,9 +56,10 @@ class ContextMenu extends ContextMenuController {
 
         switch (action) {
             case 'openlink':
-                const stack = Common.EditorApi.get().getSelectedElements();
+                const api = Common.EditorApi.get();
+                const stack = api.getSelectedElements ? api.getSelectedElements() : null;
                 let value;
-                stack.forEach((item) => {
+                stack && stack.forEach((item) => {
                     if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
                         value = item.get_ObjectValue().get_Value();
                     }
@@ -110,12 +111,12 @@ class ContextMenu extends ContextMenuController {
         const _t = t("ContextMenu", { returnObjects: true });
 
         const api = Common.EditorApi.get();
-        const stack = api.getSelectedElements();
+        const stack = api.getSelectedElements ? api.getSelectedElements() : null;
 
         let itemsText = [];
         let isLink = false;
 
-        stack.forEach(item => {
+        stack && stack.forEach(item => {
             const objectType = item.get_ObjectType();
             if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
                 isLink = true;
