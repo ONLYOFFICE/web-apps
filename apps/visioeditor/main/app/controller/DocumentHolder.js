@@ -225,6 +225,8 @@ define([
         },
 
         showObjectMenu: function(event, docElement, eOpts){
+            return; // no getSelectedElements
+
             var me = this;
             if (me.api){
                 var obj = me.mode && me.mode.isEdit ? me.fillEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements());
