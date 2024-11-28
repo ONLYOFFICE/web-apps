@@ -184,7 +184,7 @@ define([
                 } else {
                     this.initCodePages();
                     if (this.preview) {
-                        (this.previewData) ? this.previewCallback(this.previewData) : this.updatePreview();
+                        (this.previewData) ? this.textCallback(this.previewData) : this.updatePreview();
                     }
                 }
                 if (this.type == Common.Utils.importTextType.Data) {
