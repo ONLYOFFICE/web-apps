@@ -120,7 +120,8 @@ define([
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
         changeModeLock: 'change-mode-lock',
-        noStyles: 'no-styles'
+        noStyles: 'no-styles',
+        cantMergeShape: 'merge-shape-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1564,8 +1565,8 @@ define([
 
                     me.btnShapesMerge = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon',
-                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        iconCls: 'toolbar__icon btn-merge-shapes',
+                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.cantMergeShape],
                         caption: me.capShapesMerge,
                         menu: true,
                         action: 'shapes-merge',
@@ -2384,27 +2385,27 @@ define([
                         items: [
                             {
                                 caption: me.textShapesUnion, 
-                                iconCls: 'menu__icon btn-shapes-union',
+                                iconCls: 'menu__icon btn-union-shapes',
                                 value: 'unite',
                             },
                             {
                                 caption: me.textShapesCombine, 
-                                iconCls: 'menu__icon btn-shapes-combine',
+                                iconCls: 'menu__icon btn-combine-shapes',
                                 value: 'exclude',
                             },
                             {
                                 caption: me.textShapesFragment, 
-                                iconCls: 'menu__icon btn-shapes-fragment',
+                                iconCls: 'menu__icon btn-fragment-shapes',
                                 value: 'divide',
                             },
                             {
                                 caption: me.textShapesIntersect, 
-                                iconCls: 'menu__icon btn-shapes-intersect',
+                                iconCls: 'menu__icon btn-intersect-shapes',
                                 value: 'intersect',
                             },
                             {
-                                caption: me.textShapesSubtract, 
-                                iconCls: 'menu__icon btn-shapes-subtract',
+                                caption: me.textShapesSubstract, 
+                                iconCls: 'menu__icon btn-substract-shapes',
                                 value: 'subtract',
                             },
                         ]

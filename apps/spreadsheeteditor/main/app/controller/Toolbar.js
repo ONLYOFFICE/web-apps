@@ -470,6 +470,8 @@ define([
                 toolbar.btnPageBreak.menu.on('item:click',                  _.bind(this.onPageBreakClick, this));
                 toolbar.btnPageBreak.menu.on('show:after',                  _.bind(this.onPageBreakMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
+                toolbar.btnShapesMerge.menu.on('item:click',                _.bind(this.onClickMenuShapesMerge, this));
+                toolbar.btnShapesMerge.menu.on('show:before',                _.bind(this.onBeforeShapesMerge, this));
                 toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
@@ -2940,18 +2942,20 @@ define([
 
             need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
                 selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
-            toolbar.lockToolbar(Common.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup]});
+            toolbar.lockToolbar(Common.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup, toolbar.btnShapesMerge]});
 
             var cangroup = this.api.asc_canGroupGraphicsObjects(),
                 canungroup = this.api.asc_canUnGroupGraphicsObjects();
             toolbar.lockToolbar(Common.enumLock.cantGroupUngroup, !cangroup && !canungroup, { array: [toolbar.btnImgGroup]});
             toolbar.btnImgGroup.menu.items[0].setDisabled(!cangroup);
             toolbar.btnImgGroup.menu.items[1].setDisabled(!canungroup);
-            toolbar.lockToolbar(Common.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign]});
+            toolbar.lockToolbar(Common.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign, toolbar.btnShapesMerge]});
 
             var objcount = this.api.asc_getSelectedDrawingObjectsCount();
             toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);
             toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
+ 
+            toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [toolbar.btnShapesMerge] });
 
             // disable on protected sheet
             // lock formatting controls in cell with FormatCells protection or in shape and Objects protection
@@ -4764,6 +4768,20 @@ define([
                     this.api.asc_DistributeSelectedDrawingObjectVer();
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onBeforeShapesMerge: function() {               
+            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+                item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
+            }, this);
+        },
+
+        onClickMenuShapesMerge: function (menu, item) {
+            if (item && item.value) {
+                this.api.asc_mergeSelectedShapes(item.value); 
+                Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },

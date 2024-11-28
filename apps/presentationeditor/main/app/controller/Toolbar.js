@@ -377,6 +377,8 @@ define([
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
+            toolbar.btnShapesMerge.menu.on('item:click',                _.bind(this.onClickMenuShapesMerge, this));
+            toolbar.btnShapesMerge.menu.on('show:before',               _.bind(this.onBeforeShapesMerge, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.btnInsertTable.menu.on('item:click',                _.bind(this.onInsertTableClick, this));
@@ -798,7 +800,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.cmbsInsertShape.concat([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
-                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.btnShapesMerge,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ])});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
@@ -893,6 +895,7 @@ define([
             }
 
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
+            this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
@@ -919,7 +922,7 @@ define([
 
             if (this._state.no_drawing_objects !== no_drawing_objects ) {
                 if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
-                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange]});
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnShapesMerge]});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
@@ -1743,6 +1746,20 @@ define([
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onBeforeShapesMerge: function() {               
+            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+                item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
+            }, this);
+        },
+
+        onClickMenuShapesMerge: function (menu, item) {
+            if (item && item.value) {
+                this.api.asc_mergeSelectedShapes(item.value); 
+                Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onHyperlinkClick: function(btn) {

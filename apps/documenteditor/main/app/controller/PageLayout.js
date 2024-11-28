@@ -80,6 +80,7 @@ define([
                 toolbar.btnImgBackward.on('click', me.onClickMenuForward.bind(me, 'backward'));
 
                 toolbar.btnShapesMerge.menu.on('item:click', me.onClickMenuShapesMerge.bind(me));
+                toolbar.btnShapesMerge.menu.on('show:before', me.onBeforeShapesMerge.bind(me));
 
                 toolbar.btnsPageBreak.forEach( function(btn) {
                     var _menu_section_break = btn.menu.items[2].menu;
@@ -181,6 +182,7 @@ define([
                         paraProps = objects[i].get_ObjectValue()
                     }
                 }
+                me.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !me.api.asc_canMergeSelectedShapes(), { array: [me.toolbar.btnShapesMerge] });
                 me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
                 me.toolbar.lockToolbar(Common.enumLock.imageLock, islocked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnShapesMerge]});
                 me.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward, me.toolbar.btnShapesMerge]});
@@ -222,6 +224,12 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
+            },
+
+            onBeforeShapesMerge: function() {               
+                this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+                    item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
+                }, this);
             },
 
             onClickMenuShapesMerge: function (menu, item, e) {

@@ -3541,7 +3541,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Combine",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubtract": "Subtract",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
   "DE.Views.Toolbar.tipAlignCenter": "Align center",
   "DE.Views.Toolbar.tipAlignJust": "Justified",
   "DE.Views.Toolbar.tipAlignLeft": "Align left",

@@ -113,7 +113,8 @@ define([
         editVisibleArea: 'is-visible-area',
         userProtected: 'cell-user-protected',
         pageBreakLock: 'page-break-lock',
-        fileMenuOpened: 'file-menu-opened'
+        fileMenuOpened: 'file-menu-opened',
+        cantMergeShape: 'merge-shape-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -2226,6 +2227,19 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
+
+                me.btnShapesMerge = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-merge-shapes',
+                    lock: [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText, _set.cantMergeShape, _set["Objects"]],
+                    caption: me.capShapesMerge,
+                    menu: true,
+                    action: 'shapes-merge',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgForward = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-frwd',
@@ -2275,7 +2289,7 @@ define([
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign, me.btnShapesMerge
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -2484,6 +2498,7 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
+            _injectComponent('#slot-shapes-merge',      this.btnShapesMerge);
             _injectComponent('#slot-btn-scale',         this.btnScale);
             _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
             _injectComponent('#slot-btn-visible-area',  this.btnVisibleArea);
@@ -3424,6 +3439,39 @@ define([
                     value: 7
                 }]
             }));
+
+            me.btnShapesMerge.updateHint(me.tipShapesMerge);
+            me.btnShapesMerge.setMenu(new Common.UI.Menu({
+                cls: 'shifted-right',
+                items: [
+                    {
+                        caption: me.textShapesUnion, 
+                        iconCls: 'menu__icon btn-union-shapes',
+                        value: 'unite',
+                    },
+                    {
+                        caption: me.textShapesCombine, 
+                        iconCls: 'menu__icon btn-combine-shapes',
+                        value: 'exclude',
+                    },
+                    {
+                        caption: me.textShapesFragment, 
+                        iconCls: 'menu__icon btn-fragment-shapes',
+                        value: 'divide',
+                    },
+                    {
+                        caption: me.textShapesIntersect, 
+                        iconCls: 'menu__icon btn-intersect-shapes',
+                        value: 'intersect',
+                    },
+                    {
+                        caption: me.textShapesSubstract, 
+                        iconCls: 'menu__icon btn-substract-shapes',
+                        value: 'subtract',
+                    },
+                ]
+            }));
+
 
             me.btnImgGroup.updateHint(me.tipImgGroup);
             me.btnImgGroup.setMenu(new Common.UI.Menu({
