@@ -366,18 +366,21 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
-                // var delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
-                //     delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
-                // var value = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter" : "sse-settings-data-delimiter");
-                // if (value) {
-                //     value = parseInt(value);
-                //     if (!isNaN(value)) {
-                //         delimiter = value;
-                //         (delimiter===-1) && (delimiterChar = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter-char" : "sse-settings-data-delimiter-char") || '');
-                //     }
-                // }
+                var delimiter = '',
+                    delimiterChar = '';
+                if (!this.preview) { // don't need to detect delimiter (save to csv)
+                    delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                    delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
+                    var value = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter" : "sse-settings-data-delimiter");
+                    if (value) {
+                        value = parseInt(value);
+                        if (!isNaN(value)) {
+                            delimiter = value;
+                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter-char" : "sse-settings-data-delimiter-char") || '');
+                        }
+                    }
+                }
 
-                var delimiter = '';
                 this.cmbDelimiter = new Common.UI.ComboBox({
                     el: $('#id-delimiters-combo', this.$window),
                     style: 'width: 100px;',
@@ -402,7 +405,7 @@ define([
                     maxLength: 1,
                     validateOnChange: true,
                     validateOnBlur: false,
-                    value: ''
+                    value: delimiterChar
                 });
                 this.inputDelimiter.setVisible(delimiter===-1);
                 this.inputDelimiter.on ('changing', _.bind(this.onInputCharChanging, this));
