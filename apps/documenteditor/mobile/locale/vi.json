@@ -845,6 +845,7 @@
     "textRenameFile": "Rename File",
     "textEnterNewFileName": "Enter a new file name",
     "textCloseHistory": "Close History",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

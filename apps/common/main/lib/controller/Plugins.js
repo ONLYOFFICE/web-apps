@@ -111,6 +111,7 @@ define([
 
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
+            this.startOnPostLoad = false;
             this.customPluginsDlg = [];
             this.macrosPlugin = {el: null, show: false};
 
@@ -124,6 +125,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
             Common.NotificationCenter.on('modal:close', this.onModalClose.bind(this));
+            Common.NotificationCenter.on('script:loaded', this.onPostLoadComplete.bind(this));
         },
 
         loadConfig: function(data) {
@@ -135,7 +137,7 @@ define([
 
         loadPlugins: function() {
             this.configPlugins.plugins =
-            this.serverPlugins.plugins = false;
+            this.serverPlugins.plugins = undefined;
 
             if (this.configPlugins.config) {
                 this.getPlugins(this.configPlugins.config.pluginsData)
@@ -149,7 +151,8 @@ define([
 
                 if (this.configPlugins.config.options)
                     this.api.setPluginsOptions(this.configPlugins.config.options);
-            }
+            } else
+                this.configPlugins.plugins = false;
 
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
                 var server_plugins_url = '../../../../plugins.json',
@@ -165,7 +168,8 @@ define([
                             .catch(function (err) {
                                 me.serverPlugins.plugins = false;
                             });
-                    }
+                    } else
+                        me.serverPlugins.plugins = false;
                 });
             }
         },
@@ -1007,7 +1011,8 @@ define([
 
             if (this.appOptions.canPlugins) {
                 this.refreshPluginsList();
-                this.runAutoStartPlugins();
+                this.startOnPostLoad = !Common.Controllers.LaunchController.isScriptLoaded();
+                !this.startOnPostLoad && this.runAutoStartPlugins();
             }
         },
 
@@ -1376,6 +1381,10 @@ define([
                 this.backgroundPluginsTip = undefined;
                 this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
             }
+        },
+
+        onPostLoadComplete: function() {
+            this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
         textRunPlugin: 'Run plugin',

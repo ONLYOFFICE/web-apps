@@ -809,6 +809,7 @@
     "stayButtonText": "Bu səhifədə qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
     "textOk": "OK",
+    "warnEmptyRequiredField": "Tələb olunan bütün sahələri doldurub formanı göndərin.",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",

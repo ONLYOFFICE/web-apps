@@ -807,6 +807,7 @@
     "dlgLeaveTitleText": "U verlaat de toepassing",
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
+    "warnEmptyRequiredField": "Vul alle verplichte velden in om het formulier te verzenden.",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",

@@ -810,6 +810,7 @@
     "textOk": "好",
     "textSwitchedMobileView": "切換至行動版檢視",
     "textSwitchedStandardView": "切換至標準版檢視",
+    "warnEmptyRequiredField": "填寫所有必填欄位以傳送表單。",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",

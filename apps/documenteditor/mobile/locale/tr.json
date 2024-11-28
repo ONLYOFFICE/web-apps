@@ -813,6 +813,7 @@
     "textRenameFile": "Dosyayı yeniden adlandır.",
     "textSwitchedMobileView": "Mobil görünüme geçildi",
     "textSwitchedStandardView": "Standart görünüme geçildi",
+    "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun.",
     "btnSend": "Send"
   }
 }

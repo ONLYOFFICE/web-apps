@@ -813,6 +813,7 @@
     "textOk": "Aceptar",
     "textRenameFile": "Renombrar archivo",
     "textSwitchedMobileView": "Cambiado a vista móvil",
-    "textSwitchedStandardView": "Cambiado a vista estándar"
+    "textSwitchedStandardView": "Cambiado a vista estándar",
+    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario."
   }
 }

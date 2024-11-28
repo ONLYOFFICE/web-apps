@@ -65,6 +65,7 @@ export class storeAppOptions {
         this.typeProtection = type;
     }
 
+    isMobileViewAvailable = true;
     isMobileView = true;
     changeMobileView() {
         this.isMobileView = !this.isMobileView;

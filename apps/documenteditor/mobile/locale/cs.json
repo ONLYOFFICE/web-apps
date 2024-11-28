@@ -813,6 +813,7 @@
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
     "btnSend": "Send"
   }
 }
