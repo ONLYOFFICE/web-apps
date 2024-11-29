@@ -45,8 +45,6 @@
       "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
       "leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
       "notcriticalErrorTitle": "Warning",
-      "SDK": {
-      },
       "textAnonymous": "Anonymous",
       "textBuyNow": "Visit website",
       "textClose": "Close",
@@ -163,6 +161,12 @@
     "textRenameFile": "Rename File"
   },
   "View": {
+    "Edit": {
+      "notcriticalErrorTitle": "Warning",
+      "textCancel": "Cancel",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textOk": "Ok"
+    },
     "Settings": {
       "notcriticalErrorTitle": "Warning",
       "textAbout": "About",
@@ -191,9 +195,6 @@
       "textOk": "Ok",
       "textOwner": "Owner",
       "textPoweredBy": "Powered By",
-      "textVisioInfo": "Visio Info",
-      "textVisioSettings": "Visio Settings",
-      "textVisioTitle": "Visio Title",
       "textPrint": "Print",
       "textSameAsSystem": "Same As System",
       "textSearch": "Find",
@@ -203,13 +204,10 @@
       "textTheme": "Theme",
       "textTitle": "Title",
       "textUploaded": "Uploaded",
-      "textVersion": "Version"
-    },
-    "Edit": {
-      "notcriticalErrorTitle": "Warning",
-      "textCancel": "Cancel",
-      "textOk": "Ok",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textVersion": "Version",
+      "textVisioInfo": "Visio Info",
+      "textVisioSettings": "Visio Settings",
+      "textVisioTitle": "Visio Title"
     }
   }
 }

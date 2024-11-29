@@ -536,7 +536,6 @@
       "textReplace": "取代",
       "textReplaceAll": "全部取代",
       "textRestartApplication": "請重新啟動應用程式以讓變更生效",
-      "textRTL": "從右至左",
       "textSearch": "搜尋",
       "textSettings": "設定",
       "textShowNotification": "顯示通知",
@@ -551,9 +550,7 @@
       "textVersion": "版本",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textVersionHistory": "Version History"
     }

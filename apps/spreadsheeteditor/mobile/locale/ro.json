@@ -369,9 +369,9 @@
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
     "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -754,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
       "textExample": "Exemplu",
-      "textExplanationChangeDirection": "Aplicația va fi repornită pentru a activa interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textFeedback": "Feedback și asistența",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
@@ -796,7 +795,6 @@
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRight": "Dreapta",
       "textRightToLeft": "De la dreapta la stânga",
-      "textRtlInterface": "Interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSearchBy": "Căutare",

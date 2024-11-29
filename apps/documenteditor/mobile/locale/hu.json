@@ -795,11 +795,9 @@
     "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll",
     "textClearAllFields": "Clear All Fields",
     "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textRtlInterface": "RTL Interface",
     "textTheme": "Theme"
   },
   "Toolbar": {

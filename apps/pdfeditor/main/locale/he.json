@@ -262,7 +262,7 @@
   "Common.Views.OpenDialog.txtPassword": "סיסמה",
   "Common.Views.OpenDialog.txtPreview": "תצוגה מקדימה",
   "Common.Views.OpenDialog.txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית לקובץ תאופס.",
-  "Common.Views.OpenDialog.txtTitle": "בחר % 1 אפשרויות",
+  "Common.Views.OpenDialog.txtTitle": "בחר %1 אפשרויות",
   "Common.Views.OpenDialog.txtTitleProtected": "קובץ מוגן",
   "Common.Views.PasswordDialog.txtDescription": "הגדר סיסמה כדי להגן על מסמך זה",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "סיסמת האישור אינה זהה",
@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "עריכת טקסט",
   "PDFE.Views.DocumentHolder.textRedo": "לעשות שוב",
   "PDFE.Views.DocumentHolder.textReplace": "החלף תמונה",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "סובב",
   "PDFE.Views.DocumentHolder.textRotate270": "סובב 90 מעלות נגד כיוון השעון",
   "PDFE.Views.DocumentHolder.textRotate90": "סובב 90 מעלות עם כיוון השעון",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "החלף תמונה",
   "PDFE.Views.ImageSettings.textOriginalSize": "גודל בפועל",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "בשימוש לאחרונה",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "לסובב 90 מעלות",
   "PDFE.Views.ImageSettings.textRotation": "סיבוב",
   "PDFE.Views.ImageSettings.textSize": "גודל",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

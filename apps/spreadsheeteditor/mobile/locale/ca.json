@@ -368,9 +368,9 @@
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -753,7 +753,6 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense una notificació",
       "textEncoding": "Codificació",
       "textExample": "Exemple",
-      "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
       "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cercar",
       "textFindAndReplace": "Cercar i substituir",
@@ -795,7 +794,6 @@
       "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
       "textRight": "Dreta",
       "textRightToLeft": "De dreta a esquerra",
-      "textRtlInterface": "Interfície RTL",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Cercar",
       "textSearchBy": "Cercar",

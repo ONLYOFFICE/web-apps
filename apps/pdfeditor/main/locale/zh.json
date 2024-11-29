@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "编辑文本",
   "PDFE.Views.DocumentHolder.textRedo": "重做",
   "PDFE.Views.DocumentHolder.textReplace": "替换图片",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "旋转",
   "PDFE.Views.DocumentHolder.textRotate270": "逆时针旋转90°",
   "PDFE.Views.DocumentHolder.textRotate90": "顺时针旋转90°",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "替换图片",
   "PDFE.Views.ImageSettings.textOriginalSize": "实际大小",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "最近使用的",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "旋转90°",
   "PDFE.Views.ImageSettings.textRotation": "旋转",
   "PDFE.Views.ImageSettings.textSize": "大小",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

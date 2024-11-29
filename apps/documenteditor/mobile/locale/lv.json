@@ -788,7 +788,6 @@
     "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textLight": "Light",
@@ -797,7 +796,6 @@
     "textProtectTurnOff": "Protection is turned off",
     "textRemoveFromFavorites": "Remove from Favorites",
     "textRequirePassword": "Require Password",
-    "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing"

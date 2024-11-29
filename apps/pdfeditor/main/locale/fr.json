@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Modifier le texte",
   "PDFE.Views.DocumentHolder.textRedo": "Rétablir",
   "PDFE.Views.DocumentHolder.textReplace": "Remplacer l’image",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Faire pivoter",
   "PDFE.Views.DocumentHolder.textRotate270": "Faire pivoter à gauche de 90°",
   "PDFE.Views.DocumentHolder.textRotate90": "Faire pivoter à droite de 90°",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Remplacer l’image",
   "PDFE.Views.ImageSettings.textOriginalSize": "Taille réelle",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Récemment utilisés",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Faire pivoter de 90°",
   "PDFE.Views.ImageSettings.textRotation": "Rotation",
   "PDFE.Views.ImageSettings.textSize": "Taille",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajuster à la page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface"
 }

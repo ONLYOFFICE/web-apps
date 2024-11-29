@@ -368,9 +368,9 @@
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -860,9 +860,7 @@
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
   }
 }

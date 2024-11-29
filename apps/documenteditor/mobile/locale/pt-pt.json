@@ -798,9 +798,7 @@
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
     "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
-    "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Edit Text",
   "PDFE.Views.DocumentHolder.textRedo": "Redo",
   "PDFE.Views.DocumentHolder.textReplace": "Replace image",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Rotate",
   "PDFE.Views.DocumentHolder.textRotate270": "Rotate 90В° Counterclockwise",
   "PDFE.Views.DocumentHolder.textRotate90": "Rotate 90В° Clockwise",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Replace Image",
   "PDFE.Views.ImageSettings.textOriginalSize": "Actual size",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Recently used",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Rotate 90В°",
   "PDFE.Views.ImageSettings.textRotation": "Rotation",
   "PDFE.Views.ImageSettings.textSize": "Size",
@@ -1578,7 +1580,7 @@
   "PDFE.Views.ParagraphSettingsAdvanced.txtAutoText": "Auto",
   "PDFE.Views.PrintWithPreview.textMarginsLast": "마지막 사용자 정의",
   "PDFE.Views.PrintWithPreview.textMarginsModerate": "보통",
-  "PDFE.Views.PrintWithPreview.textMarginsNarrow": "좁다",
+  "PDFE.Views.PrintWithPreview.textMarginsNarrow": "좁게",
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "표준",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "넓게",
   "PDFE.Views.PrintWithPreview.txtAllPages": "전체 페이지",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

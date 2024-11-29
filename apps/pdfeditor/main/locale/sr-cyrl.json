@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Препознај",
   "PDFE.Views.DocumentHolder.textRedo": "Уради поново",
   "PDFE.Views.DocumentHolder.textReplace": "Замени слику",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Ротирај",
   "PDFE.Views.DocumentHolder.textRotate270": "Ротирај 90° супротно од смера казаљке на сату",
   "PDFE.Views.DocumentHolder.textRotate90": "Ротирај 90° у смеру казаљке на сату",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Замени слику",
   "PDFE.Views.ImageSettings.textOriginalSize": "Стварна величина",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Недавно коришћено",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Ротирај 90°",
   "PDFE.Views.ImageSettings.textRotation": "Ротација",
   "PDFE.Views.ImageSettings.textSize": "Величина",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

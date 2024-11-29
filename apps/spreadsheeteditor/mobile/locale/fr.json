@@ -369,9 +369,9 @@
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
     "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
@@ -754,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
       "textEncoding": "Encodage",
       "textExample": "Exemple",
-      "textExplanationChangeDirection": "L'application sera redémarrée pour activer l'interface RTL",
       "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
@@ -796,7 +795,6 @@
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRight": "À droite",
       "textRightToLeft": "De droite à gauche",
-      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSearchBy": "Rechercher",

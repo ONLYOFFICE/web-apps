@@ -347,6 +347,7 @@
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
     "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
@@ -354,11 +355,10 @@
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
-    "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
-    "errorPivotGroup": "Cannot group that selection.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorPivotGroup": "Cannot group that selection.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
@@ -860,8 +860,6 @@
       "txtZh": "Chinês",
       "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?",
       "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System"
     }
   }

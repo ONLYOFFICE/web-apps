@@ -369,9 +369,9 @@
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
     "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "密码",
@@ -754,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "启用全部宏，不显示通知",
       "textEncoding": "编码",
       "textExample": "例子",
-      "textExplanationChangeDirection": "应用程序将重新启动以开启 RTL 界面",
       "textFeedback": "反馈和支持",
       "textFind": "查找",
       "textFindAndReplace": "查找和替换",
@@ -796,7 +795,6 @@
       "textRestartApplication": "请重新启动应用程序以使更改生效",
       "textRight": "右",
       "textRightToLeft": "從右到左",
-      "textRtlInterface": "RTL 界面 (文字从右到左)",
       "textSameAsSystem": "与系统一致",
       "textSearch": "搜索",
       "textSearchBy": "搜索",

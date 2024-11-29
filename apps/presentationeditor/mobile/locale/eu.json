@@ -538,7 +538,6 @@
       "textReplace": "Ordeztu",
       "textReplaceAll": "Ordeztu guztia",
       "textRestartApplication": "Mesedez berrabiarazi aplikazioa aldaketek eragina izan dezaten",
-      "textRTL": "Esk.-Ezk.",
       "textSameAsSystem": "Sistemako berdina",
       "textSearch": "Bilatu",
       "textSettings": "Ezarpenak",
@@ -553,9 +552,7 @@
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
       "textVersionHistory": "Bertsioen historia",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
   }
 }

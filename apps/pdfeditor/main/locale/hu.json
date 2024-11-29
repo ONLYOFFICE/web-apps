@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Edit Text",
   "PDFE.Views.DocumentHolder.textRedo": "Redo",
   "PDFE.Views.DocumentHolder.textReplace": "Replace image",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Rotate",
   "PDFE.Views.DocumentHolder.textRotate270": "Rotate 90В° Counterclockwise",
   "PDFE.Views.DocumentHolder.textRotate90": "Rotate 90В° Clockwise",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Replace Image",
   "PDFE.Views.ImageSettings.textOriginalSize": "Actual size",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Recently used",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Rotate 90В°",
   "PDFE.Views.ImageSettings.textRotation": "Rotation",
   "PDFE.Views.ImageSettings.textSize": "Size",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
 }

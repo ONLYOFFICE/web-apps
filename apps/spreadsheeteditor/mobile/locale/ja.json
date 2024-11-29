@@ -369,9 +369,9 @@
     "uploadImageExtMessage": "不明なイメージ形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
     "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "パスワード",
@@ -754,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを有効にする",
       "textEncoding": "エンコード",
       "textExample": "例文",
-      "textExplanationChangeDirection": "RTLインターフェースのアクティベーションのため、アプリケーションが再起動されます。",
       "textFeedback": "フィードバック＆サポート",
       "textFind": "検索する",
       "textFindAndReplace": "検索と置換",
@@ -796,7 +795,6 @@
       "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
       "textRight": "右",
       "textRightToLeft": "右から左に",
-      "textRtlInterface": "RTLインターフェース",
       "textSameAsSystem": "システム設定と同じ",
       "textSearch": "検索",
       "textSearchBy": "検索",

@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Upravit text",
   "PDFE.Views.DocumentHolder.textRedo": "Znovu",
   "PDFE.Views.DocumentHolder.textReplace": "Nahradit obrázek",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Otočit",
   "PDFE.Views.DocumentHolder.textRotate270": "Otočit o 90° doleva",
   "PDFE.Views.DocumentHolder.textRotate90": "Otočit o 90° doprava",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Nahradit obrázek",
   "PDFE.Views.ImageSettings.textOriginalSize": "Skutečná velikost",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Nedávno použité",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Otočit o 90°",
   "PDFE.Views.ImageSettings.textRotation": "Otočení",
   "PDFE.Views.ImageSettings.textSize": "Velikost",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Přízpůsobit stránce",
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní"
 }

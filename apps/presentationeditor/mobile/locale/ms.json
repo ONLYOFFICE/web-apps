@@ -535,7 +535,6 @@
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
       "textRestartApplication": "Mulakan semula aplikasi untuk perubahan tersebut berkuat kuasa",
-      "textRTL": "RTL",
       "textSearch": "Carian",
       "textSettings": "Seting",
       "textShowNotification": "Tunjuk Pemberitahuan",
@@ -549,10 +548,8 @@
       "textVersion": "Versi",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"

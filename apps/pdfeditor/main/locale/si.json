@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "පෙළ සංස්කරණය",
   "PDFE.Views.DocumentHolder.textRedo": "පසුසේ",
   "PDFE.Views.DocumentHolder.textReplace": "අනුරුව ප්‍රතිස්ථාපනය",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "කරකවන්න",
   "PDFE.Views.DocumentHolder.textRotate270": "90° වාමාවර්තව කරකවන්න",
   "PDFE.Views.DocumentHolder.textRotate90": "90° දක්‍ෂිණාවර්තව කරකවන්න",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "අනුරුව ප්‍රතිස්ථාපනය",
   "PDFE.Views.ImageSettings.textOriginalSize": "සැබෑ ප්‍රමාණය",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "මෑතදී භාවිතා කළ",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "90° කරකවන්න",
   "PDFE.Views.ImageSettings.textRotation": "කරකැවීම",
   "PDFE.Views.ImageSettings.textSize": "ප්‍රමාණය",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

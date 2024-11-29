@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "Sunting Teks",
   "PDFE.Views.DocumentHolder.textRedo": "Redo",
   "PDFE.Views.DocumentHolder.textReplace": "Gantikan gambar",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "Putar",
   "PDFE.Views.DocumentHolder.textRotate270": "Putar 90° Berlawanan Arah Jarum Jam",
   "PDFE.Views.DocumentHolder.textRotate90": "Putar 90° Searah Jarum Jam",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "Gantikan gambar",
   "PDFE.Views.ImageSettings.textOriginalSize": "Ukuran sebenarnya",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "Recently used",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "Putar 90°",
   "PDFE.Views.ImageSettings.textRotation": "Rotasi",
   "PDFE.Views.ImageSettings.textSize": "Ukuran",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }

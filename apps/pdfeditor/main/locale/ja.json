@@ -1133,6 +1133,7 @@
   "PDFE.Views.DocumentHolder.textRecognize": "テキストの編集",
   "PDFE.Views.DocumentHolder.textRedo": "やり直し",
   "PDFE.Views.DocumentHolder.textReplace": "画像の置き換え",
+  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
   "PDFE.Views.DocumentHolder.textRotate": "回転",
   "PDFE.Views.DocumentHolder.textRotate270": "反時計回りに90度回転",
   "PDFE.Views.DocumentHolder.textRotate90": "時計回りに90度回転",
@@ -1402,6 +1403,7 @@
   "PDFE.Views.ImageSettings.textInsert": "画像の置き換え",
   "PDFE.Views.ImageSettings.textOriginalSize": "実際のサイズ",
   "PDFE.Views.ImageSettings.textRecentlyUsed": "最近使った項目",
+  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop",
   "PDFE.Views.ImageSettings.textRotate90": "90度回転",
   "PDFE.Views.ImageSettings.textRotation": "回転",
   "PDFE.Views.ImageSettings.textSize": "サイズ",
@@ -2020,7 +2022,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.DocumentHolder.textResetCrop": "Reset crop",
-  "PDFE.Views.ImageSettings.textResetCrop": "Reset crop"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
 }

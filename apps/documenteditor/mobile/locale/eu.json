@@ -798,9 +798,7 @@
     "txtIncorrectPwd": "Pasahitza ez da zuzena",
     "txtOk": "Ados",
     "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
-    "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

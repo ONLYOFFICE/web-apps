@@ -536,7 +536,6 @@
       "textReplace": "Aizvietot",
       "textReplaceAll": "Aizvietot visus",
       "textRestartApplication": "Restartējiet programmu, lai izmaiņas stātos spēkā",
-      "textRTL": "RTL",
       "textSearch": "Meklēt",
       "textSettings": "Iestatījumi",
       "textShowNotification": "Rādīt paziņojumu",
@@ -551,9 +550,7 @@
       "textVersionHistory": "Versiju vēsture",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
