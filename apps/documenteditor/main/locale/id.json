@@ -3684,5 +3684,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
+  "DE.Controllers.Main.textUpdating": "Updating",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

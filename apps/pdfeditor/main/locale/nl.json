@@ -2022,5 +2022,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

@@ -2022,5 +2022,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

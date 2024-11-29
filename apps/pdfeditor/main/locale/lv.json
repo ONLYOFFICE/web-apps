@@ -2022,5 +2022,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

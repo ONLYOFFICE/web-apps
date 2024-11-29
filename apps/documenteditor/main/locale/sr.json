@@ -3684,5 +3684,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
+  "DE.Controllers.Main.textUpdating": "Updating",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

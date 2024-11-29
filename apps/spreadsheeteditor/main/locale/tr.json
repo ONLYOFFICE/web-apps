@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

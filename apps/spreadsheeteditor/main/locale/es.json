@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

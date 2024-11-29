@@ -3684,5 +3684,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
+  "DE.Controllers.Main.textUpdating": "Updating",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

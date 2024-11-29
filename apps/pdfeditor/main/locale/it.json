@@ -2022,5 +2022,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Adatta alla pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

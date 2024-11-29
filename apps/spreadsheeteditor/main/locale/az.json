@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

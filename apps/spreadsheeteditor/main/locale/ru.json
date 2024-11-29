@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введите пароль для отключения защиты листа",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

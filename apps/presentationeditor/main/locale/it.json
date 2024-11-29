@@ -2963,5 +2963,9 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Controllers.Main.textUpdating": "Updating",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

@@ -3684,5 +3684,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Controllers.Main.textUpdating": "Updating",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

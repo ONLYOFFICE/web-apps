@@ -3684,5 +3684,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "DE.Controllers.Main.textUpdating": "Updating",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

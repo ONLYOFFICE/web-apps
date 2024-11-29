@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Írjon be egy jelszót a munkalap védelmének megszüntetéséhez",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Munkalap védelmének megszüntetése",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Írjon be egy jelszót a munkafüzet védelmének megszüntetéséhez",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

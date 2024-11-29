@@ -2022,5 +2022,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }

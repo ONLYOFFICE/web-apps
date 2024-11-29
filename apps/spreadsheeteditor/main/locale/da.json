@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ubeskyt projektmappe",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

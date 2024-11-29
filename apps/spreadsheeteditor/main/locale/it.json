@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Inserisci una password per rimuovere la protezione del foglio",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Rimuovi la protezione del foglio",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Inserisci una password per rimuovere la protezione del libro di lavoro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

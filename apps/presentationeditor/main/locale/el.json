@@ -2963,5 +2963,9 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.Main.textUpdating": "Updating",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
 }

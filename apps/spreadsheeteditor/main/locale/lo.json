@@ -4524,5 +4524,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "ໃສ່ລະຫັດຜ່ານເພື່ອຍົກເລີກການປ້ອງກັນແຜ່ນ",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ",
+  "SSE.Controllers.Main.textUpdating": "Updating",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
 }
