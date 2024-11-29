@@ -364,6 +364,12 @@ SSE.ApplicationController = new(function(){
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+        if (api) {
+            api.asc_Resize();
+            var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom)/100 : 1);
+            api.asc_setZoom(zf>0 ? zf : 1);
+        }
+
         var dividers = $('#box-tools .divider');
         var itemsCount = $('#box-tools a').length;
 
@@ -551,6 +557,9 @@ SSE.ApplicationController = new(function(){
 
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
+
+        onSheetsChanged();
+        setupScrollButtons();
     }
 
     function onEditorPermissions(params) {
@@ -611,20 +620,6 @@ SSE.ApplicationController = new(function(){
 
     function onLongActionEnd(type, id){
         if (type === Asc.c_oAscAsyncActionType.BlockInteraction) {
-            switch (id) {
-                case Asc.c_oAscAsyncAction.Open:
-                    if (api) {
-                        api.asc_Resize();
-                        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom)/100 : 1);
-                        api.asc_setZoom(zf>0 ? zf : 1);
-                    }
-
-                    onDocumentContentReady();
-                    onSheetsChanged();
-                    setupScrollButtons();
-                    break;
-            }
-
             me.loadMask && me.loadMask.hide();
         }
     }
@@ -917,6 +912,7 @@ SSE.ApplicationController = new(function(){
         if (api){
             api.asc_registerCallback('asc_onEndAction',             onLongActionEnd);
             api.asc_registerCallback('asc_onError',                 onError);
+            api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
             api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);

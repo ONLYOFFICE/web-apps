@@ -147,6 +147,10 @@ if (window.Common === undefined) {
                 $me.trigger('setreferencedata', data);
             },
 
+            'refreshFile': function(data) {
+                $me.trigger('refreshfile', data);
+            },
+
             'setRequestedDocument': function(data) {
                 $me.trigger('setrequesteddocument', data);
             },
@@ -404,6 +408,10 @@ if (window.Common === undefined) {
 
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            requestRefreshFile: function() {
+                _postMessage({ event: 'onRequestRefreshFile' });
             },
 
             saveDocument: function(data) {
