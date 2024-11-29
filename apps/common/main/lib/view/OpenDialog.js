@@ -450,7 +450,7 @@ define([
             } else {
                 var res = this.api.asc_getCSVDelimiter(text);
                 text = res.text;
-                delimiter = res.delimiter;
+                delimiter = res.delimiter || -1;
                 delimiterChar = delimiter===-1 ? res.delimiterChar || '' : '';
                 this.cmbDelimiter.setValue(delimiter);
                 this.inputDelimiter.setVisible(delimiter===-1);
