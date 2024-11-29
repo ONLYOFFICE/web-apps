@@ -78,6 +78,11 @@ class MainController extends Component {
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
 
                 this.loadDefaultMetricSettings();
+
+                if (this.editorConfig.canRequestRefreshFile) {
+                    Common.Gateway.on('refreshfile', this.onRefreshFile.bind(this));
+                    this.api.asc_registerCallback('asc_onRequestRefreshFile', this.onRequestRefreshFile.bind(this));
+                }
             };
 
             const loadDocument = data => {
@@ -160,7 +165,15 @@ class MainController extends Component {
                         title: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.titleLicenseNotActive') : t('Controller.Main.titleLicenseExp'),
                         text: Asc.c_oLicenseResult.NotBefore === licType ? t('Controller.Main.warnLicenseBefore') : t('Controller.Main.warnLicenseExp')
                     }).open();
+                    if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
+                        Common.Notifications.trigger('api:disconnect');
+                    }
+                    return;
+                }
 
+                if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
+                if ( this._isDocReady || this._isPermissionsInited ) {
+                    this.api.asc_LoadDocument();
                     return;
                 }
 
@@ -169,6 +182,8 @@ class MainController extends Component {
                 const storeAppOptions = this.props.storeAppOptions;
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
                 this.applyMode(storeAppOptions);
+
+                this._isPermissionsInited = true;
 
                 this.api.asc_LoadDocument();
                 this.api.Resize();
@@ -528,7 +543,7 @@ class MainController extends Component {
         const { t } = this.props;
         const _t = t('Controller.Main', {returnObjects:true});
 
-        if (About.appVersion() !== buildVersion && !window.compareVersions) {
+        if (About.appVersion() !== buildVersion && !About.compareVersions()) {
             this.changeServerVersion = true;
             f7.dialog.alert(
                 _t.errorServerVersion,
@@ -536,6 +551,9 @@ class MainController extends Component {
                 () => {
                     setTimeout(() => {Common.Gateway.updateVersion()}, 0);
                 });
+            if (this._isDocReady) { // receive after refresh file
+                Common.Notifications.trigger('api:disconnect');
+            }
             return true;
         }
         return false;
@@ -754,6 +772,63 @@ class MainController extends Component {
             }).open();
         } else {
             Common.Gateway.requestClose();
+        }
+    }
+
+    onRequestRefreshFile () {
+        Common.Gateway.requestRefreshFile();
+    }
+
+    onRefreshFile (data) {
+        if (data) {
+            let docInfo = new Asc.asc_CDocInfo();
+            if (data.document) {
+                docInfo.put_Id(data.document.key);
+                docInfo.put_Url(data.document.url);
+                docInfo.put_Title(data.document.title);
+                if (data.document.title) {
+                    const storeVisioInfo = this.props.storeVisioInfo;
+                    storeVisioInfo.changeTitle(data.document.title);
+                    this.document.title = data.document.title;
+                    Common.Notifications.trigger('setdoctitle', data.document.title);
+                }
+                data.document.referenceData && docInfo.put_ReferenceData(data.document.referenceData);
+            }
+            if (data.editorConfig) {
+                docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
+            }
+            if (data.token)
+                docInfo.put_Token(data.token);
+
+            const _userOptions = this.props.storeAppOptions.user;
+            const _user = new Asc.asc_CUserInfo();
+            _user.put_Id(_userOptions.id);
+            _user.put_FullName(_userOptions.fullname);
+            _user.put_IsAnonymousUser(_userOptions.anonymous);
+            docInfo.put_UserInfo(_user);
+
+            const _options = Object.assign({}, this.document.options, this.editorConfig.actionLink || {});
+            docInfo.put_Options(_options);
+
+            docInfo.put_Format(this.document.fileType);
+            docInfo.put_Lang(this.editorConfig.lang);
+            docInfo.put_Mode(this.editorConfig.mode);
+            docInfo.put_Permissions(this.permissions);
+            docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
+            docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+            docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
+
+            let enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+            docInfo.asc_putIsEnabledMacroses(!!enable);
+            enable = false;//!this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+            docInfo.asc_putIsEnabledPlugins(!!enable);
+
+            // let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
+            //     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
+            //     this.editorConfig.coEditing.mode || 'fast';
+            var coEditMode = 'strict';
+            docInfo.put_CoEditingMode(coEditMode);
+            this.api.asc_refreshFile(docInfo);
         }
     }
 

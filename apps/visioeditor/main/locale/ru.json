@@ -408,5 +408,8 @@
   "VE.Views.ViewTab.textZoom": "Масштаб",
   "VE.Views.ViewTab.tipFitPage": "По размеру страницы",
   "VE.Views.ViewTab.tipFitWidth": "По ширине",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
+  "VE.Controllers.Main.textUpdating": "Updating",
+  "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "VE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
 }
