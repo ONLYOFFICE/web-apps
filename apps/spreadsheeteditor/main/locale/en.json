@@ -2468,6 +2468,7 @@
   "SSE.Views.DocumentHolder.textShapeAlignMiddle": "Align middle",
   "SSE.Views.DocumentHolder.textShapeAlignRight": "Align right",
   "SSE.Views.DocumentHolder.textShapeAlignTop": "Align top",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
   "SSE.Views.DocumentHolder.textStdDev": "StdDev",
   "SSE.Views.DocumentHolder.textSum": "Sum",
   "SSE.Views.DocumentHolder.textUndo": "Undo",

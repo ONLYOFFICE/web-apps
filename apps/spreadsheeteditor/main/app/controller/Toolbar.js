@@ -2949,7 +2949,7 @@ define([
             toolbar.lockToolbar(Common.enumLock.cantGroupUngroup, !cangroup && !canungroup, { array: [toolbar.btnImgGroup]});
             toolbar.btnImgGroup.menu.items[0].setDisabled(!cangroup);
             toolbar.btnImgGroup.menu.items[1].setDisabled(!canungroup);
-            toolbar.lockToolbar(Common.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign, toolbar.btnShapesMerge]});
+            toolbar.lockToolbar(Common.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign]});
 
             var objcount = this.api.asc_getSelectedDrawingObjectsCount();
             toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);

@@ -1566,7 +1566,7 @@ define([
                     me.btnShapesMerge = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-merge-shapes',
-                        lock: [_set.imageLock, _set.contentLock, _set.inImageInline, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.cantMergeShape],
+                        lock: [_set.imageLock, _set.contentLock, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.cantMergeShape],
                         caption: me.capShapesMerge,
                         menu: true,
                         action: 'shapes-merge',

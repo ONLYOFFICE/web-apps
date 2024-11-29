@@ -248,6 +248,7 @@ define([
                 view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
                 view.menuImgResetCrop.on('click',                   _.bind(me.onImgResetCrop, me))
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
+                view.menuShapesMerge.menu.on('item:click',           _.bind(me.onShapesMerge, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
@@ -1273,6 +1274,15 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
+            }
+        },
+
+        onShapesMerge : function(menu, item, e) {
+            var me = this;
+            if (item && item.value) {
+                me.api.asc_mergeSelectedShapes(item.value); 
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge'); 
             }
         },
 
@@ -2649,6 +2659,7 @@ define([
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
                 documentHolder.mnuGroupImg.setDisabled(isObjLocked || !cangroup);
                 documentHolder.menuImageAlign.setDisabled(isObjLocked || !cangroup);
+                documentHolder.menuShapesMerge.setDisabled(isObjLocked || !this.api.asc_canMergeSelectedShapes());
 
                 var objcount = this.api.asc_getSelectedDrawingObjectsCount();
                 documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);

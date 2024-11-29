@@ -1948,6 +1948,7 @@
   "DE.Views.DocumentHolder.tableText": "Table",
   "DE.Views.DocumentHolder.textAccept": "Accept change",
   "DE.Views.DocumentHolder.textAlign": "Align",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
   "DE.Views.DocumentHolder.textArrange": "Arrange",
   "DE.Views.DocumentHolder.textArrangeBack": "Send to background",
   "DE.Views.DocumentHolder.textArrangeBackward": "Send backward",

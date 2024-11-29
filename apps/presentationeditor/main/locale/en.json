@@ -1920,6 +1920,7 @@
   "PE.Views.DocumentHolder.txtAddVer": "Add vertical line",
   "PE.Views.DocumentHolder.txtAlign": "Align",
   "PE.Views.DocumentHolder.txtAlignToChar": "Align to character",
+  "PE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
   "PE.Views.DocumentHolder.txtArrange": "Arrange",
   "PE.Views.DocumentHolder.txtBackground": "Background",
   "PE.Views.DocumentHolder.txtBorderProps": "Border properties",
