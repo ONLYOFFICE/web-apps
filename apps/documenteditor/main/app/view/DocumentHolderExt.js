@@ -109,7 +109,7 @@ define([], function () {
 
             var _toolbar_view = DE.getController('Toolbar').getView();
             me.menuShapesMerge = new Common.UI.MenuItem({
-                iconCls: 'toolbar__icon btn-combine-shapes',
+                iconCls: 'menu__icon btn-combine-shapes',
                 caption     : me.textShapesMerge,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -552,7 +552,12 @@ define([], function () {
                         me.menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         me.menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
                     }
-                    me.menuShapesMerge.setDisabled(islocked || !me.api.asc_canMergeSelectedShapes()); 
+                    me.menuShapesMerge.setDisabled(islocked || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
+                    }
                     me.menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked ||
                         (me.api && !me.api.CanUnGroup() && !me.api.CanGroup() && value.imgProps.isSmartArtInternal));
                     me.menuImageArrange.menu.items[0].setDisabled(value.imgProps.isSmartArtInternal);

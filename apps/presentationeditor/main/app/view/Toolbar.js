@@ -1248,7 +1248,7 @@ define([
                                 },
                             ]
                         }),
-                        action: 'shapes-merge',
+                        action: 'object-merge',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'

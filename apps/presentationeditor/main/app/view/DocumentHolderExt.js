@@ -1002,7 +1002,7 @@ define([], function () {
 
             var _toolbar_view = PE.getController('Toolbar').getView('Toolbar');
             me.menuShapesMerge = new Common.UI.MenuItem({
-                iconCls: 'toolbar__icon btn-combine-shapes',
+                iconCls: 'menu__icon btn-combine-shapes',
                 caption     : me.textShapesMerge,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -1747,7 +1747,12 @@ define([], function () {
                         me.menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
                         me.menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
                     }
-                    me.menuShapesMerge.setDisabled(disabled || !me.api.asc_canMergeSelectedShapes()); 
+                    me.menuShapesMerge.setDisabled(disabled || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
+                    }
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
                     me.menuChartAdvanced.setDisabled(disabled);

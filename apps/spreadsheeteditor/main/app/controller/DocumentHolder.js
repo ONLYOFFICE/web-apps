@@ -246,7 +246,7 @@ define([
                 view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
                 view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
                 view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
-                view.menuImgResetCrop.on('click',                   _.bind(me.onImgResetCrop, me))
+                view.menuImgResetCrop.on('click',                   _.bind(me.onImgResetCrop, me));
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuShapesMerge.menu.on('item:click',           _.bind(me.onShapesMerge, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
@@ -2659,7 +2659,13 @@ define([
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
                 documentHolder.mnuGroupImg.setDisabled(isObjLocked || !cangroup);
                 documentHolder.menuImageAlign.setDisabled(isObjLocked || !cangroup);
+                
                 documentHolder.menuShapesMerge.setDisabled(isObjLocked || !this.api.asc_canMergeSelectedShapes());
+                if (!documentHolder.menuShapesMerge.isDisabled()) {
+                    documentHolder.menuShapesMerge.menu.items.forEach(function (item) {
+                        item.setDisabled(!documentHolder.api.asc_canMergeSelectedShapes(item.value));
+                    });
+                }
 
                 var objcount = this.api.asc_getSelectedDrawingObjectsCount();
                 documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);

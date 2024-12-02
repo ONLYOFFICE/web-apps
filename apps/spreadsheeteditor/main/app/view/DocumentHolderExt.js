@@ -1067,7 +1067,7 @@ define([], function () {
 
             var _toolbar_view = SSE.getController('Toolbar').getView('Toolbar');
             me.menuShapesMerge = new Common.UI.MenuItem({
-                iconCls: 'toolbar__icon btn-combine-shapes',
+                iconCls: 'menu__icon btn-combine-shapes',
                 caption     : me.textShapesMerge,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
