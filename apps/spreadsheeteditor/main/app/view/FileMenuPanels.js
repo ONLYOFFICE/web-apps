@@ -1877,8 +1877,6 @@ define([], function () {
                 this.lblDate.text(this.dateToString(value));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
-
-            this.renderCustomProperties();
         },
 
         updateFileInfo: function() {
@@ -1930,6 +1928,8 @@ define([], function () {
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
+
+            this.renderCustomProperties();
             this.SetDisabled();
         },
 

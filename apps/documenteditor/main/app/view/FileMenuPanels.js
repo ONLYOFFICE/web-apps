@@ -1704,8 +1704,6 @@ define([], function () {
                 this._ShowHideInfoItem(this.lblDate, !!value);
             } else if (pdfProps)
                 this.updatePdfInfo(pdfProps);
-            
-            this.renderCustomProperties();
         },
 
         updateFileInfo: function() {
@@ -1749,6 +1747,8 @@ define([], function () {
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
                 this._ShowHideInfoItem(this.tblAuthor, this.mode.isEdit || !!this.authors.length);
             }
+
+            this.renderCustomProperties();
             this.SetDisabled();
         },
 
