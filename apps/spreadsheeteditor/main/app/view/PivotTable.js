@@ -68,6 +68,9 @@ define([
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-calculated-items" class="btn-slot text x-huge"></span>' +
+                '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group small">' +
                     '<div class="elset">' +
@@ -135,6 +138,10 @@ define([
 
             this.btnSelectPivot.on('click', function (e) {
                 me.fireEvent('pivottable:select');
+            });
+
+            this.btnCalculatedItems.on('click', function (e) {
+                me.fireEvent('pivottable:calculated');
             });
 
             this.btnExpandField.on('click', function (e) {
@@ -297,6 +304,17 @@ define([
                 });
                 this.lockedControls.push(this.btnSelectPivot);
 
+                this.btnCalculatedItems = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-select-pivot',
+                    caption: this.txtCalculated,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.pivotCalcItemsLock, _set['FormatCells'], _set['PivotTables']],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnCalculatedItems);
+
                 this.btnExpandField = new Common.UI.Button({
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-expand-field',
@@ -384,6 +402,7 @@ define([
                         btn.updateHint(me.tipCreatePivot);
                     });
                     me.btnSelectPivot.updateHint(me.tipSelect);
+                    me.btnCalculatedItems.updateHint(me.tipCalculated);
                     me.btnPivotLayout.updateHint(me.capLayout);
                     me.btnPivotLayout.setMenu(new Common.UI.Menu({
                         items: [
@@ -449,6 +468,7 @@ define([
 
                 this.btnRefreshPivot.render(this.$el.find('#slot-btn-refresh-pivot'));
                 this.btnSelectPivot.render(this.$el.find('#slot-btn-select-pivot'));
+                this.btnCalculatedItems.render(this.$el.find('#slot-btn-calculated-items'));
                 this.btnExpandField.render(this.$el.find('#slot-btn-expand-field'));
                 this.btnCollapseField.render(this.$el.find('#slot-btn-collapse-field'));
                 this.btnPivotLayout.render(this.$el.find('#slot-btn-pivot-report-layout'));
@@ -508,6 +528,8 @@ define([
             tipGrandTotals: 'Show or hide grand totals',
             tipSubtotals: 'Show or hide subtotals',
             txtSelect: 'Select',
+            txtCalculated: 'Calculated Items',
+            tipCalculated: 'Calculated Items',
             txtExpandEntire: 'Expand Entire Field',
             txtCollapseEntire: 'Collapse Entire Field',
             tipSelect: 'Select entire pivot table',

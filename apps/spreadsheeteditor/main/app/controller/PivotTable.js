@@ -58,6 +58,7 @@ define([
                     'pivottable:create':        _.bind(this.onCreateClick, this),
                     'pivottable:refresh':       _.bind(this.onRefreshClick, this),
                     'pivottable:select':        _.bind(this.onSelectClick, this),
+                    'pivottable:calculated':    _.bind(this.onCalculatedClick, this),
                     'pivottable:expand':        _.bind(this.onExpandClick, this),
                     'pivottable:collapse':      _.bind(this.onCollapseClick, this),
                     'pivottable:style':         _.bind(this.onPivotStyleSelect, this),
@@ -193,6 +194,21 @@ define([
                 this._originalProps.asc_select(this.api);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onCalculatedClick: function(btn, opts){
+            var pivotContextMenu = this.api.asc_getPivotInfo();
+            var pivotInfo = pivotContextMenu.pivot;
+            var pivotFields = pivotInfo.asc_getPivotFields();
+            var cacheFields = pivotInfo.asc_getCacheFields();
+            // var pivotFieldIndex = pivotContextMenu.asc_getPivotFieldIndex();
+            var pivotFieldIndex = 0;
+            var currentPivotField = pivotFields[pivotFieldIndex];
+
+            var winList = new SSE.Views.PivotCalculatedItemsDialog({
+                api: this.api
+            });
+            winList.show();
         },
 
         onExpandClick: function(){
@@ -481,6 +497,7 @@ define([
             Common.Utils.lockControls(Common.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
             Common.Utils.lockControls(Common.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
             Common.Utils.lockControls(Common.enumLock.pivotExpandLock, !(pivotInfo && pivotInfo.asc_canExpandCollapseByActiveCell(this.api)), {array: [this.view.btnExpandField, this.view.btnCollapseField]});
+            Common.Utils.lockControls(Common.enumLock.pivotCalcItemsLock, !(pivotInfo && pivotInfo.asc_canChangeCalculatedItemByActiveCell()), {array: [this.view.btnCalculatedItems]});
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);

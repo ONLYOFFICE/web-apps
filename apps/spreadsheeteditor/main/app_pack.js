@@ -84,6 +84,8 @@ require([
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
+    'spreadsheeteditor/main/app/view/PivotCalculatedItemsDialog',
+    'spreadsheeteditor/main/app/view/PivotInsertCalculatedItemDialog'
 ], function () {
     Common.NotificationCenter.trigger('app-pack:loaded');
 });
