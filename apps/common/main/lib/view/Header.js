@@ -53,7 +53,8 @@ define([
         var _tabStyle = 'fill', _logoImage = '';
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
-            isSSEEditor = !!window.SSE;
+            isSSEEditor = !!window.SSE,
+            isVisioEditor = !!window.VE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -1088,7 +1089,8 @@ define([
                 tabBackground = tabBackground || Common.Utils.InternalSettings.get("settings-tab-background") || 'header';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
-                                                                            isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' : '--toolbar-header-presentation'),
+                                                                            isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' :
+                                                                            isVisioEditor ? '--toolbar-header-visio' : '--toolbar-header-presentation'),
                         toolbar_color = Common.UI.Themes.currentThemeColor('--background-toolbar'),
                         logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabBackground==='toolbar') ? toolbar_color : header_color;
                     isDark = (new Common.Utils.RGBColor(logo_type)).isDark();

@@ -61,6 +61,9 @@ switch (window.asceditor) {
     case 'cell':
         storeInfo = 'storeSpreadsheetInfo';
         break;
+    case 'visio':
+        storeInfo = 'storeVisioInfo';
+        break;
 }
 
 const Collaboration = inject('storeAppOptions', 'users', storeInfo)(observer(CollaborationPage));
