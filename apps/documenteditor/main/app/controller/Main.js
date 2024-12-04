@@ -749,7 +749,7 @@ define([
                                         colorval    : color,
                                         color       : this.generateUserColor(color)
                                     });
-                                    usersStore.add(user);
+                                    version.user.id && usersStore.add(user);
                                 }
                                 var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
                                 (avatar===undefined) && arrIds.push(version.user.id);
@@ -804,7 +804,7 @@ define([
                                                     colorval    : color,
                                                     color       : this.generateUserColor(color)
                                                 });
-                                                usersStore.add(user);
+                                                change.user.id && usersStore.add(user);
                                             }
                                             avatar = Common.UI.ExternalUsers.getImage(change.user.id);
                                             (avatar===undefined) && arrIds.push(change.user.id);
