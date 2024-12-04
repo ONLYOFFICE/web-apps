@@ -544,7 +544,7 @@ define([
                 if (oldRtl !== this.isRtlSheet || force)
                     this.updateTabbarBorders();
 
-                var index = this.api.asc_getActiveWorksheetIndex();
+                var index = this.api ? this.api.asc_getActiveWorksheetIndex() : 0;
                 var tab = _.findWhere(this.tabbar.tabs, {sheetindex: index});
                 tab && !this.tabbar.isTabVisible(tab.index) && this.tabbar.setTabVisible(tab.index);
             },
