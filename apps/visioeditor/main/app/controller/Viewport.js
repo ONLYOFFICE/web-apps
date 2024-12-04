@@ -126,7 +126,7 @@ define([
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
 
-            this.api = new Asc.asc_docs_api({
+            this.api = new Asc.VisioEditorApi({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable
             });
