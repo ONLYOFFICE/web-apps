@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
-    <script type="text/javascript" src="../search/js/page-search.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
@@ -16,7 +16,7 @@
         </div>
         <h1>Zoom</h1>
         <p>The <b>Zoom</b> plugin allows you to host or schedule Zoom meetings directly in the editor in just a few clicks.</p>
-        <p class="note">The plugin is compatible with the <a href="https://github.com/ONLYOFFICE/DocumentServer">self-hosted</a> version of ONLYOFFICE editors and can be added to ONLYOFFICE instances manually.</p>
+        <p class="note">The plugin is compatible with the <a href="https://git.onlyoffice.com/ONLYOFFICE/DocumentServer" target="_blank" onclick="onhyperlinkclick(this)">self-hosted</a> version of ONLYOFFICE editors and can be added to ONLYOFFICE instances manually using the <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager</a>.</p>
 
         <h3>Installation</h3>
         <p>To install the <b>Zoom</b> plugin,</p>
@@ -27,17 +27,17 @@
             <li>Click the <div class="icon icon-zoom_icon"></div> <b>Zoom</b> icon in the <b>Plugins</b> tab.</li>
             <li>Proceed with the plugin configuration.</li>
         </ol>
-        <p class="note">For more details, please refer to the <a href="https://api.onlyoffice.com/plugin/installation">ONLYOFFICE API documentation</a>.</p>
+        <p class="note">For more details, please refer to the <a href="https://api.onlyoffice.com/docs/plugin-and-macros/tutorials/installing/" target="_blank" onclick="onhyperlinkclick(this)">ONLYOFFICE API documentation</a>.</p>
 
         <h3>Configuration</h3>
         <ol>
             <li>
-                Register the editor as the <b>JWT</b> app on the <a href="https://marketplace.zoom.us/develop/create">Zoom Develop</a> page to use the meeting schedule. Fill in all the necessary fields and activate the app. A <b>JWT token</b> will be assigned to the app.
-                <p>If you need help filling in the fields, please refer to the <a href="https://marketplace.zoom.us/docs/guides/build/jwt-app/">official Zoom documentation</a>.</p>
+                Register the editor as the <b>JWT</b> app on the <a href="https://marketplace.zoom.us/develop/create" target="_blank" onclick="onhyperlinkclick(this)">Zoom Develop</a> page to use the meeting schedule. Fill in all the necessary fields and activate the app. A <b>JWT token</b> will be assigned to the app.
+                <p>If you need help filling in the fields, please refer to the <a href="https://marketplace.zoom.us/docs/guides/build/jwt-app/" target="_blank" onclick="onhyperlinkclick(this)">official Zoom documentation</a>.</p>
             </li>
             <li>
-                Create a <b>Meeting SDK</b> app on the <a href="https://marketplace.zoom.us/develop/create">Zoom Develop</a> page to start joining meetings. Fill in all the necessary fields and activate the app. <b>SDK credentials</b> will be assigned to the app.
-                <p>If you need help filling in the fields, please refer to the <a href="https://marketplace.zoom.us/docs/guides/build/sdk-app/">official Zoom documentation</a>.</p>
+                Create a <b>Meeting SDK</b> app on the <a href="https://marketplace.zoom.us/develop/create" target="_blank" onclick="onhyperlinkclick(this)">Zoom Develop</a> page to start joining meetings. Fill in all the necessary fields and activate the app. <b>SDK credentials</b> will be assigned to the app.
+                <p>If you need help filling in the fields, please refer to the <a href="https://marketplace.zoom.us/docs/guides/build/sdk-app/" target="_blank" onclick="onhyperlinkclick(this)">official Zoom documentation</a>.</p>
             </li>
             <li>Enter the generated <b>SDK Key</b>, <b>SDK Secret</b>, and <b>JWT Token</b> into the corresponding fields in the left panel of the ONLYOFFICE editor and click <b>Save</b>.</li>
         </ol>

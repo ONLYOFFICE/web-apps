@@ -1110,6 +1110,10 @@ define([
         },
 
         onSelectData:   function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){

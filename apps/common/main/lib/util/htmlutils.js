@@ -48,7 +48,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0;
+    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
 }
 
 var ui_rtl = false;
@@ -56,8 +56,8 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
     ui_rtl = window.nativeprocvars.rtl;
 } else {
     if ( isLangRtl(lang) )
-        if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
-            ui_rtl = localStorage.getItem("ui-rtl") === '1';
+        if ( checkLocalStorage && localStorage.getItem("settings-ui-rtl") !== null )
+            ui_rtl = localStorage.getItem("settings-ui-rtl") === '1';
         else ui_rtl = true;
 }
 
@@ -68,6 +68,7 @@ if ( ui_rtl && !isIE ) {
 if ( isLangRtl(lang) ) {
     document.body.classList.add('rtl-font');
 }
+document.body.setAttribute('applang', lang);
 
 function checkScaling() {
     var matches = {
@@ -138,7 +139,7 @@ window.Common = {
     }
 }
 
-checkScaling();
+!params.skipScaling && checkScaling();
 
 if ( !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {

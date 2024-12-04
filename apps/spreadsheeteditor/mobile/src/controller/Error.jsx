@@ -182,6 +182,18 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorPivotOverlap');
                 break;
 
+            case Asc.c_oAscError.ID.PivotFieldNameExists:
+                config.msg = t('Error.errorPivotFieldNameExists');
+                break;
+
+            case Asc.c_oAscError.ID.FormulaInPivotFieldName:
+                config.msg = t('Error.errorFormulaInPivotFieldName');
+                break;
+
+            case Asc.c_oAscError.ID.PasteInPivot:
+                config.msg = t('Error.errorPasteInPivot');
+                break;
+
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 config.msg = t('Error.errorForceSave');
@@ -489,6 +501,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
 
             case Asc.c_oAscError.ID.CircularReference:
                 config.msg = t('Error.errorCircularReference');
+                break;
+
+            case Asc.c_oAscError.ID.CannotSaveWatermark:
+                config.msg = t('Error.errorSaveWatermark');
                 break;
 
             default:

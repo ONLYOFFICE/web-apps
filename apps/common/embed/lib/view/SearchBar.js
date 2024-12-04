@@ -76,7 +76,6 @@ common.view.SearchBar = new(function() {
             var $results = $('#search-bar-results'),
                 $input = $('#search-bar-text');
             $results.text(!all || $input.val() === '' ? '0/0' : current + 1 + '/' + all);
-            $input.css('padding-right', $results.outerWidth() + 'px');
         },
 
         textFind: 'Find'

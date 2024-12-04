@@ -113,6 +113,9 @@
                 text-align: center;
                 color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
+                &:focus {
+                    outline: none;
+                }
             }
 
             &.active {
@@ -608,8 +611,8 @@
             }
 
             svg.icon {
-                fill: @icon-toolbar-header-ie;
-                fill: @icon-toolbar-header;
+                fill: @icon-normal-ie;
+                fill: @icon-normal;
             }
 
             .caption {
@@ -640,8 +643,8 @@
                     background-color: @highlight-button-pressed;
 
                     svg.icon {
-                        fill: @icon-toolbar-header-ie;
-                        fill: @icon-toolbar-header;
+                        fill: @icon-normal-pressed-ie;
+                        fill: @icon-normal-pressed;
                     }
 
                     .caption {
@@ -710,7 +713,7 @@
                     border-top-width: @underscore_height;
                     content: '';
                     position: absolute;
-                    margin-left: 6px;
+                    .margin-left-6();
                     width: calc(100% - 12px);
                     bottom: -@underscore_height;
                     opacity: 0;
@@ -877,7 +880,7 @@
     }
 }
 
-#slot-combo-insertshape {
+#slot-combo-insertshape, .slot-combo-insertshape {
     width: 150px;
     height: 46px;
     .view {
@@ -914,8 +917,8 @@
     .button {
         width: 14px;
         .caret {
-            width: 4px;
-            height: 4px;
+            width: 4px !important;
+            height: 4px !important;
         }
     }
 }

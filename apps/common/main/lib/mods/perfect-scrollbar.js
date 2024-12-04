@@ -84,8 +84,8 @@
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
           $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
-          $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
-          $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
+          $scrollbarX = $("<div class='ps-scrollbar-x'><div></div></div>").appendTo($scrollbarXRail),
+          $scrollbarY = $("<div class='ps-scrollbar-y'><div></div></div>").appendTo($scrollbarYRail),
           scrollbarXActive,
           scrollbarYActive,
           containerWidth,
@@ -221,8 +221,8 @@
         $scrollbarX.bind('mousedown' + eventClassName, function (e) {
           canScrollX = true;
           Common.NotificationCenter.trigger('hints:clear');
-          currentPageX = e.pageX;
-          currentLeft = $scrollbarX.position().left;
+          currentPageX = e.pageX*Common.Utils.zoom();
+          currentLeft = Common.Utils.getPosition($scrollbarX).left;
           $scrollbarXRail.addClass('in-scrolling');
           e.stopPropagation();
           e.preventDefault();
@@ -230,7 +230,7 @@
 
         $(document).bind('mousemove' + eventClassName, function (e) {
           if ($scrollbarXRail.hasClass('in-scrolling')) {
-            updateContentScrollLeft(currentLeft, e.pageX - currentPageX);
+            updateContentScrollLeft(currentLeft, e.pageX*Common.Utils.zoom() - currentPageX);
             e.stopPropagation();
             e.preventDefault();
           }
@@ -252,8 +252,8 @@
 
         $scrollbarY.bind('mousedown' + eventClassName, function (e) {
           Common.NotificationCenter.trigger('hints:clear');
-          currentPageY = e.pageY;
-          currentTop = $scrollbarY.position().top;
+          currentPageY = e.pageY*Common.Utils.zoom();
+          currentTop = Common.Utils.getPosition($scrollbarY).top;
           $scrollbarYRail.addClass('in-scrolling');
 
             var margin = parseInt($scrollbarYRail.css('margin-top'));
@@ -270,7 +270,7 @@
 
         $(document).bind('mousemove' + eventClassName, function (e) {
           if ($scrollbarYRail.hasClass('in-scrolling')) {
-            updateContentScrollTop(currentTop, e.pageY - currentPageY);
+            updateContentScrollTop(currentTop, e.pageY*Common.Utils.zoom() - currentPageY);
             e.stopPropagation();
             e.preventDefault();
           }
@@ -460,7 +460,7 @@
         $scrollbarY.bind('click' + eventClassName, stopPropagation);
         $scrollbarYRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarYHeight / 2, 10),
-              positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength,
+              positionTop = e.pageY*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarYRail).top - halfOfScrollbarLength,
               maxPositionTop = scrollbarYRailHeight - scrollbarYHeight,
               positionRatio = positionTop / maxPositionTop;
 
@@ -477,7 +477,7 @@
         $scrollbarXRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarXWidth / 2, 10),
               maxPositionLeft = scrollbarXRailWidth - scrollbarXWidth,
-              positionLeft = Common.UI.isRTL() ? maxPositionLeft - (e.pageX - $scrollbarXRail.offset().left) + halfOfScrollbarLength : e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
+              positionLeft = Common.UI.isRTL() ? maxPositionLeft - (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarXRail).left) + halfOfScrollbarLength : e.pageX*Common.Utils.zoom() - Common.Utils.getOffset($scrollbarXRail).left - halfOfScrollbarLength,
               positionRatio = (positionLeft / maxPositionLeft);
           canScrollX = true;
           if (positionRatio < 0) {

@@ -39,7 +39,7 @@ define([], function () {
         dh.createDelayedElements = function() {
             var me = this;
 
-            if (me.menuInsertCaption || !window.styles_loaded) return; // menu is already inited or editor styles are not loaded
+            if (me.menuInsertCaption || !window.document_content_ready) return; // menu is already inited or editor styles are not loaded
             me.menuInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
             });
@@ -348,6 +348,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+
             me.menuImgRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
@@ -492,6 +497,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
 
+                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(islocked);
+
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
@@ -574,6 +583,7 @@ define([], function () {
                     me.menuSaveAsPicture,
                     menuSaveAsPictureSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
@@ -759,8 +769,11 @@ define([], function () {
 
             var langTemplate = _.template([
                 '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
-                '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
-                '<%= caption %>',
+                    '<div>',
+                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                        '<%= caption %>',
+                    '</div>',
+                    '<label style="opacity: 0.6"><%= captionEn %></label>',
                 '</a>'
             ].join(''));
 
@@ -774,6 +787,7 @@ define([], function () {
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true,
+                    searchFields: ['caption', 'captionEn'],
                     focusToCheckedItem: true
                 })
             });
@@ -1506,6 +1520,7 @@ define([], function () {
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true,
+                    searchFields: ['caption', 'captionEn'],
                     focusToCheckedItem: true
                 })
             });
@@ -1829,6 +1844,7 @@ define([], function () {
                     menuStyle.setVisible(edit_style);
                     if (edit_style) {
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
+                        me.menuStyleSave.setDisabled(!window.styles_loaded);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||

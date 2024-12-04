@@ -28,16 +28,11 @@ function isLocalStorageAvailable() {
     let lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
     lang = ((lang && lang[1]) || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
     Common.Locale.currentLang = lang;
-    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0;
+    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
 }
 
 {
-    let modeDirection = 'ltr';
-    if ( Common.Locale.isCurrentLangRtl ) {
-            modeDirection = (isLocalStorageAvailable() && localStorage.getItem('mobile-mode-direction')) || 'rtl';
-    }
-
-    if(modeDirection === 'rtl') {
+    if (Common.Locale.isCurrentLangRtl) {
         load_stylesheet('./css/framework7-rtl.css');
         document.body.classList.add('rtl');
     } else {

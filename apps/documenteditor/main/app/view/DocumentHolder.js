@@ -73,6 +73,7 @@ define([
                 isFormsOnly: false,
                 isCommentsOnly: false
             };
+            this._langs = null;
         },
 
         render: function () {
@@ -189,12 +190,18 @@ define([
 
         setLanguages: function(langs){
             var me = this;
-
-            if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
+            if (!langs) langs = me._langs;
+            if (langs && langs.length > 0) {
+                if (!me.langParaMenu || !me.langTableMenu) {
+                    me._langs = langs;
+                    return;
+                }
+                me._langs = null;
                 var arrPara = [], arrTable = [];
                 _.each(langs, function(lang) {
                     var item = {
                         caption     : lang.displayValue,
+                        captionEn   : lang.displayValueEn,
                         value       : lang.value,
                         checkable   : true,
                         langid      : lang.code,

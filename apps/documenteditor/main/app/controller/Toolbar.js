@@ -218,7 +218,7 @@ define([
 
                 if (this.toolbar.btnInsertText.pressed) {
                     this.toolbar.btnInsertText.toggle(false, true);
-                    this.toolbar.btnInsertText.menu.clearAll();
+                    this.toolbar.btnInsertText.menu.clearAll(true);
                 }
 
                 $(document.body).off('mouseup', checkInsertAutoshape);
@@ -258,10 +258,23 @@ define([
         },
 
         setMode: function(mode) {
+            var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
-                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+            this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
+                'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
+            }) : Common.UI.TooltipManager.addTips({
+                'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
+                'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
+            });
+            Common.UI.TooltipManager.addTips({
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
+                'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
+                'sessionIdle' : {text: _main.errorSessionIdle, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
+                'sessionToken' : {text: _main.errorSessionToken, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
         },
 
@@ -279,12 +292,13 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
-            toolbar.btnEditMode.on('click', function (btn, e) {
-                Common.Gateway.requestEditRights();
-            });
+            // toolbar.btnEditMode.on('click', function (btn, e) {
+            //     Common.Gateway.requestEditRights();
+            // });
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
         },
 
         attachUIEvents: function(toolbar) {
@@ -419,6 +433,7 @@ define([
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
+            toolbar.btnTextFromFile.menu.on('show:after', _.bind(this.onTextFromFileShowAfter, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -488,11 +503,14 @@ define([
                     this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                     this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
                     this.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(this.onChangeViewerTargetType, this));
+                    Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
+            this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -633,9 +651,7 @@ define([
 
             if (this._state.linespace !== line) {
                 this._state.linespace = line;
-                _.each(this.toolbar.mnuLineSpace.items, function(item){
-                    item.setChecked(false, true);
-                });
+                this.toolbar.mnuLineSpace.clearAll(true);
                 if (line<0) return;
 
                 if ( Math.abs(line-1.)<0.0001 )
@@ -662,8 +678,8 @@ define([
                 Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
-                    this.toolbar.mnuPageSize.clearAll();
-                    _.each(this.toolbar.mnuPageSize.items, function(item){
+                    this.toolbar.mnuPageSize.clearAll(true);
+                    _.each(this.toolbar.mnuPageSize.getItems(true), function(item){
                         if (item.value && typeof(item.value) == 'object' &&
                             Math.abs(item.value[0] - width) < 0.1 && Math.abs(item.value[1] - height) < 0.1) {
                             item.setChecked(true);
@@ -686,8 +702,8 @@ define([
                     Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
-                        this.toolbar.btnPageMargins.menu.clearAll();
-                        _.each(this.toolbar.btnPageMargins.menu.items, function(item){
+                        this.toolbar.btnPageMargins.menu.clearAll(true);
+                        _.each(this.toolbar.btnPageMargins.menu.getItems(true), function(item){
                             if (item.value && typeof(item.value) == 'object' &&
                                 Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
                                 Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
@@ -949,13 +965,13 @@ define([
                 var listStyle = this.toolbar.listStyles,
                     listStylesVisible = (listStyle.rendered);
 
+                this._state.prstyle = name;
+
                 if (listStylesVisible) {
                     listStyle.suspendEvents();
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
-
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
                 }
@@ -1093,7 +1109,7 @@ define([
             if(newType != oldType) {
                 this.toolbar.btnPrint.changeIcon({
                     next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnPrint.menu.items.filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
+                    curr: this.toolbar.btnPrint.menu.getItems().filter(function(item){return item.value == oldType;})[0].options.iconClsForMainBtn
                 });
                 this.toolbar.btnPrint.updateHint([e.caption + e.options.platformKey]);
                 this.toolbar.btnPrint.options.printType = newType;
@@ -1111,6 +1127,24 @@ define([
                     saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
                     buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
                     primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
+
+                if (saveAs)
+                    me.api.asc_DownloadAs()
+                else if (canDownload) {
+                    var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                    options.asc_setIsSaveAs(false);
+                    me.api.asc_DownloadAs(options);
+                } else {
+                    Common.UI.info({
+                        maxwidth: 500,
+                        msg: this.errorAccessDeny,
+                        callback: function(btn) {
+                            Common.NotificationCenter.trigger('edit:complete', toolbar);
+                        }
+                    });
+                }
+                Common.NotificationCenter.trigger('edit:complete', toolbar);
+                return;
 
                 Common.UI.info({
                     maxwidth: 500,
@@ -1476,8 +1510,6 @@ define([
             if (!(e && e.target===e.currentTarget))
                 return;
 
-            Common.UI.TooltipManager.closeTip('pageColor');
-
             var picker = this.toolbar.mnuPageColorPicker,
                 color = this.api.asc_getPageColor();
 
@@ -1611,6 +1643,13 @@ define([
             } else if (type === 'storage') {
                 Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
             }
+        },
+
+        onTextFromFileShowAfter: function(menu, e) {
+            if (!(e && e.target === e.currentTarget))
+                return;
+
+            Common.UI.TooltipManager.closeTip('textFromFile');
         },
 
         onMarkerSettingsClick: function(type) {
@@ -1902,12 +1941,12 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
-            btn.menu.items.forEach(function(item) {
+            btn.menu.getItems(true).forEach(function(item) {
                 if(item.value == btn.options.textboxType) 
-                item.setChecked(true);
+                    item.setChecked(true);
             });
             if(!this.toolbar.btnInsertText.pressed) {
-                this.toolbar.btnInsertText.menu.clearAll();
+                this.toolbar.btnInsertText.menu.clearAll(true);
             } 
             this.onInsertText(btn.options.textboxType, btn, e);
         },
@@ -1920,7 +1959,7 @@ define([
             if(newType != oldType){
                 this.toolbar.btnInsertText.changeIcon({
                     next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                    curr: this.toolbar.btnInsertText.menu.getItems(true).filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
                 });
                 this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
                 this.toolbar.btnInsertText.options.textboxType = newType;
@@ -2180,8 +2219,8 @@ define([
         onColorSchemaShow: function(menu) {
             if (this.api) {
                 var value = this.api.asc_GetCurrentColorSchemeIndex();
-                var item = _.find(menu.items, function(item) { return item.value == value; });
-                (item) ? item.setChecked(true) : menu.clearAll();
+                var item = _.find(menu.getItems(true), function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll(true);
             }
         },
 
@@ -2229,7 +2268,7 @@ define([
                 case Asc.c_oAscDropCap.Margin: index = 2; break;
             }
             if (index < 0)
-                this.toolbar.btnDropCap.menu.clearAll();
+                this.toolbar.btnDropCap.menu.clearAll(true);
             else
                 this.toolbar.btnDropCap.menu.items[index].setChecked(true);
 
@@ -2449,7 +2488,7 @@ define([
                     return;
 
                 if (index < 0)
-                    this.toolbar.btnColumns.menu.clearAll();
+                    this.toolbar.btnColumns.menu.clearAll(true);
                 else
                     this.toolbar.btnColumns.menu.items[index].setChecked(true);
                 this._state.columns = index;
@@ -2632,9 +2671,6 @@ define([
 
             var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
-            if ($('#header-container').is(":visible")) {
-                top -= $('#header-container').height()
-            }
             showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
@@ -2701,7 +2737,8 @@ define([
         },
 
         onSaveStyle: function (style) {
-            window.styles_loaded = false;
+            if (!window.styles_loaded) return;
+
             var me = this, win;
 
             if (me.api) {
@@ -2715,6 +2752,8 @@ define([
                         characterStyle.put_Name(title + '_character');
                         style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
+                        window.styles_loaded = false;
+                        me.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [me.toolbar.listStyles]});
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };
@@ -2944,7 +2983,7 @@ define([
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
             });
-            me.toolbar.btnInsertShape.menu.addItem(menuitem);
+            me.toolbar.btnInsertShape.menu.addItem(menuitem, true);
 
             var recents = Common.localStorage.getItem('de-recent-shapes');
 
@@ -2953,10 +2992,12 @@ define([
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
+                outerMenu: {menu: me.toolbar.btnInsertShape.menu, index:0},
                 restoreHeight: 652,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null
             });
+            me.toolbar.btnInsertShape.menu.setInnerMenu([{menu: shapePicker, index: 0}]);
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
                     if (record) {
@@ -2977,11 +3018,9 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.getItemsLength(true)>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
-
-            me.toolbar.btnInsertEquation.menu.removeAll();
             var onShowAfter = function(menu) {
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationPicker = new Common.UI.DataViewSimple({
@@ -3030,7 +3069,7 @@ define([
                         ]
                     })
                 });
-                me.toolbar.btnInsertEquation.menu.addItem(menuItem);
+                me.toolbar.btnInsertEquation.menu.addItem(menuItem, true);
             }
         },
 
@@ -3264,6 +3303,7 @@ define([
 
         _onInitEditorStyles: function(styles) {
             window.styles_loaded = false;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
 
             var self = this,
                 listStyles = self.toolbar.listStyles;
@@ -3294,6 +3334,7 @@ define([
             } else if (listStyles.rendered)
                 listStyles.clearComboView();
             window.styles_loaded = true;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
         },
 
         onHomeOpen: function() {
@@ -3582,8 +3623,8 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
-                    me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+                // if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                //     me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
 
                 if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
@@ -3624,6 +3665,7 @@ define([
                 me.toolbar.addTab(tab, $panel, 8);
                 me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
+            config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
         },
 
         onAppReady: function (config) {
@@ -3662,6 +3704,7 @@ define([
                 }
                 Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
                 Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
+                Common.UI.LayoutManager.addControls(this.btnsComment);
             }
 
             (new Promise(function(accept) {
@@ -3807,7 +3850,7 @@ define([
 
         onApiBeginSmartArtPreview: function (type) {
             this.smartArtGenerating = type;
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.getItems(true);
             var menuPicker = _.findWhere(this.smartArtGroups, {value: type}).menuPicker;
             menuPicker.loaded = true;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
@@ -3880,16 +3923,40 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }));
+        },
+
+        onPluginToolbarCustomMenuItems: function(action, data) {
+            if (!this._isDocReady) {
+                this._state.customPluginData = (this._state.customPluginData || []).concat([{action: action, data: data}]);
+                return;
+            }
+            var api = this.api;
+            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
+                api && api.onPluginContextMenuItemClick(guid, value);
+            });
+        },
+
+        onDocumentReady: function() {
+            this._isDocReady = true;
+            var me = this;
+            this._state.customPluginData && this._state.customPluginData.forEach(function(plugin) {
+                me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
+            });
+            this._state.customPluginData = null;
         },
 
         onActiveTab: function(tab) {
-            (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+            (tab === 'ins') ? Common.UI.TooltipManager.showTip('textFromFile') : Common.UI.TooltipManager.closeTip('textFromFile');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('pageColor');
+            Common.UI.TooltipManager.closeTip('textFromFile');
+            Common.UI.TooltipManager.closeTip('grayTheme');
         }
 
     }, DE.Controllers.Toolbar || {}));

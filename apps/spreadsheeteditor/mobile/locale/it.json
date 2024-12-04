@@ -266,6 +266,7 @@
     "errorChangeArray": "Non puoi cambiare parte di un array.",
     "errorChangeFilteredRange": "Questo cambierà un intervallo filtrato nel tuo foglio di lavoro.<br>Per completare questa attività, rimuovi i filtri automatici.",
     "errorChangeOnProtectedSheet": "La cella o il grafico che stai cercando di modificare si trova su un foglio protetto. Per apportare una modifica, rimuovere la protezione del foglio. Potrebbe esserti richiesto di inserire una password.",
+    "errorCircularReference": "Sono presenti uno o più riferimenti circolari in cui una formula fa riferimento alla propria cella direttamente o indirettamente.<br>Prova a rimuovere o modificare questi riferimenti, oppure sposta le formule in celle diverse.",
     "errorComboSeries": "Per creare un grafico a combinazione, seleziona almeno due serie di dati.",
     "errorConnectToServer": "Impossibile salvare questo documento. Controlla le impostazioni di connessione o contatta il tuo amministratore.<br>Quando fai clic sul pulsante \"OK\", ti verrà chiesto di scaricare il documento.",
     "errorCopyMultiselectArea": "Questo comando non può essere applicato a selezioni multiple.<br>Seleziona un intervallo singolo e riprova.",
@@ -329,6 +330,7 @@
     "errorPrecedentsNoValidRef": "Il comando Traccia precedenti richiede che la cella attiva contenga una formula che include un riferimento valido.",
     "errorPrintMaxPagesCount": "Sfortunatamente, non è possibile stampare più di 1500 pagine contemporaneamente nella versione corrente del programma.<br>Questa restrizione verrà eliminata nelle prossime versioni.",
     "errorProtectedRange": "Questo intervallo non può essere modificato.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -367,7 +369,9 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -388,7 +392,7 @@
     "loadImageTextText": "Caricamento immagine...",
     "loadImageTitleText": "Caricamento immagine",
     "loadingDocumentTextText": "Caricamento di documento...",
-    "loadingDocumentTitleText": "Caricamento di documento",
+    "loadingDocumentTitleText": "Caricamento",
     "notcriticalErrorTitle": "Avvertimento",
     "openTextText": "Apertura del documento...",
     "openTitleText": "Apertura del documento",
@@ -401,7 +405,7 @@
     "textCancel": "Annullare",
     "textContinue": "Continua",
     "textErrorWrongPassword": "La password che hai fornito non è corretta.",
-    "textLoadingDocument": "Caricamento di documento",
+    "textLoadingDocument": "Caricamento",
     "textNo": "No",
     "textOk": "OK",
     "textUndo": "Annulla",
@@ -461,6 +465,7 @@
       "sCatMathematic": "Matematica e trigonometria",
       "sCatStatistical": "Statistico",
       "sCatTextAndData": "Testo e dati",
+      "sCustom": "Personalizzato",
       "textAddLink": "Aggiungere link",
       "textAddress": "Indirizzo",
       "textAllTableHint": "Restituisce l'intero contenuto della tabella o delle colonne della tabella specificate, comprese le intestazioni di colonna, i dati e le righe totali",
@@ -508,8 +513,7 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì",
-      "sCustom": "Custom"
+      "txtYes": "Sì"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -750,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
       "textEncoding": "Codificazione",
       "textExample": "Esempio",
-      "textExplanationChangeDirection": "L'applicazione verrà riavviata per l'attivazione dell'interfaccia RTL",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
       "textFindAndReplace": "Trovare e sostituire",
@@ -792,7 +795,6 @@
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textRight": "A destra",
       "textRightToLeft": "Da destra a sinistra",
-      "textRtlInterface": "Interfaccia RTL",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Cercare",
       "textSearchBy": "Cercare",

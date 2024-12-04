@@ -42,7 +42,10 @@
             margin-left: 10px;
             text-align: center;
         }
-
+        .rtl .loadmask > .brendpanel .loading-logo {
+            margin-left: 0;
+            margin-right: 10px;
+        }
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
             max-width: 100px;
@@ -126,6 +129,7 @@
   </head>
 
   <body class="embed-body">
+    <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
         <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
               <div>
@@ -254,7 +258,7 @@
           </div>
       </div>
 
-      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Click the link to open it" style="display:none;"></div>
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="" style="display:none;"></div>
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

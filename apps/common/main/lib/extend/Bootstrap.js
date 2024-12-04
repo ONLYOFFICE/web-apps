@@ -72,7 +72,7 @@ function onDropDownKeyDown(e) {
 function checkFocusedItem(cmp, item) {
     var innerHeight = cmp.innerHeight(),
         padding = (innerHeight - cmp.height())/2,
-        pos = item.position().top,
+        pos = Common.Utils.getPosition(item).top,
         itemHeight = item.outerHeight();
     if (pos<0)
         cmp.scrollTop(cmp.scrollTop() + pos - padding);

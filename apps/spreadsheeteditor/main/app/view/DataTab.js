@@ -139,6 +139,7 @@ define([
                     caption: this.capDataFromText,
                     // menu: !this.toolbar.mode.isDesktopApp,
                     menu: true,
+                    action: 'import-data',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint: '1',
@@ -154,6 +155,7 @@ define([
                     caption: this.capBtnGroup,
                     split: true,
                     menu: true,
+                    action: 'cell-group',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.wsLock, _set.userProtected],
                     dataHint: '1',
@@ -169,6 +171,7 @@ define([
                     caption: this.capBtnUngroup,
                     split: true,
                     menu: true,
+                    action: 'cell-ungroup',
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.wsLock, _set.userProtected],
                     dataHint: '1',
@@ -290,7 +293,7 @@ define([
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.wsLock, _set.userProtected], undefined, undefined, undefined, '1', 'bottom', undefined, 'N');
 
                 Array.prototype.push.apply(this.lockedControls, this.btnsSortDown.concat(this.btnsSortUp, this.btnsSetAutofilter,this.btnsClearAutofilter));
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

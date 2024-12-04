@@ -512,6 +512,7 @@
             width: @x-huge-btn-icon-size;
             height: @x-huge-btn-icon-size;
             min-width: 0;
+            flex-shrink: 0;
         }
 
         .caption{
@@ -521,6 +522,12 @@
             width: 100%;
             text-align: center;
             padding: 0 2px;
+            white-space: nowrap;
+
+            body:not(.ie) & {
+                overflow-x: clip;
+                overflow-y: visible;
+            }
         }
     }
 }

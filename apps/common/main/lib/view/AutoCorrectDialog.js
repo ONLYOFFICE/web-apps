@@ -447,7 +447,7 @@ define([
                     var checked = (field.getValue()==='checked');
                     Common.localStorage.setBool(me.appPrefix + "settings-letter-exception-cells", checked);
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-letter-exception-cells", checked);
-                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
                 });
 
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));

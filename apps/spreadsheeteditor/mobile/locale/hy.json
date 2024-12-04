@@ -367,7 +367,11 @@
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
     "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -750,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Առանց ծանուցման միացնել բոլոր մակրոները",
       "textEncoding": "Կոդավորում",
       "textExample": "Օրինակ",
-      "textExplanationChangeDirection": "Հավելվածը կվերագործարկվի RTL ինտերֆեյսի ակտիվացման համար",
       "textFeedback": "Հետադարձ կապ և աջակցություն",
       "textFind": "Գտնել",
       "textFindAndReplace": "Գտնել և փոխարինել",
@@ -792,7 +795,6 @@
       "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textRight": "Աջ",
       "textRightToLeft": "Աջից ձախ",
-      "textRtlInterface": "RTL ինտերֆեյս",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Որոնել",
       "textSearchBy": "Որոնել",

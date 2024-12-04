@@ -246,6 +246,7 @@ define([
                 view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
                 view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
                 view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
+                view.menuImgResetCrop.on('click',                   _.bind(me.onImgResetCrop, me))
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
@@ -1155,12 +1156,8 @@ define([
                     cellinfo = this.api.asc_getCellInfo();
                 if (controller) {
                     var comments = cellinfo.asc_getComments();
-                    if (comments) {
-                        if (comments.length) {
-                            controller.onEditComments(comments);
-                        } else if (this.permissions.canCoAuthoring) {
-                            controller.addDummyComment();
-                        }
+                    if (comments && !comments.length && this.permissions.canCoAuthoring) {
+                        controller.addDummyComment();
                     }
                 }
             }
@@ -1244,6 +1241,15 @@ define([
                     item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.asc_setGraphicObjectProps(properties);
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
@@ -1474,6 +1480,10 @@ define([
         },
 
         onChartData: function(btn) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
+
             var me = this;
             var props;
             if (me.api){
@@ -2058,9 +2068,9 @@ define([
 
                         showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
 
-                        var tipheight = filterTip.ref.getBSTip().$tip.width();
-                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
-                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                        var tipheight = filterTip.ref.getBSTip().$tip.height();
+                        if (showPoint[1] + tipheight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - tipheight - 5;
                             showPoint[0] += 20;
                         }
 
@@ -2325,7 +2335,11 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (Common.Utils.String.htmlEncode(props.asc_getColumnName()) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
+            var colName = props.asc_getColumnName();
+            colName && (colName = colName.replace(/\n/g, ' '));
+            if (colName.length>100)
+                colName = colName.substring(0, 100) + '...';
+            str = "<b>" + (Common.Utils.String.htmlEncode(colName) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -2679,6 +2693,9 @@ define([
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
                 documentHolder.menuImgCrop.setDisabled(isObjLocked);
 
+                documentHolder.menuImgResetCrop.setVisible(isimagemenu && documentHolder.mnuImgAdvanced.imageInfo.asc_getIsCrop()); 
+                documentHolder.menuImgResetCrop.setDisabled(isObjLocked); 
+
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
@@ -2894,11 +2911,12 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 var needshow = iscellmenu && !iscelledit && !diagramOrMergeEditor && inPivot;
+                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit && !inPivot || needshow);
 
                 needshow && this.fillPivotProps();
                 documentHolder.mnuRefreshPivot.setVisible(needshow);
@@ -3820,10 +3838,16 @@ define([
                 showPoint = [],
                 btnSize = [31, 20],
                 right = rightBottom.asc_getX() + rightBottom.asc_getWidth() + 3 + btnSize[0],
-                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1];
+                bottom = rightBottom.asc_getY() + rightBottom.asc_getHeight() + 3 + btnSize[1],
+                showAtBottom = false;
 
+            var controller = this.getApplication().getController('Common.Controllers.Comments');
+            if (controller) {
+                var comments = this.api.asc_getCellInfo().asc_getComments();
+                showAtBottom = comments && comments.length>0 && controller.getPopover().isVisible() && controller.findPopupComment(controller.findComment(comments[0].asc_getId()).get('id'));
+            }
 
-            if (right > width) {
+            if (right > width || showAtBottom) {
                 showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);

@@ -149,6 +149,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-terser');
+    grunt.loadNpmTasks('grunt-babel');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -335,6 +336,7 @@ module.exports = function(grunt) {
     doRegisterTask('fetch');
     doRegisterTask('es6-promise');
     doRegisterTask('common-embed');
+    doRegisterTask('ace');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             terser: {
@@ -406,7 +408,7 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.main.js.requirejs.options.out %>'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>','<%= pkg.main.js.postload.options.out %>'],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
@@ -452,9 +454,9 @@ module.exports = function(grunt) {
                 localization: {
                     files: packageFile['main']['copy']['localization']
                 },
-                help: {
-                    files: packageFile['main']['copy']['help']
-                },
+                // help: {
+                //     files: packageFile['main']['copy']['help']
+                // },
                 indexhtml: {
                     files: packageFile['main']['copy']['indexhtml']
                 }
@@ -508,6 +510,27 @@ module.exports = function(grunt) {
                     src: packageFile.main.js.postload.options.out,
                     dest: packageFile.main.js.postload.options.out,
                 },
+                iecompat: {
+                    options: {
+                        sourceMap: false,
+                    },
+                    files: [{
+                        expand: true,
+                        cwd: packageFile.main.js.babel.files[0].dest,
+                        src: `*.js`,
+                        dest: packageFile.main.js.babel.files[0].dest
+                    }]
+                },
+            },
+
+            babel: {
+                options: {
+                    sourceMap: false,
+                    presets: ['@babel/preset-env']
+                },
+                dist: {
+                    files: packageFile.main.js.babel.files
+                }
             },
         });
 
@@ -645,7 +668,8 @@ module.exports = function(grunt) {
                     },
                     cmd: function() {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
-                                        packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
+                                        packageFile.name == 'spreadsheeteditor' ? 'cell' :
+                                        packageFile.name == 'visioeditor' ? 'visio' : 'word';
                         return `npm run deploy-${editor}`;
 
                         // const addon_path = `${packageFile.mobile.js.reactjs && !!packageFile.mobile.js.reactjs.features ? `ADDON_ENV=${packageFile.mobile.js.reactjs.features}` : ''}`;
@@ -797,10 +821,11 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-ace',                    ['ace-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
+                                                            'requirejs', 'babel', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/
@@ -817,6 +842,7 @@ module.exports = function(grunt) {
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
     doRegisterInitializeAppTask('pdfeditor',            'PDFEditor',            'pdfeditor.json');
+    doRegisterInitializeAppTask('visioeditor',          'VisioEditor',          'visioeditor.json');
 
     doRegisterInitializeAppTask('testdocumenteditor',    'TestDocumentEditor',           'testdocumenteditor.json');
     doRegisterInitializeAppTask('testpresentationeditor', 'TestPresentationEditor',      'testpresentationeditor.json');
@@ -838,6 +864,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
     grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
     grunt.registerTask('deploy-pdfeditor-component',          ['init-build-pdfeditor', 'deploy-app']);
+    grunt.registerTask('deploy-visioeditor-component',        ['init-build-visioeditor', 'deploy-app']);
     // This task is called from the Makefile, don't delete it.
     grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
@@ -845,6 +872,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
     grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
     grunt.registerTask('deploy-pdfeditor',          ['deploy-common-component', 'deploy-pdfeditor-component']);
+    grunt.registerTask('deploy-visioeditor',        ['deploy-common-component', 'deploy-visioeditor-component']);
 
     grunt.registerTask('deploy-testdocumenteditor', ['init-build-testdocumenteditor', 'deploy-app']);
     grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
@@ -854,5 +882,6 @@ module.exports = function(grunt) {
                                    'deploy-documenteditor-component',
                                    'deploy-spreadsheeteditor-component',
                                    'deploy-presentationeditor-component',
-                                   'deploy-pdfeditor-component']);
+                                   'deploy-pdfeditor-component',
+                                   'deploy-visioeditor-component']);
 };

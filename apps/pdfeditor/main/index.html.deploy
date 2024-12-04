@@ -57,6 +57,9 @@
             max-width: 200px;
             height: 20px;
         }
+        .rtl .loadmask > .brendpanel .loading-logo {
+            padding: 0 12px 0 24px;
+        }
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
@@ -141,11 +144,12 @@
         }
 
         .loadmask > .placeholder {
+            box-sizing: border-box;
             background: #fff;
             background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
             width: 794px;
             margin: 19px auto 46px;
-            height: 100%;
+            height: 1123px;
             border: 1px solid #bbbec2;
             border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
             padding-top: 50px;
@@ -265,8 +269,9 @@
 </head>
 <body role="application">
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
 
-    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 144px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 144px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport" role="main"></div>
 
     <script>
@@ -394,7 +399,7 @@
     <script>
         function startApp() {
             var script = document.createElement("script");
-            script.setAttribute("data-main", "app");
+            script.setAttribute("data-main", isIE === true ? "ie/app" : "app");
             script.src = "../../../vendor/requirejs/require.js";
             document.body.appendChild(script);
         }

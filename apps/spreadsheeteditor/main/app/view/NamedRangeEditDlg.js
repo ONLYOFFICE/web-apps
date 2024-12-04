@@ -234,9 +234,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,

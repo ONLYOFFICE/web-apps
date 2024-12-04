@@ -81,12 +81,12 @@ define([
             Common.NotificationCenter.trigger('script:loaded:spellcheck');
             if (this.api) {
                 this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+                this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             }
         },
 
         setApi: function(api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             return this;
         },
 
@@ -141,14 +141,16 @@ define([
             }
 
             if (this.languages && this.languages.length>0) {
-                var langs = [], info;
+                var langs = [], info, displayName;
                 this.allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
                     code = parseInt(code);
                     if (me.allLangs.hasOwnProperty(code)) {
                         info = me.allLangs[code];
+                        displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
                         langs.push({
-                            displayValue:   info[1],
+                            displayValue: displayName.native,
+                            displayValueEn: displayName.english,
                             shortName:      info[0],
                             value:          code
                         });
@@ -256,7 +258,7 @@ define([
         },
 
         onSpellCheckVariantsFound: function (property) {
-            if (property===null && this._currentSpellObj === property && !(this.panelSpellcheck && this.panelSpellcheck.isVisible()))
+            if (!this.panelSpellcheck || property===null && this._currentSpellObj === property && !this.panelSpellcheck.isVisible())
                 return;
 
             this._currentSpellObj = property;

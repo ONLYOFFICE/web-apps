@@ -516,7 +516,7 @@ define([
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
                 if (options.maxwidth && options.width=='auto') {
-                    var width = !Common.UI.isRTL() ? (text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) :
+                    var width = !Common.UI.isRTL() ? (Common.Utils.getPosition(text).left + text.width() + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
                     if (width > options.maxwidth)
                         options.width = options.maxwidth;
@@ -526,7 +526,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     var span_el = check.find('span');
                     var width = !Common.UI.isRTL() ?
-                        (Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right'))) :
+                        (Math.max(text.width(), span_el.length>0 ? Common.Utils.getPosition(span_el).left + span_el.width() : 0) + Common.Utils.getPosition(text).left + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + parseInt(text_cnt.css('padding-left')) +
                             (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
                     window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));

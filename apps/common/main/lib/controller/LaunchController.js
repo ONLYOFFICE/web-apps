@@ -40,25 +40,31 @@ define([
             this.api = api;
             Common.NotificationCenter.on('app:ready', on_app_ready.bind(this));
             Common.NotificationCenter.on('app:face', on_hide_loader.bind(this));
+            Common.NotificationCenter.on('app-pack:loaded', on_app_pack_loaded.bind(this));
         }
 
         const load_scripts = function () {
             const me = this;
 
-            const app = window.DE || window.PE || window.SSE || window.PDFE;
+            const app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
             !app.postLaunchScripts && (app.postLaunchScripts = []);
             // console.log('on_app_ready', app.postLaunchScripts);
 
-            require(app.postLaunchScripts, function () {
+            require({waitSeconds: 0}, app.postLaunchScripts, () => {
                 if (!!Common.UI.ScreenReaderFocusManager) {
                     Common.UI.ScreenReaderFocusManager.init(me.api);
                 }
-                _all_scripts_loaded = true;
 
                 if ( !!window.less ) {                                      // detect development mode
+                    _all_scripts_loaded = true;
                     Common.NotificationCenter.trigger('script:loaded');
                 }
             });
+        }
+
+        const on_app_pack_loaded = function (config) {
+            _all_scripts_loaded = true;
+            Common.NotificationCenter.trigger('script:loaded');
         }
 
         const on_app_ready = function (config) {

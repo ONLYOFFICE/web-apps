@@ -29,6 +29,10 @@ require([
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/ExternalLinksDlg',
     'common/main/lib/view/FormatSettingsDialog',
+    'common/main/lib/view/PdfSignDialog',
+    'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
+    'common/main/lib/component/AceEditor',
 
     'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',
@@ -67,5 +71,5 @@ require([
     'documenteditor/main/app/view/ProtectDialog',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

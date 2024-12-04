@@ -89,6 +89,7 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -589,7 +590,7 @@ DE.ApplicationController = new(function(){
             btnSubmit.attr({disabled: true});
             btnSubmit.css("pointer-events", "none");
             if (!common.localStorage.getItem("de-embed-hide-submittip")) {
-                var offset = btnSubmit.offset();
+                var offset = common.utils.getOffset(btnSubmit);
                 $requiredTooltip = $('<div class="required-tooltip bottom-left" style="display:none;"><div class="tip-arrow bottom-left"></div><div>' + me.textRequired + '</div><div class="close-div">' + me.textGotIt + '</div></div>');
                 $(document.body).append($requiredTooltip);
                 $requiredTooltip.css({top : offset.top + btnSubmit.height() + 'px', left: offset.left + btnSubmit.outerWidth()/2 - $requiredTooltip.outerWidth() + 'px'});
@@ -670,6 +671,7 @@ DE.ApplicationController = new(function(){
         appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
         api.asc_setViewMode(!appOptions.canFillForms);
+        api.asc_setPdfViewer(!appOptions.canFillForms);
 
         btnSubmit = $('#id-btn-submit');
 
@@ -706,7 +708,7 @@ DE.ApplicationController = new(function(){
         }
 
         var $parent = labelDocName.parent();
-        var _left_width = $parent.position().left,
+        var _left_width = common.utils.getPosition($parent).left,
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
@@ -900,7 +902,7 @@ DE.ApplicationController = new(function(){
         if (data.type == 'mouseup') {
             var e = document.getElementById('editor_sdk');
             if (e) {
-                var r = e.getBoundingClientRect();
+                var r = common.utils.getBoundingClientRect(e);
                 api.OnMouseUp(
                     data.x - r.left,
                     data.y - r.top

@@ -100,12 +100,12 @@
             .float-left();
             width: 20px;
             height: 20px;
-            margin: -2px 5px 0 -15px;
+            margin: -2px 4px 0 -16px;
             background-repeat: no-repeat;
             opacity: @component-normal-icon-opacity;
 
             .rtl & {
-                margin: -2px -15px 0 5px;
+                margin: -2px -16px 0 4px;
             }
         }
 
@@ -145,8 +145,8 @@
         }
     }
 
-    &.shifted-right {
-        li {
+    &.shifted-right > li,
+    li.shifted-right {
             & > a {
                 .padding-x(28px, 20px);
             }
@@ -159,10 +159,9 @@
             .checked:not(.no-checkmark):before  {
                 margin-left: -22px;
             }
-        }
     }
     &.shifted-left {
-        li {
+        & > li:not(.shifted-right) {
             & > a {
                 padding-left: 12px;
                 padding-right: 12px;

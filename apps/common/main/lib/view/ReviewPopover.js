@@ -103,7 +103,8 @@ define([
             this.canRequestSendNotify = options.canRequestSendNotify;
             this.mentionShare = options.mentionShare;
             this.api = options.api;
-            this._state = {commentsVisible: false, reviewVisible: false};
+            this._state = {commentsVisible: false, reviewVisible: false, arrowCls: 'left'};
+            this.isDocEditor = !!window.DE;
 
             _options.tpl = _.template(this.template)(_options);
 
@@ -777,6 +778,13 @@ define([
                     // LEFT CORNER
 
                     if (!_.isUndefined(posX)) {
+                        let isOnSheet = !_.isUndefined(leftX),
+                            isRtl = isOnSheet ? posX < leftX : Common.UI.isRTL();
+                        if (isOnSheet && isRtl) {
+                            let tmp = posX;
+                            posX = leftX;
+                            leftX = tmp;
+                        }
 
                         sdkPanelRight = $('#id_vertical_scroll');
                         if (sdkPanelRight.length) {
@@ -800,23 +808,28 @@ define([
                             this.sdkBounds.width -= sdkPanelThumbsWidth;
                         }
 
-                        if (!Common.UI.isRTL()) {
+                        if (!isRtl) {
                             leftPos = Math.min(sdkBoundsLeft + posX + this.arrow.width, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25);
                             leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + this.arrow.width, leftPos);
-                        } else {
+                        } else if (this.isDocEditor) {
                             leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth + 25, sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - posX + 7);
+                            leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
+                        } else {
+                            leftPos = Math.max(sdkBoundsLeft + sdkPanelLeftWidth, sdkBoundsLeft + posX - this.$window.outerWidth() - this.arrow.width - 25);
                             leftPos = Math.min(sdkBoundsLeft + this.sdkBounds.width - this.$window.outerWidth() - 25, leftPos);
                         }
 
-                        arrowView.removeClass('right top bottom').addClass('left');
+                        this._state.arrowCls = isOnSheet && Common.UI.isRTL() ? 'right' : 'left';
+                        arrowView.removeClass('right top bottom').addClass(this._state.arrowCls);
                         arrowView.css({left: ''});
 
-                        if (!_.isUndefined(leftX)) {
+                        if (isOnSheet) {
                             windowWidth = this.$window.outerWidth();
                             if (windowWidth) {
-                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (this.leftX > windowWidth) || (Common.UI.isRTL() && sdkBoundsLeft + this.leftX > windowWidth + this.arrow.width)) {
-                                    leftPos = sdkBoundsLeft + this.leftX - windowWidth - this.arrow.width;
-                                    arrowView.removeClass('left').addClass('right');
+                                if ((posX + windowWidth > this.sdkBounds.width - this.arrow.width + 5) && (leftX > windowWidth) || (isRtl && sdkBoundsLeft + leftX > windowWidth + this.arrow.width)) {
+                                    leftPos = sdkBoundsLeft + leftX - windowWidth - this.arrow.width;
+                                    this._state.arrowCls = Common.UI.isRTL() ? 'left' : 'right';
+                                    arrowView.removeClass('left right').addClass(this._state.arrowCls);
                                 } else {
                                     leftPos = sdkBoundsLeft + posX + this.arrow.width;
                                 }
@@ -951,7 +964,7 @@ define([
                                 arrowView.toggleClass('top', isMoveDown);
                                 arrowView.toggleClass('bottom', !isMoveDown);
                                 arrowView.removeClass('left right');
-                            } else if (sdkBoundsHeight <= outerHeight) {
+                            } else if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight)) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'
@@ -963,8 +976,8 @@ define([
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
                                 arrowView.css({top: arrowPosY + 'px', left: ''});
-                                arrowView.removeClass('top bottom right');
-                                arrowView.addClass('left');
+                                arrowView.removeClass('top bottom right left');
+                                arrowView.addClass(this._state.arrowCls);
                                 this.scroller.scrollTop(scrollPos);
                             } else {
 
@@ -983,8 +996,8 @@ define([
                                 arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
                                 arrowView.css({top: arrowPosY + 'px', left: ''});
-                                arrowView.removeClass('top bottom right');
-                                arrowView.addClass('left');
+                                arrowView.removeClass('top bottom right left');
+                                arrowView.addClass(this._state.arrowCls);
                             }
                         }
                     }

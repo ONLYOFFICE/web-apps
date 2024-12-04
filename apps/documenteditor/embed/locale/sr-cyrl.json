@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "Грешка се појавила приликом отварања фајла.<br>Садржај фајла одговара прорачунским табелама (нпр xlsx), али фајл има недоследну екстензију: %1.",
   "DE.ApplicationController.errorLoadingFont": "Фонтови нису учитани.<br>Молимо контактирајте свог Документ Сервер администратора.",
   "DE.ApplicationController.errorSubmit": "Подношење неуспешно.",
+  "DE.ApplicationController.errorToken": "Сигурносни токен документа није исправно формиран.<br>Молимо контактирајте вашег Документ Сервер администратора.",
   "DE.ApplicationController.errorTokenExpire": "Сигурносни токен документа је истекао.<br>Молимо контактирајте вашег Документ Сервер администратора.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Конекција је обновљена, и верзија фајла је промењена.<br>Пре него што наставите да радите, морате преузети фајл или копирате његов садржај да се уверите да ништа није изгубљено, и онда поново учитате ову страницу.",
   "DE.ApplicationController.errorUserDrop": "Фајл не може бити приступљен сада.",

@@ -1143,6 +1143,7 @@ define([
             me.itemTemplate   = me.options.itemTemplate   || null;
             me.handleSelect   = me.options.handleSelect;
             me.parentMenu     = me.options.parentMenu;
+            me.outerMenu      = me.options.outerMenu;
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
@@ -1383,7 +1384,7 @@ define([
 
             var div_top = Common.Utils.getOffset(div).top,
                 div_first = this.dataViewItems[0].el,
-                div_first_top = (div_first.length>0) ? Common.Utils.getOffsetTop(div_first[0]) : 0;
+                div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
             if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
@@ -1595,8 +1596,24 @@ define([
             this._layoutParams = undefined;
         },
 
-        focus: function() {
+        focus: function(index) {
             this.cmpEl && this.cmpEl.find('.dataview').focus();
+            var rec;
+            if (typeof index == 'string') {
+                if (index == 'first') {
+                    rec = this.selectByIndex(0, true);
+                } else if (index == 'last') {
+                    if (this._layoutParams === undefined)
+                        this.fillIndexesArray();
+                    rec = this.selectByIndex(this._layoutParams.itemsIndexes[this._layoutParams.rows-1][0], true);
+                }
+            } else if (index !== undefined)
+                rec = this.selectByIndex(index, true);
+            this.scrollToRecord(rec);
+        },
+
+        focusInner: function(e) {
+            this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         }
     });
 
@@ -1626,7 +1643,7 @@ define([
                         '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
                             '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
                                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                                 '<% }); %>',
                         '</div>',
                     '</div>',
@@ -1927,7 +1944,7 @@ define([
                 var template = _.template([
                     '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                     '<% }) %>'
                 ].join(''));
                 me.cmpEl && me.cmpEl.find('.recent-items').html(template({

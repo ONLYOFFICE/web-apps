@@ -256,10 +256,11 @@ define([
 
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
+            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(langId);
             this.statusbar.setLanguage({
-                    value:    info[0],
-                    displayValue:  info[1],
-                    code:   langId
+                value: info[0],
+                displayValue: (displayName ? displayName.native : ''),
+                code: langId
             });
         },
 
@@ -324,14 +325,15 @@ define([
             return tip;
         },
 
-        showDisconnectTip: function () {
+        showDisconnectTip: function (text) {
             var me = this;
+            text = text || this.textDisconnect;
             if (!this.disconnectTip) {
                 var target = this.statusbar.getStatusLabel();
                 target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
                 this.disconnectTip = new Common.UI.SynchronizeTip({
                     target  : target,
-                    text    : this.textDisconnect,
+                    text    : text,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
                     showLink: false,
@@ -343,6 +345,8 @@ define([
                         me.disconnectTip = null;
                     }
                 });
+            } else {
+                this.disconnectTip.setText(text);
             }
             this.disconnectTip.show();
         },

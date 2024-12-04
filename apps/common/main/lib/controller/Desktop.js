@@ -40,7 +40,7 @@ define([
 ], function () {
     'use strict';
 
-    var webapp = window.DE || window.PE || window.SSE || window.PDFE;
+    var webapp = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
     var features = Object.assign({
                         version: '{{PRODUCT_VERSION}}',
                         eventloading: true,
@@ -101,13 +101,15 @@ define([
 
                     if ( obj.singlewindow !== undefined ) {
                         // $('#box-document-title .hedset')[obj.singlewindow ? 'hide' : 'show']();
-                        native.features.singlewindow = obj.singlewindow;
 
                         if ( config.isFillFormApp ) {
                             $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
                         } else {
                             titlebuttons && titlebuttons.home && titlebuttons.home.btn.setVisible(obj.singlewindow);
                         }
+
+                        native.features.singlewindow = obj.singlewindow;
+                        Common.NotificationCenter.trigger('desktop:window', {"compositetitle": native.features.singlewindow});
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -294,7 +296,8 @@ define([
             if ( !!titlebuttons.quickprint ) {
                 const var_name = window.SSE ? 'sse-settings-quick-print-button' :
                                     window.PE ? 'pe-settings-quick-print-button' :
-                                    window.PDFE ? 'pdfe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                                    window.PDFE ? 'pdfe-settings-quick-print-button' :
+                                    window.VE ? 've-settings-quick-print-button' : 'de-settings-quick-print-button';
                 const is_btn_visible = Common.localStorage.getBool(var_name, false);
 
                 if ( titlebuttons.quickprint.visible != is_btn_visible ) {
@@ -407,8 +410,6 @@ define([
                     });
                 }
             }
-
-            _checkHelpAvailable.call(this);
         }
 
         const _onHidePreloader = function (mode) {
@@ -617,7 +618,7 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' :
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : !!window.PDFE ? 'form' :
                                                             window.PDFE || config.isPDFForm ? 'form' : 'word'));
                                     menu.hide();
                                 }
@@ -634,6 +635,8 @@ define([
                         config.isFillFormApp = true;
                         $('#header-logo, .brand-logo').hide();
                     }
+
+                    _checkHelpAvailable.call(this);
                 }
             },
             process: function (opts) {
@@ -649,7 +652,7 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :!!window.VE ? 'visio' :
                                                     window.PDFE || config.isPDFForm ? 'form' : 'word');
                             return true;
                         }
@@ -661,6 +664,11 @@ define([
             requestClose: function () {
                 if ( config.isDesktopApp && !!native ) {
                     native.execCommand('editor:event', JSON.stringify({action:'file:close', url: config.customization.goback.url}));
+                }
+            },
+            removeRecent: function () {
+                if ( config.isDesktopApp && !!native ) {
+                    native.execCommand('recent:forget');
                 }
             },
             isActive: function () {
@@ -691,7 +699,8 @@ define([
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
                                     window.PE ? 'presentationeditor' :
-                                        window.PDFE ? 'pdfeditor' : 'documenteditor';
+                                        window.PDFE ? 'pdfeditor' :
+                                            window.VE ? 'visioeditor' : 'documenteditor';
                     return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 

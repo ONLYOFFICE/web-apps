@@ -179,7 +179,8 @@
       "warnLicenseUsersExceeded": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. További információért forduljon rendszergazdájához.",
       "warnNoLicense": "Ön elérte az egyidejű kapcsolódáok számának határát a(z) %1 szerkesztőhöz. Ez a dokumentum csak megtekintésre lesz megnyitva. Lépjen kapcsolatba a(z) %1 értékesítési csapattal a perszonális frissítés feltételéhez.",
       "warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználók számának korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
-      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére."
+      "warnProcessRightsChange": "Nincs engedélye a fájl szerkesztésére.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -230,7 +231,9 @@
     "unknownErrorText": "Ismeretlen hiba.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -510,7 +513,6 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Összes engedélyezése",
       "textEnableAllMacrosWithoutNotification": "Engedélyezze az összes makrót értesítés nélkül",
-      "textExplanationChangeDirection": "Az alkalmazás újraindul az RTL-interfész aktiválásához",
       "textFeedback": "Visszajelzés és Támogatás",
       "textFind": "Keresés",
       "textFindAndReplace": "Keresés és csere",
@@ -536,7 +538,6 @@
       "textReplace": "Cserél",
       "textReplaceAll": "Mindent cserél",
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
-      "textRTL": "RTL",
       "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSettings": "Beállítások",
@@ -551,8 +552,7 @@
       "textUploaded": "Feltöltve",
       "textVersion": "Verzió",
       "textVersionHistory": "Naplótörténet",
-      "textClose": "Close",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
   }
 }

@@ -462,13 +462,15 @@
     "splitDividerErrorText": "Տողերի թիվը պետք է %1-ի բաժանարար լինի",
     "splitMaxColsErrorText": "Սյունակների թիվը %1-ից պակաս պիտի լինի",
     "splitMaxRowsErrorText": "Տողերի թիվը պետք է %1-ից պակաս լինի",
+    "textOk": "Լավ",
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadDocExtMessage": "Անհայտ փաստաթղթի ձևաչափ:",
     "uploadDocFileCountMessage": "Ոչ մի փաստաթուղթ չի վերբեռնվել:",
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -506,7 +508,8 @@
     "txtEditingMode": "Սահմանել ցուցակի խմբագրում․․․",
     "uploadImageTextText": "Նկարի վերբեռնում...",
     "uploadImageTitleText": "Նկարի վերբեռնում",
-    "waitText": "Խնդրում ենք սպասել..."
+    "waitText": "Խնդրում ենք սպասել...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Սխալ",
@@ -707,7 +710,6 @@
     "textEnableAllMacrosWithoutNotification": "Միացնել բոլոր մակրոները առանց ծանուցման",
     "textEncoding": "Կոդավորում",
     "textEncryptFile": "Գաղտնագրել ֆայլը",
-    "textExplanationChangeDirection": "Հավելվածը կվերագործարկվի RTL ինտերֆեյսի ակտիվացման համար",
     "textExport": "Արտահանում",
     "textExportAs": "Արտահանել որպես",
     "textFastWV": "Արագ վեբ դիտում",
@@ -768,7 +770,6 @@
     "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
     "textRight": "Աջ",
     "textRightToLeft": "Աջից ձախ",
-    "textRtlInterface": "RTL ինտերֆեյս",
     "textSameAsSystem": "Նույնը, ինչ համակարգը",
     "textSave": "Պահպանել",
     "textSearch": "Որոնել",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Ուղղագրության ստուգում",
     "textStatistic": "Վիճակագրություն",
     "textSubject": "Նյութ",
-    "textSubmit": "Հաստատել",
     "textSymbols": "Նշաններ",
     "textTheme": "Ոճ",
     "textTitle": "Վերնագիր",
@@ -810,6 +810,8 @@
     "textOk": "Լավ",
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
-    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի"
+    "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
+    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:",
+    "btnSend": "Send"
   }
 }

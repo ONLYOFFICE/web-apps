@@ -86,6 +86,7 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            this.ResetCrop = el.find('#image-button-reset-crop').closest('tr');
         },
 
         setApi: function(api) {
@@ -210,6 +211,20 @@ define([
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
             this.btnChangeShape= this.btnCrop.menu.items[1];
+
+            this.btnResetCrop = new Common.UI.Button({
+                parentEl: $('#image-button-reset-crop'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textResetCrop,
+                iconCls: 'toolbar__icon btn-reset',
+                style: "min-width:100px",    
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                ariaLabel: this.textResetCrop
+            });
+            this.btnResetCrop.on('click', _.bind(this.onResetCrop, this));
+            this.lockedControls.push(this.btnResetCrop);
 
             this.btnRotate270 = new Common.UI.Button({
                 parentEl: $('#image-button-270', this.$el),
@@ -336,6 +351,8 @@ define([
                     this._state.Height = value;
                 }
 
+                this.ResetCrop.toggleClass('hidden', !props.asc_getIsCrop());
+                this.btnResetCrop.setDisabled(!props.asc_getIsCrop() || this._locked);
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined || this._locked);
 
                 var pluginGuid = props.asc_getPluginGuid();
@@ -505,6 +522,15 @@ define([
                 properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
+        },
+
+        onResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+                this.api.ImgApply(properties);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         setLocked: function (locked) {

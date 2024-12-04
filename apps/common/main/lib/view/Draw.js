@@ -157,7 +157,7 @@ define([
                     visible: !this.isPDFEditor
                 });
                 this.lockedControls.push(this.btnSelect);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

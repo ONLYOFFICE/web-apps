@@ -276,9 +276,9 @@ define([], function () { 'use strict';
                         },1);
                     });
 
-                    var xy = me.$window.offset();
+                    var xy = Common.Utils.getOffset(me.$window);
                     me.hide();
-                    win.show(xy.left + 160, xy.top + 125);
+                    win.show(me.$window, xy);
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? me.dataRangeTop : me.dataRangeLeft),

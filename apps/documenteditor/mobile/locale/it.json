@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "In riguardo a",
+    "textAbout": "Informazioni su",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
     "textEditor": "Document Editor",
@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Fusione fallita.",
     "errorNoTOC": "Non è presente alcun indice da aggiornare. Puoi inserirne uno dalla scheda Riferimenti.",
     "errorPasswordIsNotCorrect": "La password fornita non è corretta. Verifica che il tasto BLOCCO MAIUSCOLE sia disattivato e assicurati di utilizzare le maiuscole corrette.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "Il numero di righe deve essere un divisore di %1",
     "splitMaxColsErrorText": "Il numero di colonne deve essere inferiore a% 1",
     "splitMaxRowsErrorText": "Il numero di righe deve essere inferiore a% 1",
+    "textOk": "OK",
     "unknownErrorText": "Errore sconosciuto.",
     "uploadDocExtMessage": "Formato documento sconosciuto.",
     "uploadDocFileCountMessage": "Nessun documento caricato.",
@@ -487,7 +489,7 @@
     "loadImageTextText": "Caricamento dell'immagine...",
     "loadImageTitleText": "Caricamento dell'immagine",
     "loadingDocumentTextText": "Caricamento di documento...",
-    "loadingDocumentTitleText": "Caricamento di documento",
+    "loadingDocumentTitleText": "Caricamento",
     "mailMergeLoadFileText": "Caricamento di fonte di dati...",
     "mailMergeLoadFileTitle": "Caricamento di fonte di dati",
     "openTextText": "Apertura del documento...",
@@ -498,6 +500,7 @@
     "savePreparingTitle": "Preparazione al salvataggio. Attendere prego...",
     "saveTextText": "Salvataggio del documento in corso...",
     "saveTitleText": "Salvataggio del documento",
+    "savingText": "Salvataggio in corso",
     "sendMergeText": "Invio dei resultati della fusione...",
     "sendMergeTitle": "Invio dei resultati della fusione",
     "textContinue": "Continua",
@@ -519,7 +522,7 @@
     "notcriticalErrorTitle": "Avvertimento",
     "SDK": {
       " -Section ": "-Sezione",
-      "above": "sopra",
+      "above": "Al di sopra",
       "Aspect": "Aspetto",
       "below": "sotto",
       "Blue": "Blu",
@@ -663,7 +666,7 @@
     "advTxtOptions": "Selezionare opzioni di TXT",
     "closeButtonText": "Chiudere file",
     "notcriticalErrorTitle": "Avvertimento",
-    "textAbout": "In riguardo a",
+    "textAbout": "Informazioni su",
     "textAddToFavorites": "Aggiunti ai Preferiti",
     "textApplication": "Applicazione",
     "textApplicationSettings": "Impostazioni dell'applicazione",
@@ -707,7 +710,6 @@
     "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
     "textEncoding": "Codificazione",
     "textEncryptFile": "Crittografa file",
-    "textExplanationChangeDirection": "L'applicazione verrà riavviata per l'attivazione dell'interfaccia RTL",
     "textExport": "Esporta",
     "textExportAs": "Esporta come",
     "textFastWV": "Visualizzazione Web veloce",
@@ -768,7 +770,6 @@
     "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
     "textRight": "A destra",
     "textRightToLeft": "Da destra a sinistra",
-    "textRtlInterface": "Interfaccia RTL",
     "textSameAsSystem": "Uguale al sistema",
     "textSave": "Salva",
     "textSearch": "Cercare",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Controllo ortografico",
     "textStatistic": "Statistica",
     "textSubject": "Oggetto",
-    "textSubmit": "‎Invia‎",
     "textSymbols": "Simboli",
     "textTheme": "Tema",
     "textTitle": "Titolo",
@@ -801,6 +801,7 @@
     "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
   },
   "Toolbar": {
+    "btnSend": "Invia",
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",
     "dlgLeaveTitleText": "Stai lasciando l'app",
     "leaveButtonText": "Lasciare questa pagina",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Rinomina file",
     "textSwitchedMobileView": "Passato alla visualizzazione per dispositivi mobili",
-    "textSwitchedStandardView": "Passato alla visualizzazione standard"
+    "textSwitchedStandardView": "Passato alla visualizzazione standard",
+    "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo."
   }
 }

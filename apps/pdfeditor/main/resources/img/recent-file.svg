@@ -1,12 +1,5 @@
 <svg width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-    <path  d="M0 1 Q 0 0 1 0 h15 L 24 8 v20 Q 24 30 23 30 h-22 Q 0 30 0 29z" fill="#white"/>
-    <path  d="M0 1 Q 0 0 1 0 h15 L 24 8 v20 Q 24 30 23 30 h-22 Q 0 30 0 29z" fill="#AA5251"/>
-    <path fill-rule="evenodd" clip-rule="evenodd"  d="M15 0 L15 8 Q 15 9 16 9 L 24 9 L 24 8 L 16 0z M16 0 L16 7 Q 16 8 17 8 L 24 8" fill="white"/>
-
-    <rect x="4" y="14" width="16" height="1" fill="white"/>
-    <rect x="4" y="17" width="16" height="1" fill="white"/>
-    <rect x="4" y="20" width="16" height="1" fill="white"/>
-    <rect x="4" y="23" width="16" height="1" fill="white"/>
-
+    <path d="M1 2a2 2 0 0 1 2-2h14l6 6v22a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z" fill="#E54D39"/>
+    <path d="m17 0 6 6h-5a1 1 0 0 1-1-1z" fill="#000" fill-opacity=".25"/>
+    <path d="M13.5 12a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm-.5 4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-8 4a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5m0-8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zM9 16v-3H6v3z" fill="#fff"/>
 </svg>

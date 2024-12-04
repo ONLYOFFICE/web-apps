@@ -94,6 +94,9 @@ define([
                     'redo:disabled' : function (state) {
                         me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
+                    'docmode:disabled' : function (state) {
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
+                    },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
@@ -167,8 +170,6 @@ define([
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
-
-            me.viewport.$el.attr('applang', config.lang.split(/[\-_]/)[0]);
 
             if ( !(config.isEdit || config.isRestrictedEdit) || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar )) {
@@ -248,6 +249,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
         applySettings: function () {

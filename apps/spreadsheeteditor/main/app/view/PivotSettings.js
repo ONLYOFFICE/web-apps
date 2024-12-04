@@ -244,7 +244,7 @@ define([
 
                 // scroll
                 var heightListView = item.$el.parent().height(),
-                    positionTopItem = item.$el.position().top,
+                    positionTopItem = Common.Utils.getPosition(item.$el).top,
                     heightItem = item.$el.outerHeight(),
                     scrollTop = item.$el.parent().scrollTop();
                 if (positionTopItem < heightItem && scrollTop > 0) {
@@ -556,13 +556,9 @@ define([
                     var recIndex = (record != undefined) ? record.get('index') : -1;
 
                     var menu = this.pivotFieldsMenu,
-                        showPoint, me = this,
+                        me = this,
                         currentTarget = $(event.currentTarget),
-                        parent = $(this.el),
-                        offset = currentTarget.offset(),
-                        offsetParent = parent.offset();
-
-                    showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+                        parent = $(this.el);
 
                     var menuContainer = parent.find('#menu-pivot-fields-container');
                     if (!menu.rendered) {
@@ -729,13 +725,9 @@ define([
             this.miFieldSettings.setDisabled(pivotIndex==-2);
 
             var menu = this.fieldsMenu,
-                showPoint, me = this,
+                me = this,
                 currentTarget = $(e.currentTarget),
-                parent = $(this.el),
-                offset = currentTarget.offset(),
-                offsetParent = parent.offset();
-
-            showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+                parent = $(this.el);
 
             var menuContainer = parent.find('#menu-pivot-container');
             if (!menu.rendered) {
@@ -899,19 +891,20 @@ define([
         onMoveTo: function(type, pivotindex, to) {
             if (this.api && !this._locked && this._state.field){
                 var pivotIndex = _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'),
-                    index = _.isNumber(to) ? to : ((this._state.field.type==2) ? this._state.field.record.get('index') : undefined);
+                    index = _.isNumber(to) ? to : undefined,
+                    dataIndex = (this._state.field.type==2) ? this._state.field.record.get('index') : undefined;
                 switch (type) {
                     case 0:
-                        this._originalProps.asc_moveToColField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToColField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 1:
-                        this._originalProps.asc_moveToRowField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToRowField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 2:
-                        this._originalProps.asc_moveToDataField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToDataField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 3:
-                        this._originalProps.asc_moveToPageField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToPageField(this.api, pivotIndex, dataIndex, index);
                         break;
                 }
                 Common.NotificationCenter.trigger('edit:complete', this);

@@ -43,7 +43,10 @@
             margin-left: 10px;
             text-align: center;
         }
-
+        .rtl .loadmask > .brendpanel .loading-logo {
+            margin-left: 0;
+            margin-right: 10px;
+        }
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
             max-width: 100px;
@@ -76,7 +79,6 @@
             background: #e2e2e2;
             overflow: hidden;
             position: relative;
-
             -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
             -o-animation: startFlickerAnimation 2s infinite ease-in-out;
@@ -144,7 +146,8 @@
   </head>
 
   <body class="embed-body">
-      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+       <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
+       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
        <script>
             var  userAgent = navigator.userAgent.toLowerCase(),

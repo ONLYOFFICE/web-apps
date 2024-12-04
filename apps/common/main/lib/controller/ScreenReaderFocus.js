@@ -60,7 +60,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _isEditDiagram = false,
         _isSidePanelMode = false,
         _api,
-        _app;
+        _app,
+        _appPrefix;
 
     var _setCurrentSection = function (btn, section) {
         _lastSection = _currentSection;
@@ -84,14 +85,14 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
     };
 
     var _showFocus = function () {
-        if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
+        if (_currentControls.length === 0 || (($('#file-menu-panel').is(':visible') || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
             // console.log(_currentControls);
         }
@@ -265,8 +266,11 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko) // turn off hints on IE and FireFox (shortcut F6 selects link in address bar)
             return;
         _api = api;
-        _app = window.DE || window.PE || window.SSE || window.PDFE;
+        _app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
         _isDocReady = true;
+
+        var filter = Common.localStorage.getKeysFilter();
+        _appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
         if ( !Common.Utils.ScreeenReaderHelper ) {
             require(['common/main/lib/util/ScreenReaderHelper'], function () {
@@ -351,17 +355,17 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 } else if (e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) {
                     if (btn) {
                         if (btn.attr('for')) { // to trigger event in checkbox
-                            $('#' + btn.attr('for')).trigger(jQuery.Event('click', {which: 1}));
+                            (e.keyCode == Common.UI.Keys.RETURN) ? $('#' + btn.attr('for')).trigger(jQuery.Event('click', {which: 1})) : e.preventDefault(); // prevent type space in document
                         } else {
-                            btn.trigger(jQuery.Event('click', {which: 1}));
+                            if (btn.data('tab') === 'file' || isFileMenu && _currentLevel === 1 || isBtnCategory)
+                                btn.trigger(jQuery.Event('click', {which: 1}));
+                            else
+                                setTimeout(function() {btn.trigger(jQuery.Event('click', {which: 1}));}, 1); // click on toolbar buttons
                         }
                         if (btn.data('toggle') !== 'dropdown') btn.blur();
                     }
-                    if (btn && btn.data('tab') === 'file' || isFileMenu && _currentLevel === 1) {
-                        _nextLevel();
-                        _setCurrentSection(btn);
-                    } else if (btn && isBtnCategory && btn.hasClass('active')) {
-                        _isSidePanelMode = true;
+                    if (btn && btn.data('tab') === 'file' || isFileMenu && _currentLevel === 1 || isBtnCategory && btn.hasClass('active')) {
+                        (isBtnCategory && btn.hasClass('active')) && (_isSidePanelMode = true);
                         _nextLevel();
                         _setCurrentSection(btn);
                     } else {
@@ -399,7 +403,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             }
         });
         $(document).on('keydown', function(e) {
-            _needShow = e.keyCode == Common.UI.Keys.ALT && !e.shiftKey && !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
+            _needShow = Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") &&  e.keyCode == Common.UI.Keys.ALT && !e.shiftKey &&
+                        !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
 
             // Add outline style for focus elements for test
             if (Common.localStorage.getBool('screen-reader-focus-mode', false)) {
@@ -416,6 +421,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
 
     return {
         init: _init,
-        isFocusMode: _isFocusMode
+        isFocusMode: _isFocusMode,
+        exitFocusMode: _exitFocusMode
     }
 })();

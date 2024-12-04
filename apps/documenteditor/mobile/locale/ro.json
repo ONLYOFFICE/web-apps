@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "Numărul de rânduri trebuie împărțit la %1",
     "splitMaxColsErrorText": "Numărul maxim de coloane este de %1",
     "splitMaxRowsErrorText": "Numărul maxim de rânduri este %1",
+    "textOk": "OK",
     "unknownErrorText": "Eroare necunoscută.",
     "uploadDocExtMessage": "Format de fișier necunoscut.",
     "uploadDocFileCountMessage": "Nu există nicun document încărcat.",
@@ -498,6 +500,7 @@
     "savePreparingTitle": "Pregătire pentru salvare. Vă rugăm să așteptați...",
     "saveTextText": "Salvarea documentului...",
     "saveTitleText": "Salvare document",
+    "savingText": "Salvare",
     "sendMergeText": "Trimitere îmbinare a corespondenței...",
     "sendMergeTitle": "Trimitere îmbinare a corespondenței ",
     "textContinue": "Continuare",
@@ -707,7 +710,6 @@
     "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile cu notificare  ",
     "textEncoding": "Codificare",
     "textEncryptFile": "Criptare fișier",
-    "textExplanationChangeDirection": "Aplicația va fi repornită pentru a activa interfața care acceptă limbile cu scriere de la dreapta la stânga",
     "textExport": "Export",
     "textExportAs": "Export ca",
     "textFastWV": "Vizualizare rapidă web",
@@ -768,7 +770,6 @@
     "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
     "textRight": "Dreapta",
     "textRightToLeft": "De la dreapta la stânga",
-    "textRtlInterface": "Interfața care acceptă limbile cu scriere de la dreapta la stânga",
     "textSameAsSystem": "La fel ca sistemul",
     "textSave": "Salvează",
     "textSearch": "Căutare",
@@ -779,7 +780,6 @@
     "textSpellcheck": "Verificarea ortografică",
     "textStatistic": "Statistic",
     "textSubject": "Subiect",
-    "textSubmit": "Trimitere",
     "textSymbols": "Simboluri",
     "textTheme": "Temă",
     "textTitle": "Titlu",
@@ -801,6 +801,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
@@ -810,6 +811,7 @@
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

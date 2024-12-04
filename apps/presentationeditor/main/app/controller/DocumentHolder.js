@@ -85,7 +85,7 @@ define([
 ], function () {
     'use strict';
 
-    PE.Controllers.DocumentHolder = Backbone.Controller.extend({
+    PE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend({
         models: [],
         collections: [],
         views: [
@@ -392,6 +392,7 @@ define([
             view.menuImgShapeRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
             view.menuImgShapeRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+            view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
             view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
             view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
@@ -420,6 +421,8 @@ define([
             view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
             view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
+            view.mnuRenameMaster.on('click', _.bind(me.onRename, me));
+            view.mnuRenameLayout.on('click', _.bind(me.onRename, me));
         },
 
         createPostLoadElements: function() {
@@ -476,6 +479,7 @@ define([
             }
 
             me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
         },
 
         getView: function (name) {
@@ -521,6 +525,7 @@ define([
                     } else {
                         menu.menuAlign = 'tl-tr';
                     }
+                    me.hideScreenTip();
                 }
 
                 menuContainer.css({
@@ -980,6 +985,8 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        if (me.documentHolder.currentMenu && me.documentHolder.currentMenu.isVisible())
+                            return;
                         var tip = moveData.get_EffectText();
                         if (!tip) {
                             tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
@@ -994,6 +1001,7 @@ define([
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
                         recalc = true;
+                        screenTip.toolTip.getBSTip().options.container = me.isPreviewVisible ? '#pe-preview' : 'body';
                     }
 
                     showPoint = [moveData.get_X(), moveData.get_Y()];
@@ -2226,6 +2234,15 @@ define([
             this.editComplete();
         },
 
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.ShapeApply(properties);
+            this.editComplete();
+        },
+
         onImgEditPoints: function(item) {
             this.api && this.api.asc_editPointsGeometry();
         },
@@ -2827,6 +2844,38 @@ define([
 
         onDeleteLayout: function () {
             this.api.asc_DeleteLayout();
+        },
+
+        onRename: function() {
+            var me = this;
+            var currentName = ''; 
+            var selectedElements = me.api.getSelectedElements();
+            var isMaster;
+            if (selectedElements && _.isArray(selectedElements)) {
+                _.each(selectedElements, function(element) {
+                    if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                        var elValue = element.get_ObjectValue();
+                        isMaster = elValue.get_IsMasterSelected()
+                        currentName = isMaster ? elValue.get_MasterName() : elValue.get_LayoutName(); 
+                    }
+                });
+            }
+            new Common.Views.TextInputDialog({
+                title: isMaster ? me.textRenameTitleMaster : me.textRenameTitleLayout,
+                label: isMaster ? me.textNameMaster : me.textNameLayout,  
+                value: currentName || '',
+                inputConfig: {
+                    allowBlank  : false,
+                    validation: function(value) {
+                        return value.length<255 ? true : me.textLongName;
+                    }
+                },   
+                handler: function(result, value) {
+                    if (result === 'ok' && value) {
+                        me.api[isMaster ? 'asc_SetMasterName' : 'asc_SetLayoutName'](value);
+                    }
+                }
+            }).show();
         }
-    });
+    },PE.Controllers.DocumentHolder || {}));
 });

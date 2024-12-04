@@ -324,8 +324,8 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-smooth-scroll"></div></td>',
                 '</tr>',
                 /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -478,6 +478,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chSmoothScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-smooth-scroll'),
+                labelText: this.strSmoothScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -644,7 +652,24 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : Common.util.LanguageInfo.regionalData
+                data        : Common.util.LanguageInfo.regionalData,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>'
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
+                dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
                 var isBaseSettings = me.chSeparator.getValue();
@@ -791,6 +816,20 @@ define([], function () {
                 editable: false,
                 restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -824,14 +863,6 @@ define([], function () {
                 el: $markup.findById('#fms-btn-auto-correct')
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
-
-            this.chRTL = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-rtl-ui'),
-                labelText: this.strRTLSupport,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
 
             this.chTabBack = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-tab-background'),
@@ -974,7 +1005,6 @@ define([], function () {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
-            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -996,6 +1026,7 @@ define([], function () {
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
             this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
+            this.chSmoothScroll.setValue(!Common.Utils.InternalSettings.get("sse-settings-smooth-scroll"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             this.rbCoAuthModeFast.setValue(fast_coauth);
@@ -1070,7 +1101,6 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1167,6 +1197,7 @@ define([], function () {
             }
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("sse-settings-smooth-scroll", this.chSmoothScroll.isChecked() ? 0 : 1);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("sse-settings-cachemode", item && !item.get('checked') ? 0 : 1);
@@ -1204,8 +1235,6 @@ define([], function () {
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
 
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
-            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
@@ -1253,16 +1282,6 @@ define([], function () {
                     this.api.asc_UpdateCalcSettings(value);
                 }
             }
-
-            if (isRtlChanged) {
-                var config = {
-                    title: this.txtWorkspaceSettingChange,
-                    msg: this.txtRestartEditor,
-                    iconCls: 'warn',
-                    buttons: ['ok']
-                };
-                Common.UI.alert(config);
-            }
         },
 
         updateRegionalExample: function(landId) {
@@ -1274,8 +1293,8 @@ define([], function () {
                     info.asc_setSymbol(landId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
                     text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(true), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(true), landId);
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
@@ -1319,6 +1338,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton,
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('sse-quick-access-save', true),
                     print: Common.localStorage.getBool('sse-quick-access-print', true),
@@ -1369,7 +1389,6 @@ define([], function () {
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
         txtCacheMode: 'Default cache mode',
-        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
@@ -1440,8 +1459,6 @@ define([], function () {
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
-        txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
         txtScreenReader: 'Turn on screen reader support',
@@ -1464,7 +1481,7 @@ define([], function () {
 
         events: function() {
             return {
-                'click .blank-document-btn':_.bind(this._onBlankDocument, this),
+                'click .blank-document':_.bind(this._onBlankDocument, this),
                 'click .thumb-list .thumb-wrap': _.bind(this._onDocumentTemplate, this)
             };
         },
@@ -1473,8 +1490,8 @@ define([], function () {
             '<div class="header"><%= scope.txtCreateNew %></div>',
             '<div class="thumb-list">',
                 '<% if (blank) { %> ',
-                '<div class="blank-document">',
-                    '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="10, 1">',
+                '<div class="blank-document" data-hint="2" data-hint-direction="left-top" data-hint-offset="22, 13">',
+                    '<div class="blank-document-btn">',
                         '<div class="btn-blank-format"><div class="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
@@ -1557,9 +1574,10 @@ define([], function () {
             this.rendered = false;
 
             this.template = _.template([
-            '<div class="flex-settings">',
-                '<div class="header">' + this.txtSpreadsheetInfo + '</div>',
-                '<table class="main">',
+            '<table class="main">',
+                '<tbody><td class="header">' + this.txtSpreadsheetInfo + '</td></tbody>',
+                '<tbody>',
+                    '<tr><td class="title"><label>' + this.txtCommon + '</label></td></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -1572,8 +1590,36 @@ define([], function () {
                         '<td class="left"><label>' + this.txtUploaded + '</label></td>',
                         '<td class="right"><label id="id-info-uploaded">-</label></td>',
                     '</tr>',
-                    '<tr class="divider general"></tr>',
-                    '<tr class="divider general"></tr>',
+                    '<tr></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
+                        '<td class="right"><label id="id-info-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname"></label></td>',
+                    '</tr>',
+                '</tbody>',
+                '<tbody class="properties-tab">',
+                    '<tr><td class="title"><label>' + this.txtProperties + '</label></td></tr>',
+                    '<tr class="author-info">',
+                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
+                            '<td class="right"><div id="id-info-author">',
+                            '<table>',
+                                '<tr>',
+                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                                '</tr>',
+                            '</table>',
+                        '</div></td>',
+                    '</tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
@@ -1590,47 +1636,18 @@ define([], function () {
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-date"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-by"></label></td>',
-                    '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
-                        '<td class="right"><label id="id-info-date"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
-                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
-                            '<table>',
-                                '<tr>',
-                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
-                                '</tr>',
-                            '</table>',
-                        '</div></td>',
-                    '</tr>',
-                '<tr style="height: 5px;"></tr>',
-                '</table>',
-            '</div>',
-            '<div id="fms-flex-apply">',
-                '<table class="main" style="margin: 10px 0;">',
+                '</tbody>',
+                '<tbody>',
                     '<tr>',
                         '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
+                        '<td class="right">',
+                        '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                        '<span>' + this.txtAddProperty + '</span>',
+                        '</button>',
+                        '</td>',
                     '</tr>',
-                '</table>',
-            '</div>'
+                '</tbody>',
+            '</table>',
             ].join(''));
 
             this.menu = options.menu;
@@ -1668,7 +1685,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putTitle(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
@@ -1677,7 +1698,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putKeywords(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
@@ -1686,7 +1711,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putSubject(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
@@ -1695,7 +1724,10 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putDescription(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
 
             // modify info
             this.lblModifyDate = $markup.findById('#id-info-modify-date');
@@ -1706,7 +1738,7 @@ define([], function () {
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1715,6 +1747,8 @@ define([], function () {
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.coreProps.asc_putCreator(me.authors.join(';'));
+                    me.api.asc_setCoreProps(me.coreProps);
                     me.updateScroller(true);
                 }
             });
@@ -1746,15 +1780,15 @@ define([], function () {
                     });
                     !isFromApply && me.inputAuthor.setValue('');
                 }
+
+                me.coreProps.asc_putCreator(me.authors.join(';'));
+                me.api.asc_setCoreProps(me.coreProps);
             }).on('keydown:before', keyDownBefore);
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fminfo-btn-apply')
+            this.btnAddProperty = new Common.UI.Button({
+                el: $markup.findById('#fminfo-btn-add-property')
             });
-            this.btnApply.on('click', _.bind(this.applySettings, this));
-
-            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
-            this.pnlApply = $markup.findById('#fms-flex-apply');
+            this.btnAddProperty.on('click', _.bind(this.onAddPropertyClick, this));
 
             this.rendered = true;
 
@@ -1763,8 +1797,7 @@ define([], function () {
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.pnlInfo,
-                    suppressScrollX: true,
+                    el: this.$el,
                     alwaysVisibleY: true
                 });
             }
@@ -1793,7 +1826,6 @@ define([], function () {
         updateScroller: function(destroy) {
             if (this.scroller) {
                 this.scroller.update(destroy ? {} : undefined);
-                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
         },
 
@@ -1831,16 +1863,7 @@ define([], function () {
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
-                if (value) {
-                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
-                    try {
-                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
-                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    } catch (e) {
-                        lang = 'en';
-                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    }
-                }
+                this.lblDate.text(this.dateToString(value));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1865,16 +1888,7 @@ define([], function () {
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
-                if (value) {
-                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
-                    try {
-                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
-                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    } catch (e) {
-                        lang = 'en';
-                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    }
-                }
+                this.lblModifyDate.text(this.dateToString(value));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1903,6 +1917,8 @@ define([], function () {
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
+
+            this.renderCustomProperties();
             this.SetDisabled();
         },
 
@@ -1920,7 +1936,7 @@ define([], function () {
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.pnlApply.toggleClass('hidden', !mode.isEdit);
+            this.btnAddProperty.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1945,6 +1961,115 @@ define([], function () {
             this.updateFileInfo();
         },
 
+        tplCustomProperty: function(name, type, value) {
+            if (type === AscCommon.c_oVariantTypes.vtBool) {
+                value = value ? this.txtYes : this.txtNo;
+            } else if (type === AscCommon.c_oVariantTypes.vtFiletime) {
+                value = this.dateToString(new Date(value), true);
+            }
+
+            return '<tr data-custom-property>' +
+                '<td class="left"><label>' + Common.Utils.String.htmlEncode(name) + '</label></td>' +
+                '<td class="right"><div class="custom-property-wrapper">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + value +'">' +
+                '<div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
+                '</div></td></tr>';
+        },
+
+        dateToString: function (value, hideTime) {
+            var text = '';
+            if (value) {
+                var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                try {
+                    if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + (!hideTime ? ' ' + value.toLocaleString(lang, {timeStyle: 'short'}) : '');
+                } catch (e) {
+                    lang = 'en';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + (!hideTime ? ' ' + value.toLocaleString(lang, {timeStyle: 'short'}) : '');
+                }
+            }
+            return text;
+        },
+
+        renderCustomProperties: function() {
+            if (!this.api) {
+                return;
+            }
+
+            $('tr[data-custom-property]').remove();
+
+            var properties = this.api.asc_getAllCustomProperties();
+            _.each(properties, _.bind(function(prop, idx) {
+                var me = this, name = prop.asc_getName(), type = prop.asc_getType(), value = prop.asc_getValue();
+                var $propertyEl = $(this.tplCustomProperty(name, type, value));
+
+                $('tbody.properties-tab').append($propertyEl);
+
+                $propertyEl.on('click', function (e) {
+                    if ($propertyEl.find('div.disabled').length) {
+                        return;
+                    }
+
+                    var btn = $propertyEl.find(e.target);
+                    if (btn.hasClass('close')) {
+                        me.api.asc_removeCustomProperty(idx);
+                        me.renderCustomProperties();
+                    } else if (btn.hasClass('form-control')) {
+                        (new Common.Views.DocumentPropertyDialog({
+                            title: me.txtDocumentPropertyUpdateTitle,
+                            lang: me.mode.lang,
+                            defaultValue: {
+                                name: name,
+                                type: type,
+                                value: value
+                            },
+                            nameValidator: function(newName) {
+                                if (newName !== name && _.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
+                                    return me.txtPropertyTitleConflictError;
+                                }
+
+                                return true;
+                            },
+                            handler: function(result, name, type, value) {
+                                if (result === 'ok') {
+                                    me.api.asc_modifyCustomProperty(idx, name, type, value);
+                                    me.renderCustomProperties();
+                                }
+                            }
+                        })).show();
+                    }
+                });
+            }, this));
+        },
+
+        setDisabledCustomProperties: function(disable) {
+            _.each($('tr[data-custom-property]'), function(prop) {
+                $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
+                $(prop).find('div.close')[disable ? 'hide' : 'show']();
+            })
+        },
+
+        onAddPropertyClick: function() {
+            var me = this;
+            (new Common.Views.DocumentPropertyDialog({
+                lang: me.mode.lang,
+                nameValidator: function(newName) {
+                    var properties = me.api.asc_getAllCustomProperties();
+                    if (_.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
+                        return me.txtPropertyTitleConflictError;
+                    }
+
+                    return true;
+                },
+                handler: function(result, name, type, value) {
+                    if (result === 'ok') {
+                        me.api.asc_addCustomProperty(name, type, value);
+                        me.renderCustomProperties();
+                    }
+                }
+            })).show();
+        },
+
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
@@ -1954,19 +2079,8 @@ define([], function () {
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._locked);
-        },
-
-        applySettings: function() {
-            if (this.coreProps && this.api) {
-                this.coreProps.asc_putTitle(this.inputTitle.getValue());
-                this.coreProps.asc_putKeywords(this.inputTags.getValue());
-                this.coreProps.asc_putSubject(this.inputSubject.getValue());
-                this.coreProps.asc_putDescription(this.inputComment.getValue());
-                this.coreProps.asc_putCreator(this.authors.join(';'));
-                this.api.asc_setCoreProps(this.coreProps);
-            }
-            this.menu.hide();
+            this.btnAddProperty.setDisabled(disable);
+            this.setDisabledCustomProperties(disable);
         },
 
         txtPlacement: 'Location',
@@ -1985,7 +2099,14 @@ define([], function () {
         txtAddText: 'Add Text',
         txtMinutes: 'min',
         okButtonText: 'Apply',
-        txtSpreadsheetInfo: 'Spreadsheet Info'
+        txtSpreadsheetInfo: 'Spreadsheet Info',
+        txtCommon: 'Common',
+        txtProperties: 'Properties',
+        txtDocumentPropertyUpdateTitle: "Document Property",
+        txtAddProperty: 'Add property',
+        txtYes: 'Yes',
+        txtNo: 'No',
+        txtPropertyTitleConflictError: 'Property with this title already exists',
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

@@ -401,7 +401,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
+            this.miSave[this.mode.showSaveButton && this.mode.canSaveToFile && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
@@ -443,7 +443,7 @@ define([
 
             if (!this.customizationDone) {
                 this.customizationDone = true;
-                Common.Utils.applyCustomization(this.mode.customization, {goback: '#fm-btn-back > a'});
+                this.mode.canBack && this.mode.customization.goback.text && typeof this.mode.customization.goback.text === 'string' && this.miBack.setCaption(this.mode.customization.goback.text);
             }
 
             this.panels['opts'].setMode(this.mode);
@@ -585,7 +585,7 @@ define([
                     panel.show(opts);
 
                     if (this.scroller) {
-                        var itemTop = item.$el.position().top,
+                        var itemTop = Common.Utils.getPosition(item.$el).top,
                             itemHeight = item.$el.outerHeight(),
                             listHeight = this.$el.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {

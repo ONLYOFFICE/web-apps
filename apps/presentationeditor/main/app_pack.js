@@ -27,7 +27,10 @@ require([
     'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/view/ExternalLinksDlg',
     'common/main/lib/view/FormatSettingsDialog',
-
+    'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
+    'common/main/lib/component/AceEditor',
+    
     'presentationeditor/main/app/view/FileMenuPanels',
     'presentationeditor/main/app/view/DocumentHolderExt',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
@@ -41,5 +44,5 @@ require([
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/ChartSettingsAdvanced'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

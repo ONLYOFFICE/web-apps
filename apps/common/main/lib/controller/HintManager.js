@@ -149,7 +149,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
@@ -569,6 +569,7 @@ Common.UI.HintManager = new(function() {
                             }
                         }
                         if (curr) {
+                            Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();

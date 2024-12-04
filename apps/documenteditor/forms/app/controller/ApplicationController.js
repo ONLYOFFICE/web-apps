@@ -489,6 +489,11 @@ define([
                     this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
             }
             this.appOptions.canBackToFolder = !!_canback;
+
+            if (this.editorConfig.canRequestRefreshFile) {
+                Common.Gateway.on('refreshfile',                         _.bind(this.onRefreshFile, this));
+                this.api.asc_registerCallback('asc_onRequestRefreshFile',       _.bind(this.onRequestRefreshFile, this));
+            }
         },
 
         onExternalMessage: function(msg) {
@@ -609,10 +614,17 @@ define([
                     buttons: [],
                     closable: false
                 });
+                if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
+                    Common.NotificationCenter.trigger('api:disconnect');
+                }
                 return;
             }
 
             if ( this.onServerVersion(params.asc_getBuildVersion())) return;
+            if ( this._isDocReady || this._isPermissionsInited ) {
+                this.api.asc_LoadDocument();
+                return;
+            }
 
             this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
@@ -694,6 +706,9 @@ define([
                         return;
                     }
                     me.api.asc_SendForm();
+                    Common.Controllers.Desktop.removeRecent();
+                    Common.Controllers.Desktop.process('goback');
+                    Common.Controllers.Desktop.requestClose();
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {
@@ -727,7 +742,7 @@ define([
                     Common.Gateway.requestClose();
                 });
             }
-
+            this._isPermissionsInited = true;
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             this.api.asc_LoadDocument();
             this.api.Resize();
@@ -747,12 +762,17 @@ define([
                         })
                     }
                 });
+                if (this._isDocReady) { // receive after refresh file
+                    Common.NotificationCenter.trigger('api:disconnect');
+                }
                 return true;
             }
             return false;
         },
 
         onUpdateVersion: function(callback) {
+            console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+
             var me = this;
             me.needToUpdateVersion = true;
             me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -1130,7 +1150,7 @@ define([
             if (data.type == 'mouseup') {
                 var e = document.getElementById('editor_sdk');
                 if (e) {
-                    var r = e.getBoundingClientRect();
+                    var r = Common.Utils.getBoundingClientRect(e);
                     this.api.OnMouseUp(
                         data.x - r.left,
                         data.y - r.top
@@ -1178,7 +1198,13 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.onShowImageActions(obj, x, y);
+                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
+                        me.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1199,7 +1225,7 @@ define([
                 menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this.internalFormObj = obj ? obj.pr : null;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -1288,7 +1314,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
         insertImage: function(data) { // gateway
@@ -1446,7 +1472,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1768,6 +1794,10 @@ define([
 
             this.view.btnOptions.menu.on('show:after', initMenu);
 
+            function onMouseLeave() {
+                screenTip.toolTip.hide();
+                screenTip.isVisible = false;
+            }
             screenTip = {
                 toolTip: new Common.UI.Tooltip({
                     owner: this,
@@ -1779,6 +1809,12 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            screenTip.toolTip.on('tooltip:show', function () {
+                $('#id_main_view').on('mouseleave', onMouseLeave);
+            });
+            screenTip.toolTip.on('tooltip:hide',function () {
+                $('#id_main_view').off('mouseleave', onMouseLeave);
+            });
         },
 
         attachUIEvents: function() {
@@ -2025,6 +2061,61 @@ define([
             }
         },
 
+        onRequestRefreshFile: function() {
+            Common.Gateway.requestRefreshFile();
+        },
+
+        onRefreshFile: function(data) {
+            if (data) {
+                var docInfo = new Asc.asc_CDocInfo();
+                if (data.document) {
+                    docInfo.put_Id(data.document.key);
+                    docInfo.put_Url(data.document.url);
+                    docInfo.put_Title(data.document.title);
+                    if (labelDocName && data.document.title) {
+                        this.updateWindowTitle(true);
+                        labelDocName.text(data.document.title || '');
+                        this.embedConfig.docTitle = data.document.title;
+                    }
+                    data.document.referenceData && docInfo.put_ReferenceData(data.document.referenceData);
+                }
+                if (data.editorConfig) {
+                    docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
+                }
+                if (data.token)
+                    docInfo.put_Token(data.token);
+
+                var _user = new Asc.asc_CUserInfo(); // change for guest!!
+                _user.put_Id(this.appOptions.user.id);
+                _user.put_FullName(this.appOptions.user.fullname);
+                _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
+                docInfo.put_UserInfo(_user);
+
+                var _options = $.extend({}, this.document.options, this.editorConfig.actionLink || {});
+                docInfo.put_Options(_options);
+
+                docInfo.put_Format(this.document.fileType);
+                docInfo.put_Lang(this.editorConfig.lang);
+                docInfo.put_Mode(this.editorConfig.mode);
+                docInfo.put_Permissions(this.permissions);
+                docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
+                docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+                docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
+
+                var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                docInfo.asc_putIsEnabledMacroses(!!enable);
+                enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                docInfo.asc_putIsEnabledPlugins(!!enable);
+                
+
+                var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
+                if (type && typeof type[1] === 'string') {
+                    this.permissions.edit = this.permissions.review = false;
+                }
+                this.api.asc_refreshFile(docInfo);
+            }
+        },
+
         errorDefaultMessage     : 'Error code: %1',
         unknownErrorText        : 'Unknown error.',
         convertationTimeoutText : 'Conversion timeout exceeded.',
@@ -2110,93 +2201,4 @@ define([
         savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
-
-/*    var Desktop = function () {
-        var features = {
-            version: '{{PRODUCT_VERSION}}',
-            // eventloading: true,
-            uitype: 'fillform',
-            uithemes: true
-        };
-        var api, nativevars;
-
-        var native = window.desktop || window.AscDesktopEditor;
-        !!native && native.execCommand('webapps:features', JSON.stringify(features));
-
-        if ( !!native ) {
-            $('#header-logo, .brand-logo').hide();
-
-            nativevars = window.RendererProcessVariable;
-
-            window.on_native_message = function (cmd, param) {
-                if (/theme:changed/.test(cmd)) {
-                    if ( Common.UI.Themes && !!Common.UI.Themes.setTheme )
-                        Common.UI.Themes.setTheme(param);
-                } else
-                if (/window:features/.test(cmd)) {
-                    var obj = JSON.parse(param);
-                    if ( obj.singlewindow !== undefined ) {
-                        native.features.singlewindow = obj.singlewindow;
-                        $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
-                    }
-                }
-            };
-
-            if ( !!window.native_message_cmd ) {
-                for ( var c in window.native_message_cmd ) {
-                    window.on_native_message(c, window.native_message_cmd[c]);
-                }
-            }
-
-            Common.NotificationCenter.on({
-                'uitheme:changed' : function (name) {
-                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
-                    } else {
-                        const theme = Common.UI.Themes.get(name);
-                        if ( theme )
-                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
-                    }
-                },
-            });
-
-            Common.Gateway.on('opendocument', function () {
-                api = DE.getController('ApplicationController').api;
-
-                $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
-
-                var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
-                Common.UI.Themes.setAvailable(!is_win_xp);
-            });
-        }
-
-        return {
-            isActive: function () {
-                return !!native;
-            },
-            isOffline: function () {
-                return api && api.asc_isOffline();
-            },
-            process: function (opts) {
-                if ( !!native && !!api ) {
-                    if ( opts == 'goback' ) {
-                        var config = DE.getController('ApplicationController').editorConfig;
-                        native.execCommand('go:folder',
-                            api.asc_isOffline() ? 'offline' : config.customization.goback.url);
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-            systemThemeType: function () {
-                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
-                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            },
-        }
-    };
- */
-    // DE.Controllers.Desktop = new Desktop();
-    // Common.Controllers = Common.Controllers || {};
-    // Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

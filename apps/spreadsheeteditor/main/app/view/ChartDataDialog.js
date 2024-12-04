@@ -338,9 +338,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : me.txtDataRange.getValue(),
@@ -465,9 +465,9 @@ define([
             });
 
             me._isEditRanges = true;
-            var xy = me.$window.offset();
+            var xy = Common.Utils.getOffset(me.$window);
             me.hide();
-            win.show(xy.left + 160, xy.top + 125);
+            win.show(xy.left + (me.$window.outerWidth() - win.options.width)/2, xy.top + (me.$window.outerHeight() - 150)/2);
             win.setSettings({
                 api     : me.api,
                 props   : props,

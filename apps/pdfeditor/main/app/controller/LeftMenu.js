@@ -362,16 +362,20 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            if (typeof ext === 'string') {
-                var idx = defFileName.lastIndexOf('.');
-                if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + ext;
-            }
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }
@@ -423,11 +427,11 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit);
             /** coauthoring begin **/
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
+            if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave && !this.mode.isOffline) {
                 if (this.mode.canChangeCoAuthoring) {
-                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
+                    fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", false); // false by default!
                     Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
                     this.api.asc_SetFastCollaborative(fast_coauth);
                 }
@@ -441,6 +445,10 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("pdfe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
@@ -615,13 +623,15 @@ define([
         SetDisabled: function(disable, options) {
             if (this.leftMenu._state.disabled !== disable) {
                 this.leftMenu._state.disabled = disable;
-                if (disable) {
-                    this.previsEdit = this.mode.isEdit;
-                    this.prevcanEdit = this.mode.canEdit;
-                    this.mode.isEdit = this.mode.canEdit = !disable;
-                } else {
-                    this.mode.isEdit = this.previsEdit;
-                    this.mode.canEdit = this.prevcanEdit;
+                if (this.mode) {
+                    if (disable) {
+                        this.previsEdit = this.mode.isEdit;
+                        this.prevcanEdit = this.mode.canEdit;
+                        this.mode.isEdit = this.mode.canEdit = !disable;
+                    } else {
+                        this.mode.isEdit = this.previsEdit;
+                        this.mode.canEdit = this.prevcanEdit;
+                    }
                 }
             }
 

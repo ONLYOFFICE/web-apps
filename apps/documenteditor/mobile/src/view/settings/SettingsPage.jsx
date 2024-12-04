@@ -68,7 +68,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
             _canFeedback = appOptions.customization.feedback !== false;
-            _canDisplayInfo = appOptions.customization.info !== false;
+            _canDisplayInfo = appOptions.customization.mobile?.info !== false;
         }
     }
     
@@ -80,16 +80,6 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     (isFavorite !== undefined && isFavorite !== null ?
                         <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
                             <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
-                        </ListItem>
-                    : ''),
-                    (canFillForms && canSubmitForms ?   
-                        <ListItem key='submit-form-link' title={t('Settings.textSubmit')} link='#' className='no-indicator' onClick={settingsContext.submitForm}>
-                            <Icon slot="media" icon="icon-save-form"></Icon>
-                        </ListItem> 
-                    : ''),
-                    (_canDownload && canFillForms && !canSubmitForms ? 
-                        <ListItem key='save-form-link' title={t('Settings.textSave')} link='#' className='no-indicator' onClick={settingsContext.saveAsPdf}>
-                            <Icon slot="media" icon="icon-save-form"></Icon>
                         </ListItem>
                     : ''),
                     <ListItem key='clear-all-fields-link' title={t('Settings.textClearAllFields')} link='#' className='no-indicator' onClick={settingsContext.clearAllFields}>
@@ -136,7 +126,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
-                {((!isViewer && Device.phone) || isEditableForms) &&
+                {(appOptions.isMobileViewAvailable  && ((Device.phone && !isViewer) || isEditableForms)) &&
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {

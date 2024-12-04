@@ -745,7 +745,7 @@ define([
                         itemNode.addClass('selected');
                         itemNode.find('a').attr('aria-checked', true);
 
-                        var itemTop = itemNode.position().top,
+                        var itemTop = Common.Utils.getPosition(itemNode).top,
                             menuTop = menuEl.scrollTop();
 
                         if (itemTop != 0)

@@ -129,13 +129,6 @@ define([
             me.showMathTrackOnLoad = false;
 
             me.screenTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    title: '<br><b>Press Ctrl and click link</b>',
-                    cls: 'link-tooltip'
-//                    style: 'word-wrap: break-word;'
-                }),
                 strTip: '',
                 isHidden: true,
                 isVisible: false
@@ -151,7 +144,8 @@ define([
             me.wrapEvents = {
                 userTipMousover: _.bind(me.userTipMousover, me),
                 userTipMousout: _.bind(me.userTipMousout, me),
-                onKeyUp: _.bind(me.onKeyUp, me)
+                onKeyUp: _.bind(me.onKeyUp, me),
+                onMouseLeave: _.bind(me.onMouseLeave, me)
             };
 
             var keymap = {};
@@ -175,8 +169,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -188,8 +181,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreentip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -244,6 +236,8 @@ define([
                 if (this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                     this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                    Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+                    Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
                 this.documentHolder.setApi(this.api);
@@ -334,6 +328,7 @@ define([
             }
 
             me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
         },
 
         createDelayedElements: function(view, type) {
@@ -397,6 +392,7 @@ define([
             view.menuImgRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
             view.menuImgRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
             view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+            view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
             view.menuImgRemoveControl.on('click', _.bind(me.onControlsSelect, me));
             view.menuImgControlSettings.on('click', _.bind(me.onControlsSelect, me));
             view.menuTableRemoveForm.on('click', _.bind(me.onControlsSelect, me));
@@ -1049,6 +1045,15 @@ define([
             }
         },
 
+        hideScreentip: function () {
+            this.screenTip.toolTip && this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
+        },
+
+        onMouseLeave: function () {
+            this.hideScreentip();
+        },
+
         onMouseMoveStart: function() {
             var me = this;
             me.screenTip.isHidden = true;
@@ -1072,7 +1077,7 @@ define([
             if (me.screenTip.isHidden && me.screenTip.isVisible) {
                 me.screenTip.isVisible = false;
                 me.isTooltipHiding = true;
-                me.screenTip.toolTip.hide(function(){
+                me.screenTip.toolTip && me.screenTip.toolTip.hide(function(){
                     me.isTooltipHiding = false;
                     if (me.mouseMoveData) me.onMouseMove(me.mouseMoveData);
                     me.mouseMoveData = null;
@@ -1207,6 +1212,21 @@ define([
 
                     var recalc = false;
                     screenTip.isHidden = false;
+
+                    if (!me.screenTip.toolTip) {
+                        me.screenTip.toolTip = new Common.UI.Tooltip({
+                            owner: me,
+                            html: true,
+                            title: '<br><b>Press Ctrl and click link</b>',
+                            cls: 'link-tooltip'
+                        });
+                        me.screenTip.toolTip.on('tooltip:show', function () {
+                            $('#id_main_view').on('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                        me.screenTip.toolTip.on('tooltip:hide',function () {
+                            $('#id_main_view').off('mouseleave', me.wrapEvents.onMouseLeave);
+                        });
+                    }
 
                     if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
@@ -1706,7 +1726,8 @@ define([
         },
 
         onShowContentControlsActions: function(obj, x, y) {
-            var type = obj.type;
+            var type = obj.type,
+                me = this;
             switch (type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
                     this.onShowDateActions(obj, x, y);
@@ -1717,16 +1738,137 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.api.asc_addImage(obj);
-                    var me = this;
-                    setTimeout(function(){
-                        me.api.asc_UncheckContentControlButtons();
-                    }, 500);
+                    if (obj.pr && obj.pr.is_Signature() && false) {
+                        if (_.isUndefined(me.fontStore)) {
+                            me.fontStore = new Common.Collections.Fonts();
+                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                            var arr = [];
+                            _.each(fonts, function(font, index){
+                                if (!font.cloneid) {
+                                    arr.push(_.clone(font));
+                                }
+                            });
+                            me.fontStore.add(arr);
+                        }
+                        (new Common.Views.PdfSignDialog({
+                            props: obj,
+                            api: me.api,
+                            disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                            storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                            fontStore: me.fontStore,
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    me.api.asc_SetSignatureProps(value);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        })).show();
+                    } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
+                        this.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
                     this.onShowListActions(obj, x, y);
                     break;
+            }
+        },
+
+        onShowImageActions: function(obj, x, y) {
+            var cmpEl = this.documentHolder.cmpEl,
+                menu = this.imageControlMenu,
+                menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this.internalFormObj = obj ? obj.pr : null;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.imageControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tl-bl',
+                    items: [
+                        {caption: this.documentHolder.mniImageFromFile, value: 0},
+                        {caption: this.documentHolder.mniImageFromUrl, value: 1},
+                        {caption: this.documentHolder.mniImageFromStorage, value: 2, visible: this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1}
+                    ]
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.onImageSelect(menu, item);
+                    }, 1);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        selectFormImage: function(item, obj) {
+            this.internalFormObj = obj;
+            this.onImageSelect(null, item);
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                this.api.asc_addImage(this.internalFormObj);
+                this._isFromFile = false;
+            }
+        },
+
+        setImageUrl: function(url, token) {
+            this.api && this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
             }
         },
 
@@ -2161,6 +2303,15 @@ define([
             } else {
                 item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
             }
+            this.editComplete();
+        },
+
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.ImgApply(properties);
             this.editComplete();
         },
 

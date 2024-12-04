@@ -175,6 +175,12 @@
       "textStandartColors": "Sztenderd színek",
       "textThemeColors": "Témaszínek"
     },
+    "Themes": {
+      "dark": "Sötét",
+      "light": "Világos",
+      "system": "A rendszerrel megegyező",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
@@ -188,12 +194,6 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása?",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "A maximális dokumentum méret elérve.",
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
-    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB."
+    "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -506,7 +508,8 @@
     "txtEditingMode": "Szerkesztési mód beállítása...",
     "uploadImageTextText": "Kép feltöltése...",
     "uploadImageTitleText": "Kép feltöltése",
-    "waitText": "Kérjük, várjon..."
+    "waitText": "Kérjük, várjon...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Hiba",
@@ -684,6 +687,7 @@
     "textCommentsDisplay": "Hozzászólások megjelenítése",
     "textCreated": "Létrehozva",
     "textCustomSize": "Egyéni méret",
+    "textDark": "Sötét",
     "textDarkTheme": "Sötét téma",
     "textDialogUnprotect": "Jelszó megadása a dokumentum védelmének feloldásához",
     "textDirection": "Irány",
@@ -720,6 +724,7 @@
     "textLastModifiedBy": "Utoljára módosította",
     "textLeft": "Bal",
     "textLeftToRight": "Balról jobbra",
+    "textLight": "Világos",
     "textLoading": "Betöltés...",
     "textLocation": "Helye",
     "textMacrosSettings": "Makró beállítások",
@@ -760,6 +765,7 @@
     "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, a módosítások érvénybe lépéséhez",
     "textRight": "Jobb",
     "textRightToLeft": "Jobbról balra",
+    "textSameAsSystem": "A rendszerrel megegyező",
     "textSave": "Mentés",
     "textSearch": "Keresés",
     "textSetPassword": "Jelszó Beállítása",
@@ -789,15 +795,9 @@
     "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll",
     "textClearAllFields": "Clear All Fields",
     "textClose": "Close",
-    "textDark": "Dark",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
-    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textRtlInterface": "RTL Interface",
-    "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme"
   },
   "Toolbar": {
@@ -810,6 +810,8 @@
     "textOk": "OK",
     "textRenameFile": "Fájl Átnevezése",
     "textSwitchedMobileView": "Váltás Mobil nézetre",
-    "textSwitchedStandardView": "Normál nézetre váltott"
+    "textSwitchedStandardView": "Normál nézetre váltott",
+    "warnEmptyRequiredField": "Az űrlap elküldéséhez töltse ki az összes szükséges mezőt.",
+    "btnSend": "Send"
   }
 }

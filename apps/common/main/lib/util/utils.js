@@ -100,7 +100,7 @@ define([], function () {
             ipRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/i,
             hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
             localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
-            emailStrongRe = /(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
+            emailStrongRe = /(mailto:)?([a-z0-9'\.\+_-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
             emailAddStrongRe = /(mailto:|\s[@]|\s[+])?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%\+-=\?:&]*)/ig,
             ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
             hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
@@ -224,16 +224,6 @@ define([], function () {
                 if (rect.bottom!==undefined) newRect.bottom = rect.bottom * koef;
                 return newRect;
             },
-            getOffsetLeft = function(element) {
-                if (!isOffsetUsedZoom())
-                    return element.offsetLeft;
-                return element.offsetLeft * me.zoom;
-            },
-            getOffsetTop = function(element) {
-                if (!isOffsetUsedZoom())
-                    return element.offsetTop;
-                return element.offsetTop * me.zoom;
-            },
             getOffset = function($element) {
                 let pos = $element.offset();
                 if (!isOffsetUsedZoom())
@@ -245,6 +235,39 @@ define([], function () {
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
+            },
+            setOffset = function($element, options) {
+                var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+                    position = $element.css("position"),
+                    props = {};
+
+                if ( position === "static" ) {
+                    $element[0].style.position = "relative";
+                }
+
+                curOffset = getOffset($element);
+                curCSSTop = $element.css("top");
+                curCSSLeft = $element.css("left");
+                calculatePosition = ( position === "absolute" || position === "fixed" ) &&
+                    ( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
+
+                if ( calculatePosition ) {
+                    curPosition = getPosition($element);
+                    curTop = curPosition.top;
+                    curLeft = curPosition.left;
+                } else {
+                    curTop = parseFloat( curCSSTop ) || 0;
+                    curLeft = parseFloat( curCSSLeft ) || 0;
+                }
+
+                if ( options.top != null ) {
+                    props.top = ( options.top - curOffset.top ) + curTop;
+                }
+                if ( options.left != null ) {
+                    props.left = ( options.left - curOffset.left ) + curLeft;
+                }
+                $element.css( props );
+                return $element;
             };
 
         me.zoom = 1;
@@ -345,9 +368,8 @@ define([], function () {
                 }
             },
             getBoundingClientRect: getBoundingClientRect,
-            getOffsetLeft: getOffsetLeft,
-            getOffsetTop: getOffsetTop,
             getOffset: getOffset,
+            setOffset: setOffset,
             getPosition: getPosition
         }
     })();
@@ -892,7 +914,7 @@ define([], function () {
 
     Common.Utils.showBrowserRestriction = function () {
         if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length > 0) return;
-        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
+        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : window.VE ? 'Visio' : 'that');
         var newDiv = document.createElement("div");
         newDiv.innerHTML = '<div class="app-error-panel">' +
             '<div class="message-block">' +
@@ -1116,7 +1138,7 @@ define([], function () {
         });
     };
 
-    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
+    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle, action) {
         var btnsArr = createButtonSet();
         btnsArr.setDisabled(true);
         id = id || ("id-toolbar-" + iconCls);
@@ -1135,6 +1157,7 @@ define([], function () {
                 enableToggle: toggle || false,
                 lock: lock,
                 disabled: true,
+                action: action,
                 dataHint: dataHint,
                 dataHintDirection: dataHintDirection,
                 dataHintOffset: dataHintOffset,
@@ -1183,7 +1206,7 @@ define([], function () {
         if (opts.disablefunc)
             opts.disablefunc(true);
 
-        var app = window.DE || window.PE || window.SSE || window.PDFE;
+        var app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
 
         Common.UI.warning({
             msg: Common.Locale.get("warnFileLocked", {
@@ -1347,7 +1370,7 @@ define([], function () {
         if (window.isrtl === undefined) {
             if (window.nativeprocvars && window.nativeprocvars.rtl !== undefined)
                 window.isrtl = window.nativeprocvars.rtl;
-            else window.isrtl = !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+            else window.isrtl = !Common.Utils.isIE && Common.Locale.isCurrentLanguageRtl();
         }
 
         return window.isrtl;
@@ -1375,6 +1398,9 @@ define([], function () {
             "extension" : { origin : "", values : [] }
         };
 
+        // For bug in version <= 8.2.0
+        let initScaleAddon = "";
+
         let param_parse = function(name) {
             let posOrigin = icons.indexOf("%" + name + "%");
             if (posOrigin === -1)
@@ -1385,7 +1411,10 @@ define([], function () {
                 return;
             let pos2 = icons.indexOf(")", pos1);
             params_array[name].origin = icons.substring(posOrigin, pos2 + 1);
-            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");                    
+            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");
+
+            if ("scale" === name && posOrigin > 0 && icons.charCodeAt(posOrigin - 1) == 47)
+                initScaleAddon = "icon";
         };
 
         for (let name in params_array)
@@ -1464,7 +1493,7 @@ define([], function () {
 
                     let urlAll = url;
                     if (params_array["scale"].origin != "")
-                        urlAll = urlAll.replaceAll(params_array["scale"].origin, addonScale);
+                        urlAll = urlAll.replaceAll(params_array["scale"].origin, initScaleAddon + addonScale);
                     if (params_array["extension"].origin != "")
                         urlAll = urlAll.replaceAll(params_array["extension"].origin, (isAll && isSvgPresent) ? "svg" : rasterExt);
 
@@ -1567,5 +1596,17 @@ define([], function () {
         ApplyEditRights: -255,
         LoadingDocument: -256,
         UpdateChart: -257
+    };
+
+    Common.UI.isValidNumber = function (val) {
+        let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
+        if (typeof val === 'string') {
+            let findComma = val.match(/,/g);
+            if (findComma && findComma.length === 1) {
+                val = val.replace(',','.');
+            }
+        }
+
+        return (typeof val === 'number') ||  !(val === '' || !regstr.test(val.trim()) || isNaN(parseFloat(val)));
     };
 });

@@ -89,6 +89,7 @@ define([
 
             this.labelWidth = el.find('#image-label-width');
             this.labelHeight = el.find('#image-label-height');
+            this.ResetCrop = el.find('#image-button-reset-crop').closest('tr');
         },
 
         setApi: function(api) {
@@ -290,6 +291,20 @@ define([
             this.lockedControls.push(this.btnCrop);
             this.btnChangeShape= this.btnCrop.menu.items[1];
 
+            this.btnResetCrop = new Common.UI.Button({
+                parentEl: $('#image-button-reset-crop'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textResetCrop,
+                iconCls: 'toolbar__icon btn-reset',
+                style: "min-width:100px",       
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                ariaLabel: this.textResetCrop
+            });
+            this.btnResetCrop.on('click', _.bind(this.onResetCrop, this));
+            this.lockedControls.push(this.btnResetCrop);
+
             this.btnSelectImage = new Common.UI.Button({
                 parentEl: $('#image-button-replace'),
                 cls: 'btn-text-menu-default',
@@ -413,6 +428,8 @@ define([
                     this._state.Height = value;
                 }
 
+                this.ResetCrop.toggleClass('hidden', !props.asc_getIsCrop());
+                this.btnResetCrop.setDisabled(!props.asc_getIsCrop() || this._locked);
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined || this._locked);
 
                 var pluginGuid = props.asc_getPluginGuid();
@@ -659,6 +676,15 @@ define([
                         }
                     }
                 }
+            }
+        },
+
+        onResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+                this.api.ImgApply(properties);
+                this.fireEvent('editcomplete', this);
             }
         },
 

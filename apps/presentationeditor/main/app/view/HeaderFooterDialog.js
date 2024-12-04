@@ -161,7 +161,20 @@ define([
                 cls         : 'input-group-nr',
                 editable    : false,
                 data        : Common.util.LanguageInfo.regionalData,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
                 search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 scrollAlwaysVisible: true,
                 takeFocusOnClose: true
             });

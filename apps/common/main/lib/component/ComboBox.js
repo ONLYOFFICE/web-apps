@@ -86,6 +86,7 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                searchFields: ['displayValue'], // Property name from the item to be searched by
                 placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
@@ -128,6 +129,7 @@ define([
                 this.valueField     = me.options.valueField;
                 this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
+                this.searchFields   = me.options.searchFields;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 this.restoreMenuHeight = me.options.restoreMenuHeight;
@@ -272,7 +274,7 @@ define([
                 this.onResetItems();
             },
 
-            openMenu: function(delay) {
+            openMenu: function(delay, callback) {
                 if (this.store.length<1) return;
 
                 var me = this;
@@ -289,6 +291,7 @@ define([
 
                 _.delay(function(){
                     me.cmpEl.addClass('open');
+                    callback && callback();
                 }, delay || 0);
             },
 
@@ -357,7 +360,7 @@ define([
                     $selected = $list.find('> li.selected');
 
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = $list.outerHeight();
 
@@ -440,10 +443,12 @@ define([
             },
 
             onAfterKeydownMenu: function(e) {
+                var me = this;
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
                     this.onBeforeShowMenu();
-                    this.openMenu();
-                    this.onAfterShowMenu();
+                    this.openMenu(0, function() {
+                        me.onAfterShowMenu();
+                    });
                     return false;
                 } else if (!this.focusWhenNoSelection && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
                     var $items = this.cmpEl.find('ul > li a');
@@ -469,7 +474,6 @@ define([
                 }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
                     if (typeof this._search !== 'object') return;
 
-                    var me = this;
                     clearTimeout(this._search.timer);
                     this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
 
@@ -486,26 +490,36 @@ define([
             },
 
             selectCandidate: function() {
-                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+                var me = this,
+                    index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
+                    isFirstCharsEqual = this.searchFields.some(function(field) {
+                        return re.test(me.store.at(index).get(field));
+                    }),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
-                    var item = this.store.at(i);
-                    if (re.test(item.get(this.displayField))) {
-                        if (!itemCandidate) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            if(!isFirstCharsEqual) 
-                                break;  
+                    var item = this.store.at(i),
+                        isBreak = false;
+                    this.searchFields.forEach(function(fieldName) {
+                        if (item.get(fieldName) && re.test(item.get(fieldName))) {
+                            if (!itemCandidate) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                if(!isFirstCharsEqual) {
+                                    isBreak = true;
+                                    return;
+                                }
+                            }
+                            if (me._search.full && i==index || i>index) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                isBreak = true;
+                                return;
+                            }
                         }
-                        if (this._search.full && i==index || i>index) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            break;
-                        }
-                    }
+                    });
+                    if(isBreak) break;
                 }
 
                 if (itemCandidate) {
@@ -514,7 +528,7 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
@@ -536,8 +550,9 @@ define([
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                     if (!this.isMenuOpen()) {
-                        this.openMenu();
-                        this.onAfterShowMenu();
+                        this.openMenu(0, function() {
+                            me.onAfterShowMenu();
+                        });
                     }
 
                     _.delay(function() {

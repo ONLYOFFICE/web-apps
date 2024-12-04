@@ -46,9 +46,55 @@
     }
 }
 
-.preview-canvas-container {
+.preview-canvas-container,
+#formula-wizard-panel-args {
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+}
+
+#formula-wizard-panel-args-desc {
+    background: @background-toolbar-ie;
+    background: @background-toolbar;
+}
+
+#formula-wizard-help {
+    opacity: 0.7;
+    &:hover {
+        opacity: 1;
+    }
+}
+#id-chart-settings-dlg-layout {
+    #chart-dlg-check-series {
+        margin: 20px 0 9px 7px;
+
+        .rtl & {
+            margin: 20px 7px 9px 0;
+        }
+    }
+
+    #chart-dlg-check-category {
+        margin: 0 0 9px 7px;
+
+        .rtl & {
+            margin: 0 7px 9px 0;
+        }
+    }
+
+    #chart-dlg-check-value {
+        margin: 0 0 5px 7px;
+
+        .rtl & {
+            margin: 0 7px 5px 0;
+        }
+    }
+
+    #hart-dlg-check-markers {
+        margin: 0 0 12px 7px;
+
+        .rtl & {
+            margin: 0 7px 12px 0;
+        }
+    }
 }
 
 #window-chart-data {

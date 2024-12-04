@@ -306,6 +306,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
+                        me.fireEvent('tab:click', [tab]);
                         // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
@@ -588,7 +589,7 @@ define([
             setMoreButton: function(tab, panel) {
                 var me = this;
                 if (!btnsMore[tab]) {
-                    var top = panel.position().top;
+                    var top = Common.Utils.getPosition(panel).top;
                     var box = $('<div class="more-box" style="top:'+ top +'px;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
@@ -635,7 +636,7 @@ define([
                 }
             },
 
-            addCustomItems: function(tab, added, removed) {
+            addCustomControls: function(tab, added, removed) {
                 if (!tab.action) return;
 
                 var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,

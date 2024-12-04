@@ -96,6 +96,7 @@ define([
             me.showMathTrackOnLoad = false;
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
+            me.lastAnnotBarOnTop = true;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -189,11 +190,13 @@ define([
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
                     this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
-                    // for text
-                    this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
-                    this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
-                    this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
-                    this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    if (this.mode.canComments) {
+                        // for text
+                        this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
+                        this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
+                        this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
+                        this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                    }
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
@@ -330,6 +333,7 @@ define([
                 view.menuImgShapeRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
                 view.menuImgShapeRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
                 view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+                view.menuImgResetCrop.on('click', _.bind(me.onImgResetCrop, me));
                 view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
                 view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
                 view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
@@ -566,7 +570,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -574,7 +578,7 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isPDFEdit) {
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
                     locked = false;
@@ -877,7 +881,7 @@ define([
                 src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
-                $('#id_main_view').append(src);
+                me.documentHolder.cmpEl.append(src);
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
             }
@@ -1435,7 +1439,7 @@ define([
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this.internalFormObj = obj ? obj.pr : null;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -1524,7 +1528,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
         insertImage: function(data) { // gateway
@@ -2167,6 +2171,15 @@ define([
             this.editComplete();
         },
 
+        onImgResetCrop: function() {
+            if (this.api) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.put_ResetCrop(true);
+            }
+            this.api.ImgApply(properties);
+            this.editComplete();
+        },
+
         onImgEditPoints: function(item) {
             this.api && this.api.asc_editPointsGeometry();
         },
@@ -2486,13 +2499,13 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.documentHolder.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.fontsize !== size) {
                 this.documentHolder.cmbFontSize.setValue(size);
                 this._state.fontsize = size;
@@ -2500,7 +2513,7 @@ define([
         },
 
         onApiBold: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.bold !== on) {
                 this.documentHolder.btnBold.toggle(on === true, true);
                 this._state.bold = on;
@@ -2508,7 +2521,7 @@ define([
         },
 
         onApiItalic: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.italic !== on) {
                 this.documentHolder.btnItalic.toggle(on === true, true);
                 this._state.italic = on;
@@ -2516,7 +2529,7 @@ define([
         },
 
         onApiUnderline: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.underline !== on) {
                 this.documentHolder.btnTextUnderline.toggle(on === true, true);
                 this._state.underline = on;
@@ -2524,7 +2537,7 @@ define([
         },
 
         onApiStrikeout: function(on) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.strike !== on) {
                 this.documentHolder.btnTextStrikeout.toggle(on === true, true);
                 this._state.strike = on;
@@ -2532,7 +2545,7 @@ define([
         },
 
         onApiVerticalAlign: function(typeBaseline) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             if (this._state.valign !== typeBaseline) {
                 this.documentHolder.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
                 this.documentHolder.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
@@ -2541,7 +2554,7 @@ define([
         },
 
         onApiTextColor: function(color) {
-            if (!this.mode.isPDFAnnotate) return;
+            if (!this.mode.isPDFAnnotate || !this.mode.isEdit) return;
             var clr;
             var picker = this.documentHolder.mnuFontColorPicker;
 
@@ -2698,7 +2711,7 @@ define([
                         value = this._getApiTextSize();
                         setTimeout(function(){
                             Common.UI.warning({
-                                msg: me.textFontSizeErr,
+                                msg: me.documentHolder.textFontSizeErr,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         $('input', combo.cmpEl).focus();
@@ -2727,6 +2740,17 @@ define([
             }
         },
 
+        _getApiTextSize: function () {
+            var out_value   = 12,
+                textPr      = this.api.get_TextProps();
+
+            if (textPr && textPr.get_TextPr) {
+                out_value = textPr.get_TextPr().get_FontSize();
+            }
+
+            return out_value;
+        },
+
         onCountPages: function(count) {
             this.documentHolder && (this.documentHolder._pagesCount = count);
         },
@@ -2744,12 +2768,12 @@ define([
         },
 
         onRotatePage: function(angle, item) {
-            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(item.options.value) + angle);
+            this.api && this.api.asc_RotatePage(angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
-        onShowAnnotBar: function(bounds) {
+        onShowAnnotBar: function(bounds, mouseOnTop) {
             if (this.mode && !this.mode.isEdit) return;
 
             if (_.isUndefined(this._XY)) {
@@ -2763,6 +2787,7 @@ define([
             }
 
             this.lastAnnotBarBounds = bounds;
+            (mouseOnTop!==undefined) && (this.lastAnnotBarOnTop = mouseOnTop);
             if (bounds[3] < 0 || bounds[1] > this._Height || !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar')) {
                 this.onHideAnnotBar();
                 return;
@@ -2792,16 +2817,16 @@ define([
                 // annotation text bar
                 documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
                 documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
-                documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                if (me.mode.isEditTextSupport && (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit))
+                    documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+                else
+                    documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
 
                 this.api.UpdateInterfaceState();
             }
 
-            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
-            if (showPoint[1]<0) {
-                showPoint[1] = (bounds[3] > me._Height) ? 0 : bounds[3] + 10;
-            }
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
             textContainer.css({left: showPoint[0], top : showPoint[1]});
 

@@ -100,9 +100,9 @@
                 <% } %>
             <% } %>
             <% if (editable && (fullInfoInHint || !hint) && !scope.viewmode) { %>
-                <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                <div class="btn-resolve <% if (resolved) print('img-commonctrl comment-resolved') %>" data-toggle="tooltip"></div>
             <% } else if ((fullInfoInHint || !hint) && (!editable || scope.viewmode) && resolved) { %>
-                <div class="icon-resolve i-comment-resolved" data-toggle="tooltip"></div>
+                <div class="icon-resolve i-comment-resolved img-commonctrl" data-toggle="tooltip"></div>
             <% } %>
         </div>
     <% } %>

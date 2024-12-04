@@ -213,6 +213,10 @@ define([
                 });
             },
 
+            isButtonInMoreMenu: function (btn) {
+                return _.indexOf(this.buttons, btn)>-1;
+            },
+
             getPluginButton: function (guid) {
                 var btn;
                 for (var i=0; i<this.buttons.length; i++) {

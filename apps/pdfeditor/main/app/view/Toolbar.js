@@ -337,6 +337,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
+                    action: 'change-case',
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
@@ -460,6 +461,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-horizontal',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -505,6 +507,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-vertical',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -550,6 +553,7 @@ define([
                             {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                         ]
                     }),
+                    action: 'line-space',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -593,6 +597,7 @@ define([
                             {caption: this.textColumnsCustom, value: 'advanced'}
                         ]
                     }),
+                    action: 'insert-columns',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -674,6 +679,7 @@ define([
                             this.mniAlignObjects
                         ]
                     }),
+                    action: 'object-align',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -721,6 +727,7 @@ define([
                             // })
                         ]
                     }),
+                    action: 'object-arrange',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -756,9 +763,10 @@ define([
                             {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
                         ]
                     }),
+                    action: 'rotate-page',
                 });
                 arr.push(this.btnRotatePage);
-
+                Common.UI.LayoutManager.addControls(arr);
                 return arr;
             },
 
@@ -778,8 +786,8 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSaveCls = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                    this.btnSaveTip = config.canSaveToFile || config.isDesktopApp && config.isOffline ? this.tipSave : this.tipDownload;// + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
@@ -813,6 +821,7 @@ define([
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
+                        action: 'insert-text-comment',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -885,18 +894,20 @@ define([
                     });
                     this.btnsHighlight = [this.btnHighlight];
 
-                    this.btnEditMode = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-edit-text',
-                        style: 'min-width: 45px;',
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        caption: this.textEditMode,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnEditMode);
+                    if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
+                        this.btnEditMode = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-edit-text',
+                            style: 'min-width: 45px;',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            caption: this.textEditMode,
+                            enableToggle: true,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnEditMode);
+                    }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -1089,6 +1100,7 @@ define([
                     this.fieldPages = new Common.UI.InputFieldFixed({
                         id: 'id-toolbar-txt-pages',
                         style       : 'width: 100%;',
+                        cls         : 'text-align-right',
                         maskExp     : /[0-9]/,
                         allowBlank  : true,
                         validateOnChange: false,
@@ -1153,6 +1165,7 @@ define([
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls).concat(me.shapeControls);
+                    Common.UI.LayoutManager.addControls(this.lockControls);
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
@@ -1201,6 +1214,7 @@ define([
                     this.showSynchTip = !Common.localStorage.getBool("pdfe-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
+                    Common.NotificationCenter.on('desktop:window', _.bind(this.onDesktopWindow, this));
                 }
                 (mode.isEdit || mode.isRestrictedEdit) && me.setTab('home');
 
@@ -1215,7 +1229,7 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
-                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+                if (!me._isDocReady || tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
@@ -1241,12 +1255,12 @@ define([
                 _injectComponent('#slot-btn-form-save', this.btnSaveForm);
             },
 
-            rendererComponentsPDFEdit: function($host) {
+            rendererComponentsPDFEdit: function($host, mode) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
-                _injectComponent('#slot-btn-edittext', this.btnEditText);
+                mode.isEditTextSupport ? _injectComponent('#slot-btn-edittext', this.btnEditText) : $host.findById('#slot-btn-edittext').parents('.group').hide().next('.separator').hide();
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-text-underline', this.btnTextUnderline);
@@ -1284,7 +1298,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
-                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
+                this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
             rendererComponentsCommon: function($host) {
@@ -1316,7 +1330,7 @@ define([
                 this.rendererComponentsCommon($host);
                 if (mode.isEdit) {
                     this.rendererComponentsAnnotate($host);
-                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host);
+                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host, mode);
                     $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
                 } else if (mode.isRestrictedEdit)
                     this.rendererComponentsRestrictedEdit($host);
@@ -1371,6 +1385,7 @@ define([
 
             onAppReady: function (config) {
                 var me = this;
+                me._isDocReady = true;
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
@@ -1478,7 +1493,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
-                this.btnEditMode.updateHint(this.tipEditMode);
+                this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
             createDelayedElementsPDFEdit: function() {
@@ -1683,6 +1698,8 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit) || Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")) return;
+
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
@@ -1703,6 +1720,7 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
+                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {
@@ -1725,7 +1743,7 @@ define([
             },
 
             synchronizeChanges: function () {
-                if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
+                if ( !this._state.previewmode && this.btnCollabChanges && this.btnCollabChanges.rendered ) {
                     var me = this;
 
                     if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
@@ -1734,13 +1752,15 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
             },
 
             onApiUsersChanged: function (users) {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+
                 var editusers = [];
                 _.each(users, function (item) {
                     if (!item.asc_getView())
@@ -1750,7 +1770,7 @@ define([
                 var me = this;
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
+                if ( cls !== me.btnSaveCls && me.btnCollabChanges && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
@@ -1758,6 +1778,11 @@ define([
                 }
             },
 
+            onDesktopWindow: function() {
+                if (this.synchTooltip && this.synchTooltip.isVisible()) {
+                    this.synchTooltip.show(); // change position for visible tip
+                }
+            },
             /** coauthoring end **/
 
             lockToolbar: function (causes, lock, opts) {

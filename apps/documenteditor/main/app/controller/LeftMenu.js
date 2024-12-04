@@ -448,16 +448,20 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            if (typeof ext === 'string') {
-                var idx = defFileName.lastIndexOf('.');
-                if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + ext;
-            }
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
                         me.clickSaveAsFormat(menu, format, ext, value);
                     }
                 }
@@ -690,13 +694,15 @@ define([
         SetDisabled: function(disable, options) {
             if (this.leftMenu._state.disabled !== disable) {
                 this.leftMenu._state.disabled = disable;
-                if (disable) {
-                    this.previsEdit = this.mode.isEdit;
-                    this.prevcanEdit = this.mode.canEdit;
-                    this.mode.isEdit = this.mode.canEdit = !disable;
-                } else {
-                    this.mode.isEdit = this.previsEdit;
-                    this.mode.canEdit = this.prevcanEdit;
+                if (this.mode) {
+                    if (disable) {
+                        this.previsEdit = this.mode.isEdit;
+                        this.prevcanEdit = this.mode.canEdit;
+                        this.mode.isEdit = this.mode.canEdit = !disable;
+                    } else {
+                        this.mode.isEdit = this.previsEdit;
+                        this.mode.canEdit = this.prevcanEdit;
+                    }
                 }
             }
 

@@ -200,7 +200,7 @@ define([
                     visible: !this.appConfig.isOffline
                 });
                 this.lockedControls.push(this.btnProtectRange);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

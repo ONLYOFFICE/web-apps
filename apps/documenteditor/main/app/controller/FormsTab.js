@@ -95,7 +95,8 @@ define([
             this.appConfig = config.config;
             this.view = this.createView('FormsTab', {
                 toolbar: this.toolbar.toolbar,
-                config: config.config
+                config: config.config,
+                api: this.api
             });
             var dirRight = Common.UI.isRTL() ? 'left' : 'right',
                 dirLeft = Common.UI.isRTL() ? 'right' : 'left',
@@ -280,14 +281,16 @@ define([
                 this.api.asc_AddContentControlTextForm(props);
             } else if (type == 'complex') {
                 this.api.asc_AddComplexForm();
-            }
+            } else if (type === 'signature')
+                this.api.asc_AddContentControlSignature(oFormPr);
 
             var me = this;
             if (!this._state.formCount) { // add first form
                 this.closeHelpTip('create');
+                Common.UI.TooltipManager.showTip('signatureField');
             } else if (this._state.formCount===1) {
                 setTimeout(function() {
-                    me.showHelpTip('roles');
+                    // me.showHelpTip('roles');
                 }, 500);
             }
             this._state.formCount++;
@@ -445,7 +448,8 @@ define([
                     toolbar: true,
                     plugins: true,
                     protect: true,
-                    header: {docmode: false}
+                    header: {docmode: false, search: false},
+                    shortcuts: false
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
@@ -626,6 +630,7 @@ define([
             this.closeHelpTip('create');
             this.closeHelpTip('roles');
             this.closeHelpTip('save');
+            Common.UI.TooltipManager.closeTip('signatureField');
         },
 
         onChangeProtectDocument: function(props) {

@@ -68,6 +68,9 @@
             max-width: 200px;
             height: 20px;
         }
+        .rtl .loadmask > .brendpanel .loading-logo {
+            padding: 0 12px 0 24px;
+        }
 
         .loadmask > .brendpanel .loading-logo > img {
             display: inline-block;
@@ -325,6 +328,7 @@
 
 <body role="application">
     <script src="../../common/main/lib/util/htmlutils.js"></script>
+    <script src="../../common/main/lib/util/docserviceworker.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;"><div>
             <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div>

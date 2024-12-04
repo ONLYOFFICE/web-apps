@@ -31,6 +31,11 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <div id="image-button-reset-crop"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>

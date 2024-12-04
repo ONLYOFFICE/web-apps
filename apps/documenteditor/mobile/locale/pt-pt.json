@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "Excedeu o limite de tamanho para o documento.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
-    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -506,7 +508,8 @@
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
     "uploadImageTitleText": "A carregar imagem",
-    "waitText": "Aguarde..."
+    "waitText": "Aguarde...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Erro",
@@ -776,7 +779,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Submeter",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -796,9 +798,7 @@
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
     "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
-    "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
@@ -810,6 +810,8 @@
     "textOk": "Aceitar",
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
-    "textSwitchedStandardView": "Alterado para a vista predefinida"
+    "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
+    "btnSend": "Send"
   }
 }

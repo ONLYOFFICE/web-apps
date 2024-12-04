@@ -29,5 +29,5 @@ require([
     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
     'pdfeditor/main/app/view/TableSettingsAdvanced'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

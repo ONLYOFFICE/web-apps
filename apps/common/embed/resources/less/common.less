@@ -89,6 +89,12 @@
     overflow: hidden;
 }
 
+.embed-body.rtl-font {
+    &[applang=ar] {
+        font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
+    }
+}
+
 // Document Viewer
 // -------------------------
 .viewer {
@@ -154,6 +160,9 @@
                 width: 35px;
                 padding: 0;
                 text-align: right;
+                .rtl & {
+                    text-align: left;
+                }
             }
 
             .text {
@@ -164,6 +173,10 @@
         &.left {
             left: 0;
             padding-left: 10px;
+            .rtl & {
+                padding-left: 0;
+                padding-right: 10px;                               
+            }
 
             .item {
                 float: left;
@@ -178,6 +191,10 @@
         &.right {
             right: 0;
             padding-right: 10px;
+            .rtl & {
+                padding-right: 0;
+                padding-left: 10px;                              
+            }
 
             .item {
                 display: inline-block;
@@ -221,9 +238,17 @@
 
     .margin-right-small {
         margin-right: 8px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 8px; 
+        }
     }
     .margin-right-large {
         margin-right: 12px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 12px;  
+        }
     }
     .margin-left-small {
         margin-left: 8px;
@@ -237,7 +262,7 @@
 // -------------------------
 .brand-logo {
     display: block;
-    width: 100px;
+    width: 86px;
     height: 20px;
     background: url(../../../../common/embed/resources/img/logo.svg) no-repeat;
 }
@@ -333,10 +358,18 @@
 
             &:first-child {
                 margin-right: 5px;
+                .rtl & {
+                    margin-left: 5px;
+                    margin-right: 0;
+                }
             }
 
             &:last-child {
                 margin-left: 5px;
+                .rtl & {
+                    margin-right: 5px;
+                    margin-left: 0;
+                }
             }
         }
     }
@@ -454,11 +487,18 @@
 
     .right {
         float: right;
+        .rtl & {
+            float: left;
+        }
     }
 
     .caption {
         margin-top: 2px;
         margin-right: 8px;
+        .rtl & {
+            margin-right: 0;
+            margin-left: 8px;
+        }
     }
 
     input {
@@ -525,9 +565,15 @@
     }
     &.slide-prev {
         background-position: -@icon-width*7 -@icon-height;
+        .rtl & {
+            background-position: -@icon-width*8 -@icon-height;
+        }
     }
     &.slide-next {
         background-position: -@icon-width*8 -@icon-height;
+        .rtl & {
+            background-position: -@icon-width*7 -@icon-height;
+        }
     }
 
     &.play {
@@ -571,9 +617,15 @@
     }
     &.search-arrow-left {
         background-position: -@icon-width*29 0;
+        .rtl-sheet & {
+            background-position: -@icon-width*30 0;
+        }
     }
     &.search-arrow-right {
         background-position: -@icon-width*30 0;
+        .rtl-sheet & {
+            background-position: -@icon-width*29 0;
+        }
     }
 }
 
@@ -582,6 +634,10 @@
     height: @icon-height;
     float: left;
     margin: -3px 4px 0 -24px;
+    .rtl & {
+        float: right;
+        margin: -3px -24px 0 4px;
+    }
 }
 .btn-icon {
     width: 22px;
@@ -621,8 +677,12 @@
     text-align: center;
 
     .close {
+        font-family: Arial, sans-serif;
         margin-top: 0;
         opacity: 0.5;
+        .rtl & {
+            float: left;
+        }
 
         &:hover {
             opacity: 0.7;
@@ -694,6 +754,10 @@
 .dropdown-menu {
     > li > a {
         padding: 8px 20px 8px 28px;
+        .rtl & {
+            padding: 8px 28px 8px 20px;
+            text-align: right;
+        }
         &:hover, &:focus {
             background-color: @btnColor;
             outline: 0 none;
@@ -734,6 +798,9 @@
     display: inline-block;
     line-height: 22px;
     padding: 0 0 0 3px;
+    .rtl & {
+        padding: 0 3px 0 0;
+    }
 }
 
 #page-number {
@@ -760,6 +827,9 @@
 
     .tooltip-arrow {
         display: none;
+    }
+    .embed-body.rtl-font[applang=ar] & {
+        font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }
 
@@ -883,6 +953,9 @@
                 padding: 1px 25px 1px 3px;
                 color: #444444;
                 font-size: 11px;
+                .rtl & {
+                    padding: 1px 3px 1px 25px;
+                }
 
                 &::placeholder {
                     color: #CFCFCF;
@@ -901,6 +974,10 @@
                 line-height: 22px;
                 padding: 0 4px;
                 color: #A5A5A5;
+                .rtl & {
+                    right: auto; 
+                    left: 0;
+                }
             }
         }
 
@@ -914,6 +991,10 @@
                 width: 20px;
                 height: 20px;
                 opacity: 0.8;
+                .rtl & {
+                    margin-right: 7px;
+                    margin-left: 0;
+                 }
 
                 &:hover:not(:disabled) {
                     background-color: #d8dadc;

@@ -263,6 +263,7 @@ define([
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
                     this.listenTo(view, 'tipchange', this.onChangeTip);
+                    this.listenTo(view, 'contextmenu', this.onContextMenuItem);
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -296,10 +297,10 @@ define([
                     div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
                 if (div.length<=0) return;
 
-                var div_top = div.position().top,
+                var div_top = Common.Utils.getPosition(div).top,
                     div_height = div.outerHeight(),
                     div_first = this.dataViewItems[0].el,
-                    div_first_top = div_first ? Common.Utils.getOffsetTop(div_first) : 0,
+                    div_first_top = div_first ? div_first.offsetTop : 0,
                     newpos;
 
                 if (force || div_top<div_first_top)
