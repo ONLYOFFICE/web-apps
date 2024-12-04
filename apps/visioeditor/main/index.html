@@ -407,7 +407,7 @@
                     if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
                         var docstyle = getComputedStyle(document.body),
                             header_color = docstyle.getPropertyValue('--toolbar-header-visio'),
-                            toolbar_color = docstyle.getPropertyValue('--background-toolbar')
+                            toolbar_color = docstyle.getPropertyValue('--background-toolbar');
                         logo_type = (view || compact) && (tabBackground==='toolbar') ? toolbar_color : header_color;
                         isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabBackground==='toolbar'));
                         image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
@@ -443,7 +443,7 @@
     <script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
     <!-- debug end -->
 
-    <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/draw/scripts.js"></script>
+    <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/visio/scripts.js"></script>
     <script>
         window.sdk_scripts.forEach(function(item){
             document.write('<script type="text/javascript" src="' + item + '"><\/script>');

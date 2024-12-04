@@ -16,7 +16,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     const fileTypes = {
         de: 'docx',
         pe: 'pptx',
-        sse: 'xslx'
+        sse: 'xslx',
+        ve: 'vsdx'
     };
     const fileType = fileTypes[window.editorType];
     const { t } = useTranslation();
