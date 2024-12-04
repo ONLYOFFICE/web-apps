@@ -52,7 +52,7 @@ require.config({
         xregexp         : '../vendor/xregexp/xregexp-all-min',
         socketio        : '../vendor/socketio/socket.io.min',
         allfonts        : '../../sdkjs/common/AllFonts',
-        sdk             : '../../sdkjs/draw/sdk-all-min',
+        sdk             : '../../sdkjs/visio/sdk-all-min',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
