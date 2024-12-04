@@ -57,6 +57,7 @@ define([
             this.isEdit         = options.isEdit;
             this.editableItem   = options.editableItem;
             this.handler        = options.handler;
+            this.getWarningMessage = options.getWarningMessage;
 
             this.pivotInfo = this.api.asc_getPivotInfo().pivot;
             this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
@@ -97,9 +98,7 @@ define([
             this.itemsList = new Common.UI.ListView({
                 el: $('#pivot-insert-calculated-items-list'),
                 store: new Common.UI.DataViewStore(
-                    this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex).filter(function(el) { 
-                        return !(me.editableItem && el.item == me.editableItem.item)
-                    })
+                    this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex)
                 ),
                 simpleAddMode: false,
                 cls: 'dbl-clickable',
@@ -117,12 +116,17 @@ define([
             this.inputName = new Common.UI.InputField({
                 el : $('#pivot-insert-calculated-input-name'),
                 value: this.editableItem ? this.editableItem.name : this.getNewItemName(),
-                disabled: !!this.editableItem
+                disabled: !!this.editableItem,
+                allowBlank: false,
+                validateOnBlur: false,
+                hideErrorOnInput: true
             });
 
             this.inputFormula = new Common.UI.InputField({
                 el : $('#pivot-insert-calculated-input-formula'),
-                value: this.editableItem ? this.editableItem.formula : '= 0'
+                value: this.editableItem ? this.editableItem.formula : '= 0',
+                validateOnBlur: false,
+                hideErrorOnInput: true
             });
         },
 
@@ -139,37 +143,6 @@ define([
             });
             indexMax++;
             return textTranslate + ' ' + indexMax;
-        },
-
-        showWarningDialog: function(error) {
-            var message = '';
-            switch (error) {
-                case Asc.c_oAscError.ID.PivotItemNameNotFound:
-                    message = this.txtPivotItemNameNotFound;
-                    break;
-                case Asc.c_oAscError.ID.CalculatedItemInPageField:
-                    message = this.txtCalculatedItemInPageField;
-                    break;
-                case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
-                    message = this.txtNotUniqueFieldWithCalculated;
-                    break;
-                case Asc.c_oAscError.ID.WrongDataFieldSubtotalForCalculatedItems:
-                    message = this.txtWrongDataFieldSubtotalForCalculatedItems;
-                    break;
-                case Asc.c_oAscError.ID.PivotFieldCustomSubtotalsWithCalculatedItems:
-                    message = this.txtPivotFieldCustomSubtotalsWithCalculatedItems;
-                    break;
-                default:
-                    message = this.textInvalid;
-            }
-
-            Common.UI.warning({
-                msg: message,
-                maxwidth: 600,
-                callback: function(btn){
-                    
-                }
-            });
         },
 
         getFocusedComponents: function() {
@@ -196,7 +169,7 @@ define([
             var formulaValue = this.inputFormula.getValue();
             var formulaValueNoSpaces = formulaValue.trim().replaceAll(' ', '');
             if(formulaValueNoSpaces == '=0' || formulaValueNoSpaces == '=' || formulaValueNoSpaces == '') {
-                formulaValue = '= ';
+                formulaValue = '=';
             }
             formulaValue += ' ' + this.pivotInfo.asc_convertNameToFormula(name);
             this.inputFormula.setValue(formulaValue);
@@ -217,28 +190,52 @@ define([
                         name: this.inputName.getValue(),
                         formula: this.inputFormula.getValue()
                     };
-                    var formulaTrim = returnedItem.formula.trim();
-                    var convertedFormula; 
 
-                    //If there is no equals sign at the beginning, show an error
-                    if(formulaTrim[0] != '=') {
-                        convertedFormula = Asc.c_oAscError.ID.PivotItemNameNotFound;
-                    } else {
-                        convertedFormula = this.pivotInfo.asc_convertCalculatedFormula(formulaTrim.slice(1), this.pivotFieldIndex);
+                    // Validate name
+                    if(this.inputName.checkValidate() !== true) {
+                        this.inputName.focus();
+                        return;
                     }
-                        
-                    if (typeof convertedFormula === 'number') {
-                        this.showWarningDialog(convertedFormula);
-                        return false;
-                    } else {
-                        returnedItem.formula = convertedFormula;
-                        this.handler.call(this, state, returnedItem);
-                    }
+
+                    // Validate formula
+                    var convertedFormula = this.getConvertedFormula(returnedItem.formula);
+                    if(convertedFormula.error) {
+                        this.inputFormula.showError([this.getWarningMessage(convertedFormula.error)]);
+                        this.inputFormula.focus();
+                        return;
+                    } 
+
+                    returnedItem.formula = convertedFormula.value;
+                    this.handler.call(this, state, returnedItem);
                 } else {
                     this.handler.call(this, state);
                 }
             }
             this.close();
+        },
+
+        getConvertedFormula: function(formula) {
+            var formulaTrim = formula.trim();
+            var convertedFormula; 
+
+            //If there is no equals sign at the beginning, show an error
+            if(formulaTrim[0] != '=') {
+                convertedFormula = Asc.c_oAscError.ID.PivotItemNameNotFound;
+            } else {
+                convertedFormula = this.pivotInfo.asc_convertCalculatedFormula(formulaTrim.slice(1), this.pivotFieldIndex);
+            }
+                
+            if (typeof convertedFormula === 'number') {
+                return {
+                    error: convertedFormula,
+                    value: formulaTrim
+                };
+            } else {
+                return {
+                    error: null,
+                    value: convertedFormula
+                };
+            }
         },
 
         txtTitle: 'Insert Calculated Item in',
@@ -248,12 +245,5 @@ define([
         txtItems: 'Items',
         txtDescription: 'You can use Calculated Items for basic calculations between different items within a single field',
         txtReadMore: 'Read more',
-
-        txtPivotItemNameNotFound: 'An item name cannot be found. Check that you\'ve typed name correctly and the item is present in the PivotTable report.',
-        txtCalculatedItemInPageField: 'The item cannot be added or modified. PivotTable report has this field in Filters.',
-        txtNotUniqueFieldWithCalculated: 'If one or more PivotTable have calculated items, no fields can be used in data area two or more times, or in the data area and another area at the same time.',
-        txtWrongDataFieldSubtotalForCalculatedItems: 'Averages, standard deviations, and variances are not supported when a PivotTable report has calculated items.',
-        txtPivotFieldCustomSubtotalsWithCalculatedItems: 'Calculated items do not work with custom subtotals.'
-
     }, SSE.Views.PivotInsertCalculatedItemDialog || {}))
 });

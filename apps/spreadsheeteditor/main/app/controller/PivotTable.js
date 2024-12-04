@@ -197,18 +197,55 @@ define([
         },
 
         onCalculatedClick: function(btn, opts){
+            var me = this;
             var pivotContextMenu = this.api.asc_getPivotInfo();
             var pivotInfo = pivotContextMenu.pivot;
-            var pivotFields = pivotInfo.asc_getPivotFields();
-            var cacheFields = pivotInfo.asc_getCacheFields();
-            // var pivotFieldIndex = pivotContextMenu.asc_getPivotFieldIndex();
-            var pivotFieldIndex = 0;
-            var currentPivotField = pivotFields[pivotFieldIndex];
+            var pivotFieldIndex = pivotInfo.asc_getFieldIndexByActiveCell();
+            var error = pivotInfo.asc_hasTablesErrorForCalculatedItems(pivotFieldIndex);
+            
+            function getWarningMessage(error) {
+                var message = '';
+                switch (error) {
+                    case Asc.c_oAscError.ID.PivotItemNameNotFound:
+                        message = me.txtPivotItemNameNotFound;
+                        break;
+                    case Asc.c_oAscError.ID.CalculatedItemInPageField:
+                        message = me.txtCalculatedItemInPageField;
+                        break;
+                    case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
+                        message = me.txtNotUniqueFieldWithCalculated;
+                        break;
+                    case Asc.c_oAscError.ID.WrongDataFieldSubtotalForCalculatedItems:
+                        message = me.txtWrongDataFieldSubtotalForCalculatedItems;
+                        break;
+                    case Asc.c_oAscError.ID.PivotFieldCustomSubtotalsWithCalculatedItems:
+                        message = me.txtPivotFieldCustomSubtotalsWithCalculatedItems;
+                        break;
+                    default:
+                        message = me.txtCalculatedItemWarningDefault;
+                }
+                return message;
+            };
 
-            var winList = new SSE.Views.PivotCalculatedItemsDialog({
-                api: this.api
-            });
-            winList.show();
+            function showWarningDialog(error) {
+                Common.UI.warning({
+                    msg: getWarningMessage(error),
+                    maxwidth: 600
+                });
+            };
+
+            if(error) {
+               showWarningDialog(error);
+            } else {
+                var winList = new SSE.Views.PivotCalculatedItemsDialog({
+                    api: this.api,
+                    handlerWarning: function(error) {
+                        showWarningDialog(error);
+                    },
+                    getWarningMessage: getWarningMessage,
+                });
+                winList.show();
+            }
         },
 
         onExpandClick: function(){
@@ -535,7 +572,13 @@ define([
             }
         },
 
-        strSheet        : 'Sheet'
+        strSheet        : 'Sheet',
+        txtPivotItemNameNotFound: 'An item name cannot be found. Check that you\'ve typed name correctly and the item is present in the PivotTable report.',
+        txtCalculatedItemInPageField: 'The item cannot be added or modified. PivotTable report has this field in Filters.',
+        txtNotUniqueFieldWithCalculated: 'If one or more PivotTable have calculated items, no fields can be used in data area two or more times, or in the data area and another area at the same time.',
+        txtWrongDataFieldSubtotalForCalculatedItems: 'Averages, standard deviations, and variances are not supported when a PivotTable report has calculated items.',
+        txtPivotFieldCustomSubtotalsWithCalculatedItems: 'Calculated items do not work with custom subtotals.',
+        txtCalculatedItemWarningDefault: 'No actions with calculated items are allowed for this active cell.'
 
     }, SSE.Controllers.PivotTable || {}));
 });

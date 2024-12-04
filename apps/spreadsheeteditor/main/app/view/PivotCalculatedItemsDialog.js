@@ -51,19 +51,11 @@ define([
         },
 
         initialize : function(options) {
-            var me = this;
-
             this.api        = options.api;
-            this.handler    = options.handler;
-
-            this.pivotInfo = this.api.asc_getPivotInfo().pivot;
-            this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
-            this.itemsObject = this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex);
-
-            var fieldTitle = this.pivotInfo.asc_getCacheFields()[this.pivotFieldIndex].asc_getName();
+            this.handlerWarning    = options.handlerWarning;
+            this.getWarningMessage = options.getWarningMessage;
 
             _.extend(this.options, {
-                title: this.txtTitle + " “" + fieldTitle + "“",
                 contentStyle: 'padding: 10px 10px 0 10px;',
                 contentTemplate: _.template([
                     '<div id="pivot-calculated-btns-group">',
@@ -85,7 +77,6 @@ define([
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
-            console.log(this.api.asc_canChangeCalculatedItemByCell);
 
             this.btnNew = new Common.UI.Button({
                 el: $('#pivot-calculated-btn-new')
@@ -126,7 +117,7 @@ define([
                 tabindex: 1
             });
             this.itemsList.on('item:select', _.bind(this.onSelectItemsList, this));
-            this.updateItemsListStore();
+            this.updateItemsListStore(false);
 
             if(this.itemsList.store.length) {
                 this.itemsList.selectRecord(this.itemsList.store.at(0));
@@ -136,15 +127,39 @@ define([
             }
         },
 
-        updateItemsListStore: function() {
+        setSettings() {
+            this.pivotInfo = this.api.asc_getPivotInfo().pivot;
+            this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
             this.itemsObject = this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex);
-            this.itemsList.store.reset(
-                this.itemsObject.filter(function(el) { 
-                    var isValid = !!el.formula;
-                    isValid && (el.formula = '= ' + el.formula); 
-                    return isValid;
-                })
-            );
+
+            var fieldTitle = this.pivotInfo.asc_getCacheFields()[this.pivotFieldIndex].asc_getName();
+            this.setTitle(this.txtTitle + " “" + fieldTitle + "“");
+        },
+
+        updateItemsListStore: function(isErrorCheck) {
+            var error = false; 
+            if(isErrorCheck) {
+                error = !this.pivotInfo.asc_canChangeCalculatedItemByActiveCell();
+                (!error) && (error = this.pivotInfo.asc_hasTablesErrorForCalculatedItems(this.pivotFieldIndex));
+            }
+            if(error) {
+                this.btnNew.setDisabled(true);
+                this.btnDuplicate.setDisabled(true);
+                this.btnEdit.setDisabled(true);
+                this.btnDelete.setDisabled(true);
+                this.itemsList.setDisabled(true);
+                this.handlerWarning && this.handlerWarning(error);
+            } else {
+                this.setSettings();
+                this.itemsObject = this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex);
+                this.itemsList.store.reset(
+                    this.itemsObject.filter(function(el) { 
+                        var isValid = !!el.formula;
+                        isValid && (el.formula = '= ' + el.formula); 
+                        return isValid;
+                    })
+                );
+            }
         },
 
         generateUniqueName: function(baseName, existingNames) {
@@ -199,6 +214,7 @@ define([
                 api: this.api,
                 isEdit: isEdit,
                 editableItem: editableItem,
+                getWarningMessage: this.getWarningMessage,
                 handler: function(type, options) {
                     if(type != 'ok') return;
 
@@ -211,15 +227,17 @@ define([
                         )
                         me.pivotInfo.asc_addCalculatedItem(me.api, me.pivotFieldIndex, uniqueName, options.formula);
                     }
-                    me.updateItemsListStore();
-                },
+                    me.updateItemsListStore(true);
+                }
             }).on('close', function() {
                 if(me.itemsList.store.length) {
                     me.show();
                 } else {
                     me.close();
                 }
-                if(!isEdit) {
+                if(isEdit) {
+                    me.itemsList.selectRecord(selectedItem);
+                } else {
                     me.selectLastItem();
                 }
             });
@@ -240,10 +258,14 @@ define([
                 selectedItem.get('name'),
                 this.itemsObject.map(function(item) { return item.name })
             );
-            var convertedFormula = this.pivotInfo.asc_convertCalculatedFormula(selectedItem.get('formula'), this.pivotFieldIndex);
-            this.pivotInfo.asc_addCalculatedItem(this.api, this.pivotFieldIndex, uniqueName, convertedFormula);
-            this.updateItemsListStore();
-            this.selectLastItem();
+            var convertedFormula = this.pivotInfo.asc_convertCalculatedFormula(selectedItem.get('formula').replace('=', ''), this.pivotFieldIndex);
+            if (typeof convertedFormula === 'number') {
+                this.handlerWarning && this.handlerWarning(convertedFormula);
+            } else {
+                this.pivotInfo.asc_addCalculatedItem(this.api, this.pivotFieldIndex, uniqueName, convertedFormula);
+                this.updateItemsListStore(true);
+                this.selectLastItem();
+            }
         },
 
         onDeleteItem: function() {
@@ -252,7 +274,7 @@ define([
 
             var deletedIndex = this.itemsList.store.indexOf(selectedItem);
             this.pivotInfo.asc_removeCalculatedItem(this.api, this.pivotFieldIndex, selectedItem.get('name'));
-            this.updateItemsListStore();
+            this.itemsList.store.remove(selectedItem);
 
             if(this.itemsList.store.length > 0) {
                 var selectedIndex = deletedIndex < this.itemsList.store.length
@@ -264,6 +286,8 @@ define([
                 this.btnEdit.setDisabled(true);
                 this.btnDelete.setDisabled(true);
             }
+
+            this.updateItemsListStore(true);
         },
 
         txtTitle: 'Calculated Items in',
