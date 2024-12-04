@@ -141,19 +141,22 @@ window.Common = {
 
 !params.skipScaling && checkScaling();
 
-if ( !!params.uitheme ) {
+if ( !window.uitheme.id && !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {
-        params.uitheme = 'theme-dark';
-        params.uithemetype = 'dark';
+        window.uitheme.id = 'theme-dark';
+        window.uitheme.type = 'dark';
     } else
     if ( params.uitheme == 'default-light' ) {
-        params.uitheme = 'theme-classic-light';
-        params.uithemetype = 'light';
+        window.uitheme.id = 'theme-classic-light';
+        window.uitheme.type = 'light';
     } else
-    if ( params.uitheme == 'theme-system' ) {}
+    if ( params.uitheme == 'theme-system' ) {
+        window.uitheme.adapt_to_system_theme();
+    } else {
+        window.uitheme.id = params.uitheme;
+    }
 }
 
-!window.uitheme.id && params.uitheme && (window.uitheme.id = params.uitheme);
 if ( !window.uitheme.id ) {
     window.uitheme.adapt_to_system_theme();
 } else {
