@@ -71,7 +71,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                                     {versions.map((version, index) => {
                                         return (
                                             <ListItem className={`version-history__item ${version === currentVersion ? 'version-history__item_active' : ''}`} key={`version-${index}`} link='#' title={version.created} subtitle={AscCommon.UserInfoParser.getParsedName(version.username)} onClick={() => handleClickRevision(version)}>
-                                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(version.username)}</div>
+                                                <div slot='media' className='version-history__user' style={{backgroundColor: usersVersions.find(user => user.id === version.userid).color}}>{usersStore.getInitials(AscCommon.UserInfoParser.getParsedName(version.username))}</div>
                                                 {(version === currentVersion && !version.selected && version.canRestore) &&
                                                     <div slot="inner">
                                                         <button type='button' className='version-history__btn' onClick={() => props.onRestoreRevision(version)}>{t('Common.VersionHistory.textRestore')}</button>
