@@ -45,7 +45,7 @@ class MainController extends Component {
     initSdk () {
         const on_script_load = () => {
             !window.sdk_scripts && (window.sdk_scripts = ['../../../../sdkjs/common/AllFonts.js',
-                                                           '../../../../sdkjs/draw/sdk-all-min.js']);
+                                                           '../../../../sdkjs/visio/sdk-all-min.js']);
             let dep_scripts = ['../../../vendor/xregexp/xregexp-all-min.js',
                                 '../../../vendor/socketio/socket.io.min.js'];
             dep_scripts.push(...window.sdk_scripts);
@@ -198,7 +198,7 @@ class MainController extends Component {
                         _translate = this.fallbackSdkTranslations
                     }
 
-                    this.api = new Asc.asc_docs_api({
+                    this.api = new Asc.VisioEditorApi({
                         'id-view': 'editor_sdk',
                         'mobile': true,
                         'translate': _translate
@@ -239,7 +239,7 @@ class MainController extends Component {
 
         if ( About.developVersion() ) {
             const script = document.createElement("script");
-            script.src = "../../../../sdkjs/develop/sdkjs/draw/scripts.js";
+            script.src = "../../../../sdkjs/develop/sdkjs/visio/scripts.js";
             script.async = true;
             script.onload = on_script_load;
             script.onerror = () => {
