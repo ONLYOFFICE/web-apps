@@ -786,7 +786,7 @@ define([
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
                 editable: false,
-                data: Common.util.LanguageInfo.regionalData,
+                data: Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',

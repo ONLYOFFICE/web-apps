@@ -280,7 +280,7 @@ define([
                 cls         : 'input-group-nr',
                 editable    : false,
                 takeFocusOnClose: true,
-                data        : Common.util.LanguageInfo.regionalData,
+                data        : Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',

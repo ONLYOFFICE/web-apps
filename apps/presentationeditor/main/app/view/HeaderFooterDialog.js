@@ -160,7 +160,7 @@ define([
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
-                data        : Common.util.LanguageInfo.regionalData,
+                data        : Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',

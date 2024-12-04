@@ -652,7 +652,7 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : Common.util.LanguageInfo.regionalData,
+                data        : Common.util.LanguageInfo.getRegionalData(),
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
