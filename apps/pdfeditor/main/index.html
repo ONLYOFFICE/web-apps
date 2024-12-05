@@ -342,6 +342,10 @@
     !(view && (params["toolbar"] !== 'true') || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
     view && (document.querySelector('.placeholder').style.marginTop = '19px');
     document.querySelector('.placeholder').style.display = 'block';
+
+    if (stopLoading) {
+        document.body.removeChild(document.getElementById('loading-mask'));
+    } 
 </script>
 
 <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>

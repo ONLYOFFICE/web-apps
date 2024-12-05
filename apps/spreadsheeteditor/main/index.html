@@ -386,6 +386,10 @@
         !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
         document.querySelector('.skformula').style.display = 'block';
         document.querySelector('.placeholder').style.display = 'block';
+
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        }
     </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>

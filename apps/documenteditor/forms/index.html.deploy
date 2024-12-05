@@ -191,6 +191,9 @@
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
 
+            if (stopLoading) {
+               document.body.removeChild(document.getElementById('loading-mask'));
+            } 
         </script>
 
       <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>

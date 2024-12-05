@@ -324,6 +324,10 @@
             document.querySelector('.sktoolbar').style.display = 'block';
         view && (document.querySelector('.placeholder').style.marginTop = '19px');
         document.querySelector('.placeholder').style.display = 'block'; 
+
+         if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        }
     </script>
 
     <script>

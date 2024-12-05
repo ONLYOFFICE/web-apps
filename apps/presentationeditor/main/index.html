@@ -367,6 +367,10 @@
         visible && (document.querySelector('.brendpanel').style.display = 'block');
         !(view || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
         document.querySelector('.placeholder').style.display = 'flex';
+
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        }
     </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
