@@ -657,7 +657,7 @@ define([], function () {
             this.listFunctions && this.listFunctions.deselectAll();
         },
         onRunMacros: function() {
-            console.log('Run');
+            this.api.callCommand(this._state.currentValue);
         },
         onMakeAutostartMacros: function() {
             if(!this._state.macrosItemMenuOpen) return;
