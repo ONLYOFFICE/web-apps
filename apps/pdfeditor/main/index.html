@@ -71,22 +71,6 @@
             margin-left: auto;
         }
 
-        .loadmask > .brendpanel .loading-logo {
-            padding: 0 24px 0 12px;
-            max-width: 200px;
-            height: 20px;
-        }
-        .rtl .loadmask > .brendpanel .loading-logo {
-            padding: 0 12px 0 24px;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
-        }
-
         .loadmask > .brendpanel .rect {
             vertical-align: middle;
             width: 50px;
@@ -278,10 +262,6 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            hideLogo = params["headerlogo"]==='',
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
-            logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null,
             isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
@@ -303,7 +283,7 @@
 <script src="../../common/main/lib/util/docserviceworker.js"></script>
 <div id="loading-mask" class="loadmask">
     <div class="brendpanel" style="display: none;">
-        <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
+        <div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
     <div class="sktoolbar" style="display: none;">
         <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 144px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul>
         <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul>
@@ -365,33 +345,7 @@
 
     if (stopLoading) {
         document.body.removeChild(document.getElementById('loading-mask'));
-    } else {
-        if (hideLogo) {
-            var elem = document.querySelector('.loading-logo');
-            elem && (elem.style.display = 'none');
-        } else {
-            var elem = document.querySelector('.loading-logo img');
-            if (elem) {
-                var isDarkTheme = /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className),
-                    image = logo || logoDark || logoLight,
-                    isDark = true;
-                if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
-                    var docstyle = getComputedStyle(document.body),
-                        header_color = docstyle.getPropertyValue('--toolbar-header-pdf'),
-                        toolbar_color = docstyle.getPropertyValue('--background-toolbar')
-                    logo_type = (view || compact) && (tabBackground==='toolbar') ? toolbar_color : header_color;
-                    isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabBackground==='toolbar'));
-                    image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
-                }
-                if (image) {
-                    elem.setAttribute('src', image);
-                } else if (!isDark) {
-                    elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
-                }
-                elem.style.opacity = 1;
-            }
-        }
-    }
+    } 
 </script>
 
 <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>

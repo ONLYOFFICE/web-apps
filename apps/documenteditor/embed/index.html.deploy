@@ -37,22 +37,6 @@
             height: 100%;
         }
 
-        .loadmask > .brendpanel .loading-logo {
-            max-width: 200px;
-            height: 20px;
-            margin-left: 10px;
-            text-align: center;
-        }
-        .rtl .loadmask > .brendpanel .loading-logo {
-            margin-left: 0;
-            margin-right: 10px;
-        }
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
-        }
         .loadmask > .brendpanel .doc-title {
             flex-grow: 1;
         }
@@ -147,7 +131,7 @@
 
   <body class="embed-body">
        <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
-       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
        <script>
             var  userAgent = navigator.userAgent.toLowerCase(),
@@ -189,25 +173,10 @@
 
             var params = getUrlParams(),
                            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-                           hideLogo = params["headerlogo"]==='',
-                           logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
                            isForm = params["isForm"];
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
-            var elem = document.querySelector('.loading-logo');
-            if (elem) {
-               if (hideLogo) {
-                   elem.style.display = 'none';
-               } else if (logo) {
-                   elem.style.backgroundImage= 'none';
-                   elem.style.width = 'auto';
-                   elem.style.height = 'auto';
-                   var img = document.querySelector('.loading-logo img');
-                   img && img.setAttribute('src', logo);
-                   img.style.opacity = 1;
-               }
-           }
         </script>
 
       <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
