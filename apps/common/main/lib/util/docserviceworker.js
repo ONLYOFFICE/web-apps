@@ -12,7 +12,7 @@
                 //delete stale service workers
                 //for (const registration of registrations) {
                 for (let r of registrations) {
-                    registration = registrations[r];
+                    const registration = registrations[r];
                     if (registration !== reg && registration.active && registration.active.scriptURL.endsWith(serviceWorkerName)) {
                         registration.unregister();
                     }
