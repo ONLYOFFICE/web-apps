@@ -306,7 +306,7 @@ define([
 
                 this.btnCalculatedItems = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-select-pivot',
+                    iconCls: 'toolbar__icon btn-calculated',
                     caption: this.txtCalculated,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.pivotCalcItemsLock, _set['FormatCells'], _set['PivotTables']],
                     dataHint: '1',
