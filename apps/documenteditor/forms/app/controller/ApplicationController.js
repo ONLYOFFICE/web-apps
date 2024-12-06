@@ -634,7 +634,8 @@ define([
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !this.appOptions.isOffline &&
+                                            !!this.editorConfig.customization.submitForm && (typeof this.editorConfig.customization.submitForm !== 'object' || this.editorConfig.customization.submitForm.visible);
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
@@ -931,20 +932,23 @@ define([
                     Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
                     this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
-                    if (!this.submitedTooltip) {
-                        this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: this.textSubmitOk,
-                            extCls: 'no-arrow colored',
-                            style: 'max-width: 400px',
-                            showLink: false,
-                            target: $('.toolbar'),
-                            placement: 'bottom'
-                        });
-                        this.submitedTooltip.on('closeclick', function () {
-                            this.submitedTooltip.hide();
-                        }, this);
+                    var text = (typeof this.appOptions.customization.submitForm==='object') ? this.appOptions.customization.submitForm.resultMessage : this.textSubmitOk;
+                    if (text!=='') {
+                        if (!this.submitedTooltip) {
+                            this.submitedTooltip = new Common.UI.SynchronizeTip({
+                                text: text || this.textSubmitOk,
+                                extCls: 'no-arrow colored',
+                                style: 'max-width: 400px',
+                                showLink: false,
+                                target: $('.toolbar'),
+                                placement: 'bottom'
+                            });
+                            this.submitedTooltip.on('closeclick', function () {
+                                this.submitedTooltip.hide();
+                            }, this);
+                        }
+                        this.submitedTooltip.show();
                     }
-                    this.submitedTooltip.show();
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                     this.onApiServerDisconnect(true);
                 } else
