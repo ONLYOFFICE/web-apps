@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Semua perubahan tersimpan",
   "DE.Controllers.Main.textClose": "Tutup",
   "DE.Controllers.Main.textCloseTip": "Klik untuk menutup tips",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Hubungi sales",
   "DE.Controllers.Main.textContinue": "Lanjutkan",
   "DE.Controllers.Main.textConvertEquation": "Persamaan ini dibuat dengan editor persamaan versi lama yang sudah tidak didukung. Untuk edit, konversikan persamaan ke format Office Math ML.<br>Konversi sekarang?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.<br>Klik tombol 'Mode strict' untuk mengganti ke Mode Strict Co-editing untuk edit file tanpa gangguan dari user lain dan kirim perubahan Anda hanya setelah Anda menyimpannya. Anda bisa mengganti mode co-editing menggunakan editor di pengaturan lanjut.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
   "DE.Controllers.Main.textUndo": "Batalkan",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Lisensi kadaluwarsa",
   "DE.Controllers.Main.titleLicenseNotActive": "Lisensi tidak aktif",
   "DE.Controllers.Main.titleServerVersion": "Editor mengupdate",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
 }

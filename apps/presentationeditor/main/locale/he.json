@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "כל השינויים שנשמרו",
   "PE.Controllers.Main.textClose": "סגירה",
   "PE.Controllers.Main.textCloseTip": "לחץ כדי לסגור את הטיפ",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "צור קשר עם מכירות",
   "PE.Controllers.Main.textContinue": "המשך",
   "PE.Controllers.Main.textConvertEquation": "משוואה זו נוצרה עם גרסה ישנה של עורך המשוואה שאינה נתמכת עוד. כדי לערוך אותו, יש להמיר את המשוואה לפורמט OFFICE MATH ML.<br>להמיר עכשיו?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "אפשרות ביטול / ביצוע-מחדש מושבתות עבור מצב עריכה משותפת מהירה.<br>נא ללחוץ על כפתור 'מצב קפדני' כדי לעבור למצב עריכה משותפת קפדנית כדי לערוך את הקובץ ללא הפרעה למשתמשים אחרים ולשלוח את השינויים שלך רק לאחר שמירתם. ניתן לעבור בין מצבי העריכה המשותפת באמצעות הגדרות העורך המתקדמות.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "פונקציות ביטול / ביצוע-מחדש מושבתות עבור מצב עריכה משותפת מהירה.",
   "PE.Controllers.Main.textUndo": "ביטול",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "פג תוקפו של הרישיון",
   "PE.Controllers.Main.titleLicenseNotActive": "רישיון לא פעיל",
   "PE.Controllers.Main.titleServerVersion": "עורך מעודכן",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "לחיצה כדי להוסיף את השקופית הראשונה",
   "PE.Controllers.Main.txtAddNotes": "לחץ כדי להוסיף הערות",
   "PE.Controllers.Main.txtAnimationPane": "חלונית אנימציה",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

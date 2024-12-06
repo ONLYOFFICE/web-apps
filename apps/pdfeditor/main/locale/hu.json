@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Minden módosítás elmentve",
   "PDFE.Controllers.Main.textClose": "Bezár",
   "PDFE.Controllers.Main.textCloseTip": "Kattintson, a tippek bezárásához",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Értékesítés elérhetősége",
   "PDFE.Controllers.Main.textContinue": "Folytatás",
   "PDFE.Controllers.Main.textCustomLoader": "Kérjük, vegye figyelembe, hogy a licence feltételei szerint nem jogosult a betöltő cseréjére.<br>Kérjük, forduljon értékesítési osztályunkhoz, hogy árajánlatot kapjon.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "PDFE.Controllers.Main.textUndo": "Vissza",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lejárt licenc",
   "PDFE.Controllers.Main.titleLicenseNotActive": "A licenc nem aktív",
   "PDFE.Controllers.Main.titleServerVersion": "Szerkesztő frissítve",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
 }

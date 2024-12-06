@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "關閉",
   "SSE.Controllers.Main.textCloseTip": "點擊以關閉提示",
   "SSE.Controllers.Main.textConfirm": "確認",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "聯繫銷售部門",
   "SSE.Controllers.Main.textContinue": "繼續",
   "SSE.Controllers.Main.textConvertEquation": "此方程式是使用舊版方程式編輯器創建的，不再受支援。要進行編輯，請將方程式轉換為 Office Math ML 格式。是否現在轉換？",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "您的撤消/重做功能在快速共同編輯模式下被禁用。&lt;br&gt;點擊「嚴格模式」按鈕切換到嚴格共同編輯模式，在該模式下編輯文件時不會受到其他用戶的干擾，並且只有在保存後才會發送您的更改。您可以使用編輯器的高級設置在共同編輯模式之間切換。",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "在快速共同編輯模式下，復原/重做功能被禁用。",
   "SSE.Controllers.Main.textUndo": "復原",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "是",
   "SSE.Controllers.Main.titleLicenseExp": "授權證書已過期",
   "SSE.Controllers.Main.titleLicenseNotActive": "授權證書未啟用",
   "SSE.Controllers.Main.titleServerVersion": "編輯器已更新",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "強調",
   "SSE.Controllers.Main.txtAll": "(全部)",
   "SSE.Controllers.Main.txtArt": "在這輸入文字",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護"
 }

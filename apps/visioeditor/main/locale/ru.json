@@ -244,6 +244,7 @@
   "VE.Controllers.Main.textChangesSaved": "Все изменения сохранены",
   "VE.Controllers.Main.textClose": "Закрыть",
   "VE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
+  "VE.Controllers.Main.textConnectionLost": "Попытка подключения. Проверьте настройки подключения.",
   "VE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "VE.Controllers.Main.textContinue": "Продолжить",
   "VE.Controllers.Main.textCustomLoader": "Обратите внимание, что по условиям лицензии у вас нет прав изменять экран, отображаемый при загрузке.<br>Пожалуйста, обратитесь в наш отдел продаж, чтобы сделать запрос.",
@@ -262,6 +263,8 @@
   "VE.Controllers.Main.textStrict": "Строгий режим",
   "VE.Controllers.Main.textText": "Текст",
   "VE.Controllers.Main.textTryQuickPrint": "Вы выбрали быструю печать: весь документ будет напечатан на последнем выбранном принтере или на принтере по умолчанию.<br>Вы хотите продолжить?",
+  "VE.Controllers.Main.textUpdateVersion": "Документ нельзя отредактировать прямо сейчас.<br>Попытка обновить файл, пожалуйста, подождите...",
+  "VE.Controllers.Main.textUpdating": "Обновление",
   "VE.Controllers.Main.titleLicenseExp": "Истек срок действия лицензии",
   "VE.Controllers.Main.titleLicenseNotActive": "Лицензия неактивна",
   "VE.Controllers.Main.titleServerVersion": "Редактор обновлен",
@@ -408,8 +411,5 @@
   "VE.Views.ViewTab.textZoom": "Масштаб",
   "VE.Views.ViewTab.tipFitPage": "По размеру страницы",
   "VE.Views.ViewTab.tipFitWidth": "По ширине",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "VE.Controllers.Main.textUpdating": "Updating",
-  "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "VE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

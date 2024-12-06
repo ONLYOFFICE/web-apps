@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Semua perubahan tersimpan",
   "PE.Controllers.Main.textClose": "Tutup",
   "PE.Controllers.Main.textCloseTip": "Klik untuk menutup tips",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Hubungi sales",
   "PE.Controllers.Main.textContinue": "Lanjutkan",
   "PE.Controllers.Main.textConvertEquation": "Persamaan ini dibuat dengan editor persamaan versi lama yang sudah tidak didukung. Untuk edit, konversikan persamaan ke format Office Math ML.<br>Konversi sekarang?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.<br>Klik tombol 'Mode strict' untuk mengganti ke Mode Strict Co-editing untuk edit file tanpa gangguan dari user lain dan kirim perubahan Anda hanya setelah Anda menyimpannya. Anda bisa mengganti mode co-editing menggunakan editor di pengaturan lanjut.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
   "PE.Controllers.Main.textUndo": "Batalkan",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Lisensi kadaluwarsa",
   "PE.Controllers.Main.titleLicenseNotActive": "Lisensi tidak aktif",
   "PE.Controllers.Main.titleServerVersion": "Editor mengupdate",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Klik untuk tambah slide pertama",
   "PE.Controllers.Main.txtAddNotes": "Klik untuk tambah catatan",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

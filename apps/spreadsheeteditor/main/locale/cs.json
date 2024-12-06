@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Zavřít",
   "SSE.Controllers.Main.textCloseTip": "Tip zavřete kliknutím",
   "SSE.Controllers.Main.textConfirm": "Potvrzení",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Obraťte se na obchodní oddělení",
   "SSE.Controllers.Main.textContinue": "Pokračovat",
   "SSE.Controllers.Main.textConvertEquation": "Tato rovnice byla vytvořena starou verzí editoru rovnic, která už není podporovaná. Pro její upravení, převeďte rovnici do formátu Office Math ML.<br>Převést nyní?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Funkce zpět/znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "SSE.Controllers.Main.textUndo": "Zpět",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Ano",
   "SSE.Controllers.Main.titleLicenseExp": "Platnost licence skončila",
   "SSE.Controllers.Main.titleLicenseNotActive": "Licence není aktivní",
   "SSE.Controllers.Main.titleServerVersion": "Editor byl aktualizován",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Zvýraznění",
   "SSE.Controllers.Main.txtAll": "(vše)",
   "SSE.Controllers.Main.txtArt": "Zde napište text",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadejte heslo pro deaktivaci zabezpečení listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušit zabezpečení sešitu",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušit zabezpečení sešitu"
 }

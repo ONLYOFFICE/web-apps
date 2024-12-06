@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Tüm değişiklikler kaydedildi",
   "PE.Controllers.Main.textClose": "Kapat",
   "PE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Satış departmanı ile iletişime geçin",
   "PE.Controllers.Main.textContinue": "Devam",
   "PE.Controllers.Main.textConvertEquation": "Bu denklem, denklem düzenleyicinin artık desteklenmeyen eski bir sürümüyle oluşturulmuştur. Düzenlemek için denklemi Office Math ML formatına dönüştürün.<br>Şimdi dönüştürülsün mü?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Geri al/Yinele fonksiyonları hızlı ortak çalışma modunda devre dışı kalır.<br>'Katı mod' tuşuna tıklayarak Katı ortak düzenleme moduna geçebilir ve diğer kullanıcıların müdehalesi olmadan, yalnızca siz belgeyi kaydettikten sonra değişiklik yapılmasını sağlayabilirsiniz. Ortak çalışma moduna tekrar dönmek için Gelişmiş ayarları kullanabilirsiniz.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Hızlı ortak düzenleme modunda geri al/yinele fonksiyonları devre dışıdır.",
   "PE.Controllers.Main.textUndo": "Undo",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Lisans süresi doldu",
   "PE.Controllers.Main.titleLicenseNotActive": "Lisans aktif değil ",
   "PE.Controllers.Main.titleServerVersion": "Editör güncellendi",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "İlk sunumu eklemek için tıklayın",
   "PE.Controllers.Main.txtAddNotes": "Not eklemek için tıklayın",
   "PE.Controllers.Main.txtAnimationPane": "Animasyon Bölmesi",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

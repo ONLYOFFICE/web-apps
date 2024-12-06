@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Itxi",
   "SSE.Controllers.Main.textCloseTip": "Egin klik argibidea ixteko",
   "SSE.Controllers.Main.textConfirm": "Berrespena",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Jarri harremanetan salmenta-sailarekin",
   "SSE.Controllers.Main.textContinue": "Jarraitu",
   "SSE.Controllers.Main.textConvertEquation": "Ekuazio hau dagoeneko euskarririk ez duen ekuazio editorearen bertsio zahar batekin sortu zen. Editatu ahal izateko, bihurtu ekuazioa Office Math ML formatura.<br>Orain bihurtu?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.<br>Egin klik 'Modu zorrotza' botoian fitxategia batera editatzeko modu zorrotzera aldatzeko, fitxategia beste erabiltzaileen interferentziarik gabe editatu eta aldaketak gordetzen dituzunean soilik bidaltzeko. Batera editatzeko modua Ezarpen aurreratuetan aukeratu dezakezu.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",
   "SSE.Controllers.Main.textUndo": "Desegin",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Bai",
   "SSE.Controllers.Main.titleLicenseExp": "Lizentzia iraungi da",
   "SSE.Controllers.Main.titleLicenseNotActive": "Lizentzia ez dago aktibo",
   "SSE.Controllers.Main.titleServerVersion": "Editorea eguneratu da",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Azentua",
   "SSE.Controllers.Main.txtAll": "(Guztiak)",
   "SSE.Controllers.Main.txtArt": "Zure testua hemen",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari"
 }

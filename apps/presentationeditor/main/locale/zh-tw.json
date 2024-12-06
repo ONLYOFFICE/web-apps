@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "所有更動已儲存",
   "PE.Controllers.Main.textClose": "關閉",
   "PE.Controllers.Main.textCloseTip": "點擊關閉提示",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "聯繫銷售部門",
   "PE.Controllers.Main.textContinue": "繼續",
   "PE.Controllers.Main.textConvertEquation": "此方程式是使用舊版方程式編輯器創建的，不再受支援。要進行編輯，請將方程式轉換為 Office Math ML 格式。是否現在轉換？",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "快速共同編輯模式禁用了“撤消/重做”功能。<br>單擊“嚴格模式”按鈕切換到“嚴格共同編輯”模式以編輯文件而不會受到其他用戶的干擾，並且僅在保存後發送更改他們。您可以使用編輯器的“高級”設置在共同編輯模式之間切換。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "在快速共同編輯模式下，復原/重做功能被禁用。",
   "PE.Controllers.Main.textUndo": "復原",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "授權證書已過期",
   "PE.Controllers.Main.titleLicenseNotActive": "授權證書未啟用",
   "PE.Controllers.Main.titleServerVersion": "編輯器已更新",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "點擊以新增第一張投影片",
   "PE.Controllers.Main.txtAddNotes": "點擊以新增備註",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

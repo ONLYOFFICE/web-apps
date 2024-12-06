@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Visas izmaiņas saglabātas",
   "PDFE.Controllers.Main.textClose": "Aizvērt",
   "PDFE.Controllers.Main.textCloseTip": "Noklikšķiniet, lai aizvērtu galu",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Sazināties ar pārdošanas daļu",
   "PDFE.Controllers.Main.textContinue": "Turpināt",
   "PDFE.Controllers.Main.textCustomLoader": "Ņemiet vērā, ka saskaņā ar licences noteikumiem jums nav tiesību mainīt ielādētāju.<br>Sazinieties ar mūsu pārdošanas nodaļu, lai saņemtu piedāvājumu.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Funkcijas Atsaukt/Atcelt ir atspējotas ātrās koprediģēšanas režīmam.<br>Noklikšķiniet uz pogas 'Precīzais režīms', lai pārslēgtos uz 'Precīzo koprediģēšanas režīmu', lai rediģētu failu bez citu lietotāju iejaukšanās un nosūtītu izmaiņas tikai pēc tam, kad saglabājāt tos. Varat pārslēgties starp koprediģēšanas režīmiem, izmantojot redaktoru Papildu iestatījumi.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Atsaukšanas/atkārtošanas funkcijas ātrās koprediģēšanas režīmā ir atspējotas.",
   "PDFE.Controllers.Main.textUndo": "Atsaukt",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licencei ir beidzies termiņš",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Atjaunināts redaktors",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
 }

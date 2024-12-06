@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Bezár",
   "SSE.Controllers.Main.textCloseTip": "Kattintson, a tippek bezárásához",
   "SSE.Controllers.Main.textConfirm": "Megerősítés",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Értékesítés elérhetősége",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "Ez az egyenlet az egyenletszerkesztő régi verziójával lett létrehozva, amely már nem támogatott. A szerkesztéshez alakítsa az egyenletet Office Math ML formátumra.<br>Konvertáljuk most?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Igen",
   "SSE.Controllers.Main.titleLicenseExp": "Lejárt licenc",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Szerkesztő frissítve",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Akcentus",
   "SSE.Controllers.Main.txtAll": "(Mind)",
   "SSE.Controllers.Main.txtArt": "Írja a szöveget ide",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Írjon be egy jelszót a munkalap védelmének megszüntetéséhez",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Munkalap védelmének megszüntetése",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Írjon be egy jelszót a munkafüzet védelmének megszüntetéséhez",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése"
 }

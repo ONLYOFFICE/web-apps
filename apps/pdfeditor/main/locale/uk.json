@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Усі зміни збережено",
   "PDFE.Controllers.Main.textClose": "Закрити",
   "PDFE.Controllers.Main.textCloseTip": "Натисніть, щоб закрити підказку",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Зв'язатися з відділом продажів",
   "PDFE.Controllers.Main.textContinue": "Продовжити",
   "PDFE.Controllers.Main.textCustomLoader": "Зверніть увагу, що згідно з умовами ліцензії ви не маєте права змінювати екран завантаження.<br>Будь ласка, зв'яжіться з нашим відділом продажів, щоб отримати ціну.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Функції Скасування/Повторення дій вимкнено у режимі швидкого спільного редагування.<br>Клацніть на кнопку \"Суворий режим\", щоб перейти до режиму суворого спільного редагування, який означатиме, що інші користувачі зможуть внести правки після того, яки ви збережете документ. Між режимами спільного редагування можна перемикатися у \"Додаткових параметрах\" редактора.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Функції скасування і повтору дій вимкно у режимі швидкого спільного редагування.",
   "PDFE.Controllers.Main.textUndo": "Скасувати",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Термін дії ліцензії закінчився",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Неактивна ліцензія",
   "PDFE.Controllers.Main.titleServerVersion": "Редактор оновлено",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "За розміром сторінки",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширині",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу"
 }

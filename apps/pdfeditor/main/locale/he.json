@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "כל השינויים שנשמרו",
   "PDFE.Controllers.Main.textClose": "סגירה",
   "PDFE.Controllers.Main.textCloseTip": "לחץ כדי לסגור את הטיפ",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "צור קשר עם מכירות",
   "PDFE.Controllers.Main.textContinue": "המשך",
   "PDFE.Controllers.Main.textCustomLoader": "לידיעתך, על פי תנאי הרישיון אינך רשאי להחליף את המטעין. <br> נא ליצור קשר עם מחלקת המכירות שלנו כדי לקבל הצעת מחיר.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "אפשרות ביטול / ביצוע-מחדש מושבתות עבור מצב עריכה משותפת מהירה. <br> נא ללחוץ על כפתור 'מצב קפדני' כדי לעבור למצב עריכה משותפת קפדנית כדי לערוך את הקובץ ללא הפרעה למשתמשים אחרים ולשלוח את השינויים שלך רק לאחר שמירתם. ניתן לעבור בין מצבי העריכה המשותפת באמצעות הגדרות העורך המתקדמות.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "פונקציות ביטול / ביצוע-מחדש מושבתות עבור מצב עריכה משותפת מהירה.",
   "PDFE.Controllers.Main.textUndo": "ביטול",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "פג תוקפו של הרישיון",
   "PDFE.Controllers.Main.titleLicenseNotActive": "רישיון לא פעיל",
   "PDFE.Controllers.Main.titleServerVersion": "עורך מעודכן",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

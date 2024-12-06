@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Stäng",
   "SSE.Controllers.Main.textCloseTip": "Klicka för att stänga tipset",
   "SSE.Controllers.Main.textConfirm": "Bekräftelse",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Kontakta säljare",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "Denna ekvation skapades med en gammal version av ekvationsredigeraren som inte längre stöds. Om du vill redigera den konverterar du ekvationen till Office Math ML-format.<br>Konvertera nu?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Ångra/Återställ-funktionerna är inaktiva i snabbt samredigeringsläget.<br>Klicka på knappen 'Strikt läge' för att växla till strikt samredigeringsläge och redigera filen utan andra användares påverkan och skicka dina ändringar först efter att du har sparat dem. Du kan växla mellan samredigeringslägena med hjälp av avancerade inställningar.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Ångra-funktionerna är inaktiverade för snabb samredigeringsläge.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Ja",
   "SSE.Controllers.Main.titleLicenseExp": "Licensen har gått ut",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Editor uppdaterad",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Accent",
   "SSE.Controllers.Main.txtAll": "(Allt)",
   "SSE.Controllers.Main.txtArt": "Din text här",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken"
 }

@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Все изменения сохранены",
   "DE.Controllers.Main.textClose": "Закрыть",
   "DE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "DE.Controllers.Main.textContinue": "Продолжить",
   "DE.Controllers.Main.textConvertEquation": "Это уравнение создано в старой версии редактора уравнений, которая больше не поддерживается. Чтобы изменить это уравнение, его необходимо преобразовать в формат Office Math ML.<br>Преобразовать сейчас?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.<br>Нажмите на кнопку 'Строгий режим' для переключения в Строгий режим совместного редактирования, чтобы редактировать файл без вмешательства других пользователей и отправлять изменения только после того, как вы их сохраните. Переключаться между режимами совместного редактирования можно с помощью Дополнительных параметров редактора.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
   "DE.Controllers.Main.textUndo": "Отменить",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Истек срок действия лицензии",
   "DE.Controllers.Main.titleLicenseNotActive": "Лицензия неактивна",
   "DE.Controllers.Main.titleServerVersion": "Редактор обновлен",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупрозрачный",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подчёркнутый",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта"
 }

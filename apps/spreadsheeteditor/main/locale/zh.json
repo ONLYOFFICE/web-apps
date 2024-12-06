@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "关闭",
   "SSE.Controllers.Main.textCloseTip": "点击关闭提示",
   "SSE.Controllers.Main.textConfirm": "确认",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "联系销售人员",
   "SSE.Controllers.Main.textContinue": "继续",
   "SSE.Controllers.Main.textConvertEquation": "此方程式是使用旧版本的方程式编辑器创建的，该编辑器已不再受支持。若要编辑它，请将公式转换为Office Math ML格式<br>是否立即转换？",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "“撤消/恢复”功能对于“快速协同编辑”模式是禁用的<br>单击“严格模式”按钮切换到严格协同编辑模式，在不受其他用户干扰的情况下编辑文件，并仅在保存更改后发送更改。您可以使用编辑器的高级设置在协同编辑模式之间切换。",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "快速共同编辑模式下，撤销/重做功能被禁用。",
   "SSE.Controllers.Main.textUndo": "撤消",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "是",
   "SSE.Controllers.Main.titleLicenseExp": "许可证过期",
   "SSE.Controllers.Main.titleLicenseNotActive": "授权证书未激活",
   "SSE.Controllers.Main.titleServerVersion": "编辑器已更新",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "重点色",
   "SSE.Controllers.Main.txtAll": "(全部)",
   "SSE.Controllers.Main.txtArt": "在这输入文字",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护"
 }

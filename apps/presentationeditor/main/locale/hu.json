@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Minden módosítás elmentve",
   "PE.Controllers.Main.textClose": "Bezár",
   "PE.Controllers.Main.textCloseTip": "Kattintson, a tippek bezárásához",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Értékesítés elérhetősége",
   "PE.Controllers.Main.textContinue": "Folytatás",
   "PE.Controllers.Main.textConvertEquation": "Ez az egyenlet az egyenletszerkesztő régi verziójával lett létrehozva, amely már nem támogatott. A szerkesztéshez alakítsa az egyenletet Office Math ML formátumra.<br>Konvertáljuk most?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "PE.Controllers.Main.textUndo": "Visszavonás",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Lejárt licenc",
   "PE.Controllers.Main.titleLicenseNotActive": "A licenc nem aktív",
   "PE.Controllers.Main.titleServerVersion": "Szerkesztő frissítve",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Kattintson az első dia hozzáadásához",
   "PE.Controllers.Main.txtAddNotes": "Kattintson jegyzet hozzáadásához",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

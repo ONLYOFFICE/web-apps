@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "සියළුම වෙනස්කම් සුරැකිණි",
   "DE.Controllers.Main.textClose": "වසන්න",
   "DE.Controllers.Main.textCloseTip": "ඉඟිය වැසීමට ඔබන්න",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "අලෙවිය අමතන්න",
   "DE.Controllers.Main.textContinue": "ඉදිරියට",
   "DE.Controllers.Main.textConvertEquation": "මෙම සමීකරණය තවදුරටත් සහාය නොදක්වන සමීකරණ සංස්කරකයේ පරණ අනුවාදයක් සමඟින් සාදා ඇත. එය සංස්කරණය කිරීමට, සමීකරණය ඔෆිස් මැත් එම්එල් ආකෘතියට අනුවර්තනය කරන්න.<br>දැන් හරවන්නද?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "වේගවත් සම-සංස්කරණ ප්‍රකාරය සඳහා පෙරසේ/පසුසේ ක්‍රියා අබල කර ඇත.<br>ඔබට සුරැකීමෙන් පසුව පමණක් ඔබගේ වෙනස්කම් අන් අයට යැවීමට සහ අනෙකුත් පරිශ්‍රීලකයින්ගේ බාධාවකින් තොරව ගොනුව සංස්කරණය සඳහා දැඩි සම-සංස්කරණ ප්‍රකාරයට මාරු වීමට 'දැඩි ප්‍රකාරය' බොත්තම ඔබන්න. සංස්කරකයෙහි වැඩිදුර සැකසුම් භාවිතයෙන් ඔබට සම-සංස්කරණ ප්‍රකාර අතර මාරු වීමට හැකිය.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "වේගවත් සම-සංස්කරණ ප්‍රකාරය සඳහා පෙරසේ/පසුසේ ක්‍රියා අබල කර ඇත.",
   "DE.Controllers.Main.textUndo": "පෙරසේ",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "බලපත්‍රය කල් ඉකුත් වී ඇත",
   "DE.Controllers.Main.titleLicenseNotActive": "බලපත්‍රය සක්‍රිය නැත",
   "DE.Controllers.Main.titleServerVersion": "සංස්කරකය යාවත්කාල විය",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "අර්ධ පාරදෘශ්‍යතාව",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම"
 }

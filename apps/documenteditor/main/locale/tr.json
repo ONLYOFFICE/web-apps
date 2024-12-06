@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Tüm değişiklikler kaydedildi",
   "DE.Controllers.Main.textClose": "Kapat",
   "DE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Satış departmanı ile iletişime geçin",
   "DE.Controllers.Main.textContinue": "Devam",
   "DE.Controllers.Main.textConvertEquation": "Bu denklem, denklem düzenleyicinin artık desteklenmeyen eski bir sürümüyle oluşturulmuştur. Düzenlemek için denklemi Office Math ML formatına dönüştürün.<br>Şimdi dönüştürülsün mü?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Geri al/Yinele fonksiyonları hızlı ortak çalışma modunda devre dışı kalır.<br>'Katı mod' tuşuna tıklayarak Katı ortak düzenleme moduna geçebilir ve diğer kullanıcıların müdehalesi olmadan, yalnızca siz belgeyi kaydettikten sonra değişiklik yapılmasını sağlayabilirsiniz. Ortak çalışma moduna tekrar dönmek için Gelişmiş ayarları kullanabilirsiniz.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Hızlı ortak düzenleme modunda geri al/yinele fonksiyonları devre dışıdır.",
   "DE.Controllers.Main.textUndo": "Geri Al",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Lisans süresi doldu",
   "DE.Controllers.Main.titleLicenseNotActive": "Lisans aktif değil ",
   "DE.Controllers.Main.titleServerVersion": "Editör güncellendi",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
 }

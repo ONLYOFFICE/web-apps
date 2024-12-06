@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Minden módosítás elmentve",
   "DE.Controllers.Main.textClose": "Bezár",
   "DE.Controllers.Main.textCloseTip": "Kattintson, a tippek bezárásához",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Értékesítés elérhetősége",
   "DE.Controllers.Main.textContinue": "Folytatás",
   "DE.Controllers.Main.textConvertEquation": "Ez az egyenlet az egyenletszerkesztő régi verziójával lett létrehozva, amely már nem támogatott. A szerkesztéshez alakítsa az egyenletet Office Math ML formátumra.<br>Konvertáljuk most?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "A Visszavonás / Újra funkciók le vannak tiltva a Gyors együttes szerkesztés módban.<br>A \"Biztonságos mód\" gombra kattintva válthat a Biztonságos együttes szerkesztés módra, hogy a dokumentumot más felhasználókkal való interferencia nélkül tudja szerkeszteni, mentés után küldve el a módosításokat. A szerkesztési módok között a Speciális beállítások segítségével válthat.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "A Visszavonás/Újra funkciók le vannak tiltva a Gyors társszerkesztés módban.",
   "DE.Controllers.Main.textUndo": "Vissza",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Lejárt licenc",
   "DE.Controllers.Main.titleLicenseNotActive": "A licenc nem aktív",
   "DE.Controllers.Main.titleServerVersion": "Szerkesztő frissítve",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

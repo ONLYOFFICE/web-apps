@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Semua perubahan tersimpan",
   "PDFE.Controllers.Main.textClose": "Tutup",
   "PDFE.Controllers.Main.textCloseTip": "Klik untuk menutup kiat",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Hubungi penjualan",
   "PDFE.Controllers.Main.textContinue": "Lanjutkan",
   "PDFE.Controllers.Main.textCustomLoader": "Perlu diketahui bahwa berdasarkan syarat dari lisensi, Anda tidak bisa untuk mengganti loader.<br>Silakan hubungi Departemen Penjualan kami untuk mendapatkan harga.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.<br>Klik tombol 'Mode strict' untuk mengganti ke Mode Strict Co-editing untuk edit file tanpa gangguan dari user lain dan kirim perubahan Anda hanya setelah Anda menyimpannya. Anda bisa mengganti mode co-editing menggunakan editor di pengaturan lanjut.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
   "PDFE.Controllers.Main.textUndo": "Batalkan",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lisensi kadaluwarsa",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Lisensi tidak aktif",
   "PDFE.Controllers.Main.titleServerVersion": "Editor mengupdate",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }

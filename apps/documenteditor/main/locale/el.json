@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Όλες οι αλλαγές αποθηκεύτηκαν",
   "DE.Controllers.Main.textClose": "Κλείσιμο",
   "DE.Controllers.Main.textCloseTip": "Κάντε κλικ για να κλείσει η υπόδειξη",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Επικοινωνήστε με το τμήμα πωλήσεων",
   "DE.Controllers.Main.textContinue": "Συνέχεια",
   "DE.Controllers.Main.textConvertEquation": "Η εξίσωση αυτή δημιουργήθηκε με παλαιότερη έκδοση του συντάκτη εξισώσεων που δεν υποστηρίζεται πια. Για να την επεξεργαστείτε, μετατρέψτε την σε μορφή Office Math ML.<br>Να μετατραπεί τώρα;",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.<br>Κάντε κλικ στο κουμπί 'Αυστηρή κατάσταση' για να μεταβείτε στην Αυστηρή κατάσταση συν-επεξεργασίας όπου επεξεργάζεστε το αρχείο χωρίς παρέμβαση άλλων χρηστών και στέλνετε τις αλλαγές σας αφού τις αποθηκεύσετε. Η μετάβαση μεταξύ των δύο καταστάσεων γίνεται μέσω των Προηγμένων Ρυθμίσεων.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Οι λειτουργίες Αναίρεση/Επανάληψη απενεργοποιούνται για τη λειτουργία γρήγορης συν-επεξεργασίας.",
   "DE.Controllers.Main.textUndo": "Αναίρεση",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Η άδεια έληξε",
   "DE.Controllers.Main.titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
   "DE.Controllers.Main.titleServerVersion": "Ο συντάκτης ενημερώθηκε",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

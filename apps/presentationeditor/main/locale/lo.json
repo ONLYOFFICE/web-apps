@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "ບັນທຶກການປ່ຽນແປງທັງໝົດ",
   "PE.Controllers.Main.textClose": "ອອກຈາກ",
   "PE.Controllers.Main.textCloseTip": "ກົດເພື່ອປິດຂໍ້ແນະນຳ",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "ຕິດຕໍ່ຜູ້ຂາຍ",
   "PE.Controllers.Main.textContinue": "Continue",
   "PE.Controllers.Main.textConvertEquation": "ສົມຜົນນີ້ໄດ້ຖືກສ້າງຂື້ນມາກັບບັນນາທິການສົມຜົນລຸ້ນເກົ່າເຊິ່ງບໍ່ໄດ້ຮັບການສະ ໜັບ ສະ ໜູນ ອີກຕໍ່ໄປ ເພື່ອດັດແກ້ມັນ, ປ່ຽນສົມຜົນໃຫ້ເປັນຮູບແບບ Office Math ML. <br> ປ່ຽນດຽວນີ້ບໍ?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "ໜ້າທີ່ Undo / Redo ຖືກປິດໃຊ້ງານ ສຳ ລັບ ໂໝດ ການແກ້ໄຂແບບລວດໄວ - <br> ກົດປຸ່ມ 'Strict mode' ເພື່ອປ່ຽນໄປໃຊ້ໂຫມດແບບເຂັ້ມເພື່ອແກ້ໄຂເອກະສານໂດຍບໍ່ຕ້ອງໃຊ້ຜູ້ອື່ນແຊກແຊງແລະສົ່ງການປ່ຽນແປງຂອງທ່ານພຽງແຕ່ຫຼັງຈາກທີ່ທ່ານບັນທຶກ ພວກເຂົາ. ທ່ານສາມາດປ່ຽນລະຫວ່າງຮູບແບບການແກ້ໄຂຮ່ວມກັນໂດຍໃຊ້ບັນນາທິການຕັ້ງຄ່າຂັ້ນສູງ",
   "PE.Controllers.Main.textTryUndoRedoWarn": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
   "PE.Controllers.Main.textUndo": "Undo",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "ໃບອະນຸຍາດໝົດອາຍຸ",
   "PE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PE.Controllers.Main.titleServerVersion": "ອັບເດດການແກ້ໄຂ",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "ກົດເພື່ອເພີ່ມແຜ່ນສະໄລ້ ທຳ ອິດ",
   "PE.Controllers.Main.txtAddNotes": "ກົດເພື່ອເພີ່ມບັນທຶກ",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Tanca",
   "SSE.Controllers.Main.textCloseTip": "Fes clic per tancar el consell",
   "SSE.Controllers.Main.textConfirm": "Confirmació",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Contacta amb vendes",
   "SSE.Controllers.Main.textContinue": "Continuar",
   "SSE.Controllers.Main.textConvertEquation": "Aquesta equació es va crear amb una versió antiga de l'editor d'equacions que ja no és compatible. Per editar-la, converteix l’equació al format d’Office Math ML. <br>Vols convertir-ho ara?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida. Fes clic al botó \"Mode estricte\" per canviar al mode de coedició estricte i editar el fitxer, sense que hi hagi interferències d'altres usuaris i enviar els teus canvis un cop els hagis desat. Pots canviar entre els modes de coedició mitjançant l'editor \"Paràmetres avançats\".",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
   "SSE.Controllers.Main.textUndo": "Desfer",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Sí",
   "SSE.Controllers.Main.titleLicenseExp": "La llicència ha caducat",
   "SSE.Controllers.Main.titleLicenseNotActive": "Llicència inactiva",
   "SSE.Controllers.Main.titleServerVersion": "S'ha actualitzat l'editor",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Accent",
   "SSE.Controllers.Main.txtAll": "(Tots)",
   "SSE.Controllers.Main.txtArt": "El teu text aquí",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball"
 }

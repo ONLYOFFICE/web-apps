@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "ບັນທຶກການປ່ຽນແປງທັງໝົດ",
   "DE.Controllers.Main.textClose": "ປິດ",
   "DE.Controllers.Main.textCloseTip": "ກົດເພື່ອປິດຂໍ້ແນະນຳ",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "ຕິດຕໍ່ຜູ້ຂາຍ",
   "DE.Controllers.Main.textContinue": "Continue",
   "DE.Controllers.Main.textConvertEquation": "ສົມຜົນນີ້ໄດ້ຖືກສ້າງຂື້ນມາກັບບັນນາທິການສົມຜົນລຸ້ນເກົ່າເຊິ່ງບໍ່ໄດ້ຮັບການສະ ໜັບ ສະ ໜູນ ອີກຕໍ່ໄປ ເພື່ອດັດແກ້ມັນ, ປ່ຽນສົມຜົນໃຫ້ເປັນຮູບແບບ Office Math ML. <br> ປ່ຽນດຽວນີ້ບໍ?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "ໜ້າທີ່ Undo / Redo ຖືກປິດໃຊ້ງານ ສຳ ລັບ ໂໝດ ການແກ້ໄຂແບບລວດໄວ -<br>ກົດປຸ່ມ 'Strict mode' ເພື່ອປ່ຽນໄປໃຊ້ໂຫມດແບບເຂັ້ມເພື່ອແກ້ໄຂເອກະສານໂດຍບໍ່ຕ້ອງໃຊ້ຜູ້ອື່ນແຊກແຊງແລະສົ່ງການປ່ຽນແປງຂອງທ່ານພຽງແຕ່ຫຼັງຈາກທີ່ທ່ານບັນທຶກ ພວກເຂົາ. ທ່ານສາມາດປ່ຽນລະຫວ່າງຮູບແບບການແກ້ໄຂຮ່ວມກັນໂດຍໃຊ້ບັນນາທິການຕັ້ງຄ່າຂັ້ນສູງ",
   "DE.Controllers.Main.textTryUndoRedoWarn": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
   "DE.Controllers.Main.textUndo": "Undo",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "ໃບອະນຸຍາດໝົດອາຍຸ",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "ອັບເດດການແກ້ໄຂ",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

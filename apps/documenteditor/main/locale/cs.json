@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Všechny změny uloženy",
   "DE.Controllers.Main.textClose": "Zavřít",
   "DE.Controllers.Main.textCloseTip": "Tip zavřete kliknutím",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Kontaktovat obchodní oddělení",
   "DE.Controllers.Main.textContinue": "Pokračovat",
   "DE.Controllers.Main.textConvertEquation": "Tato rovnice byla vytvořena starou verzí editoru rovnic, která už není podporovaná. Pro její upravení, převeďte rovnici do formátu Office Math ML.<br>Převést nyní?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Funkce Zpět/Znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "DE.Controllers.Main.textUndo": "Zpět",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Platnost licence skončila",
   "DE.Controllers.Main.titleLicenseNotActive": "Licence není aktivní",
   "DE.Controllers.Main.titleServerVersion": "Editor byl aktualizován",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
 }

@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Tutte le modifiche sono state salvate",
   "PDFE.Controllers.Main.textClose": "Chiudi",
   "PDFE.Controllers.Main.textCloseTip": "Clicca per chiudere il consiglio",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Contatta il team di vendita",
   "PDFE.Controllers.Main.textContinue": "Continua",
   "PDFE.Controllers.Main.textCustomLoader": "Tieni presente che secondo i termini della licenza non hai diritto a cambiare il caricatore.<br>Ti preghiamo di contattare il nostro reparto vendite per ottenere un preventivo.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Le funzioni Annulla/Ripeti sono disabilitate per la modalità di co-editing Fast.<br>Fai clic sul pulsante \"Modalità Strict\" per passare alla modalità di co-editing rigorosa e modificare il file senza l'interferenza di altri utenti e inviare le modifiche solo dopo averli salvati. È possibile passare da una modalità di co-editing all'altra utilizzando le Impostazioni avanzate dell'editor.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di modifica collaborativa.",
   "PDFE.Controllers.Main.textUndo": "Annulla",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licenza scaduta",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Licenza non attiva",
   "PDFE.Controllers.Main.titleServerVersion": "L'editor è stato aggiornato",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Adatta alla pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
 }

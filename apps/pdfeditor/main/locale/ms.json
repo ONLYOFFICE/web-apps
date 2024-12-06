@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Semua perubahan disimpan",
   "PDFE.Controllers.Main.textClose": "Tutup",
   "PDFE.Controllers.Main.textCloseTip": "Klik untuk tutup petua",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Hubungi jualan",
   "PDFE.Controllers.Main.textContinue": "Continue",
   "PDFE.Controllers.Main.textCustomLoader": "Sila ambil maklum bahawa menurut kepada terma lesen yang anda tidak berhak untuk ubah pemuat.<br>Sila hubungi Jabatan Jualan kami untuk mendapatkan sebut harga.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan bersama.<br>Klik butang 'Strict mode' untuk menukar kepada mod pengeditan Bersama Tegas untuk mengedit fail tanpa gangguan pengguna lain dan menghantar perubahan anda hanya selepas anda menyimpannya. Anda boleh bertukar di antara mod-mod pengeditan Bersama menngunakan seting Lanjutan editor.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Buat asal/Buat semula dinyahdayakan bagi mod pengeditan Bersama Pantas.",
   "PDFE.Controllers.Main.textUndo": "Buat semula",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lesen tamat tempoh",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Editor dikemas kini",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Muat kepada Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka"
 }

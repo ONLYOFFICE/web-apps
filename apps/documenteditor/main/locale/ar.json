@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "تم حفظ كل التغييرات",
   "DE.Controllers.Main.textClose": "إغلاق",
   "DE.Controllers.Main.textCloseTip": "اضغط لإغلاق النصيحة",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "التواصل مع المبيعات",
   "DE.Controllers.Main.textContinue": "تابع",
   "DE.Controllers.Main.textConvertEquation": "هذه المعادلة تمت كتابتها باستخدام إصدار أقدم من محرر المعادلات و الذي لم يعد مدعوماً. و لتحريرها يتوجب تحويلها إلى صيغة Office Math ML.<br>التحويل الآن؟",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "تم تعطيل وظائف التراجع/الإعادة في وضع التحرير المشترك السريع.<br>انقر فوق الزر \"الوضع الصارم\" للتبديل إلى وضع التحرير المشترك الصارم لتحرير الملف دون تدخل المستخدمين الآخرين ولا ترسل تغييراتك إلا بعد حفظها. يمكنك التبديل بين أوضاع التحرير المشترك باستخدام الإعدادات المتقدمة للمحرر.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "وظائف الاعادة و التراجع غير مفعلة لوضع التحرير المشترك السريع.",
   "DE.Controllers.Main.textUndo": "تراجع",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "الترخيص منتهي الصلاحية",
   "DE.Controllers.Main.titleLicenseNotActive": "الترخيص غير مُفعّل",
   "DE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
 }

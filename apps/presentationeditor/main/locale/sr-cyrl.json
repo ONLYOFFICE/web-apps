@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Све промене сачуване",
   "PE.Controllers.Main.textClose": "Затвори",
   "PE.Controllers.Main.textCloseTip": "Кликни да затвориш савет",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Контакт продаје",
   "PE.Controllers.Main.textContinue": "Настави",
   "PE.Controllers.Main.textConvertEquation": "Ова једначина је направљена са старом верзијом уређивача једначина који није више подржан. Да је уредите, конвертујте једначину у Office Math ML формат.<br>Конвертујте сада?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Функције Поништи/Понови су онемогућене за Брзи режим заједничког уређивања.<br>Кликните на дугме 'Строги режим' да бисте прешли у Строги режим заједничког уређивања како бисте уређивали датотеку без мешања других корисника и слали ваше промене тек након што их сачувате. Можете прелазити између режима заједничког уређивања користећи Напредне поставке уређивача.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Поништи/Понови функције су онемогућене за Брзи режим заједничког уређивања.",
   "PE.Controllers.Main.textUndo": "Поништи",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Лиценца истекла",
   "PE.Controllers.Main.titleLicenseNotActive": "Лиценца није активна",
   "PE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Кликни да додаш први слајд",
   "PE.Controllers.Main.txtAddNotes": "Кликни да додаш белешке",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -291,6 +291,7 @@
     "errorFileVKey": "Error externo.<br> Clave de seguridad incorrecta. Por favor, contacte con el equipo de soporte.",
     "errorFillRange": "No se puede rellenar el rango de celdas seleccionado.<br>Todas las celdas combinadas deben tener el mismo tamaño.",
     "errorForceSave": "Ha ocurrido un error mientras se guardaba el archivo. Por favor, utilice la opción 'Descargar como' para guardar el archivo en el disco duro de su computadora o inténtelo nuevamente más tarde.",
+    "errorFormulaInPivotFieldName": "No se puede introducir una fórmula para un elemento o nombre de campo en un informe de tabla dinámica.",
     "errorFormulaName": "Un error en la fórmula.<br>Nombre de fórmula incorrecto.",
     "errorFormulaParsing": "Error interno al analizar la fórmula.",
     "errorFrmlMaxLength": "No puede agregar esta fórmula, ya que su longitud excede el número de caracteres permitidos. <br>Edítelo e inténtelo de nuevo.",
@@ -321,9 +322,11 @@
     "errorNoDataToParse": "No se han seleccionado datos para analizar.",
     "errorOpenWarning": "La longitud de una de las fórmulas en el archivo ha superado<br>el número de caracteres permitidos y se ha eliminado.",
     "errorOperandExpected": "La sintaxis de la función introducida no es correcta. Por favor, compruebe si ha omitido uno de los paréntesis - '(' o ')'.",
+    "errorPasteInPivot": "No podemos hacer este cambio para las celdas seleccionadas porque afectaría a una tabla dinámica.<br>Utilice la lista de campos para cambiar el informe.",
     "errorPasteMaxRange": "El área de copiar y pegar no coincide. Por favor, seleccione un área del mismo tamaño o haga clic en la primera celda de una fila para pegar las celdas copiadas.",
     "errorPasteMultiSelect": "Esta acción no se puede realizar en un rango de selecciones múltiples.<br>Seleccione un solo rango y vuelva a intentarlo.",
     "errorPasteSlicerError": "Las segmentaciones de la tabla no se pueden copiar de un libro a otro.",
+    "errorPivotFieldNameExists": "El nombre del campo de la tabla dinámica ya existe.",
     "errorPivotGroup": "No puede agruparse esta selección.",
     "errorPivotOverlap": "El informe de la tabla dinámica no puede superponerse a la tabla.",
     "errorPivotWithoutUnderlying": "El informe de la tabla dinámica se ha guardado sin los datos subyacentes.<br>Utilice el botón 'Actualizar' para actualizar el informe.",
@@ -368,10 +371,7 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Contraseña",
