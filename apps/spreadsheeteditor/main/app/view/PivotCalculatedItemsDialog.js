@@ -127,6 +127,14 @@ define([
             }
         },
 
+        getFocusedComponents: function() {
+            return [this.btnNew, this.btnDuplicate, this.btnEdit, this.btnDelete, this.itemsList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.itemsList;
+        },
+
         setSettings() {
             this.pivotInfo = this.api.asc_getPivotInfo().pivot;
             this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
@@ -180,10 +188,6 @@ define([
             var lastItem = this.itemsList.store.at(-1);
             this.itemsList.selectRecord(lastItem);
             this.itemsList.scrollToRecord(lastItem);
-        },
-
-        getFocusedComponents: function() {
-            return [];
         },
 
         show: function() {

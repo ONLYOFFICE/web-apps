@@ -110,6 +110,7 @@ define([
                 ].join('')),
                 tabindex: 1
             });
+            this.itemsList.on('entervalue', _.bind(this.onEnterValueItemsList, this));
             this.itemsList.on('item:click', _.bind(this.onClickItemsList, this));
             this.itemsList.on('item:dblclick', _.bind(this.onDblClickItemsList, this));
 
@@ -146,13 +147,21 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [];
+            return [this.inputName, this.inputFormula, this.itemsList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.isEdit ? this.inputFormula : this.inputName;
         },
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
+
+        onEnterValueItemsList: function(listView, record, event) {
+            this.onAddItemInFormula(record.get('name'));
+        },
 
         onClickItemsList: function(listView, itemView, record, event) {
             var targetEL = $(event.target);
