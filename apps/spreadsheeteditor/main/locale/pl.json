@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Zamknij",
   "SSE.Controllers.Main.textCloseTip": "Kliknij, żeby zamknąć wskazówkę",
   "SSE.Controllers.Main.textConfirm": "Potwierdzenie",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Skontaktuj się z działem sprzedaży",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "To równanie zostało utworzone za pomocą starej wersji edytora równań, która nie jest już obsługiwana. Aby je edytować, przekonwertuj równanie na format Office Math ML.<br>Przekonwertować teraz?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Funkcje Cofnij/Ponów są wyłączone w trybie \"Szybki\" współtworzenia.<br>Kliknij przycisk \"Tryb ścisły\", aby przejść do trybu ścisłego edytowania, aby edytować plik bez ingerencji innych użytkowników i wysyłać zmiany tylko po zapisaniu. Możesz przełączać się między trybami współtworzenia, używając edytora Ustawienia zaawansowane.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Funkcje Cofnij/Ponów są wyłączone w trybie Szybkim współtworzenia.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Tak",
   "SSE.Controllers.Main.titleLicenseExp": "Upłynął okres ważności licencji",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Zaktualizowano edytor",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Akcent",
   "SSE.Controllers.Main.txtAll": "(wszystko)",
   "SSE.Controllers.Main.txtArt": "Twój tekst tutaj",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
 }

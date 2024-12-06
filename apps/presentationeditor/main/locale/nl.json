@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Alle wijzigingen zijn opgeslagen",
   "PE.Controllers.Main.textClose": "Afsluiten",
   "PE.Controllers.Main.textCloseTip": "Klik om de tip te sluiten",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Contact opnemen met Verkoop",
   "PE.Controllers.Main.textContinue": "Continue",
   "PE.Controllers.Main.textConvertEquation": "Deze vergelijking is gemaakt met een oude versie van de vergelijkingseditor die niet langer wordt ondersteund. Om deze te bewerken, converteert u de vergelijking naar de Office Math ML-indeling. <br> Nu converteren?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "De functies Ongedaan maken/Opnieuw worden uitgeschakeld in de modus Snel gezamenlijk bewerken.<br>Klik op de knop 'Strikte modus' om over te schakelen naar de strikte modus voor gezamenlijk bewerken. U kunt het bestand dan zonder interferentie van andere gebruikers bewerken en uw wijzigingen verzenden wanneer u die opslaat. U kunt schakelen tussen de modi voor gezamenlijke bewerking via Geavanceerde instellingen van de editor.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de modus Snel meewerken.",
   "PE.Controllers.Main.textUndo": "Undo",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Licentie vervallen",
   "PE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PE.Controllers.Main.titleServerVersion": "Editor bijgewerkt",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Klik om de eerste slide te maken",
   "PE.Controllers.Main.txtAddNotes": "Klik om notities toe te voegen",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

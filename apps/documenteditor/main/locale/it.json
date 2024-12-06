@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Tutte le modifiche sono state salvate",
   "DE.Controllers.Main.textClose": "Chiudi",
   "DE.Controllers.Main.textCloseTip": "Clicca su per chiudere la notifica",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Contatta il team di vendite",
   "DE.Controllers.Main.textContinue": "Continua",
   "DE.Controllers.Main.textConvertEquation": "Questa equazione è stata creata con una vecchia versione dell'editor di equazioni che non è più supportata.Per modificarla, convertire l'equazione nel formato ML di Office Math.<br>Convertire ora?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Le funzioni Annulla/Ripristina sono disabilitate per la Modalità di Co-editing Veloce.<br>Clicca il pulsante 'Modalità Rigorosa' per passare alla Modalità di Co-editing Rigorosa per poter modificare il file senza l'interferenza di altri utenti e inviare le modifiche solamente dopo averle salvate. Puoi passare da una modalità all'altra di co-editing utilizzando le Impostazioni avanzate dell'editor.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida in modifica collaborativa.",
   "DE.Controllers.Main.textUndo": "Annulla",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "La licenza è scaduta",
   "DE.Controllers.Main.titleLicenseNotActive": "Licenza non attiva",
   "DE.Controllers.Main.titleServerVersion": "L'editor è stato aggiornato",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitrasparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sottolineato",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome carattere",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensione carattere"
 }

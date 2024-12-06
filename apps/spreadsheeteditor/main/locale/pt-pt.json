@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Fechar",
   "SSE.Controllers.Main.textCloseTip": "Clique para fechar a dica",
   "SSE.Controllers.Main.textConfirm": "Confirmação",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Contacte a equipa comercial",
   "SSE.Controllers.Main.textContinue": "Continuar",
   "SSE.Controllers.Main.textConvertEquation": "Esta equação foi criada com uma versão anterior da aplicação e já não é suportada. Para a editar, tem que converter a equação para o formato Office Math ML.<br>Converter agora?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "As funções Desfazer/Refazer foram desativadas para se poder coeditar o documento.<br>Clique no botão 'Modo estrito' para ativar este modo de edição e editar o ficheiro sem ser incomodado por outros utilizadores enviando apenas as suas alterações assim que terminar e guardar. Pode alternar entre modos de coedição através das definições avançadas.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "As funções Desfazer/Refazer estão desativadas no modo de co-edição rápida.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Sim",
   "SSE.Controllers.Main.titleLicenseExp": "Licença caducada",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Editor atualizado",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Destaque",
   "SSE.Controllers.Main.txtAll": "(Tudo)",
   "SSE.Controllers.Main.txtArt": "Your text here",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro"
 }

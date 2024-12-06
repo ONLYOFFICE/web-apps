@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Chiudi",
   "SSE.Controllers.Main.textCloseTip": "Fai clic per chiudere il consiglio",
   "SSE.Controllers.Main.textConfirm": "Conferma",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Contatta il reparto vendite.",
   "SSE.Controllers.Main.textContinue": "Continua",
   "SSE.Controllers.Main.textConvertEquation": "Questa equazione è stata creata in una vecchia versione dell'editor di equazioni che non è più supportata. Per modificarla, devi convertire l'equazione nel formato ML di Office Math.<br>Convertire ora?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Le funzioni Annulla/Ripristina sono disabilitate per la Modalità di Co-editing Veloce.<br>Clicca il pulsante 'Modalità Rigorosa' per passare alla Modalità di Co-editing Rigorosa per poter modificare il file senza l'interferenza di altri utenti e inviare le modifiche solamente dopo averle salvate. Puoi passare da una modalità all'altra di co-editing utilizzando le Impostazioni avanzate dell'editor.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Le funzioni Annulla/Ripeti sono disattivate nella modalità rapida di co-editing",
   "SSE.Controllers.Main.textUndo": "Annulla",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Sì",
   "SSE.Controllers.Main.titleLicenseExp": "La licenza è scaduta",
   "SSE.Controllers.Main.titleLicenseNotActive": "Licenza non attiva",
   "SSE.Controllers.Main.titleServerVersion": "L'editor è stato aggiornato",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Accento",
   "SSE.Controllers.Main.txtAll": "(Tutti)",
   "SSE.Controllers.Main.txtArt": "Il tuo testo qui",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Inserisci una password per rimuovere la protezione del foglio",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Rimuovi la protezione del foglio",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Inserisci una password per rimuovere la protezione del libro di lavoro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro"
 }

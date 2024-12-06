@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "所有更改已保存",
   "DE.Controllers.Main.textClose": "关闭",
   "DE.Controllers.Main.textCloseTip": "点击关闭提示",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "联系销售人员",
   "DE.Controllers.Main.textContinue": "继续",
   "DE.Controllers.Main.textConvertEquation": "此方程式是使用旧版本的方程式编辑器创建的，该编辑器已不再受支持。若要编辑它，请将公式转换为Office Math ML格式<br>是否立即转换？",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "对于快速的协同编辑模式，取消/重做功能是禁用的。< br >单击“严格模式”按钮切换到严格co-editing模式编辑该文件没有其他用户干扰和发送您的更改只后你拯救他们。您可以使用编辑器高级设置在编辑模式之间切换。",
   "DE.Controllers.Main.textTryUndoRedoWarn": "快速共同编辑模式下，撤销/重做功能被禁用。",
   "DE.Controllers.Main.textUndo": "撤消",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "许可证过期",
   "DE.Controllers.Main.titleLicenseNotActive": "授权证书未激活",
   "DE.Controllers.Main.titleServerVersion": "编辑器已更新",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }

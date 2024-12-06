@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Všechny změny uloženy",
   "PDFE.Controllers.Main.textClose": "Zavřít",
   "PDFE.Controllers.Main.textCloseTip": "Tip zavřete kliknutím",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Kontaktovat obchodní oddělení",
   "PDFE.Controllers.Main.textContinue": "Pokračovat",
   "PDFE.Controllers.Main.textCustomLoader": "Mějte na paměti, že dle podmínek licence nejste oprávněni měnit zavaděč.<br>Pro získání nabídky se obraťte na naše obchodní oddělení.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Funkce Zpět/Znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "PDFE.Controllers.Main.textUndo": "Zpět",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Platnost licence skončila",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Licence není aktivní",
   "PDFE.Controllers.Main.titleServerVersion": "Editor byl aktualizován",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Přízpůsobit stránce",
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní"
 }

@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Kaikki muutokset tallennettu",
   "DE.Controllers.Main.textClose": "Sulje",
   "DE.Controllers.Main.textCloseTip": "Klikkaa ja sulje vinkki",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Ota yhteyttä myyntiin",
   "DE.Controllers.Main.textContinue": "Jatka",
   "DE.Controllers.Main.textConvertEquation": "Tämä yhtälö on luotu yhtälötyökalun vanhemmalla versiolla, jota ei enää tueta. Jos haluat muokata sitä, se täytyy ensin muuntaa Office Math ML -muotoon. Muunnetaanko? ",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Peruutus/tee uudelleen -toiminnot eivät ole käytössä yhteismuokkauksen pikatilassa.<br>Klikkaa \"Ehdoton\" tilan painiketta, jotta voit vaihtaa ehdottomaan yhteismuokkauksen tilaan tai muokata tiedostoa ilman että muut käyttäjät häiritsevät sitä. Tässä tilassa lähetät muutokset vain kun olet tallentanut ne. Voit vaihdella yhteismuokkauksen tilojen välillä editorin Laajennetuissa asetuksissa.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Kumoa/Tee uudelleen -toiminnot eivät ole käytössä nopeassa yhteismuokkaustilassa.",
   "DE.Controllers.Main.textUndo": "Kumoa",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Lisenssi erääntynyt",
   "DE.Controllers.Main.titleLicenseNotActive": "Lisenssi ei ole aktiivinen",
   "DE.Controllers.Main.titleServerVersion": "Editori päivitetty",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
 }

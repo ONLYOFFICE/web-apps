@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "ບັນທຶກການປ່ຽນແປງທັງໝົດ",
   "PDFE.Controllers.Main.textClose": " ປິດ",
   "PDFE.Controllers.Main.textCloseTip": "ກົດເພື່ອປິດຂໍ້ແນະນຳ",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "ຕິດຕໍ່ຜູ້ຂາຍ",
   "PDFE.Controllers.Main.textContinue": "ສືບຕໍ່",
   "PDFE.Controllers.Main.textCustomLoader": "ກະລຸນາຮັບຊາບວ່າ ອີງຕາມຂໍ້ ກຳນົດຂອງໃບອະນຸຍາດ ທ່ານບໍ່ມີສິດທີ່ຈະປ່ຽນແປງ ການບັນຈຸ.<br>ກະລຸນາຕິດຕໍ່ຝ່າຍຂາຍຂອງພວກເຮົາເພື່ອຂໍໃບສະເໜີ.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "ໜ້າທີ່ Undo / Redo ຖືກປິດໃຊ້ງານ ສຳ ລັບ ໂໝດ ການແກ້ໄຂແບບລວດໄວ -<br>ກົດປຸ່ມ 'Strict mode' ເພື່ອປ່ຽນໄປໃຊ້ໂຫມດແບບເຂັ້ມເພື່ອແກ້ໄຂເອກະສານໂດຍບໍ່ຕ້ອງໃຊ້ຜູ້ອື່ນແຊກແຊງແລະສົ່ງການປ່ຽນແປງຂອງທ່ານພຽງແຕ່ຫຼັງຈາກທີ່ທ່ານບັນທຶກ ພວກເຂົາ. ທ່ານສາມາດປ່ຽນລະຫວ່າງຮູບແບບການແກ້ໄຂຮ່ວມກັນໂດຍໃຊ້ບັນນາທິການຕັ້ງຄ່າຂັ້ນສູງ",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນ ຖືກປິດໃຊ້ງານ ສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
   "PDFE.Controllers.Main.textUndo": "ກັບຄືນ",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "ໃບອະນຸຍາດໝົດອາຍຸ",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "ອັບເດດການແກ້ໄຂ",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
 }

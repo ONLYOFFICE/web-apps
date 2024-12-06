@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Visas izmaiņas saglabātas",
   "DE.Controllers.Main.textClose": "Aizvērt",
   "DE.Controllers.Main.textCloseTip": "Noklikšķiniet, lai aizvērtu galu",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Sazināties ar pārdošanas daļu",
   "DE.Controllers.Main.textContinue": "Turpināt",
   "DE.Controllers.Main.textConvertEquation": "Šis vienādojums tika izveidots, izmantojot veco vienādojumu redaktora versiju, kas vairs netiek atbalstīta. Lai to rediģētu, konvertējiet vienādojumu Office Math ML formātā.<br>Vai konvertēt tagad?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Funkcijas Atsaukt/Atcelt ir atspējotas ātrās koprediģēšanas režīmam.<br>Noklikšķiniet uz pogas 'Precīzais režīms', lai pārslēgtos uz 'Precīzo koprediģēšanas režīmu', lai rediģētu failu bez citu lietotāju iejaukšanās un nosūtītu izmaiņas tikai pēc tam, kad saglabājāt tos. Varat pārslēgties starp koprediģēšanas režīmiem, izmantojot redaktoru Papildu iestatījumi.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Atsaukšanas/atkārtošanas funkcijas ātrās koprediģēšanas režīmā ir atspējotas.",
   "DE.Controllers.Main.textUndo": "Atsaukt",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Licencei ir beidzies termiņš",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Atjaunināts redaktors",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }

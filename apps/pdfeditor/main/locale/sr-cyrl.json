@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Све промене сачуване",
   "PDFE.Controllers.Main.textClose": "Затвори",
   "PDFE.Controllers.Main.textCloseTip": "Кликни да затвориш савет",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Контакт продаје",
   "PDFE.Controllers.Main.textContinue": "Настави",
   "PDFE.Controllers.Main.textCustomLoader": "Молим обратите пажњу да према условима лиценце нисте овлашћени да промените учитавач.<br>Молим контактирајте нашу Продајну Службу како бисте добили понуду.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Функције Поништи/Понови су онемогућене за Брзи режим заједничког уређивања.<br>Кликните на дугме 'Строги режим' да бисте прешли у Строги режим заједничког уређивања како бисте уређивали датотеку без мешања других корисника и слали ваше промене тек након што их сачувате. Можете прелазити између режима заједничког уређивања користећи Напредне поставке уређивача.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Поништи /Понови функције су онемогућене за Брзи режим заједничког уређивања.",
   "PDFE.Controllers.Main.textUndo": "Поништи",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Лиценца истекла",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Лиценца није активна",
   "PDFE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

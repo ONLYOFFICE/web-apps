@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Затвори",
   "SSE.Controllers.Main.textCloseTip": "Кликни да затвориш савет",
   "SSE.Controllers.Main.textConfirm": "Потврда",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Контакт продаје",
   "SSE.Controllers.Main.textContinue": "Настави",
   "SSE.Controllers.Main.textConvertEquation": "Ова једначина је направљена са старом верзијом уређивача једначина који није више подржан. Да је уредите, конвертујте једначину у Office Math ML формат.<br>Конвертујте сада?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Функције Поништи/Понови су онемогућене за Брзи режим заједничког уређивања.<br>Кликните на дугме 'Строги режим' да бисте прешли у Строги режим заједничког уређивања како бисте уређивали датотеку без мешања других корисника и слали ваше промене тек након што их сачувате. Можете прелазити између режима заједничког уређивања користећи Напредне поставке уређивача.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Поништи/Понови функције су онемогућене за Брзи режим заједничког уређивања.",
   "SSE.Controllers.Main.textUndo": "Поништи",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Да",
   "SSE.Controllers.Main.titleLicenseExp": "Лиценца истекла",
   "SSE.Controllers.Main.titleLicenseNotActive": "Лиценца није активна",
   "SSE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Нагласак",
   "SSE.Controllers.Main.txtAll": "(Све)",
   "SSE.Controllers.Main.txtArt": "Ваш текст овде",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу"
 }

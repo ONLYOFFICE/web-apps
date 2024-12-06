@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "تم حفظ كل التغييرات",
   "PDFE.Controllers.Main.textClose": "إغلاق",
   "PDFE.Controllers.Main.textCloseTip": "اضغط لإغلاق التلميحة",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "التواصل مع المبيعات",
   "PDFE.Controllers.Main.textContinue": "متابعة",
   "PDFE.Controllers.Main.textCustomLoader": "يرجى ملاحظة أنه وفقًا لشروط الترخيص، لا يحق لك تغيير المُحمل.<br>يرجى الاتصال بقسم المبيعات لدينا للحصول على عرض أسعار.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "تم تعطيل وظائف التراجع/الإعادة في وضع التحرير المشترك السريع.<br>انقر فوق الزر \"الوضع الصارم\" للتبديل إلى وضع التحرير المشترك الصارم لتحرير الملف دون تدخل المستخدمين الآخرين ولا ترسل تغييراتك إلا بعد حفظها. يمكنك التبديل بين أوضاع التحرير المشترك باستخدام الإعدادات المتقدمة للمحرر.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "تم تعطيل وظائف التراجع/الإعادة في وضع التحرير المشترك السريع.",
   "PDFE.Controllers.Main.textUndo": "تراجع",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "الترخيص منتهي الصلاحية",
   "PDFE.Controllers.Main.titleLicenseNotActive": "الترخيص غير نشط",
   "PDFE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

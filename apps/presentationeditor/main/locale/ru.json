@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Все изменения сохранены",
   "PE.Controllers.Main.textClose": "Закрыть",
   "PE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
   "PE.Controllers.Main.textContinue": "Продолжить",
   "PE.Controllers.Main.textConvertEquation": "Это уравнение создано в старой версии редактора уравнений, которая больше не поддерживается. Чтобы изменить это уравнение, его необходимо преобразовать в формат Office Math ML.<br>Преобразовать сейчас?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.<br>Нажмите на кнопку 'Строгий режим' для переключения в Строгий режим совместного редактирования, чтобы редактировать файл без вмешательства других пользователей и отправлять изменения только после того, как вы их сохраните. Переключаться между режимами совместного редактирования можно с помощью Дополнительных параметров редактора.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Функции отмены и повтора действий отключены в Быстром режиме совместного редактирования.",
   "PE.Controllers.Main.textUndo": "Отменить",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Истек срок действия лицензии",
   "PE.Controllers.Main.titleLicenseNotActive": "Лицензия неактивна",
   "PE.Controllers.Main.titleServerVersion": "Редактор обновлен",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Нажмите, чтобы добавить первый слайд",
   "PE.Controllers.Main.txtAddNotes": "Нажмите, чтобы добавить заметки",
   "PE.Controllers.Main.txtAnimationPane": "Панель анимации",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Макросы",
   "PE.Views.ViewTab.tipNormal": "Обычный",
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
 }

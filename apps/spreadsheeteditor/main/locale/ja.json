@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "閉じる",
   "SSE.Controllers.Main.textCloseTip": "ヒントを閉じるためにクリックしてください。",
   "SSE.Controllers.Main.textConfirm": "確認",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "営業部に連絡する",
   "SSE.Controllers.Main.textContinue": "続ける",
   "SSE.Controllers.Main.textConvertEquation": "この数式は、サポートされなくなった古いバージョンの数式エディタで作成されました。 編集するには、方程式をOffice Math ML形式に変換します。<br>今すぐ変換しますか？",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "即時反映共同編集モードでは元に戻す/やり直しの機能は無効になります。<br>他のユーザーの干渉なし編集するために「厳密モード」をクリックして、厳密な共同編集モードに切り替えてください。保存した後にのみ、変更を送信してください。編集の詳細設定を使用して共同編集モードを切り替えることができます。",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "即時反映の共同編集モードでは、元に戻す/やり直し機能が無効になります。",
   "SSE.Controllers.Main.textUndo": "元に戻す",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "はい",
   "SSE.Controllers.Main.titleLicenseExp": "ライセンスの有効期限が切れています",
   "SSE.Controllers.Main.titleLicenseNotActive": "ライセンスが無効になっています",
   "SSE.Controllers.Main.titleServerVersion": "エディターが更新された",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "アクセント",
   "SSE.Controllers.Main.txtAll": "（すべて）",
   "SSE.Controllers.Main.txtArt": "ここにテキストを入力してください",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する"
 }

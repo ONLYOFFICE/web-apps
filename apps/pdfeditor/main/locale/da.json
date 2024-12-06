@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Alle ændringer er blevet gemt",
   "PDFE.Controllers.Main.textClose": "Luk",
   "PDFE.Controllers.Main.textCloseTip": "Klik for at lukke tippet",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Kontakt salg",
   "PDFE.Controllers.Main.textContinue": "Fortsæt",
   "PDFE.Controllers.Main.textCustomLoader": "Bemærk, at du i henhold til licensbetingelserne ikke har ret til at skifte loaderen.<br>Kontakt venligt vores salgsafdeling for at få en kvote.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Fortryd funktionen er blevet slået fra i den hurtige co-redigerngstilstand.<b>Tryk på 'Striks tilstand' knappen for at skifte til den strikse co-redigeringstilstand for at redigere filen uden at andre brugere kan foretage ændringer før efter du har gemt dem. Du kan skifte i mellem co-redigeringstilstanden ved at bruge de avancerede indstillinger.  ",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Fortryd/omgør-funktionen er deaktiveret for hurtig medredigeringstilstand.",
   "PDFE.Controllers.Main.textUndo": "Fortryd",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licens er udløbet",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Redigeringsværktøj opdateret",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Tilpas til side",
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
 }

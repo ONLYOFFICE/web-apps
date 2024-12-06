@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Aldaketa guztiak gordeta",
   "PDFE.Controllers.Main.textClose": "Itxi",
   "PDFE.Controllers.Main.textCloseTip": "Egin klik argibidea ixteko",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Jarri harremanetan salmenta-sailarekin",
   "PDFE.Controllers.Main.textContinue": "Jarraitu",
   "PDFE.Controllers.Main.textCustomLoader": "Kontuan izan, lizentziaren baldintzen arabera, ez duzula baimenik kargatzailea aldatzeko.<br>Jarri harremanetan gure Salmenta departamentuarekin aurrekontu bat eskatzeko.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.<br>Egin klik 'Modu zorrotza' botoian fitxategia batera editatzeko modu zorrotzera aldatzeko, fitxategia beste erabiltzaileen interferentziarik gabe editatu eta aldaketak gordetzen dituzunean soilik bidaltzeko. Batera editatzeko modua Ezarpen aurreratuetan aukeratu dezakezu.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Desegin/Berregin funtzioak desgaituta daude batera azkar editatzeko moduan.",
   "PDFE.Controllers.Main.textUndo": "Desegin",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lizentzia iraungi da",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Lizentzia ez dago aktibo",
   "PDFE.Controllers.Main.titleServerVersion": "Editorea eguneratu da",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
 }

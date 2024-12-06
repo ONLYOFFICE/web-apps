@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "All changes saved",
   "PE.Controllers.Main.textClose": "Sulje",
   "PE.Controllers.Main.textCloseTip": "Klikkaa ja sulje vinkki",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Ota yhteyttä myyntiin",
   "PE.Controllers.Main.textContinue": "Continue",
   "PE.Controllers.Main.textConvertEquation": "This equation was created with an old version of the equation editor which is no longer supported. To edit it, convert the equation to the Office Math ML format.<br>Convert now?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Peruutus/tee uudelleen -toiminnot eivät ole käytössä yhteismuokkauksen pikatilassa.<br>Klikkaa \"Ehdoton\" tilan painiketta, jotta voit vaihtaa ehdottomaan yhteismuokkauksen tilaan tai muokata tiedostoa ilman että muut käyttäjät häiritsevät sitä. Tässä tilassa lähetät muutokset vain kun olet tallentanut ne. Voit vaihdella yhteismuokkauksen tilojen välillä editorin Laajennetuissa asetuksissa.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
   "PE.Controllers.Main.textUndo": "Undo",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Lisenssi erääntynyt",
   "PE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PE.Controllers.Main.titleServerVersion": "Editor updated",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Click to add the first slide",
   "PE.Controllers.Main.txtAddNotes": "Click to add notes",
   "PE.Controllers.Main.txtAnimationPane": "Animation Pane",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

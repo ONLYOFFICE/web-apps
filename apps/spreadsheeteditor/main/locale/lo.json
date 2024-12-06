@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": " ປິດ",
   "SSE.Controllers.Main.textCloseTip": "ກົດເພື່ອປິດຂໍ້ແນະນຳ",
   "SSE.Controllers.Main.textConfirm": "ການຢັ້ງຢືນຕົວຕົນ",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "ຕິດຕໍ່ຜູ້ຂາຍ",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "ສົມຜົນນີ້ໄດ້ຖືກສ້າງຂື້ນມາກັບບັນນາທິການສົມຜົນລຸ້ນເກົ່າເຊິ່ງບໍ່ໄດ້ຮັບການສະ ໜັບ ສະ ໜູນ ອີກຕໍ່ໄປ ເພື່ອດັດແກ້ມັນ, ປ່ຽນສົມຜົນໃຫ້ເປັນຮູບແບບ Office Math ML. <br> ປ່ຽນດຽວນີ້ບໍ?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "ໜ້າທີ່ Undo / Redo ຖືກປິດໃຊ້ງານສຳລັບໂໝດ ການແກ້ໄຂແບບວ່ອງໄວ - <br> ກົດປຸ່ມ 'Strict mode' ເພື່ອປ່ຽນໄປໃຊ້ໂຫມດແບບເຂັ້ມເພື່ອແກ້ໄຂເອກະສານໂດຍບໍ່ຕ້ອງໃຊ້ຜູ້ອື່ນແຊກແຊງ ແລະ ສົ່ງການປ່ຽນແປງຂອງທ່ານເທົ່ານັ້ນ ຫຼັງຈາກທີ່ທ່ານບັນທຶກການປ່ຽນແປງ. ທ່ານສາມາດປ່ຽນລະຫວ່າງໂມດການແກ້ໄຂຮ່ວມກັນໂດຍນຳໃຊ້ຕັ້ງຄ່າການແກ້ໄຂຂັ້ນສູງ.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "ໜ້າທີ່ ກັບຄືນ ຫຼື ທວນຄືນຖືກປິດໃຊ້ງານສຳລັບໂໝດການແກ້ໄຂຮ່ວມກັນດ່ວນ.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "ແມ່ນແລ້ວ",
   "SSE.Controllers.Main.titleLicenseExp": "ໃບອະນຸຍາດໝົດອາຍຸ",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "ອັບເດດການແກ້ໄຂ",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "ສຳນຽງ",
   "SSE.Controllers.Main.txtAll": "(ທັງໝົດ)",
   "SSE.Controllers.Main.txtArt": "ເນື້ອຫາຂໍ້ຄວາມຂອງທ່ານຢູ່ນີ້",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "ໃສ່ລະຫັດຜ່ານເພື່ອຍົກເລີກການປ້ອງກັນແຜ່ນ",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ"
 }

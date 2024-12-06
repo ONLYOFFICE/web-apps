@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "تم حفظ كل التغييرات",
   "PE.Controllers.Main.textClose": "إغلاق",
   "PE.Controllers.Main.textCloseTip": "اضغط لإغلاق التلميحة",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "التواصل مع المبيعات",
   "PE.Controllers.Main.textContinue": "متابعة",
   "PE.Controllers.Main.textConvertEquation": "هذه المعادلة تمت كتابتها باستخدام إصدار أقدم من محرر المعادلات و الذي لم يعد مدعوماً. و لتحريرها يتوجب تحويلها إلى صيغة Office Math ML.<br>التحويل الآن؟",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "وظائف التراجع و الإعادة معطلة في وضع التحرير المشترك السريع.<br>انقر فوق الزر \"الوضع المقيد\" للتبديل إلى وضع التحرير المشترك المقيد لتحرير الملف دون تدخل المستخدمين الآخرين ولا ترسل تغييراتك إلا بعد حفظها. يمكنك التبديل بين أوضاع التحرير المشترك باستخدام الإعدادات المتقدمة للمحرر.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "وظائف الاعادة و التراجع غير مفعلة لوضع التحرير المشترك السريع",
   "PE.Controllers.Main.textUndo": "تراجع",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "الترخيص منتهي الصلاحية",
   "PE.Controllers.Main.titleLicenseNotActive": "الترخيص غير مُفعّل",
   "PE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "انقر لإضافة الشريحة الأولى",
   "PE.Controllers.Main.txtAddNotes": "اضغط لإضافة ملاحظات",
   "PE.Controllers.Main.txtAnimationPane": "جزء الحركة",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }

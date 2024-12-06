@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "S'han desat tots els canvis",
   "DE.Controllers.Main.textClose": "Tanca",
   "DE.Controllers.Main.textCloseTip": "Feu clic per tancar el consell",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Contacta amb vendes",
   "DE.Controllers.Main.textContinue": "Continua",
   "DE.Controllers.Main.textConvertEquation": "Aquesta equació s'ha creat amb una versió antiga de l'editor d'equacions que ja no és compatible. Per editar-la, converteix l’equació al format d’Office Math ML. <br> La vols convertir?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida. Fes clic al botó \"Mode estricte\" per canviar al mode de coedició estricte i editar el fitxer sense que hi hagi interferències d'altres usuaris i enviar els vostres canvis un cop els hàgiu desat. Podeu canviar entre els modes de coedició mitjançant l'editor \"Paràmetres avançats\".",
   "DE.Controllers.Main.textTryUndoRedoWarn": "S'han desactivat les funcions desfés/refés per al mode de coedició ràpida.",
   "DE.Controllers.Main.textUndo": "Desfer",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "La llicència ha caducat",
   "DE.Controllers.Main.titleLicenseNotActive": "Llicència inactiva",
   "DE.Controllers.Main.titleServerVersion": "S'ha actualitzat l'editor",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
 }

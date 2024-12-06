@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Усе змены захаваныя",
   "PDFE.Controllers.Main.textClose": "Закрыць",
   "PDFE.Controllers.Main.textCloseTip": "Пстрыкніце, каб закрыць гэтую падказку",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Звязацца з аддзелам продажу",
   "PDFE.Controllers.Main.textContinue": "Працягнуць",
   "PDFE.Controllers.Main.textCustomLoader": "Звярніце ўвагу, што па ўмовах ліцэнзіі вы не можаце змяняць экран загрузкі.<br>Калі ласка, звярніцеся ў аддзел продажу.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Функцыі скасавання і паўтору дзеянняў выключаныя ў хуткім рэжыме сумеснага рэдагавання.<br>Націсніце кнопку \"Строгі рэжым\", каб пераключыцца ў строгі рэжым сумеснага рэдагавання, каб рэдагаваць файл без іншых карыстальнікаў і адпраўляць змены толькі пасля іх захавання. Пераключацца паміж рэжымамі сумеснага рэдагавання можна з дапамогай дадатковых налад рэдактара.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Функцыі скасавання і паўтору дзеянняў выключаныя ў хуткім рэжыме сумеснага рэдагавання.",
   "PDFE.Controllers.Main.textUndo": "Адрабіць",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Тэрмін дзеяння ліцэнзіі сышоў",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Ліцэнзія не дзейнічае",
   "PDFE.Controllers.Main.titleServerVersion": "Рэдактар абноўлены",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Todas as alterações guardadas",
   "PDFE.Controllers.Main.textClose": "Fechar",
   "PDFE.Controllers.Main.textCloseTip": "Clique para fechar a dica",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Contacte a equipa comercial",
   "PDFE.Controllers.Main.textContinue": "Continuar",
   "PDFE.Controllers.Main.textCustomLoader": "Tenha em conta que, de acordo com os termos da licença, não tem permissões para alterar o carregador.<br>Por favor contacte a equipa comercial.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "As funções Desfazer/Refazer foram desativadas para se poder coeditar o documento.<br>Clique no botão 'Modo estrito' para ativar este modo de edição e editar o ficheiro sem ser incomodado por outros utilizadores, enviando apenas as suas alterações depois de terminar e guardar. Pode alternar entre modos de coedição nas definições avançadas.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "As funções Desfazer/Refazer estão desativadas no modo de coedição rápida.",
   "PDFE.Controllers.Main.textUndo": "Desfazer",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licença caducada",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Licença inativa",
   "PDFE.Controllers.Main.titleServerVersion": "Editor atualizado",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar à página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema da interface"
 }
