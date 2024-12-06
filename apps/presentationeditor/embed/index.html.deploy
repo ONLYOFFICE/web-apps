@@ -192,6 +192,11 @@
                     .replace(/>/g, '&gt;');
         }
 
+        var params = getUrlParams(),
+               lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+
+           window.frameEditorId = params["frameEditorId"];
+           window.parentOrigin = params["parentOrigin"];
       </script>
 
       <div id="box-preview">
@@ -208,6 +213,9 @@
       </div>
 
       <div class="toolbar" id="toolbar">
+          <div class="group left">
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
+          </div>     
           <div class="group center">
               <span id="title-doc-name"></span>
           </div>

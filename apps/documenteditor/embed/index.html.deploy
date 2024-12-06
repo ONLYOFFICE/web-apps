@@ -190,6 +190,7 @@
 
       <div class="toolbar" id="toolbar">
           <div class="group left">
+              <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
               <button id="id-btn-prev-field" class="control-btn svg-icon arrow-up margin-right-small"></button><!--
               --><button id="id-btn-next-field" class="control-btn has-caption margin-right-large"><span class="btn-icon svg-icon arrow-down"></span><span class="caption"></span></button><!--
               --><button id="id-btn-clear-fields" class="control-btn has-caption"><span class="btn-icon svg-icon clear-style"></span><span class="caption"></span></button>
