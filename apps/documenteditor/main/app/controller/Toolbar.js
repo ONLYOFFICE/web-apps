@@ -236,6 +236,10 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+                this.toolbar.setTab(action);
+                this.onChangeCompactView(null, false, true);
+            }, this));
         },
 
         onLaunch: function() {
@@ -507,12 +511,14 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
-        onChangeCompactView: function(view, compact) {
+        onChangeCompactView: function(view, compact, suppressSave) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
             compact && this.onTabCollapse();
 
-            Common.localStorage.setBool('de-compact-toolbar', compact);
+            var editmode = this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms && this.mode.isFormCreator;
+            !suppressSave && Common.localStorage.setBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar", compact);
+
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -3547,16 +3553,16 @@ define([
             var me = this,
                 application = this.getApplication();
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
-                if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
-                    compactview = Common.localStorage.getBool("de-compact-toolbar");
-                } else
-                if ( config.customization && config.customization.compactToolbar )
-                    compactview = true;
+            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
+                compactview = !editmode;
+            if ( Common.localStorage.itemExists(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar") ) {
+                compactview = Common.localStorage.getBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar");
+            } else if (config.customization) {
+                compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            me.toolbar.render(_.extend({isCompactView: editmode ? compactview : true}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
@@ -3665,8 +3671,10 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
                 me.toolbar.addTab(tab, $panel, 8);
-                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
             config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
         },

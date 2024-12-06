@@ -111,6 +111,10 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+                this.toolbar.setTab(action);
+                this.onChangeCompactView(null, false, true);
+            }, this));
         },
 
         onLaunch: function() {
@@ -175,13 +179,14 @@ define([
             }
         },
 
-        onChangeCompactView: function(view, compact) {
+        onChangeCompactView: function(view, compact, suppressSave) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
 
             compact && this.onTabCollapse();
 
-            Common.localStorage.setBool('ve-compact-toolbar', compact);
+            !suppressSave && Common.localStorage.setBool(this.mode.isEdit ? "ve-compact-toolbar" : "ve-view-compact-toolbar", compact);
+
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -284,16 +289,16 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
-                if ( Common.localStorage.itemExists("ve-compact-toolbar") ) {
-                    compactview = Common.localStorage.getBool("ve-compact-toolbar");
-                } else
-                if ( config.customization && config.customization.compactToolbar )
-                    compactview = true;
-
+            var editmode = config.isEdit,
+                compactview = !editmode;
+            if ( Common.localStorage.itemExists(editmode ? "ve-compact-toolbar" : "ve-view-compact-toolbar") ) {
+                compactview = Common.localStorage.getBool(editmode ? "ve-compact-toolbar" : "ve-view-compact-toolbar");
+            } else if (config.customization) {
+                compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
-            me.toolbar.render(_.extend({compactview: compactview}, config));
+            Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
+
+            me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));
 
             if ( config.isEdit) {
                 me.toolbar.setMode(config);
@@ -306,8 +311,10 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             var $panel = viewtab.createToolbarPanel();
             if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
                 me.toolbar.addTab(tab, $panel, 8);
-                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
         },
 

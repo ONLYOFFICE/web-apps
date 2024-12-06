@@ -202,7 +202,11 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+                this.toolbar.setTab(action);
+                this.onChangeCompactView(null, false, true);
+            }, this));
+            
             var me = this;
 
             var checkInsertAutoshape =  function(e) {
@@ -475,13 +479,14 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
-        onChangeCompactView: function(view, compact) {
+        onChangeCompactView: function(view, compact, suppressSave) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this.toolbar, compact]);
 
             compact && this.onTabCollapse();
 
-            Common.localStorage.setBool('pe-compact-toolbar', compact);
+            !suppressSave && Common.localStorage.setBool(this.mode.isEdit ? "pe-compact-toolbar" : "pe-view-compact-toolbar", compact);
+
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2718,16 +2723,16 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
-                if ( Common.localStorage.itemExists("pe-compact-toolbar") ) {
-                    compactview = Common.localStorage.getBool("pe-compact-toolbar");
-                } else
-                if ( config.customization && config.customization.compactToolbar )
-                    compactview = true;
-
+            var editmode = config.isEdit,
+                compactview = !editmode;
+            if ( Common.localStorage.itemExists(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar") ) {
+                compactview = Common.localStorage.getBool(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar");
+            } else if (config.customization) {
+                compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
-            me.toolbar.render(_.extend({compactview: compactview}, config));
+            Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
+
+            me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
@@ -2790,8 +2795,10 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
                 me.toolbar.addTab(tab, $panel, 7);
-                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
         },
 
