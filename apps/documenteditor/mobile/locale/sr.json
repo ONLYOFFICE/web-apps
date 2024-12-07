@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Spajanje neuspešno.",
     "errorNoTOC": "Nema tabele sadržaja za ažuriranje. Možete ubaciti jednu sa Reference kartice.",
     "errorPasswordIsNotCorrect": "Lozinka koju ste snabdeveli nije tačna. Potvrdi da je CAPS LOCK taster isključen i budite sigurni da koristite pravilan način velikih slova.",
+    "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
     "errorSessionToken": "Konekcija sa serverom je prekinuta. Molimo, ponovo učitajte stranicu.",
@@ -462,15 +463,14 @@
     "splitDividerErrorText": "Broj redova mora biti delilac %1",
     "splitMaxColsErrorText": "Broj koloni mora biti manji od %1",
     "splitMaxRowsErrorText": "Broj redova mora biti manji od %1",
+    "textOk": "OK",
     "unknownErrorText": "Nepoznata greška.",
     "uploadDocExtMessage": "Nepoznati format dokumenta.",
     "uploadDocFileCountMessage": "Bez otpremljenih dokumenata.",
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Bez otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",

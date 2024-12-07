@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Բոլոր փոփոխումները պահպանված են",
   "PDFE.Controllers.Main.textClose": "Փակել",
   "PDFE.Controllers.Main.textCloseTip": "Կտտացրեք՝ հուշումը փակելու համար",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Կապ վաճառքի բաժնի հետ",
   "PDFE.Controllers.Main.textContinue": "Շարունակել",
   "PDFE.Controllers.Main.textCustomLoader": "Խնդրում ենք նկատի ունենալ,որ ըստ թույլատրագրի պայմանների՝ Դուք իրավունք չունեք փոխելու բեռնման էկրանը։<br>Հարցման համար խնդրում ենք դիմել մեր վաճառքի բաժին։",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Համախմբագրման արագ աշխատակարգում հետարկումն ու վերարկումն անջատված են։<br>«Խիստ աշխատակարգ»-ի սեղմումով անցեք համախմբագրման խիստ աշխատակարգին, որպեսզի նիշքը խմբագրեք առանց այլ օգտատերերի միջամտության և փոփոխումներն ուղարկեք միայն դրանք պահպանելուց հետո։ Կարող եք համախմբագրման աշխատակարգերը փոխել լրացուցիչ կարգավորումների միջոցով։",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Հետարկումն ու վերարկումն գործառույթներն անջատված են արագ համատեղ խմբագրման ռեժիմի համար:",
   "PDFE.Controllers.Main.textUndo": "Հետարկել",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Լիցենզիայի ժամկետը լրացել է",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Լիցենզիան ակտիվ չէ",
   "PDFE.Controllers.Main.titleServerVersion": "Խմբագրիչը թարմացվել է",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

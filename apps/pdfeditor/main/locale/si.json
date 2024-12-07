@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "සියළුම වෙනස්කම් සුරැකිණි",
   "PDFE.Controllers.Main.textClose": "වසන්න",
   "PDFE.Controllers.Main.textCloseTip": "ඉඟිය වැසීමට ඔබන්න",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "අලෙවිය අමතන්න",
   "PDFE.Controllers.Main.textContinue": "ඉදිරියට",
   "PDFE.Controllers.Main.textCustomLoader": "බලපත්‍රයේ නියමවලට අනුව පූරකය වෙනස් කිරීමට ඔබට සුදුසුකමක් නැති බව කරුණාවෙන් සලකන්න.<br>මිළ ගණන් ගැනීමට කරුණාකර අපගේ අලෙවි ක්‍රියාංශය අමතන්න.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "වේගවත් සම-සංස්කරණ ප්‍රකාරය සඳහා පෙරසේ/පසුසේ ක්‍රියා අබල කර ඇත.<br>ඔබට සුරැකීමෙන් පසුව පමණක් ඔබගේ වෙනස්කම් අන් අයට යැවීමට සහ අනෙකුත් පරිශ්‍රීලකයින්ගේ බාධාවකින් තොරව ගොනුව සංස්කරණය සඳහා දැඩි සම-සංස්කරණ ප්‍රකාරයට මාරු වීමට 'දැඩි ප්‍රකාරය' බොත්තම ඔබන්න. සංස්කරකයෙහි වැඩිදුර සැකසුම් භාවිතයෙන් ඔබට සම-සංස්කරණ ප්‍රකාර අතර මාරු වීමට හැකිය.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "වේගවත් සම-සංස්කරණ ප්‍රකාරය සඳහා පෙරසේ/පසුසේ ක්‍රියා අබල කර ඇත.",
   "PDFE.Controllers.Main.textUndo": "පෙරසේ",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "බලපත්‍රය කල් ඉකුත්ය",
   "PDFE.Controllers.Main.titleLicenseNotActive": "බලපත්‍රය සක්‍රිය නැත",
   "PDFE.Controllers.Main.titleServerVersion": "සංස්කරකය යාවත්කාල විය",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

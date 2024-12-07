@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "Všechny změny uloženy",
   "PE.Controllers.Main.textClose": "Zavřít",
   "PE.Controllers.Main.textCloseTip": "Tip zavřete kliknutím",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "Obraťte se na obchodní oddělení",
   "PE.Controllers.Main.textContinue": "Pokračovat",
   "PE.Controllers.Main.textConvertEquation": "Tato rovnice byla vytvořena starou verzí editoru rovnic, která už není podporovaná. Pro její upravení, převeďte rovnici do formátu Office Math ML.<br>Převést nyní?",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "Funkce zpět/znovu nejsou v režimu rychlé spolupráce na úpravách k dispozici.<br>Kliknutím na tlačítko „Striktní režim“ přejdete do striktního režimu spolupráce na úpravách, ve kterém soubor upravujte bez vyrušování ostatními uživateli a vámi provedené změny odesíláte pouze po jejich uložení. Mezi oběma režimy spolupráce na úpravách je možné přepínat v pokročilých nastaveních editoru.",
   "PE.Controllers.Main.textTryUndoRedoWarn": "Funkce Zpět/Znovu jsou vypnuty pro rychlý režim spolupráce.",
   "PE.Controllers.Main.textUndo": "Zpět",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "Platnost licence skončila",
   "PE.Controllers.Main.titleLicenseNotActive": "Licence není aktivní",
   "PE.Controllers.Main.titleServerVersion": "Editor byl aktualizován",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "Kliknutím přidáte první stránku",
   "PE.Controllers.Main.txtAddNotes": "Poznámky přidáte kliknutím",
   "PE.Controllers.Main.txtAnimationPane": "Podokno animací",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

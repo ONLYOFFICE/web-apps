@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Wszystkie zmiany zostały zapisane",
   "PDFE.Controllers.Main.textClose": "Zamknij",
   "PDFE.Controllers.Main.textCloseTip": "Kliknij, żeby zamknąć wskazówkę",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Skontaktuj się z działem sprzedaży",
   "PDFE.Controllers.Main.textContinue": "Kontynuuj",
   "PDFE.Controllers.Main.textCustomLoader": "Należy pamiętać, że zgodnie z warunkami licencji nie jesteś uprawniony do zmiany ładowania. <br> W celu uzyskania wyceny prosimy o kontakt z naszym Działem Sprzedaży.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Funkcje Cofnij/Ponów są wyłączone w trybie \"Szybki\" współtworzenia.<br>Kliknij przycisk \"Tryb ścisły\", aby przejść do trybu ścisłego edytowania, aby edytować plik bez ingerencji innych użytkowników i wysyłać zmiany tylko po zapisaniu. Możesz przełączać się między trybami współtworzenia, używając edytora Ustawienia zaawansowane.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Funkcje Cofnij/Ponów są wyłączone w trybie Szybkiego Współtworzenia.",
   "PDFE.Controllers.Main.textUndo": "Cofnij",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Upłynął okres ważności licencji",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Licencja jest nieaktywna",
   "PDFE.Controllers.Main.titleServerVersion": "Zaktualizowano edytor",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Dopasuj do strony",
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
 }

@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "全ての変更点が保存されました",
   "PDFE.Controllers.Main.textClose": "閉じる",
   "PDFE.Controllers.Main.textCloseTip": "ヒントを閉じるためにクリックください",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "営業部に連絡する",
   "PDFE.Controllers.Main.textContinue": "続ける",
   "PDFE.Controllers.Main.textCustomLoader": "ライセンス条項により、ローダーを変更する権利がないことにご注意ください。<br>見積もりについては、弊社営業部門にお問い合わせください。",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "即時反映共同編集モードでは元に戻す/やり直しの機能は無効になります。<br>他のユーザーの干渉なし編集するために「厳密モード」をクリックして、厳密な共同編集モードに切り替えてください。保存した後にのみ、変更を送信してください。編集の詳細設定を使用して共同編集モードを切り替えることができます。",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "高速で共同な編集モードでは、元に戻す/やり直し機能が無効になります。",
   "PDFE.Controllers.Main.textUndo": "元に戻す",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "ライセンスの有効期限が切れています",
   "PDFE.Controllers.Main.titleLicenseNotActive": "ライセンスが無効になっています",
   "PDFE.Controllers.Main.titleServerVersion": "エディターが更新された",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
 }

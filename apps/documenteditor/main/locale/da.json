@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Alle ændringer er blevet gemt",
   "DE.Controllers.Main.textClose": "Luk",
   "DE.Controllers.Main.textCloseTip": "Klik for at lukke tippet",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Kontakt salg",
   "DE.Controllers.Main.textContinue": "Fortsæt",
   "DE.Controllers.Main.textConvertEquation": "Denne ligning er skabt med en ældre version af programmet, som ikke længere understøttes. Omdannelse af denne ligning til Office Math ML format vil gøre den redigérbar.<br>Ønsker du at omdanne?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Fortryd funktionen er blevet slået fra i den hurtige co-redigerngstilstand.<b>Tryk på 'Striks tilstand' knappen for at skifte til den strikse co-redigeringstilstand for at redigere filen uden at andre brugere kan foretage ændringer før efter du har gemt dem. Du kan skifte i mellem co-redigeringstilstanden ved at bruge de avancerede indstillinger.  ",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Fortryd/omgør-funktionen er deaktiveret for hurtig medredigeringstilstand.",
   "DE.Controllers.Main.textUndo": "Undo",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Licens er udløbet",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Redigeringsværktøj opdateret",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }

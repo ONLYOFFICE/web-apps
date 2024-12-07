@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "닫기",
   "SSE.Controllers.Main.textCloseTip": "도움말을 닫으려면 클릭하십시오",
   "SSE.Controllers.Main.textConfirm": "확인",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "영업 담당자에게 문의",
   "SSE.Controllers.Main.textContinue": "계속",
   "SSE.Controllers.Main.textConvertEquation": "방정식은 더 이상 지원되지 않는 이전 버전의 방정식 편집기를 사용하여 생성되었습니다. 편집하려면 수식을 Office Math ML 형식으로 변환하세요. <br>지금 변환하시겠습니까?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "빠른 공동 편집 모드에서는 실행 취소 / 다시 실행 기능이 비활성화됩니다. <br>\"엄격 모드 \"버튼을 클릭하면 엄격한 공동 편집 모드로 전환되어 파일을 편집 할 수 있습니다. 다른 사용자가 방해를해서 저장 한 후에 만 ​​변경 사항을 보내면됩니다. 편집자 고급 설정을 사용하여 공동 편집 모드간에 전환 할 수 있습니다. ",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "빠른 공동 편집 모드에서 실행 취소 / 다시 실행 기능을 사용할 수 없습니다.",
   "SSE.Controllers.Main.textUndo": "실행 취소",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "예",
   "SSE.Controllers.Main.titleLicenseExp": "라이센스 만료",
   "SSE.Controllers.Main.titleLicenseNotActive": "라이선스가 활성화되지 않음",
   "SSE.Controllers.Main.titleServerVersion": "편집기가 업데이트되었습니다.",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Accent",
   "SSE.Controllers.Main.txtAll": "(전체)",
   "SSE.Controllers.Main.txtArt": "여기에 귀하의 텍스트를 입력하여 주십시오",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "통합 문서 보호 잠금 해제"
 }

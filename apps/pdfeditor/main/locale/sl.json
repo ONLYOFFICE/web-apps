@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Vse spremembe shranjene",
   "PDFE.Controllers.Main.textClose": "Zapri",
   "PDFE.Controllers.Main.textCloseTip": "Pritisni za zapiranje namiga",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Kontaktirajte oddelek za prodajo",
   "PDFE.Controllers.Main.textContinue": "Nadaljuj",
   "PDFE.Controllers.Main.textCustomLoader": "Upoštevajte, da v skladu s pogoji licence niste upravičeni do menjave Loader-ja.<br>Za ponudbo se obrnite na naš prodajni oddelek.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Funkcije Undo / Redo so onemogočene za način hitrega urejanja.",
   "PDFE.Controllers.Main.textUndo": "Razveljavi",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licenca je potekla",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Urednik je bil posodobljen",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi stran",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi širino",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
 }

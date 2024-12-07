@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Sluiten",
   "SSE.Controllers.Main.textCloseTip": "Klik om de tip te sluiten",
   "SSE.Controllers.Main.textConfirm": "Bevestiging",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Contact opnemen met Verkoop",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "Deze vergelijking is gemaakt met een oude versie van de vergelijkingseditor die niet langer wordt ondersteund. Om deze te bewerken, converteert u de vergelijking naar de Office Math ML-indeling.\nNu converteren?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "De functies Ongedaan maken/Opnieuw worden uitgeschakeld in de modus Snel gezamenlijk bewerken.<br>Klik op de knop 'Strikte modus' om over te schakelen naar de strikte modus voor gezamenlijk bewerken. U kunt het bestand dan zonder interferentie van andere gebruikers bewerken en uw wijzigingen verzenden wanneer u die opslaat. U kunt schakelen tussen de modi voor gezamenlijke bewerking via Geavanceerde instellingen van de editor.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de Modus Gezamenlijk bewerken.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Ja",
   "SSE.Controllers.Main.titleLicenseExp": "Licentie vervallen",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Editor bijgewerkt",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Accent",
   "SSE.Controllers.Main.txtAll": "(Alles)",
   "SSE.Controllers.Main.txtArt": "Hier tekst invoeren",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het blad op te heffen",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen"
 }

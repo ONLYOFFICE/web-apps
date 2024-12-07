@@ -244,6 +244,7 @@
   "VE.Controllers.Main.textChangesSaved": "تم حفظ كل التغييرات",
   "VE.Controllers.Main.textClose": "إغلاق",
   "VE.Controllers.Main.textCloseTip": "إضغط لإغلاق التلميحة",
+  "VE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "VE.Controllers.Main.textContactUs": "التواصل مع قسم المبيعات",
   "VE.Controllers.Main.textContinue": "متابعة",
   "VE.Controllers.Main.textCustomLoader": "يرجى ملاحظة أنه وفقًا لشروط الترخيص، لا يحق لك تغيير المُحمل.<br>يرجى الاتصال بقسم المبيعات لدينا للحصول على عرض أسعار.",
@@ -262,6 +263,8 @@
   "VE.Controllers.Main.textStrict": "الوضع المقيد",
   "VE.Controllers.Main.textText": "نص",
   "VE.Controllers.Main.textTryQuickPrint": "لقد اخترت طباعة سريعة: سيتم طباعة المستند بأكمله على آخر طابعة مختارة أو افتراضية. \n هل تريد المتابعة؟",
+  "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "VE.Controllers.Main.textUpdating": "Updating",
   "VE.Controllers.Main.titleLicenseExp": "انتهت صلاحية الترخيص",
   "VE.Controllers.Main.titleLicenseNotActive": "الترخيص غير نشط",
   "VE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
@@ -408,8 +411,5 @@
   "VE.Views.ViewTab.textZoom": "تكبير",
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
-  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "VE.Controllers.Main.textUpdating": "Updating",
-  "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "VE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

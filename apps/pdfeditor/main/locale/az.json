@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Bütün dəyişikliklər yadda saxlanılıb",
   "PDFE.Controllers.Main.textClose": "Bağla",
   "PDFE.Controllers.Main.textCloseTip": "İpucunu bağlamaq üçün klikləyin",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Satışlarla əlaqə",
   "PDFE.Controllers.Main.textContinue": "Davam et",
   "PDFE.Controllers.Main.textCustomLoader": "Nəzərə alın ki, lisenziyanın şərtlərinə görə sizin yükləyicini dəyişmək hüququnuz yoxdur.<br>Qiymət almaq üçün Satış Departamentimizlə əlaqə saxlayın.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Geri Al / Təkrar funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsini klikləyin. dəyişikliklər yalnız siz saxladıqdan sonra baş verir. onlar. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə müəlliflik rejimləri arasında keçid edə bilərsiniz.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "PDFE.Controllers.Main.textUndo": "Geri qaytar",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Redaktor yeniləndi",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Səhifəyə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
 }

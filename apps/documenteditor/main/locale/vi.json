@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Đã lưu mọi thay đổi",
   "DE.Controllers.Main.textClose": "Close",
   "DE.Controllers.Main.textCloseTip": "Nhấp để đóng gợi ý",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Liên hệ bộ phận bán hàng",
   "DE.Controllers.Main.textContinue": "Continue",
   "DE.Controllers.Main.textConvertEquation": "This equation was created with an old version of the equation editor which is no longer supported. To edit it, convert the equation to the Office Math ML format.<br>Convert now?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Các chức năng Hoàn tác/Làm lại bị vô hiệu hóa cho chế độ đồng chỉnh sửa Nhanh.<br>Nhấp vào nút 'Chế độ nghiêm ngặt' để chuyển sang chế độ đồng chỉnh sửa Nghiêm ngặt để chỉnh sửa các tệp mà không có sự can thiệp của người dùng khác và gửi các thay đổi của bạn chỉ sau khi bạn đã lưu. Bạn có thể chuyển đổi giữa các chế độ đồng chỉnh sửa bằng cách sử dụng Cài đặt Nâng cao trình biên tập.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Chức năng Hoàn tác/Làm lại bị vô hiệu hóa cho chế độ đồng chỉnh sửa Nhanh.",
   "DE.Controllers.Main.textUndo": "Undo",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Giấy phép hết hạn",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Đã cập nhật trình chỉnh sửa",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

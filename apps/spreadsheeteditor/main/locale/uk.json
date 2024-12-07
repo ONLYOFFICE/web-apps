@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Закрити",
   "SSE.Controllers.Main.textCloseTip": "Натисніть, щоб закрити підказку",
   "SSE.Controllers.Main.textConfirm": "Підтвердження",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Зв'язатися з відділом продажів",
   "SSE.Controllers.Main.textContinue": "Продовжити",
   "SSE.Controllers.Main.textConvertEquation": "Це рівняння створено у старій версії редактора рівнянь, яка більше не підтримується. Щоб змінити це рівняння, його необхідно перетворити на формат Office Math ML.<br>Перетворити зараз?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Функції Скасувати / Повторити відключено у режимі швидкого редагування. <br> Натисніть кнопку \"Суворий режим\", щоби активізувати режиму суворого редагування, це дозволить редагувати файл без втручання інших користувачів та надсилати зміни лише після збереження. Ви можете переключатися між режимами спільного редагування в розділі \"Додаткові параметри\".",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Функції скасування і повтору дій відключені для режиму швидкого спільного редагування.",
   "SSE.Controllers.Main.textUndo": "Повернути",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Так",
   "SSE.Controllers.Main.titleLicenseExp": "Термін дії ліцензії закінчився",
   "SSE.Controllers.Main.titleLicenseNotActive": "Неактивна ліцензія",
   "SSE.Controllers.Main.titleServerVersion": "Редактор оновлено",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Акцент",
   "SSE.Controllers.Main.txtAll": "(Всі)",
   "SSE.Controllers.Main.txtArt": "Ваш текст тут",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги"
 }

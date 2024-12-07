@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Wszystkie zmiany zapisane",
   "DE.Controllers.Main.textClose": "Zamknij",
   "DE.Controllers.Main.textCloseTip": "Kliknij, żeby zamknąć wskazówkę",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Skontaktuj się z działem sprzedaży",
   "DE.Controllers.Main.textContinue": "Kontynuuj",
   "DE.Controllers.Main.textConvertEquation": "To równanie zostało utworzone za pomocą starej wersji edytora równań, która nie jest już obsługiwana. Aby je edytować, przekonwertuj równanie na format Office Math ML.<br>Przekonwertować teraz?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Funkcje Cofnij/Ponów są wyłączone w trybie \"Szybki\" współtworzenia.<br>Kliknij przycisk \"Tryb ścisły\", aby przejść do trybu ścisłego edytowania, aby edytować plik bez ingerencji innych użytkowników i wysyłać zmiany tylko po zapisaniu. Możesz przełączać się między trybami współtworzenia, używając edytora Ustawienia zaawansowane.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Funkcje Cofnij/Ponów są wyłączone w trybie Szybkim współtworzenia.",
   "DE.Controllers.Main.textUndo": "Cofnij",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Upłynął okres ważności licencji",
   "DE.Controllers.Main.titleLicenseNotActive": "Licencja jest nieaktywna",
   "DE.Controllers.Main.titleServerVersion": "Zaktualizowano edytor",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
 }

@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "إغلاق",
   "SSE.Controllers.Main.textCloseTip": "اضغط لإغلاق التلميحة",
   "SSE.Controllers.Main.textConfirm": "تأكيد",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "التواصل مع قسم المبيعات",
   "SSE.Controllers.Main.textContinue": "متابعة",
   "SSE.Controllers.Main.textConvertEquation": "هذه المعادلة تمت كتابتها باستخدام إصدار أقدم من محرر المعادلات و الذي لم يعد مدعوماً. و لتحريرها يتوجب تحويلها إلى صيغة Office Math ML.<br>التحويل الآن؟",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "وظائف التراجع و الإعادة معطلة في وضع التحرير المشترك السريع.<br>انقر فوق الزر \"الوضع المقيد\" للتبديل إلى وضع التحرير المشترك المقيد لتحرير الملف دون تدخل المستخدمين الآخرين ولا ترسل تغييراتك إلا بعد حفظها. يمكنك التبديل بين أوضاع التحرير المشترك باستخدام الإعدادات المتقدمة للمحرر.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "وظائف الاعادة و التراجع غير مفعلة لوضع التحرير المشترك السريع",
   "SSE.Controllers.Main.textUndo": "تراجع",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "نعم",
   "SSE.Controllers.Main.titleLicenseExp": "الترخيص منتهي الصلاحية",
   "SSE.Controllers.Main.titleLicenseNotActive": "الترخيص غير مُفعّل",
   "SSE.Controllers.Main.titleServerVersion": "تم تحديث المحرر",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "علامات التشكيل",
   "SSE.Controllers.Main.txtAll": "(الكل)",
   "SSE.Controllers.Main.txtArt": "النص هنا",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
 }

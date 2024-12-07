@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Bütün dəyişikliklər yadda saxlanılıb",
   "DE.Controllers.Main.textClose": "Bağla",
   "DE.Controllers.Main.textCloseTip": "İpucunu bağlamaq üçün klikləyin",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Satışlarla əlaqə",
   "DE.Controllers.Main.textContinue": "Continue",
   "DE.Controllers.Main.textConvertEquation": "Bu tənlik tənlik redaktorunun artıq mövcud olmayan köhnə versiyası ilə yaradılmışdır. Bu tənliyi dəyişmək üçün onu Office Math ML formatına çevirin. <br> İndi çevrilsin?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Geri Al / Təkrar funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsini klikləyin. dəyişikliklər yalnız siz saxladıqdan sonra baş verir. onlar. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə müəlliflik rejimləri arasında keçid edə bilərsiniz.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "DE.Controllers.Main.textUndo": "Undo",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Redaktor yeniləndi",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
 }

@@ -544,7 +544,7 @@ define([
                 if (oldRtl !== this.isRtlSheet || force)
                     this.updateTabbarBorders();
 
-                var index = this.api.asc_getActiveWorksheetIndex();
+                var index = this.api ? this.api.asc_getActiveWorksheetIndex() : 0;
                 var tab = _.findWhere(this.tabbar.tabs, {sheetindex: index});
                 tab && !this.tabbar.isTabVisible(tab.index) && this.tabbar.setTabVisible(tab.index);
             },
@@ -678,8 +678,11 @@ define([
 
                         var tabEl = tab.$el;
                         this.tabMenu.atposition = function () {
+                            var parentEl = tabEl.parent();
+                            if (parentEl.length<1) return;
+
                             var rect = Common.Utils.getBoundingClientRect(tabEl.get(0)),
-                                parentPos = Common.Utils.getOffset(tabEl.parent());
+                                parentPos = Common.Utils.getOffset(parentEl);
                             return {
                                 top : rect.top,
                                 left: rect.left - parentPos.left - 2,
@@ -700,7 +703,7 @@ define([
             onTabMenuAfterShow: function (obj) {
                 if (obj.atposition) {
                     var pos = this.tabMenu.atposition();
-                    obj.setOffset(Common.UI.isRTL() ? (pos.right - $(obj.el).width()) : pos.left);
+                    pos && obj.setOffset(Common.UI.isRTL() ? (pos.right - $(obj.el).width()) : pos.left);
                 }
 
                 this.enableKeyEvents = true;

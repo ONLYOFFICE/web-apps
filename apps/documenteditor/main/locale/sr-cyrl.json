@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Све промене сачуване",
   "DE.Controllers.Main.textClose": "Затвори",
   "DE.Controllers.Main.textCloseTip": "Кликни да затвориш савет",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Контакт продаје",
   "DE.Controllers.Main.textContinue": "Настави",
   "DE.Controllers.Main.textConvertEquation": "Ова једначина је направљена са старом верзијом уређивача једначина који није више подржан. Да је уредите, конвертујте једначину у Office Math ML формат.<br>Конвертујте сада?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "Функције Поништи/Понови су онемогућене за Брзи режим заједничког уређивања.<br>Кликните на дугме 'Строги режим' да бисте прешли у Строги режим заједничког уређивања како бисте уређивали датотеку без мешања других корисника и слали ваше промене тек након што их сачувате. Можете прелазити између режима заједничког уређивања користећи Напредне поставке уређивача.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "Поништи/Понови функције су онемогућене за Брзи режим заједничког уређивања.",
   "DE.Controllers.Main.textUndo": "Поништи",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Лиценца истекла",
   "DE.Controllers.Main.titleLicenseNotActive": "Лиценца није активна",
   "DE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

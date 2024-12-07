@@ -139,7 +139,8 @@ define([], function () {
                 cls: 'btn-toolbar borders--small',
                 iconCls: 'icon toolbar__icon btn-run',
                 hint: this.tipMacrosRun
-            });
+            }).on('click', _.bind(this.onRunMacros, this));
+
             this.btnMacrosAdd = new Common.UI.Button({
                 parentEl: $('#btn-macros-add'),
                 cls: 'btn-toolbar borders--small',
@@ -260,7 +261,10 @@ define([], function () {
                 var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
                     ? me.listMacros.getSelectedRec()
                     : me.listFunctions.getSelectedRec();
-                selectedItem && selectedItem.set('value', value);
+                if(selectedItem) {
+                    me._state.currentValue = value;
+                    selectedItem.set('value', value);
+                }
             });
             this.codeEditor.on('mouseup', function(x, y) {
                 if (me.binding.dragStop) me.binding.dragStop();
@@ -657,7 +661,7 @@ define([], function () {
             this.listFunctions && this.listFunctions.deselectAll();
         },
         onRunMacros: function() {
-            console.log('Run');
+            this.api.callCommand(this._state.currentValue);
         },
         onMakeAutostartMacros: function() {
             if(!this._state.macrosItemMenuOpen) return;

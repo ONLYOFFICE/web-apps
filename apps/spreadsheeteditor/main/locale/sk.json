@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Zatvoriť",
   "SSE.Controllers.Main.textCloseTip": "Kliknutím zavrite tip",
   "SSE.Controllers.Main.textConfirm": "Potvrdenie",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Kontaktujte predajcu",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "Táto rovnica bola vytvorená starou verziou editora rovníc, ktorá už nie je podporovaná. Pre jej upravenie, preveďte rovnicu do formátu Office Math ML.<br>Previesť teraz?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Funkcie späť/zopakovať sú vypnuté pre rýchly spolueditačný režim.<br>Kliknite na tlačítko \"Prísny režim\", aby ste prešli do prísneho spolueditačného režimu a aby ste upravovali súbor bez rušenia ostatných užívateľov a odosielali Vaše zmeny iba po ich uložení. Pomocou Rozšírených nastavení editoru môžete prepínať medzi spolueditačnými režimami.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Funkcia Späť/Znova sú vypnuté pre rýchli režim spolupráce. ",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Áno",
   "SSE.Controllers.Main.titleLicenseExp": "Platnosť licencie uplynula",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Editor bol aktualizovaný",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Akcent",
   "SSE.Controllers.Main.txtAll": "(všetko)",
   "SSE.Controllers.Main.txtArt": "Váš text tu",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita"
 }

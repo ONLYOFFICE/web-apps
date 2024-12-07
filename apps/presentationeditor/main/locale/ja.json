@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "全ての変更点が保存されました",
   "PE.Controllers.Main.textClose": "閉じる",
   "PE.Controllers.Main.textCloseTip": "クリックしてヒントを閉じる",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "営業部に連絡する",
   "PE.Controllers.Main.textContinue": "続ける",
   "PE.Controllers.Main.textConvertEquation": "この数式は、サポートされなくなった古いバージョンの数式エディタで作成されました。 編集するには、方程式をOffice Math ML形式に変換します。<br>今すぐ変換しますか？",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "高速共同編集モードでは、元に戻す/やり直し機能は無効になります。<br>「厳格モード」ボタンをクリックすると、他のユーザーの干渉を受けずにファイルを編集し、保存後に変更内容を送信する厳格共同編集モードに切り替わります。共同編集モードの切り替えは、エディタの詳細設定を使用して行うことができます。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "高速共同編集モードでは、元に戻す/やり直し機能が無効になります。",
   "PE.Controllers.Main.textUndo": "元に戻す",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "ライセンスの有効期限が切れています",
   "PE.Controllers.Main.titleLicenseNotActive": "ライセンスが無効になっています",
   "PE.Controllers.Main.titleServerVersion": "編集者が更新されました",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "クリックして最初のスライドを追加",
   "PE.Controllers.Main.txtAddNotes": "クリックでメモを追加",
   "PE.Controllers.Main.txtAnimationPane": "アニメーションパネル",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
 }

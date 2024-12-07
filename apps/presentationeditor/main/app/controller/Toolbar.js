@@ -202,7 +202,11 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+                this.toolbar.setTab(action);
+                this.onChangeCompactView(null, false, true);
+            }, this));
+            
             var me = this;
 
             var checkInsertAutoshape =  function(e) {
@@ -303,8 +307,8 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
-                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'},
+                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                // 'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -475,13 +479,14 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
-        onChangeCompactView: function(view, compact) {
+        onChangeCompactView: function(view, compact, suppressSave) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this.toolbar, compact]);
 
             compact && this.onTabCollapse();
 
-            Common.localStorage.setBool('pe-compact-toolbar', compact);
+            !suppressSave && Common.localStorage.setBool(this.mode.isEdit ? "pe-compact-toolbar" : "pe-view-compact-toolbar", compact);
+
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -2718,16 +2723,16 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
-                if ( Common.localStorage.itemExists("pe-compact-toolbar") ) {
-                    compactview = Common.localStorage.getBool("pe-compact-toolbar");
-                } else
-                if ( config.customization && config.customization.compactToolbar )
-                    compactview = true;
-
+            var editmode = config.isEdit,
+                compactview = !editmode;
+            if ( Common.localStorage.itemExists(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar") ) {
+                compactview = Common.localStorage.getBool(editmode ? "pe-compact-toolbar" : "pe-view-compact-toolbar");
+            } else if (config.customization) {
+                compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
-            me.toolbar.render(_.extend({compactview: compactview}, config));
+            Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
+
+            me.toolbar.render(_.extend({compactview: editmode ? compactview : true}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
@@ -2790,8 +2795,10 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
                 me.toolbar.addTab(tab, $panel, 7);
-                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
         },
 

@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Tutup",
   "SSE.Controllers.Main.textCloseTip": "Klik untuk menutup tips",
   "SSE.Controllers.Main.textConfirm": "Konfirmasi",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Hubungi sales",
   "SSE.Controllers.Main.textContinue": "Lanjutkan",
   "SSE.Controllers.Main.textConvertEquation": "Persamaan ini dibuat dengan editor persamaan versi lama yang sudah tidak didukung. Untuk edit, konversikan persamaan ke format Office Math ML.<br>Konversi sekarang?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.<br>Klik tombol 'Mode strict' untuk mengganti ke Mode Strict Co-editing untuk edit file tanpa gangguan dari user lain dan kirim perubahan Anda hanya setelah Anda menyimpannya. Anda bisa mengganti mode co-editing menggunakan editor di pengaturan lanjut.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Fungsi Undo/Redo dinonaktifkan untuk mode Co-editing Cepat.",
   "SSE.Controllers.Main.textUndo": "Batalkan",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Ya",
   "SSE.Controllers.Main.titleLicenseExp": "Lisensi kadaluwarsa",
   "SSE.Controllers.Main.titleLicenseNotActive": "Lisensi tidak aktif",
   "SSE.Controllers.Main.titleServerVersion": "Editor mengupdate",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Aksen",
   "SSE.Controllers.Main.txtAll": "(Semua)",
   "SSE.Controllers.Main.txtArt": "Teks Anda di sini",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook"
 }

@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "全ての変更点が保存されました",
   "DE.Controllers.Main.textClose": "閉じる",
   "DE.Controllers.Main.textCloseTip": "クリックでヒントを閉じる",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "営業部に連絡する",
   "DE.Controllers.Main.textContinue": "続ける",
   "DE.Controllers.Main.textConvertEquation": "この数式は、サポートされなくなった古いバージョンの数式エディタで作成されました。 編集するには、方程式をOffice Math ML形式に変換します。<br>今すぐ変換しますか？",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "高速共同編集モードでは、元に戻す/やり直し機能は無効になります。<br>「厳格モード」ボタンをクリックすると、他のユーザーの干渉を受けずにファイルを編集し、保存後に変更内容を送信する厳格共同編集モードに切り替わります。共同編集モードの切り替えは、エディタの詳細設定を使用して行うことができます。",
   "DE.Controllers.Main.textTryUndoRedoWarn": "高速共同編集モードでは、元に戻す/やり直し機能が無効になります。",
   "DE.Controllers.Main.textUndo": "元に戻す",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "ライセンスの有効期限が切れています",
   "DE.Controllers.Main.titleLicenseNotActive": "ライセンスが無効になっています",
   "DE.Controllers.Main.titleServerVersion": "編集者が更新されました",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
 }

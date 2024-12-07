@@ -236,6 +236,10 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('tab:set-active', _.bind(function(action){
+                this.toolbar.setTab(action);
+                this.onChangeCompactView(null, false, true);
+            }, this));
         },
 
         onLaunch: function() {
@@ -255,15 +259,15 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
-                'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
-            }) : Common.UI.TooltipManager.addTips({
-                'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
-                'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
-                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
-            });
+            // this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
+            //     'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
+            // }) : Common.UI.TooltipManager.addTips({
+            //     'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
+            //     'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
+            //     'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
+            // });
             Common.UI.TooltipManager.addTips({
-                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -507,12 +511,14 @@ define([
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
-        onChangeCompactView: function(view, compact) {
+        onChangeCompactView: function(view, compact, suppressSave) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
             compact && this.onTabCollapse();
 
-            Common.localStorage.setBool('de-compact-toolbar', compact);
+            var editmode = this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms && this.mode.isFormCreator;
+            !suppressSave && Common.localStorage.setBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar", compact);
+
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -894,7 +900,7 @@ define([
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddTable, !can_add_table, {array: [toolbar.btnInsertTable]});
             this.toolbar.lockToolbar(Common.enumLock.cantAddPageNum, toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled(), {array: [toolbar.mnuInsertPageNum]});
-            this.toolbar.lockToolbar(Common.enumLock.inHeader, in_header, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
+            this.toolbar.lockToolbar(Common.enumLock.inHeader, in_header, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage, toolbar.btnColumns])});
             this.toolbar.lockToolbar(Common.enumLock.inControl, in_control, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
             this.toolbar.lockToolbar(Common.enumLock.cantPageBreak, in_image && !btn_eq_state, {array: toolbar.btnsPageBreak.concat([toolbar.btnBlankPage])});
             this.toolbar.lockToolbar(Common.enumLock.contentLock, content_locked, {array: [toolbar.btnInsertShape, toolbar.btnInsertText, toolbar.btnInsertImage, toolbar.btnInsertTextArt, toolbar.btnInsertChart, toolbar.btnInsertSmartArt ]});
@@ -3547,16 +3553,16 @@ define([
             var me = this,
                 application = this.getApplication();
 
-            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
-            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
-                if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
-                    compactview = Common.localStorage.getBool("de-compact-toolbar");
-                } else
-                if ( config.customization && config.customization.compactToolbar )
-                    compactview = true;
+            var editmode = config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator,
+                compactview = !editmode;
+            if ( Common.localStorage.itemExists(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar") ) {
+                compactview = Common.localStorage.getBool(editmode ? "de-compact-toolbar" : "de-view-compact-toolbar");
+            } else if (config.customization) {
+                compactview = editmode ? !!config.customization.compactToolbar : config.customization.compactToolbar!==false;
             }
+            Common.Utils.InternalSettings.set('toolbar-active-tab', !editmode && !compactview);
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            me.toolbar.render(_.extend({isCompactView: editmode ? compactview : true}, config));
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
@@ -3665,8 +3671,10 @@ define([
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-view');
                 me.toolbar.addTab(tab, $panel, 8);
-                me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
+                me.toolbar.setVisible('view', visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
             config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
         },

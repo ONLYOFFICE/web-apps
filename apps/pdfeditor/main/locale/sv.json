@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Alla ändringar har sparats",
   "PDFE.Controllers.Main.textClose": "Stäng",
   "PDFE.Controllers.Main.textCloseTip": "Klicka för att stänga tipset",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Kontakta säljare",
   "PDFE.Controllers.Main.textContinue": "Fortsätta",
   "PDFE.Controllers.Main.textCustomLoader": "Observera att enligt licensvillkoren har du inte rätt att byta laddaren. <br> Kontakta vår försäljningsavdelning för att få en offert.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Ångra/Återställ-funktionerna är inaktiva i snabbt samredigeringsläget.<br>Klicka på knappen 'Strikt läge' för att växla till strikt samredigeringsläge och redigera filen utan andra användares påverkan och skicka dina ändringar först efter att du har sparat dem. Du kan växla mellan samredigeringslägena med hjälp av avancerade inställningar.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Ångra-funktionerna är inaktiverade för snabb samredigeringsläge.",
   "PDFE.Controllers.Main.textUndo": "Ångra",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Licensen har utgått",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Licensen är inte aktiv",
   "PDFE.Controllers.Main.titleServerVersion": "Editorn är uppdaterad",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
 }

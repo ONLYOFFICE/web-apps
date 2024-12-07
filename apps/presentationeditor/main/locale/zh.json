@@ -1021,6 +1021,7 @@
   "PE.Controllers.Main.textChangesSaved": "所有更改已保存",
   "PE.Controllers.Main.textClose": "关闭",
   "PE.Controllers.Main.textCloseTip": "点击关闭提示",
+  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PE.Controllers.Main.textContactUs": "联系销售部门",
   "PE.Controllers.Main.textContinue": "继续",
   "PE.Controllers.Main.textConvertEquation": "此方程式是使用旧版本的方程式编辑器创建的，该编辑器已不再受支持。若要编辑它，请将公式转换为Office Math ML格式<br>是否立即转换？",
@@ -1047,9 +1048,12 @@
   "PE.Controllers.Main.textTryUndoRedo": "“撤消/恢复”功能对于“快速协同编辑”模式是禁用的<br>单击“严格模式”按钮切换到严格协同编辑模式，在不受其他用户干扰的情况下编辑文件，并仅在保存更改后发送更改。您可以使用编辑器的高级设置在协同编辑模式之间切换。",
   "PE.Controllers.Main.textTryUndoRedoWarn": "快速共同编辑模式下，撤销/重做功能被禁用。",
   "PE.Controllers.Main.textUndo": "撤销",
+  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PE.Controllers.Main.textUpdating": "Updating",
   "PE.Controllers.Main.titleLicenseExp": "许可证已过期",
   "PE.Controllers.Main.titleLicenseNotActive": "授权证书未激活",
   "PE.Controllers.Main.titleServerVersion": "编辑器已更新",
+  "PE.Controllers.Main.titleUpdateVersion": "Version changed",
   "PE.Controllers.Main.txtAddFirstSlide": "单击添加第一张幻灯片",
   "PE.Controllers.Main.txtAddNotes": "单击此处添加批注",
   "PE.Controllers.Main.txtAnimationPane": "动画窗格",
@@ -2963,9 +2967,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式",
-  "PE.Controllers.Main.textUpdating": "Updating",
-  "PE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "PE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式"
 }

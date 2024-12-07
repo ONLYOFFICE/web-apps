@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Alle endringer er lagret",
   "DE.Controllers.Main.textClose": "Lukk",
   "DE.Controllers.Main.textCloseTip": "Klikk for å lukke tipset",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Kontakt salgsavdelingen",
   "DE.Controllers.Main.textContinue": "Continue",
   "DE.Controllers.Main.textConvertEquation": "This equation was created with an old version of the equation editor which is no longer supported. To edit it, convert the equation to the Office Math ML format.<br>Convert now?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
   "DE.Controllers.Main.textUndo": "Angre",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "License expired",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Editor updated",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreking",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

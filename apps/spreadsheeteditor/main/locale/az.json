@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Bağlayın",
   "SSE.Controllers.Main.textCloseTip": "İpucunu bağlamaq üçün klikləyin",
   "SSE.Controllers.Main.textConfirm": "Təsdiq",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Satışlarla əlaqə",
   "SSE.Controllers.Main.textContinue": "Continue",
   "SSE.Controllers.Main.textConvertEquation": "Bu tənlik tənlik redaktorunun artıq mövcud olmayan köhnə versiyası ilə yaradılmışdır. Bu tənliyi dəyişmək üçün onu Office Math ML formatına çevirin. <br> İndi çevrilsin?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Qaytar / Təkrarla funksiyaları sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib. <br> Digər istifadəçilərin müdaxiləsi olmadan faylı redaktə etmək və fayllarınızı göndərmək üçün ciddi birgə redaktə rejiminə keçmək üçün \"Ciddi rejim\" düyməsini klikləyin. dəyişikliklər yalnız siz onları saxladıqdan sonra baş verir. Qabaqcıl redaktor parametrlərindən istifadə edərək birgə redaktə rejimləri arasında keçid edə bilərsiniz.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Qaytar/Təkrarla funksiyaları Sürətli birgə redaktə rejimi üçün qeyri-aktiv edilib.",
   "SSE.Controllers.Main.textUndo": "Undo",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Bəli",
   "SSE.Controllers.Main.titleLicenseExp": "Lisenziyanın müddəti bitdi",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Redaktor yeniləndi",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Vurğulama",
   "SSE.Controllers.Main.txtAll": "(Hamısı)",
   "SSE.Controllers.Main.txtArt": "Mətniniz buradadır",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et"
 }

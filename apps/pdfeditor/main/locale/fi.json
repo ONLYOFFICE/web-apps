@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Kaikki muutokset tallennettu",
   "PDFE.Controllers.Main.textClose": "Sulje",
   "PDFE.Controllers.Main.textCloseTip": "Klikkaa ja sulje vinkki",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Ota yhteyttä myyntiin",
   "PDFE.Controllers.Main.textContinue": "Jatka",
   "PDFE.Controllers.Main.textCustomLoader": "Huomaa, että lisenssiehtojen mukaisesti sinulla ei ole oikeutta muuttaa latausikkunaa. Ota yhteyttä myyntitiimiimme luodaksesi pyynnön.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Peruutus/tee uudelleen -toiminnot eivät ole käytössä yhteismuokkauksen pikatilassa.<br>Klikkaa \"Ehdoton\" tilan painiketta, jotta voit vaihtaa ehdottomaan yhteismuokkauksen tilaan tai muokata tiedostoa ilman että muut käyttäjät häiritsevät sitä. Tässä tilassa lähetät muutokset vain kun olet tallentanut ne. Voit vaihdella yhteismuokkauksen tilojen välillä editorin Laajennetuissa asetuksissa.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Peruutus/tee uudestaan toiminnot eivät ole käytössä yhteisessä pikamuokkaus tilassa.",
   "PDFE.Controllers.Main.textUndo": "Kumoa",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lisenssi erääntynyt",
   "PDFE.Controllers.Main.titleLicenseNotActive": "License not active",
   "PDFE.Controllers.Main.titleServerVersion": "Editor updated",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sovita sivulle",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema"
 }

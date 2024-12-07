@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Todas as alterações guardadas",
   "DE.Controllers.Main.textClose": "Fechar",
   "DE.Controllers.Main.textCloseTip": "Clique para fechar a dica",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Contacte a equipa comercial",
   "DE.Controllers.Main.textContinue": "Continuar",
   "DE.Controllers.Main.textConvertEquation": "Esta equação foi criada com uma versão anterior da aplicação e já não é suportada. Para a editar, tem que converter a equação para o formato Office Math ML.<br>Converter agora?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "As funções Desfazer/Refazer foram desativadas para se poder coeditar o documento.<br>Clique no botão 'Modo estrito' para ativar este modo de edição e editar o ficheiro sem ser incomodado por outros utilizadores enviando apenas as suas alterações assim que terminar e guardar. Pode alternar entre modos de coedição através das definições avançadas.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "As funções Desfazer/Refazer estão desativadas no modo de co-edição rápida.",
   "DE.Controllers.Main.textUndo": "Desfazer",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Licença caducada",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Editor atualizado",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra"
 }

@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Tüm değişiklikler kaydedildi",
   "PDFE.Controllers.Main.textClose": "Kapat",
   "PDFE.Controllers.Main.textCloseTip": "Ucu kapamak için tıklayın",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Satış departmanı ile iletişime geçin",
   "PDFE.Controllers.Main.textContinue": "Devam",
   "PDFE.Controllers.Main.textCustomLoader": "Lütfen lisans şartlarına göre yükleyiciyi değiştirme hakkınız olmadığını unutmayın.<br>Fiyat teklifi almak için lütfen Satış Departmanımızla iletişime geçin.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Geri al/Yinele fonksiyonları hızlı ortak çalışma modunda devre dışı kalır.<br>'Katı mod' tuşuna tıklayarak Katı ortak düzenleme moduna geçebilir ve diğer kullanıcıların müdehalesi olmadan, yalnızca siz belgeyi kaydettikten sonra değişiklik yapılmasını sağlayabilirsiniz. Ortak çalışma moduna tekrar dönmek için Gelişmiş ayarları kullanabilirsiniz.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Hızlı ortak düzenleme modunda geri al/yinele fonksiyonları devre dışıdır.",
   "PDFE.Controllers.Main.textUndo": "Geri Al",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Lisans süresi doldu",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Lisans aktif değil ",
   "PDFE.Controllers.Main.titleServerVersion": "Editor updated",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sayfaya Sığdır",
   "PDFE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıklar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması"
 }

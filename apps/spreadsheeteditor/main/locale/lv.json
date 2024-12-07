@@ -1146,6 +1146,7 @@
   "SSE.Controllers.Main.textClose": "Aizvērt",
   "SSE.Controllers.Main.textCloseTip": "Noklikšķiniet, lai aizvērtu galu",
   "SSE.Controllers.Main.textConfirm": "Apstiprinājums",
+  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "SSE.Controllers.Main.textContactUs": "Sazināties ar pārdošanas daļu",
   "SSE.Controllers.Main.textContinue": "Turpināt",
   "SSE.Controllers.Main.textConvertEquation": "Šis vienādojums tika izveidots, izmantojot veco vienādojumu redaktora versiju, kas vairs netiek atbalstīta. Lai to rediģētu, konvertējiet vienādojumu Office Math ML formātā.<br>Vai konvertēt tagad?",
@@ -1181,10 +1182,13 @@
   "SSE.Controllers.Main.textTryUndoRedo": "Funkcijas Atsaukt/Atcelt ir atspējotas ātrās koprediģēšanas režīmam.<br>Noklikšķiniet uz pogas 'Precīzais režīms', lai pārslēgtos uz 'Precīzo koprediģēšanas režīmu', lai rediģētu failu bez citu lietotāju iejaukšanās un nosūtītu izmaiņas tikai pēc tam, kad saglabājāt tos. Varat pārslēgties starp koprediģēšanas režīmiem, izmantojot redaktoru Papildu iestatījumi.",
   "SSE.Controllers.Main.textTryUndoRedoWarn": "Atsaukšanas/atkārtošanas funkcijas ātrās koprediģēšanas režīmā ir atspējotas.",
   "SSE.Controllers.Main.textUndo": "Atsaukt",
+  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "SSE.Controllers.Main.textUpdating": "Updating",
   "SSE.Controllers.Main.textYes": "Jā",
   "SSE.Controllers.Main.titleLicenseExp": "Licencei ir beidzies termiņš",
   "SSE.Controllers.Main.titleLicenseNotActive": "License not active",
   "SSE.Controllers.Main.titleServerVersion": "Atjaunināts redaktors",
+  "SSE.Controllers.Main.titleUpdateVersion": "Version changed",
   "SSE.Controllers.Main.txtAccent": "Akcents",
   "SSE.Controllers.Main.txtAll": "(Visi)",
   "SSE.Controllers.Main.txtArt": "Ievadiet savu tekstu",
@@ -4524,9 +4528,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
-  "SSE.Controllers.Main.textUpdating": "Updating",
-  "SSE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "SSE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
-  "SSE.Controllers.Main.titleUpdateVersion": "Version changed"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību"
 }

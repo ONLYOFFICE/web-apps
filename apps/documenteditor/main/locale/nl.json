@@ -980,6 +980,7 @@
   "DE.Controllers.Main.textChangesSaved": "Alle wijzigingen zijn opgeslagen",
   "DE.Controllers.Main.textClose": "Sluiten",
   "DE.Controllers.Main.textCloseTip": "Klik om de tip te sluiten",
+  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "DE.Controllers.Main.textContactUs": "Contact opnemen met Verkoop",
   "DE.Controllers.Main.textContinue": "Continue",
   "DE.Controllers.Main.textConvertEquation": "Deze vergelijking is gemaakt met een oude versie van de vergelijkingseditor die niet langer wordt ondersteund. Om deze te bewerken, converteert u de vergelijking naar de Office Math ML-indeling. <br> Nu converteren?",
@@ -1006,6 +1007,8 @@
   "DE.Controllers.Main.textTryUndoRedo": "De functies Ongedaan maken/Opnieuw worden uitgeschakeld in de modus Snel gezamenlijk bewerken.<br>Klik op de knop 'Strikte modus' om over te schakelen naar de strikte modus voor gezamenlijk bewerken. U kunt het bestand dan zonder interferentie van andere gebruikers bewerken en uw wijzigingen verzenden wanneer u die opslaat. U kunt schakelen tussen de modi voor gezamenlijke bewerking via Geavanceerde instellingen van de editor.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "De functies Ongedaan maken/Annuleren zijn uitgeschakeld in de modus Snel meewerken.",
   "DE.Controllers.Main.textUndo": "Undo",
+  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "DE.Controllers.Main.textUpdating": "Updating",
   "DE.Controllers.Main.titleLicenseExp": "Licentie vervallen",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
   "DE.Controllers.Main.titleServerVersion": "Editor bijgewerkt",
@@ -3684,8 +3687,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "semi-transparant",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Onderstreept",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Lettertype",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte",
-  "DE.Controllers.Main.textUpdating": "Updating",
-  "DE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "DE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte"
 }

@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "Όλες οι αλλαγές αποθηκεύτηκαν",
   "PDFE.Controllers.Main.textClose": "Κλείσιμο",
   "PDFE.Controllers.Main.textCloseTip": "Κάντε κλικ για να κλείσει η υπόδειξη",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "Επικοινωνήστε με τις πωλήσεις",
   "PDFE.Controllers.Main.textContinue": "Συνέχεια",
   "PDFE.Controllers.Main.textCustomLoader": "Παρακαλούμε λάβετε υπόψη ότι σύμφωνα με τους όρους της άδειας δεν δικαιούστε αλλαγή του φορτωτή.<br>Παρακαλούμε επικοινωνήστε με το Τμήμα Πωλήσεων για να λάβετε μια προσφορά.",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "Οι λειτουργίες Αναίρεση/Επανάληψη είναι απενεργοποιημένες στην κατάσταση Γρήγορης συν-επεξεργασίας.<br>Κάντε κλικ στο κουμπί 'Αυστηρή κατάσταση' για να μεταβείτε στην Αυστηρή κατάσταση συν-επεξεργασίας όπου επεξεργάζεστε το αρχείο χωρίς παρέμβαση άλλων χρηστών και στέλνετε τις αλλαγές σας αφού τις αποθηκεύσετε. Η μετάβαση μεταξύ των δύο καταστάσεων γίνεται μέσω των Προηγμένων Ρυθμίσεων.",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "Οι λειτουργίες Αναίρεση/Επανάληψη απενεργοποιούνται για τη λειτουργία γρήγορης συν-επεξεργασίας.",
   "PDFE.Controllers.Main.textUndo": "Αναίρεση",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "Η άδεια έληξε",
   "PDFE.Controllers.Main.titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
   "PDFE.Controllers.Main.titleServerVersion": "Ο επεξεργαστής ενημερώθηκε",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

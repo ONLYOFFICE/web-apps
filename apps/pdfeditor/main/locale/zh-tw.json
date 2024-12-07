@@ -956,6 +956,7 @@
   "PDFE.Controllers.Main.textChangesSaved": "所有更改已儲存",
   "PDFE.Controllers.Main.textClose": "關閉",
   "PDFE.Controllers.Main.textCloseTip": "點擊關閉提示",
+  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "PDFE.Controllers.Main.textContactUs": "聯絡業務人員",
   "PDFE.Controllers.Main.textContinue": "繼續",
   "PDFE.Controllers.Main.textCustomLoader": "請注意，根據許可條款，您無權更換裝載機。<br>請聯繫我們的銷售部門以獲取報價。",
@@ -977,6 +978,8 @@
   "PDFE.Controllers.Main.textTryUndoRedo": "快速共同編輯模式禁用了\"復原/重複\"功能。<br>點擊\"嚴格模式\"按鈕切換到\"嚴格共同編輯\"模式以編輯文件而不會受到其他帳戶的干擾，並且僅在保存後發送更改他們。您可以使用編輯器的\"進階\"設置在共同編輯模式之間切換。",
   "PDFE.Controllers.Main.textTryUndoRedoWarn": "在快速共同編輯模式下，復原/重複功能被禁用。",
   "PDFE.Controllers.Main.textUndo": "復原",
+  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
+  "PDFE.Controllers.Main.textUpdating": "Updating",
   "PDFE.Controllers.Main.titleLicenseExp": "授權過期",
   "PDFE.Controllers.Main.titleLicenseNotActive": "授權未啟用",
   "PDFE.Controllers.Main.titleServerVersion": "編輯器已更新",
@@ -2022,8 +2025,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
-  "PDFE.Controllers.Main.textUpdating": "Updating",
-  "PDFE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "PDFE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
 }
