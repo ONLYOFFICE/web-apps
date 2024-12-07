@@ -399,7 +399,8 @@
     <script>
         function startApp() {
             var script = document.createElement("script");
-            script.setAttribute("data-main", isIE === true ? "ie/app" : "app");
+            isIEBrowser === true && (window.customBaseUrl = '../../../');
+            script.setAttribute("data-main", isIEBrowser === true ? "ie/app" : "app");
             script.src = "../../../vendor/requirejs/require.js";
             document.body.appendChild(script);
         }

@@ -41,7 +41,7 @@ var reqerr;
 require.config({
     // The shim config allows us to configure dependencies for
     // scripts that do not call define() to register a module
-    baseUrl: '../../',
+    baseUrl: window.customBaseUrl || '../../',
     paths: {
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',

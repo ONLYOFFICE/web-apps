@@ -29,7 +29,6 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 var checkLocalStorage = (function () {
     try {

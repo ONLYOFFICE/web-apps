@@ -463,7 +463,7 @@
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script src="../../../vendor/requirejs/require.js"></script>
     <script>
-        isIE === true ? require(['ie/app']) : require(['app']);
+        isIEBrowser === true ? (window.customBaseUrl = '../../../', require(['ie/app'])) : require(['app']);
     </script>
     <link rel="stylesheet" href="../../../apps/spreadsheeteditor/main/resources/css/app.css" media="print" onload="this.media='all'">    
 </body>
