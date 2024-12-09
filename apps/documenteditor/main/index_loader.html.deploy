@@ -331,12 +331,18 @@
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
-    <script src="../../../vendor/requirejs/require.js"></script>
+
     <script>
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
-        isIEBrowser === true ? (window.customBaseUrl = '../../../', require(['ie/app'])) : require(['app']);
+        isIEBrowser === true &&
+            (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
+    </script>
+    <script src="../../../vendor/requirejs/require.js"></script>
+    <script>
+        isIEBrowser === true ? require(['ie/app']) : require(['app']);
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css" media="print" onload="this.media='all'">
