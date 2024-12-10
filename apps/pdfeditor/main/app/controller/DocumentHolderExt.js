@@ -866,7 +866,7 @@ define([], function () {
                 });
                 // annotation text bar
                 documentHolder.btnRemAnnot.on('click',                _.bind(this.removeComment, this));
-                documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
+                documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromSelBar: true}));
                 documentHolder.mnuStrokeHighlightColorPicker.on('select', _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeHighlightColor));
                 documentHolder.mnuStrokeColorPicker.on('select',          _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeColor));
                 this.api.UpdateInterfaceState();
