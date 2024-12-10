@@ -2558,7 +2558,7 @@
   "SSE.Views.DocumentHolder.txtShiftLeft": "向左移动单元格",
   "SSE.Views.DocumentHolder.txtShiftRight": "向右移动单元格",
   "SSE.Views.DocumentHolder.txtShiftUp": "向上移动单元格",
-  "SSE.Views.DocumentHolder.txtShow": "显示",
+  "SSE.Views.DocumentHolder.txtShow": "”取消隐藏“",
   "SSE.Views.DocumentHolder.txtShowAs": "将值显示为",
   "SSE.Views.DocumentHolder.txtShowComment": "显示批注",
   "SSE.Views.DocumentHolder.txtShowDetails": "显示详细资料",
