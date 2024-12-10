@@ -88,6 +88,7 @@ define([
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
             me.lastAnnotBarOnTop = true;
+            me.lastAnnotSelBarOnTop = true;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({

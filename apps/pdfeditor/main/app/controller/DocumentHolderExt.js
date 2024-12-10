@@ -75,6 +75,8 @@ define([], function () {
                         this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
                         this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
                         this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
+                        this.api.asc_registerCallback('asc_onShowAnnotSelectTrack',          _.bind(this.onShowAnnotSelectBar, this));
+                        this.api.asc_registerCallback('asc_onHideAnnotSelectTrack',          _.bind(this.onHideAnnotSelectBar, this));
                     }
                 }
                 if (this.mode.isRestrictedEdit) {
@@ -687,6 +689,94 @@ define([], function () {
 
         dh.disableAnnotBar = function() {
             var textContainer = this.documentHolder.cmpEl.find('#annot-bar-container'),
+                disabled = this._isDisabled;
+
+            if (textContainer.length>0 && textContainer.is(':visible')) {
+                this.annotBarBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+                this.documentHolder.btnCopy && this.documentHolder.btnCopy.setDisabled(!this.api.can_CopyCut() || !!disabled);
+            }
+        };
+
+        dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
+            if (this.mode && !this.mode.isEdit) return;
+
+            if (_.isUndefined(this._XY)) {
+                this._XY = [
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top - $(window).scrollTop()
+                ];
+                this._Width       = this.documentHolder.cmpEl.width();
+                this._Height      = this.documentHolder.cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+
+            this.lastAnnotSelBarBounds = bounds;
+            (mouseOnTop!==undefined) && (this.lastAnnotSelBarOnTop = mouseOnTop);
+            if (bounds[3] < 0 || bounds[1] > this._Height || !Common.Utils.InternalSettings.get('pdfe-settings-annot-sel-bar')) {
+                this.onHideAnnotSelectBar();
+                return;
+            }
+            var me = this,
+                documentHolder = me.documentHolder,
+                textContainer = documentHolder.cmpEl.find('#annot-sel-bar-container');
+
+            // Prepare menu container
+            if (textContainer.length < 1) {
+                me.annotSelectBarBtns = [];
+                textContainer = documentHolder.createAnnotSelectBar(me.annotSelectBarBtns);
+                documentHolder.cmpEl.append(textContainer);
+
+                var bringForward = function (menu) {
+                    textContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    textContainer.removeClass('has-open-menu');
+                };
+                me.annotSelectBarBtns.forEach(function(item){
+                    if (item && item.menu) {
+                        item.menu.on('show:before', bringForward);
+                        item.menu.on('hide:after', sendBackward);
+                    }
+                });
+                // annotation text bar
+                documentHolder.btnRemAnnot.on('click',                _.bind(this.removeComment, this));
+                documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
+
+                this.api.UpdateInterfaceState();
+            }
+
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
+            showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
+            textContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
+                diffUp = me._XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
+            me.annotSelectBarBtns.forEach(function(item){
+                item && item.menu && (item.menu.menuAlign = menuAlign);
+            });
+            if (!textContainer.is(':visible')) {
+                textContainer.show();
+            }
+            me.disableAnnotBar();
+        };
+
+        dh.onHideAnnotSelectBar = function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var textContainer = this.documentHolder.cmpEl.find('#annot-sel-bar-container');
+            if (textContainer.is(':visible')) {
+                textContainer.hide();
+            }
+        };
+
+        dh.disableAnnotSelectBar = function() {
+            var textContainer = this.documentHolder.cmpEl.find('#annot-sel-bar-container'),
                 disabled = this._isDisabled;
 
             if (textContainer.length>0 && textContainer.is(':visible')) {

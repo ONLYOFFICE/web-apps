@@ -1072,6 +1072,8 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
                 value = Common.localStorage.getBool("pdfe-settings-annot-bar", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-annot-bar", value);
+                value = Common.localStorage.getBool("pdfe-settings-annot-sel-bar", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-annot-sel-bar", value);
 
                 /** coauthoring begin **/
                 me.onPdfModeCoAuthApply();
