@@ -237,131 +237,13 @@ define([
             }
         },
 
-        fillViewMenuProps: function(selectedElements) {
-            // if (!selectedElements || !_.isArray(selectedElements)) return;
+        fillViewMenuProps: function(selectedElements) {},
 
-            var documentHolder = this.documentHolder;
-            if (!documentHolder.viewPDFModeMenu)
-                documentHolder.createDelayedElementsPDFViewer();
-
-            var menu_props = {};
-            selectedElements && _.each(selectedElements, function(element, index) {
-                if (Asc.c_oAscTypeSelectElement.Annot == element.get_ObjectType()) {
-                    menu_props.annotProps = {};
-                    menu_props.annotProps.value = element.get_ObjectValue();
-                }
-            });
-
-            return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: menu_props};
-        },
-
-        fillPDFEditMenuProps: function(selectedElements) {
-            var documentHolder = this.documentHolder;
-            if (!documentHolder.editPDFModeMenu)
-                documentHolder.createDelayedElementsPDFEditor();
-
-            if (!selectedElements || !_.isArray(selectedElements) || selectedElements.length<1)
-                return {menu_to_show: documentHolder.editPDFModeMenu, menu_props: {}};
-
-            var me = this,
-                menu_props = {},
-                menu_to_show = null;
-            _.each(selectedElements, function(element, index) {
-                var elType  = element.get_ObjectType(),
-                    elValue = element.get_ObjectValue();
-
-                if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                    menu_to_show = documentHolder.pictureMenu;
-                    menu_props.imgProps = {};
-                    menu_props.imgProps.value = elValue;
-                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
-                } else if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                    menu_to_show = documentHolder.tableMenu;
-                    menu_props.tableProps = {};
-                    menu_props.tableProps.value = elValue;
-                    menu_props.tableProps.locked = (elValue) ? elValue.get_Locked() : false;
-                } else if (Asc.c_oAscTypeSelectElement.Hyperlink == elType) {
-                    menu_props.hyperProps = {};
-                    menu_props.hyperProps.value = elValue;
-                } else if (Asc.c_oAscTypeSelectElement.Shape == elType) { // shape
-                    menu_props.shapeProps = {};
-                    menu_props.shapeProps.value = elValue;
-                    menu_props.shapeProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    if (elValue.get_FromChart())
-                        menu_props.shapeProps.isChart = true;
-                    if (menu_props.paraProps && menu_props.paraProps.value && elValue.asc_getCanEditText())  // text in shape, need to show paragraph menu with vertical align
-                        menu_to_show = documentHolder.textMenu;
-                    else
-                        menu_to_show = documentHolder.pictureMenu;
-                }
-                // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                //     menu_to_show = documentHolder.pictureMenu;
-                //     menu_props.chartProps = {};
-                //     menu_props.chartProps.value = elValue;
-                //     menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
-                // }
-                else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                    menu_props.paraProps = {};
-                    menu_props.paraProps.value = elValue;
-                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    if (menu_props.shapeProps && menu_props.shapeProps.value && menu_props.shapeProps.value.asc_getCanEditText())  // text in shape, need to show paragraph menu with vertical align
-                        menu_to_show = documentHolder.textMenu;
-                } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
-                    menu_props.mathProps = {};
-                    menu_props.mathProps.value = elValue;
-                    documentHolder._currentMathObj = elValue;
-                } else if (Asc.c_oAscTypeSelectElement.Annot == elType) {
-                    menu_to_show = documentHolder.editPDFModeMenu;
-                    menu_props.annotProps = {};
-                    menu_props.annotProps.value = elValue;
-                }
-            });
-            if (menu_to_show === null) {
-                if (!_.isUndefined(menu_props.paraProps))
-                    menu_to_show = documentHolder.textMenu;
-            }
-
-            return {menu_to_show: menu_to_show, menu_props: menu_props};
-        },
+        fillPDFEditMenuProps: function(selectedElements) {},
 
         applyEditorMode: function() {},
 
-        fillFormsMenuProps: function(selectedElements) {
-            if (!selectedElements || !_.isArray(selectedElements)) return;
-
-            var documentHolder = this.documentHolder;
-            if (!documentHolder.formsPDFMenu)
-                documentHolder.createDelayedElementsPDFForms();
-
-            var menu_props = {},
-                noobject = true;
-            for (var i = 0; i <selectedElements.length; i++) {
-                var elType = selectedElements[i].get_ObjectType();
-                var elValue = selectedElements[i].get_ObjectValue();
-                if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                    //image
-                    menu_props.imgProps = {};
-                    menu_props.imgProps.value = elValue;
-                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
-
-                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
-                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
-
-                    noobject = false;
-                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                    menu_props.paraProps = {};
-                    menu_props.paraProps.value = elValue;
-                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    noobject = false;
-                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
-                    menu_props.headerProps = {};
-                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
-                }
-            }
-
-            return (!noobject) ? {menu_to_show: documentHolder.formsPDFMenu, menu_props: menu_props} : null;
-        },
+        fillFormsMenuProps: function(selectedElements) {},
 
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
@@ -679,19 +561,6 @@ define([
             }
         },
 
-        removeComment: function(item, e, eOpt){
-            this.api && this.api.asc_remove();
-        },
-
-        equationCallback: function(eqObj) {
-            eqObj && this.api.asc_SetMathProps(eqObj);
-            this.editComplete();
-        },
-
-        onChangeCropState: function(state) {
-            this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
-        },
-
         onDialogAddHyperlink: function() {},
 
         onShowMathTrack: function() {},
@@ -717,10 +586,6 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
-        },
-
-        applySettings: function() {
-            !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar') && this.onHideAnnotBar();
         }
     });
 });
