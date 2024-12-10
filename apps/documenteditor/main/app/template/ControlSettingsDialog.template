@@ -1,6 +1,6 @@
 <div id="id-adv-control-settings-general" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="input-label"><%= scope.textName %></label>
@@ -30,7 +30,7 @@
                 </td>
             </tr>
         </table>
-        <table cols="2" style="width: auto;">
+        <table cols="2" style="width: auto;" role="presentation">
             <tr>
                 <td class="padding-small" colspan="2">
                     <label class="header"><%= scope.textAppearance %></label>
@@ -62,7 +62,7 @@
 </div>
 <div id="id-adv-control-settings-lock" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="control-settings-chb-lock-delete"></div>
@@ -78,7 +78,7 @@
 </div>
 <div id="id-adv-control-settings-list" class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td>
                     <label class="header" style="width: 99px;"><%= scope.textDisplayName %></label>
@@ -103,7 +103,7 @@
 </div>
 <div id="id-adv-control-settings-date" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td>
                     <label><%= scope.textFormat %></label>
@@ -134,7 +134,7 @@
 </div>
 <div id="id-adv-control-settings-checkbox" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: auto;">
+        <table cols="2" style="width: auto;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="input-label margin-right-10"><%= scope.textChecked %></label>
@@ -156,7 +156,7 @@
 </div>
 <div id="id-adv-control-settings-additional" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr class="group-key">
                 <td class="padding-small">
                     <label class="input-label"><%= scope.textGroupKey %></label>
@@ -191,7 +191,7 @@
 </div>
 <div id="id-adv-control-settings-field" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: auto;">
+        <table cols="2" style="width: auto;" role="presentation">
             <tr>
                 <td class="padding-small" colspan="2">
                     <div id="control-settings-chb-max-chars" class="margin-right-10" style="display: inline-block;"></div>

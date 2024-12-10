@@ -1,5 +1,5 @@
 <div class="inner-content">
-    <table cols="2" style="width: 100%">
+    <table cols="2" style="width: 100%" role="presentation">
         <tr>
             <td colspan="2" class="padding-small">
                 <div id="chart-dlg-chk-hor-hide-<%=idx%>" class="input-group-nr"></div>
@@ -16,7 +16,7 @@
             </td>
         </tr>
     </table>
-    <table cols="3" style="width: 100%">
+    <table cols="3" style="width: 100%" role="presentation">
         <tr>
             <td class="padding-small" width="100">
                 <label class="input-label"><%= scope.textAxisCrosses %></label>
@@ -44,7 +44,7 @@
     </table>
 </div>
 <div class="inner-content">
-    <table cols="2" style="width: 100%;">
+    <table cols="2" style="width: 100%;" role="presentation">
         <tr>
             <td colspan=2 class="padding-small">
                 <label class="header"><%= scope.textTickOptions %></label>
@@ -75,7 +75,7 @@
     </table>
 </div>
 <div class="inner-content">
-    <table cols="2" style="width: 100%;">
+    <table cols="2" style="width: 100%;" role="presentation">
         <tr>
             <td colspan=2 class="padding-small">
                 <label class="header"><%= scope.textLabelOptions %></label>

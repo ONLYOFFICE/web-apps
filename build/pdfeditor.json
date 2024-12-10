@@ -98,6 +98,20 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "options": {
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/pdfeditor/main/app_pack.js",
+                    "out": "../deploy/web-apps/apps/pdfeditor/main/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
             }
         },
         "less": {

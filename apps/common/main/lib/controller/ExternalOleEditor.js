@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,8 +42,7 @@ if (Common === undefined)
 Common.Controllers = Common.Controllers || {};
 
 define([
-    'core',
-    'common/main/lib/view/ExternalOleEditor'
+    'core'
 ], function () { 'use strict';
     Common.Controllers.ExternalOleEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = '{{DEFAULT_LANG}}',
@@ -88,7 +87,7 @@ define([
         };
 
         return {
-            views: ['Common.Views.ExternalOleEditor'],
+            views: [],
 
             initialize: function() {
                 this.addListeners({
@@ -135,10 +134,15 @@ define([
                         }, this)
                     }
                 });
+
+                Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
             },
 
-            onLaunch: function() {
-                this.oleEditorView = this.createView('Common.Views.ExternalOleEditor', {handler: _.bind(this.handler, this)});
+            onLaunch: function() {},
+
+            onPostLoadComplete: function() {
+                this.views = this.getApplication().getClasseRefs('view', ['Common.Views.ExternalOleEditor']);
+                this.oleEditorView = this.createView('Common.Views.ExternalOleEditor',{handler: this.handler.bind(this)});
             },
 
             setApi: function(api) {

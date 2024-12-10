@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,12 +36,9 @@
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.template',
+define([
+    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ListView'
 ], function (contentTemplate) {
     'use strict';
 

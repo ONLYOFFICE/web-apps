@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,9 +30,7 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 05.03.15
- * Time: 16:42
  */
 
 if (Common === undefined)
@@ -43,13 +41,13 @@ Common.Models = Common.Models || {};
 define([
     'underscore',
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
 
-    Common.Models.HistoryVersion = Backbone.Model.extend({
+    Common.Models.HistoryVersion = Common.UI.TreeViewModel.extend({
         defaults: function() {
-            return {
+            return _.extend({
                 version : 0,
                 revision: 0,
                 changeid : undefined,
@@ -67,15 +65,10 @@ define([
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,
-                isRevision: true,
-                hasChanges: false,
-                isExpanded: true,
-                isVisible: true,
-                allowSelected: true,
-                selected: false,
                 serverVersion: 0,
-                fileType: 'docx'
-            }
+                fileType: 'docx',
+                documentSha256: undefined
+            }, Common.UI.TreeViewModel.prototype.defaults() || {});
         }
     });
 });

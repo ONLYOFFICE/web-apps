@@ -42,8 +42,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
+    'common/main/lib/component/MetricSpinner'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

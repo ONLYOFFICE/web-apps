@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,12 +41,6 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/SymbolTableDialog',
     'documenteditor/main/app/view/ListTypesAdvanced'
 ], function () { 'use strict';
     var nMaxRecent = 5;
@@ -944,19 +938,8 @@ define([
             this.btnColor.menu.items[0].setChecked(color===undefined, true);
             this.btnColor.menu.items[1].setChecked(!!color && color.get_auto(), true);
             if (color && !color.get_auto()) {
-                if ( typeof(color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                            this.colors.select(color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colors.clearSelection();
-                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                } else
-                    this.colors.select(color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colors);
+                ( typeof(color) == 'object' ) && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
             } else {
                 this.colors.clearSelection();
                 color = '000000';

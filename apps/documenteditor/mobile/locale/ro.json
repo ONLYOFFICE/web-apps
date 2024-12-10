@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -487,7 +489,7 @@
     "loadImageTextText": "Încărcarea imaginii...",
     "loadImageTitleText": "Încărcare imagine",
     "loadingDocumentTextText": "Încărcarea documentului...",
-    "loadingDocumentTitleText": "Încărcare document",
+    "loadingDocumentTitleText": "Încărcare",
     "mailMergeLoadFileText": "Încărcarea sursei de date...",
     "mailMergeLoadFileTitle": "Încărcare sursa de date",
     "openTextText": "Deschiderea fișierului...",
@@ -498,10 +500,11 @@
     "savePreparingTitle": "Pregătire pentru salvare. Vă rugăm să așteptați...",
     "saveTextText": "Salvarea documentului...",
     "saveTitleText": "Salvare document",
+    "savingText": "Salvare",
     "sendMergeText": "Trimitere îmbinare a corespondenței...",
     "sendMergeTitle": "Trimitere îmbinare a corespondenței ",
     "textContinue": "Continuare",
-    "textLoadingDocument": "Încărcare document",
+    "textLoadingDocument": "Încărcare",
     "textUndo": "Anulare",
     "txtEditingMode": "Setare modul de editare...",
     "uploadImageTextText": "Încărcarea imaginii...",
@@ -779,7 +782,6 @@
     "textSpellcheck": "Verificarea ortografică",
     "textStatistic": "Statistic",
     "textSubject": "Subiect",
-    "textSubmit": "Trimitere",
     "textSymbols": "Simboluri",
     "textTheme": "Temă",
     "textTitle": "Titlu",
@@ -801,6 +803,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
@@ -810,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

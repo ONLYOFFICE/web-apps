@@ -464,8 +464,10 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
+    "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded."
@@ -506,7 +508,8 @@
     "txtEditingMode": "設定編輯模式...",
     "uploadImageTextText": "正在上傳圖片...",
     "uploadImageTitleText": "上傳圖片中",
-    "waitText": "請耐心等待..."
+    "waitText": "請耐心等待...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "錯誤",
@@ -795,7 +798,6 @@
     "textRemoveFromFavorites": "Remove from Favorites",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
@@ -808,6 +810,8 @@
     "textOk": "好",
     "textSwitchedMobileView": "切換至行動版檢視",
     "textSwitchedStandardView": "切換至標準版檢視",
+    "warnEmptyRequiredField": "填寫所有必填欄位以傳送表單。",
+    "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"

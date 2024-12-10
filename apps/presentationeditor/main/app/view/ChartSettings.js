@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,8 +42,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ComboDataView',
-    'presentationeditor/main/app/view/ChartSettingsAdvanced'
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -122,8 +121,8 @@ define([
                 } else {
                     var type = props.getType();
                     if (this._state.ChartType !== type) {
-                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                        this.mnuChartTypePicker.selectRecord(record, true);
+                        var record = this.mnuChartTypePicker ? this.mnuChartTypePicker.store.findWhere({type: type}) : null;
+                        this.mnuChartTypePicker && this.mnuChartTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
@@ -134,6 +133,7 @@ define([
                         this._state.ChartType = type;
                     }
                 }
+                this.btnChartType.setDisabled(!this.mnuChartTypePicker || this._locked);
 
                 if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
@@ -259,22 +259,11 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textChartType
             });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 535,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true,
-                    delaySelect: Common.Utils.isSafari
-                });
-            });
+            this.btnChartType.on('render:after', _.bind(this.createChartTypeMenu, this));
             this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             this.lockedControls.push(this.btnChartType);
 
             this.btnEditData = new Common.UI.Button({
@@ -293,7 +282,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -308,7 +298,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -351,7 +342,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textX
             });
             this.lockedControls.push(this.spnX);
             this.spnX.on('change', _.bind(this.onXRotation, this));
@@ -393,7 +385,8 @@ define([
                 minValue: -90,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textY
             });
             this.lockedControls.push(this.spnY);
             this.spnY.on('change', _.bind(this.onYRotation, this));
@@ -435,7 +428,8 @@ define([
                 minValue: 0.1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPerspective
             });
             this.lockedControls.push(this.spnPerspective);
             this.spnPerspective.on('change', _.bind(this.onPerspective, this));
@@ -519,7 +513,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dDepth
             });
             this.lockedControls.push(this.spn3DDepth);
             this.spn3DDepth.on('change', _.bind(this.on3DDepth, this));
@@ -535,7 +530,8 @@ define([
                 minValue: 5,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dHeight
             });
             this.lockedControls.push(this.spn3DHeight);
             this.spn3DHeight.on('change', _.bind(this.on3DHeight, this));
@@ -551,13 +547,38 @@ define([
             this.Chart3DContainer = $('#chart-panel-3d-rotate');
         },
 
+        createChartTypeMenu: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded() || this.mnuChartTypePicker) return;
+            this.mnuChartTypePicker = new Common.UI.DataView({
+                el: $('#id-chart-menu-type'),
+                parentMenu: this.btnChartType.menu,
+                restoreHeight: 535,
+                groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+                store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                delayRenderTips: true,
+                delaySelect: Common.Utils.isSafari
+            });
+            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+            this.mnuChartTypePicker.selectRecord(record, true);
+            this.btnChartType.setIconCls(record ? 'svgicon ' + 'chart-' + record.get('iconCls') : 'svgicon');
+            this.btnChartType.setDisabled(this._locked);
+        },
+
         createDelayedElements: function() {
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
             this.createDelayedControls();
             this.updateMetricUnit();
             this._initSettings = false;
         },
 
+        createPostLoadElements: function() {
+            this.createChartTypeMenu();
+        },
+
         setEditData:   function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);
@@ -679,8 +700,9 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
-                    fillOnChangeVisibility: true,
-                    delayRenderTips: true
+                    delayRenderTips: true,
+                    ariaLabel: this.textChartType,
+                    fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({

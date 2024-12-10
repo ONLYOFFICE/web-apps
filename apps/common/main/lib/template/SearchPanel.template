@@ -1,11 +1,11 @@
-<div id="search-box" class="layout-ct vbox search-panel">
+<div id="search-box" class="layout-ct vbox search-panel" role="search">
     <div id="search-header">
-        <label id="search-adv-title"></label>
+        <label id="search-adv-title" role="heading"></label>
         <div id="search-btn-close" class="float-right"></div>
     </div>
     <div id="search-container">
     <div id="search-adv-settings">
-        <table cols="1">
+        <table cols="1" role="presentation">
             <tbody>
                 <tr>
                     <td class="padding-small"><div id="search-adv-text"></div></td>

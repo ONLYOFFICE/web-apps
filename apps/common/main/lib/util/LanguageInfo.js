@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -83,16 +83,16 @@ Common.util.LanguageInfo = new(function() {
         0x046D : ["ba-RU", "Башҡорт (Россия)", "Bashkir (Russia)"],
         0x002D : ["eu", "Euskara"],
         0x042D : ["eu-ES", "Euskara (Euskara)", "Basque (Basque)"],
-        0x0023 : ["be", "Беларускі"],
-        0x0423 : ["be-BY", "Беларускі (Беларусь)", "Belarusian (Belarus)"],
+        0x0023 : ["be", "Беларуская"],
+        0x0423 : ["be-BY", "Беларуская (Беларусь)", "Belarusian (Belarus)"],
         0x0045 : ["bn", "বাংলা"],
         0x0845 : ["bn-BD", "বাংলা (বাংলাদেশ)", "Bengali (Bangladesh)"],
         0x0445 : ["bn-IN", "বাংলা (ভারত)", "Bengali (India)"],
         0x781A : ["bs", "bosanski"],
         0x641A : ["bs-Cyrl", "Босански (Ћирилица)"],
-        0x201A : ["bs-Cyrl-BA", "Босански (Босна и Херцеговина)", "Bosnian (Cyrillic) (Bosnia and Herzegovina)"],
+        0x201A : ["bs-Cyrl-BA", "Босански (Босна и Херцеговина)", "Bosnian (Cyrillic, Bosnia and Herzegovina)"],
         0x681A : ["bs-Latn", "Bosanski (Latinica)"],
-        0x141A : ["bs-Latn-BA", "Bosanski (Bosna i Hercegovina)", "Bosnian (Latin) (Bosnia and Herzegovina)"],
+        0x141A : ["bs-Latn-BA", "Bosanski (Bosna i Hercegovina)", "Bosnian (Latin, Bosnia and Herzegovina)"],
         0x007E : ["br", "Brezhoneg"],
         0x047E : ["br-FR", "Brezhoneg (Frañs)", "Breton (France)"],
         0x0002 : ["bg", "Български"],
@@ -187,7 +187,7 @@ Common.util.LanguageInfo = new(function() {
         0x0447 : ["gu-IN", "ગુજરાતી (ભારત)", "Gujarati (India)"],
         0x0068 : ["ha", "Hausa"],
         0x7C68 : ["ha-Latn", "Hausa (Latin)"],
-        0x0468 : ["ha-Latn-NG", "Hausa (Nigeria)", "Hausa (Latin) (Nigeria)"],
+        0x0468 : ["ha-Latn-NG", "Hausa (Nigeria)", "Hausa (Latin, Nigeria)"],
         0x000D : ["he", "עברית‏"],
         0x040D : ["he-IL", "עברית (ישראל)‏", "Hebrew (Israel)"],
         0x0039 : ["hi", "हिंदी"],
@@ -202,7 +202,7 @@ Common.util.LanguageInfo = new(function() {
         0x0421 : ["id-ID", "Bahasa Indonesia (Indonesia)", "Indonesian (Indonesia)"],
         0x005D : ["iu", "Inuktitut"],
         0x7C5D : ["iu-Latn", "Inuktitut (Qaliujaaqpait)"],
-        0x085D : ["iu-Latn-CA", "Inuktitut (Kanatami) (kanata)", "Inuktitut (Latin) (Canada)"],
+        0x085D : ["iu-Latn-CA", "Inuktitut (Kanatami, kanata)", "Inuktitut (Latin, Canada)"],
         0x785D : ["iu-Cans", "ᐃᓄᒃᑎᑐᑦ (ᖃᓂᐅᔮᖅᐸᐃᑦ)"],
         0x045D : ["iu-Cans-CA", "ᐃᓄᒃᑎᑐᑦ (ᑲᓇᑕᒥ)", "Inuktitut (Canada)"],
         0x003C : ["ga", "Gaeilge"],
@@ -244,7 +244,7 @@ Common.util.LanguageInfo = new(function() {
         0x082E : ["dsb-DE", "Dolnoserbšćina (Nimska)", "Lower Sorbian (Germany)"],
         0x006E : ["lb", "Lëtzebuergesch"],
         0x046E : ["lb-LU", "Lëtzebuergesch (Luxembourg)", "Luxembourgish (Luxembourg)"],
-        0x042F : ["mk-MK", "Македонски јазик (Македонија)", "Macedonian (Former Yugoslav Republic of Macedonia)"],
+        0x042F : ["mk-MK", "Македонски јазик (Македонија)", "Macedonian (Macedonia)"],
         0x002F : ["mk", "Македонски јазик"],
         0x003E : ["ms", "Bahasa Melayu"],
         0x083E : ["ms-BN", "Bahasa Melayu (Brunei Darussalam)", "Malay (Brunei Darussalam)"],
@@ -265,7 +265,7 @@ Common.util.LanguageInfo = new(function() {
         0x7850 : ["mn-Cyrl", "Монгол хэл"],
         0x0450 : ["mn-MN", "Монгол хэл (Монгол улс)", "Mongolian (Cyrillic, Mongolia)"],
         0x7C50 : ["mn-Mong", "ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ"],
-        0x0850 : ["mn-Mong-CN", "ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ (ᠪᠦᠭᠦᠳᠡ ᠨᠠᠢᠷᠠᠮᠳᠠᠬᠤ ᠳᠤᠮᠳᠠᠳᠤ ᠠᠷᠠᠳ ᠣᠯᠣᠰ)", "Mongolian (Traditional Mongolian) (People's Republic of China)"],
+        0x0850 : ["mn-Mong-CN", "ᠮᠤᠨᠭᠭᠤᠯ ᠬᠡᠯᠡ (ᠪᠦᠭᠦᠳᠡ ᠨᠠᠢᠷᠠᠮᠳᠠᠬᠤ ᠳᠤᠮᠳᠠᠳᠤ ᠠᠷᠠᠳ ᠣᠯᠣᠰ)", "Mongolian (People's Republic of China)"],
         0x0061 : ["ne", "नेपाली"],
         0x0461 : ["ne-NP", "नेपाली (नेपाल)", "Nepali (Nepal)"],
         0x0861 : ["ne-IN", "नेपाली (भारत)", "Nepali (India)"],
@@ -302,26 +302,26 @@ Common.util.LanguageInfo = new(function() {
         0x0419 : ["ru-RU", "Русский (Россия)", "Russian (Russia)"],
         0x0819 : ["ru-MD", "Русский (Молдавия)", "Russian (Republic of Moldova)"],
         0x703B : ["smn", "Sämikielâ"],
-        0x243B : ["smn-FI", "Sämikielâ (Suomâ)", "Sami (Inari) (Finland)"],
+        0x243B : ["smn-FI", "Sämikielâ (Suomâ)", "Sami (Inari, Finland)"],
         0x7C3B : ["smj", "Julevusámegiella"],
-        0x103B : ["smj-NO", "Julevusámegiella (Vuodna)", "Sami (Lule) (Norway)"],
-        0x143B : ["smj-SE", "Julevusámegiella (Svierik)", "Sami (Lule) (Sweden)"],
+        0x103B : ["smj-NO", "Julevusámegiella (Vuodna)", "Sami (Lule, Norway)"],
+        0x143B : ["smj-SE", "Julevusámegiella (Svierik)", "Sami (Lule, Sweden)"],
         0x003B : ["se", "Davvisámegiella"],
-        0x0C3B : ["se-FI", "Davvisámegiella (Suopma)", "Sami (Northern) (Finland)"],
-        0x043B : ["se-NO", "Davvisámegiella (Norga)", "Sami (Northern) (Norway)"],
-        0x083B : ["se-SE", "Davvisámegiella (Ruoŧŧa)", "Sami (Northern) (Sweden)"],
+        0x0C3B : ["se-FI", "Davvisámegiella (Suopma)", "Sami (Northern, Finland)"],
+        0x043B : ["se-NO", "Davvisámegiella (Norga)", "Sami (Northern, Norway)"],
+        0x083B : ["se-SE", "Davvisámegiella (Ruoŧŧa)", "Sami (Northern, Sweden)"],
         0x743B : ["sms", "Sääm´ǩiõll"],
-        0x203B : ["sms-FI", "Sääm´ǩiõll (Lää´ddjânnam)", "Sami (Skolt) (Finland)"],
+        0x203B : ["sms-FI", "Sääm´ǩiõll (Lää´ddjânnam)", "Sami (Skolt, Finland)"],
         0x783B : ["sma", "åarjelsaemiengiele"],
-        0x183B : ["sma-NO", "åarjelsaemiengiele (Nöörje)", "Sami (Southern) (Norway)"],
-        0x1C3B : ["sma-SE", "åarjelsaemiengiele (Sveerje)", "Sami (Southern) (Sweden)"],
+        0x183B : ["sma-NO", "åarjelsaemiengiele (Nöörje)", "Sami (Southern, Norway)"],
+        0x1C3B : ["sma-SE", "åarjelsaemiengiele (Sveerje)", "Sami (Southern, Sweden)"],
         0x004F : ["sa", "संस्कृत"],
         0x044F : ["sa-IN", "संस्कृत (भारतम्)", "Sanskrit (India)"],
         0x0091 : ["gd", "Gàidhlig"],
         0x0491 : ["gd-GB", "Gàidhlig (An Rìoghachd Aonaichte)", "Scottish Gaelic (United Kingdom)"],
         0x7C1A : ["sr", "Srpski"],
         0x6C1A : ["sr-Cyrl", "Српски (Ћирилица)"],
-        0x1C1A : ["sr-Cyrl-BA", "Српски (Босна и Херцеговина)", "Serbian (Cyrillic) (Bosnia and Herzegovina)"],
+        0x1C1A : ["sr-Cyrl-BA", "Српски (Босна и Херцеговина)", "Serbian (Cyrillic, Bosnia and Herzegovina)"],
         0x301A : ["sr-Cyrl-ME", "Српски (Црна Гора)", "Serbian (Cyrillic, Montenegro)"],
         0x0C1A : ["sr-Cyrl-CS", "Српски (Србија и Црна Гора (Претходно))", "Serbian (Cyrillic, Serbia and Montenegro (Former))"],
         0x281A : ["sr-Cyrl-RS", "Српски (Србија)", "Serbian (Cyrillic, Serbia)"],
@@ -371,10 +371,10 @@ Common.util.LanguageInfo = new(function() {
         0x045A : ["syr-SY", "ܣܘܪܝܝܐ (سوريا)‏", "Syriac (Syria)"],
         0x0028 : ["tg", "Тоҷикӣ"],
         0x7C28 : ["tg-Cyrl", "Тоҷикӣ"],
-        0x0428 : ["tg-Cyrl-TJ", "Тоҷикӣ (Тоҷикистон)", "Tajik (Cyrillic) (Tajikistan)"],
+        0x0428 : ["tg-Cyrl-TJ", "Тоҷикӣ (Тоҷикистон)", "Tajik (Cyrillic, Tajikistan)"],
         0x005F : ["tzm", "Tamazight"],
         0x7C5F : ["tzm-Latn", "Tamazight (Latin)"],
-        0x085F : ["tzm-Latn-DZ", "Tamazight (Djazaïr)", "Tamazight (Latin) (Algeria)"],
+        0x085F : ["tzm-Latn-DZ", "Tamazight (Djazaïr)", "Tamazight (Latin, Algeria)"],
         0x0049 : ["ta", "தமிழ்"],
         0x0449 : ["ta-IN", "தமிழ் (இந்தியா)", "Tamil (India)"],
         0x0044 : ["tt", "Татар"],
@@ -398,7 +398,7 @@ Common.util.LanguageInfo = new(function() {
         0x0420 : ["ur-PK", "اُردو (پاکستان)‏", "Urdu (Islamic Republic of Pakistan)"],
         0x0820 : ["ur-IN", "اُردو (بھارت)‏", "Urdu (India)"],
         0x0080 : ["ug", "ئۇيغۇر يېزىقى‏"],
-        0x0480 : ["ug-CN", "(ئۇيغۇر يېزىقى (جۇڭخۇا خەلق جۇمھۇرىيىتى‏", "Uighur (People's Republic of China)"],
+        0x0480 : ["ug-CN", "ئۇيغۇر يېزىقى (جۇڭخۇا خەلق جۇمھۇرىيىتى)‏", "Uighur (People's Republic of China)"],
         0x7843 : ["uz-Cyrl", "Ўзбек"],
         0x0843 : ["uz-Cyrl-UZ", "Ўзбек (Ўзбекистон)", "Uzbek (Cyrillic, Uzbekistan)"],
         0x0043 : ["uz", "U'zbek"],
@@ -451,6 +451,40 @@ Common.util.LanguageInfo = new(function() {
                 for (var code in localLanguageName) {
                     if (localLanguageName[code][0].toLowerCase()===name.toLowerCase())
                         return code;
+                }
+            }
+            return null;
+        },
+
+        /**
+         * @typedef {Object} LangDisplayName
+         * @property {string} native - Native name
+         * @property {string} english - English name
+         */
+        /**
+         * @param {string} code - Language code (example - 1025, 1026, ...).
+         * @returns {LangDisplayName|null} Object with a native language name (native) and an English name (english).
+         * If the English name is missing, returns an object with an empty string for English.
+         * Returns `null` if no language code is found.
+         */
+        getLocalLanguageDisplayName: function(code) {
+            var lang = localLanguageName[code];
+            if(lang) {
+                var nativeName = lang[1];
+                var englishName = lang[2];
+                function replaceBrackets(text) {
+                    let newText = text.replace('(', '– ');
+                    let lastCloseBracketIndex = newText.lastIndexOf(')');
+                    if (lastCloseBracketIndex !== -1) {
+                        newText = newText.slice(0, lastCloseBracketIndex) + newText.slice(lastCloseBracketIndex + 1);
+                    }
+                    return newText;
+                }
+
+                if(englishName) {
+                    return { native: replaceBrackets(nativeName), english: replaceBrackets(englishName) };
+                } else {
+                    return { native: nativeName, english: ''};
                 }
             }
             return null;

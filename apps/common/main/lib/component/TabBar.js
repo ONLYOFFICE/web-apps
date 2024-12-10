@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -519,7 +519,7 @@ define([
                 if (this.$bar.find('.separator-item').length === 0) {
                     this.$bar.append('<li class="separator-item"><span></span></li>');
                 }
-                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
+                this.$bar.scrollLeft(this.$bar.scrollLeft() + (Common.Utils.getPosition(tab).left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
                 this.checkInvisible(suppress);
             } else {
                 if (!this.isTabVisible(this.tabs.length - 1) && this.$bar.find('.separator-item').length === 0) {
@@ -530,7 +530,7 @@ define([
                 if (index == 'forward') {
                     for (var i = 0; i < this.tabs.length; i++) {
                         tab = this.tabs[i].$el;
-                        right = tab.position().left + parseInt(tab.css('width'));
+                        right = Common.Utils.getPosition(tab).left + parseInt(tab.css('width'));
 
                         if (right > rightbound) {
                             this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + (this.$bar.width() > 400 ? 20 : 5));
@@ -541,7 +541,7 @@ define([
                 } else if (index == 'backward') {
                     for (i = this.tabs.length; i-- > 0; ) {
                         tab = this.tabs[i].$el;
-                        left = tab.position().left;
+                        left = Common.Utils.getPosition(tab).left;
 
                         if (left < 0) {
                             this.$bar.scrollLeft(this.$bar.scrollLeft() + left - 26);
@@ -551,7 +551,7 @@ define([
                     }
                 } else if (typeof index == 'number') {
                     tab = this.tabs[index].$el;
-                    left = tab.position().left;
+                    left = Common.Utils.getPosition(tab).left;
                     right = left + parseInt(tab.css('width'));
 
                     if (left < 0) {

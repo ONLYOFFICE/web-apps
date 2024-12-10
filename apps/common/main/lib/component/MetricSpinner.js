@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -120,7 +120,7 @@ define([
         rendered    : false,
 
         template    :
-                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
+                    '<input type="text" class="form-control" spellcheck="false" role="spinbutton" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">' +
                     '<div class="spinner-buttons">' +
                         '<button type="button" class="spinner-up"><i class="arrow"></i></button>' +
                         '<button type="button" class="spinner-down"><i class="arrow"></i></button>' +
@@ -209,6 +209,12 @@ define([
             if (this.options.tabindex != undefined)
                 this.$input.attr('tabindex', this.options.tabindex);
 
+            this.$input.attr('aria-valuemin', this.options.minValue);
+            this.$input.attr('aria-valuemax', this.options.maxValue);
+
+            if (this.options.ariaLabel)
+                this.$input.attr('aria-label', this.options.ariaLabel);
+
             return this;
         },
 
@@ -240,10 +246,12 @@ define([
 
         setMinValue: function(unit){
             this.options.minValue = unit;
+            if (this.$input) this.$input.attr('aria-valuemin', unit);
         },
 
         setMaxValue: function(unit){
             this.options.maxValue = unit;
+            if (this.$input) this.$input.attr('aria-valuemax', unit);
         },
 
         setStep: function(step){
@@ -271,7 +279,10 @@ define([
         },
 
         setRawValue: function (value) {
-            if (this.$input) this.$input.val(value);
+            if (this.$input) {
+                this.$input.val(value);
+                this.$input.attr('aria-valuetext', value);
+            }
         },
 
         getRawValue: function () {

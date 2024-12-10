@@ -21,7 +21,7 @@
         <div id="id-form-settings" class="settings-panel">
         </div>
     </div>
-    <div class="tool-menu-btns">
+    <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
         <div class="ct-btn-category arrow-left"></div>
         <button id="id-right-menu-text" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-paragraph-settings"><i class="icon toolbar__icon btn-paragraph">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-table-settings"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>

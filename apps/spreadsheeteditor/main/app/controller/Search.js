@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -419,7 +419,7 @@ define([
             if (index !== -1) {
                 var item = this.resultItems[index].$el,
                     itemHeight = item.outerHeight(),
-                    itemTop = item.position().top,
+                    itemTop = Common.Utils.getPosition(item).top,
                     container = this.view.$resultsContainer.find('.search-items'),
                     containerHeight = container.outerHeight(),
                     containerTop = container.scrollTop();
@@ -453,12 +453,12 @@ define([
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
-                    var tr = '<div class="item" style="width: 100%;">' +
-                        '<div class="sheet">' + (item[1] ? Common.Utils.String.htmlEncode(item[1]) : '') + '</div>' +
-                        '<div class="name">' + (item[2] ? Common.Utils.String.htmlEncode(item[2]) : '') + '</div>' +
-                        '<div class="cell">' + (item[3] ? Common.Utils.String.htmlEncode(item[3]) : '') + '</div>' +
-                        '<div class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
-                        '<div class="formula">' + (item[5] ? Common.Utils.String.htmlEncode(item[5]) : '') + '</div>' +
+                    var tr = '<div role="row" class="item" style="width: 100%;">' +
+                        '<div role="cell" class="sheet">' + (item[1] ? Common.Utils.String.htmlEncode(item[1]) : '') + '</div>' +
+                        '<div role="cell" class="name">' + (item[2] ? Common.Utils.String.htmlEncode(item[2]) : '') + '</div>' +
+                        '<div role="cell" class="cell">' + (item[3] ? Common.Utils.String.htmlEncode(item[3]) : '') + '</div>' +
+                        '<div role="cell" class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
+                        '<div role="cell" class="formula">' + (item[5] ? Common.Utils.String.htmlEncode(item[5]) : '') + '</div>' +
                         '</div>';
                     var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {

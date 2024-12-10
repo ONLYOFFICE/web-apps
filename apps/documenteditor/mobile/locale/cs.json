@@ -396,7 +396,7 @@
     "textTableOptions": "Možnosti tabulky",
     "textText": "Text",
     "textTextOrientation": "Orientace textu",
-    "textTextWrapping": "Obtékaní textu",
+    "textTextWrapping": "Zalomení textu",
     "textTh": "čt",
     "textThrough": "Skrz",
     "textTight": "Těsné",
@@ -407,7 +407,7 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu",
+    "textWrappingStyle": "Styl zalomení",
     "textYourOption": "Váš výběr"
   },
   "Error": {
@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -487,7 +489,7 @@
     "loadImageTextText": "Načítání obrázku...",
     "loadImageTitleText": "Načítání obrázku",
     "loadingDocumentTextText": "Načítání dokumentu…",
-    "loadingDocumentTitleText": "Načítání dokumentu",
+    "loadingDocumentTitleText": "Načítání",
     "mailMergeLoadFileText": "Načítání datového zdroje...",
     "mailMergeLoadFileTitle": "Načítání datového zdroje",
     "openTextText": "Otevírání dokumentu...",
@@ -501,12 +503,13 @@
     "sendMergeText": "Odesílaní hromadné korespondence...",
     "sendMergeTitle": "Odesílaní hromadné korespondence",
     "textContinue": "Pokračovat",
-    "textLoadingDocument": "Načítání dokumentu",
+    "textLoadingDocument": "Načítání",
     "textUndo": "Zpět",
     "txtEditingMode": "Nastavit režim úprav…",
     "uploadImageTextText": "Nahrávání obrázku...",
     "uploadImageTitleText": "Nahrávání obrázku",
-    "waitText": "Čekejte prosím..."
+    "waitText": "Čekejte prosím...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Chyba",
@@ -572,7 +575,7 @@
       "Missing Operator": "Chybí operátor",
       "No List": "Bez seznamu",
       "No Spacing": "Žádné mezery",
-      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na ně v textu styly pro nadpisy, aby se objevily v tabulce obsahu.",
+      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na text styly pro nadpisy, aby se objevily v obsahu.",
       "No table of figures entries found": "Pro seznam obrázků aj. nebyly nalezeny vstupní hodnoty.",
       "None": "Žádné",
       "Normal": "Normální",
@@ -779,7 +782,6 @@
     "textSpellcheck": "Kontrola pravopisu",
     "textStatistic": "Statistický",
     "textSubject": "Předmět",
-    "textSubmit": "Odeslat",
     "textSymbols": "Symboly",
     "textTheme": "Prostředí",
     "textTitle": "Název",
@@ -810,6 +812,8 @@
     "textOk": "OK",
     "textRenameFile": "Přejmenovat soubor",
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
-    "textSwitchedStandardView": "Přepnout na standartní zobrazení"
+    "textSwitchedStandardView": "Přepnout na standartní zobrazení",
+    "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
+    "btnSend": "Send"
   }
 }

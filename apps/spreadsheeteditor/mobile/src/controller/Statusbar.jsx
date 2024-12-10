@@ -231,7 +231,7 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer
                     '<div class="item-content item-input" style="margin-top: 15px; position: relative; padding-bottom: 10px;"><div class="item-inner"><div class="item-input-wrap" style="min-height: initial; width: 100%;"><input type="text" style="width: 100%;" name="modal-sheet-name" value="' + current + '" maxlength="31" placeholder="' + _t.textSheetName + '" /></div></div></div>',
                 buttons: [
                     {
-                        text: 'OK',
+                        text: _t.textOk,
                         bold: true,
                         onClick: function () {
                             let s = $$('input[name="modal-sheet-name"]').val(),

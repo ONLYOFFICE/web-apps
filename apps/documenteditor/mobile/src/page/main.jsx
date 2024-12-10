@@ -70,8 +70,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         if(logo && isBranding) {
             isHideLogo = logo.visible === false;
 
-            if(logo.image || logo.imageDark) {
-                customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+            if(logo.image || logo.imageDark || logo.imageLight) {
+                customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image ?? logo.imageLight : logo.imageLight ?? logo.image ?? logo.imageDark;
                 customLogoUrl = logo.url;
             }
         } else {
@@ -79,11 +79,40 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         }
     }
 
+    const touchMoveHandler = (e) => {
+        if (e.touches.length > 1 && !e.target.closest('#editor_sdk')) {
+            e.preventDefault();
+        }
+    }
+
+    const gesturePreventHandler = e => {
+        e.preventDefault();
+    }
+
     useEffect(() => {
-        if($$('.skl-container').length) {
+        if ($$('.skl-container').length) {
             $$('.skl-container').remove();
         }
+
+        document.addEventListener('touchmove', touchMoveHandler);
+
+        if (Device.ios) {
+            document.addEventListener('gesturestart', gesturePreventHandler);
+            document.addEventListener('gesturechange', gesturePreventHandler);
+            document.addEventListener('gestureend', gesturePreventHandler);
+        }
+       
+        return () => {
+            document.removeEventListener('touchmove', touchMoveHandler);
+
+            if (Device.ios) {
+                document.removeEventListener('gesturestart', gesturePreventHandler);
+                document.removeEventListener('gesturechange', gesturePreventHandler);
+                document.removeEventListener('gestureend', gesturePreventHandler);
+            }
+        }
     }, []);
+
 
     const handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);

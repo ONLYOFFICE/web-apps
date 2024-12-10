@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -76,7 +76,7 @@ define([
                 handleSelect: false,
                 scrollable: true,
                 listenStoreEvents: false,
-                template: _.template('<div class="dataview-ct inner"></div>')
+                template: _.template('<div class="dataview-ct inner" role="list"></div>')
             },
 
             getTextBox: function () {
@@ -478,6 +478,7 @@ define([
                         textEdit: me.textEdit,
                         textReply: me.textReply,
                         textClose: me.textClose,
+                        textComment: me.textComment,
                         maxCommLength: Asc.c_oAscMaxCellOrCommentLength
                     })),
                     emptyText: me.txtEmpty
@@ -925,6 +926,7 @@ define([
         textOpenAgain           : "Open Again",
         textHintAddComment      : 'Add Comment',
         textSort: 'Sort comments',
+        textComment             : 'Comment',
         mniPositionAsc: 'From top',
         mniPositionDesc: 'From bottom',
         mniAuthorAsc: 'Author A to Z',

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -119,7 +119,8 @@ define([
         formsNoRoles:   'no-roles',
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
-        changeModeLock: 'change-mode-lock'
+        changeModeLock: 'change-mode-lock',
+        noStyles: 'no-styles'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -504,7 +505,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -514,7 +515,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -524,7 +525,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -556,7 +557,7 @@ define([
                         value: '0 cm',
                         maxValue: 55.87,
                         minValue: -55.87,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: 'small'
@@ -566,7 +567,7 @@ define([
 
                     this.lblIndentsLeft = new Common.UI.Label({
                         caption: this.textIndLeft,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblIndentsLeft);
 
@@ -578,7 +579,7 @@ define([
                         value: '0 cm',
                         maxValue: 55.87,
                         minValue: -55.87,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'big'
@@ -588,7 +589,7 @@ define([
 
                     this.lblIndentsRight = new Common.UI.Label({
                         caption: this.textIndRight,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblIndentsRight);
 
@@ -602,7 +603,7 @@ define([
                         minValue: 0,
                         allowAuto   : true,
                         autoText    : this.txtAutoText,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: 'big'
@@ -612,7 +613,7 @@ define([
 
                     this.lblSpacingBefore = new Common.UI.Label({
                         caption: this.textSpaceBefore,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblSpacingBefore);
 
@@ -626,7 +627,7 @@ define([
                         minValue: 0,
                         allowAuto   : true,
                         autoText    : this.txtAutoText,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -636,7 +637,7 @@ define([
 
                     this.lblSpacingAfter = new Common.UI.Label({
                         caption: this.textSpaceAfter,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblSpacingAfter);
 
@@ -832,6 +833,20 @@ define([
                     });
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnTextFromFile = new Common.UI.Button({
+                        id: 'id-toolbar-btn-text-from-file',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-text-from-file',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock,
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsTextFromFile,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnTextFromFile);
+
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
                         isDisabled: function () {
@@ -864,6 +879,19 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnInsDateTime);
+
+                    this.btnInsField = new Common.UI.Button({
+                        id: 'id-toolbar-btn-insfield',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-quick-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsField,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnInsField);
 
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
@@ -1198,14 +1226,7 @@ define([
                                     checkable: true,
                                     template: pageMarginsTemplate,
                                     toggleGroup: 'menuPageMargins',
-                                    value: [20, 30, 20, 15]
-                                },
-                                {
-                                    caption: this.textMarginsUsNormal,
-                                    checkable: true,
-                                    template: pageMarginsTemplate,
-                                    toggleGroup: 'menuPageMargins',
-                                    value: [25.4, 25.4, 25.4, 25.4]
+                                    value: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("de-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]
                                 },
                                 {
                                     caption: this.textMarginsNarrow,
@@ -1640,7 +1661,7 @@ define([
                         itemHeight = 40;
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
+                        lock: [_set.noStyles, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
@@ -1710,6 +1731,7 @@ define([
 
                     this.paragraphControls.push(this.listStyles);
                     this.textOnlyControls.push(this.listStyles);
+                    this.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.listStyles]})
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls);
@@ -1885,17 +1907,17 @@ define([
                         });
                         this.toolbarControls.push(this.btnHandTool);
 
-                        this.btnEditMode = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'toolbar__icon btn-edit-text',
-                            style: 'min-width: 45px;',
-                            lock: [_set.lostConnect, _set.disableOnStart],
-                            caption: this.textEditMode,
-                            dataHint: '1',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
-                        });
-                        this.toolbarControls.push(this.btnEditMode);
+                        // this.btnEditMode = new Common.UI.Button({
+                        //     cls: 'btn-toolbar x-huge icon-top',
+                        //     iconCls: 'toolbar__icon btn-edit-text',
+                        //     style: 'min-width: 45px;',
+                        //     lock: [_set.lostConnect, _set.disableOnStart],
+                        //     caption: this.textEditMode,
+                        //     dataHint: '1',
+                        //     dataHintDirection: 'bottom',
+                        //     dataHintOffset: 'small'
+                        // });
+                        // this.toolbarControls.push(this.btnEditMode);
 
                         this.lockControls = this.toolbarControls.concat(this.paragraphControls);
                         this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
@@ -1956,6 +1978,8 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
+                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
                 if ( is_file_active ) {
@@ -1985,7 +2009,7 @@ define([
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
-                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
+                // _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
 
                 return $host;
             },
@@ -1996,6 +2020,7 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
+                _injectComponent('#slot-btn-text-from-file', this.btnTextFromFile);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -2040,6 +2065,7 @@ define([
                 _injectComponent('#slot-btn-line-numbers', this.btnLineNumbers);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-insfield', this.btnInsField);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
@@ -2384,6 +2410,18 @@ define([
 
                     me.btnWatermark.updateHint(me.tipWatermark);
 
+                    me.btnTextFromFile.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniTextFromLocalFile, value: 'file' },
+                            { caption: me.mniTextFromURL, value: 'url' },
+                            { caption: me.mniTextFromStorage, value: 'storage' }
+                        ]
+                    }));
+                    me.btnTextFromFile.menu.items[2].setVisible(config.canRequestSelectDocument || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    me.btnTextFromFile.menu.items[1].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.menu.items[2].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.updateHint(me.tipTextFromFile);
+
                     if (!config.canFeatureContentControl && me.btnContentControls.cmpEl) {
                         me.btnContentControls.cmpEl.parents('.group').hide().prev('.separator').hide();
                     }
@@ -2403,7 +2441,7 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
-                this.btnEditMode.updateHint(this.tipEditMode, true);
+                // this.btnEditMode.updateHint(this.tipEditMode, true);
             },
 
             createDelayedElements: function () {
@@ -2455,6 +2493,7 @@ define([
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsField.updateHint(this.tipInsField);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -2647,27 +2686,28 @@ define([
                     items: []
                 }));
 
-                var smartArtData = Common.define.smartArt.getSmartArtData();
-                smartArtData.forEach(function (item, index) {
-                    var length = item.items.length,
-                        width = 399;
-                    if (length < 5) {
-                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
-                    }
-                    me.btnInsertSmartArt.menu.addItem({
-                        caption: item.caption,
-                        value: item.sectionId,
-                        itemId: item.id,
-                        itemsLength: length,
-                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
-                            ],
-                            menuAlign: 'tl-tr',
-                        })});
-                });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    var smartArtData = Common.define.smartArt.getSmartArtData();
+                    smartArtData.forEach(function (item, index) {
+                        var length = item.items.length,
+                            width = 399;
+                        if (length < 5) {
+                            width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                        }
+                        me.btnInsertSmartArt.menu.addItem({
+                            caption: item.caption,
+                            value: item.sectionId,
+                            itemId: item.id,
+                            itemsLength: length,
+                            iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                                ],
+                                menuAlign: 'tl-tr',
+                            })});
+                    });
+
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
@@ -3287,7 +3327,7 @@ define([
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
-                    me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
+                    me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;
                 }
             },
@@ -3430,291 +3470,7 @@ define([
 
             lockToolbar: function (causes, lock, opts) {
                 Common.Utils.lockControls(causes, lock, opts, this.lockControls);
-            },
-
-            textBold: 'Bold',
-            textItalic: 'Italic',
-            textUnderline: 'Underline',
-            textStrikeout: 'Strikeout',
-            textSuperscript: 'Superscript',
-            textSubscript: 'Subscript',
-            strMenuNoFill: 'No Fill',
-            tipFontName: 'Font Name',
-            tipFontSize: 'Font Size',
-            tipParagraphStyle: 'Paragraph Style',
-            tipCopy: 'Copy',
-            tipPaste: 'Paste',
-            tipUndo: 'Undo',
-            tipRedo: 'Redo',
-            tipPrint: 'Print',
-            tipPrintQuick: 'Quick print',
-            tipSave: 'Save',
-            tipIncFont: 'Increment font size',
-            tipDecFont: 'Decrement font size',
-            tipHighlightColor: 'Highlight color',
-            tipFontColor: 'Font color',
-            tipMarkers: 'Bullets',
-            tipNumbers: 'Numbering',
-            tipMultilevels: 'Outline',
-            tipAlignLeft: 'Align Left',
-            tipAlignRight: 'Align Right',
-            tipAlignCenter: 'Align Center',
-            tipAlignJust: 'Justified',
-            tipDecPrLeft: 'Decrease Indent',
-            tipIncPrLeft: 'Increase Indent',
-            tipShowHiddenChars: 'Nonprinting Characters',
-            tipLineSpace: 'Paragraph Line Spacing',
-            tipPrColor: 'Background color',
-            tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Image',
-            tipPageBreak: 'Insert Page or Section break',
-            tipInsertNum: 'Insert Page Number',
-            tipClearStyle: 'Clear Style',
-            tipCopyStyle: 'Copy Style',
-            tipPageSize: 'Page Size',
-            tipPageOrient: 'Page Orientation',
-            tipBack: 'Back',
-            tipInsertShape: 'Insert Autoshape',
-            tipInsertEquation: 'Insert Equation',
-            tipInsertSmartArt: 'Insert SmartArt',
-            mniImageFromFile: 'Image from File',
-            mniImageFromUrl: 'Image from URL',
-            mniCustomTable: 'Insert Custom Table',
-            textTitleError: 'Error',
-            textInsertPageNumber: 'Insert page number',
-            textToCurrent: 'To Current Position',
-            tipEditHeader: 'Edit header or footer',
-            mniEditHeader: 'Edit Header',
-            mniEditFooter: 'Edit Footer',
-            mniHiddenChars: 'Nonprinting Characters',
-            mniHiddenBorders: 'Hidden Table Borders',
-            tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
-            textNewColor: 'Add New Custom Color',
-            textAutoColor: 'Automatic',
-            tipInsertChart: 'Insert Chart',
-            tipColorSchemas: 'Change Color Scheme',
-            tipInsertHorizontalText: 'Insert horizontal text box',
-            tipInsertVerticalText: 'Insert vertical text box',
-            tipInsertText: 'Insert text box',
-            tipInsertTextArt: 'Insert Text Art',
-            mniEditDropCap: 'Drop Cap Settings',
-            textNone: 'None',
-            textInText: 'In Text',
-            textInMargin: 'In Margin',
-            tipDropCap: 'Insert drop cap',
-            textInsPageBreak: 'Insert Page Break',
-            textInsColumnBreak: 'Insert Column Break',
-            textInsSectionBreak: 'Insert Section Break',
-            textNextPage: 'Next Page',
-            textContPage: 'Continuous Page',
-            textEvenPage: 'Even Page',
-            textOddPage: 'Odd Page',
-            tipSaveCoauth: 'Save your changes for the other users to see them.',
-            textStyleMenuUpdate: 'Update from select',
-            textStyleMenuRestore: 'Restore to default',
-            textStyleMenuDelete: 'Delete style',
-            textStyleMenuRestoreAll: 'Restore all to default styles',
-            textStyleMenuDeleteAll: 'Delete all custom styles',
-            textStyleMenuNew: 'New style from selection',
-            tipColumns: 'Insert columns',
-            textColumnsOne: 'One',
-            textColumnsTwo: 'Two',
-            textColumnsThree: 'Three',
-            textColumnsLeft: 'Left',
-            textColumnsRight: 'Right',
-            tipPageMargins: 'Page Margins',
-            textMarginsLast: 'Last Custom',
-            textMarginsNormal: 'Normal',
-            textMarginsUsNormal: 'US Normal',
-            textMarginsNarrow: 'Narrow',
-            textMarginsModerate: 'Moderate',
-            textMarginsWide: 'Wide',
-            textPageMarginsCustom: 'Custom margins',
-            textTop: 'Top: ',
-            textLeft: 'Left: ',
-            textBottom: 'Bottom: ',
-            textRight: 'Right: ',
-            textPageSizeCustom: 'Custom Page Size',
-            textPortrait: 'Portrait',
-            textLandscape: 'Landscape',
-            textInsertPageCount: 'Insert number of pages',
-            tipChangeChart: 'Change Chart Type',
-            capBtnInsPagebreak: 'Page Break',
-            capBtnInsImage: 'Image',
-            capBtnInsTable: 'Table',
-            capBtnInsChart: 'Chart',
-            textTabFile: 'File',
-            textTabHome: 'Home',
-            textTabInsert: 'Insert',
-            textTabLayout: 'Layout',
-            textTabReview: 'Review',
-            capBtnInsShape: 'Shape',
-            capBtnInsTextbox: 'Text Box',
-            capBtnInsTextart: 'Text Art',
-            capBtnInsDropcap: 'Drop Cap',
-            capBtnInsEquation: 'Equation',
-            capBtnInsHeader: 'Header/Footer',
-            capBtnColumns: 'Columns',
-            capBtnPageOrient: 'Orientation',
-            capBtnMargins: 'Margins',
-            capBtnPageSize: 'Size',
-            capBtnInsSmartArt: 'SmartArt',
-            tipImgAlign: 'Align objects',
-            tipImgGroup: 'Group objects',
-            tipImgWrapping: 'Wrap text',
-            tipSendForward: 'Bring forward',
-            tipSendBackward: 'Send backward',
-            capImgAlign: 'Align',
-            capImgGroup: 'Group',
-            capImgForward: 'Bring Forward',
-            capImgBackward: 'Send Backward',
-            capImgWrapping: 'Wrapping',
-            capBtnComment: 'Comment',
-            textColumnsCustom: 'Custom Columns',
-            textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection',
-            textTabLinks: 'References',
-            capBtnInsControls: 'Content Control',
-            textRichControl: 'Rich text',
-            textPlainControl: 'Plain text',
-            textRemoveControl: 'Remove',
-            mniEditControls: 'Settings',
-            tipControls: 'Insert content control',
-            mniHighlightControls: 'Highlight settings',
-            textNoHighlight: 'No highlighting',
-            mniImageFromStorage: 'Image from Storage',
-            capBtnBlankPage: 'Blank Page',
-            tipBlankPage: 'Insert blank page',
-            txtDistribHor: 'Distribute Horizontally',
-            txtDistribVert: 'Distribute Vertically',
-            txtPageAlign: 'Align to Page',
-            txtMarginAlign: 'Align to Margin',
-            txtObjectsAlign: 'Align Selected Objects',
-            capBtnWatermark: 'Watermark',
-            textEditWatermark: 'Custom Watermark',
-            textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark',
-            textPictureControl: 'Picture',
-            textComboboxControl: 'Combo box',
-            textCheckboxControl: 'Check box',
-            textDropdownControl: 'Drop-down list',
-            textDateControl: 'Date',
-            capBtnAddComment: 'Add Comment',
-            capBtnInsSymbol: 'Symbol',
-            tipInsertSymbol: 'Insert symbol',
-            mniDrawTable: 'Draw Table',
-            mniEraseTable: 'Erase Table',
-            textListSettings: 'List Settings',
-            capBtnDateTime: 'Date & Time',
-            tipDateTime: 'Insert current date and time',
-            capBtnLineNumbers: 'Line Numbers',
-            textContinuous: 'Continuous',
-            textRestartEachPage: 'Restart Each Page',
-            textRestartEachSection: 'Restart Each Section',
-            textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
-            textCustomLineNumbers: 'Line Numbering Options',
-            tipLineNumbers: 'Show line numbers',
-            tipChangeCase: 'Change case',
-            mniSentenceCase: 'Sentence case.',
-            mniLowerCase: 'lowercase',
-            mniUpperCase: 'UPPERCASE',
-            mniCapitalizeWords: 'Capitalize Each Word',
-            mniToggleCase: 'tOGGLE cASE',
-            textChangeLevel: 'Change List Level',
-            mniTextToTable: 'Convert Text to Table',
-            mniFromFile: 'From File',
-            mniFromUrl: 'From URL',
-            mniFromStorage: 'From Storage',
-            tipNumCapitalLetters: 'A. B. C.',
-            tipNumLettersParentheses: 'a) b) c)',
-            tipNumLettersPoints: 'a. b. c.',
-            tipNumNumbersPoint: '1. 2. 3.',
-            tipNumNumbersParentheses: '1) 2) 3)',
-            tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.',
-            tipMultiLevelVarious: 'Multi-level various numbered bullets',
-            tipMultiLevelNumbered: 'Multi-level numbered bullets',
-            tipMultiLevelSymbols: 'Multi-level symbols bullets',
-            tipMarkersFRound: 'Filled round bullets',
-            tipMarkersHRound: 'Hollow round bullets',
-            tipMarkersFSquare: 'Filled square bullets',
-            tipMarkersStar: 'Star bullets',
-            tipMarkersArrow: 'Arrow bullets',
-            tipMarkersCheckmark: 'Checkmark bullets',
-            tipMarkersFRhombus: 'Filled rhombus bullets',
-            tipMarkersDash: 'Dash bullets',
-            textTabView: 'View',
-            mniRemoveHeader: 'Remove Header',
-            mniRemoveFooter: 'Remove Footer',
-            mniInsertSSE: 'Insert Spreadsheet',
-            tipSelectAll: 'Select all',
-            tipCut: 'Cut',
-            tipRusUpperPoints: 'А. Б. В.',
-            tipRusUpperParentheses: 'А) Б) В)',
-            tipRusLowerPoints: 'а. б. в.',
-            tipRusLowerParentheses: 'а) б) в)',
-            tipMultiLevelArticl: '',
-            tipMultiLevelChapter: '',
-            tipMultiLevelHeadings: '',
-            tipMultiLevelHeadVarious: '',
-            txtGroupRecent: 'Recently used',
-            txtGroupBulletLib: 'Bullet library',
-            txtGroupNumLib: 'Numbering library',
-            txtGroupMultiLib: 'List library',
-            txtGroupBulletDoc: 'Document bullets',
-            txtGroupNumDoc: 'Document numbering formats',
-            txtGroupMultiDoc: 'Lists in current document',
-            textTabDraw: 'Draw',
-            textMoreSymbols: 'More symbols',
-            textAlpha: 'Greek Small Letter Alpha',
-            textBetta: 'Greek Small Letter Betta',
-            textBlackHeart: 'Black Heart Suit',
-            textBullet: 'Bullet',
-            textCopyright: 'Copyright Sign',
-            textDegree: 'Degree Sign',
-            textDelta: 'Greek Small Letter Delta',
-            textDivision: 'Division Sign',
-            textDollar: 'Dollar Sign',
-            textEuro: 'Euro Sign',
-            textGreaterEqual: 'Greater-Than Or Equal To',
-            textInfinity: 'Infinity',
-            textLessEqual: 'Less-Than Or Equal To',
-            textLetterPi: 'Greek Small Letter Pi',
-            textNotEqualTo: 'Not Equal To',
-            textOneHalf: 'Vulgar Fraction One Half',
-            textOneQuarter: 'Vulgar Fraction One Quarter',
-            textPlusMinus: 'Plus-Minus Sign',
-            textRegistered: 'Registered Sign',
-            textSection: 'Section Sign',
-            textSmile: 'White Smiling Fase',
-            textSquareRoot: 'Square Root',
-            textTilde: 'Tilde',
-            textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign',
-            capBtnHyphenation: 'Hyphenation',
-            textAuto: 'Automatic',
-            textCustomHyphen: 'Hyphenation options',
-            tipHyphenation: 'Change hyphenation',
-            capColorScheme: 'Color Scheme',
-            tipReplace: 'Replace',
-            capBtnSelect: 'Select',
-            capBtnHand: 'Hand',
-            tipSelectTool: 'Select tool',
-            tipHandTool: 'Hand tool',
-            textLineSpaceOptions: 'Line spacing options',
-            textAddSpaceBefore: 'Add space before paragraph',
-            textAddSpaceAfter: 'Add space after paragraph',
-            textRemSpaceBefore: 'Remove space before paragraph',
-            textRemSpaceAfter: 'Remove space after paragraph',
-            textIndLeft: 'Left indent',
-            textIndRight: 'Right indent',
-            textSpaceBefore: 'Space before',
-            textSpaceAfter: 'Space after',
-            txtAutoText: 'Auto',
-            textEditMode: 'Edit PDF',
-            tipEditMode: 'Edit current file.<br>The page will be reloaded.',
-            capBtnPageColor: 'Page Color',
-            tipPageColor: 'Change page color'
+            }
         }
     })(), DE.Views.Toolbar || {}));
 });

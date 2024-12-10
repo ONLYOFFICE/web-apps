@@ -366,7 +366,9 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "Գաղտնաբառ",
@@ -507,7 +509,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",

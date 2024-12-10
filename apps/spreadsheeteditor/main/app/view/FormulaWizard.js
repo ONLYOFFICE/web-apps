@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -38,7 +38,6 @@
 
 define([
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
 ], function () { 'use strict';
 
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -432,9 +431,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',

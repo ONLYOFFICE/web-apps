@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -39,33 +39,11 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SymbolTableDialog',
-    'common/main/lib/view/OptionsDialog',
-    'common/main/lib/util/define',
     'common/main/lib/view/SearchBar',
+    'spreadsheeteditor/main/app/view/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/controller/PivotTable',
-    'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-    'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
-    'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
-    'spreadsheeteditor/main/app/view/NameManagerDlg',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog',
-    'spreadsheeteditor/main/app/view/PageMarginsDialog',
-    'spreadsheeteditor/main/app/view/HeaderFooterDialog',
-    'spreadsheeteditor/main/app/view/PrintTitlesDialog',
-    'spreadsheeteditor/main/app/view/ScaleDialog',
-    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
-    'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
-    'spreadsheeteditor/main/app/view/CreateSparklineDialog',
-    'spreadsheeteditor/main/app/view/ChartTypeDialog',
-    'spreadsheeteditor/main/app/view/ChartWizardDialog',
-    'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -91,6 +69,7 @@ define([
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
                     'tab:active': this.onActiveTab,
+                    'tab:click': this.onClickTab,
                     'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
@@ -162,6 +141,9 @@ define([
                 },
                 'LeftMenu': {
                     'search:show': this.searchShow.bind(this)
+                },
+                'PivotTable': {
+                    'insertpivot': this.onInsertPivot
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -217,7 +199,8 @@ define([
                 wsProps: [],
                 is_lockText: false,
                 is_lockShape: false,
-                isUserProtected: false
+                isUserProtected: false,
+                showPivotTab: false
             };
             this.binding = {};
 
@@ -287,8 +270,11 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: this.helpProtectRange, header: this.helpProtectRangeHeader, target: '#slot-btn-protect-range', automove: true}
+                'insPivot' : {name: 'sse-help-tip-ins-pivot', placement: 'bottom-right', text: this.helpInsPivot, header: this.helpInsPivotHeader, target: 'li.ribtab #ins', automove: true},
+                'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             });
+
         },
 
         attachUIEvents: function(toolbar) {
@@ -440,6 +426,7 @@ define([
                 toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
+                toolbar.btnCommaStyle.on('click',                           _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
                 toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
@@ -492,8 +479,10 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me, undefined));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
-                toolbar.chPrintGridlines.on('change',                        _.bind(this.onPrintGridlinesChange, this));
-                toolbar.chPrintHeadings.on('change',                         _.bind(this.onPrintHeadingsChange, this));
+                toolbar.chPrintGridlines.on('change',                       _.bind(this.onPrintGridlinesChange, this));
+                toolbar.chPrintHeadings.on('change',                        _.bind(this.onPrintHeadingsChange, this));
+                toolbar.btnRtlSheet.on('click',                             _.bind(this.onRtlSheetClick, this));
+
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
@@ -1023,10 +1012,6 @@ define([
                                     me.api.asc_addImageDrawingObject([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                                } else {
-                                    Common.UI.warning({
-                                        msg: this.textEmptyImgUrl
-                                    });
                                 }
                             }
 
@@ -1133,7 +1118,7 @@ define([
         },
 
         onEditChart: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
             var me = this, info = me.api.asc_getCellInfo();
             var selectType = info.asc_getSelectionType();
             if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
@@ -1176,7 +1161,9 @@ define([
         },
 
         onEditChartData: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) {
+                return;
+            }
 
             var me = this;
             var props;
@@ -1205,7 +1192,7 @@ define([
         },
 
         onEditChartType: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var me = this;
             var props;
@@ -2657,7 +2644,8 @@ define([
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex(),
                 props = this.api.asc_getPageOptions(currentSheet),
-                opt = props.asc_getPageSetup();
+                opt = props.asc_getPageSetup(),
+                params  = this.api.asc_getSheetViewSettings();
 
             this.onApiPageOrient(opt.asc_getOrientation());
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
@@ -2665,6 +2653,7 @@ define([
             this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
             this.onApiGridLines(props.asc_getGridLines());
             this.onApiHeadings(props.asc_getHeadings());
+            this.onApiRtlSheet(params.asc_getRightToLeft());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(Common.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -2682,6 +2671,10 @@ define([
 
         onApiHeadings: function (checked) {
             this.toolbar.chPrintHeadings.setValue(checked, true);
+        },
+
+        onApiRtlSheet: function (checked) {
+            this.toolbar.btnRtlSheet.toggle(!!checked, true);
         },
 
         onApiPageSize: function(w, h) {
@@ -2892,19 +2885,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             this.toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3065,19 +3046,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3104,19 +3073,7 @@ define([
                     (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrback!==undefined && this._state.clrback.indexOf(clr)<0 )) {
 
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                paragraphColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) paragraphColorPicker.clearSelection();
-                    } else {
-                        paragraphColorPicker.select(clr, true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, paragraphColorPicker);
                     this._state.clrback = clr;
                 }
                 this._state.clrshd_asccolor = color;
@@ -3248,7 +3205,15 @@ define([
                 this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
-                this._state.inpivot = !!info.asc_getPivotTableInfo();
+                var inpivot = !!info.asc_getPivotTableInfo();
+                if (this._state.inpivot !== inpivot) {
+                    if ( !inpivot && this.toolbar.isTabActive('pivot') )
+                        this.toolbar.setTab('home');
+                    this.toolbar.setVisible('pivot', !!inpivot);
+                    if (inpivot && this._state.showPivotTab)
+                        this.toolbar.setTab('pivot');
+                    this._state.inpivot = inpivot;
+                }
                 toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
@@ -3615,19 +3580,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3654,19 +3607,7 @@ define([
                         (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrback!==undefined && this._state.clrback.indexOf(clr)<0 )) {
 
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                paragraphColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) paragraphColorPicker.clearSelection();
-                    } else {
-                        paragraphColorPicker.select(clr, true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, paragraphColorPicker);
                     this._state.clrback = clr;
                 }
                 this._state.clrshd_asccolor = color;
@@ -3879,19 +3820,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             this.toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -4112,6 +4041,7 @@ define([
 
         onInsertSymbolClickCallback: function() {
             if (this.api) {
+                console.log('init')
                 var me = this,
                     selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
@@ -4591,7 +4521,7 @@ define([
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 7);
+                    me.toolbar.addTab(tab, $panel, 6);
                     me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                 }
             }
@@ -4643,8 +4573,8 @@ define([
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 6);
-                            me.toolbar.setVisible('pivot', true);
+                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
                     }
@@ -4670,7 +4600,7 @@ define([
                             (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
                             var wbtab = me.getApplication().getController('WBProtection');
                             $panel.append(wbtab.createToolbarPanel());
-                            me.toolbar.addTab(tab, $panel, 8);
+                            me.toolbar.addTab(tab, $panel, 7);
                             me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                             Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                         }
@@ -4683,7 +4613,7 @@ define([
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 9);
+                    me.toolbar.addTab(tab, $panel, 8);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
                 }
                 config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
@@ -4720,6 +4650,7 @@ define([
 
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
+                    Common.UI.TooltipManager.showTip('insPivot');
                     me.toolbar.onAppReady(config);
                 }
             });
@@ -4733,6 +4664,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onInsertPivot:  function() {
+            this._state.showPivotTab = true;
         },
 
         onPageSizeClick: function(menu, item, state) {
@@ -5002,12 +4937,17 @@ define([
         },
 
         onPrintGridlinesChange: function (field, value) {
-            this.api.asc_SetPrintGridlines(value === 'checked');
+            this.api && this.api.asc_SetPrintGridlines(value === 'checked');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onPrintHeadingsChange: function (field, value) {
-            this.api.asc_SetPrintHeadings(value === 'checked');
+            this.api && this.api.asc_SetPrintHeadings(value === 'checked');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRtlSheetClick: function (btn) {
+            this.api && this.api.asc_setRightToLeft(btn.pressed);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -5247,398 +5187,16 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'protect') ? Common.UI.TooltipManager.showTip('protectRange') : Common.UI.TooltipManager.closeTip('protectRange');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('quickAccess');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('insPivot');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+        },
+
+        onClickTab: function(tab) {
+            this._state.showPivotTab = tab === 'pivot';
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('protectRange');
-        },
-
-        textEmptyImgUrl     : 'You need to specify image URL.',
-        warnMergeLostData   : 'Operation can destroy data in the selected cells.<br>Continue?',
-        textWarning         : 'Warning',
-        textFontSizeErr     : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 409',
-        confirmAddFontName  : 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
-        textSymbols                                : 'Symbols',
-        textFraction                               : 'Fraction',
-        textScript                                 : 'Script',
-        textRadical                                : 'Radical',
-        textIntegral                               : 'Integral',
-        textLargeOperator                          : 'Large Operator',
-        textBracket                                : 'Bracket',
-        textFunction                               : 'Function',
-        textAccent                                 : 'Accent',
-        textLimitAndLog                            : 'Limit And Log',
-        textOperator                               : 'Operator',
-        textMatrix                                 : 'Matrix',
-
-        txtSymbol_pm                               : 'Plus Minus',
-        txtSymbol_infinity                         : 'Infinity',
-        txtSymbol_equals                           : 'Equal',
-        txtSymbol_neq                              : 'Not Equal To',
-        txtSymbol_about                            : 'Approximately',
-        txtSymbol_times                            : 'Multiplication Sign',
-        txtSymbol_div                              : 'Division Sign',
-        txtSymbol_factorial                        : 'Factorial',
-        txtSymbol_propto                           : 'Proportional To',
-        txtSymbol_less                             : 'Less Than',
-        txtSymbol_ll                               : 'Much Less Than',
-        txtSymbol_greater                          : 'Greater Than',
-        txtSymbol_gg                               : 'Much Greater Than',
-        txtSymbol_leq                              : 'Less Than or Equal To',
-        txtSymbol_geq                              : 'Greater Than or Equal To',
-        txtSymbol_mp                               : 'Minus Plus',
-        txtSymbol_cong                             : 'Approximately Equal To',
-        txtSymbol_approx                           : 'Almost Equal To',
-        txtSymbol_equiv                            : 'Identical To',
-        txtSymbol_forall                           : 'For All',
-        txtSymbol_additional                       : 'Complement',
-        txtSymbol_partial                          : 'Partial Differential',
-        txtSymbol_sqrt                             : 'Radical Sign',
-        txtSymbol_cbrt                             : 'Cube Root',
-        txtSymbol_qdrt                             : 'Fourth Root',
-        txtSymbol_cup                              : 'Union',
-        txtSymbol_cap                              : 'Intersection',
-        txtSymbol_emptyset                         : 'Empty Set',
-        txtSymbol_percent                          : 'Percentage',
-        txtSymbol_degree                           : 'Degrees',
-        txtSymbol_fahrenheit                       : 'Degrees Fahrenheit',
-        txtSymbol_celsius                          : 'Degrees Celsius',
-        txtSymbol_inc                              : 'Increment',
-        txtSymbol_nabla                            : 'Nabla',
-        txtSymbol_exists                           : 'There Exist',
-        txtSymbol_notexists                        : 'There Does Not Exist',
-        txtSymbol_in                               : 'Element Of',
-        txtSymbol_ni                               : 'Contains as Member',
-        txtSymbol_leftarrow                        : 'Left Arrow',
-        txtSymbol_uparrow                          : 'Up Arrow',
-        txtSymbol_rightarrow                       : 'Right Arrow',
-        txtSymbol_downarrow                        : 'Down Arrow',
-        txtSymbol_leftrightarrow                   : 'Left-Right Arrow',
-        txtSymbol_therefore                        : 'Therefore',
-        txtSymbol_plus                             : 'Plus',
-        txtSymbol_minus                            : 'Minus',
-        txtSymbol_not                              : 'Not Sign',
-        txtSymbol_ast                              : 'Asterisk Operator',
-        txtSymbol_bullet                           : 'Bulet Operator',
-        txtSymbol_vdots                            : 'Vertical Ellipsis',
-        txtSymbol_cdots                            : 'Midline Horizontal Ellipsis',
-        txtSymbol_rddots                           : 'Up Right Diagonal Ellipsis',
-        txtSymbol_ddots                            : 'Down Right Diagonal Ellipsis',
-        txtSymbol_aleph                            : 'Alef',
-        txtSymbol_beth                             : 'Bet',
-        txtSymbol_qed                              : 'End of Proof',
-        txtSymbol_alpha                            : 'Alpha',
-        txtSymbol_beta                             : 'Beta',
-        txtSymbol_gamma                            : 'Gamma',
-        txtSymbol_delta                            : 'Delta',
-        txtSymbol_varepsilon                       : 'Epsilon Variant',
-        txtSymbol_epsilon                          : 'Epsilon',
-        txtSymbol_zeta                             : 'Zeta',
-        txtSymbol_eta                              : 'Eta',
-        txtSymbol_theta                            : 'Theta',
-        txtSymbol_vartheta                         : 'Theta Variant',
-        txtSymbol_iota                             : 'Iota',
-        txtSymbol_kappa                            : 'Kappa',
-        txtSymbol_lambda                           : 'Lambda',
-        txtSymbol_mu                               : 'Mu',
-        txtSymbol_nu                               : 'Nu',
-        txtSymbol_xsi                              : 'Xi',
-        txtSymbol_o                                : 'Omicron',
-        txtSymbol_pi                               : 'Pi',
-        txtSymbol_varpi                            : 'Pi Variant',
-        txtSymbol_rho                              : 'Rho',
-        txtSymbol_varrho                           : 'Rho Variant',
-        txtSymbol_sigma                            : 'Sigma',
-        txtSymbol_varsigma                         : 'Sigma Variant',
-        txtSymbol_tau                              : 'Tau',
-        txtSymbol_upsilon                          : 'Upsilon',
-        txtSymbol_varphi                           : 'Phi Variant',
-        txtSymbol_phi                              : 'Phi',
-        txtSymbol_chi                              : 'Chi',
-        txtSymbol_psi                              : 'Psi',
-        txtSymbol_omega                            : 'Omega',
-
-        txtFractionVertical                        : 'Stacked Fraction',
-        txtFractionDiagonal                        : 'Skewed Fraction',
-        txtFractionHorizontal                      : 'Linear Fraction',
-        txtFractionSmall                           : 'Small Fraction',
-        txtFractionDifferential_1                  : 'Differential',
-        txtFractionDifferential_2                  : 'Differential',
-        txtFractionDifferential_3                  : 'Differential',
-        txtFractionDifferential_4                  : 'Differential',
-        txtFractionPi_2                            : 'Pi Over 2',
-
-        txtScriptSup                               : 'Superscript',
-        txtScriptSub                               : 'Subscript',
-        txtScriptSubSup                            : 'Subscript-Superscript',
-        txtScriptSubSupLeft                        : 'Left Subscript-Superscript',
-        txtScriptCustom_1                          : 'Script',
-        txtScriptCustom_2                          : 'Script',
-        txtScriptCustom_3                          : 'Script',
-        txtScriptCustom_4                          : 'Script',
-
-        txtRadicalSqrt                             : 'Square Root',
-        txtRadicalRoot_n                           : 'Radical With Degree',
-        txtRadicalRoot_2                           : 'Square Root With Degree',
-        txtRadicalRoot_3                           : 'Cubic Root',
-        txtRadicalCustom_1                         : 'Radical',
-        txtRadicalCustom_2                         : 'Radical',
-
-        txtIntegral                                : 'Integral',
-        txtIntegralSubSup                          : 'Integral',
-        txtIntegralCenterSubSup                    : 'Integral',
-        txtIntegralDouble                          : 'Double Integral',
-        txtIntegralDoubleSubSup                    : 'Double Integral',
-        txtIntegralDoubleCenterSubSup              : 'Double Integral',
-        txtIntegralTriple                          : 'Triple Integral',
-        txtIntegralTripleSubSup                    : 'Triple Integral',
-        txtIntegralTripleCenterSubSup              : 'Triple Integral',
-        txtIntegralOriented                        : 'Contour Integral',
-        txtIntegralOrientedSubSup                  : 'Contour Integral',
-        txtIntegralOrientedCenterSubSup            : 'Contour Integral',
-        txtIntegralOrientedDouble                  : 'Surface Integral',
-        txtIntegralOrientedDoubleSubSup            : 'Surface Integral',
-        txtIntegralOrientedDoubleCenterSubSup      : 'Surface Integral',
-        txtIntegralOrientedTriple                  : 'Volume Integral',
-        txtIntegralOrientedTripleSubSup            : 'Volume Integral',
-        txtIntegralOrientedTripleCenterSubSup      : 'Volume Integral',
-        txtIntegral_dx                             : 'Differential x',
-        txtIntegral_dy                             : 'Differential y',
-        txtIntegral_dtheta                         : 'Differential theta',
-
-        txtLargeOperator_Sum                       : 'Summation',
-        txtLargeOperator_Sum_CenterSubSup          : 'Summation',
-        txtLargeOperator_Sum_SubSup                : 'Summation',
-        txtLargeOperator_Sum_CenterSub             : 'Summation',
-        txtLargeOperator_Sum_Sub                   : 'Summation',
-        txtLargeOperator_Prod                      : 'Product',
-        txtLargeOperator_Prod_CenterSubSup         : 'Product',
-        txtLargeOperator_Prod_SubSup               : 'Product',
-        txtLargeOperator_Prod_CenterSub            : 'Product',
-        txtLargeOperator_Prod_Sub                  : 'Product',
-        txtLargeOperator_CoProd                    : 'Co-Product',
-        txtLargeOperator_CoProd_CenterSubSup       : 'Co-Product',
-        txtLargeOperator_CoProd_SubSup             : 'Co-Product',
-        txtLargeOperator_CoProd_CenterSub          : 'Co-Product',
-        txtLargeOperator_CoProd_Sub                : 'Co-Product',
-        txtLargeOperator_Union                     : 'Union',
-        txtLargeOperator_Union_CenterSubSup        : 'Union',
-        txtLargeOperator_Union_SubSup              : 'Union',
-        txtLargeOperator_Union_CenterSub           : 'Union',
-        txtLargeOperator_Union_Sub                 : 'Union',
-        txtLargeOperator_Intersection              : 'Intersection',
-        txtLargeOperator_Intersection_CenterSubSup : 'Intersection',
-        txtLargeOperator_Intersection_SubSup       : 'Intersection',
-        txtLargeOperator_Intersection_CenterSub    : 'Intersection',
-        txtLargeOperator_Intersection_Sub          : 'Intersection',
-        txtLargeOperator_Disjunction               : 'Vee',
-        txtLargeOperator_Disjunction_CenterSubSup  : 'Vee',
-        txtLargeOperator_Disjunction_SubSup        : 'Vee',
-        txtLargeOperator_Disjunction_CenterSub     : 'Vee',
-        txtLargeOperator_Disjunction_Sub           : 'Vee',
-        txtLargeOperator_Conjunction               : 'Wedge',
-        txtLargeOperator_Conjunction_CenterSubSup  : 'Wedge',
-        txtLargeOperator_Conjunction_SubSup        : 'Wedge',
-        txtLargeOperator_Conjunction_CenterSub     : 'Wedge',
-        txtLargeOperator_Conjunction_Sub           : 'Wedge',
-        txtLargeOperator_Custom_1                  : 'Summation',
-        txtLargeOperator_Custom_2                  : 'Summation',
-        txtLargeOperator_Custom_3                  : 'Summation',
-        txtLargeOperator_Custom_4                  : 'Product',
-        txtLargeOperator_Custom_5                  : 'Union',
-
-        txtBracket_Round                           : 'Brackets',
-        txtBracket_Square                          : 'Brackets',
-        txtBracket_Curve                           : 'Brackets',
-        txtBracket_Angle                           : 'Brackets',
-        txtBracket_LowLim                          : 'Brackets',
-        txtBracket_UppLim                          : 'Brackets',
-        txtBracket_Line                            : 'Brackets',
-        txtBracket_LineDouble                      : 'Brackets',
-        txtBracket_Square_OpenOpen                 : 'Brackets',
-        txtBracket_Square_CloseClose               : 'Brackets',
-        txtBracket_Square_CloseOpen                : 'Brackets',
-        txtBracket_SquareDouble                    : 'Brackets',
-
-        txtBracket_Round_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Curve_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Angle_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Angle_Delimiter_3               : 'Brackets with Separators',
-        txtBracket_Round_OpenNone                  : 'Single Bracket',
-        txtBracket_Round_NoneOpen                  : 'Single Bracket',
-        txtBracket_Square_OpenNone                 : 'Single Bracket',
-        txtBracket_Square_NoneOpen                 : 'Single Bracket',
-        txtBracket_Curve_OpenNone                  : 'Single Bracket',
-        txtBracket_Curve_NoneOpen                  : 'Single Bracket',
-        txtBracket_Angle_OpenNone                  : 'Single Bracket',
-        txtBracket_Angle_NoneOpen                  : 'Single Bracket',
-        txtBracket_LowLim_OpenNone                 : 'Single Bracket',
-        txtBracket_LowLim_NoneNone                 : 'Single Bracket',
-        txtBracket_UppLim_OpenNone                 : 'Single Bracket',
-        txtBracket_UppLim_NoneOpen                 : 'Single Bracket',
-        txtBracket_Line_OpenNone                   : 'Single Bracket',
-        txtBracket_Line_NoneOpen                   : 'Single Bracket',
-        txtBracket_LineDouble_OpenNone             : 'Single Bracket',
-        txtBracket_LineDouble_NoneOpen             : 'Single Bracket',
-        txtBracket_SquareDouble_OpenNone           : 'Single Bracket',
-        txtBracket_SquareDouble_NoneOpen           : 'Single Bracket',
-        txtBracket_Custom_1                        : 'Case (Two Conditions)',
-        txtBracket_Custom_2                        : 'Cases (Three Conditions)',
-        txtBracket_Custom_3                        : 'Stack Object',
-        txtBracket_Custom_4                        : 'Stack Object',
-        txtBracket_Custom_5                        : 'Cases Example',
-        txtBracket_Custom_6                        : 'Binomial Coefficient',
-        txtBracket_Custom_7                        : 'Binomial Coefficient',
-
-        txtFunction_Sin                            : 'Sine Function',
-        txtFunction_Cos                            : 'Cosine Function',
-        txtFunction_Tan                            : 'Tangent Function',
-        txtFunction_Csc                            : 'Cosecant Function',
-        txtFunction_Sec                            : 'Secant Function',
-        txtFunction_Cot                            : 'Cotangent Function',
-        txtFunction_1_Sin                          : 'Inverse Sine Function',
-        txtFunction_1_Cos                          : 'Inverse Cosine Function',
-        txtFunction_1_Tan                          : 'Inverse Tangent Function',
-        txtFunction_1_Csc                          : 'Inverse Cosecant Function',
-        txtFunction_1_Sec                          : 'Inverse Secant Function',
-        txtFunction_1_Cot                          : 'Inverse Cotangent Function',
-        txtFunction_Sinh                           : 'Hyperbolic Sine Function',
-        txtFunction_Cosh                           : 'Hyperbolic Cosine Function',
-        txtFunction_Tanh                           : 'Hyperbolic Tangent Function',
-        txtFunction_Csch                           : 'Hyperbolic Cosecant Function',
-        txtFunction_Sech                           : 'Hyperbolic Secant Function',
-        txtFunction_Coth                           : 'Hyperbolic Cotangent Function',
-        txtFunction_1_Sinh                         : 'Hyperbolic Inverse Sine Function',
-        txtFunction_1_Cosh                         : 'Hyperbolic Inverse Cosine Function',
-        txtFunction_1_Tanh                         : 'Hyperbolic Inverse Tangent Function',
-        txtFunction_1_Csch                         : 'Hyperbolic Inverse Cosecant Function',
-        txtFunction_1_Sech                         : 'Hyperbolic Inverse Secant Function',
-        txtFunction_1_Coth                         : 'Hyperbolic Inverse Cotangent Function',
-        txtFunction_Custom_1                       : 'Sine theta',
-        txtFunction_Custom_2                       : 'Cos 2x',
-        txtFunction_Custom_3                       : 'Tangent formula',
-
-        txtAccent_Dot                              : 'Dot',
-        txtAccent_DDot                             : 'Double Dot',
-        txtAccent_DDDot                            : 'Triple Dot',
-        txtAccent_Hat                              : 'Hat',
-        txtAccent_Check                            : 'Check',
-        txtAccent_Accent                           : 'Acute',
-        txtAccent_Grave                            : 'Grave',
-        txtAccent_Smile                            : 'Breve',
-        txtAccent_Tilde                            : 'Tilde',
-        txtAccent_Bar                              : 'Bar',
-        txtAccent_DoubleBar                        : 'Double Overbar',
-        txtAccent_CurveBracketTop                  : 'Overbrace',
-        txtAccent_CurveBracketBot                  : 'Underbrace',
-        txtAccent_GroupTop                         : 'Grouping Character Above',
-        txtAccent_GroupBot                         : 'Grouping Character Below',
-        txtAccent_ArrowL                           : 'Leftwards Arrow Above',
-        txtAccent_ArrowR                           : 'Rightwards Arrow Above',
-        txtAccent_ArrowD                           : 'Right-Left Arrow Above',
-        txtAccent_HarpoonL                         : 'Leftwards Harpoon Above',
-        txtAccent_HarpoonR                         : 'Rightwards Harpoon Above',
-        txtAccent_BorderBox                        : 'Boxed Formula (With Placeholder)',
-        txtAccent_BorderBoxCustom                  : 'Boxed Formula (Example)',
-        txtAccent_BarTop                           : 'Overbar',
-        txtAccent_BarBot                           : 'Underbar',
-        txtAccent_Custom_1                         : 'Vector A',
-        txtAccent_Custom_2                         : 'ABC With Overbar',
-        txtAccent_Custom_3                         : 'x XOR y With Overbar',
-
-        txtLimitLog_LogBase                        : 'Logarithm',
-        txtLimitLog_Log                            : 'Logarithm',
-        txtLimitLog_Lim                            : 'Limit',
-        txtLimitLog_Min                            : 'Minimum',
-        txtLimitLog_Max                            : 'Maximum',
-        txtLimitLog_Ln                             : 'Natural Logarithm',
-        txtLimitLog_Custom_1                       : 'Limit Example',
-        txtLimitLog_Custom_2                       : 'Maximum Example',
-
-        txtOperator_ColonEquals                    : 'Colon Equal',
-        txtOperator_EqualsEquals                   : 'Equal Equal',
-        txtOperator_PlusEquals                     : 'Plus Equal',
-        txtOperator_MinusEquals                    : 'Minus Equal',
-        txtOperator_Definition                     : 'Equal to By Definition',
-        txtOperator_UnitOfMeasure                  : 'Measured By',
-        txtOperator_DeltaEquals                    : 'Delta Equal To',
-        txtOperator_ArrowL_Top                     : 'Leftwards Arrow Above',
-        txtOperator_ArrowR_Top                     : 'Rightwards Arrow Above',
-        txtOperator_ArrowL_Bot                     : 'Leftwards Arrow Below',
-        txtOperator_ArrowR_Bot                     : 'Rightwards Arrow Below',
-        txtOperator_DoubleArrowL_Top               : 'Leftwards Arrow Above',
-        txtOperator_DoubleArrowR_Top               : 'Rightwards Arrow Above',
-        txtOperator_DoubleArrowL_Bot               : 'Leftwards Arrow Below',
-        txtOperator_DoubleArrowR_Bot               : 'Rightwards Arrow Below',
-        txtOperator_ArrowD_Top                     : 'Right-Left Arrow Above',
-        txtOperator_ArrowD_Bot                     : 'Right-Left Arrow Above',
-        txtOperator_DoubleArrowD_Top               : 'Right-Left Arrow Below',
-        txtOperator_DoubleArrowD_Bot               : 'Right-Left Arrow Below',
-        txtOperator_Custom_1                       : 'Yileds',
-        txtOperator_Custom_2                       : 'Delta Yields',
-
-        txtMatrix_1_2                              : '1x2 Empty Matrix',
-        txtMatrix_2_1                              : '2x1 Empty Matrix',
-        txtMatrix_1_3                              : '1x3 Empty Matrix',
-        txtMatrix_3_1                              : '3x1 Empty Matrix',
-        txtMatrix_2_2                              : '2x2 Empty Matrix',
-        txtMatrix_2_3                              : '2x3 Empty Matrix',
-        txtMatrix_3_2                              : '3x2 Empty Matrix',
-        txtMatrix_3_3                              : '3x3 Empty Matrix',
-        txtMatrix_Dots_Center                      : 'Midline Dots',
-        txtMatrix_Dots_Baseline                    : 'Baseline Dots',
-        txtMatrix_Dots_Vertical                    : 'Vertical Dots',
-        txtMatrix_Dots_Diagonal                    : 'Diagonal Dots',
-        txtMatrix_Identity_2                       : '2x2 Identity Matrix',
-        txtMatrix_Identity_2_NoZeros               : '3x3 Identity Matrix',
-        txtMatrix_Identity_3                       : '3x3 Identity Matrix',
-        txtMatrix_Identity_3_NoZeros               : '3x3 Identity Matrix',
-        txtMatrix_2_2_RoundBracket                 : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_SquareBracket                : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_LineBracket                  : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
-        txtMatrix_Flat_Round                       : 'Sparse Matrix',
-        txtMatrix_Flat_Square                      : 'Sparse Matrix',
-        txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
-        txtExpand: 'Expand and sort',
-        txtSorting: 'Sorting',
-        txtSortSelected: 'Sort selected',
-        textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
-        txtInvalidRange: 'ERROR! Invalid cells range',
-        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
-        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-        textPivot: 'Pivot Table',
-        txtTable_TableStyleMedium: 'Table Style Medium',
-        txtTable_TableStyleDark: 'Table Style Dark',
-        txtTable_TableStyleLight: 'Table Style Light',
-        txtGroupTable_Custom: 'Custom',
-        txtGroupTable_Light: 'Light',
-        txtGroupTable_Medium: 'Medium',
-        txtGroupTable_Dark: 'Dark',
-        txtGroupCell_Custom: 'Custom',
-        txtGroupCell_GoodBadAndNeutral: 'Good, Bad, and Neutral',
-        txtGroupCell_DataAndModel: 'Data and Model',
-        txtGroupCell_TitlesAndHeadings: 'Titles and Headings',
-        txtGroupCell_ThemedCallStyles: 'Themed Call Styles',
-        txtGroupCell_NumberFormat: 'Number Format',
-        txtGroupCell_NoName: 'No name',
-        textInsert: 'Insert',
-        txtInsertCells: 'Insert Cells',
-        txtDeleteCells: 'Delete Cells',
-        errorComboSeries: 'To create a combination chart, select at least two series of data.',
-        textDirectional: 'Directional',
-        textShapes: 'Shapes',
-        textIndicator: 'Indicators',
-        textRating: 'Ratings',
-        txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
-        textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
-        warnNoRecommended: 'To create a chart, select the cells that contain the data you\'d like to use.<br>If you have names for the rows and columns and you\'d like use them as labels, include them in your selection.',
-        helpProtectRange: 'Restrict viewing of cells in the selected range to protect important data.',
-        helpProtectRangeHeader: 'Protect Range'
-
+            Common.UI.TooltipManager.closeTip('grayTheme');
+        }
     }, SSE.Controllers.Toolbar || {}));
 });

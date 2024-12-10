@@ -44,6 +44,10 @@
 @header-background-color-pdf: var(--toolbar-header-pdf);
 @toolbar-header-text-on-background-pdf-ie: @text-toolbar-header-on-background-pdf-ie;
 @toolbar-header-text-on-background-pdf: var(--text-toolbar-header-on-background-pdf);
+@tab-header-pdf-ie: @tab-header-pdf-ie;
+@tab-header-pdf: var(--highlight-header-tab-underline-pdf);
+@tab-toolbar-pdf-ie: @tab-toolbar-pdf-ie;
+@tab-toolbar-pdf: var(--highlight-toolbar-tab-underline-pdf);
 
 // Scaffolding
 // -------------------------
@@ -62,7 +66,9 @@
 // -------------------------
 
 .rtl-font {
-    --font-family-base-custom: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
+    &[applang=ar] {
+        --font-family-base-custom: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
+    }
 }
 
 @font-family-sans-serif:  Arial, Helvetica, "Helvetica Neue", sans-serif;
@@ -740,73 +746,21 @@
 @common-controls: "controls/common-controls.png";
 @common-controls2x: "controls/common-controls@2x.png";
 
-// Dialog alerts
-@alerts-offset-x: 0;
-@alerts-offset-y: 0;
-
-// Dialog close
-@but-close-offset-x: -26px;
-@but-close-offset-y: -151px;
-
-// Dropdown arrow
-@arrow-small-offset-x: -85px;
-@arrow-small-offset-y: -96px;
-
-// Dropdown arrow up
-@arrow-up-small-offset-x: -85px;
-@arrow-up-small-offset-y: -104px;
-
-// Dropdown arrow big
-@arrow-big-offset-x: -41px;
-@arrow-big-offset-y: -144px;
-
-// Checkbox
-@checkbox-offset-x: -35px;
-@checkbox-offset-y: 0px;
-
-// Radio button
-@radio-offset-x: -35px;
-@radio-offset-y: -65px;
-
 // Menu check
-@menu-check-offset-x: -41px;
-@menu-check-offset-y: -172px;
-
-// Multislider thumb
-@slide-thumb-offset-x: -13px;
-@slide-thumb-offset-y: -150px;
-
-// Slider thumb
-@multislide-thumb-offset-x: 0px;
-@multislide-thumb-offset-y: -150px;
-
-// Slider track
-@slide-track-offset-x: 0px;
-@slide-track-offset-y: -195px;
+@menu-check-offset-x: -40px;
+@menu-check-offset-y: -28px;
 
 // Input error
-@input-error-offset-x: -73px;
-@input-error-offset-y: -169px;
+@input-error-offset-x: -72px;
+@input-error-offset-y: -28px;
 
 // Input warning
-@input-warning-offset-x: -57px;
-@input-warning-offset-y: -169px;
-
-// Spinner
-@spinner-offset-x: -41px;
-@spinner-offset-y: -187px;
+@input-warning-offset-x: -56px;
+@input-warning-offset-y: -28px;
 
 // Search dialog
-@search-dlg-offset-x: -36px;
-@search-dlg-offset-y: -96px;
-
-// No color
-@nocolor-offset-x: 0;
-@nocolor-offset-y: -137px;
-
-// Plus
-@plus-offset-x: -80px;
-@plus-offset-y: -184px;
+@search-dlg-offset-x: -40px;
+@search-dlg-offset-y: 4px;
 
 @dl-horizontal-offset:        @component-offset-horizontal;
 // Point at which .dl-horizontal becomes horizontal

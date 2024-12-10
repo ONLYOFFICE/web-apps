@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </section>
-    <section class="box-controls">
+    <section class="box-controls" role="tabpanel">
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
@@ -36,7 +36,7 @@
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
-            <section class="panel" data-tab="home">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </section>
-            <section class="panel" data-tab="ins">
+            <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge slot-addslidemaster"></span>
                     <span class="btn-slot text x-huge slot-addlayout"></span>
@@ -185,7 +185,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
                 </div>
             </section>
-            <section id="transitions-panel" class="panel" data-tab="transit">
+            <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">
                 <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 120px;" data-group-width="854px"></div>
 
                 <div class="group small">
@@ -221,7 +221,7 @@
                     </div>
                 </div>
             </section>
-            <section id="animation-panel" class="panel" data-tab="animate">
+            <section id="animation-panel" class="panel" data-tab="animate" role="tabpanel" aria-labelledby="animate">
                 <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 220px;" data-group-width="670px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>

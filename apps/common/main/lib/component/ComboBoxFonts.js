@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -307,14 +307,14 @@ define([
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>"> ',
+                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-move-focus-only-tab="true"> ',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                            '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -358,6 +358,8 @@ define([
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
                 this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
                 this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
+                this._input.on('compositionstart', _.bind(function() {this._isComposition = true;}, this));
+                this._input.on('compositionend',   _.bind(function() {this._isComposition = false;}, this));
 
                 return this;
             },
@@ -407,7 +409,7 @@ define([
                     e.keyCode !== Common.UI.Keys.INSERT && e.keyCode !== Common.UI.Keys.TAB){
                     e.stopPropagation();
                     this.selectCandidate(e.keyCode == Common.UI.Keys.DELETE || e.keyCode == Common.UI.Keys.BACKSPACE);
-                    if (this._selectedItem) {
+                    if (this._selectedItem && !this._isComposition) {
                         var me = this;
                         if (me._timerSelection===undefined)
                             me._timerSelection = setInterval(function(){
@@ -596,7 +598,9 @@ define([
                         name: name
                     });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.find('a').attr('aria-checked', false);
 
                     if (record) {
                         this.setRawValue(record.get(this.displayField));
@@ -605,6 +609,7 @@ define([
 
                         if (itemNode && menuNode) {
                             itemNode.addClass('selected');
+                            itemNode.find('a').attr('aria-checked', true);
                             if (this.recent<=0)
                                 menuNode.scrollTop(itemNode.offset().top - menuNode.offset().top);
                         }
@@ -631,7 +636,7 @@ define([
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,
@@ -670,6 +675,8 @@ define([
                     this.flushVisibleFontsTiles();
                     this.updateVisibleFontsTiles(null, 0);
                     Common.Utils.isGecko && this.scroller && this.scroller.update();
+
+                    this._input.attr('aria-expanded', 'true');
                 } else {
                     Common.UI.ComboBox.prototype.onAfterShowMenu.apply(this, arguments);
                 }
@@ -726,7 +733,9 @@ define([
                 } else
                     this._selectedItem = null;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     var itemNode = $('#' + this._selectedItem.get('id'), $(this.el)),
@@ -734,8 +743,9 @@ define([
 
                     if (itemNode.length > 0 && menuEl.length > 0) {
                         itemNode.addClass('selected');
+                        itemNode.find('a').attr('aria-checked', true);
 
-                        var itemTop = itemNode.position().top,
+                        var itemTop = Common.Utils.getPosition(itemNode).top,
                             menuTop = menuEl.scrollTop();
 
                         if (itemTop != 0)

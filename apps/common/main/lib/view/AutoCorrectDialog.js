@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -38,16 +38,14 @@
  */
 if (Common === undefined)
     var Common = {};
-define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox'
+define([
+    'text!common/main/lib/template/AutoCorrectDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();
     var _exciptionsStore = new Common.UI.DataViewStore();
     var _exciptionsLangs = [0x0409, 0x0419];
-
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
@@ -449,7 +447,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     var checked = (field.getValue()==='checked');
                     Common.localStorage.setBool(me.appPrefix + "settings-letter-exception-cells", checked);
                     Common.Utils.InternalSettings.set(me.appPrefix + "settings-letter-exception-cells", checked);
-                    me.api.asc_SetAutoCorrectFirstLetterOfSentences && me.api.asc_SetAutoCorrectFirstLetterOfSentences(checked);
+                    me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(checked);
                 });
 
                 this.btnsCategory[3].on('click', _.bind(this.onAutocorrectCategoryClick, this, false));

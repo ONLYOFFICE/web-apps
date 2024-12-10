@@ -472,27 +472,27 @@ define([
                     items: []
                 }));
 
-                var smartArtData = Common.define.smartArt.getSmartArtData();
-                smartArtData.forEach(function (item, index) {
-                    var length = item.items.length,
-                        width = 399;
-                    if (length < 5) {
-                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
-                    }
-                    me.btnInsertSmartArt.menu.addItem({
-                        caption: item.caption,
-                        value: item.sectionId,
-                        itemId: item.id,
-                        itemsLength: length,
-                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
-                            ],
-                            menuAlign: 'tl-tr',
-                        })});
-                });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    var smartArtData = Common.define.smartArt.getSmartArtData();
+                    smartArtData.forEach(function (item, index) {
+                        var length = item.items.length,
+                            width = 399;
+                        if (length < 5) {
+                            width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                        }
+                        me.btnInsertSmartArt.menu.addItem({
+                            caption: item.caption,
+                            value: item.sectionId,
+                            itemId: item.id,
+                            itemsLength: length,
+                            iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                                ],
+                                menuAlign: 'tl-tr',
+                            })});
+                    });
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
@@ -736,75 +736,7 @@ define([
                     }
                 });
 
-            },
-
-            tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Image',
-            mniImageFromFile: 'Image from file',
-            mniImageFromUrl: 'Image from url',
-            mniImageFromStorage: 'Image from Storage',
-            mniCustomTable: 'Insert Custom Table',
-            tipInsertHyperlink: 'Add Hyperlink',
-            tipInsertHorizontalText: 'Insert horizontal text box',
-            tipInsertVerticalText: 'Insert vertical text box',
-            tipInsertText: 'Insert Text',
-            tipInsertTextArt: 'Insert Text Art',
-            tipInsertShape: 'Insert Autoshape',
-            tipInsertEquation: 'Insert Equation',
-            tipInsertSmartArt: 'Insert SmartArt',
-            tipChangeChart: 'Change Chart Type',
-            capInsertText: 'Text',
-            capInsertTextArt: 'Text Art',
-            capInsertImage: 'Image',
-            capInsertShape: 'Shape',
-            capInsertTable: 'Table',
-            capInsertChart: 'Chart',
-            capInsertHyperlink: 'Hyperlink',
-            capInsertEquation: 'Equation',
-            tipInsertChart: 'Insert Chart',
-            tipPageNum: 'Insert page number',
-            tipDateTime: 'Insert current date and time',
-            capBtnPageNum: 'Page Number',
-            capBtnDateTime: 'Date & Time',
-            capBtnInsSymbol: 'Symbol',
-            capBtnInsSmartArt: 'SmartArt',
-            tipInsertSymbol: 'Insert symbol',
-            mniInsertSSE: 'Insert Spreadsheet',
-            textMoreSymbols: 'More symbols',
-            textAlpha: 'Greek Small Letter Alpha',
-            textBetta: 'Greek Small Letter Betta',
-            textBlackHeart: 'Black Heart Suit',
-            textBullet: 'Bullet',
-            textCopyright: 'Copyright Sign',
-            textDegree: 'Degree Sign',
-            textDelta: 'Greek Small Letter Delta',
-            textDivision: 'Division Sign',
-            textDollar: 'Dollar Sign',
-            textEuro: 'Euro Sign',
-            textGreaterEqual: 'Greater-Than Or Equal To',
-            textInfinity: 'Infinity',
-            textLessEqual: 'Less-Than Or Equal To',
-            textLetterPi: 'Greek Small Letter Pi',
-            textNotEqualTo: 'Not Equal To',
-            textOneHalf: 'Vulgar Fraction One Half',
-            textOneQuarter: 'Vulgar Fraction One Quarter',
-            textPlusMinus: 'Plus-Minus Sign',
-            textRegistered: 'Registered Sign',
-            textSection: 'Section Sign',
-            textSmile: 'White Smiling Fase',
-            textSquareRoot: 'Square Root',
-            textTilde: 'Tilde',
-            textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign',
-            capBtnInsHeaderFooter: 'Header & Footer',
-            tipEditHeaderFooter: 'Edit header or footer',
-            textRecentlyUsed: 'Recently Used',
-            tipInsertPageAfter: 'Insert blank page after',
-            tipInsertPage: 'Insert blank page',
-            txtNewPageBefore: 'Insert blank page before',
-            txtNewPageAfter: 'Insert blank page after',
-            capBlankPage: 'Blank Page',
-            capInsPage: 'Insert Page'
+            }
         }
     }()), PDFE.Views.InsTab || {}));
 });

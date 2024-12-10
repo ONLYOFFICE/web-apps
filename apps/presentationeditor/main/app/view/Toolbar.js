@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -1295,6 +1295,8 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
+                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
                 if ( is_file_active ) {
@@ -1644,27 +1646,27 @@ define([
                     items: []
                 }));
 
-                var smartArtData = Common.define.smartArt.getSmartArtData();
-                smartArtData.forEach(function (item, index) {
-                    var length = item.items.length,
-                        width = 399;
-                    if (length < 5) {
-                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
-                    }
-                    me.btnInsertSmartArt.menu.addItem({
-                        caption: item.caption,
-                        value: item.sectionId,
-                        itemId: item.id,
-                        itemsLength: length,
-                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
-                            ],
-                            menuAlign: 'tl-tr',
-                        })});
-                });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    var smartArtData = Common.define.smartArt.getSmartArtData();
+                    smartArtData.forEach(function (item, index) {
+                        var length = item.items.length,
+                            width = 399;
+                        if (length < 5) {
+                            width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                        }
+                        me.btnInsertSmartArt.menu.addItem({
+                            caption: item.caption,
+                            value: item.sectionId,
+                            itemId: item.id,
+                            itemsLength: length,
+                            iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                                ],
+                                menuAlign: 'tl-tr',
+                            })});
+                    });
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
@@ -2145,7 +2147,7 @@ define([
                 if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                    this.btnCollabChanges.changeIcon({next: cls, curr: this.btnSaveCls});
                     this.btnSaveCls = cls;
                 }
             },
@@ -2339,215 +2341,13 @@ define([
                 return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
             },
 
-            textBold: 'Bold',
-            textItalic: 'Italic',
-            textUnderline: 'Underline',
-            textStrikeout: 'Strikeout',
-            textSuperscript: 'Superscript',
-            textSubscript: 'Subscript',
-            tipFontName: 'Font Name',
-            tipFontSize: 'Font Size',
-            tipCopy: 'Copy',
-            tipPaste: 'Paste',
-            tipUndo: 'Undo',
-            tipRedo: 'Redo',
-            tipPrint: 'Print',
-            tipPrintQuick: 'Quick print',
-            tipSave: 'Save',
-            tipFontColor: 'Font color',
-            tipMarkers: 'Bullets',
-            tipNumbers: 'Numbering',
-            tipBack: 'Back',
-            tipClearStyle: 'Clear Style',
-            tipCopyStyle: 'Copy Style',
-            textTitleError: 'Error',
-            tipHAligh: 'Horizontal Align',
-            tipVAligh: 'Vertical Align',
-            textAlignTop: 'Align text to the top',
-            textAlignMiddle: 'Align text to the middle',
-            textAlignBottom: 'Align text to the bottom',
-            textAlignLeft: 'Left align text',
-            textAlignRight: 'Right align text',
-            textAlignCenter: 'Center text',
-            textAlignJust: 'Justify',
-            tipDecPrLeft: 'Decrease Indent',
-            tipIncPrLeft: 'Increase Indent',
-            tipLineSpace: 'Line Spacing',
-            tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Image',
-            mniImageFromFile: 'Image from file',
-            mniImageFromUrl: 'Image from url',
-            mniCustomTable: 'Insert Custom Table',
-            tipInsertHyperlink: 'Add Hyperlink',
-            tipInsertHorizontalText: 'Insert horizontal text box',
-            tipInsertVerticalText: 'Insert vertical text box',
-            tipInsertText: 'Insert Text',
-            tipInsertTextArt: 'Insert Text Art',
-            tipInsertShape: 'Insert Autoshape',
-            tipPreview: 'Start Slideshow',
-            tipAddSlide: 'Add Slide',
-            tipShapeAlign: 'Align Shape',
-            tipShapeArrange: 'Arrange Shape',
-            textShapeAlignLeft: 'Align Left',
-            textShapeAlignRight: 'Align Right',
-            textShapeAlignCenter: 'Align Center',
-            textShapeAlignTop: 'Align Top',
-            textShapeAlignBottom: 'Align Bottom',
-            textShapeAlignMiddle: 'Align Middle',
-            textArrangeFront: 'Bring To Front',
-            textArrangeBack: 'Send To Back',
-            textArrangeForward: 'Bring Forward',
-            textArrangeBackward: 'Send Backward',
-            txtGroup: 'Group',
-            txtUngroup: 'Ungroup',
-            txtDistribHor: 'Distribute Horizontally',
-            txtDistribVert: 'Distribute Vertically',
-            tipChangeSlide: 'Change Slide Layout',
-            tipColorSchemas: 'Change Color Scheme',
-            mniSlideStandard: 'Standard (4:3)',
-            mniSlideWide: 'Widescreen (16:9)',
-            mniSlideAdvanced: 'Advanced Settings',
-            tipSlideSize: 'Select Slide Size',
-            tipInsertChart: 'Insert Chart',
-            tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
-            tipSlideTheme: 'Slide Theme',
-            tipSaveCoauth: 'Save your changes for the other users to see them.',
-            textShowBegin: 'Show from Beginning',
-            textShowCurrent: 'Show from Current slide',
-            textShowSettings: 'Show Settings',
-            tipInsertEquation: 'Insert Equation',
-            tipInsertSmartArt: 'Insert SmartArt',
-            tipChangeChart: 'Change Chart Type',
-            capInsertText: 'Text',
-            capInsertTextArt: 'Text Art',
-            capInsertImage: 'Image',
-            capInsertShape: 'Shape',
-            capInsertTable: 'Table',
-            capInsertChart: 'Chart',
-            capInsertHyperlink: 'Hyperlink',
-            capInsertEquation: 'Equation',
-            capAddSlide: 'Add Slide',
-            capTabFile: 'File',
-            capTabHome: 'Home',
-            capTabInsert: 'Insert',
-            capBtnComment: 'Comment',
-            textTabFile: 'File',
-            textTabHome: 'Home',
-            textTabInsert: 'Insert',
-            textShowPresenterView: 'Show presenter view',
-            textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection',
-            mniImageFromStorage: 'Image from Storage',
-            txtSlideAlign: 'Align to Slide',
-            txtObjectsAlign: 'Align Selected Objects',
-            tipSlideNum: 'Insert slide number',
-            tipDateTime: 'Insert current date and time',
-            capBtnSlideNum: 'Slide Number',
-            capBtnDateTime: 'Date & Time',
-            textListSettings: 'List Settings',
-            capBtnAddComment: 'Add Comment',
-            capBtnInsSymbol: 'Symbol',
-            capBtnInsSmartArt: 'SmartArt',
-            tipInsertSymbol: 'Insert symbol',
-            capInsertAudio: 'Audio',
-            capInsertVideo: 'Video',
-            tipInsertAudio: 'Insert audio',
-            tipInsertVideo: 'Insert video',
-            tipIncFont: 'Increment font size',
-            tipDecFont: 'Decrement font size',
-            tipColumns: 'Insert columns',
-            textColumnsOne: 'One Column',
-            textColumnsTwo: 'Two Columns',
-            textColumnsThree: 'Three Columns',
-            textColumnsCustom: 'Custom Columns',
-            tipChangeCase: 'Change case',
-            mniSentenceCase: 'Sentence case.',
-            mniLowerCase: 'lowercase',
-            mniUpperCase: 'UPPERCASE',
-            mniCapitalizeWords: 'Capitalize Each Word',
-            mniToggleCase: 'tOGGLE cASE',
-            strMenuNoFill: 'No Fill',
-            tipHighlightColor: 'Highlight color',
-            textTabTransitions: 'Transitions',
-            textTabAnimation: 'Animation',
-            textRecentlyUsed: 'Recently Used',
-            txtDuplicateSlide: 'Duplicate Slide',
             tipNumCapitalLetters: 'A. B. C.',
             tipNumLettersParentheses: 'a) b) c)',
             tipNumLettersPoints: 'a. b. c.',
             tipNumNumbersPoint: '1. 2. 3.',
             tipNumNumbersParentheses: '1) 2) 3)',
             tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.',
-            tipMarkersFRound: 'Filled round bullets',
-            tipMarkersHRound: 'Hollow round bullets',
-            tipMarkersFSquare: 'Filled square bullets',
-            tipMarkersStar: 'Star bullets',
-            tipMarkersArrow: 'Arrow bullets',
-            tipMarkersCheckmark: 'Checkmark bullets',
-            tipMarkersFRhombus: 'Filled rhombus bullets',
-            tipMarkersDash: 'Dash bullets',
-            tipNone: 'None',
-            textTabView: 'View',
-            mniInsertSSE: 'Insert Spreadsheet',
-            tipSelectAll: 'Select all',
-            tipCut: 'Cut',
-            textTabDraw: 'Draw',
-            textMoreSymbols: 'More symbols',
-            textAlpha: 'Greek Small Letter Alpha',
-            textBetta: 'Greek Small Letter Betta',
-            textBlackHeart: 'Black Heart Suit',
-            textBullet: 'Bullet',
-            textCopyright: 'Copyright Sign',
-            textDegree: 'Degree Sign',
-            textDelta: 'Greek Small Letter Delta',
-            textDivision: 'Division Sign',
-            textDollar: 'Dollar Sign',
-            textEuro: 'Euro Sign',
-            textGreaterEqual: 'Greater-Than Or Equal To',
-            textInfinity: 'Infinity',
-            textLessEqual: 'Less-Than Or Equal To',
-            textLetterPi: 'Greek Small Letter Pi',
-            textNotEqualTo: 'Not Equal To',
-            textOneHalf: 'Vulgar Fraction One Half',
-            textOneQuarter: 'Vulgar Fraction One Quarter',
-            textPlusMinus: 'Plus-Minus Sign',
-            textRegistered: 'Registered Sign',
-            textSection: 'Section Sign',
-            textSmile: 'White Smiling Fase',
-            textSquareRoot: 'Square Root',
-            textTilde: 'Tilde',
-            textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign',
-            capBtnInsHeaderFooter: 'Header & Footer',
-            tipEditHeaderFooter: 'Edit header or footer',
-            tipReplace: 'Replace',
-            textLineSpaceOptions: 'Line spacing options',
-            capAddSlideMaster: 'Add Slide Master',
-            capAddLayout: 'Add Layout',
-            capInsertPlaceholder: 'Insert Placeholder',
-            tipAddSlideMaster: 'Add slide master',
-            tipAddLayout: 'Add layout',
-            textContent: 'Content',
-            textContentVertical: 'Content (Vertical)',
-            textText: 'Text',
-            textTextVertical: 'Text (Vertical)',
-            textPicture: 'Picture',
-            textChart: 'Chart',
-            textTable: 'Table',
-            textSmartArt: 'SmartArt',
-            textTitle: 'Title',
-            textFooters: 'Footers',
-            tipInsertContentPlaceholder: 'Insert content placeholder',
-            tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
-            tipInsertTextPlaceholder: 'Insert text placeholder',
-            tipInsertTextVerticalPlaceholder: 'Insert text (vertical) placeholder',
-            tipInsertPicturePlaceholder: 'Insert picture placeholder',
-            tipInsertChartPlaceholder: 'Insert chart placeholder',
-            tipInsertTablePlaceholder: 'Insert table placeholder',
-            tipInsertSmartArtPlaceholder: 'Insert smartArt placeholder',
-            capCloseMaster: 'Close Master',
-            tipCloseMaster: 'Close Master'
+            tipNumRomanSmall: 'i. ii. iii.'
         }
     }()), PE.Views.Toolbar || {}));
 });

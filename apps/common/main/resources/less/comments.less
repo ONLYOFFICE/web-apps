@@ -122,7 +122,7 @@
     }
 }
 
-.dataview-ct {
+.dataview-ct  {
     width: 100%;
     height: 100%;
     .font-size-medium();
@@ -180,6 +180,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .user-name {
@@ -349,11 +352,11 @@
     .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
-        margin: 0 0 0 5px;
+        margin: 1px 0 0 5px;
         background-color: transparent;
 
         .rtl & {
-            margin: 0 5px 0 0;
+            margin: 1px 5px 0 0;
         }
     }
 
@@ -362,11 +365,11 @@
     }
 
     .btn-edit {
-        background-position: -2px -232px;
+        background-position: 0px -4px;
     }
 
     .btn-delete {
-        background-position: -22px -232px;
+        background-position: -20px -4px;
     }
 
     
@@ -428,7 +431,19 @@
         }
     }
 
-    .btn-resolve, .btn-accept, .icon-resolve {
+    .btn-resolve.comment-resolved, .icon-resolve.i-comment-resolved {
+        background-position: 0px -63px;
+        width: 17px;
+        height: 18px;
+        margin: 0 0 0 4px;
+
+        .rtl & {
+            margin: 0px 4px 0 0;
+        }
+        filter: none;
+    }
+
+    .btn-resolve:not(.comment-resolved), .btn-accept{
         position: relative;
 
         &:after {
@@ -437,18 +452,11 @@
             border: solid @text-normal-ie;
             border: solid @text-normal;
             border-width: 0 2px 2px 0;
-            transform: rotate(40deg);
+            transform: rotate(45deg);
             width: 7px;
             height: 12px;
             left: 6px;
             top: 0px;
-        }
-
-        &.comment-resolved, &.i-comment-resolved {
-            &:after {
-                border-color: @icon-success-ie;
-                border-color: @icon-success;
-            }
         }
     }
 
@@ -457,7 +465,7 @@
     }
 
     .btn-goto {
-        background-position: -22px -272px;
+        background-position: -20px -44px;
     }
 
     .inner-edit-ct {
@@ -481,7 +489,7 @@
 
     .reply-arrow {
         background-color: transparent;
-        background-position: -60px -232px;
+        background-position: -4px -28px;
         width: 16px;
         height: 16px;
         margin-top: 10px;
@@ -541,7 +549,7 @@
     width: 7px;
     height: 7px;
     border: 0;
-    background-position: @arrow-small-offset-x @arrow-small-offset-y;
+    //background-position: @arrow-small-offset-x @arrow-small-offset-y;
     margin: 10px 8px 0 -2px;
     display: inline-block;
     vertical-align: middle;

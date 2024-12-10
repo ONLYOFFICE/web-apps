@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "Med odpiranjem datoteke je prišlo do napake.<br>Vsebina datoteke ustreza preglednicam (npr. xlsx), vendar ima datoteka nedosledno končnico: %1.",
   "DE.ApplicationController.errorLoadingFont": "Pisave niso naložene.<br>Obrnite se na skrbnika strežnika dokumentov.",
   "DE.ApplicationController.errorSubmit": "Posredovanje ni uspelo",
+  "DE.ApplicationController.errorToken": "Varnostni žeton dokumenta nima pravilne oblike.<br>Obrnite se na skrbnika strežnika dokumentov.",
   "DE.ApplicationController.errorTokenExpire": "Varnostni žeton dokumenta je potekel.<br>Obrnite se na skrbnika dokumentnega strežnika.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Povezava je bila obnovljena, različica datoteke pa spremenjena. <br> Preden nadaljujete z delom, morate datoteko prenesti ali kopirati njeno vsebino, da poskrbite, da se nič ne izgubi. Nato znova naložite to stran.",
   "DE.ApplicationController.errorUserDrop": "Do datoteke v tem trenutku ni možno dostopati.",

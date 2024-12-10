@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -110,6 +110,7 @@ define([
             me.mode = {};
             me._isDisabled = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
 
@@ -201,6 +202,7 @@ define([
                     me.screenTip && (me.screenTip.tipLength = -1);  // redraw link tip
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(api) {
@@ -322,8 +324,7 @@ define([
         },
 
         createDelayedElements: function(view, type) {
-            var me = this,
-                view = me.documentHolder;
+            var me = this, view = me.documentHolder;
 
             if (type=='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
@@ -335,52 +336,7 @@ define([
                 return;
             }
 
-            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        ( diagramEditor.isEditMode() )
-                            ? this.api.asc_editChartDrawingObject(data)
-                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                    }
-                }, this));
-                diagramEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_onCloseChartFrame();
-                        this.api.asc_enableKeyEvents(true);
-                    }
-                    var me = this;
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
-            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-            if (oleEditor) {
-                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        oleEditor.isEditMode()
-                            ? this.api.asc_editTableOleObject(data)
-                            : this.api.asc_addTableOleObject(data);
-                    }
-                }, this));
-                oleEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
-                    }
-                    var me = this;
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
@@ -466,6 +422,63 @@ define([
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
         },
 
+        createPostLoadElements: function() {
+            var me = this;
+
+            me.mode.isEdit ? me.getView().createDelayedElements() : me.getView().createDelayedElementsViewer();
+
+            if (!me.mode.isEdit) {
+                return;
+            }
+
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        ( diagramEditor.isEditMode() )
+                            ? this.api.asc_editChartDrawingObject(data)
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
+                    }
+                }, this));
+                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+
+            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+            if (oleEditor) {
+                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        oleEditor.isEditMode()
+                            ? this.api.asc_editTableOleObject(data)
+                            : this.api.asc_addTableOleObject(data);
+                    }
+                }, this));
+                oleEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
+                    }
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
+        },
+
         getView: function (name) {
             return !name ?
                 this.documentHolder : Backbone.Controller.prototype.getView.call()
@@ -509,6 +522,7 @@ define([
                     } else {
                         menu.menuAlign = 'tl-tr';
                     }
+                    me.hideScreenTip();
                 }
 
                 menuContainer.css({
@@ -968,6 +982,8 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        if (me.documentHolder.currentMenu && me.documentHolder.currentMenu.isVisible())
+                            return;
                         var tip = moveData.get_EffectText();
                         if (!tip) {
                             tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
@@ -982,6 +998,7 @@ define([
                         screenTip.strTip = ToolTip;
                         screenTip.tipType = type;
                         recalc = true;
+                        screenTip.toolTip.getBSTip().options.container = me.isPreviewVisible ? '#pe-preview' : 'body';
                     }
 
                     showPoint = [moveData.get_X(), moveData.get_Y()];
@@ -1280,58 +1297,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -1519,6 +1486,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && chart) {
@@ -1615,6 +1583,7 @@ define([
         },
         /** coauthoring end **/
         editChartClick: function(chart, placeholder){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
@@ -1628,6 +1597,24 @@ define([
                 }
             }
         },
+
+        onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
+        },
+
 
         onCutCopyPaste: function(item, e) {
             var me = this;
@@ -1658,6 +1645,8 @@ define([
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             if (placeholder) {
                 this.hideScreenTip();
                 this.onHidePlaceholderActions();
@@ -1685,7 +1674,7 @@ define([
         },
 
         onClickPlaceholderChart: function(obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuChart,
@@ -1800,7 +1789,7 @@ define([
         },
 
         onClickPlaceholderSmartArt: function (obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuSmartArt,
@@ -2579,6 +2568,10 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2721,6 +2714,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

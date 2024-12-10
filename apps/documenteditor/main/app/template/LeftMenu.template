@@ -1,5 +1,5 @@
 <div id="view-left-menu" class="tool-menu left">
-    <div class="tool-menu-btns">
+    <div class="tool-menu-btns" role="menubar" aria-orientation="vertical" aria-label="<%= scope.ariaLeftMenu %>">
         <button id="left-btn-searchbar" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target="left-panel-search"><i class="icon toolbar__icon btn-menu-search">&nbsp;</i></button>
         <!-- /** coauthoring begin **/ -->
         <button id="left-btn-comments" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target="left-panel-comments"><i class="icon toolbar__icon btn-menu-comments">&nbsp;</i></button>

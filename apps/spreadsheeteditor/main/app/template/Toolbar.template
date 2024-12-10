@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </section>
-    <section class="box-controls">
+    <section class="box-controls" role="tabpanel">
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
@@ -36,7 +36,7 @@
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
-            <section class="panel" data-tab="home">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
                     <div class="elset font-attr-top">
                         <span class="btn-slot float-left" id="slot-field-fontname" style="width: 94px;"></span>
@@ -101,9 +101,10 @@
                         <span class="btn-slot" id="slot-btn-format" style="width: 100%"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-percents"></span>
-                        <span class="btn-slot split" id="slot-btn-currency"></span>
-                        <span class="btn-slot split" id="slot-btn-digit-dec"></span>
+                        <span class="btn-slot split-large" id="slot-btn-currency"></span>
+                        <span class="btn-slot split-small" id="slot-btn-percents"></span>
+                        <span class="btn-slot split-small" id="slot-btn-comma"></span>
+                        <span class="btn-slot split-small" id="slot-btn-digit-dec"></span>
                         <span class="btn-slot" id="slot-btn-digit-inc"></span>
                     </div>
                 </div>
@@ -136,7 +137,7 @@
                     </div>
                 </div>
             </section>
-            <section class="panel" data-tab="ins">
+            <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group">
                     <span class="btn-slot text x-huge slot-add-pivot"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
@@ -174,7 +175,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="layout">
+            <section class="panel" data-tab="layout" role="tabpanel" aria-labelledby="layout">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
@@ -186,6 +187,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-rtl-sheet"></span>
+                </div>
+                <div class="separator long invisible"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-chk-print-gridlines"></span>
@@ -206,7 +211,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="formula">
+            <section class="panel" data-tab="formula" role="tabpanel" aria-labelledby="formula">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-additional-formula"></span>
                 </div>
@@ -251,7 +256,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="data">
+            <section class="panel" data-tab="data" role="tabpanel" aria-labelledby="data">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-data-from-text"></span>
                 </div>

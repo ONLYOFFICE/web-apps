@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,8 +42,7 @@ if (Common === undefined)
 Common.Controllers = Common.Controllers || {};
 
 define([
-    'core',
-    'common/main/lib/view/ExternalDiagramEditor'
+    'core'
 ], function () { 'use strict';
     Common.Controllers.ExternalDiagramEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = '{{DEFAULT_LANG}}',
@@ -88,7 +87,7 @@ define([
         };
 
         return {
-            views: ['Common.Views.ExternalDiagramEditor'],
+            views: [],
 
             initialize: function() {
                 this.addListeners({
@@ -136,11 +135,14 @@ define([
                     }
                 });
 
-
+                Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
             },
 
-            onLaunch: function() {
-                this.diagramEditorView = this.createView('Common.Views.ExternalDiagramEditor', {handler: _.bind(this.handler, this)});
+            onLaunch: function() {},
+
+            onPostLoadComplete: function() {
+                this.views = this.getApplication().getClasseRefs('view', ['Common.Views.ExternalDiagramEditor']);
+                this.diagramEditorView = this.createView('Common.Views.ExternalDiagramEditor',{handler: this.handler.bind(this)});
             },
 
             setApi: function(api) {

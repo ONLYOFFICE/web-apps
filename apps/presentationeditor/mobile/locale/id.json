@@ -118,6 +118,7 @@
         "Header": "Header",
         "Image": "Gambar",
         "Loading": "Memuat",
+        "Marquee": "Marquee",
         "Media": "Media",
         "Median": "Median",
         "None": "Tidak ada",
@@ -136,6 +137,7 @@
         "Slide subtitle": "Subtitle Slide",
         "Slide text": "Teks Slide",
         "Slide title": "Judul Slide",
+        "Slipstream": "Slipstream",
         "Table": "Tabel",
         "Violet": "Ungu",
         "Violet II": "Ungu II",
@@ -143,9 +145,7 @@
         "Y Axis": "Sumbu Y",
         "Yellow": "Kuning",
         "Yellow Orange": "Kuning Jingga",
-        "Your text here": "Teks Anda di sini",
-        "Marquee": "Marquee",
-        "Slipstream": "Slipstream"
+        "Your text here": "Teks Anda di sini"
       },
       "textAnonymous": "Anonim",
       "textBuyNow": "Kunjungi website",
@@ -179,7 +179,8 @@
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -230,7 +231,9 @@
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -247,7 +250,7 @@
     "loadImageTextText": "Memuat gambar...",
     "loadImageTitleText": "Memuat Gambar",
     "loadingDocumentTextText": "Memuat dokumen...",
-    "loadingDocumentTitleText": "Memuat dokumen",
+    "loadingDocumentTitleText": "Memuat",
     "loadThemeTextText": "Loading Tema...",
     "loadThemeTitleText": "Loading Tema",
     "openTextText": "Membuka Dokumen...",
@@ -259,7 +262,7 @@
     "saveTextText": "Menyimpan dokumen...",
     "saveTitleText": "Menyimpan Dokumen",
     "textContinue": "Lanjutkan",
-    "textLoadingDocument": "Memuat dokumen",
+    "textLoadingDocument": "Memuat",
     "textUndo": "Batalkan",
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",

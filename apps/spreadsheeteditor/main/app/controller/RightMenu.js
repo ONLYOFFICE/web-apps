@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -153,6 +153,7 @@ define([
                 }
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         },
 
         onSelectionChanged: function(info) {
@@ -344,7 +345,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Table].needShow = false;
-            this._settings[Common.Utils.documentSettingsType.Pivot].needShow = false;
+            pivotInfo && (this._settings[Common.Utils.documentSettingsType.Pivot].needShow = false);
         },
 
         onCoAuthoringDisconnect: function() {
@@ -373,7 +374,9 @@ define([
         },
 
         onInsertPivot:  function() {
-            // this._settings[Common.Utils.documentSettingsType.Pivot].needShow = true;
+            this._settings[Common.Utils.documentSettingsType.Pivot].needShow = true;
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
+            this._openRightMenu = true;
         },
 
         UpdateThemeColors:  function() {

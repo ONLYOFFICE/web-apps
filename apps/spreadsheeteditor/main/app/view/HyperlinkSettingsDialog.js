@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -40,13 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/TreeView'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -563,9 +557,9 @@ define([
 
                 me.api.asc_showWorksheet(me.internalList.getSelectedRec().get('index')-1);
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.inputRange.getValue()) && (me.inputRange.checkValidate()==true)) ? me.inputRange.getValue() : me.dataRangeValid,

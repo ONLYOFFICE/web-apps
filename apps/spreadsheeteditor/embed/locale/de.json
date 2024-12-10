@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Präsentationen (z.B. pptx), aber die Datei hat die inkonsistente Erweiterung: %1.",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Tabellenkalkulationen (z.B. xlsx), aber die Datei hat die inkonsistente Erweiterung: %1.",
   "SSE.ApplicationController.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
+  "SSE.ApplicationController.errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt gebildet.<br>Bitte wenden Sie sich an Ihren Administrator von Document Server.",
   "SSE.ApplicationController.errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
   "SSE.ApplicationController.errorUserDrop": "Kein Zugriff auf diese Datei möglich.",

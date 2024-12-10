@@ -1,6 +1,6 @@
 <div id="id-data-validation-settings" class="settings-panel active" style="height: 100%;">
     <div class="inner-content" style="height: 100%;">
-        <table cols="2" style="width: 100%;height: 100%;">
+        <table cols="2" style="width: 100%;height: 100%;" role="presentation">
             <tr>
                 <td class="padding-small padding-right-5">
                     <label class="input-label"><%= scope.textAllow %></label>
@@ -47,7 +47,7 @@
 </div>
 <div id="id-data-validation-input" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="data-validation-ch-show-input"></div>
@@ -75,7 +75,7 @@
 </div>
 <div id="id-data-validation-error" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="data-validation-ch-show-error"></div>

@@ -80,7 +80,6 @@
             background: #e2e2e2;
             overflow: hidden;
             position: relative;
-
             -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
             -o-animation: startFlickerAnimation 2s infinite ease-in-out;
@@ -146,6 +145,12 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
@@ -271,7 +276,6 @@
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
       <script type="text/javascript" src="../../../vendor/jquery.browser/dist/jquery.browser.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
 
       <script type="text/javascript" src="../../../vendor/socketio/socket.io.min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
@@ -294,6 +298,9 @@
       <script type="text/javascript" src="../../common/locale.js"></script>
       <script type="text/javascript" src="../../common/Gateway.js"></script>
       <script type="text/javascript" src="../../common/Analytics.js"></script>
+      <script type="text/javascript" src="../../common/main/lib/mods/dropdown.js"></script>
+      <script type="text/javascript" src="../../common/main/lib/mods/modal.js"></script>
+      <script type="text/javascript" src="../../common/main/lib/mods/tooltip.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/LocalStorage.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/view/LoadMask.js"></script>

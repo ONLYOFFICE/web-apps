@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation" role="presentation">
     <tr>
         <td colspan=2>
             <label class="header"><%= scope.strLineHeight %></label>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="paragraph-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="paragraph-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

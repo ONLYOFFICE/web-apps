@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </div>
-    <section class="box-controls">
+    <section class="box-controls" role="tabpanel">
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
@@ -36,7 +36,7 @@
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
-            <section class="panel" data-tab="home">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
                     <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </section>
-            <section class="panel" data-tab="ins">
+            <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-blankpage"></span>
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
@@ -118,6 +118,8 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text-from-file"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insfield"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -129,7 +131,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-controls"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="layout">
+            <section class="panel" data-tab="layout" role="tabpanel" aria-labelledby="layout">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
@@ -178,7 +180,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
-            <section class="panel" data-tab="links">
+            <section class="panel" data-tab="links" role="tabpanel" aria-labelledby="links">
                 <div class="group">
                     <span class="btn-slot text x-huge btn-contents"></span>
                 </div>

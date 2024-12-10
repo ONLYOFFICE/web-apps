@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -149,7 +149,7 @@ Common.UI.HintManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
@@ -379,6 +379,13 @@ Common.UI.HintManager = new(function() {
                 }
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title-lang') + '</div>');
                 var direction = item.attr('data-hint-direction');
+                if (Common.UI.isRTL() && direction) {
+                    if (direction.indexOf('left')>-1)
+                        direction = direction.replace('left', 'right');
+                    else if (direction.indexOf('right')>-1)
+                        direction = direction.replace('right', 'left');
+                }
+
                 // exceptions
                 if (window.SSE && !_isEditDiagram && _currentSection.nodeType !== 9 &&
                     _currentSection.prop('id') === 'toolbar' && item.closest('.panel').attr('data-tab') === 'data') {
@@ -415,12 +422,16 @@ Common.UI.HintManager = new(function() {
                     }
                 } else {
                     offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
+                    Common.UI.isRTL() && (offsets[1] = -offsets[1]);
                 }
                 var offset = Common.Utils.getOffset(item);
                 var top, left;
                 if (direction === 'left-top') {
                     top = offset.top - 10 + offsets[0];
                     left = offset.left - 10 + offsets[1];
+                } else if (direction === 'right-top') {
+                    top = offset.top - 10 + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) + 10 + offsets[1];
                 } else if (direction === 'top') {
                     top = offset.top - 18 + offsets[0];
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
@@ -430,7 +441,7 @@ Common.UI.HintManager = new(function() {
                 } else if (direction === 'left') {
                     top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
                     left = offset.left - 18 + offsets[1];
-                } else {
+                } else { // bottom
                     top = offset.top + item.outerHeight() + offsets[0];
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
                 }
@@ -558,6 +569,7 @@ Common.UI.HintManager = new(function() {
                             }
                         }
                         if (curr) {
+                            Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();
@@ -635,7 +647,7 @@ Common.UI.HintManager = new(function() {
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
                 e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
-                !(window.PE && $('#pe-preview').is(':visible')));
+                !(window.PE && $('#pe-preview').is(':visible')) && !(Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()));
             if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
@@ -673,14 +685,14 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
-    var _clearHints = function (isComplete) {
+    var _clearHints = function (isComplete, leaveLockedKeyEvents) {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
         }
-        _isLockedKeyEvents && _lockedKeyEvents(false);
+        !leaveLockedKeyEvents && _isLockedKeyEvents && _lockedKeyEvents(false);
 
         if (isComplete) {
             _isComplete = true;

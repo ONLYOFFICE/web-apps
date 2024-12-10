@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -621,6 +621,25 @@ define([
                         }
                     });
                 }
+
+                var $btn = $('button', el).length>0 ? $('button', el) : me.cmpEl;
+
+                if (!me.menu)
+                    $btn.addClass('canfocused');
+
+                if (me.enableToggle && !me.menu) {
+                    $btn.attr('aria-pressed', !!me.pressed)
+                }
+
+                if (me.menu) {
+                    $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
+                    $('[data-toggle^=dropdown]', el).attr('aria-expanded', false);
+                }
+
+                if ((!me.caption && me.options.hint) || me.options.ariaLabel) {
+                    var ariaLabel = me.options.ariaLabel ? me.options.ariaLabel : ((typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
+                    $btn.attr('aria-label', ariaLabel);
+                }
             }
 
             me.rendered = true;
@@ -656,8 +675,10 @@ define([
 
             this.pressed = state;
 
-            if (this.cmpEl)
+            if (this.cmpEl) {
+                this.cmpEl.attr('aria-pressed', state);
                 this.cmpEl.trigger('button.internal.active', [state]);
+            }
 
             if (!suppressEvent)
                 this.trigger('toggle', this, state);
@@ -826,7 +847,8 @@ define([
                             html: !!isHtml,
                             title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnEl.mouseenter();
@@ -836,7 +858,8 @@ define([
                             html: !!isHtml,
                             title       : me.options.hint[1],
                             placement   : me.options.hintAnchor||'cursor',
-                            zIndex : tipZIndex
+                            zIndex : tipZIndex,
+                            container   : me.options.hintContainer
                         });
                         !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
                         me.btnMenuEl.mouseenter();
@@ -846,13 +869,15 @@ define([
                         html: !!isHtml,
                         title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                     this.btnMenuEl && this.btnMenuEl.tooltip({
                         html: !!isHtml,
                         title       : this.options.hint[1],
                         placement   : this.options.hintAnchor||'cursor',
-                        zIndex      : tipZIndex
+                        zIndex      : tipZIndex,
+                        container   : this.options.hintContainer
                     });
                 }
                 if (modalParents.length > 0) {
@@ -899,6 +924,12 @@ define([
                         !Common.Utils.isGecko && (tip.enabled = !this.disabled);
                     }
                 }
+            }
+
+            if (!this.caption) {
+                var cmpEl = this.cmpEl,
+                    $btn = $('button', cmpEl).length>0 ? $('button', cmpEl) : cmpEl;
+                $btn.attr('aria-label', (typeof hint == 'string') ? hint : hint[0]);
             }
         },
 

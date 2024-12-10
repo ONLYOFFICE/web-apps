@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -224,14 +224,22 @@ define([
             //     prev: '' // don't show tooltip if the prev was not shown
             //     automove: false // applyPlacement on window resize
             //     maxwidth: 250 // 250 by default
+            //     extCls: '' //
             // }
         };
 
         var _addTips = function(arr) {
             for (var step in arr) {
-                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name)) {
+                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name) && !(_helpTips[step] && _helpTips[step].tip && _helpTips[step].tip.isVisible())) { // don't replace tip when it's visible
                     _helpTips[step] = arr[step];
                 }
+            }
+        };
+
+        var _removeTip = function(step) {
+            if (_helpTips[step]) {
+                delete _helpTips[step];
+                _helpTips[step] = undefined;
             }
         };
 
@@ -269,7 +277,7 @@ define([
                 }
                 target.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored',
+                    extCls: 'colored' + (props.extCls ? ' ' + props.extCls : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
                     placement: placement,
                     target: target,
@@ -309,6 +317,7 @@ define([
         return {
             showTip: _showTip,
             closeTip: _closeTip,
+            removeTip: _removeTip,
             addTips: _addTips,
             getNeedShow: _getNeedShow
         }

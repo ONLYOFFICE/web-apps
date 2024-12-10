@@ -41,9 +41,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/main/lib/component/Button',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'pdfeditor/main/app/view/ImageSettingsAdvanced'
+    'common/main/lib/component/Button'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -146,6 +144,7 @@ define([
 
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if (this.api) {
                     var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {

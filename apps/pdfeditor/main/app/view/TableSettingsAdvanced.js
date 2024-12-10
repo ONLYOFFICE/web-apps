@@ -36,9 +36,9 @@
  *
  */
 
-define([    'text!pdfeditor/main/app/template/TableSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
+define([
+    'text!pdfeditor/main/app/template/TableSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) {
     'use strict';
 

@@ -39,9 +39,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.CustomizeQuickAccessDialog = Common.UI.Window.extend(_.extend({
         options: {
@@ -133,13 +131,13 @@ define([
         },
 
         onBtnClick: function(event) {
-            if (event.currentTarget.attributes['result'].value == 'ok') {
+            if (event.currentTarget.attributes['result'].value === 'ok') {
                 Common.NotificationCenter.trigger('quickaccess:changed', {
-                    save: this.chSave.getValue() == 'checked',
-                    print: this.chPrint.getValue() == 'checked',
-                    quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() == 'checked' : undefined,
-                    undo: this.chUndo.getValue() == 'checked',
-                    redo: this.chRedo.getValue() == 'checked'
+                    save: this.chSave ? this.chSave.getValue() === 'checked' : undefined,
+                    print: this.chPrint ? this.chPrint.getValue() === 'checked' : undefined,
+                    quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() === 'checked' : undefined,
+                    undo: this.chUndo.getValue() === 'checked',
+                    redo: this.chRedo.getValue() === 'checked'
                 });
             }
 

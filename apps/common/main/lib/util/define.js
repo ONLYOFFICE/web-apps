@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -510,12 +510,12 @@ define(function(){ 'use strict';
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal', tip: this.textArea},
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack', tip: this.textAreaStacked},
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack', tip: this.textAreaStackedPer},
+                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal', tip: this.textStock},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal', tip: this.textScatter},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterSmoothMarker,iconCls: 'point-smooth-marker', tip: this.textScatterSmoothMarker},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterSmooth,      iconCls: 'point-smooth', tip: this.textScatterSmooth},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLineMarker,  iconCls: 'point-line-marker', tip: this.textScatterLineMarker},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLine,        iconCls: 'point-line', tip: this.textScatterLine},
-                    { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal', tip: this.textStock},
                     { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radar,              iconCls: 'radar', tip: this.textRadar},
                     { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarMarker,        iconCls: 'radar-with-markers', tip: this.textRadarMarker},
                     { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarFilled,        iconCls: 'filled-radar', tip: this.textRadarFilled},
@@ -548,62 +548,6 @@ define(function(){ 'use strict';
             }
         }
     })(), Common.define.chartData || {});
-
-    Common.define.conditionalData = _.extend( new(function() {
-        return {
-            textDate: 'Date',
-            textYesterday: 'Yesterday',
-            textToday: 'Today',
-            textTomorrow: 'Tomorrow',
-            textLast7days: 'In the last 7 days',
-            textLastWeek: 'Last week',
-            textThisWeek: 'This week',
-            textNextWeek: 'Next week',
-            textLastMonth: 'Last month',
-            textThisMonth: 'This month',
-            textNextMonth: 'Next month',
-            textText: 'Text',
-            textContains: 'Contains',
-            textNotContains: 'Does not contain',
-            textBegins: 'Begins with',
-            textEnds: 'Ends with',
-            textAverage: 'Average',
-            textAbove: 'Above',
-            textBelow: 'Below',
-            textEqAbove: 'Equal to or above',
-            textEqBelow: 'Equal to or below',
-            text1Above: '1 std dev above',
-            text1Below: '1 std dev below',
-            text2Above: '2 std dev above',
-            text2Below: '2 std dev below',
-            text3Above: '3 std dev above',
-            text3Below: '3 std dev below',
-            textGreater: 'Greater than',
-            textGreaterEq: 'Greater than or equal to',
-            textLess: 'Less than',
-            textLessEq: 'Less than or equal to',
-            textEqual: 'Equal to',
-            textNotEqual: 'Not equal to',
-            textBetween: 'Between',
-            textNotBetween: 'Not between',
-            textTop: 'Top',
-            textBottom: 'Bottom',
-            textBlank: 'Blank',
-            textError: 'Error',
-            textBlanks: 'Contains blanks',
-            textNotBlanks: 'Does not contain blanks',
-            textErrors: 'Contains errors',
-            textNotErrors: 'Does not contain errors',
-            textDuplicate: 'Duplicate',
-            textUnique: 'Unique',
-            textDataBar: 'Data bar',
-            textIconSets: 'Icon sets',
-            textFormula: 'Formula',
-            exampleText: 'AaBbCcYyZz',
-            noFormatText: 'No format set',
-            textValue: 'Value is'
-        }
-    })(), Common.define.conditionalData || {});
 
     Common.define.smartArt = _.extend( new(function() {
         return {
@@ -1074,17 +1018,4 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
-
-    Common.define.simpleColorsConfig = {
-        colors: [
-            '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
-            '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
-        ],
-            dynamiccolors: 5,
-        themecolors: 0,
-        effects: 0,
-        columns: 5,
-        cls: 'palette-large',
-        paletteWidth: 174
-    };
 });

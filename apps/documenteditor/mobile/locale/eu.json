@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "Dokumentuaren gehienezko tamaina gainditu da.",
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
-    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
+    "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Datuak kargatzen...",
@@ -506,7 +508,8 @@
     "txtEditingMode": "Ezarri edizio modua...",
     "uploadImageTextText": "Irudia kargatzen...",
     "uploadImageTitleText": "Irudia kargatzen",
-    "waitText": "Mesedez, itxaron..."
+    "waitText": "Mesedez, itxaron...",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Errorea",
@@ -536,6 +539,7 @@
       "First Page ": "Lehen orria",
       "Footer": "Orri-oina",
       "footnote text": "Oin-oharraren testua",
+      "Grayscale": "Gris-eskala",
       "Header": "Goiburua",
       "Heading 1": "1. izenburua",
       "Heading 2": "2. izenburua",
@@ -588,7 +592,6 @@
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
       "footnote reference": "Footnote reference",
-      "Grayscale": "Grayscale",
       "Green": "Green",
       "Green Yellow": "Green Yellow",
       "Intense Emphasis": "Intense emphasis",
@@ -776,7 +779,6 @@
     "textSpellcheck": "Ortografia-egiaztapena",
     "textStatistic": "Estatistikak",
     "textSubject": "Gaia",
-    "textSubmit": "Bidali",
     "textSymbols": "Ikurrak",
     "textTheme": "Itxura",
     "textTitle": "Izenburua",
@@ -810,6 +812,8 @@
     "textOk": "Ados",
     "textRenameFile": "Berrizendatu fitxategia",
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
-    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da"
+    "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
+    "warnEmptyRequiredField": "Bete derrigorrezko eremu guztiak formularioa bidaltzeko.",
+    "btnSend": "Send"
   }
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -43,10 +43,7 @@ Common.Controllers = Common.Controllers || {};
 
 define([
     'core',
-    'common/main/lib/view/Draw',
-    'common/main/lib/view/PasswordDialog',
-    'common/main/lib/view/SignDialog',
-    'common/main/lib/view/SignSettingsDialog'
+    'common/main/lib/view/Draw'
 ], function () {
     'use strict';
 
@@ -110,6 +107,7 @@ define([
 
         onInkDrawerStop: function() {
             this.view && this.view.depressButtons();
+            Common.NotificationCenter.trigger('draw:stop', this.view);
         },
 
         onSelect: function(btn){

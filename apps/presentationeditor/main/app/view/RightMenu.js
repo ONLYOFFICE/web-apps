@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -56,7 +56,8 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'presentationeditor/main/app/view/TextArtSettings',
     'presentationeditor/main/app/view/SignatureSettings',
-    'common/main/lib/component/Scroller'
+    'common/main/lib/component/Scroller',
+    'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -161,7 +162,7 @@ define([
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
-            el.html(this.template({}));
+            el.html(this.template({scope: this}));
 
             this.btnMoreContainer = $('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -340,6 +341,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtSlideSettings:           'Slide Settings',
         txtChartSettings:           'Chart Settings',
-        txtSignatureSettings:       'Signature Settings'
+        txtSignatureSettings:       'Signature Settings',
+        ariaRightMenu:              'Right menu'
     }, PE.Views.RightMenu || {}));
 });

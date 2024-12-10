@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Mesclagem falhou.",
     "errorNoTOC": "Não há índice para atualizar. Você pode inserir um na guia Referências.",
     "errorPasswordIsNotCorrect": "A senha que você forneceu não está correta. Verifique se a tecla CAPS LOCK está desativada e certifique-se de usar a capitalização correta.",
+    "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "O número de linhas deve ser um divisor de %1",
     "splitMaxColsErrorText": "O número de colunas deve ser inferior a %1",
     "splitMaxRowsErrorText": "O número de linhas deve ser inferior a %1",
+    "textOk": "OK",
     "unknownErrorText": "Erro desconhecido.",
     "uploadDocExtMessage": "Formato de documento desconhecido.",
     "uploadDocFileCountMessage": "Nenhum documento carregado.",
@@ -487,7 +489,7 @@
     "loadImageTextText": "Carregando imagem...",
     "loadImageTitleText": "Carregando imagem",
     "loadingDocumentTextText": "Carregando documento...",
-    "loadingDocumentTitleText": "Carregando documento",
+    "loadingDocumentTitleText": "Carregando",
     "mailMergeLoadFileText": "Carregando fonte de dados...",
     "mailMergeLoadFileTitle": "Carregando fonte de dados",
     "openTextText": "Abrindo documento...",
@@ -498,10 +500,11 @@
     "savePreparingTitle": "Preparando para salvar. Por favor, aguarde...",
     "saveTextText": "Salvando documento...",
     "saveTitleText": "Salvando documento",
+    "savingText": "Salvando",
     "sendMergeText": "Enviando mesclar...",
     "sendMergeTitle": "Enviando Mesclar",
     "textContinue": "Continuar",
-    "textLoadingDocument": "Carregando documento",
+    "textLoadingDocument": "Carregando",
     "textUndo": "Desfazer",
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
@@ -779,7 +782,6 @@
     "textSpellcheck": "Verificação ortográfica",
     "textStatistic": "Estatística",
     "textSubject": "Assunto",
-    "textSubmit": "Enviar",
     "textSymbols": "Símbolos",
     "textTheme": "Tema",
     "textTitle": "Título",
@@ -801,6 +803,7 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
+    "btnSend": "Enviar",
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
@@ -810,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
-    "textSwitchedStandardView": "Alterado para a visualização padrão"
+    "textSwitchedStandardView": "Alterado para a visualização padrão",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
   }
 }

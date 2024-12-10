@@ -105,11 +105,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
         if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > scrollOffsetRef.current) {
+            if(offset > 0 && Math.abs(offset) > Math.abs(scrollOffsetRef.current)) {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset <= scrollOffsetRef.current) {
+            } else if(offset < 0 && Math.abs(offset) <= Math.abs(scrollOffsetRef.current)) {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
@@ -377,7 +377,20 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const submitForm = () => {
         const api = Common.EditorApi.get();
-        api.asc_SendForm();
+        if (!api.asc_IsAllRequiredFormsFilled()) {
+            f7.dialog.create({
+                title   : t('Main.notcriticalErrorTitle'),
+                text    : t('Toolbar.warnEmptyRequiredField'),
+                buttons : [
+                    {
+                        text: t('Toolbar.textOk'),
+                        onClick: () => api.asc_MoveToFillingForm(true, true, true)
+                    }
+                ]
+            }).open();
+        } else {
+            api.asc_SendForm();
+        }
     }
 
     return (
@@ -405,6 +418,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isViewer={isViewer}
             turnOnViewerMode={turnOnViewerMode}
             isMobileView={isMobileView}
+            isMobileViewAvailable={appOptions.isMobileViewAvailable}
             changeMobileView={changeMobileView}
             changeTitleHandler={changeTitleHandler}
             isVersionHistoryMode={isVersionHistoryMode}
@@ -415,6 +429,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             saveForm={saveForm}
             isForm={isForm}
             canFillForms={canFillForms}
+            canSubmitForms={appOptions.canSubmitForms}
         />
     )
 }));

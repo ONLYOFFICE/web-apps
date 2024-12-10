@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -43,8 +43,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -131,7 +129,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
             });
             this.spinners.push(this.spnWidth);
             this.lockedControls.push(this.spnWidth);
@@ -146,7 +145,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
             });
             this.spinners.push(this.spnHeight);
             this.lockedControls.push(this.spnHeight);
@@ -213,6 +213,7 @@ define([
             this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if (this.api) {
                     var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {
@@ -267,7 +268,8 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCrop
             });
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
