@@ -198,6 +198,9 @@ define([
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
                 } else
+                if (/printer:config/.test(cmd)) {
+                    console.log('on print:config', param);
+                } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
                 } else
