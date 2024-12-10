@@ -128,7 +128,8 @@ class MainController extends Component {
             licenseType: false,
             isFromGatewayDownloadAs: false,
             isDocModified: false,
-            docProtection: false
+            docProtection: false,
+            requireUserAction: true
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
@@ -421,6 +422,7 @@ class MainController extends Component {
                 Common.Notifications.trigger('document:ready');
                 Common.Gateway.documentReady();
                 appOptions.changeDocReady(true);
+                this._state.requireUserAction = false;
 
                 if(isOForm) {
                     f7.dialog.create({
@@ -973,6 +975,10 @@ class MainController extends Component {
                 storeAppOptions.setEncryptionFile(true);
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
+            }
+            if (this._state.requireUserAction) {
+                Common.Gateway.userActionRequired();
+                this._state.requireUserAction = false;
             }
         });
 

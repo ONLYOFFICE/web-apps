@@ -57,7 +57,8 @@ define([
         isTooltipHiding = false,
         bodyWidth = 0,
         ttOffset = [0, -10],
-        _logoImage = '';
+        _logoImage = '',
+        requireUserAction = true;
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -995,6 +996,10 @@ define([
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 me._openDlg.show();
             }
+            if (requireUserAction) {
+                Common.Gateway.userActionRequired();
+                requireUserAction = false;
+            }
         },
 
         onDocMouseMoveStart: function() {
@@ -1551,6 +1556,7 @@ define([
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
+            requireUserAction = false;
         },
 
         onOptionsClick: function(menu, item, e) {

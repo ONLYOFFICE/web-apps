@@ -40,7 +40,8 @@ SSE.ApplicationController = new(function(){
         maxPages = 0,
         created = false,
         iframePrint = null,
-        isRtlSheet = false;
+        isRtlSheet = false,
+        requireUserAction = true;
     var $ttEl,
         $tooltip,
         ttOffset = [6, -15],
@@ -557,7 +558,7 @@ SSE.ApplicationController = new(function(){
 
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
-
+        requireUserAction = false;
         onSheetsChanged();
         setupScrollButtons();
     }
@@ -639,6 +640,10 @@ SSE.ApplicationController = new(function(){
         } else if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
             api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        }
+        if (requireUserAction) {
+            Common.Gateway.userActionRequired();
+            requireUserAction = false;
         }
     }
 
