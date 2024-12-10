@@ -436,7 +436,16 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
-    <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
+    <script src="../../../vendor/requirejs/require.js"></script>
+
+    <script>
+        isIEBrowser === true &&
+            (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
+            document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
+    </script>
+    <script>
+        isIEBrowser === true ? require(['ie/app']) : require(['app']);
+    </script>
 
     <link rel="stylesheet" href="../../../apps/visioeditor/main/resources/css/app.css" media="print" onload="this.media='all'">
 </body>

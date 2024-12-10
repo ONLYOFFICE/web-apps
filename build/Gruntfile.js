@@ -526,7 +526,7 @@ module.exports = function(grunt) {
             babel: {
                 options: {
                     sourceMap: false,
-                    presets: ['@babel/preset-env']
+                    presets: [['@babel/preset-env', {modules: false}]]
                 },
                 dist: {
                     files: packageFile.main.js.babel.files
