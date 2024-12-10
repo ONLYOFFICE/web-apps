@@ -252,6 +252,10 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                    },
+                    submit: {
+                        visible: true/false (default: true)
+                        resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     }
                 },
                  coEditing: {
