@@ -160,7 +160,7 @@ define([
             onLaunch: function() {
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false, requireUserAction: true};
                 this.languages = null;
 
                 window.storagename = 'presentation';
@@ -1105,6 +1105,7 @@ define([
                 });
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+                this._state.requireUserAction = false;
 
                 $('.doc-placeholder').remove();
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
@@ -2554,6 +2555,10 @@ define([
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                     me._state.openDlg.show();
+                }
+                if (me._state.requireUserAction) {
+                    Common.Gateway.userActionRequired();
+                    me._state.requireUserAction = false;
                 }
             },
 

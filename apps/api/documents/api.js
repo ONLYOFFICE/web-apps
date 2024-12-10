@@ -311,6 +311,7 @@
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
                 'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
+                'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
             }
         }
 

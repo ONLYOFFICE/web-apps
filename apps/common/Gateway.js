@@ -414,6 +414,10 @@ if (window.Common === undefined) {
                 _postMessage({ event: 'onRequestRefreshFile' });
             },
 
+            userActionRequired: function() {
+                _postMessage({ event: 'onUserActionRequired' });
+            },
+
             saveDocument: function(data) {
                 data && _postMessage({
                     event: 'onSaveDocument',

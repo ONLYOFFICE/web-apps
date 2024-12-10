@@ -33,7 +33,8 @@ class MainController extends Component {
 
         this._state = {
             licenseType: false,
-            isDocModified: false
+            isDocModified: false,
+            requireUserAction: true
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
@@ -391,6 +392,7 @@ class MainController extends Component {
         Common.Notifications.trigger('document:ready');
 
         appOptions.changeDocReady(true);
+        this._state.requireUserAction = false;
     }
 
     onLicenseChanged (params) {
@@ -609,6 +611,10 @@ class MainController extends Component {
                 cssClass: 'dlg-adv-options'
             }).open();
             this.isDRM = true;
+        }
+        if (this._state.requireUserAction) {
+            Common.Gateway.userActionRequired();
+            this._state.requireUserAction = false;
         }
     }
 

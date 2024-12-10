@@ -143,7 +143,8 @@ class MainController extends Component {
 
         this._state = {
             licenseType: false,
-            isDocModified: false
+            isDocModified: false,
+            requireUserAction: true
         };
         
         this.wsLockOptions = ['SelectLockedCells', 'SelectUnlockedCells', 'FormatCells', 'FormatColumns', 'FormatRows', 'InsertColumns', 'InsertRows', 'InsertHyperlinks', 'DeleteColumns',
@@ -486,6 +487,10 @@ class MainController extends Component {
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
             }
+            if (this._state.requireUserAction) {
+                Common.Gateway.userActionRequired();
+                this._state.requireUserAction = false;
+            }
         });
 
         // Toolbar settings
@@ -766,6 +771,7 @@ class MainController extends Component {
         f7.emit('resize');
 
         appOptions.changeDocReady(true);
+        this._state.requireUserAction = false;
     }
 
     insertImage (data) {

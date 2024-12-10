@@ -41,7 +41,8 @@ PE.ApplicationController = new(function(){
         created = false,
         currentPage = 0,
         ttOffset = [5, -10],
-        labelDocName;
+        labelDocName,
+        requireUserAction = true;
 
     var LoadingDocument = -256;
 
@@ -518,6 +519,7 @@ PE.ApplicationController = new(function(){
         $('#btn-play').on('click', onPlayStart);
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
+        requireUserAction = false;
     }
 
     function onEditorPermissions(params) {
@@ -592,6 +594,10 @@ PE.ApplicationController = new(function(){
             if(isCustomLoader) hidePreloader();
             else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        }
+        if (requireUserAction) {
+            Common.Gateway.userActionRequired();
+            requireUserAction = false;
         }
     }
 

@@ -183,7 +183,7 @@ define([
 //                $(document.body).css('position', 'absolute');
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false, requireUserAction: true};
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -1181,6 +1181,8 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
+                this._state.requireUserAction = false;
+
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle && (Common.Utils.InternalSettings.get("guest-username")===null))
                     this.showRenameUserDialog();
                 if (this._needToSaveAsFile) // warning received before document is ready
@@ -2594,6 +2596,10 @@ define([
                     this.loadMask && this.loadMask.hide();
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                     me._state.openDlg.show();
+                }
+                if (me._state.requireUserAction) {
+                    Common.Gateway.userActionRequired();
+                    me._state.requireUserAction = false;
                 }
             },
 
