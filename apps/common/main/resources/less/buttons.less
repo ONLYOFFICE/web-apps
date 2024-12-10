@@ -543,6 +543,29 @@
             top: 4px;
         }
     }
+    .btn-color-value-box {
+        pointer-events: none;
+        position: absolute;
+        left: 3px;
+        bottom: 3px;
+        width: 14px;
+        height: 14px;
+        background-color: red;
+        .rtl & {
+            left: auto;
+            right: 3px;
+        }
+        &.bordered {
+            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+            border: @scaled-one-px-value solid @border-color-shading;
+        }
+    }
+
+    &.no-icon {
+        .icon {
+            visibility: hidden;
+        }
+    }
 
     &.no-caret {
         .inner-box-caret {

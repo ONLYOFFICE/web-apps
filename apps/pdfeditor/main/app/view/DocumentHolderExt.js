@@ -1444,7 +1444,7 @@ define([], function () {
                 allowDepress: true,
                 split: true,
                 menu: true,
-                hideColorLine: true,
+                colorLine: false,
                 colors: config.colors,
                 color: '3D8A44',
                 dynamiccolors: config.dynamiccolors,
@@ -1470,7 +1470,7 @@ define([], function () {
                 allowDepress: true,
                 split: true,
                 menu: true,
-                hideColorLine: true,
+                colorLine: false,
                 colors: config.colors,
                 color: 'D43230',
                 dynamiccolors: config.dynamiccolors,
@@ -1559,9 +1559,10 @@ define([], function () {
             var config = Common.UI.simpleColorsConfig;
             this.btnStrokeHighlightColor = new Common.UI.ButtonColored({
                 parentEl: $('#annot-sel-bar-highlight', container),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-highlight',
+                cls: 'btn-toolbar no-caret no-icon',
+                iconCls: 'toolbar__icon',
                 menu: true,
+                colorLine: 'box',
                 colors: [
                     'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                     '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
@@ -1583,9 +1584,10 @@ define([], function () {
 
             this.btnStrokeColor = new Common.UI.ButtonColored({
                 parentEl: $('#annot-sel-bar-stroke', container),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-highlight',
+                cls: 'btn-toolbar no-caret no-icon',
+                iconCls: 'toolbar__icon',
                 menu: true,
+                colorLine: 'box',
                 colors: config.colors,
                 color: '3D8A44',
                 dynamiccolors: config.dynamiccolors,
