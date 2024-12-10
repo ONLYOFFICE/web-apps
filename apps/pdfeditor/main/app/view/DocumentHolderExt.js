@@ -1531,7 +1531,8 @@ define([], function () {
 
         dh.createAnnotSelectBar = function(annotSelectBarBtns) {
             var container = $('<div id="annot-sel-bar-container" style="position: absolute;">' +
-                    '<div id="annot-sel-bar-stroke-color" style="display:inline-block;" class=""></div>' +
+                    '<div id="annot-sel-bar-stroke" style="display:inline-block;" class=""></div>' +
+                    '<div id="annot-sel-bar-highlight" style="display:inline-block;" class=""></div>' +
                     '<div id="annot-sel-bar-add-comment" style="display:inline-block;" class="margin-left-4"></div>' +
                     '<div class="separator margin-left-6"></div>' +
                     '<div id="annot-sel-bar-remove" class="margin-left-13" style="display:inline-block;"></div>' +
@@ -1556,14 +1557,10 @@ define([], function () {
             annotSelectBarBtns.push(this.btnAddAnnotComment);
 
             var config = Common.UI.simpleColorsConfig;
-
             this.btnStrokeHighlightColor = new Common.UI.ButtonColored({
-                parentEl: $('#annot-bar-highlight', container),
+                parentEl: $('#annot-sel-bar-highlight', container),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-highlight',
-                enableToggle: true,
-                allowDepress: true,
-                split: true,
                 menu: true,
                 colors: [
                     'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
@@ -1577,8 +1574,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
-                hint: toolbar.textHighlight,
-                type: AscPDF.ANNOTATIONS_TYPES.Highlight
+                hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeHighlightColor);
             this.btnStrokeHighlightColor.setMenu();
@@ -1586,18 +1582,12 @@ define([], function () {
             this.btnStrokeHighlightColor.currentColor = this.btnStrokeHighlightColor.color;
 
             this.btnStrokeColor = new Common.UI.ButtonColored({
-                parentEl: $('#annot-bar-highlight', container),
+                parentEl: $('#annot-sel-bar-stroke', container),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-highlight',
-                enableToggle: true,
-                allowDepress: true,
-                split: true,
                 menu: true,
-                colors: [
-                    'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
-                    '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
-                ],
-                color: 'FFFC54',
+                colors: config.colors,
+                color: '3D8A44',
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1605,8 +1595,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
-                hint: toolbar.textHighlight,
-                type: AscPDF.ANNOTATIONS_TYPES.Highlight
+                hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeColor);
             this.btnStrokeColor.setMenu();

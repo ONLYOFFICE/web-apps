@@ -743,9 +743,28 @@ define([], function () {
                 // annotation text bar
                 documentHolder.btnRemAnnot.on('click',                _.bind(this.removeComment, this));
                 documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
-
+                documentHolder.mnuStrokeHighlightColorPicker.on('select', _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeHighlightColor));
+                documentHolder.mnuStrokeColorPicker.on('select',          _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeColor));
                 this.api.UpdateInterfaceState();
             }
+
+            var selectedElements = this.api.getSelectedElements(),
+                annotType = AscPDF.ANNOTATIONS_TYPES.Highlight;
+            if (selectedElements && _.isArray(selectedElements)){
+                _.each(selectedElements, function(el, i) {
+                    if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Annot) {
+                        annotType = selectedElements[i].get_ObjectValue().asc_getType();
+                    }
+                });
+            }
+            documentHolder.btnStrokeHighlightColor.setVisible(annotType === AscPDF.ANNOTATIONS_TYPES.Highlight);
+            documentHolder.btnStrokeColor.setVisible(annotType !== AscPDF.ANNOTATIONS_TYPES.Highlight);
+            var color = this.api.asc_GetStrokeColor(),
+                btn = annotType === AscPDF.ANNOTATIONS_TYPES.Highlight ? documentHolder.btnStrokeHighlightColor : documentHolder.btnStrokeColor;
+            color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            btn.currentColor = color;
+            btn.setColor(btn.currentColor);
+            btn.getPicker().select(btn.currentColor, true);
 
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
@@ -2320,6 +2339,16 @@ define([], function () {
                 }
             }
             /** coauthoring end **/
+        };
+
+        dh.onSelectStrokeColor = function(btn, picker, color) {
+            btn.currentColor = color;
+            btn.setColor(btn.currentColor);
+            picker.select(btn.currentColor, true);
+            var r = color[0] + color[1],
+                g = color[2] + color[3],
+                b = color[4] + color[5];
+            this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
         };
 
     }
