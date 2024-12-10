@@ -766,7 +766,7 @@ define([], function () {
             btn.setColor(btn.currentColor);
             btn.getPicker().select(btn.currentColor, true);
 
-            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotSelBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
             textContainer.css({left: showPoint[0], top : showPoint[1]});
@@ -783,7 +783,7 @@ define([], function () {
             if (!textContainer.is(':visible')) {
                 textContainer.show();
             }
-            me.disableAnnotBar();
+            me.disableAnnotSelectBar();
         };
 
         dh.onHideAnnotSelectBar = function() {
@@ -799,10 +799,9 @@ define([], function () {
                 disabled = this._isDisabled;
 
             if (textContainer.length>0 && textContainer.is(':visible')) {
-                this.annotBarBtns.forEach(function(item){
+                this.annotSelectBarBtns.forEach(function(item){
                     item && item.setDisabled(!!disabled);
                 });
-                this.documentHolder.btnCopy && this.documentHolder.btnCopy.setDisabled(!this.api.can_CopyCut() || !!disabled);
             }
         };
 

@@ -1544,7 +1544,7 @@ define([], function () {
                 parentEl: $('#annot-sel-bar-remove', container),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-cc-remove',
-                hint: toolbar.removeCommentText
+                hint: this.removeCommentText
             });
             annotSelectBarBtns.push(this.btnRemAnnot);
 
