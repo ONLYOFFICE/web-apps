@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "حدث خطأ أثناء فتح الملف.<br>محتوى الملف متوافق مع العروض التقديمية(pptx مثلا),لكن الامتداد الحالي(%1) غير متوافق مع المحتوى",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "حدث خطأ أثناء فتح الملف.<br>محتوى الملف متوافق مع الجداول الحسابية(xlsx مثلا),لكن الامتداد الحالي(%1) غير متوافق مع المحتوى",
   "SSE.ApplicationController.errorLoadingFont": "لم يتم تحميل الخطوط. <br> الرجاء الاتصال بمسئول خادم المستندات.",
+  "SSE.ApplicationController.errorToken": "لم يتم تكوين رمز امان المستند بشكل صحيح.<br>برجاء التواصل مع مسئولك",
   "SSE.ApplicationController.errorTokenExpire": "انتهت صلاحية رمز الأمان  الخاص بالمستند.<br> يُرجى الاتصال بمسؤول خادم المستندات.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "تم استعادة الاتصال بالإنترنت ، وتم تغيير إصدار الملف. <br/> قبل أن تتمكن من متابعة العمل، تحتاج إلى تنزيل الملف أو نسخ محتوياته للتأكد من عدم فقدان أي شيء، ثم إعادة تحميل هذه الصفحة.",
   "SSE.ApplicationController.errorUserDrop": "لا يمكن للوصول للملف حاليا.",
@@ -48,6 +49,6 @@
   "SSE.ApplicationView.txtFileLocation": "فتح موقع الملف",
   "SSE.ApplicationView.txtFullScreen": "شاشة كاملة",
   "SSE.ApplicationView.txtPrint": "طباعة",
-  "SSE.ApplicationView.txtSearch": "بحث",
+  "SSE.ApplicationView.txtSearch": "إيجاد",
   "SSE.ApplicationView.txtShare": "مشاركة"
 }

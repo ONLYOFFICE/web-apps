@@ -20,7 +20,7 @@ import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
-
+import '../../../../common/main/lib/util/LanguageInfo.js'
 @inject(
     "users",
     "storeAppOptions",
@@ -186,6 +186,9 @@ class MainController extends Component {
 
                 this.props.storeAppOptions.wopi = this.editorConfig.wopi;
                 Common.Notifications.trigger('configOptionsFill');
+
+                this.loadDefaultMetricSettings();
+
             };
 
             const loadDocument = data => {
@@ -218,6 +221,8 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
@@ -300,22 +305,33 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const storeAppOptions = this.props.storeAppOptions;
-                const isForm = storeAppOptions.isForm;
                 const editorConfig = window.native?.editorConfig;
                 const config = storeAppOptions.config;
                 const customization = config.customization;
-                const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
+                let isMobileForceView = undefined;
+                if ( customization && customization.mobileForceView !== undefined )
+                    isMobileForceView = customization.mobileForceView;
+                else if ( editorConfig && editorConfig.mobileForceView !== undefined )
+                    isMobileForceView = editorConfig.mobileForceView;
+
+                const isForceView = isMobileForceView ?? customization?.mobile?.forceView ?? true;
+
+                if(customization?.mobileForceView !== undefined && customization?.mobileForceView !== null) {
+                    console.warn("Obsolete: The mobileForceView parameter is deprecated. Please use the forceView parameter from customization.mobile block");
+                }
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
-                if(!isForm && isMobileForceView) {
-                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
-                } else if(!isForm && !isMobileForceView) {
-                    storeAppOptions.changeViewerMode(false);
+                if ( storeAppOptions.isForm ) {
+                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 } else {
-                    this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
+                    if( isForceView ) {
+                        this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
+                    } else {
+                        storeAppOptions.changeViewerMode(false);
+                    }
                 }
 
                 this.api.asc_LoadDocument();
@@ -330,6 +346,7 @@ class MainController extends Component {
                 const appOptions = this.props.storeAppOptions;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
+                const customization = appOptions.customization;
 
                 f7.emit('resize');
 
@@ -343,10 +360,10 @@ class MainController extends Component {
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
                 let value = LocalStorage.getItem("de-settings-zoom");
-                const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
+                const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
                 (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = LocalStorage.getBool("de-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck === false));
+                value = LocalStorage.getBool("de-mobile-spellcheck", !(customization && customization.spellcheck === false));
                 appSettings.changeSpellCheck(value);
                 this.api.asc_setSpellCheck(value);
 
@@ -360,9 +377,10 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
-                value = LocalStorage.getBool('mobile-view', true);
+                value = LocalStorage.itemExists('mobile-view') ?
+                            LocalStorage.getBool('mobile-view') : !(customization?.mobile?.standardView ?? false);
 
-                if(value) {
+                if(appOptions.isMobileViewAvailable && value) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -377,6 +395,7 @@ class MainController extends Component {
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
                 Common.Gateway.on('setfavorite', this.onSetFavorite.bind(this));
+                Common.Gateway.on('insertimage', this.insertImage.bind(this));
 
                 Common.Gateway.sendInfo({
                     mode: appOptions.isEdit ? 'edit' : 'view'
@@ -446,7 +465,8 @@ class MainController extends Component {
 
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
-                    this.appOptions   = {};
+                    this.appOptions = {isCorePDF: isPDF};
+                    this.props.storeAppOptions.isMobileViewAvailable = !this.appOptions.isCorePDF;
                     this.bindEvents();
 
                     Common.Gateway.on('init',           loadConfig);
@@ -487,6 +507,60 @@ class MainController extends Component {
         }
     }
 
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) {
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        this.insertImageFromStorage(data);
+    }
+
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+        }
+    }
+
     changeEditorBrandColorForPdf() {
         const bodyElement = document.body;
         bodyElement.classList.add('pdf-view');
@@ -499,6 +573,7 @@ class MainController extends Component {
     applyMode (appOptions) {
         this.api.asc_enableKeyEvents(appOptions.isEdit);
         this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
+        this.appOptions.isCorePDF && this.api.asc_setPdfViewer(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
         appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
 
@@ -596,7 +671,7 @@ class MainController extends Component {
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
                     text : _t.errorOpensource,
-                    buttons: [{text: 'OK'}]
+                    buttons: [{ text: _t.textOk }]
                 }).open();
             }
             Common.Notifications.trigger('toolbar:activatecontrols');
@@ -619,11 +694,11 @@ class MainController extends Component {
             f7.dialog.create({
                 title: _t.notcriticalErrorTitle,
                 text : _t.warnLicenseAnonymous,
-                buttons: [{text: 'OK'}]
+                buttons: [{ text: _t.textOk }]
             }).open();
         } else if (this._state.licenseType) {
             let license = this._state.licenseType;
-            let buttons = [{text: 'OK'}];
+            let buttons = [{ text: _t.textOk }];
             if ((appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
                 (license === Asc.c_oLicenseResult.SuccessLimit ||
                     appOptions.permissionsLicense === Asc.c_oLicenseResult.SuccessLimit)
@@ -732,6 +807,27 @@ class MainController extends Component {
         });
         this.api.asc_registerCallback('asc_onDocSize', (w, h) => {
             storeDocumentSettings.changeDocSize(w, h);
+        });
+
+        if ( this.appOptions.isCorePDF ) {
+            this.api.asc_registerCallback('asc_onShowPDFFormsActions', (obj, x, y) => {
+                switch (obj.type) {
+                    case AscPDF.FIELD_TYPES.combobox:
+                        this.onShowListActions(obj, x, y);
+                        break;
+                    case AscPDF.FIELD_TYPES.text:
+                        this.onShowDateActions(obj, x, y);
+                        break;
+                }
+            });
+
+            this.api.asc_registerCallback('asc_onHidePdfFormsActions', () => {
+                if ( this.cmpCalendar && this.cmpCalendar.opened )
+                    this.cmpCalendar.close();
+            });
+        }
+
+        this.api.asc_registerCallback('asc_onHideContentControlsActions', () => {
         });
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
@@ -892,6 +988,12 @@ class MainController extends Component {
         Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
     }
 
+    insertImageFromStorage(data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.AddImageUrl(data._urls, undefined, data.token);
+        }
+    }
+
     markFavorite(favorite) {
         Common.Gateway.metaChange({ favorite });
     }
@@ -1015,12 +1117,17 @@ class MainController extends Component {
         const { t } = this.props;
         const boxSdk = $$('#editor_sdk');
 
-        let props = obj.pr,
-            specProps = props.get_DateTimePr(),
-            isPhone = Device.isPhone,
-            controlsContainer = boxSdk.find('#calendar-target-element'),
-            _dateObj = props;
+        let val = undefined;
+        if ( !this.appOptions.isCorePDF ) {
+            const specProps = obj.pr.get_DateTimePr();
+            if ( specProps )
+                val = specProps.get_FullDate();
+        } else {
+            if ( obj )
+                val = obj.asc_GetValue();
+        }
 
+        let controlsContainer = boxSdk.find('#calendar-target-element');
         if (controlsContainer.length < 1) {
             controlsContainer = $$('<div id="calendar-target-element" style="position: absolute;"></div>');
             boxSdk.append(controlsContainer);
@@ -1028,25 +1135,34 @@ class MainController extends Component {
 
         controlsContainer.css({left: `${x}px`, top: `${y}px`});
 
-        const val = specProps ? specProps.get_FullDate() : undefined;
         this.cmpCalendar = f7.calendar.create({
             inputEl: '#calendar-target-element',
             dayNamesShort: [t('Edit.textSu'), t('Edit.textMo'), t('Edit.textTu'), t('Edit.textWe'), t('Edit.textTh'), t('Edit.textFr'), t('Edit.textSa')],
             monthNames: [t('Edit.textJanuary'), t('Edit.textFebruary'), t('Edit.textMarch'), t('Edit.textApril'), t('Edit.textMay'), t('Edit.textJune'), t('Edit.textJuly'), t('Edit.textAugust'), t('Edit.textSeptember'), t('Edit.textOctober'), t('Edit.textNovember'), t('Edit.textDecember')],
-            backdrop: isPhone ? false : true,
-            closeByBackdropClick: isPhone ? false : true,
+            backdrop: !Device.isPhone,
+            closeByBackdropClick: !Device.isPhone,
             value: [val ? new Date(val) : new Date()],
-            openIn: isPhone ? 'sheet' : 'popover',
+            openIn: Device.isPhone ? 'sheet' : 'popover',
             on: {
                 change: (calendar, value) => {
                     if(calendar.initialized && value[0]) {
-                        let specProps = _dateObj.get_DateTimePr();
-                        specProps.put_FullDate(new Date(value[0]));
-                        this.api.asc_SetContentControlDatePickerDate(specProps);
-                        calendar.close();
-                        this.api.asc_UncheckContentControlButtons();
+                        if ( !this.appOptions.isCorePDF ) {
+                            const specProps = obj.pr.get_DateTimePr();
+                            specProps.put_FullDate(new Date(value[0]));
+                            this.api.asc_SetContentControlDatePickerDate(specProps);
+                            calendar.close();
+                            this.api.asc_UncheckContentControlButtons();
+                        } else {
+                            const specProps = new AscCommon.CSdtDatePickerPr();
+                            specProps.put_FullDate(new Date(value[0]));
+                            this.api.asc_SetTextFormDatePickerDate(specProps);
+                            calendar.close();
+                        }
                     }
-                }
+                },
+                closed: () => {
+                    this.cmpCalendar = null;
+                },
             }
         });
 
@@ -1068,7 +1184,9 @@ class MainController extends Component {
             dropdownListTarget.css({left: `${x}px`, top: `${y}px`});
         }
 
-        Common.Notifications.trigger('openDropdownList', obj);
+        if ( !this.appOptions.isCorePDF )
+            Common.Notifications.trigger('openDropdownList', obj);
+        else Common.Notifications.trigger('openPdfDropdownList', obj);
     }
 
     onProcessSaveResult (data) {

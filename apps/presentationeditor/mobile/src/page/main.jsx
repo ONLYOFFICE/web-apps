@@ -115,9 +115,39 @@ class MainPage extends Component {
         }
     };
 
+    touchMoveHandler (e) {
+        if (e.touches.length > 1 && !e.target.closest('#editor_sdk')) {
+            e.preventDefault();
+        }
+    }
+
+    gesturePreventHandler (e) {
+        e.preventDefault();
+    }
+
     componentDidMount () {
-        if ( $$('.skl-container').length )
+        if ($$('.skl-container').length) {
             $$('.skl-container').remove();
+        }
+          
+
+        document.addEventListener('touchmove', this.touchMoveHandler);
+
+        if (Device.ios) {
+            document.addEventListener('gesturestart', this.gesturePreventHandler);
+            document.addEventListener('gesturechange', this.gesturePreventHandler);
+            document.addEventListener('gestureend', this.gesturePreventHandler);
+        }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('touchmove', this.touchMoveHandler);
+
+        if (Device.ios) {
+            document.removeEventListener('gesturestart', this.gesturePreventHandler);
+            document.removeEventListener('gesturechange', this.gesturePreventHandler);
+            document.removeEventListener('gestureend', this.gesturePreventHandler);
+        }
     }
 
     render() {
@@ -140,8 +170,8 @@ class MainPage extends Component {
             if(logo && isBranding) {
                 isHideLogo = logo.visible === false;
 
-                if(logo.image || logo.imageDark) {
-                    customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+                if(logo.image || logo.imageDark || logo.imageLight) {
+                    customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image ?? logo.imageLight : logo.imageLight ?? logo.image ?? logo.imageDark;
                     customLogoUrl = logo.url;
                 }
             } else {

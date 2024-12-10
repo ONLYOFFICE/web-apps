@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -40,13 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/view/SymbolTableDialog'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     var _BulletTypes = {};
     _BulletTypes.none = -1;
@@ -552,18 +546,7 @@ define([
                         color = 'transparent';
                     this.color = Common.Utils.ThemeColor.colorValue2EffectId(color);
                     this.btnColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colors.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colors.clearSelection();
-                    } else
-                        this.colors.select(color,true);
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colors);
 
                     if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                         this.cmbNumFormat.setValue(-1);

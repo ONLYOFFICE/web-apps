@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td colspan=2>
             <label class="header"><%= scope.textSize %></label>
@@ -58,7 +58,7 @@
         </td>
     </tr>
 </table>
-<table cols="1" id="chart-panel-3d-rotate">
+<table cols="1" id="chart-panel-3d-rotate" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -117,11 +117,11 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="link" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
+            <label class="link canfocused" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
@@ -129,7 +129,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

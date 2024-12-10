@@ -179,7 +179,8 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
+      "textOk": "Ok"
     }
   },
   "Error": {
@@ -230,7 +231,9 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -247,7 +250,7 @@
     "loadImageTextText": "Caricamento dell'immagine...",
     "loadImageTitleText": "Caricamento dell'immagine",
     "loadingDocumentTextText": "Caricamento di documento...",
-    "loadingDocumentTitleText": "Caricamento di documento",
+    "loadingDocumentTitleText": "Caricamento",
     "loadThemeTextText": "Caricamento del tema...",
     "loadThemeTitleText": "Caricamento del tema",
     "openTextText": "Apertura del documento...",
@@ -259,7 +262,7 @@
     "saveTextText": "Salvataggio del documento...",
     "saveTitleText": "Salvataggio del documento",
     "textContinue": "Continua",
-    "textLoadingDocument": "Caricamento di documento",
+    "textLoadingDocument": "Caricamento",
     "textUndo": "Annulla",
     "txtEditingMode": "Impostare la modalità di modifica...",
     "uploadImageTextText": "Caricamento dell'immagine...",

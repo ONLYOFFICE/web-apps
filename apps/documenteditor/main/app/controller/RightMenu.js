@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -218,6 +218,7 @@ define([
                     this._settings[settingsType].panel.isSmartArtInternal = isSmartArtInternal;
                     can_add_table = value.get_CanAddTable();
                     control_lock = control_lock || value.get_Locked();
+                    content_locked = !value.can_EditBlockContentControl();
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;

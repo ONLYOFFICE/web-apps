@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -61,7 +61,7 @@ define([
             '<span id="slot-btn-draw-eraser" class="btn-slot text x-huge"></span>' +
             '</div>';
         var templateSection =
-            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
+            '<section id="draw-ink-panel" class="panel" data-tab="draw" role="tabpanel" aria-labelledby="draw">' +
             template +
             '</section>';
         function setEvents() {

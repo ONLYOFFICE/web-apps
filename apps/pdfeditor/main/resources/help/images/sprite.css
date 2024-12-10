@@ -108,13 +108,13 @@
 	height: 17px;
 }
 
-.icon-chaticon_new {
+.icon-editcommenticon {
 	background-position: -78px -76px;
-	width: 19px;
-	height: 17px;
+	width: 16px;
+	height: 16px;
 }
 
-.icon-editcommenticon {
+.icon-saveupdate {
 	background-position: -99px 0px;
 	width: 16px;
 	height: 16px;
@@ -150,8 +150,14 @@
 	height: 15px;
 }
 
-.icon-print {
+.icon-chaticon_new {
 	background-position: -40px -94px;
+	width: 17px;
+	height: 15px;
+}
+
+.icon-print {
+	background-position: -57px -94px;
 	width: 17px;
 	height: 15px;
 }

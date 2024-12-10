@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -1473,7 +1473,7 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 113px;',
+                    style       : 'width: 135px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
@@ -1500,9 +1500,20 @@ define([
                     dataHintDirection: 'bottom'
                 });
 
+                me.btnCommaStyle = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-comma-style',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-comma',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
+                    styleName   : 'Comma',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom'
+                });
+
                 me.btnCurrencyStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-accounting-style',
                     cls         : 'btn-toolbar',
+                    style       : 'width: 31px',
                     iconCls     : 'toolbar__icon btn-currency-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName    : 'Currency',
@@ -2153,6 +2164,17 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnRtlSheet = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-sheet-rtl',
+                    lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
+                    caption: this.textRtlSheet + ' (Beta)',
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -2215,13 +2237,13 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -2321,6 +2343,8 @@ define([
                 tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                 is_file_active = me.isTabActive('file');
 
+            if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
             if ( is_file_active ) {
@@ -2393,6 +2417,7 @@ define([
             _injectComponent('#slot-btn-cell-style',     this.btnCellStyle);
             _injectComponent('#slot-btn-format',         this.cmbNumberFormat);
             _injectComponent('#slot-btn-percents',       this.btnPercentStyle);
+            _injectComponent('#slot-btn-comma',          this.btnCommaStyle);
             _injectComponent('#slot-btn-currency',       this.btnCurrencyStyle);
             _injectComponent('#slot-btn-digit-dec',      this.btnDecDecimal);
             _injectComponent('#slot-btn-digit-inc',      this.btnIncDecimal);
@@ -2421,6 +2446,7 @@ define([
             _injectComponent('#slot-btn-printtitles',   this.btnPrintTitles);
             _injectComponent('#slot-chk-print-gridlines', this.chPrintGridlines);
             _injectComponent('#slot-chk-print-headings',  this.chPrintHeadings);
+            _injectComponent('#slot-btn-rtl-sheet',       this.btnRtlSheet);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -2501,6 +2527,7 @@ define([
             _updateHint(this.btnTableTemplate, this.txtTableTemplate);
             _updateHint(this.btnCellStyle, this.txtCellStyle);
             _updateHint(this.btnPercentStyle, this.tipDigStylePercent);
+            _updateHint(this.btnCommaStyle, this.tipDigStyleComma);
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
@@ -2523,6 +2550,7 @@ define([
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
             _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
             _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
+            _updateHint(this.btnRtlSheet, this.tipRtlSheet + ' (Beta)');
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -2533,28 +2561,16 @@ define([
                     cls: 'shifted-right',
                     items: [
                         {
-                            caption     : this.textOutBorders,
-                            iconCls     : 'menu__icon btn-border-out',
-                            icls        : 'btn-border-out',
-                            borderId    : 'outer'
-                        },
-                        {
-                            caption     : this.textAllBorders,
-                            iconCls     : 'menu__icon btn-border-all',
-                            icls        : 'btn-border-all',
-                            borderId    : 'all'
+                            caption     : this.textBottomBorders,
+                            iconCls     : 'menu__icon btn-border-bottom',
+                            icls        : 'btn-border-bottom',
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textTopBorders,
                             iconCls     : 'menu__icon btn-border-top',
                             icls        : 'btn-border-top',
                             borderId    : Asc.c_oAscBorderOptions.Top
-                        },
-                        {
-                            caption     : this.textBottomBorders,
-                            iconCls     : 'menu__icon btn-border-bottom',
-                            icls        : 'btn-border-bottom',
-                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textLeftBorders,
@@ -2568,18 +2584,37 @@ define([
                             icls        : 'btn-border-right',
                             borderId    : Asc.c_oAscBorderOptions.Right
                         },
+                        {caption: '--'},
                         {
                             caption     : this.textNoBorders,
                             iconCls     : 'menu__icon btn-border-no',
                             icls        : 'btn-border-no',
                             borderId    : 'none'
                         },
-                        {caption: '--'},
+                        {
+                            caption     : this.textAllBorders,
+                            iconCls     : 'menu__icon btn-border-all',
+                            icls        : 'btn-border-all',
+                            borderId    : 'all'
+                        },
+                        {
+                            caption     : this.textOutBorders,
+                            iconCls     : 'menu__icon btn-border-out',
+                            icls        : 'btn-border-out',
+                            borderId    : 'outer'
+                        },
                         {
                             caption     : this.textInsideBorders,
                             iconCls     : 'menu__icon btn-border-inside',
                             icls        : 'btn-border-inside',
                             borderId    : 'inner'
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textMiddleBorders,
+                            iconCls     : 'menu__icon btn-border-insidehor',
+                            icls        : 'btn-border-insidehor',
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
                             caption     : this.textCenterBorders,
@@ -2588,22 +2623,16 @@ define([
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
-                            caption     : this.textMiddleBorders,
-                            iconCls     : 'menu__icon btn-border-insidehor',
-                            icls        : 'btn-border-insidehor',
-                            borderId    : Asc.c_oAscBorderOptions.InnerH
+                            caption     : this.textDiagDownBorder,
+                            iconCls     : 'menu__icon btn-border-diagdown',
+                            icls        : 'btn-border-diagdown',
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {
                             caption     : this.textDiagUpBorder,
                             iconCls     : 'menu__icon btn-border-diagup',
                             icls        : 'btn-border-diagup',
                             borderId    : Asc.c_oAscBorderOptions.DiagU
-                        },
-                        {
-                            caption     : this.textDiagDownBorder,
-                            iconCls     : 'menu__icon btn-border-diagdown',
-                            icls        : 'btn-border-diagdown',
-                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {caption: '--'},
                         {
@@ -2707,27 +2736,27 @@ define([
                     items: []
                 }));
 
-                var smartArtData = Common.define.smartArt.getSmartArtData();
-                smartArtData.forEach(function (item, index) {
-                    var length = item.items.length,
-                        width = 399;
-                    if (length < 5) {
-                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
-                    }
-                    me.btnInsertSmartArt.menu.addItem({
-                        caption: item.caption,
-                        value: item.sectionId,
-                        itemId: item.id,
-                        itemsLength: length,
-                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
-                            ],
-                            menuAlign: 'tl-tr',
-                        })});
-                });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    var smartArtData = Common.define.smartArt.getSmartArtData();
+                    smartArtData.forEach(function (item, index) {
+                        var length = item.items.length,
+                            width = 399;
+                        if (length < 5) {
+                            width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                        }
+                        me.btnInsertSmartArt.menu.addItem({
+                            caption: item.caption,
+                            value: item.sectionId,
+                            itemId: item.id,
+                            itemsLength: length,
+                            iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                                ],
+                                menuAlign: 'tl-tr',
+                            })});
+                    });
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
@@ -3261,7 +3290,7 @@ define([
             if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                 this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave )+ Common.Utils.String.platformKey('Ctrl+S');
                 this.btnCollabChanges.updateHint(this.btnSaveTip);
-                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                this.btnCollabChanges.changeIcon({next: cls, curr: this.btnSaveCls});
                 this.btnSaveCls = cls;
             }
         },
@@ -3448,309 +3477,6 @@ define([
         getSymbolDescription: function(symbol){
             var  specSymbol = this.specSymbols.find(function (item){return item.symbol == symbol});
             return !!specSymbol ? specSymbol.description : this.capBtnInsSymbol + ': ' + symbol;
-        },
-
-        textBold:           'Bold',
-        textItalic:         'Italic',
-        textUnderline:      'Underline',
-        textStrikeout:      'Strikeout',
-        textSuperscript:    'Superscript',
-        textSubscript:      'Subscript',
-        textSubSuperscript: 'Subscript/Superscript',
-        tipFontName:        'Font Name',
-        tipFontSize:        'Font Size',
-        tipCellStyle:       'Cell Style',
-        tipCopy:            'Copy',
-        tipPaste:           'Paste',
-        tipUndo:            'Undo',
-        tipRedo:            'Redo',
-        tipPrint:           'Print',
-        tipPrintQuick:      'Quick print',
-        tipSave:            'Save',
-        tipFontColor:       'Font color',
-        tipPrColor:         'Background color',
-        tipClearStyle:      'Clear',
-        tipCopyStyle:       'Copy Style',
-        tipBack:            'Back',
-        tipAlignLeft:       'Align Left',
-        tipAlignRight:      'Align Right',
-        tipAlignCenter:     'Align Center',
-        tipAlignJust:       'Justified',
-        textAlignTop:       'Align text to the top',
-        textAlignMiddle:    'Align text to the middle',
-        textAlignBottom:    'Align text to the bottom',
-        tipNumFormat:       'Number Format',
-        txtNumber:          'Number',
-        txtInteger:         'Integer',
-        txtGeneral:         'General',
-        txtCustom:          'Custom',
-        txtCurrency:        'Currency',
-        txtDollar:          '$ Dollar',
-        txtEuro:            '€ Euro',
-        txtRouble:          '₽ Rouble',
-        txtPound:           '£ Pound',
-        txtYen:             '¥ Yen',
-//    txtFranc:           'CHF Swiss franc',
-        txtAccounting:      'Accounting',
-        txtDate:            'Date',
-        txtDateShort:       'Short Date',
-        txtDateLong:        'Long Date',
-        txtTime:            'Time',
-        txtDateTime:        'Date & Time',
-        txtPercentage:      'Percentage',
-        txtFraction:        'Fraction',
-        txtScientific:      'Scientific',
-        txtText:            'Text',
-//    txtSpecial:         'Special',
-        tipBorders:         'Borders',
-        textOutBorders:     'Outside Borders',
-        textAllBorders:     'All Borders',
-        textTopBorders:     'Top Borders',
-        textBottomBorders:  'Bottom Borders',
-        textLeftBorders:    'Left Borders',
-        textRightBorders:   'Right Borders',
-        textNoBorders:      'No Borders',
-        textInsideBorders:  'Inside Borders',
-        textMiddleBorders:  'Inside Horizontal Borders',
-        textCenterBorders:  'Inside Vertical Borders',
-        textDiagDownBorder: 'Diagonal Down Border',
-        textDiagUpBorder:   'Diagonal Up Border',
-        tipWrap:            'Wrap Text',
-        txtClearAll:        'All',
-        txtClearText:       'Text',
-        txtClearFormat:     'Format',
-        txtClearFormula:    'Formula',
-        txtClearHyper:      'Hyperlink',
-        txtClearComments:   'Comments',
-        tipMerge:           'Merge',
-        txtMergeCenter:     'Merge Center',
-        txtMergeAcross:     'Merge Across',
-        txtMergeCells:      'Merge Cells',
-        txtUnmerge:         'Unmerge Cells',
-        tipIncDecimal:      'Increase Decimal',
-        tipDecDecimal:      'Decrease Decimal',
-        tipAutofilter:      'Set Autofilter',
-        tipInsertImage:     'Insert Image',
-        tipInsertHyperlink: 'Add Hyperlink',
-        tipSynchronize:     'The document has been changed by another user. Please click to save your changes and reload the updates.',
-        tipIncFont:         'Increment font size',
-        tipDecFont:         'Decrement font size',
-        tipInsertHorizontalText: 'Insert horizontal text box',
-        tipInsertVerticalText: 'Insert vertical text box',
-        tipInsertText: 'Insert text box',
-        tipInsertTextart:   'Insert Text Art',
-        tipInsertShape:     'Insert Autoshape',
-        tipDigStylePercent: 'Percent Style',
-//        tipDigStyleCurrency:'Currency Style',
-        tipDigStyleAccounting: 'Accounting Style',
-        tipTextOrientation: 'Orientation',
-        tipInsertOpt:       'Insert Cells',
-        tipDeleteOpt:       'Delete Cells',
-        tipAlignTop:        'Align Top',
-        tipAlignMiddle:     'Align Middle',
-        tipAlignBottom:     'Align Bottom',
-        textBordersStyle:   'Border Style',
-        textBordersColor:   'Borders Color',
-        textAlignLeft:      'Left align text',
-        textAlignRight:     'Right align text',
-        textAlignCenter:    'Center text',
-        textAlignJust:      'Justify',
-        txtSort:            'Sort',
-//    txtAscending:       'Ascending',
-//    txtDescending:      'Descending',
-        txtFormula:         'Insert Function',
-        txtNoBorders:       'No borders',
-        txtAdditional:      'Insert Function',
-        mniImageFromFile:   'Image from file',
-        mniImageFromUrl:    'Image from url',
-        textNewColor:       'Add New Custom Color',
-        tipInsertChart:     'Insert Chart',
-        tipEditChart:       'Edit Chart',
-        textPrint:          'Print',
-        textPrintOptions:   'Print Options',
-        tipColorSchemas:    'Change Color Scheme',
-        txtSortAZ:          'Sort A to Z',
-        txtSortZA:          'Sort Z to A',
-        txtFilter:          'Filter',
-        txtTableTemplate:   'Format As Table Template',
-        txtCellStyle:       'Cell Style',
-        textHorizontal:     'Horizontal Text',
-        textCounterCw:      'Angle Counterclockwise',
-        textClockwise:      'Angle Clockwise',
-        textRotateUp:       'Rotate Text Up',
-        textRotateDown:     'Rotate Text Down',
-        textInsRight:       'Shift Cells Right',
-        textInsDown:        'Shift Cells Down',
-        textEntireRow:      'Entire Row',
-        textEntireCol:      'Entire Column',
-        textDelLeft:        'Shift Cells Left',
-        textDelUp:          'Shift Cells Up',
-        textZoom:           'Zoom',
-        txtClearFilter:     'Clear Filter',
-        tipSaveCoauth: 'Save your changes for the other users to see them.',
-        txtSearch: 'Search',
-        txtNamedRange:      'Named Ranges',
-        txtNewRange:        'Define Name',
-        txtManageRange:     'Name manager',
-        txtPasteRange:      'Paste name',
-        textInsCharts:      'Charts',
-        tipInsertEquation:  'Insert Equation',
-        tipInsertChartSpark: 'Insert Chart',
-        textMoreFormats: 'More formats',
-        capInsertText: 'Text',
-        capInsertTextart: 'Text Art',
-        capInsertImage: 'Image',
-        capInsertShape: 'Shape',
-        capInsertChart: 'Chart',
-        capInsertHyperlink: 'Hyperlink',
-        capInsertEquation: 'Equation',
-        capBtnComment: 'Comment',
-        textTabFile: 'File',
-        textTabHome: 'Home',
-        textTabInsert: 'Insert',
-        tipChangeChart: 'Change Chart Type',
-        textTabCollaboration: 'Collaboration',
-        textTabProtect: 'Protection',
-        textTabLayout: 'Layout',
-        capBtnPageOrient: 'Orientation',
-        capBtnMargins: 'Margins',
-        capBtnPageSize: 'Size',
-        tipImgAlign: 'Align objects',
-        tipImgGroup: 'Group objects',
-        tipSendForward: 'Bring forward',
-        tipSendBackward: 'Send backward',
-        capImgAlign: 'Align',
-        capImgGroup: 'Group',
-        capImgForward: 'Bring Forward',
-        capImgBackward: 'Send Backward',
-        tipPageSize: 'Page Size',
-        tipPageOrient: 'Page Orientation',
-        tipPageMargins: 'Page Margins',
-        textMarginsLast: 'Last Custom',
-        textMarginsNormal: 'Normal',
-        textMarginsNarrow: 'Narrow',
-        textMarginsWide: 'Wide',
-        textPageMarginsCustom: 'Custom margins',
-        textTop: 'Top: ',
-        textLeft: 'Left: ',
-        textBottom: 'Bottom: ',
-        textRight: 'Right: ',
-        textPortrait: 'Portrait',
-        textLandscape: 'Landscape',
-        mniImageFromStorage: 'Image from Storage',
-        capBtnPrintArea: 'Print Area',
-        textSetPrintArea: 'Set Print Area',
-        textClearPrintArea: 'Clear Print Area',
-        textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print area',
-        capBtnInsHeader: 'Header/Footer',
-        tipEditHeader: 'Edit header or footer',
-        textTabData: 'Data',
-        capInsertTable: 'Table',
-        tipInsertTable: 'Insert table',
-        textTabFormula: 'Formula',
-        capBtnScale: 'Scale to Fit',
-        tipScale: 'Scale to Fit',
-        textScaleCustom: 'Custom',
-        textScale: 'Scale',
-        textAuto: 'Auto',
-        textOnePage: 'page',
-        textFewPages: 'pages',
-        textManyPages: 'pages',
-        textHeight: 'Height',
-        textWidth: 'Width',
-        textMorePages: 'More pages',
-        capBtnAddComment: 'Add Comment',
-        capBtnInsSymbol: 'Symbol',
-        tipInsertSymbol: 'Insert symbol',
-        txtAutosumTip: 'Summation',
-        capBtnPrintTitles: 'Print Titles',
-        tipPrintTitles: 'Print titles',
-        capBtnColorSchemas: 'Color Scheme',
-        tipCondFormat: 'Conditional formatting',
-        textDataBars: 'Data Bars',
-        textColorScales: 'Color Scales',
-        textNewRule: 'New Rule',
-        textClearRule: 'Clear Rules',
-        textSelection: 'From current selection',
-        textThisSheet: 'From this worksheet',
-        textThisTable: 'From this table',
-        textThisPivot: 'From this pivot',
-        textManageRule: 'Manage Rules',
-        capBtnInsSlicer: 'Slicer',
-        tipInsertSlicer: 'Insert slicer',
-        textVertical: 'Vertical Text',
-        textTabView: 'View',
-        tipEditChartData: 'Select Data',
-        tipEditChartType: 'Change Chart Type',
-        textAutoColor: 'Automatic',
-        textItems: 'Items',
-        tipInsertSpark: 'Insert sparkline',
-        capInsertSpark: 'Sparklines',
-        textPrintGridlines: 'Print gridlines',
-        textPrintHeadings: 'Print headings',
-        textShowVA: 'Show Visible Area',
-        textHideVA: 'Hide Visible Area',
-        textEditVA: 'Edit Visible Area',
-        tipVisibleArea: 'Visible area',
-        textDone: 'Done',
-        tipTextFormatting: 'More text formatting tools',
-        tipHAlighOle: 'Horizontal Align',
-        tipVAlighOle: 'Vertical Align',
-        tipSelectAll: 'Select all',
-        tipCut: 'Cut',
-        tipInsertSmartArt: 'Insert SmartArt',
-        capBtnInsSmartArt: 'SmartArt',
-        textTabDraw: 'Draw',
-        tipChangeCase: 'Change case',
-        mniSentenceCase: 'Sentence case.',
-        mniLowerCase: 'lowercase',
-        mniUpperCase: 'UPPERCASE',
-        mniCapitalizeWords: 'Capitalize Each Word',
-        mniToggleCase: 'tOGGLE cASE',
-        textMoreSymbols: 'More symbols',
-        textAlpha: 'Greek Small Letter Alpha',
-        textBetta: 'Greek Small Letter Betta',
-        textBlackHeart: 'Black Heart Suit',
-        textBullet: 'Bullet',
-        textCopyright: 'Copyright Sign',
-        textDegree: 'Degree Sign',
-        textDelta: 'Greek Small Letter Delta',
-        textDivision: 'Division Sign',
-        textDollar: 'Dollar Sign',
-        textEuro: 'Euro Sign',
-        textGreaterEqual: 'Greater-Than Or Equal To',
-        textInfinity: 'Infinity',
-        textLessEqual: 'Less-Than Or Equal To',
-        textLetterPi: 'Greek Small Letter Pi',
-        textNotEqualTo: 'Not Equal To',
-        textOneHalf: 'Vulgar Fraction One Half',
-        textOneQuarter: 'Vulgar Fraction One Quarter',
-        textPlusMinus: 'Plus-Minus Sign',
-        textRegistered: 'Registered Sign',
-        textSection: 'Section Sign',
-        textSmile: 'White Smiling Fase',
-        textSquareRoot: 'Square Root',
-        textTilde: 'Tilde',
-        textTradeMark: 'Trade Mark Sign',
-        textYen: 'Yen Sign',
-        capBtnPageBreak: 'Breaks',
-        tipPageBreak: 'Add a break where you want the next page to begin in the printed copy',
-        textInsPageBreak: 'Insert page break',
-        textDelPageBreak: 'Remove page break',
-        textResetPageBreak: 'Reset all page breaks',
-        capInsertChartRecommend: 'Recommended Chart',
-        tipInsertChartRecommend: 'Insert recommended chart',
-        textDown: 'Down',
-        textUp: 'Up',
-        textFillLeft: 'Left',
-        textFillRight: 'Right',
-        textSeries: 'Series',
-        txtFillNum: 'Fill',
-        tipReplace: 'Replace',
-        textCellAlign: 'Format cell alignment',
-        textMoreBorders: 'More borders',
-        textFormatCellFill: 'Format cell fill'
-
+        }
     }, SSE.Views.Toolbar || {}));
 });

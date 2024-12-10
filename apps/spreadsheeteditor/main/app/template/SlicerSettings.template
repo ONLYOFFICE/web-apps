@@ -1,4 +1,4 @@
-<table cols="3">
+<table cols="3" role="presentation">
     <tr>
         <td class="padding-large" width="88px">
             <label class="input-label"><%= scope.textWidth %></label>
@@ -13,7 +13,7 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td class="padding-small" colspan=2>
             <label class="header"><%= scope.textPosition %></label>
@@ -122,7 +122,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="slicer-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="slicer-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

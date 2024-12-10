@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -58,7 +58,8 @@ define([
     'documenteditor/main/app/view/TextArtSettings',
     'documenteditor/main/app/view/SignatureSettings',
     'documenteditor/main/app/view/FormSettings',
-    'common/main/lib/component/Scroller'
+    'common/main/lib/component/Scroller',
+    'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -162,7 +163,7 @@ define([
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             this.$el.show();
 
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
             this.$el.html($markup);
 
             this.btnMoreContainer = $markup.find('#slot-right-menu-more');
@@ -385,6 +386,7 @@ define([
         txtChartSettings:           'Chart Settings',
         txtMailMergeSettings:       'Mail Merge Settings',
         txtSignatureSettings:       'Signature Settings',
-        txtFormSettings:            'Form Settings'
+        txtFormSettings:            'Form Settings',
+        ariaRightMenu:              'Right menu'
     }, DE.Views.RightMenu || {}));
 });

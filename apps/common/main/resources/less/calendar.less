@@ -29,22 +29,17 @@
       display: block;
       position: relative;
       &.arrow-prev {
-        background-position: -38px -96px;
+        background-position: -40px 4px;
       }
       &.arrow-next {
-        background-position: -36px -112px;
+        background-position: -40px -12px;
       }
     }
-    &:hover {
+    &:hover, &:active {
       background-color: @highlight-button-hover-ie;
       background-color: @highlight-button-hover;
       cursor: pointer;
     }
-
-      &:active {
-          background-color: @highlight-button-pressed-ie;
-          background-color: @highlight-button-pressed;
-      }
   }
   .calendar-header {
         height: 68px;

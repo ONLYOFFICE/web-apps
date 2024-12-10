@@ -12,10 +12,10 @@
 <body>
     <div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>Erweiterte Einstellungen des Dokumenteneditors</h1>
-        <p>Der <a target="_blank" href="https://www.onlyoffice.com/de/document-editor.aspx" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a> ermöglicht es Ihnen, die erweiterten Einstellungen zu ändern. Um darauf zuzugreifen, öffnen Sie die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Erweiterte Einstellungen</b>.</p>
+        <p>Der <a href="https://www.onlyoffice.com/de/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Dokumenteneditor</b></a> ermöglicht es Ihnen, die erweiterten Einstellungen zu ändern. Um darauf zuzugreifen, öffnen Sie die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Erweiterte Einstellungen</b>.</p>
         <p>Die erweiterten Einstellungen sind wie folgt gruppiert:</p>
 
         <h3>Bearbeitung und Speicherung</h3>
@@ -49,6 +49,7 @@
                     <li><b>Keine</b>. Alle während der aktuellen Sitzung vorgenommenen Änderungen werden nicht hervorgehoben.</li>
                     <li><b>Alle anzeigen</b>. Alle während der aktuellen Sitzung vorgenommenen Änderungen werden hervorgehoben.</li>
                     <li><b>Letzte anzeigen</b>. Alle Änderungen werden hervorgehoben, die Sie vorgenommen haben, seit Sie das letzte Mal das Symbol <b>Speichern</b> <div class="icon icon-saveupdate"></div> angeklickt haben. Diese Option ist nur verfügbar, wenn Sie in der Co-Bearbeitung den Modus <b>Formal</b> ausgewählt haben.</li>
+                    <li><b>Änderungen von anderen Benutzern anzeigen</b>. Mit dieser Funktion können Sie von anderen Benutzern vorgenommene Änderungen an dem Dokument sehen, das nur im <b>Live Viewer</b>-Modus zur Ansicht geöffnet ist.</li>
                     <li><b>Kommentare im Text anzeigen</b>. Wenn Sie diese Funktion deaktivieren, werden die kommentierten Passagen nur dann hervorgehoben, wenn Sie auf das Symbol <b>Kommentare</b> <div class="icon icon-commentsicon"></div> in der linken Seitenleiste klicken.</li>
                     <li><b>Gelöste Kommentare anzeigen</b>. Diese Funktion ist standardmäßig deaktiviert, sodass die aufgelösten Kommentare im Dokumenttext ausgeblendet werden. Sie können solche Kommentare nur anzeigen, wenn Sie in der linken Seitenleiste auf das Symbol <b>Kommentare</b> <div class="icon icon-commentsicon"></div> klicken. Aktivieren Sie diese Option, wenn Sie aufgelöste Kommentare im Dokumenttext anzeigen möchten.</li>
                 </ul>
@@ -63,25 +64,38 @@
             <li>Über das Menü <b>Automatische Korrekturoptionen</b> können Sie auf die <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)">Autokorrektur-Einstellungen</a> zugreifen, z. B. Text während der Eingabe ersetzen, Funktionen erkennen, automatische Formatierung usw.</li>
         </ol>
 
+        <h3>Darstellung</h3>
+            <ol>
+                <li>
+                    Die Option <b>Thema der Benutzeroberfläche</b> wird verwendet, um das Farbschema der Benutzeroberfläche des Editors zu ändern.
+                    <ul>
+                        <li>Die Option <b>Wie im System</b> sorgt dafür, dass der Editor dem Oberflächendesign Ihres Systems folgt.</li>
+                        <li>Das Farbschema <b>Hell</b> umfasst die Standardfarben Blau, Weiß und Hellgrau mit weniger Kontrast in UI-Elementen, die für die Arbeit tagsüber geeignet sind.</li>
+                        <li>Das Farbschema <b>Klassisch Hell</b> umfasst die Standardfarben Blau, Weiß und Hellgrau.</li>
+                        <li>Das Farbschema <b>Dunkel</b> umfasst schwarze, dunkelgraue und hellgraue Farben, die für Arbeiten bei Nacht geeignet sind.</li>
+                        <li>Das Farbschema <b>Dunkler Kontrast</b> umfasst schwarze, dunkelgraue und weiße Farben mit mehr Kontrast in UI-Elementen, die den Arbeitsbereich der Datei hervorheben.</li>
+                        <li>Das Farbschema <b>Grau</b> enthält hellere Grautöne und erscheint als gleichmäßig helles Farbschema.</li>
+                        <li>
+                            Die Option <b>Dunkelmodus aktivieren</b> wird verwendet, um den Arbeitsbereich dunkler zu machen, wenn der Editor auf das Oberflächendesign <b>Dunkel</b> oder <b>Dunkler Kontrast</b> eingestellt ist. Aktivieren Sie das Kontrollkästchen <b>Dunkelmodus aktivieren</b>, um diese Option zu aktivieren.
+                            <p class="note">Abgesehen von den verfügbaren Benutzeroberflächendesigns <b>Hell</b>, <b>Klassisch Hell</b>, <b>Dunkel</b>, <b>Dunkler Kontrast</b> und <b>Grau</b> können jetzt ONLYOFFICE-Editoren mit Ihrem eigenen Farbschema angepasst werden. Bitte befolgen Sie <a target="_blank" href="https://helpcenter.onlyoffice.com/de/installation/docs-developer-change-theme.aspx" onclick="onhyperlinkclick(this)">diese Anleitung</a>, um zu erfahren, wie Sie das tun können.</p>
+                        </li>
+                    </ul>
+                </li>
+                <li><b>Stil der Registerkarte</b>: Wählen Sie, ob die aktuell ausgewählte Registerkarte mit der Option <em>Füllung</em> mit einer helleren Farbe <em>ausgefüllt</em> oder mit der Option <em>Linie</em> unterstrichen werden soll.</li>
+                <li><b>Farbe der Symbolleiste als Hintergrund für Registerkarten verwenden</b>: Die Farbe der Symbolleiste wird als Hintergrund für die Registerkarten verwendet. Die Farbe der Symbolleiste hängt vom aktuell ausgewählten Oberflächendesign ab.</li>
+            </ol>
+
         <h3>Arbeitsbereich</h3>
         <ol>
+            <li>Mit der Option <b>Unterstützung für Bildschirmleser einschalten</b> können Sie die Unterstützung für Screenreader-Software aktivieren.</li>
             <li>Die Option <b>Ausrichtungslinien</b> wird zum Ein-/Ausschalten der Ausrichtungshilfslinien verwendet, die beim Verschieben von Objekten angezeigt werden. Sie ermöglicht eine präzisere Objektpositionierung auf der Seite.</li>
-            <li>Die Option <b>Hieroglyphen</b> wird verwendet, um die Anzeige von Hieroglyphen ein-/auszuschalten.</li>
             <li>Die Option <b>Verwenden Sie die Alt-Taste, um über die Tastatur in der Benutzeroberfläche zu navigieren</b> wird verwendet, um die Verwendung der <em>Alt-</em>/<em>Option-</em>Taste in Tastaturkürzeln zu aktivieren.</li>
             <li>
-                Die Option <b>Thema der Benutzeroberfläche</b> wird verwendet, um das Farbschema der Benutzeroberfläche des Editors zu ändern.
-                <ul>
-                    <li>Die Option <b>Wie im System</b> sorgt dafür, dass der Editor dem Oberflächendesign Ihres Systems folgt.</li>
-                    <li>Das Farbschema <b>Hell</b> umfasst die Standardfarben Blau, Weiß und Hellgrau mit weniger Kontrast in UI-Elementen, die für die Arbeit tagsüber geeignet sind.</li>
-                    <li>Das Farbschema <b>Klassisch Hell</b> umfasst die Standardfarben Blau, Weiß und Hellgrau.</li>
-                    <li>Das Farbschema <b>Dunkel</b> umfasst schwarze, dunkelgraue und hellgraue Farben, die für Arbeiten bei Nacht geeignet sind.</li>
-                    <li>Das Farbschema <b>Dunkler Kontrast</b> umfasst schwarze, dunkelgraue und weiße Farben mit mehr Kontrast in UI-Elementen, die den Arbeitsbereich der Datei hervorheben.</li>
-                    <li>
-                        Die Option <b>Dunkelmodus aktivieren</b> wird verwendet, um den Arbeitsbereich dunkler zu machen, wenn der Editor auf das Oberflächendesign <b>Dunkel</b> oder <b>Dunkler Kontrast</b> eingestellt ist. Aktivieren Sie das Kontrollkästchen <b>Dunkelmodus aktivieren</b>, um diese Option zu aktivieren.
-                        <p class="note">Abgesehen von den verfügbaren Benutzeroberflächendesigns <b>Hell</b>, <b>Klassisch Hell</b>, <b>Dunkel</b> und <b>Dunkler Kontrast</b> können jetzt ONLYOFFICE-Editoren mit Ihrem eigenen Farbschema angepasst werden. Bitte befolgen Sie <a target="_blank" href="https://helpcenter.onlyoffice.com/installation/docs-developer-change-theme.aspx" onclick="onhyperlinkclick(this)">diese Anleitung</a>, um zu erfahren, wie Sie das tun können.</p>
-                    </li>
-                </ul>
+                <span class="onlineDocumentFeatures">Mit der Option <b>RTL-Schnittstelle</b> können Sie die Richtung ändern, in der Elemente der Schnittstelle angezeigt werden.</span>
+                <span class="desktopDocumentFeatures">In den <em>Desktop-Editoren</em> kann auf der Haupteinstellungsseite auf die Option <b>RTL-Schnittstelle (Beta)</b> zugegriffen werden. Weitere Informationen finden Sie in der <a href="https://helpcenter.onlyoffice.com/de/installation/desktop-getting-started.aspx#ChangingSettings_block" target="_blank" onclick="onhyperlinkclick(this)">Desktop-Erste-Schritte-Anleitung</a>.</span>
+                <p class="note">Diese Option ist nur für Schnittstellensprachen verfügbar, die RTL erfordern.</p>
             </li>
+            <li>Über die Schaltfläche <b>Schnellzugriff anpassen</b> können Sie auswählen, welche Schaltflächen in der oberen Symbolleiste verfügbar sein sollen, also <em>Speichern</em>, <em>Drucken</em>, <em>Rückgängig machen</em> und <em>Wiederholen</em>.</li>
             <li>Die Option <b>Maßeinheit</b> wird verwendet, um anzugeben, welche Einheiten auf den Linealen und in Eigenschaften von Objekten verwendet werden, wenn Parameter wie Breite, Höhe, Abstand, Ränder usw. eingestellt werden. Die verfügbaren Einheiten sind <em>Zentimeter</em>, <em>Punkt</em> und <em>Zoll</em>.</li>
             <li>
                 Die Option <b>Standard-Zoom-Wert</b> wird verwendet, um den Standard-Zoom-Wert festzulegen, indem Sie ihn in der Liste der verfügbaren Optionen zwischen 50 % und 500 % auswählen. Sie können auch die Option <em>Seite anpassen</em>, <em>Breite anpassen</em> und <em>Zuletzt verwendet</em> auswählen.

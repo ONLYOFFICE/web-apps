@@ -447,7 +447,7 @@
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
     "errorSetPassword": "Le mot de passe ne peut pas être configuré.",
     "errorStockChart": "Ordre des lignes est incorrect. Pour créer un graphique boursier organisez vos données sur la feuille de calcul dans l'ordre suivant:<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
-    "errorSubmit": "Échec de soumission",
+    "errorSubmit": "L'envoi a échoué.",
     "errorTextFormWrongFormat": "La valeur saisie ne correspond pas au format du champ.",
     "errorToken": "Le jeton de sécurité du document n’était pas formé correctement.<br>Veuillez contacter l'administrateur de Document Server.",
     "errorTokenExpire": "Le jeton de sécurité du document a expiré.<br>Veuillez contacter votre administrateur du Document Server.",
@@ -468,7 +468,9 @@
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -487,7 +489,7 @@
     "loadImageTextText": "Chargement d'une image en cours...",
     "loadImageTitleText": "Chargement d'une image",
     "loadingDocumentTextText": "Chargement du document...",
-    "loadingDocumentTitleText": "Chargement du document",
+    "loadingDocumentTitleText": "Chargement",
     "mailMergeLoadFileText": "Chargement de la source des données...",
     "mailMergeLoadFileTitle": "Chargement de la source des données",
     "openTextText": "Ouverture du document...",
@@ -498,10 +500,11 @@
     "savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
     "saveTextText": "Enregistrement document en cours...",
     "saveTitleText": "Enregistrement du document",
+    "savingText": "Enregistrement",
     "sendMergeText": "Envoie du résultat de la fusion...",
     "sendMergeTitle": "Envoie du résultat de la fusion",
     "textContinue": "Continuer",
-    "textLoadingDocument": "Chargement du document",
+    "textLoadingDocument": "Chargement",
     "textUndo": "Annuler",
     "txtEditingMode": "Réglage mode d'édition...",
     "uploadImageTextText": "Chargement d'une image en cours...",
@@ -566,7 +569,7 @@
       "Intense Reference": "Référence intense",
       "Is Not In Table": "N'est pas dans le tableau",
       "List Paragraph": "Paragraphe de liste",
-      "Marquee": "Chapiteau",
+      "Marquee": "Capitaux",
       "Median": "Médian",
       "Missing Argument": "Argument manquant",
       "Missing Operator": "Operateur manquant",
@@ -672,7 +675,7 @@
     "textBeginningDocument": "Début du document",
     "textBottom": "En bas",
     "textCancel": "Annuler",
-    "textCaseSensitive": "Sensible à la casse",
+    "textCaseSensitive": "Respecter la casse",
     "textCentimeter": "Centimètre",
     "textChangePassword": "Modifier le mot de passe",
     "textChooseEncoding": "Choisir l'encodage",
@@ -718,7 +721,7 @@
     "textFindAndReplaceAll": "Rechercher et remplacer tout",
     "textFormat": "Format",
     "textHelp": "Aide",
-    "textHiddenTableBorders": "Bordures du tableau cachées",
+    "textHiddenTableBorders": "Bordures de tableau masquées",
     "textHighlightResults": "Surligner les résultats",
     "textInch": "Pouce",
     "textLandscape": "Paysage",
@@ -776,10 +779,9 @@
     "textSettings": "Paramètres",
     "textShowNotification": "Montrer  la notification",
     "textSpaces": "Espaces",
-    "textSpellcheck": "Vérification de l'orthographe",
+    "textSpellcheck": "Vérification orthographique",
     "textStatistic": "Statistique",
     "textSubject": "Sujet",
-    "textSubmit": "Soumettre ",
     "textSymbols": "Symboles",
     "textTheme": "Thème",
     "textTitle": "Titre",
@@ -801,6 +803,7 @@
     "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé"
   },
   "Toolbar": {
+    "btnSend": "Envoyer",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
@@ -810,6 +813,7 @@
     "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
-    "textSwitchedStandardView": "Passé à l'affichage standard"
+    "textSwitchedStandardView": "Passé à l'affichage standard",
+    "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire."
   }
 }

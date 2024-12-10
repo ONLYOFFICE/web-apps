@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -75,7 +75,7 @@ define([
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                '<div class="form-control" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<i class="img-line"><svg><use xlink:href="#half-pt"></use></svg></i>',
                     '<span class="text"></span>',
                 '</div>',
@@ -83,9 +83,9 @@ define([
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
                 '</button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem">',
                             '<span><%= item.displayValue %></span>',
                             '<% if(item.imgId!==undefined) { %>',
                                 '<span class="border-line">',
@@ -135,8 +135,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -167,11 +170,15 @@ define([
                 }
             });
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 $(this.el).find('.form-control > .text').text("").show();
             }
@@ -187,13 +194,13 @@ define([
     Common.UI.ComboBorderSizeEditable = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<span class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<input type="text" class="form-control text" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                '<input type="text" class="form-control text" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
                 '</button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem">',
                         '<% if (!isRTL) { %>',
                             '<span><%= item.displayValue %>' + '</span>',
                             '<% if (item.imgId!==undefined) { %>',
@@ -254,16 +261,16 @@ define([
     Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size combo-border-type input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                '<div class="form-control canfocused" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<i class="img-line"><svg><use xlink:href="#solid"></use></svg></i>',
                 '</div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
                 '</button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem">',
                             '<% if (item.imgId!==undefined) { %>',
                             '<span>',
                                 '<svg><use xlink:href="#<%= item.imgId %>"></use></svg>',
@@ -318,28 +325,34 @@ define([
                 }
             });
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             this.updateFormControl(this._selectedItem);
-            this._selectedItem && $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+            if (this._selectedItem) {
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
+            }
         }
     }, Common.UI.ComboBorderType || {}));
 
     Common.UI.ComboBoxColor = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-color combobox-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-            '<div class="form-control" style="<%= style %>">',
+            '<div class="form-control" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu">',
                 '<div></div>',
             '</div>',
             '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                 '<span class="caret"></span>',
             '</button>',
-            '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+            '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
             '<% _.each(items, function(item) { %>',
                 '<% if (item.value==-1) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                 '<% } else { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="option">',
                     '<a tabindex="-1" type="menuitem"><div style="<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                 '<% } %>',
@@ -362,8 +375,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -388,11 +404,15 @@ define([
             var obj;
             this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 var formcontrol = $(this.el).find('.form-control > div');
                 formcontrol[0].innerHTML = value;
@@ -411,9 +431,9 @@ define([
                 $(this.el).find('ul').html(_.template([
                     '<% _.each(items, function(item) { %>',
                     '<% if (item.value==-1) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                     '<% } else { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem">',
                     '<a tabindex="-1" type="menuitem""><div style="<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                     '<% } %>',
@@ -470,18 +490,18 @@ define([
     Common.UI.ComboBoxIcons= Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combobox-icons combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>">',
+                '<div class="form-control" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu">',
                     '<div></div>',
                 '</div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                     '<span class="caret"></span>',
                 '</button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
                         '<% if (item.value==-1) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% } else { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem">',
                                 '<a tabindex="-1" type="menuitem">',
                                     '<% _.each(item.data.iconSet, function(icon) { %>',
                                     '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>">',
@@ -507,8 +527,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -536,11 +559,15 @@ define([
             var obj;
             this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 var formcontrol = $(this.el).find('.form-control > div');
                 formcontrol[0].innerHTML = value;
@@ -558,9 +585,9 @@ define([
                 $(this.el).find('ul').html(_.template([
                     '<% _.each(items, function(item) { %>',
                     '<% if (item.value==-1) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                     '<% } else { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" role="menuitem">',
                         '<a tabindex="-1" type="menuitem" style="padding: 5px;">',
                             '<% _.each(item.data.iconSet, function(icon) { %>',
                                 '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>">',

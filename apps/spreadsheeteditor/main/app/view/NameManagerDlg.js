@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -37,11 +37,9 @@
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField'
 ], function (contentTemplate) {
     'use strict';
 
@@ -286,7 +284,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 return;
             }
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rangeList.getSelectedRec(),
                 idx = _.indexOf(this.rangeList.store.models, rec),
                 oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true) : null;

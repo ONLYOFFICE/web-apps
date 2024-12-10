@@ -13,10 +13,10 @@
 
         --background-normal: #212121;
         --background-toolbar: #2a2a2a;
+        --background-toolbar-tab: var(--background-toolbar);
         --background-toolbar-additional: #2a2a2a;
         --background-primary-dialog-button: #E6E6E6;
         --background-accent-button: #4d76a8;
-        --background-tab-underline: #717171;
         --background-notification-popover: #5f5d81;
         --background-notification-badge: #ffd112;
         --background-scrim: fade(black, 60%);
@@ -31,9 +31,8 @@
         --highlight-primary-dialog-button-hover: #a6a6a6;
         --highlight-accent-button-hover: #75a2d6;
         --highlight-accent-button-pressed: #89afdc;
-        --highlight-header-button-hover: #424242;
-        --highlight-header-button-pressed: #828282;
-        --highlight-toolbar-tab-underline: #d0d0d0;
+        --highlight-header-button-hover: fade(#fff, 20%);
+        --highlight-header-button-pressed: fade(#fff, 35%);
         --highlight-text-select: #96c8fd;
         --highlight-fill-button-hover: #ffe165;
         --highlight-fill-button-pressed: #dfb500;
@@ -41,6 +40,7 @@
         --border-toolbar: #616161;
         --border-divider: #414141;
         --border-toolbar-active-panel-top: var(--border-toolbar);
+        --border-toolbar-active-tab: var(--border-toolbar);
         --border-regular-control: #696969;
         --border-toolbar-button-hover: #616161;
         --border-preview-hover: #828282;
@@ -71,6 +71,16 @@
         --icon-notification-badge: #121212;
         --icon-contrast-popover: #fff;
         --icon-success: #090;
+
+        --highlight-header-tab-underline-document: #446995;
+        --highlight-header-tab-underline-spreadsheet: #40865c;
+        --highlight-header-tab-underline-presentation: #BE664F;
+        --highlight-header-tab-underline-pdf: #AA5252;
+
+        --highlight-toolbar-tab-underline-document: #446995;
+        --highlight-toolbar-tab-underline-spreadsheet: #40865c;
+        --highlight-toolbar-tab-underline-presentation: #BE664F;
+        --highlight-toolbar-tab-underline-pdf: #AA5252;
 
         // Canvas
 

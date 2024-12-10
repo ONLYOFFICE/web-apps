@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
-    <script type="text/javascript" src="../search/js/page-search.js"></script>
+    <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
@@ -16,7 +16,7 @@
         </div>
         <h1>ChatGPT</h1>
         <p>The <b>ChatGPT</b> plugin allows you to use the OpenAI chatbot to perform tasks that involve understanding or generating natural language or code.</p>
-
+        <p class="note">Starting with ONLYOFFICE Docs 8.2, no plugins come with the editors by default. The plugins shall be installed via <a href="https://helpcenter.onlyoffice.com/ONLYOFFICE-Editors/Editors-User-Guides/AllEditors/Plugin-manager.aspx" target="_blank" onclick="onhyperlinkclick(this)">Plugin Manager</a>.</p>
         <h3>Installation</h3>
         <p>To install the <b>ChatGPT</b> plugin,</p>
         <ol>
@@ -35,7 +35,7 @@
 
         <h3>Configuration</h3>
         <ol>
-            <li>Create your <b>API key</b> on the <a href="https://platform.openai.com/account/api-keys">OpenAI API key</a> page.</li>
+            <li>Create your <b>API key</b> on the <a href="https://platform.openai.com/account/api-keys" target="_blank" onclick="onhyperlinkclick(this)">OpenAI API key</a> page.</li>
             <li>Copy the generated <b>API key</b> into the corresponding field of the <b>Settings</b> window.</li>
         </ol>
         <p><img alt="ChatGPT API Key" src="../../../../../../common/main/resources/help/en/images/chatgpt_apikey.png" /></p>
@@ -60,7 +60,7 @@
                 Click the <b>Show advanced settings</b> to configure the request settings:
                 <p><img alt="ChatGPT Custom Model" src="../../../../../../common/main/resources/help/en/images/chatgpt_custom_advanced.png" /></p>
                 <ul>
-                    <li><b>Model</b> - the model which will generate the completion. Some models are suitable for natural language tasks, others specialize in code. To learn more about these models, please refer to the <a href="https://platform.openai.com/docs/models/overview">official ChatGPT website</a>.</li>
+                    <li><b>Model</b> - the model which will generate the completion. Some models are suitable for natural language tasks, others specialize in code. To learn more about these models, please refer to the <a href="https://platform.openai.com/docs/models/overview" target="_blank" onclick="onhyperlinkclick(this)">official ChatGPT website</a>.</li>
                     <li><b>Maximum length</b> - the maximum number of tokens to generate in the completion.</li>
                     <li><b>Temperature</b> - this parameter controls randomness, e.g., lowering it results in less random completions. As the temperature approaches zero, the node will become deterministic and repetitive.</li>
                     <li><b>Top P</b> - an alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass.</li>

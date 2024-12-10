@@ -12,9 +12,12 @@
     assert.deepEqual(_.first([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _.first(arguments); }(4, 3, 2, 1));
     assert.strictEqual(result, 4, 'works on an arguments object');
-    result = _.map([[1, 2, 3], [1, 2, 3]], _.first);
-    assert.deepEqual(result, [1, 1], 'works well with _.map');
+    result = _.map([[1, 2, 3], [], [1, 2, 3]], _.first);
+    assert.deepEqual(result, [1, void 0, 1], 'works well with _.map');
     assert.strictEqual(_.first(null), void 0, 'returns undefined when called on null');
+    assert.deepEqual(_.first([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.first(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
 
     Array.prototype[0] = 'boo';
     assert.strictEqual(_.first([]), void 0, 'return undefined when called on a empty array');
@@ -67,9 +70,12 @@
     assert.deepEqual(_.last([1, 2, 3], 5), [1, 2, 3], 'returns the whole array if n > length');
     var result = (function(){ return _(arguments).last(); }(1, 2, 3, 4));
     assert.strictEqual(result, 4, 'works on an arguments object');
-    result = _.map([[1, 2, 3], [1, 2, 3]], _.last);
-    assert.deepEqual(result, [3, 3], 'works well with _.map');
+    result = _.map([[1, 2, 3], [], [1, 2, 3]], _.last);
+    assert.deepEqual(result, [3, void 0, 3], 'works well with _.map');
     assert.strictEqual(_.last(null), void 0, 'returns undefined when called on null');
+    assert.deepEqual(_.last([], 10), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last([], 1), [], 'returns an empty array when called with an explicit number of elements to return');
+    assert.deepEqual(_.last(null, 5), [], 'returns an empty array when called with an explicit number of elements to return');
 
     var arr = [];
     arr[-1] = 'boo';
@@ -94,13 +100,19 @@
     var list = [1, [2], [3, [[[4]]]]];
     assert.deepEqual(_.flatten(list), [1, 2, 3, 4], 'can flatten nested arrays');
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [[[4]]]], 'can shallowly flatten nested arrays');
+    assert.deepEqual(_.flatten(list, false), [1, 2, 3, 4], 'false means deep');
     var result = (function(){ return _.flatten(arguments); }(1, [2], [3, [[[4]]]]));
     assert.deepEqual(result, [1, 2, 3, 4], 'works on an arguments object');
     list = [[1], [2], [3], [[4]]];
     assert.deepEqual(_.flatten(list, true), [1, 2, 3, [4]], 'can shallowly flatten arrays containing only other arrays');
+    list = [1, [2], [[3]], [[[4]]]];
+    assert.deepEqual(_.flatten(list, 2), [1, 2, 3, [4]], 'can flatten arrays to a given depth');
+    assert.deepEqual(_.flatten(list, 0), list, 'can flatten arrays to depth of 0');
+    assert.deepEqual(_.flatten(list, -1), list, 'can flatten arrays to depth of -1');
 
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3], true).length, 23, 'can flatten medium length arrays');
     assert.strictEqual(_.flatten([_.range(10), _.range(10), 5, 1, 3]).length, 23, 'can shallowly flatten medium length arrays');
+    assert.strictEqual(_.flatten([new Array(10)]).length, 10, 'can flatten array with nulls of size n');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3]).length, 1056003, 'can handle massive arrays');
     assert.strictEqual(_.flatten([new Array(1000000), _.range(56000), 5, 1, 3], true).length, 1056003, 'can handle massive arrays in shallow mode');
 
@@ -122,9 +134,9 @@
   });
 
   QUnit.test('sortedIndex', function(assert) {
-    var numbers = [10, 20, 30, 40, 50];
+    var numbers = [10, 20, 30, 30, 30, 40, 50, 60];
     var indexFor35 = _.sortedIndex(numbers, 35);
-    assert.strictEqual(indexFor35, 3, 'finds the index at which a value should be inserted to retain order');
+    assert.strictEqual(indexFor35, 5, 'finds the index at which a value should be inserted to retain order');
     var indexFor30 = _.sortedIndex(numbers, 30);
     assert.strictEqual(indexFor30, 2, 'finds the smallest index at which a value could be inserted to retain order');
 
@@ -153,6 +165,10 @@
     assert.deepEqual(_.uniq(list), [1, 2, 3, 4], 'can find the unique values of an unsorted array');
     list = [1, 1, 1, 2, 2, 3];
     assert.deepEqual(_.uniq(list, true), [1, 2, 3], 'can find the unique values of a sorted array faster');
+
+    list = [-2, -1, 0, 1, 2];
+    var notInjective = function(x) {return x * x;};
+    assert.deepEqual(_.uniq(list, true, notInjective), [-2, -1, 0], 'can find values of sorted array which map to unique values through a non one-to-one function by switching to slower algorithm even when isSorted=true');
 
     list = [{name: 'Moe'}, {name: 'Curly'}, {name: 'Larry'}, {name: 'Curly'}];
     var expected = [{name: 'Moe'}, {name: 'Curly'}, {name: 'Larry'}];
@@ -231,6 +247,9 @@
     var result = _.difference([1, 2, 3], [2, 30, 40]);
     assert.deepEqual(result, [1, 3], 'can find the difference of two arrays');
 
+    var result = _.difference([1, 2, 3], [2, 30, 40, [1]]);
+    assert.deepEqual(result, [1, 3], 'avoids deep flattening of arrays');
+
     result = _([1, 2, 3]).difference([2, 30, 40]);
     assert.deepEqual(result, [1, 3], 'can perform an OO-style difference');
 
@@ -298,6 +317,10 @@
     assert.deepEqual(_.object(null), {}, 'handles nulls');
   });
 
+  QUnit.test('transpose', function(assert) {
+    assert.strictEqual(_.transpose, _.unzip, 'is an alias for unzip');
+  });
+
   QUnit.test('indexOf', function(assert) {
     var numbers = [1, 2, 3];
     assert.strictEqual(_.indexOf(numbers, 2), 1, 'can compute indexOf');
@@ -351,7 +374,7 @@
 
   QUnit.test('indexOf with NaN', function(assert) {
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN), 2, 'Expected [1, 2, NaN] to contain NaN');
-    assert.strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, NaN] to contain NaN');
+    assert.strictEqual(_.indexOf([1, 2, Infinity], NaN), -1, 'Expected [1, 2, Infinity] to NOT contain NaN');
 
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN, 1), 2, 'startIndex does not affect result');
     assert.strictEqual(_.indexOf([1, 2, NaN, NaN], NaN, -2), 2, 'startIndex does not affect result');

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -112,7 +112,7 @@ define([
         tagName : 'li',
 
         template: _.template([
-            '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
+            '<a id="<%= id %>" class="menu-item" <% if (_.isEmpty(iconCls)) { %> data-no-icon <% } %> style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
                 '<% } else if (!_.isEmpty(iconImg)) { %>',
@@ -217,7 +217,7 @@ define([
                                 if (left + actualWidth > innerWidth) {
                                     left = pos.left - actualWidth - 2;
                                 }
-                                $(tip).offset({top: top,left: left}).addClass('in');
+                                Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
                             }
                         });
                     }
@@ -320,7 +320,7 @@ define([
         },
 
         onItemMouseDown: function(e) {
-            Common.UI.HintManager && Common.UI.HintManager.clearHints();
+            Common.UI.HintManager && Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
             if (e.which != 1) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -339,6 +339,7 @@ define([
 
             if (this.menu) {
                 if (e.target.id == this.id) {
+                    this._doHover(e);
                     return false;
                 }
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -37,12 +37,9 @@
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/FormatRulesEditDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -662,9 +659,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(rule.txtDataRange.getValue()) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
@@ -676,7 +673,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         onEditRule: function (isEdit) {
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rulesList.getSelectedRec(),
                 previewRec;
 
@@ -728,7 +725,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             });
 
             me.hide();
-            win.show();
+            win.show(xy.left, xy.top);
         },
 
         onDeleteRule: function () {

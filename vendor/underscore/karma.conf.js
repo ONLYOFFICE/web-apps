@@ -4,7 +4,7 @@
 //      $ npm install karma-firefox-launcher
 //      $ karma start --browser=Firefox
 
-// See http://karma-runner.github.io/0.8/config/configuration-file.html
+// See https://karma-runner.github.io/0.8/config/configuration-file.html
 module.exports = function(config) {
   config.set({
     basePath: '',
@@ -14,9 +14,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/vendor/qunit-extras.js',
       'test/qunit-setup.js',
-      'underscore.js',
+      'test/overrides.js',
+      'underscore-umd.js',
       'test/*.js'
     ],
 

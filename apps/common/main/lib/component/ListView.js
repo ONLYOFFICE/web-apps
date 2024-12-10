@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -54,12 +54,12 @@ define([
                 headers: [],            //{name: 'string', width: 'number'(optional for last), sortType: 'string'(optional), style: 'string'(optional)} ---> example {name:text, width: 100, sortType: name, style: 'margin-left:10px;} 
                 initSort: null,         //{type: 'string', direction: -1 or 1} ---> example {type:name, direction:1}
                 keyMoveDirection: 'vertical',
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="" role="listitem"><%= value %></div>'),
                 cls: ''
             },
 
             template: _.template([
-                '<div class="listview inner <%= cls %>" <% if (options.dataHint) { %> data-hint="<%= options.dataHint %>" <% } if (options.dataHintDirection) { %> data-hint-direction="<%= options.dataHintDirection %>" <% } if (options.dataHintOffset) { %> data-hint-offset="<%= options.dataHintOffset %>" <% } %>>',
+                '<div role="list" class="listview inner <%= cls %>" <% if (options.dataHint) { %> data-hint="<%= options.dataHint %>" <% } if (options.dataHintDirection) { %> data-hint-direction="<%= options.dataHintDirection %>" <% } if (options.dataHintOffset) { %> data-hint-offset="<%= options.dataHintOffset %>" <% } %>>',
                 '</div>'
             ].join('')),
 
@@ -230,7 +230,8 @@ define([
             createNewItem: function(record) {
                 return new Common.UI.DataViewItem({
                     template: this.itemTemplate,
-                    model: record
+                    model: record,
+                    tabindex: this.itemTabindex
                 });
             },
 
@@ -261,6 +262,7 @@ define([
                     this.listenTo(view, 'click',   this.onClickItem);
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
+                    this.listenTo(view, 'tipchange', this.onChangeTip);
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -294,10 +296,10 @@ define([
                     div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
                 if (div.length<=0) return;
 
-                var div_top = div.position().top,
+                var div_top = Common.Utils.getPosition(div).top,
                     div_height = div.outerHeight(),
                     div_first = this.dataViewItems[0].el,
-                    div_first_top = div_first ? Common.Utils.getOffsetTop(div_first) : 0,
+                    div_first_top = div_first ? div_first.offsetTop : 0,
                     newpos;
 
                 if (force || div_top<div_first_top)
@@ -311,6 +313,22 @@ define([
                     } else {
                         innerEl.scrollTop(newpos);
                     }
+                }
+            },
+
+            onChangeTip: function(item) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip'),
+                    record = item.model;
+                if (tip)
+                    tip.updateTitle(record.get('tip') || '');
+                else if (record.get('tip')) {
+                    el.attr('data-toggle', 'tooltip');
+                    el.tooltip({
+                        title       : record.get('tip'),
+                        placement   : 'cursor',
+                        zIndex : this.tipZIndex
+                    });
                 }
             }
         }

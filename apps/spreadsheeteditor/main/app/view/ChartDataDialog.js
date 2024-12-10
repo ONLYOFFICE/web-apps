@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -38,11 +38,7 @@
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -342,9 +338,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : me.txtDataRange.getValue(),
@@ -469,9 +465,9 @@ define([
             });
 
             me._isEditRanges = true;
-            var xy = me.$window.offset();
+            var xy = Common.Utils.getOffset(me.$window);
             me.hide();
-            win.show(xy.left + 160, xy.top + 125);
+            win.show(xy.left + (me.$window.outerWidth() - win.options.width)/2, xy.top + (me.$window.outerHeight() - 150)/2);
             win.setSettings({
                 api     : me.api,
                 props   : props,

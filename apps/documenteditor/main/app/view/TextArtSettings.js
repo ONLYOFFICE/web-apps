@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -747,19 +747,7 @@ define([
                     (type1!='object' && this._state.ShapeColor.indexOf(this.ShapeColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.ShapeColor.Color);
-                    if ( typeof(this.ShapeColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.ShapeColor.Color.effectValue ) {
-                                this.colorsBack.select(this.ShapeColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.ShapeColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.ShapeColor.Color, this.colorsBack);
                     this._state.ShapeColor = this.ShapeColor.Color;
                 }
 
@@ -807,19 +795,7 @@ define([
                     (type1!='object' && (this._state.StrokeColor.indexOf(this.BorderColor.Color)<0 || typeof(this.btnBorderColor.color)=='object'))) {
 
                     this.btnBorderColor.setColor(this.BorderColor.Color);
-                    if ( typeof(this.BorderColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BorderColor.Color.effectValue ) {
-                                this.colorsBorder.select(this.BorderColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBorder.clearSelection();
-                    } else
-                        this.colorsBorder.select(this.BorderColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BorderColor.Color, this.colorsBorder);
                     this._state.StrokeColor = this.BorderColor.Color;
                 }
 
@@ -870,19 +846,7 @@ define([
                     (type1!='object' && this._state.GradColor.indexOf(color)<0 )) {
 
                     this.btnGradColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colorsGrad.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsGrad.clearSelection();
-                    } else
-                        this.colorsGrad.select(color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colorsGrad);
                     this._state.GradColor = color;
                 }
 
@@ -939,7 +903,8 @@ define([
                 data: this._arrFillSrc,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strFill
             });
             this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -955,7 +920,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -988,7 +954,8 @@ define([
                 data: this._arrGradType,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textStyle
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -1025,7 +992,8 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -1105,7 +1073,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.lockedControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -1147,7 +1116,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1159,7 +1129,8 @@ define([
                 txtNoBorders: this.txtNoBorders,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strStroke + ' ' + this.strSize
             })
             .on('selected', _.bind(this.onBorderSizeSelect, this))
             .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
@@ -1175,7 +1146,8 @@ define([
                 menuStyle: 'min-width: 93px;',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strStroke + ' ' + this.strType
             }).on('selected', _.bind(this.onBorderTypeSelect, this))
             .on('combo:blur',    _.bind(this.onComboBlur, this, false));
             this.BorderType = Asc.c_oDashType.solid;
@@ -1192,7 +1164,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
             this.numLineTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});/**/
@@ -1221,6 +1194,7 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                ariaLabel: this.textTransform,
                 fillOnChangeVisibility: true
             });
             this.cmbTransform.render($('#textart-combo-transform'));
@@ -1258,6 +1232,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
+                    ariaLabel: this.textTemplate,
                     fillOnChangeVisibility: true
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
@@ -1337,7 +1312,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strStroke + ' ' + this.strColor
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
@@ -1351,7 +1327,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.lockedControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
@@ -1366,7 +1343,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.lockedControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();

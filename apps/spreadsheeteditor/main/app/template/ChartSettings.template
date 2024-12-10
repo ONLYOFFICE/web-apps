@@ -1,4 +1,4 @@
-<table cols="3" id="chart-panel-size">
+<table cols="3" id="chart-panel-size" role="presentation">
     <tr>
         <td colspan=3>
             <label class="header"><%= scope.textSize %></label>
@@ -18,7 +18,7 @@
         </td>
     </tr>
 </table>
-<table cols="1" id="chart-panel-types">
+<table cols="1" id="chart-panel-types" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -46,7 +46,7 @@
         </td>
     </tr>
 </table>
-<table cols="1" id="chart-panel-3d-rotate">
+<table cols="1" id="chart-panel-3d-rotate" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -105,11 +105,11 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="link" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
+            <label class="link canfocused" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
         </td>
     </tr>
 </table>
-<table cols="1" id="spark-panel-types">
+<table cols="1" id="spark-panel-types" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textType %></label>
@@ -154,7 +154,7 @@
         </td>
     </tr>
 </table>
-<table cols="1" id="spark-panel-points">
+<table cols="1" id="spark-panel-points" role="presentation">
     <tr>
         <td class="padding-small">
             <label class="header" style="margin-bottom: 4px;"><%= scope.textShow %></label>
@@ -185,7 +185,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -193,7 +193,7 @@
     </tr>
     <tr>
         <td align="center">
-            <label class="link" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

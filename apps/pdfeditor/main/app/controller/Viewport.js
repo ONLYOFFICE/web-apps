@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -70,7 +70,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    //'settings:apply': me.applySettings.bind(me)
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -94,6 +94,9 @@ define([
                     'redo:disabled' : function (state) {
                         me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
+                    'docmode:disabled' : function (state) {
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
+                    },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
@@ -106,6 +109,8 @@ define([
                     }
                 }
             });
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
             this._initEditing = true;
         },
 
@@ -166,21 +171,16 @@ define([
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
-            me.viewport.$el.attr('applang', config.lang.split(/[\-_]/)[0]);
-
             if ( !(config.isEdit || config.isRestrictedEdit) || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar )) {
                 var panel = me.viewport.vlayout.getItem('toolbar');
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            me.onTabBackgroundChange();
+            if ( config.customization && config.customization.toolbarHideFileName )
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
@@ -249,14 +249,15 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
-        /*applySettings: function () {
-            var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
-            Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
-            if (this.header && this.header.btnPrintQuick)
-                this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },*/
+        applySettings: function () {
+            // var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
+            // Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
+            // if (this.header && this.header.btnPrintQuick)
+            //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
+        },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
@@ -347,6 +348,16 @@ define([
             if (!this._initEditing) {
                 this.getApplication().getController('RightMenu').onRightMenuHide(undefined, this.mode.isPDFEdit && !Common.Utils.InternalSettings.get("pdfe-hidden-rightmenu"), true);
             }
+        },
+
+        onTabStyleChange: function (style) {
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+        },
+
+        onTabBackgroundChange: function (background) {
+            background = background || Common.Utils.InternalSettings.get("settings-tab-background");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
         },
 
         textFitPage: 'Fit to Page',

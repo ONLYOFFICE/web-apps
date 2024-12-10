@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,7 +42,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -143,7 +142,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
             });
             this.spinners.push(this.spnWidth);
             this.sizeControls.push(this.spnWidth);
@@ -158,7 +158,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
             });
             this.spinners.push(this.spnHeight);
             this.sizeControls.push(this.spnHeight);
@@ -204,7 +205,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textHor
             });
             this.spinners.push(this.spnHor);
             this.sizeControls.push(this.spnHor);
@@ -219,7 +221,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textVert
             });
             this.spinners.push(this.spnVert);
             this.sizeControls.push(this.spnVert);
@@ -250,7 +253,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns + ' ' + this.textWidth
             });
             this.spinners.push(this.spnColWidth);
             this.sizeControls.push(this.spnColWidth);
@@ -265,7 +269,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns + ' ' + this.textHeight
             });
             this.spinners.push(this.spnColHeight);
             this.sizeControls.push(this.spnColHeight);
@@ -282,7 +287,8 @@ define([
                 minValue: 1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns
             });
             this.sizeControls.push(this.numCols);
 
@@ -696,6 +702,7 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
+                    ariaLabel: this.textStyle,
                     fillOnChangeVisibility: true
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));

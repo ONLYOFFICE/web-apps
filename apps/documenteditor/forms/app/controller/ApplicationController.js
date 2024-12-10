@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,13 +41,10 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
-    'documenteditor/forms/app/view/ApplicationView'
+    'documenteditor/forms/app/view/ApplicationView',
+    'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
     'use strict';
 
@@ -59,7 +56,8 @@ define([
         mouseMoveData = null,
         isTooltipHiding = false,
         bodyWidth = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        _logoImage = '';
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -102,6 +100,7 @@ define([
             });
 
             Common.UI.Themes.init(this.api);
+            Common.Controllers.LaunchController.init(this.api);
 
             $(window).on('resize', this.onDocumentResize.bind(this));
 
@@ -564,6 +563,8 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
+                docInfo.put_Wopi(this.editorConfig.wopi);
+                this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -693,6 +694,9 @@ define([
                         return;
                     }
                     me.api.asc_SendForm();
+                    Common.Controllers.Desktop.removeRecent();
+                    Common.Controllers.Desktop.process('goback');
+                    Common.Controllers.Desktop.requestClose();
                 });
                 me.view.btnDownload.on('click', function(){
                     if (me.appOptions.canDownload) {
@@ -842,9 +846,10 @@ define([
                     return;
                 }
 
-                if (value.logo.image || value.logo.imageDark) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
+                if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
+                    _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -871,6 +876,7 @@ define([
                     break;
                 case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
+                    text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
                     this.view.btnSubmit.setDisabled(true);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
@@ -1130,7 +1136,7 @@ define([
             if (data.type == 'mouseup') {
                 var e = document.getElementById('editor_sdk');
                 if (e) {
-                    var r = e.getBoundingClientRect();
+                    var r = Common.Utils.getBoundingClientRect(e);
                     this.api.OnMouseUp(
                         data.x - r.left,
                         data.y - r.top
@@ -1178,7 +1184,13 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.onShowImageActions(obj, x, y);
+                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
+                        me.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        this.onShowImageActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1199,7 +1211,7 @@ define([
                 menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this.internalFormObj = obj ? obj.pr : null;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
@@ -1288,7 +1300,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
         insertImage: function(data) { // gateway
@@ -1446,7 +1458,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1632,9 +1644,13 @@ define([
 
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
-                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    $('#header-logo img').attr('src', image);
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    if (_logoImage !== image) {
+                        _logoImage = image;
+                        $('#header-logo img').attr('src', image);
+                    }
                 }
             }
         },
@@ -1764,6 +1780,10 @@ define([
 
             this.view.btnOptions.menu.on('show:after', initMenu);
 
+            function onMouseLeave() {
+                screenTip.toolTip.hide();
+                screenTip.isVisible = false;
+            }
             screenTip = {
                 toolTip: new Common.UI.Tooltip({
                     owner: this,
@@ -1775,6 +1795,12 @@ define([
                 isHidden: true,
                 isVisible: false
             };
+            screenTip.toolTip.on('tooltip:show', function () {
+                $('#id_main_view').on('mouseleave', onMouseLeave);
+            });
+            screenTip.toolTip.on('tooltip:hide',function () {
+                $('#id_main_view').off('mouseleave', onMouseLeave);
+            });
         },
 
         attachUIEvents: function() {
@@ -2102,96 +2128,8 @@ define([
         titleLicenseNotActive: 'License not active',
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
-        textFilled: 'Filled'
+        textFilled: 'Filled',
+        savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
-
-/*    var Desktop = function () {
-        var features = {
-            version: '{{PRODUCT_VERSION}}',
-            // eventloading: true,
-            uitype: 'fillform',
-            uithemes: true
-        };
-        var api, nativevars;
-
-        var native = window.desktop || window.AscDesktopEditor;
-        !!native && native.execCommand('webapps:features', JSON.stringify(features));
-
-        if ( !!native ) {
-            $('#header-logo, .brand-logo').hide();
-
-            nativevars = window.RendererProcessVariable;
-
-            window.on_native_message = function (cmd, param) {
-                if (/theme:changed/.test(cmd)) {
-                    if ( Common.UI.Themes && !!Common.UI.Themes.setTheme )
-                        Common.UI.Themes.setTheme(param);
-                } else
-                if (/window:features/.test(cmd)) {
-                    var obj = JSON.parse(param);
-                    if ( obj.singlewindow !== undefined ) {
-                        native.features.singlewindow = obj.singlewindow;
-                        $("#title-doc-name")[obj.singlewindow ? 'hide' : 'show']();
-                    }
-                }
-            };
-
-            if ( !!window.native_message_cmd ) {
-                for ( var c in window.native_message_cmd ) {
-                    window.on_native_message(c, window.native_message_cmd[c]);
-                }
-            }
-
-            Common.NotificationCenter.on({
-                'uitheme:changed' : function (name) {
-                    if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                        native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
-                    } else {
-                        const theme = Common.UI.Themes.get(name);
-                        if ( theme )
-                            native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
-                    }
-                },
-            });
-
-            Common.Gateway.on('opendocument', function () {
-                api = DE.getController('ApplicationController').api;
-
-                $("#title-doc-name")[native.features.singlewindow ? 'hide' : 'show']();
-
-                var is_win_xp = window.RendererProcessVariable && window.RendererProcessVariable.os === 'winxp';
-                Common.UI.Themes.setAvailable(!is_win_xp);
-            });
-        }
-
-        return {
-            isActive: function () {
-                return !!native;
-            },
-            isOffline: function () {
-                return api && api.asc_isOffline();
-            },
-            process: function (opts) {
-                if ( !!native && !!api ) {
-                    if ( opts == 'goback' ) {
-                        var config = DE.getController('ApplicationController').editorConfig;
-                        native.execCommand('go:folder',
-                            api.asc_isOffline() ? 'offline' : config.customization.goback.url);
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-            systemThemeType: function () {
-                return nativevars.theme && !!nativevars.theme.system ? nativevars.theme.system :
-                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            },
-        }
-    };
- */
-    // DE.Controllers.Desktop = new Desktop();
-    // Common.Controllers = Common.Controllers || {};
-    // Common.Controllers.Desktop = DE.Controllers.Desktop;
 });

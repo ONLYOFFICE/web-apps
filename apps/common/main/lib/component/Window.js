@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -157,10 +157,11 @@ define([
                 minwidth: 0,
                 minheight: 0,
                 enableKeyEvents: true,
-                automove: true
+                automove: true,
+                role: 'dialog'
         };
 
-        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
+        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;" role="<%= role %>" aria-modal="<%= modal %>">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
                                     '<div class="tools">' +
@@ -491,7 +492,8 @@ define([
                 onprimary: onKeyDown,
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
-                tpl: _.template(template)(options)
+                tpl: _.template(template)(options),
+                role: 'alertdialog'
             });
 
             var win = new Common.UI.Window(options),
@@ -513,7 +515,7 @@ define([
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
                 if (options.maxwidth && options.width=='auto') {
-                    var width = !Common.UI.isRTL() ? (text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) :
+                    var width = !Common.UI.isRTL() ? (Common.Utils.getPosition(text).left + text.width() + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
                     if (width > options.maxwidth)
                         options.width = options.maxwidth;
@@ -523,7 +525,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     var span_el = check.find('span');
                     var width = !Common.UI.isRTL() ?
-                        (Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right'))) :
+                        (Math.max(text.width(), span_el.length>0 ? Common.Utils.getPosition(span_el).left + span_el.width() : 0) + Common.Utils.getPosition(text).left + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + parseInt(text_cnt.css('padding-left')) +
                             (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
                     window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));

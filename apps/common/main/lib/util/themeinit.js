@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -75,7 +75,22 @@
     !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
+    function inject_style_tag(content) {
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = content;
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    inject_style_tag(':root .theme-dark {' +
+                                '--toolbar-header-document: #2a2a2a; --toolbar-header-spreadsheet: #2a2a2a;' +
+                                '--toolbar-header-presentation: #2a2a2a; --toolbar-header-pdf: #2a2a2a;}' +
+                            ':root .theme-contrast-dark {' +
+                                '--toolbar-header-document: #1e1e1e; --toolbar-header-spreadsheet: #1e1e1e;' +
+                                '--toolbar-header-presentation: #1e1e1e; --toolbar-header-pdf: #1e1e1e;}');
+
     let objtheme = window.uitheme.colors ? window.uitheme : localstorage.getItem("ui-theme");
+    const header_tokens = ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf'];
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
                 objtheme.indexOf("}", objtheme.length - 1) !== -1 )
@@ -94,23 +109,24 @@
                 }
 
                 if ( objtheme.colors ) {
+                    header_tokens.forEach(function (i) {
+                            !!objtheme.colors[i] && document.documentElement.style.setProperty('--' + i, objtheme.colors[i]);
+                        });
+
                     let colors = [];
                     for (let c in objtheme.colors) {
-                        // TODO: new PE brand color, clear for ver 7.7
-                        if ( c == 'toolbar-header-presentation' &&
-                                objtheme.colors[c] == '#aa5252' )
-                            objtheme.colors[c] = '#BE664F';
-                        //
-
                         colors.push('--' + c + ':' + objtheme.colors[c]);
                     }
 
-                    var style = document.createElement('style');
-                    style.type = 'text/css';
-                    style.innerHTML = '.' + objtheme.id + '{' + colors.join(';') + ';}';
-                    document.getElementsByTagName('head')[0].appendChild(style);
+                    inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
             }
+        }
+    } else {
+        if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
+            header_tokens.forEach(function (i) {
+                !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
+            });
         }
     }
 }();

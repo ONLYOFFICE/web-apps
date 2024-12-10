@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -61,7 +61,7 @@ define([
 
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="forms">' +
+        '<section class="panel" data-tab="forms" role="tabpanel" aria-labelledby="forms">' +
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
@@ -69,6 +69,7 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-signature"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
             '<div class="group forms-buttons" style="display: none;">' +
@@ -160,6 +161,10 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
+            });
+            this.btnSignField && this.btnSignField.on('click', function (b, e) {
+                Common.UI.TooltipManager.closeTip('signatureField');
+                me.fireEvent('forms:insert', ['signature']);
             });
             this.btnComplexField && this.btnComplexField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['complex']);
@@ -263,6 +268,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.config;
+                this.api = options.api;
 
                 this.paragraphControls = [];
                 this._state = {};
@@ -275,6 +281,7 @@ define([
                         this.fieldPages = new Common.UI.InputFieldFixed({
                             id: 'id-toolbar-txt-pages',
                             style       : 'width: 100%;',
+                            cls         : 'text-align-right',
                             maskExp     : /[0-9]/,
                             allowBlank  : true,
                             validateOnChange: false,
@@ -285,9 +292,9 @@ define([
                                 if (/(^[0-9]+$)/.test(value)) {
                                     value = parseInt(value);
                                     if (value===undefined || value===null || value<1)
-                                        me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                                        me.fieldPages.setValue((me.api ? me.api.getCurrentPage() : 0)+1);
                                 } else
-                                    me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                                    me.fieldPages.setValue((me.api ? me.api.getCurrentPage() : 0)+1);
 
                                 return true;
                             }
@@ -404,6 +411,17 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnImageField);
+
+                    this.btnSignField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-signature-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                        caption: this.capBtnSignature,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnSignField);
 
                     this.btnManager = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -664,6 +682,7 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
+                        me.btnSignField.updateHint(me.tipSignField);
                         me.btnViewFormRoles.updateHint(me.tipViewForm);
                         me.btnManager.updateHint(me.tipManager);
                         me.btnEmailField.updateHint(me.tipEmailField);
@@ -709,6 +728,7 @@ define([
                     this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
+                    this.btnSignField.render($host.find('#slot-btn-form-signature'));
                     this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
                     this.btnManager.render($host.find('#slot-btn-manager'));
                     // this.btnHighlight.render($host.find('#slot-form-highlight'));
@@ -868,7 +888,9 @@ define([
             tipFirstPage: 'Go to the first page',
             tipLastPage: 'Go to the last page',
             tipPrevPage: 'Go to the previous page',
-            tipNextPage: 'Go to the next page'
+            tipNextPage: 'Go to the next page',
+            capBtnSignature: 'Signature Field',
+            tipSignField: 'Insert signature field'
         }
     }()), DE.Views.FormsTab || {}));
 });

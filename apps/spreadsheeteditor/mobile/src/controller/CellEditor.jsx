@@ -107,14 +107,15 @@ const CellEditor = inject("storeFunctions")(observer(props => {
                 return {name, type, descr, caption, args};
             });
 
-            await setFuncArr(funcArr);
-            await setHintArr(hintArr);
+            setFuncArr(funcArr);
+            setHintArr(hintArr);
 
             await f7.popover.open('#idx-functions-list', '#idx-list-target');
         } else {
             await f7.popover.close('#idx-functions-list');
-            await setFuncArr('');
-            await setHintArr('');
+
+            setFuncArr('');
+            setHintArr('');
         }
     }
 

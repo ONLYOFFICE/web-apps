@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -172,7 +172,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar)$/i.test(currentLang));
+        return currentLang && (/^(ar|he)$/i.test(currentLang));
     };
 
     return {

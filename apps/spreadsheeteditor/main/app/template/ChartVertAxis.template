@@ -1,5 +1,5 @@
 <div class="inner-content">
-    <table cols="2" style="width: 100%">
+    <table cols="2" style="width: 100%" role="presentation">
         <tr>
             <td colspan="2" class="padding-small">
                 <div id="chart-dlg-chk-vert-hide-<%=idx%>" class="input-group-nr"></div>
@@ -16,7 +16,7 @@
             </td>
         </tr>
     </table>
-    <table cols="3" style="width: 100%">
+    <table cols="3" style="width: 100%" role="presentation">
         <tr>
             <td class="padding-small" width="100">
                 <label class="input-label"><%= scope.textMinValue %></label>
@@ -51,7 +51,7 @@
             </td>
         </tr>
     </table>
-    <table cols="2">
+    <table cols="2" role="presentation">
         <tr>
             <td class="padding-small padding-right-10" style="min-width: 100px;">
                 <label class="input-label"><%= scope.textUnits %></label>
@@ -63,7 +63,7 @@
     </table>
 </div>
 <div class="inner-content">
-    <table cols="2" style="width: 100%;">
+    <table cols="2" style="width: 100%;" role="presentation">
         <tr>
             <td colspan=2 class="padding-small">
                 <div id="chart-dlg-check-v-reverse-<%=idx%>"></div>
@@ -83,7 +83,7 @@
     </table>
 </div>
 <div class="inner-content">
-    <table cols="2" style="width: 100%;">
+    <table cols="2" style="width: 100%;" role="presentation">
         <tr>
             <td colspan=2 class="padding-small">
                 <label class="header"><%= scope.textTickOptions %></label>

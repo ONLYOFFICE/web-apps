@@ -25,6 +25,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara prezentacijama (npr pptx), ali fajl ima nedoslednu ekstenziju: %1",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara proračunskim tabelama (npr xlsx), ali fajl ima nedoslednu ekstenziju: %1.",
   "PE.ApplicationController.errorLoadingFont": "Fontovi nisu učitani.<br>Molimo kontaktirajte svog Dokument Server administratora.",
+  "PE.ApplicationController.errorToken": "Sigurnosni token dokumenta nije ispravno formiran.<br>Molimo vas kontaktirajte vašeg Dokument Server administratora.",
   "PE.ApplicationController.errorTokenExpire": "Sigurnosni token dokumenta je istekao.<br>Molimo kontaktirajte vašeg Dokument Server administratora.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Konekcija je obnovljena, i verzija fajla je promenjena.<br>Pre nego što nastavite da radite, morate preuzeti fajl ili kopirate njegov sadržaj da se uverite da ništa nije izgubljeno, i onda ponovo učitate ovu stranicu.",
   "PE.ApplicationController.errorUserDrop": "Fajl ne može biti pristupljen sada.",

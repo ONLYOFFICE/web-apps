@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -120,7 +120,7 @@ define([
                         if (index >= last) {
                             if (btn.options.iconImg) {
                                 arrMore.push({
-                                    caption: btn.hint,
+                                    caption: Common.Utils.String.htmlEncode(btn.hint),
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
                                         '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
@@ -135,7 +135,7 @@ define([
                                 })
                             } else {
                                 arrMore.push({
-                                    caption: btn.hint,
+                                    caption: Common.Utils.String.htmlEncode(btn.hint),
                                     iconCls: 'menu__icon ' + btn.iconCls,
                                     value: index,
                                     disabled: btn.isDisabled(),
@@ -211,6 +211,10 @@ define([
                         me.setDisabledMoreMenuItem(btn, disabled);
                     }
                 });
+            },
+
+            isButtonInMoreMenu: function (btn) {
+                return _.indexOf(this.buttons, btn)>-1;
             },
 
             getPluginButton: function (guid) {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,16 +36,10 @@
  *
  */
 
-define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
+define([
+    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
+    'common/main/lib/component/TableStyler',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';
 
@@ -1411,32 +1405,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.CellColor = {Value: 0, Color: 'transparent'};
 
                 this.btnBackColor.setColor(this.CellColor.Color);
-                if ( typeof(this.CellColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                            this.colorsBack.select(this.CellColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.CellColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
 
                 this.btnTableBackColor.setColor(this.TableColor.Color);
-                if ( typeof(this.TableColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.TableColor.Color.effectValue ) {
-                            this.colorsTableBack.select(this.TableColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsTableBack.clearSelection();
-                } else
-                    this.colorsTableBack.select(this.TableColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.TableColor.Color, this.colorsTableBack);
 
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 

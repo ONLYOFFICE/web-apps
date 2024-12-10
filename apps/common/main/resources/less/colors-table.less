@@ -23,10 +23,10 @@
 
     --background-normal: #fff;
     --background-toolbar: #f7f7f7;
+    --background-toolbar-tab: var(--background-toolbar);
     --background-toolbar-additional: #efefef;
     --background-primary-dialog-button: #444;
     --background-accent-button: #446995;
-    --background-tab-underline: #444;
     --background-notification-popover: #fcfed7;
     --background-notification-badge: #ffd112;
     --background-scrim: fade(#000, 20%);
@@ -42,15 +42,15 @@
     --highlight-primary-dialog-button-hover: #1c1c1c;
     --highlight-accent-button-hover: #375478;
     --highlight-accent-button-pressed: #293f59;
-    --highlight-header-button-hover: fade(#fff, 15%);
-    --highlight-header-button-pressed: fade(#fff, 25%);
-    --highlight-toolbar-tab-underline: #444;
+    --highlight-header-button-hover: fade(#000, 15%);
+    --highlight-header-button-pressed: fade(#000, 25%);
     --highlight-text-select: #3494fb;
     --highlight-fill-button-hover: #ffe165;
     --highlight-fill-button-pressed: #dfb500;
 
     --border-toolbar: #cbcbcb;
     --border-toolbar-active-panel-top: var(--background-toolbar);
+    --border-toolbar-active-tab: var(--background-toolbar);
     --border-divider: #dfdfdf;
     --border-regular-control: #c0c0c0;
     --border-toolbar-button-hover: #e0e0e0;
@@ -82,6 +82,16 @@
     --icon-notification-badge: #000;
     --icon-contrast-popover: #fff;
     --icon-success: #090;
+
+    --highlight-header-tab-underline-document: var(--text-toolbar-header);
+    --highlight-header-tab-underline-spreadsheet: var(--text-toolbar-header);
+    --highlight-header-tab-underline-presentation: var(--text-toolbar-header);
+    --highlight-header-tab-underline-pdf: var(--text-toolbar-header);
+
+    --highlight-toolbar-tab-underline-document: #446995;
+    --highlight-toolbar-tab-underline-spreadsheet: #40865c;
+    --highlight-toolbar-tab-underline-presentation: #BE664F;
+    --highlight-toolbar-tab-underline-pdf: #AA5252;
 
     // Canvas
 
@@ -201,9 +211,9 @@
 // -------------------------
 @background-normal: var(--background-normal);
 @background-toolbar: var(--background-toolbar);
+@background-toolbar-tab: var(--background-toolbar-tab);
 @background-toolbar-additional: var(--background-toolbar-additional);
 @background-primary-dialog-button: var(--background-primary-dialog-button);
-@background-tab-underline: var(--background-tab-underline);
 @background-notification-popover: var(--background-notification-popover);
 @background-notification-badge: var(--background-notification-badge);
 @background-scrim: var(--background-scrim);
@@ -222,7 +232,6 @@
 @highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
 @highlight-header-button-hover: var(--highlight-header-button-hover);
 @highlight-header-button-pressed: var(--highlight-header-button-pressed);
-@highlight-toolbar-tab-underline: var(--highlight-toolbar-tab-underline);
 @highlight-text-select: var(--highlight-text-select);
 @highlight-accent-button-hover: var(--highlight-accent-button-hover);
 @highlight-accent-button-pressed: var(--highlight-accent-button-pressed);
@@ -235,6 +244,7 @@
 @border-divider: var(--border-divider);
 @border-regular-control: var(--border-regular-control);
 @border-toolbar-active-panel-top: var(--border-toolbar-active-panel-top);
+@border-toolbar-active-tab: var(--border-toolbar-active-tab);
 @border-toolbar-button-hover: var(--border-toolbar-button-hover);
 @border-preview-hover: var(--border-preview-hover);
 @border-preview-select: var(--border-preview-select);
@@ -304,6 +314,8 @@
 @canvas-background: var(--canvas-background);
 @canvas-content-background: var(--canvas-content-background);
 @canvas-page-border: var(--canvas-page-border);
+@canvas-scroll-arrow: var(--canvas-scroll-arrow);
+@canvas-scroll-arrow-hover: var(--canvas-scroll-arrow-hover);
 @canvas-scroll-thumb-hover: var(--canvas-scroll-thumb-hover);
 @canvas-scroll-thumb-border-hover: var(--canvas-scroll-thumb-border-hover);
 

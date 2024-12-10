@@ -774,10 +774,6 @@
                     background-color: @highlight-button-pressed;
                 }
             }
-
-            .caret {
-                background-position: @arrow-small-offset-x - 7px @arrow-small-offset-y;
-            }
         }
 
         button.active:not(.disabled) {
@@ -1417,7 +1413,6 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret {
-            background-position: @arrow-small-offset-x @arrow-small-offset-y;
             border-color: @icon-normal-ie;
             border-color: @icon-normal;
         }

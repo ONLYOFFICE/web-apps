@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,23 +30,18 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 30.07.19
  */
 
 define([
-    'core',
-    'spreadsheeteditor/main/app/view/Spellcheck'
+    'core'
 ], function () {
     'use strict';
 
     SSE.Controllers.Spellcheck = Backbone.Controller.extend(_.extend({
         models: [],
-        collections: [
-        ],
-        views: [
-            'Spellcheck'
-        ],
+        collections: [],
+        views: [],
 
         initialize: function() {
             var me = this;
@@ -73,17 +68,25 @@ define([
         },
 
         onLaunch: function() {
-            this.panelSpellcheck= this.createView('Spellcheck', {
-            });
-            this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
             this._isDisabled = false;
             this._initSettings = true;
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
+        },
+
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['Spellcheck']);
+            this.panelSpellcheck = this.createView('Spellcheck', {});
+            this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
+
+            Common.NotificationCenter.trigger('script:loaded:spellcheck');
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+                this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
+            }
         },
 
         setApi: function(api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
-            this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             return this;
         },
 
@@ -138,14 +141,16 @@ define([
             }
 
             if (this.languages && this.languages.length>0) {
-                var langs = [], info;
+                var langs = [], info, displayName;
                 this.allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
                     code = parseInt(code);
                     if (me.allLangs.hasOwnProperty(code)) {
                         info = me.allLangs[code];
+                        displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
                         langs.push({
-                            displayValue:   info[1],
+                            displayValue: displayName.native,
+                            displayValueEn: displayName.english,
                             shortName:      info[0],
                             value:          code
                         });

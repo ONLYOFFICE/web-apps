@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -604,6 +604,7 @@ define([
                 supportBooks: supportBooks,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
+                isOffline: me.statusbar.mode.isOffline,
                 handler : function(result, i, copy, workbook) {
                     btn = result;
                     if (btn == 'ok') {
@@ -768,21 +769,9 @@ define([
                         } else {
                             clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                         }
-                    }
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] === clr.effectValue) {
-                                this.statusbar.mnuTabColor.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.statusbar.mnuTabColor.clearSelection();
-                    } else {
-                        this.statusbar.mnuTabColor.select(clr || 'transparent', true);
-                    }
+                    } else
+                        clr = 'transparent';
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.statusbar.mnuTabColor);
                 }
             }
 

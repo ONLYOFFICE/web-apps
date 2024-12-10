@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -59,9 +59,9 @@ define([
             _.extend(this.options, options || {});
 
             this.template = [
-                '<div class="box">',
+                '<div class="box" role="search">',
                     '<div class="search-input-group">',
-                        '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                        '<input type="search" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off" aria-label="'+this.textFind+'">',
                         '<div id="search-bar-results">0/0</div>',
                     '</div>',
                     '<div class="tools">',

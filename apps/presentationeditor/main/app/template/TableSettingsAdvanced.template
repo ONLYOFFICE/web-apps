@@ -1,6 +1,6 @@
 <div id="id-adv-table-general" class="settings-panel active">
     <div class="inner-content">
-    <table cols="1" width="100%">
+    <table cols="1" width="100%" role="presentation">
         <tr>
             <td class="padding-large">
                 <label class="header"><%= scope.textTableName %></label>
@@ -12,7 +12,7 @@
 </div>
 <div  id="id-adv-table-placement" class="settings-panel active">
     <div class="inner-content">
-        <table cols="3">
+        <table cols="3" role="presentation">
             <tr>
                 <td colspan="3" width="88px" class="padding-small">
                     <label class="header"><%= scope.textSize %></label>
@@ -35,7 +35,7 @@
     </div>
     <div class="padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="4" width="88px" class="padding-small">
                     <label class="header"><%= scope.textPosition %></label>
@@ -66,7 +66,7 @@
 </div>
 <div id="id-adv-table-cell-props" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textMargins %></label>
@@ -127,7 +127,7 @@
 </div>
 <div id="id-adv-table-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

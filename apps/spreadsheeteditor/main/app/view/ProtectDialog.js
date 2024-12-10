@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,9 +36,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.ProtectDialog = Common.UI.Window.extend(_.extend({
@@ -174,7 +172,8 @@ define([
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                         '</div>'
-                    ].join(''))
+                    ].join('')),
+                    tabindex: 1
                 });
                 this.optionsList.on({
                     'item:change': this.onItemChanged.bind(this),
@@ -311,7 +310,7 @@ define([
                 target = $(event.currentTarget).find('.list-item');
 
                 if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
+                    bound = Common.Utils.getBoundingClientRect(target.get(0));
                     var _clientX = event.clientX*Common.Utils.zoom(),
                         _clientY = event.clientY*Common.Utils.zoom();
                     if (bound.left < _clientX && _clientX < bound.right &&
@@ -438,9 +437,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
@@ -452,7 +451,7 @@ define([
 
         onAllowRangesClick: function() {
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 props = me.api.asc_getProtectedRanges(),
                 win = new SSE.Views.ProtectRangesDlg({
                     api: me.api,

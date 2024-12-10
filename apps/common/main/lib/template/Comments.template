@@ -13,7 +13,9 @@
             ><% if (!avatar) { %><%-initials%><% } %></div>
             <div class="user-info-text">
                 <div class="user-name"><%= scope.getEncodedName(parsedName) %></div>
-                <div class="user-date"><%=date%></div>
+                <% if (date!==null) { %>
+                    <div class="user-date"><%=date%></div>
+                <% } %>
             </div>
         </div>
         <% if (quote!==null && quote!=='') { %>
@@ -23,7 +25,7 @@
             <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
         <% } else { %>
             <div class="inner-edit-ct">
-                <textarea class="msg-reply user-select textarea-control" maxlength="maxCommLength"><%=comment%></textarea>
+                <textarea class="msg-reply user-select textarea-control" maxlength="maxCommLength" aria-label="textComment"><%=comment%></textarea>
                 <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change">textEdit</button>
                 <button class="btn normal dlg-btn btn-inner-close">textCancel</button>
             </div>
@@ -66,7 +68,7 @@
                         <%}%>
                     <% } else { %>
                         <div class="inner-edit-ct">
-                            <textarea class="msg-reply textarea-fix user-select textarea-control" maxlength="maxCommLength"><%=item.get("reply")%></textarea>
+                            <textarea class="msg-reply textarea-fix user-select textarea-control" maxlength="maxCommLength" aria-label="textReply"><%=item.get("reply")%></textarea>
                             <button class="btn normal dlg-btn primary btn-inner-edit btn-fix" id="id-comments-change">textEdit</button>
                             <button class="btn normal dlg-btn btn-inner-close">textClose</button>
                         </div>
@@ -99,9 +101,9 @@
                     <% } %>
                 <% } %>
                 <% if (editable && !scope.viewmode) { %>
-                    <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
+                    <div class="btn-resolve <% if (resolved) print('img-commonctrl comment-resolved') %>" data-toggle="tooltip"></div>
                 <% } else if ((!editable || scope.viewmode) && resolved) { %>
-                    <div class="icon-resolve i-comment-resolved" data-toggle="tooltip"></div>
+                    <div class="icon-resolve i-comment-resolved img-commonctrl" data-toggle="tooltip"></div>
                 <% } %>
             </div>
         <% } %>
@@ -110,7 +112,7 @@
 
         <% if (showReply) { %>
             <div class="reply-ct">
-                <textarea class="msg-reply user-select textarea-control" placeholder="textAddReply" maxlength="maxCommLength"></textarea>
+                <textarea class="msg-reply user-select textarea-control" placeholder="textAddReply" maxlength="maxCommLength" aria-label="textReply"></textarea>
                 <button class="btn normal dlg-btn primary btn-reply" id="id-comments-change">textReply</button>
                 <button class="btn normal dlg-btn btn-close">textClose</button>
             </div>

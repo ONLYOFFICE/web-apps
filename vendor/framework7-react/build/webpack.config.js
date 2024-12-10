@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -16,8 +17,8 @@ function resolvePath(dir) {
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
-const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
-                    process.env.TARGET_EDITOR == 'slide' ? 'presentationeditor' : 'documenteditor';
+const editor = process.env.TARGET_EDITOR === 'cell' ? 'spreadsheeteditor' :
+                process.env.TARGET_EDITOR === 'slide' ? 'presentationeditor' : 'documenteditor';
 const targetPatch = process.env.TARGET_EDITOR || 'word';
 const addonPath = process.env.ADDON_ENV || 'path';
 
@@ -27,8 +28,8 @@ const config = {
     app: `../../apps/${editor}/mobile/src/app.js`,
   },
   output: {
-    path: resolvePath(`../../apps/${editor}/mobile`), // path above depends on it
-    filename: 'dist/js/[name].js', // in such form will be injected in index.html
+    path: resolvePath(`../../apps/${editor}/mobile`),
+    filename: 'dist/js/[name].js',
     chunkFilename: 'dist/js/[name].js',
     publicPath: '',
     hotUpdateChunkFilename: 'hot/hot-update.js',
@@ -41,51 +42,79 @@ const config = {
     },
     modules: [path.resolve(__dirname, '..', 'node_modules'), 'node_modules'],
   },
-  watch: env == 'development',
+  watch: env === 'development',
   watchOptions: {
-      aggregateTimeout: 600,
-      poll: 1000,
+    aggregateTimeout: 600,
+    poll: 1000,
   },
   externals: {
-      jquery: 'jQuery'
+    jquery: 'jQuery'
   },
-
-  devtool: env === 'production' ? 'source-map' : 'source-map', // TODO: turn off debugger source map before release
+  devtool: env === 'production' ? 'source-map' : 'source-map',
   optimization: {
-    minimizer: [new TerserPlugin({
-    })],
-    moduleIds: 'named',
+    // splitChunks: {
+    //   chunks: 'all',
+    //   minSize: 20000,
+    //   maxSize: 244000,
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name: 'vendors',
+    //       chunks: 'all',
+    //       enforce: true,
+    //     },
+    //     common: {
+    //       name: 'common',
+    //       minChunks: 2,
+    //       chunks: 'all',
+    //       reuseExistingChunk: true,
+    //       enforce: true,
+    //     }
+    //   }
+    // },
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: env === 'production',
+          },
+        },
+      }),
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: ['default', {
+            discardComments: { removeAll: true },
+            colormin: false,
+          }],
+        },
+      }),
+    ],
+    moduleIds: 'deterministic',
   },
   module: {
     rules: [
       {
         test: /\.(mjs|js|jsx)$/,
+        exclude: /node_modules/,
         use: {
-            loader: 'babel-loader',
-            options: {
-
-            }
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          }
         },
         include: [
           resolvePath(`../../apps/${editor}/mobile/src`),
           resolvePath('../../apps/common/mobile/lib'),
           resolvePath('node_modules/framework7'),
-
           resolvePath('node_modules/framework7-react'),
-
           resolvePath('node_modules/template7'),
           resolvePath('node_modules/dom7'),
           resolvePath('node_modules/ssr-window'),
-
-          //resolvePath(`${addonPath}`),
           resolvePath('../../../web-apps-mobile/word'),
           resolvePath('../../../web-apps-mobile/slide'),
           resolvePath('../../../web-apps-mobile/cell')
         ],
       },
-
-
-
       {
         test: /\.css$/,
         exclude: [/skeleton\.css$/i],
@@ -101,8 +130,8 @@ const config = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                    path: path.resolve(__dirname, '..'),
-                }
+                config: path.resolve(__dirname, '..'),
+              }
             }
           },
         ],
@@ -117,17 +146,17 @@ const config = {
             }
           }),
           {
-              loader: 'css-loader',
-              options: {
-                  url: false,
-              },
+            loader: 'css-loader',
+            options: {
+              url: false,
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                    path: path.resolve(__dirname, '..'),
-                }
+                path: path.resolve(__dirname, '..'),
+              }
             }
           },
           {
@@ -136,8 +165,8 @@ const config = {
               lessOptions: {
                 javascriptEnabled: true,
                 globalVars: {
-                    "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
-                    "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
+                  "common-image-path": env === 'production' ? `../../../${editor}/mobile/resources/img` : '../../common/mobile/resources/img',
+                  "app-image-path": env === 'production' ? '../resources/img' : './resources/img',
                 }
               }
             }
@@ -146,21 +175,24 @@ const config = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: 'images/[name].[ext]',
-          outputPath: `../../../apps/${editor}/mobile/dist`,
-        },
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'images/[name].[hash].[ext]',
+              outputPath: `../../../apps/${editor}/mobile/dist`,
+            },
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'fonts/[name].[ext]',
+          name: 'fonts/[name].[hash].[ext]',
           outputPath: `../../../apps/${editor}/mobile/dist/assets`,
-
         },
       },
     ],
@@ -186,29 +218,18 @@ const config = {
     ...(env === 'production' ? [
       new CssMinimizerPlugin({
         minimizerOptions: {
-            processorOptions: {
-                safe: true,
-                map: { inline: false },
-            },
-            preset: ['default', {
-              colormin: false,
-            }],
+          preset: ['default', {
+            discardComments: { removeAll: true },
+          }],
         },
       }),
       new webpack.optimize.ModuleConcatenationPlugin(),
     ] : [
-      // Development only plugins
       new webpack.HotModuleReplacementPlugin(),
-      // new webpack.NamedModulesPlugin(),
     ]),
-    // new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: 'css/[name].[contenthash].css',
     }),
-    // new WebpackRTLPlugin({
-    //   filename: 'css/[name].rtl.css',
-    //   diffOnly: true
-    // }),
     new HtmlWebpackPlugin({
       filename: `../../../apps/${editor}/mobile/index.html`,
       template: `../../apps/${editor}/mobile/src/index_dev.html`,
@@ -222,25 +243,25 @@ const config = {
         useShortDoctype: true
       } : false,
       skeleton: {
-          stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
-          htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
-          checkerscript: fs.readFileSync(`../../apps/common/checkExtendedPDF.js`),
+        stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
+        htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
+        checkerscript: fs.readFileSync(`../../apps/common/checkExtendedPDF.js`),
       },
       system: {
-          env: {
-              defaultLang: JSON.stringify(process.env.DEFAULT_LANG || "en"),
-          }
+        env: {
+          defaultLang: JSON.stringify(process.env.DEFAULT_LANG || "en"),
+        }
       },
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-            from: resolvePath('node_modules/framework7/framework7-bundle.css'),
-            to: `../../${editor}/mobile/css/framework7.css`,
+          from: resolvePath('node_modules/framework7/framework7-bundle.css'),
+          to: `../../${editor}/mobile/css/framework7.css`,
         },
         {
-            from: resolvePath('node_modules/framework7/framework7-bundle-rtl.css'),
-            to: `../../${editor}/mobile/css/framework7-rtl.css`,
+          from: resolvePath('node_modules/framework7/framework7-bundle-rtl.css'),
+          to: `../../${editor}/mobile/css/framework7-rtl.css`,
         },
         {
           noErrorOnMissing: true,
@@ -255,13 +276,14 @@ const config = {
       ],
     }),
     new webpack.NormalModuleReplacementPlugin(
-        /\.{2}\/lib\/patch/,
-        resource => (env == 'development' || /web-apps-mobile/.test(process.env.addon)) &&
-                        fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
-                            resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
-        //resource => fs.existsSync(`${addonPath}/patch.jsx`) ?
-                        //resource.request = `../../../${addonPath}/patch.jsx` : resource
+      /\.{2}\/lib\/patch/,
+      resource => (env === 'development' || /web-apps-mobile/.test(process.env.addon)) &&
+        fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
+        resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
     ),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: env === 'development' ? 'server' : 'disabled',
+    // }),
   ],
 };
 

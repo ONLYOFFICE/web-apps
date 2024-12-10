@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -75,7 +75,7 @@ define([
 
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="review-changes-panel" class="panel" data-tab="review">' +
+            '<section id="review-changes-panel" class="panel" data-tab="review" role="tabpanel" aria-labelledby="review">' +
                 '<div class="group no-group-mask review">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +

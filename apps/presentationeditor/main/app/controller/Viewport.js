@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -71,7 +71,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    //'settings:apply': me.applySettings.bind(me)
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -107,6 +107,8 @@ define([
                 }
             });
             Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
         },
 
         setApi: function(api) {
@@ -161,8 +163,6 @@ define([
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
-            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
-
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("pe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar ))
@@ -190,13 +190,10 @@ define([
                 toolbar.btnCollabChanges = me.header.btnSave;
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            me.onTabBackgroundChange();
+            if ( config.customization && config.customization.toolbarHideFileName )
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
@@ -295,12 +292,12 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
-        /*applySettings: function () {
-            var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
-            Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
-            if (this.header && this.header.btnPrintQuick)
-                this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },*/
+        applySettings: function () {
+            // var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
+            // Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
+            // if (this.header && this.header.btnPrintQuick)
+            //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
+        },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
@@ -361,6 +358,16 @@ define([
 
         isSearchBarVisible: function () {
             return this.searchBar && this.searchBar.isVisible();
+        },
+
+        onTabStyleChange: function (style) {
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+        },
+
+        onTabBackgroundChange: function (background) {
+            background = background || Common.Utils.InternalSettings.get("settings-tab-background");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
         },
 
         textFitPage: 'Fit to Page',

@@ -21,18 +21,22 @@ class DownloadController extends Component {
     }
 
     onSaveFormat(format) {
+        const { t } = this.props;
+        const _t = t("Settings", { returnObjects: true });
         const api = Common.EditorApi.get();
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const dataDoc = storeDocumentInfo.dataDoc;
         const fileType = dataDoc.fileType;
+        const isNeedDownload = !!format;
         const options = new Asc.asc_CDownloadOptions(format);
-        const { t } = this.props;
-        const _t = t("Settings", { returnObjects: true });
-
+        options.asc_setIsSaveAs(isNeedDownload);
+       
         if(/^pdf|xps|oxps|djvu$/.test(fileType)) {
             this.closeModal();
 
-            if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
+            if (format === Asc.c_oAscFileType.DJVU) {
+                api.asc_DownloadOrigin(options);
+            } else if(format === Asc.c_oAscFileType.PDF || format === Asc.c_oAscFileType.PDFA || format === Asc.c_oAscFileType.JPG || format === Asc.c_oAscFileType.PNG) {
                 api.asc_DownloadAs(options);
             } else if (format === Asc.c_oAscFileType.TXT || format === Asc.c_oAscFileType.RTF) {
                 options.asc_setTextParams(new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine));
@@ -102,7 +106,7 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
     Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], -256, true);
 
     const buttons = [{
-        text: 'OK',
+        text: _t.textOk,
         bold: true,
         onClick: function () {
             const password = document.getElementById('modal-password').value;
@@ -117,7 +121,7 @@ const onAdvancedOptions = (type, _t, isDocReady, canRequestClose, isDRM) => {
         f7.dialog.create({
             text: _t.txtIncorrectPwd,
             buttons : [{
-                text: 'OK',
+                text: _t.textOk,
                 bold: true,
             }]
         }).open();

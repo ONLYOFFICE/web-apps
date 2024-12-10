@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -37,12 +37,9 @@
  *
  */
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'documenteditor/main/app/view/AddNewCaptionLabelDialog'
-], function () { 'use strict';
+], function () {
+    'use strict';
 
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
@@ -219,7 +216,15 @@ define([
             });
             this.btnAdd.on('click', _.bind(function (e) {
                 var me = this;
-                (new DE.Views.AddNewCaptionLabelDialog({
+                (new Common.Views.TextInputDialog({
+                    label: me.textLabel,
+                    inputConfig: {
+                        allowBlank  : false,
+                        blankError  : me.textLabelError,
+                        validation: function(value) {
+                            return value ? true : '';
+                        }
+                    },
                     handler: function(result, value) {
                         if (result == 'ok') {
                             var rec = _.findWhere(me.arrLabel, {value: value});
@@ -481,7 +486,8 @@ define([
         textEquation: 'Equation',
         textFigure: 'Figure',
         textTable: 'Table',
-        textExclude: 'Exclude label from caption'
+        textExclude: 'Exclude label from caption',
+        textLabelError: 'Label must not be empty.'
 
     }, DE.Views.CaptionDialog || {}))
 });

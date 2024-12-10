@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,9 +30,7 @@
  *
  */
 /**
- * User: Julia.Svinareva
  * Date: 22.07.23
- * Time: 17:18
  */
 
 if (Common === undefined)
@@ -40,11 +38,7 @@ if (Common === undefined)
 
 Common.Views = Common.Views || {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
-], function (template) {
+define([], function () {
     'use strict';
 
     Common.Views.PluginPanel = Common.UI.BaseView.extend(_.extend({

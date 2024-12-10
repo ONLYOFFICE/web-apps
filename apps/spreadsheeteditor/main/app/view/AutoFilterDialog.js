@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -38,11 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ColorPaletteExt',
-    'common/main/lib/component/Calendar'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views = SSE.Views || {};
@@ -859,6 +855,7 @@ define([
             this.template   =   options.template || [
                     '<div class="box">',
                     '<div class="content-panel" >',
+                        '<div id="id-sort-filter-radio-nosort" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-fields-asc" class="input-group-nr margin-left-22" style="margin-bottom: 10px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
@@ -876,6 +873,16 @@ define([
         },
         render: function () {
             Common.UI.Window.prototype.render.call(this);
+
+            this.radioNoSort = new Common.UI.RadioBox({
+                el: $('#id-sort-filter-radio-nosort'),
+                labelText: this.textNoSort,
+                name: 'asc-radio-sort'
+            });
+            this.radioNoSort.on('change', _.bind(function(field, newValue) {
+                newValue && this.cmbFieldsAsc.setDisabled(true);
+                newValue && this.cmbFieldsDesc.setDisabled(true);
+            }, this));
 
             this.radioAsc = new Common.UI.RadioBox({
                 el: $('#id-sort-filter-radio-asc'),
@@ -927,7 +934,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc].concat(this.getFooterButtons());
+            return [this.radioNoSort, this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -975,7 +982,10 @@ define([
                         item && arr.push({value: index, displayValue: item, filter: filter, indexSorting: index});
                     });
                     this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
+                    this.radioNoSort.setValue(sort == null, true);
+                    this.cmbFieldsAsc.setDisabled( (sort === Asc.c_oAscSortOptions.Descending) || (sort === null) );
                 } else if (this.properties.rowFilter && this.properties.colFilter) {
+                    this.radioNoSort.setVisible(false);
                     this.setTitle(this.txtTitleValue);
                     var pivotObj = this.properties.rowFilter.asc_getPivotObj(),
                         fields = pivotObj.asc_getDataFields(),
@@ -994,6 +1004,10 @@ define([
                         idx = 1;
                         sort = this.properties.colFilter.asc_getSortState();
                     }
+                    if (sort == null) {
+                        this.radioAsc.setValue(true, true);
+                    }
+                    this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
                 }
 
                 this.cmbFieldsAsc.setData(arr);
@@ -1003,19 +1017,27 @@ define([
 
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
-                this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
             }
         },
         save: function () {
             if (this.api && this.properties) {
-                var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
-                var rec = combo.getSelectedRecord();
-                if (rec) {
-                    var filter = rec.filter,
-                        pivotObj = filter.asc_getPivotObj();
-                    pivotObj.asc_setDataFieldIndexSorting(rec.indexSorting);
-                    filter.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
-                    this.api.asc_applyAutoFilter(filter);
+                var isNoSort = this.radioNoSort.getValue();
+                if (isNoSort) {
+                    var filter = this.properties.filter;
+                    if (filter) {
+                        filter.asc_setSortState(null);
+                        this.api.asc_applyAutoFilter(filter);
+                    }
+                } else {
+                    var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
+                    var rec = combo.getSelectedRecord();
+                    if (rec) {
+                        var filter = rec.filter,
+                            pivotObj = filter.asc_getPivotObj();
+                        pivotObj.asc_setDataFieldIndexSorting(rec.indexSorting);
+                        filter.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
+                        this.api.asc_applyAutoFilter(filter);
+                    }
                 }
             }
         },
@@ -1028,6 +1050,7 @@ define([
 
         txtTitle: "Sort",
         txtTitleValue: "Sort by value",
+        textNoSort: 'No sort',
         textAsc: 'Ascenging (A to Z) by',
         textDesc: 'Descending (Z to A) by'
 
@@ -1855,7 +1878,7 @@ define([
                 target = $(event.currentTarget).find('.tree-label');
 
                 if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
+                    bound = Common.Utils.getBoundingClientRect(target.get(0));
                     var _clientX = event.clientX*Common.Utils.zoom(),
                         _clientY = event.clientY*Common.Utils.zoom();
                     if (bound.left < _clientX && _clientX < bound.right &&

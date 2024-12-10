@@ -186,22 +186,10 @@ textarea.form-control:focus {
 .input-field-fixed {
     position: relative;
 
-    input:not(.fixed-text) {
-        .text-align-right();
-        padding-right: 50%;
-        padding-right: calc(50% + 4px);
-        .rtl & {
-            padding-left: 50%;
-            padding-right: 0;
-        }
-    }
-
     .fixed-text {
         position: absolute;
         right: 0;
         top: 0;
-        width: 50%;
-        width: calc(50% + 4px);
         border-color: transparent;
         background: transparent;
         .text-align-left();
@@ -214,6 +202,9 @@ textarea.form-control:focus {
             right: unset;
             left: 0;
         }
+    }
+    .fixed-text.light {
+        opacity: 0.8;
     }
     &.disabled .fixed-text {
         opacity: @component-disabled-opacity-ie;

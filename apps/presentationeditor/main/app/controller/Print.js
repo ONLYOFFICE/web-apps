@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,9 +30,7 @@
  *
  */
 define([
-    'core',
-    'presentationeditor/main/app/view/FileMenuPanels',
-    'presentationeditor/main/app/view/HeaderFooterDialog'
+    'core'
 ], function () {
     'use strict';
 
@@ -63,10 +61,16 @@ define([
                     'openheader': _.bind(this.onOpenHeaderSettings, this)
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         onLaunch: function() {
+        },
+
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['PrintWithPreview']);
             this.printSettings = this.createView('PrintWithPreview');
+            this.setMode(this.mode);
         },
 
         onAfterRender: function(view) {
@@ -164,14 +168,14 @@ define([
         onCountPages: function(count) {
             this._navigationPreview.pageCount = count;
 
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.printSettings.$previewBox.toggleClass('hidden', !this._navigationPreview.pageCount);
                 this.printSettings.$previewEmpty.toggleClass('hidden', !!this._navigationPreview.pageCount);
             }
             if (!!this._navigationPreview.pageCount) {
                 if (this._navigationPreview.currentPreviewPage > count - 1)
                     this._navigationPreview.currentPreviewPage = Math.max(0, count - 1);
-                if (this.printSettings.isVisible()) {
+                if (this.printSettings && this.printSettings.isVisible()) {
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                     this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, count);
                 }
@@ -180,7 +184,7 @@ define([
 
         onCurrentPage: function(number) {
             this._navigationPreview.currentPreviewPage = number;
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
@@ -366,7 +370,7 @@ define([
         },
 
         SetDisabled: function() {
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 var disable = !this.mode.isEdit;
             }
         },

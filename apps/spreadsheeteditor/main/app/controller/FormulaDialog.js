@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,9 +42,7 @@ define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
-    'spreadsheeteditor/main/app/view/FormulaTab',
-    'spreadsheeteditor/main/app/view/FormulaWizard',
-    'spreadsheeteditor/main/app/view/WatchDialog'
+    'spreadsheeteditor/main/app/view/FormulaTab'
 ], function () {
     'use strict';
 

@@ -1,6 +1,6 @@
 <div class="settings-panel active">
 <div class="inner-content">
-<table cols="1" style="width: 100%;">
+<table cols="1" style="width: 100%;" role="presentation">
     <tr><td class="padding-small">
         <div id="watermark-radio-none"></div>
     </td></tr>
@@ -8,7 +8,7 @@
         <div id="watermark-radio-text"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <table id="watermark-tbl-text" class="margin-left-22" cols="2">
+        <table id="watermark-tbl-text" class="margin-left-22" cols="2" role="presentation">
             <tr>
                 <td class="language padding-small">
                     <label class="input-label"><%= scope.textLanguage %></label>
@@ -47,7 +47,7 @@
         <div id="watermark-radio-image"></div>
     </td></tr>
     <tr><td class="padding-small">
-        <table id="watermark-tbl-image" class="margin-left-22" cols="2">
+        <table id="watermark-tbl-image" class="margin-left-22" cols="2" role="presentation">
             <tr>
                 <td class="select-image">
                     <div id="watermark-select-image"></div>

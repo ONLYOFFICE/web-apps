@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -60,7 +60,10 @@ module.exports = (grunt) => {
                 },
                 compile: {
                     options: packageFile.forms.js.requirejs.options
-                }
+                },
+                postload: {
+                    options: packageFile.forms.js.postload.options
+                },
             },
 
             less: {
@@ -126,6 +129,10 @@ module.exports = (grunt) => {
                 build: {
                     src: [packageFile.forms.js.requirejs.options.out],
                     dest: packageFile.forms.js.requirejs.options.out
+                },
+                postload: {
+                    src: packageFile.forms.js.postload.options.out,
+                    dest: packageFile.forms.js.postload.options.out,
                 },
             },
         });

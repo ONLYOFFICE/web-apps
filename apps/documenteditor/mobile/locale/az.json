@@ -468,7 +468,9 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-    "errorTextFormWrongFormat": "The value entered does not match the format of the field."
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
+    "textOk": "OK"
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",
@@ -506,7 +508,8 @@
     "uploadImageTextText": "Təsvir yüklənir...",
     "uploadImageTitleText": "Təsvir Yüklənir",
     "waitText": "Lütfən, gözləyin...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
+    "savingText": "Saving"
   },
   "Main": {
     "criticalErrorTitle": "Xəta",
@@ -793,7 +796,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
@@ -807,6 +809,8 @@
     "stayButtonText": "Bu səhifədə qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
     "textOk": "OK",
+    "warnEmptyRequiredField": "Tələb olunan bütün sahələri doldurub formanı göndərin.",
+    "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
