@@ -2025,5 +2025,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Přízpůsobit stránce",
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
+  "PDFE.Views.DocumentHolder.textColor": "Color"
 }

@@ -2025,5 +2025,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
+  "PDFE.Views.DocumentHolder.textColor": "Color"
 }
