@@ -1411,6 +1411,7 @@
   "PDFE.Views.ImageSettings.textRotation": "Rotation",
   "PDFE.Views.ImageSettings.textSize": "Size",
   "PDFE.Views.ImageSettings.textWidth": "Width",
+  "PDFE.Views.ImageSettings.strTransparency": "Opacity",
   "PDFE.Views.ImageSettingsAdvanced.textAlt": "Alternative text",
   "PDFE.Views.ImageSettingsAdvanced.textAltDescription": "Description",
   "PDFE.Views.ImageSettingsAdvanced.textAltTip": "The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, shape, chart, or table.",

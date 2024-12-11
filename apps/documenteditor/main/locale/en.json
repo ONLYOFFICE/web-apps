@@ -2534,6 +2534,7 @@
   "DE.Views.ImageSettings.txtThrough": "Through",
   "DE.Views.ImageSettings.txtTight": "Tight",
   "DE.Views.ImageSettings.txtTopAndBottom": "Top and bottom",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
   "DE.Views.ImageSettingsAdvanced.strMargins": "Text padding",
   "DE.Views.ImageSettingsAdvanced.textAbsoluteWH": "Absolute",
   "DE.Views.ImageSettingsAdvanced.textAlignment": "Alignment",

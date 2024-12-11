@@ -3164,6 +3164,7 @@
   "SSE.Views.ImageSettings.textRotation": "Rotation",
   "SSE.Views.ImageSettings.textSize": "Size",
   "SSE.Views.ImageSettings.textWidth": "Width",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
   "SSE.Views.ImageSettingsAdvanced.textAbsolute": "Don't move or size with cells",
   "SSE.Views.ImageSettingsAdvanced.textAlt": "Alternative text",
   "SSE.Views.ImageSettingsAdvanced.textAltDescription": "Description",
