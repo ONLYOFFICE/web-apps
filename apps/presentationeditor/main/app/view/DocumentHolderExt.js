@@ -709,7 +709,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -780,7 +780,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
