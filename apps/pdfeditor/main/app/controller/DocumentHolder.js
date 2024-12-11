@@ -573,6 +573,8 @@ define([
 
         onHideAnnotBar: function() {},
 
+        onHideAnnotSelectBar: function() {},
+
         editText: function() {
             this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
             this.api && this.api.asc_EditPage();
@@ -582,6 +584,7 @@ define([
             this.onHideMathTrack();
             this.onHideTextBar();
             this.onHideAnnotBar();
+            this.onHideAnnotSelectBar();
         },
 
         editComplete: function() {
