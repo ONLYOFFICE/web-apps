@@ -1628,7 +1628,7 @@ define([
                         caption: me.capBtnPageColor,
                         menu: true,
                         eyeDropper: false,
-                        hideColorLine: true,
+                        colorLine: false,
                         additionalItemsBefore: [
                             me.mnuPageNoFill = new Common.UI.MenuItem({
                                 caption: me.strMenuNoFill,
