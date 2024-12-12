@@ -38,6 +38,24 @@
         </td>
     </tr>
     <tr>
+        <td class="padding-small" colspan=2>
+            <div id="image-panel-transparent-fill" style="width: 100%;">
+                <label class="header" style="display:block;"><%= scope.strTransparency %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <label id="image-lbl-transparency-start">0</label>
+                    <div id="image-slider-transparency" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                    <label id="image-lbl-transparency-end">100</label>
+                </div>
+                <div id="image-spin-transparency" class="float-right"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
         <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textRotation %></label>
         </td>

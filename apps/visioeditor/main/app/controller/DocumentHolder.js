@@ -526,7 +526,6 @@ define([
                         })).show();
                     }
                 }
-                item.isFromBar && me.api.SetShowTextSelectPanel(false);
             }
             me.editComplete();
         },
