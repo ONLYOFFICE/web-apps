@@ -4474,7 +4474,7 @@
   "SSE.Views.ViewTab.tipViewNormal": "在普通视图中查看文档",
   "SSE.Views.ViewTab.tipViewPageBreak": "查看打印文档时分页符的显示位置",
   "SSE.Views.ViewTab.txtViewNormal": "正常",
-  "SSE.Views.ViewTab.txtViewPageBreak": "分页预览",
+  "SSE.Views.ViewTab.txtViewPageBreak": "分页预览-",
   "SSE.Views.WatchDialog.closeButtonText": "关闭",
   "SSE.Views.WatchDialog.textAdd": "新增监视",
   "SSE.Views.WatchDialog.textBook": "书",
