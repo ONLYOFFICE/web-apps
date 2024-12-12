@@ -208,6 +208,7 @@ define([], function () {
                 view.mnuArrangeForward.on('click', _.bind(me.onArrangeForward, me));
                 view.mnuArrangeBackward.on('click', _.bind(me.onArrangeBackward, me));
                 view.menuImgShapeAlign.menu.on('item:click', _.bind(me.onImgShapeAlign, me));
+                view.menuShapesMerge.menu.on('item:click', _.bind(me.onShapesMerge, me));
                 view.menuParagraphVAlign.menu.on('item:click', _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click', _.bind(me.onParagraphDirection, me));
                 view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
@@ -2235,6 +2236,15 @@ define([], function () {
                 }
                 me.editComplete();
             }
+        };
+
+        dh.onShapesMerge = function(menu, item, e) {
+            var me = this;
+            if (item && item.value) {
+                me.api.asc_mergeSelectedShapes(item.value);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge');
+            }
+            me.editComplete();
         };
 
         dh.onParagraphVAlign = function (menu, item) {

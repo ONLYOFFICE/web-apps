@@ -331,6 +331,8 @@ define([
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
+            toolbar.btnShapesMerge.menu.on('item:click',                 _.bind(this.onClickMenuShapesMerge, this));
+            toolbar.btnShapesMerge.menu.on('show:before',                _.bind(this.onBeforeShapesMerge, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnRotatePage.menu.on('item:click',                 _.bind(this.onRotatePageMenu, this));
             toolbar.btnRotatePage.on('click',                           _.bind(this.onRotatePage, this));
@@ -610,7 +612,7 @@ define([
             var no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1;
             if (this._state.no_drawing_objects !== no_drawing_objects ) {
                 if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
-                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [toolbar.btnShapeAlign, toolbar.btnShapeArrange]});
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [toolbar.btnShapeAlign, toolbar.btnShapeArrange, toolbar.btnShapesMerge]});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
@@ -646,6 +648,7 @@ define([
                 toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
                 toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
             }
+            this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -2226,6 +2229,20 @@ define([
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onBeforeShapesMerge: function() {               
+            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+                item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
+            }, this);
+        },
+
+        onClickMenuShapesMerge: function (menu, item) {
+            if (item && item.value) {
+                this.api.asc_mergeSelectedShapes(item.value); 
+                Common.component.Analytics.trackEvent('ToolBar', 'Shapes Merge'); 
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onDelPage: function() {
