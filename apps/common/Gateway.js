@@ -406,6 +406,10 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestStartFilling'});
             },
 
+            requestForceDesktopMode:  function (value) {
+                _postMessage({event:'onForceDesktopMode', data: {c: value}});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },

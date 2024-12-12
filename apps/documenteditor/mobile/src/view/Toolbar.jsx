@@ -71,6 +71,11 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
+                    !Device.phone && <Link key='desktop-link'
+                                           className={isOpenModal ? 'disabled' : ''}
+                                           icon='icon-mobile-view' href={false}
+                                           onClick={() => props.forceDesktopMode()}>
+                                    </Link>,
                     ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();

@@ -252,6 +252,8 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                        forceDesktop: true // force 'desktop' editor type to open instead of 'mobile'
+                        disableForceDesktop: false // hide or show UI option for using forceDesktop flag
                     },
                     submitForm: {
                         visible: true/false (default: true)
@@ -432,6 +434,9 @@
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
+                    } else
+                    if (msg.event === 'onForceDesktopMode' && !handler) {
+                        console.log('onForceDesktopMode', msg.data);
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
@@ -1012,6 +1017,34 @@
         return "";
     }
 
+    function isLocalStorageAvailable() {
+        try {
+            const storage = window['localStorage'];
+            return true;
+        }
+        catch(e) {
+            return false;
+        }
+    }
+
+    function correct_app_type(type) {
+        if ( type == 'mobile' ) {
+            if ( config.editorConfig.customization && config.editorConfig.customization.mobile &&
+                    config.editorConfig.customization.mobile.disableForceDesktop !== false )
+            {
+                if ( isLocalStorageAvailable() ) {
+                    const f = localStorage.getItem('asc-mobile-force-desktop');
+                    if ( f === true )
+                    {
+                        return 'main';
+                    }
+                }
+            }
+        }
+
+        return type;
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
             path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
@@ -1063,7 +1096,7 @@
             path = extendAppPath(config, path);
         path += appMap[appType];
 
-        const path_type = config.type === "mobile" ? "mobile" :
+        const path_type = config.type === "mobile" ? correct_app_type(config.type) :
                           config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;

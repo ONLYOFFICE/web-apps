@@ -226,6 +226,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.ChangeReaderMode();
     }
 
+    const forceDesktopMode = () => {
+        console.log('forceDesktopMode')
+        Common.Gateway.requestForceDesktopMode(true);
+    }
+
     const changeTitleHandler = () => {
         if(!appOptions.canRename) return;
 
@@ -430,6 +435,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isForm={isForm}
             canFillForms={canFillForms}
             canSubmitForms={appOptions.canSubmitForms}
+            forceDesktopMode={forceDesktopMode}
         />
     )
 }));
