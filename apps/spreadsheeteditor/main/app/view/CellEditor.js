@@ -96,8 +96,15 @@ define([
 
         updateCellInfo: function(info) {
             if (info) {
+                this.saveToLocalstorage(info);
+                console.log("axing updateCellInfo", info, typeof(info)=='string' ? info : info.asc_getName());
                 this.$cellname.val(typeof(info)=='string' ? info : info.asc_getName());
             }
+        },
+
+        // axing
+        saveToLocalstorage: function (info) {
+            window.localStorage.setItem("changeCellData", {modefy: this.$cellname.val(), rowCol: typeof(info)=='string' ? info : info.asc_getName()});
         },
 
         cellNameDisabled: function(disabled){
@@ -115,9 +122,8 @@ define([
 
         cellEditorTextChange: function (){
             if (!this.$cellcontent) return;
-
             var cellcontent = this.$cellcontent[0];
-
+            console.log("axing cellEditorTextChange", this.$cellcontent, cellcontent)
             if (cellcontent.clientHeight != cellcontent.scrollHeight) {
                 if ( !this._isScrollShow ) {
                     this._isScrollShow = true;

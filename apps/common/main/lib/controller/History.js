@@ -215,7 +215,9 @@ define([
                 }
 
                 var data = opts.data;
+
                 var historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions');
+                console.log("axing onSetHistoryData data = ", data, "\nopts = ", opts, "");
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
