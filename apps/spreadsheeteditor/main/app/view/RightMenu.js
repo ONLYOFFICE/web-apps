@@ -241,9 +241,6 @@ define([
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
 
-            if (mode && mode.canFeaturePivot)
-                this.btnPivot.setVisible(true);
-
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
