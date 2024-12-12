@@ -2230,6 +2230,7 @@
   "PE.Views.ImageSettings.textRotation": "Rotation",
   "PE.Views.ImageSettings.textSize": "Size",
   "PE.Views.ImageSettings.textWidth": "Width",
+  "PE.Views.ImageSettings.strTransparency": "Opacity",
   "PE.Views.ImageSettingsAdvanced.textAlt": "Alternative text",
   "PE.Views.ImageSettingsAdvanced.textAltDescription": "Description",
   "PE.Views.ImageSettingsAdvanced.textAltTip": "The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, shape, chart, or table.",
