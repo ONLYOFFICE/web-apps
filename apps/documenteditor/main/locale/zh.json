@@ -3687,5 +3687,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
+  "DE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "DE.Views.Toolbar.textShapesUnion": "Union",
+  "DE.Views.Toolbar.textShapesCombine": "Combine",
+  "DE.Views.Toolbar.textShapesFragment": "Fragment",
+  "DE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

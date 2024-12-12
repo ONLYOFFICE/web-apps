@@ -2026,5 +2026,13 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Views.DocumentHolder.textColor": "Color"
+  "PDFE.Views.DocumentHolder.textColor": "Color",
+  "PDFE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PDFE.Views.ImageSettings.strTransparency": "Opacity",
+  "PDFE.Views.Toolbar.textShapesUnion": "Union",
+  "PDFE.Views.Toolbar.textShapesCombine": "Combine",
+  "PDFE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PDFE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PDFE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PDFE.Views.Toolbar.tipShapeMerge": "Merge shapes"
 }

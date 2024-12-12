@@ -428,6 +428,7 @@ define([
             view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
             view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
             view.menuImageAlign.menu.on('item:click', _.bind(me.onImgAlign, me));
+            view.menuShapesMerge.menu.on('item:click', _.bind(me.onShapesMerge, me));
             view.menuImageArrange.menu.on('item:click', _.bind(me.onImgArrange, me));
             view.mnuGroup.on('click', _.bind(me.onImgGroup, me));
             view.mnuUnGroup.on('click', _.bind(me.onImgUnGroup, me));
@@ -2412,6 +2413,15 @@ define([
                     me.api.DistributeVertically(value);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                 }
+            }
+            me.editComplete();
+        },
+
+        onShapesMerge : function(menu, item, e) {
+            var me = this;
+            if (item && item.value) {
+                me.api.asc_mergeSelectedShapes(item.value); 
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Shapes Merge'); 
             }
             me.editComplete();
         },

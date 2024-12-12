@@ -2967,5 +2967,13 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式",
+  "PE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PE.Views.ImageSettings.strTransparency": "Opacity",
+  "PE.Views.Toolbar.textShapesUnion": "Union",
+  "PE.Views.Toolbar.textShapesCombine": "Combine",
+  "PE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

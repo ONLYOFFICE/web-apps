@@ -4528,5 +4528,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
+  "SSE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "SSE.Views.Toolbar.textShapesUnion": "Union",
+  "SSE.Views.Toolbar.textShapesCombine": "Combine",
+  "SSE.Views.Toolbar.textShapesFragment": "Fragment",
+  "SSE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "SSE.Views.Toolbar.textShapesSubstract": "Substract",
+  "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

@@ -3687,5 +3687,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
+  "DE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "DE.Views.Toolbar.textShapesUnion": "Union",
+  "DE.Views.Toolbar.textShapesCombine": "Combine",
+  "DE.Views.Toolbar.textShapesFragment": "Fragment",
+  "DE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

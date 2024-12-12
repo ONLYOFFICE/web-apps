@@ -1000,6 +1000,43 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = PE.getController('Toolbar').getView('Toolbar');
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        })
+                    ]
+                })
+            });
+
             me.menuChartEdit = new Common.UI.MenuItem({
                 caption     : me.editChartText
             });
@@ -1710,6 +1747,12 @@ define([], function () {
                         me.menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
                         me.menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
                     }
+                    me.menuShapesMerge.setDisabled(disabled || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
+                    }
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
                     me.menuChartAdvanced.setDisabled(disabled);
@@ -1732,6 +1775,7 @@ define([], function () {
                     { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
+                    me.menuShapesMerge,
                     me.menuImgShapeRotate,
                     menuImgShapeSeparator,          //Separator
                     me.menuImgSaveAsPicture,

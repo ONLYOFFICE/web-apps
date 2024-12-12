@@ -2967,5 +2967,13 @@
   "PE.Views.ViewTab.tipMacros": "Макросы",
   "PE.Views.ViewTab.tipNormal": "Обычный",
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "PE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PE.Views.ImageSettings.strTransparency": "Opacity",
+  "PE.Views.Toolbar.textShapesUnion": "Union",
+  "PE.Views.Toolbar.textShapesCombine": "Combine",
+  "PE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

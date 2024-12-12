@@ -2967,5 +2967,13 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "PE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PE.Views.ImageSettings.strTransparency": "Opacity",
+  "PE.Views.Toolbar.textShapesUnion": "Union",
+  "PE.Views.Toolbar.textShapesCombine": "Combine",
+  "PE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

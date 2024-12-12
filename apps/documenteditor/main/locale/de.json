@@ -3687,5 +3687,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halbtransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Unterstrichen",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Schriftartname",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
+  "DE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "DE.Views.Toolbar.textShapesUnion": "Union",
+  "DE.Views.Toolbar.textShapesCombine": "Combine",
+  "DE.Views.Toolbar.textShapesFragment": "Fragment",
+  "DE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }
