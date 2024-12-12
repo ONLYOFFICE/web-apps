@@ -332,7 +332,7 @@
 
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script>
-        const userAgent = navigator.userAgent.toLowerCase(),
+        var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
         isIEBrowser === true &&
