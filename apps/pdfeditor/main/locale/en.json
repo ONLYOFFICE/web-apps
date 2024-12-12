@@ -1996,7 +1996,7 @@
   "PDFE.Views.Toolbar.tipSelectTool": "Select tool",
   "PDFE.Views.Toolbar.tipShapeAlign": "Align shape",
   "PDFE.Views.Toolbar.tipShapeArrange": "Arrange shape",
-  "PDFE.Views.Toolbar.tipShapeMerge": "Merge shape",
+  "PDFE.Views.Toolbar.tipShapeMerge": "Merge shapes",
   "PDFE.Views.Toolbar.tipSubmit": "Submit form",
   "PDFE.Views.Toolbar.tipSynchronize": "The document has been changed by another user. Please click to save your changes and reload the updates.",
   "PDFE.Views.Toolbar.tipUndo": "Undo",

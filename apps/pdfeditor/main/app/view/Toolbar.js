@@ -773,7 +773,7 @@ define([
                     }),
                     action: 'object-merge',
                     dataHint: '1',
-                    dataHintDirection: 'bottom',
+                    dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
                 });
                 this.shapeControls.push(this.btnShapesMerge);
