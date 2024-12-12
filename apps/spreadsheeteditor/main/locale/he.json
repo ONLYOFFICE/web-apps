@@ -4528,5 +4528,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "חוברת עבודה לא מוגנת",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
+  "SSE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "SSE.Views.Toolbar.textShapesUnion": "Union",
+  "SSE.Views.Toolbar.textShapesCombine": "Combine",
+  "SSE.Views.Toolbar.textShapesFragment": "Fragment",
+  "SSE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "SSE.Views.Toolbar.textShapesSubstract": "Substract",
+  "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

@@ -4528,5 +4528,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Каб зняць абарону аркуша, увядзіце пароль",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняць абарону аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняць абарону працоўнай кнігі"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняць абарону працоўнай кнігі",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
+  "SSE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "SSE.Views.Toolbar.textShapesUnion": "Union",
+  "SSE.Views.Toolbar.textShapesCombine": "Combine",
+  "SSE.Views.Toolbar.textShapesFragment": "Fragment",
+  "SSE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "SSE.Views.Toolbar.textShapesSubstract": "Substract",
+  "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

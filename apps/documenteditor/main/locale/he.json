@@ -3687,5 +3687,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
+  "DE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "DE.Views.Toolbar.textShapesUnion": "Union",
+  "DE.Views.Toolbar.textShapesCombine": "Combine",
+  "DE.Views.Toolbar.textShapesFragment": "Fragment",
+  "DE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

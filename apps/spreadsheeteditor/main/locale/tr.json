@@ -4528,5 +4528,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Korumasız Çalışma Sayfası",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
+  "SSE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "SSE.Views.Toolbar.textShapesUnion": "Union",
+  "SSE.Views.Toolbar.textShapesCombine": "Combine",
+  "SSE.Views.Toolbar.textShapesFragment": "Fragment",
+  "SSE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "SSE.Views.Toolbar.textShapesSubstract": "Substract",
+  "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

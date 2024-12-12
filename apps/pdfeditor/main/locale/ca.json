@@ -2026,5 +2026,13 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
-  "PDFE.Views.DocumentHolder.textColor": "Color"
+  "PDFE.Views.DocumentHolder.textColor": "Color",
+  "PDFE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PDFE.Views.ImageSettings.strTransparency": "Opacity",
+  "PDFE.Views.Toolbar.textShapesUnion": "Union",
+  "PDFE.Views.Toolbar.textShapesCombine": "Combine",
+  "PDFE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PDFE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PDFE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PDFE.Views.Toolbar.tipShapeMerge": "Merge shapes"
 }

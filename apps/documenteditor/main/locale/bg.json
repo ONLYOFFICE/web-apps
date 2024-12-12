@@ -3687,5 +3687,14 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Име на шрифта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта",
+  "DE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "DE.Views.ImageSettings.strTransparency": "Opacity",
+  "DE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "DE.Views.Toolbar.textShapesUnion": "Union",
+  "DE.Views.Toolbar.textShapesCombine": "Combine",
+  "DE.Views.Toolbar.textShapesFragment": "Fragment",
+  "DE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

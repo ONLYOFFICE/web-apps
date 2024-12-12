@@ -2967,5 +2967,13 @@
   "PE.Views.ViewTab.tipMacros": "Macrocomandă",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Instrumentul Selectare",
-  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive"
+  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
+  "PE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "PE.Views.ImageSettings.strTransparency": "Opacity",
+  "PE.Views.Toolbar.textShapesUnion": "Union",
+  "PE.Views.Toolbar.textShapesCombine": "Combine",
+  "PE.Views.Toolbar.textShapesFragment": "Fragment",
+  "PE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }

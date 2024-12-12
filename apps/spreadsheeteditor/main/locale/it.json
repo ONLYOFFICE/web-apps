@@ -4528,5 +4528,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Inserisci una password per rimuovere la protezione del foglio",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Rimuovi la protezione del foglio",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Inserisci una password per rimuovere la protezione del libro di lavoro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Rimuovi la protezione del libro di lavoro",
+  "SSE.Views.DocumentHolder.textShapesMerge": "Merge shapes",
+  "SSE.Views.ImageSettings.strTransparency": "Opacity",
+  "SSE.Views.Toolbar.capShapesMerge": "Merge Shapes",
+  "SSE.Views.Toolbar.textShapesUnion": "Union",
+  "SSE.Views.Toolbar.textShapesCombine": "Combine",
+  "SSE.Views.Toolbar.textShapesFragment": "Fragment",
+  "SSE.Views.Toolbar.textShapesIntersect": "Intersect",
+  "SSE.Views.Toolbar.textShapesSubstract": "Substract",
+  "SSE.Views.Toolbar.tipShapesMerge": "Merge shapes"
 }
