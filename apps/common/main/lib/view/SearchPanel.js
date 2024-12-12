@@ -243,8 +243,8 @@ define([
                         editable: false,
                         cls: 'input-group-nr',
                         data: [
-                            { value: 1, displayValue: this.textFormulas },
-                            { value: 0, displayValue: this.textValues }
+                            { value: 0, displayValue: this.textFormulas },
+                            { value: 1, displayValue: this.textValues }
                         ],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
