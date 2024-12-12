@@ -167,10 +167,7 @@ define([
 
         setApi: function(o) {
             this.api = o;
-
-            if (this.api) {
-                this.documentHolder.setApi(this.api);
-            }
+            this.api && this.documentHolder.setApi(this.api);
 
             return this;
         },
