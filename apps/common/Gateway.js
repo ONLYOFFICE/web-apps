@@ -406,8 +406,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestStartFilling'});
             },
 
-            requestForceDesktopMode:  function (value) {
-                _postMessage({event:'onForceDesktopMode', data: {c: value}});
+            requestForceDesktopMode:  function (value, restart) {
+                _postMessage({event:'onForceDesktopMode', data: {force: value, restart: restart}});
             },
 
             pluginsReady: function() {

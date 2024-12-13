@@ -228,7 +228,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const forceDesktopMode = () => {
         console.log('forceDesktopMode')
-        Common.Gateway.requestForceDesktopMode(true);
+
+        f7.dialog.alert(
+            "app must be restarted to apply changes",
+            "warning",
+            () => {
+                Common.Gateway.requestForceDesktopMode(true, true);
+            });
     }
 
     const changeTitleHandler = () => {

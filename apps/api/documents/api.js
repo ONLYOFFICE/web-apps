@@ -436,7 +436,17 @@
                         _applyEditRights(false, 'handler isn\'t defined');
                     } else
                     if (msg.event === 'onForceDesktopMode' && !handler) {
-                        console.log('onForceDesktopMode', msg.data);
+                        const param = 'asc-mobile-force-desktop';
+                        if ( msg.data ) {
+                            if ( msg.data.force )
+                                localStorage.setItem(param, true);
+
+                            if ( msg.data.restart )
+                                window.location.reload();
+                        } else
+                        if ( localStorage.getItem(param) !== null ) {
+                            localStorage.removeItem(param);
+                        }
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
@@ -1029,13 +1039,15 @@
 
     function correct_app_type(type) {
         if ( type == 'mobile' ) {
-            if ( config.editorConfig.customization && config.editorConfig.customization.mobile &&
-                    config.editorConfig.customization.mobile.disableForceDesktop !== false )
+            if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
+                    config.editorConfig.customization.mobile.disableForceDesktop !== true )
             {
                 if ( isLocalStorageAvailable() ) {
                     const f = localStorage.getItem('asc-mobile-force-desktop');
-                    if ( f === true )
-                    {
+                    if ( f === "true" ) {
+                        // !config.editorConfig.customization && (config.editorConfig.customization = {});
+                        // !config.editorConfig.customization.mobile && (config.editorConfig.customization.mobile = {});
+                        config.editorConfig.forceDesktop = true;
                         return 'main';
                     }
                 }

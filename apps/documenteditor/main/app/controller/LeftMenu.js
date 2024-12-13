@@ -304,6 +304,18 @@ define([
                 close_menu = !!isopts;
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+            case 'switch:mobile':
+                Common.UI.info({
+                    width: 500,
+                    // title: this.notcriticalErrorTitle,
+                    msg: "app must be restarted to apply changes. restart now?",
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: function(btn) {
+                        Common.Gateway.requestForceDesktopMode(false, btn == 'yes');
+                    }
+                });
+                break;
             default: close_menu = false;
             }
 
