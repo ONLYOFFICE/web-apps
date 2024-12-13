@@ -283,16 +283,23 @@
               '</div>');
       </script>
 
-      <div id="box-preview">
-          <div id="id-preview" tabindex="-1"></div>
+      <div class="viewer">
+          <div id="editor_sdk" class="sdk-view" style="overflow: hidden;" tabindex="-1"></div>
+          <div id="pages-container" class="pages-list-container">
+              <div class="pages-list-buttons">
+                  <button id="pages-list-button-prev" class="control-btn svg-icon search-arrow-left" disabled>
+                  </button>
+                  <button id="pages-list-button-next" class="control-btn svg-icon search-arrow-right" disabled>
+                  </button>
+              </div>
+              <ul id="id-pages" class="pages-list"></ul>
+          </div>
       </div>
-      <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
 
       <div class="overlay-controls" style="margin-left: -32px">
           <ul class="left">
-              <li id="btn-left"><button class="overlay svg-icon slide-prev"></button></li>
-              <li id="btn-play"><button class="overlay svg-icon play"></button></li>
-              <li id="btn-right"><button class="overlay svg-icon slide-next"></button></li>
+              <li id="id-btn-zoom-in"><button class="overlay svg-icon zoom-up"></button></li>
+              <li id="id-btn-zoom-out"><button class="overlay svg-icon zoom-down"></button></li>
           </ul>
       </div>
 
@@ -304,7 +311,6 @@
               <span id="title-doc-name"></span>
           </div>
           <div class="group right">
-              <div class="item margin-right-small"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
@@ -336,7 +342,7 @@
       <script type="text/javascript" src="../../../vendor/socketio/socket.io.min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
 
-      <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/slide/scripts.js"></script>
+      <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/visio/scripts.js"></script>
       <script>
           window.sdk_scripts.forEach(function(item){
               document.write('<script type="text/javascript" src="' + item + '"><\/script>');
@@ -353,8 +359,8 @@
       <script type="text/javascript" src="../../common/embed/lib/view/LoadMask.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/view/modals.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/controller/modals.js"></script>
-      <script type="text/javascript" src="../../common/embed/lib/view/SearchBar.js"></script>
-      <script type="text/javascript" src="js/SearchBar.js"></script>
+      <!--<script type="text/javascript" src="../../common/embed/lib/view/SearchBar.js"></script>-->
+      <!--<script type="text/javascript" src="js/SearchBar.js"></script>-->
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
       <script type="text/javascript" src="js/application.js"></script>
@@ -373,7 +379,7 @@
                   '<div id="id-error-mask" class="errormask">',
                       '<div class="error-body" align="center">',
                           '<div id="id-error-mask-title" class="title">Your browser is not supported.</div>',
-                          '<div id="id-error-mask-text">Sorry, ONLYOFFICE Document is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
+                          '<div id="id-error-mask-text">Sorry, ONLYOFFICE Draw is currently only supported in the latest versions of the Chrome, Firefox, Safari or Internet Explorer web browsers.</div>',
                       '</div>',
                   '</div>'
               );
