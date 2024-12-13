@@ -3,7 +3,7 @@
     "textAbout": "О программе",
     "textAddress": "Адрес",
     "textBack": "Назад",
-    "textEditor": "Редактор Visio",
+    "textEditor": "Просмотрщик диаграмм",
     "textEmail": "Еmail",
     "textPoweredBy": "Разработано",
     "textTel": "Телефон",
@@ -205,9 +205,9 @@
       "textTitle": "Название",
       "textUploaded": "Загружен",
       "textVersion": "Версия",
-      "textVisioInfo": "Сведения о Visio",
-      "textVisioSettings": "Настройки Visio",
-      "textVisioTitle": "Название Visio"
+      "textVisioInfo": "Сведения о Просмотрщике диаграмм",
+      "textVisioSettings": "Настройки Просмотрщика диаграмм",
+      "textVisioTitle": "Название Просмотрщика диаграмм"
     }
   }
 }
