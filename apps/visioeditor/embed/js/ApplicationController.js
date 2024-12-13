@@ -42,7 +42,6 @@ VE.ApplicationController = new(function(){
         currentPage = 0,
         ttOffset = [5, -10],
         labelDocName,
-        isRtlSheet = false,
         requireUserAction = true;
 
     var LoadingDocument = -256;
@@ -165,28 +164,27 @@ VE.ApplicationController = new(function(){
 
     function onCurrentPage(number) {
         currentPage = number;
-        setActiveWorkSheet(number);
+        setActivePage(number);
     }
 
-    function updateRtlSheet() {
-        var $container = $('#worksheet-container');
-        isRtlSheet = !common.utils.isIE && window.isRtl;
-        $container.toggleClass('rtl-sheet', isRtlSheet);
-        $container.attr({dir: isRtlSheet ? 'rtl' : 'ltr'});
+    function updateRtl() {
+        var $container = $('#pages-container');
+        $container.toggleClass('rtl-sheet', window.isRtl);
+        $container.attr({dir: window.isRtl ? 'rtl' : 'ltr'});
     }
 
-    function setActiveWorkSheet(index) {
-        var $box = $('#worksheets');
+    function setActivePage(index) {
+        var $box = $('#id-pages');
         $box.find('> li').removeClass('active');
-        $box.find('#worksheet' + index).addClass('active');
+        $box.find('#id-page' + index).addClass('active');
     }
 
-    function onSheetsChanged(){
+    function onPagesChanged(){
         maxPages = api.getCountPages();
 
-        var handleWorksheet = function(e){
-            var $worksheet = $(this);
-            var index = $worksheet.attr('id').match(/\d+$/);
+        var handlePages = function(e){
+            var $page = $(this);
+            var index = $page.attr('id').match(/\d+$/);
 
             if (index.length > 0) {
                 index = parseInt(index[0]);
@@ -196,11 +194,11 @@ VE.ApplicationController = new(function(){
             }
         };
 
-        var $box = $('#worksheets');
+        var $box = $('#id-pages');
         $box.find('li').off();
         $box.empty();
 
-        var tpl = '<li id="worksheet{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
+        var tpl = '<li id="id-page{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
         for (var i = 0; i < maxPages; i++) {
             // escape html
             var name = api.asc_getPageName(i) || me.txtPage + (i+1);
@@ -210,18 +208,19 @@ VE.ApplicationController = new(function(){
                 .replace(/\{tabtitle}/, name)
                 .replace(/\{title}/, name);
 
-            $(item).appendTo($box).on('click', handleWorksheet);
+            $(item).appendTo($box).on('click', handlePages);
         }
 
-        setActiveWorkSheet(currentPage);
-        updateRtlSheet();
+        setActivePage(currentPage);
+        updateRtl();
     }
 
     function setupScrollButtons() {
-        var $container = $('#worksheet-container');
-        var $prevButton = $('#worksheet-list-button-prev');
-        var $nextButton = $('#worksheet-list-button-next');
-        var $box = $('#worksheets');
+        var $container = $('#pages-container');
+        var $prevButton = $('#pages-list-button-prev');
+        var $nextButton = $('#pages-list-button-next');
+        var $box = $('#id-pages');
+        var rtlPage = window.isRtl;
 
         var handleScrollButtonsState = function() {
             if ($container[0].scrollWidth > $container[0].clientWidth) {
@@ -229,7 +228,7 @@ VE.ApplicationController = new(function(){
                 var scrollWidth = $container[0].scrollWidth;
                 var containerWidth = $container.innerWidth();
 
-                if (isRtlSheet) {
+                if (rtlPage) {
                     if (Math.abs(scrollLeft) + containerWidth >= scrollWidth - 1) {
                         $prevButton.prop('disabled', false);
                         $nextButton.prop('disabled', true);
@@ -263,10 +262,10 @@ VE.ApplicationController = new(function(){
 
         handleScrollButtonsState();
 
-        var buttonWidth = $('.worksheet-list-buttons').outerWidth();
+        var buttonWidth = $('.pages-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
-            if (isRtlSheet) {
+            if (rtlPage) {
                 var rightBound = $container.width();
                 $($box.children().get().reverse()).each(function () {
                     var $tab = $(this);
@@ -291,7 +290,7 @@ VE.ApplicationController = new(function(){
         });
 
         $nextButton.on('click', function() {
-            if (isRtlSheet) {
+            if (rtlPage) {
                 $($box.children()).each(function () {
                     var $tab = $(this);
                     var left = common.utils.getPosition($tab).left - buttonWidth;
@@ -592,7 +591,7 @@ VE.ApplicationController = new(function(){
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
         requireUserAction = false;
-        onSheetsChanged();
+        onPagesChanged();
         setupScrollButtons();
     }
 
