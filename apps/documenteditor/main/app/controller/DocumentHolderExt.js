@@ -95,7 +95,6 @@ define([], function () {
                     Common.NotificationCenter.on('forms:image-select', _.bind(this.selectFormImage, this));// select from right pane
                 }
                 this.api.asc_registerCallback('onPluginContextMenu',                 _.bind(this.onPluginContextMenu, this));
-                this.documentHolder.setApi(this.api);
             }
         };
 
