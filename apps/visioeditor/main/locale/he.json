@@ -411,5 +411,6 @@
   "VE.Views.ViewTab.textLine": "Line",
   "VE.Views.ViewTab.textStatusBar": "Status Bar",
   "VE.Views.ViewTab.textTabStyle": "Tab style",
-  "VE.Views.ViewTab.textZoom": "Zoom"
+  "VE.Views.ViewTab.textZoom": "Zoom",
+  "VE.Views.ViewTab.textRightMenu": "Right Panel"
 }

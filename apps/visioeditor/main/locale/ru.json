@@ -411,5 +411,6 @@
   "VE.Views.ViewTab.textZoom": "Масштаб",
   "VE.Views.ViewTab.tipFitPage": "По размеру страницы",
   "VE.Views.ViewTab.tipFitWidth": "По ширине",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
+  "VE.Views.ViewTab.textRightMenu": "Right Panel"
 }
