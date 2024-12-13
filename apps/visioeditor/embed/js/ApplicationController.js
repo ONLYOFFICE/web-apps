@@ -168,6 +168,13 @@ VE.ApplicationController = new(function(){
         setActiveWorkSheet(number);
     }
 
+    function updateRtlSheet() {
+        var $container = $('#worksheet-container');
+        isRtlSheet = !common.utils.isIE && window.isRtl;
+        $container.toggleClass('rtl-sheet', isRtlSheet);
+        $container.attr({dir: isRtlSheet ? 'rtl' : 'ltr'});
+    }
+
     function setActiveWorkSheet(index) {
         var $box = $('#worksheets');
         $box.find('> li').removeClass('active');
@@ -207,6 +214,7 @@ VE.ApplicationController = new(function(){
         }
 
         setActiveWorkSheet(currentPage);
+        updateRtlSheet();
     }
 
     function setupScrollButtons() {
