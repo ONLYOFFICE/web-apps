@@ -412,7 +412,9 @@ VE.ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        api.SetDrawingFreeze(false);
+        api.ShowThumbnails(false);
+        api.Resize();
+
         hidePreloader();
         onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -620,7 +622,6 @@ VE.ApplicationController = new(function(){
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
         api.asc_LoadDocument();
-        api.Resize();
     }
 
     function onOpenDocument(progress) {
@@ -874,7 +875,6 @@ VE.ApplicationController = new(function(){
         });
 
         if (api){
-            api.SetDrawingFreeze(true);
             api.asc_registerCallback('asc_onError',                 onError);
             api.asc_registerCallback('asc_onDocumentContentReady',  onDocumentContentReady);
             api.asc_registerCallback('asc_onOpenDocumentProgress',  onOpenDocument);
