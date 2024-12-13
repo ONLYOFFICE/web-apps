@@ -411,5 +411,6 @@
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
   "VE.Controllers.Main.textConnectionLost": "Trying to connect. Please check connection settings.",
   "VE.Controllers.Main.textUpdateVersion": "The document cannot be edited right now.<br>Trying to update file, please wait...",
-  "VE.Controllers.Main.textUpdating": "Updating"
+  "VE.Controllers.Main.textUpdating": "Updating",
+  "VE.Views.ViewTab.textRightMenu": "Right Panel"
 }
