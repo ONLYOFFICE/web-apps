@@ -3,7 +3,7 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
-    "textEditor": "Visio Editor",
+    "textEditor": "Diagram Viewer",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
@@ -205,9 +205,9 @@
       "textTitle": "Title",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
-      "textVisioInfo": "Visio Info",
-      "textVisioSettings": "Visio Settings",
-      "textVisioTitle": "Visio Title"
+      "textVisioInfo": "Diagram Viewer Info",
+      "textVisioSettings": "Diagram Viewer Settings",
+      "textVisioTitle": "Diagram Viewer Title"
     }
   }
 }

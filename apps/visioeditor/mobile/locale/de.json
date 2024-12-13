@@ -3,7 +3,7 @@
     "textAbout": "Über das Produkt",
     "textAddress": "Adresse",
     "textBack": "Zurück",
-    "textEditor": "Visio-Editor",
+    "textEditor": "Diagramm-Viewer",
     "textEmail": "E-Mail",
     "textPoweredBy": "Entwickelt von",
     "textTel": "Tel.",
@@ -205,9 +205,9 @@
       "textTitle": "Titel\t",
       "textUploaded": "Hochgeladen",
       "textVersion": "Version",
-      "textVisioInfo": "Visio-Infos",
-      "textVisioSettings": "Visio-Einstellungen",
-      "textVisioTitle": "Visio-Titel"
+      "textVisioInfo": "Info zum Diagramm-Viewer",
+      "textVisioSettings": "Einstellungen des Diagramm-Viewers",
+      "textVisioTitle": "Titel des Diagramm-Viewers"
     }
   }
 }

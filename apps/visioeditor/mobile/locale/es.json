@@ -3,7 +3,7 @@
     "textAbout": "Acerca de",
     "textAddress": "Dirección",
     "textBack": "Atrás",
-    "textEditor": "Editor de Visio",
+    "textEditor": "Visor de diagramas",
     "textEmail": "Correo electrónico",
     "textPoweredBy": "Impulsado por",
     "textTel": "Tel.",
@@ -205,9 +205,9 @@
       "textTitle": "Título",
       "textUploaded": "Cargado",
       "textVersion": "Versión ",
-      "textVisioInfo": "Información de Visio",
-      "textVisioSettings": "Ajustes de Visio",
-      "textVisioTitle": "Título de Visio"
+      "textVisioInfo": "Información del visor de diagramas",
+      "textVisioSettings": "Configuración del visor de diagramas",
+      "textVisioTitle": "Título del visor de diagramas"
     }
   }
 }
