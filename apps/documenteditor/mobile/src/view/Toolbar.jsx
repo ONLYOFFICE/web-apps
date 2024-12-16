@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, Link } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -71,10 +73,11 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
-                    !Device.phone && <Link key='desktop-link'
+                    !Device.phone && <Link key='desktop-link' iconOnly href={false}
                                            className={isOpenModal ? 'disabled' : ''}
-                                           icon='icon-mobile-view' href={false}
                                            onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                                 className={'icon icon-svg'} />
                                     </Link>,
                     ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
