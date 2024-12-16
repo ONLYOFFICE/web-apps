@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ թերթը չպաշտպանելու համար",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Չպաշտպանել թերթիկը",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Չպաշտպանել աշխատանքային գրքույկը"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Չպաշտպանել աշխատանքային գրքույկը",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

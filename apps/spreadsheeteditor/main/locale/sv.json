@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

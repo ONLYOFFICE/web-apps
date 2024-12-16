@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het blad op te heffen",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

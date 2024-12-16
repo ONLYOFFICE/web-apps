@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Entrez un mot de passe pour déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

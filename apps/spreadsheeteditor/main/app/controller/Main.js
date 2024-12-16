@@ -1023,6 +1023,10 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
                 this.api.asc_SetSmoothScrolling(value);
 
+                value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
+                Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
+                this.api.asc_setDefaultDirection(value);
+
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(me.onActiveSheetChanged, me));

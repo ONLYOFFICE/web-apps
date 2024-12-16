@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "ໃສ່ລະຫັດຜ່ານເພື່ອຍົກເລີກການປ້ອງກັນແຜ່ນ",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

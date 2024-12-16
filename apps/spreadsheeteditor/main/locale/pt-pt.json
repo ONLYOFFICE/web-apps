@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

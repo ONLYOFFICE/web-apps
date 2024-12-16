@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza un contrasinal para quitarlle a protección á folla",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotexer folla",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza un contrasinal para quitarlle a protección ao libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotexer libro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotexer libro",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

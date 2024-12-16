@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

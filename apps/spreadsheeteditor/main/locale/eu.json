@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

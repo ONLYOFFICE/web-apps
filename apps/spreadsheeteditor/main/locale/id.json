@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

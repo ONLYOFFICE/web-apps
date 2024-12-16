@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

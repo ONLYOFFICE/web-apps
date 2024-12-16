@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

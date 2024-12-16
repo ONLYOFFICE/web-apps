@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Unesite lozinku da nezaštitite list",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }
