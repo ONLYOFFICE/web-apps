@@ -440,12 +440,12 @@
                         if ( msg.data ) {
                             if ( msg.data.force )
                                 localStorage.setItem(param, true);
+                            else
+                            if ( localStorage.getItem(param) !== null )
+                                localStorage.removeItem(param);
 
                             if ( msg.data.restart )
                                 window.location.reload();
-                        } else
-                        if ( localStorage.getItem(param) !== null ) {
-                            localStorage.removeItem(param);
                         }
                     } else {
                         if (msg.event === 'onAppReady') {
