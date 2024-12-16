@@ -306,13 +306,12 @@ define([
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             case 'switch:mobile':
                 Common.UI.info({
-                    width: 500,
-                    // title: this.notcriticalErrorTitle,
-                    msg: "Editor must be restarted to apply settings. restart now?",
-                    buttons: ['yes', 'no'],
+                    msg: this.warnSwitchMobile,
+                    buttons: [{value: 'yes', caption: this.btnRestartNow}, 'cancel'],
                     primary: 'yes',
                     callback: function(btn) {
-                        Common.Gateway.requestForceDesktopMode(false, btn == 'yes');
+                        if ( btn == 'yes' )
+                            Common.Gateway.requestForceDesktopMode(false, true);
                     }
                 });
                 break;

@@ -252,7 +252,6 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
-                        forceDesktop: true // force 'desktop' editor type to open instead of 'mobile'
                         disableForceDesktop: false // hide or show UI option for using forceDesktop flag
                     },
                     submitForm: {

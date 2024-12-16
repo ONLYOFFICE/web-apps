@@ -802,6 +802,7 @@
   },
   "Toolbar": {
     "btnSend": "Send",
+    "btnRestart": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -813,6 +814,6 @@
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
     "warnEmptyRequiredField": "Fill all required fields to send form.",
-    "warnForceDesktop": "Editor must be restarted to apply settings. Restart now?"
+    "warnForceDesktop": "Editor must be restarted to apply settings."
   }
 }

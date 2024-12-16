@@ -227,11 +227,19 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const forceDesktopMode = () => {
-        f7.dialog.confirm(
-            t('Toolbar.warnForceDesktop'),
-            t('Main.notcriticalErrorTitle'),
-            () => Common.Gateway.requestForceDesktopMode(true, true),
-            () => Common.Gateway.requestForceDesktopMode(true, false));
+        f7.dialog.create({
+            text: t('Toolbar.warnForceDesktop'),
+            title: t('Main.notcriticalErrorTitle'),
+            buttons: [
+                {
+                    text: t('Edit.textCancel')
+                },
+                {
+                    text: t('Toolbar.btnRestart'),
+                    onClick: () => Common.Gateway.requestForceDesktopMode(true, true),
+                }
+            ]}
+        ).open();
     }
 
     const changeTitleHandler = () => {
