@@ -88,6 +88,7 @@ define([], function () {
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
 
             if (Common.Utils.innerHeight()-this.bordersOffset*2 < this.options.contentHeight + this._headerFooterHeight) {
+                this._restoreHeight = this.options.contentHeight + this._headerFooterHeight;
                 this.options.contentHeight = Common.Utils.innerHeight()-this.bordersOffset*2 - this._headerFooterHeight;
                 this.boxEl.css('height', this.options.contentHeight);
             }
