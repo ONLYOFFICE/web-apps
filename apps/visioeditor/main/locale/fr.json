@@ -406,10 +406,16 @@
   "VE.Views.ViewTab.textInterfaceTheme": "Thème d'interface",
   "VE.Views.ViewTab.textLeftMenu": "Panneau gauche",
   "VE.Views.ViewTab.textLine": "Ligne",
+  "VE.Views.ViewTab.textRightMenu": "Right Panel",
   "VE.Views.ViewTab.textStatusBar": "Barre d'état",
   "VE.Views.ViewTab.textTabStyle": "Style d'onglet",
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Ajuster à la page",
   "VE.Views.ViewTab.tipFitWidth": "Ajuster à la largeur",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
+  "VE.Views.Statusbar.txtPage": "Page"
 }

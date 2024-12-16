@@ -118,14 +118,14 @@ define([
             return this;
         },
 
-        setApi: function (api) {
+        setApi: function (api, loadTranslations) {
             this.api = api;
 
             if (this.formulasGroups) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
-                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
+                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true, loadTranslations);
 
-                if (!this.mode.isEdit) return;
+                if (!this.mode.isEdit || loadTranslations) return;
 
                 var me = this;
 
@@ -176,7 +176,7 @@ define([
             this.appOptions.lang = data.config.lang;
         },
 
-        reloadTranslations: function (lang, suppressEvent) {
+        reloadTranslations: function (lang, suppressEvent, loadTranslations) {
             this.formulasLoaded = false;
 
             lang = (lang || 'en').toLowerCase();
@@ -206,7 +206,7 @@ define([
                     });
             }
 
-            if (!this.mode.isEdit) return;
+            if (!this.mode.isEdit || loadTranslations) return;
 
             if (me.langDescJson[lang])
                 me.loadingFormulas(me.langDescJson[lang], suppressEvent);

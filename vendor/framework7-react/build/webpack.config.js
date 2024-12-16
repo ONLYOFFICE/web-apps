@@ -40,6 +40,7 @@ const config = {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
       '@': resolvePath(`../../apps/${editor}/mobile/src`),
+      '@common': resolvePath('../../apps/common/mobile'),
     },
     modules: [path.resolve(__dirname, '..', 'node_modules'), 'node_modules'],
   },
@@ -176,7 +177,7 @@ const config = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         use: [
           {
             loader: 'url-loader',
@@ -189,6 +190,11 @@ const config = {
         ]
       },
       {
+        test: /\.svg$/,
+        use: {
+          loader: "svg-sprite-loader",
+        }
+      },      {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {

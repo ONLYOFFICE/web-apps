@@ -1125,9 +1125,7 @@ define([
                             me.onDocumentModifiedChanged(me.api.asc_isDocumentModified());
 
                             var formulasDlgController = application.getController('FormulaDialog');
-                            if (formulasDlgController) {
-                                formulasDlgController.setMode(me.appOptions).setApi(me.api);
-                            }
+                            formulasDlgController && formulasDlgController.setApi(me.api);
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
 
@@ -1137,7 +1135,7 @@ define([
                     }, 50);
                 } else {
                     var formulasDlgController = application.getController('FormulaDialog');
-                    formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
+                    formulasDlgController && formulasDlgController.setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
@@ -1655,6 +1653,9 @@ define([
 
                 var celleditorController = this.getApplication().getController('CellEditor');
                 celleditorController && celleditorController.setApi(this.api).setMode(this.appOptions);
+
+                var formulasDlgController = this.getApplication().getController('FormulaDialog');
+                formulasDlgController && formulasDlgController.setMode(this.appOptions).setApi(this.api, true);
             },
 
             applyModeEditorElements: function(prevmode) {

@@ -406,10 +406,16 @@
   "VE.Views.ViewTab.textInterfaceTheme": "سمة الواجهة",
   "VE.Views.ViewTab.textLeftMenu": "اللوحة اليسرى",
   "VE.Views.ViewTab.textLine": "خط",
+  "VE.Views.ViewTab.textRightMenu": "اللوحة اليمنى",
   "VE.Views.ViewTab.textStatusBar": "شريط الحالة",
   "VE.Views.ViewTab.textTabStyle": "نمط التبويبة",
   "VE.Views.ViewTab.textZoom": "تكبير",
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
-  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
+  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
+  "VE.Views.Statusbar.txtPage": "Page"
 }

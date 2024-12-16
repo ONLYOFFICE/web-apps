@@ -3,7 +3,7 @@
     "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
-    "textEditor": "Editor Visio",
+    "textEditor": "Vizualizator diagrame",
     "textEmail": "E-mail",
     "textPoweredBy": "Dezvoltat de",
     "textTel": "Tel",
@@ -205,9 +205,9 @@
       "textTitle": "Titlu",
       "textUploaded": "S-a încărcat",
       "textVersion": "Versiune",
-      "textVisioInfo": "Informații Visio",
-      "textVisioSettings": "Setări Visio",
-      "textVisioTitle": "Titlu Visio"
+      "textVisioInfo": "Informații Vizualizator diagrame",
+      "textVisioSettings": "Setări Vizualizator diagrame",
+      "textVisioTitle": "Titlu Vizualizator diagrame"
     }
   }
 }

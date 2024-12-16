@@ -133,6 +133,7 @@
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
             stopLoading = false;
         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);

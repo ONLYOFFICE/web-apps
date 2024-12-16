@@ -508,9 +508,9 @@ define([
             tipZoomFactor       : 'Magnification',
             txtPage             : 'Page',
             sheetIndexText      : 'Page {0} of {1}',
-            tipPrev             : 'Previous Page',
-            tipNext             : 'Next Page',
-            tipListOfSheets     : 'List of Page',
+            tipPrev             : 'Previous page',
+            tipNext             : 'Next page',
+            tipListOfSheets     : 'List of pages'
 
         }, VE.Views.Statusbar || {}));
     }
