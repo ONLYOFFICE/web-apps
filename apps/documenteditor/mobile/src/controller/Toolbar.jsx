@@ -227,14 +227,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const forceDesktopMode = () => {
-        console.log('forceDesktopMode')
-
-        f7.dialog.alert(
-            "app must be restarted to apply changes",
-            "warning",
-            () => {
-                Common.Gateway.requestForceDesktopMode(true, true);
-            });
+        f7.dialog.confirm(
+            t('Toolbar.warnForceDesktop'),
+            t('Main.notcriticalErrorTitle'),
+            () => Common.Gateway.requestForceDesktopMode(true, true),
+            () => Common.Gateway.requestForceDesktopMode(true, false));
     }
 
     const changeTitleHandler = () => {

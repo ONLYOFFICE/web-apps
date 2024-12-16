@@ -308,7 +308,7 @@ define([
                 Common.UI.info({
                     width: 500,
                     // title: this.notcriticalErrorTitle,
-                    msg: "app must be restarted to apply changes. restart now?",
+                    msg: "Editor must be restarted to apply settings. restart now?",
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: function(btn) {
