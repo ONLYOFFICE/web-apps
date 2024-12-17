@@ -3122,7 +3122,7 @@ define([
                     viewMode: 'normal'
                 },
                 {
-                    el: this.toolbar.btnChangbtnAddSlideMastereSlide ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
+                    el: this.toolbar.btnAddSlideMaster ? this.toolbar.btnAddSlideMaster.$el.closest('.group') : null,
                     tabs: ['home', 'design', 'ins'],
                     viewMode: 'master'
                 }
