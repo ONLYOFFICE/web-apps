@@ -470,7 +470,8 @@
     "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Ładowanie danych...",

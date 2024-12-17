@@ -2034,5 +2034,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
 }

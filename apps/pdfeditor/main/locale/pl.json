@@ -2034,5 +2034,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Dopasuj do strony",
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
 }
