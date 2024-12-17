@@ -227,7 +227,7 @@ define([], function () {
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
-                // this.documentHolder.createDelayedElementsPDFEditor();
+                this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
