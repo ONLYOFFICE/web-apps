@@ -456,6 +456,7 @@
     "errorUserDrop": "The file can't be accessed right now.",
     "errorUsersExceed": "The number of users allowed by the pricing plan was exceeded",
     "errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but you won't be able to download or print it until the connection is restored and the page is reloaded.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "notcriticalErrorTitle": "Warning",
     "openErrorText": "An error has occurred while opening the file",
     "saveErrorText": "An error has occurred while saving the file",

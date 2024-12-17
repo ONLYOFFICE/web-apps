@@ -2034,5 +2034,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Muat kepada Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
 }
