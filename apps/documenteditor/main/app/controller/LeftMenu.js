@@ -305,15 +305,7 @@ define([
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             case 'switch:mobile':
-                Common.UI.info({
-                    msg: this.warnSwitchMobile,
-                    buttons: [{value: 'yes', caption: this.btnRestartNow}, 'cancel'],
-                    primary: 'yes',
-                    callback: function(btn) {
-                        if ( btn == 'yes' )
-                            Common.Gateway.requestForceDesktopMode(false, true);
-                    }
-                });
+                Common.Gateway.requestForceDesktopMode(false, true);
                 break;
             default: close_menu = false;
             }
