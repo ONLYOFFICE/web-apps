@@ -1220,12 +1220,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -1233,7 +1232,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['Submit']:
                         title   = this.savingText;
