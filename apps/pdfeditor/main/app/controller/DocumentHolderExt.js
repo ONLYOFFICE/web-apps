@@ -68,7 +68,6 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
-                    this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -2323,10 +2322,6 @@ define([], function () {
                         break;
                 }
             }
-        };
-
-        dh.onCountPages = function(count) {
-            this.documentHolder && (this.documentHolder._pagesCount = count);
         };
 
         dh.onNewPage = function(item) {
