@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }

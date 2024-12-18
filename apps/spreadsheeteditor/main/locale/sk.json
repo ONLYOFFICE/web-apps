@@ -4537,5 +4537,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDir": "Default sheet direction",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetDirDesc": "This setting will affect only the new sheets",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetLtr": "Left-to-right",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSheetRtl": "Right-to-left"
 }
