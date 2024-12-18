@@ -305,7 +305,7 @@ define([
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             case 'switch:mobile':
-                Common.Gateway.requestForceDesktopMode(false, true);
+                Common.Gateway.switchEditorType('mobile', true);
                 break;
             default: close_menu = false;
             }

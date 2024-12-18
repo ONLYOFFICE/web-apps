@@ -236,7 +236,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                 },
                 {
                     text: t('Toolbar.btnRestart'),
-                    onClick: () => Common.Gateway.requestForceDesktopMode(true, true),
+                    onClick: () => Common.Gateway.switchEditorType('desktop', true),
                 }
             ]}
         ).open();

@@ -252,7 +252,7 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
-                        disableForceDesktop: false // hide or show UI option for using forceDesktop flag
+                        disableForceDesktop: false // hide or show UI option to switch editor in 'Desktop' type
                     },
                     submitForm: {
                         visible: true/false (default: true)
@@ -434,14 +434,10 @@
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
                     } else
-                    if (msg.event === 'onForceDesktopMode' && !handler) {
-                        const param = 'asc-mobile-force-desktop';
+                    if (msg.event === 'onSwitchEditorType' && !handler) {
                         if ( msg.data ) {
-                            if ( msg.data.force )
-                                localStorage.setItem(param, true);
-                            else
-                            if ( localStorage.getItem(param) !== null )
-                                localStorage.removeItem(param);
+                            if ( typeof msg.data.type == 'string' )
+                                localStorage.setItem('asc-force-editor-type', msg.data.type);
 
                             if ( msg.data.restart )
                                 window.location.reload();
@@ -1042,10 +1038,8 @@
                     config.editorConfig.customization.mobile.disableForceDesktop !== true )
             {
                 if ( isLocalStorageAvailable() ) {
-                    const f = localStorage.getItem('asc-mobile-force-desktop');
-                    if ( f === "true" ) {
-                        // !config.editorConfig.customization && (config.editorConfig.customization = {});
-                        // !config.editorConfig.customization.mobile && (config.editorConfig.customization.mobile = {});
+                    const f = localStorage.getItem('asc-force-editor-type');
+                    if ( f === 'desktop' ) {
                         config.editorConfig.forceDesktop = true;
                         return 'main';
                     }
