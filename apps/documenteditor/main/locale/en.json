@@ -869,7 +869,6 @@
   "DE.Controllers.LeftMenu.newDocumentTitle": "Unnamed document",
   "DE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",
   "DE.Controllers.LeftMenu.requestEditRightsText": "Requesting editing rights...",
-  "DE.Controllers.LeftMenu.btnRestartNow": "Restart now",
   "DE.Controllers.LeftMenu.textLoadHistory": "Loading version history...",
   "DE.Controllers.LeftMenu.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
