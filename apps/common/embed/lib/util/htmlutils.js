@@ -39,5 +39,4 @@ if ( isLangRtl(lang) ) {
 }
 document.body.setAttribute('applang', lang);
 
-window.isRtl = window.getComputedStyle(document.body).direction === 'rtl';
-window.dropdownClass = window.isRtl ? 'pull-left' : 'pull-right';
+window.isrtl = window.getComputedStyle(document.body).direction === 'rtl';
