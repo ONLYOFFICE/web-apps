@@ -470,7 +470,8 @@
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Məlumat yüklənir...",

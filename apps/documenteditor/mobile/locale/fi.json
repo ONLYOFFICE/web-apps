@@ -624,7 +624,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",

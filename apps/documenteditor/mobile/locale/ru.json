@@ -470,7 +470,8 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Загрузка данных...",

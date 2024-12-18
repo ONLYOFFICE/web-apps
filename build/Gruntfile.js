@@ -455,9 +455,9 @@ module.exports = function(grunt) {
                 localization: {
                     files: packageFile['main']['copy']['localization']
                 },
-                // help: {
-                //     files: packageFile['main']['copy']['help']
-                // },
+                help: {
+                    files: packageFile['main']['copy']['help']
+                },
                 indexhtml: {
                     files: packageFile['main']['copy']['indexhtml']
                 }

@@ -470,7 +470,8 @@
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
     "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "데이터로드 중 ...",

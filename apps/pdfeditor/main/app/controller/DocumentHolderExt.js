@@ -68,7 +68,6 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
-                    this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -227,7 +226,7 @@ define([], function () {
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
-                // this.documentHolder.createDelayedElementsPDFEditor();
+                this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
@@ -2323,10 +2322,6 @@ define([], function () {
                         break;
                 }
             }
-        };
-
-        dh.onCountPages = function(count) {
-            this.documentHolder && (this.documentHolder._pagesCount = count);
         };
 
         dh.onNewPage = function(item) {

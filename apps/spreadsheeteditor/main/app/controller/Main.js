@@ -1023,6 +1023,10 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
                 this.api.asc_SetSmoothScrolling(value);
 
+                value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
+                Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
+                this.api.asc_setDefaultDirection(value);
+
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(me.onActiveSheetChanged, me));
@@ -1125,9 +1129,7 @@ define([
                             me.onDocumentModifiedChanged(me.api.asc_isDocumentModified());
 
                             var formulasDlgController = application.getController('FormulaDialog');
-                            if (formulasDlgController) {
-                                formulasDlgController.setMode(me.appOptions).setApi(me.api);
-                            }
+                            formulasDlgController && formulasDlgController.setApi(me.api);
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
 
@@ -1137,7 +1139,7 @@ define([
                     }, 50);
                 } else {
                     var formulasDlgController = application.getController('FormulaDialog');
-                    formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
+                    formulasDlgController && formulasDlgController.setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
@@ -1655,6 +1657,9 @@ define([
 
                 var celleditorController = this.getApplication().getController('CellEditor');
                 celleditorController && celleditorController.setApi(this.api).setMode(this.appOptions);
+
+                var formulasDlgController = this.getApplication().getController('FormulaDialog');
+                formulasDlgController && formulasDlgController.setMode(this.appOptions).setApi(this.api, true);
             },
 
             applyModeEditorElements: function(prevmode) {

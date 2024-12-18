@@ -470,7 +470,8 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",

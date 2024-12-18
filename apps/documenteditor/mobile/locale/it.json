@@ -470,7 +470,8 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",

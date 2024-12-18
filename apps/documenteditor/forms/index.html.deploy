@@ -123,6 +123,12 @@
   </head>
 
   <body class="embed-body">
+        <script>
+            var userAgent = navigator.userAgent.toLowerCase(),
+                check = function(regex){ return regex.test(userAgent); },
+                isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
+        </script>
+
       <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
 
@@ -138,10 +144,7 @@
       </div>
 
        <script>
-            var  userAgent = navigator.userAgent.toLowerCase(),
-                check = function(regex){ return regex.test(userAgent); },
-                isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
-                stopLoading = false;
+            var stopLoading = false;
             if (isIEBrowser) {
                 var m = /msie (\d+\.\d+)/.exec(userAgent);
                 if (m && parseFloat(m[1]) < 10.0) {

@@ -97,13 +97,13 @@
         var create = function () {
             $searchBar = common.view.SearchBar.create();
             if (appConfig.toolbarDocked === 'bottom') {
-                if (window.isRtl) {
+                if (window.isrtl) {
                     $searchBar.css({'left': '45px', 'bottom': '31px'});
                 } else {
                     $searchBar.css({'right': '45px', 'bottom': '31px'});
                 }
             } else {
-                if (window.isRtl) {
+                if (window.isrtl) {
                     $searchBar.css({'left': '45px', 'top': '31px'});
                 } else {
                     $searchBar.css({'right': '45px', 'top': '31px'});

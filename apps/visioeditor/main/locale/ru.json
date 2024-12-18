@@ -388,7 +388,7 @@
   "VE.Views.LeftMenu.tipSearch": "Поиск",
   "VE.Views.LeftMenu.tipSupport": "Обратная связь и поддержка",
   "VE.Views.LeftMenu.txtDeveloper": "РЕЖИМ РАЗРАБОТЧИКА",
-  "VE.Views.LeftMenu.txtEditor": "Редактор Visio",
+  "VE.Views.LeftMenu.txtEditor": "Просмотрщик диаграмм",
   "VE.Views.LeftMenu.txtLimit": "Ограниченный доступ",
   "VE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
   "VE.Views.LeftMenu.txtTrialDev": "Пробный режим разработчика",
@@ -406,10 +406,16 @@
   "VE.Views.ViewTab.textInterfaceTheme": "Тема интерфейса",
   "VE.Views.ViewTab.textLeftMenu": "Левая панель",
   "VE.Views.ViewTab.textLine": "Линия",
+  "VE.Views.ViewTab.textRightMenu": "Правая панель",
   "VE.Views.ViewTab.textStatusBar": "Строка состояния",
   "VE.Views.ViewTab.textTabStyle": "Стиль вкладки",
   "VE.Views.ViewTab.textZoom": "Масштаб",
   "VE.Views.ViewTab.tipFitPage": "По размеру страницы",
   "VE.Views.ViewTab.tipFitWidth": "По ширине",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
+  "VE.Views.Statusbar.txtPage": "Page"
 }
