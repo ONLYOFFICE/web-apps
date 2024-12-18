@@ -92,16 +92,9 @@ define([], function () {
                     me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
                     me.api.asc_SetMathInputType(Common.localStorage.getBool("pe-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                 }
-                me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
-                Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
-                me.api.asc_registerCallback('asc_onTextLanguage',           _.bind(me.onTextLanguage, me));
-
                 me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(me.onShowForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onHideForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onFocusObject',            _.bind(me.onFocusObject, me));
-                me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
-                me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
-                me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
                 me.api.asc_registerCallback('onPluginContextMenu',          _.bind(me.onPluginContextMenu, me));
             }
         };
@@ -711,10 +704,6 @@ define([], function () {
                 this.slideNumDiv.hide();
         };
 
-        dh.onTextLanguage = function(langid) {
-            this.documentHolder._currLang.id = langid;
-        };
-
         dh.onSpellCheckVariantsFound = function() {
             var me = this;
             var selectedElements = me.api.getSelectedElements(true);
@@ -749,18 +738,6 @@ define([], function () {
                 }, 1);
 
             me._isFromSlideMenu = number;
-        };
-
-        dh.onApiUpdateThemeIndex = function(v) {
-            this._state.themeId = v;
-        };
-
-        dh.onApiLockDocumentTheme = function() {
-            this.documentHolder && (this.documentHolder._state.themeLock = true);
-        };
-
-        dh.onApiUnLockDocumentTheme = function() {
-            this.documentHolder && (this.documentHolder._state.themeLock = false);
         };
 
         dh.onShowSpecialPasteOptions = function(specialPasteShowOptions) {

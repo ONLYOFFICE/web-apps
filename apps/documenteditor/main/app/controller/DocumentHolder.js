@@ -189,7 +189,17 @@ define([
 
         setApi: function(o) {
             this.api = o;
-            this.api && this.documentHolder.setApi(this.api);
+            if (this.api) {
+                if (this.mode.isEdit === true) {
+                    this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
+                    this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
+                }
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(this.onTextLanguage, this));
+                this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
+                this.documentHolder.setApi(this.api);
+            }
 
             return this;
         },
@@ -586,7 +596,23 @@ define([
         },
 
         onMouseMove: function(moveData) {},
-        
+
+        onApiLockDocumentProps: function() {
+            this._state.lock_doc = true;
+        },
+
+        onApiUnLockDocumentProps: function() {
+            this._state.lock_doc = false;
+        },
+
+        onTextLanguage: function(langid) {
+            this.documentHolder._currLang.id = langid;
+        },
+
+        onApiParagraphStyleChange: function(name) {
+            window.currentStyleName = name;
+        },
+
         onCoAuthoringDisconnect: function() {
             this.mode.isEdit = false;
         },

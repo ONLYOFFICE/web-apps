@@ -69,8 +69,6 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(this.onSpellCheckVariantsFound, this));
                     this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                     this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
-                    this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
-                    this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                     this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                     this.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(this.onInsertImage, this));
@@ -78,11 +76,6 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',           _.bind(this.hideEyedropper, this));
                     this.api.asc_SetMathInputType(Common.localStorage.getBool("de-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
                 }
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
-                Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(this.onTextLanguage, this));
-                this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
-
                 this.api.asc_registerCallback('asc_onShowForeignCursorLabel',       _.bind(this.onShowForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onHideForeignCursorLabel',       _.bind(this.onHideForeignCursorLabel, this));
                 this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(this.onFocusObject, this));
@@ -1026,10 +1019,6 @@ define([], function () {
             }
         };
 
-        dh.onApiParagraphStyleChange = function(name) {
-            window.currentStyleName = name;
-        };
-
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
@@ -1339,18 +1328,6 @@ define([], function () {
             if (data && data._urls && data.c=='control') {
                 this.setImageUrl(data._urls[0], data.token);
             }
-        };
-
-        dh.onApiLockDocumentProps = function() {
-            this._state.lock_doc = true;
-        };
-
-        dh.onApiUnLockDocumentProps = function() {
-            this._state.lock_doc = false;
-        };
-
-        dh.onTextLanguage = function(langid) {
-            this.documentHolder._currLang.id = langid;
         };
 
         dh.onSpellCheckVariantsFound = function() {

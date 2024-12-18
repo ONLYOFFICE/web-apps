@@ -203,6 +203,12 @@ define([
             if (me.api) {
                 me.api.asc_registerCallback('asc_onCountPages',         _.bind(me.onApiCountPages, me));
                 me.api.asc_registerCallback('asc_onStartDemonstration',     _.bind(me.onApiStartDemonstration, me));
+                me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
+                me.api.asc_registerCallback('asc_onTextLanguage',           _.bind(me.onTextLanguage, me));
+                me.api.asc_registerCallback('asc_onUpdateThemeIndex',       _.bind(me.onApiUpdateThemeIndex, me));
+                me.api.asc_registerCallback('asc_onLockDocumentTheme',      _.bind(me.onApiLockDocumentTheme, me));
+                me.api.asc_registerCallback('asc_onUnLockDocumentTheme',    _.bind(me.onApiUnLockDocumentTheme, me));
                 me.documentHolder.slidesCount = me.api.getCountPages();
                 me.documentHolder.setApi(me.api);
             }
@@ -645,6 +651,22 @@ define([
 
         onApiCountPages: function(count) {
             this.documentHolder.slidesCount = count;
+        },
+
+        onTextLanguage: function(langid) {
+            this.documentHolder._currLang.id = langid;
+        },
+
+        onApiUpdateThemeIndex: function(v) {
+            this._state.themeId = v;
+        },
+
+        onApiLockDocumentTheme: function() {
+            this.documentHolder && (this.documentHolder._state.themeLock = true);
+        },
+
+        onApiUnLockDocumentTheme: function() {
+            this.documentHolder && (this.documentHolder._state.themeLock = false);
         },
 
         onKeyUp: function (e) {

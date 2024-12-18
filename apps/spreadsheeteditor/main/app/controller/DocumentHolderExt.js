@@ -67,14 +67,11 @@ define([], function () {
 //            this.api.asc_registerCallback('asc_onShowComment',          this.wrapEvents.apiShowComment);
                 /** coauthoring end **/
                 this.api.asc_registerCallback('asc_onHyperlinkClick',       _.bind(this.onApiHyperlinkClick, this));
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-                Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
 
                 if (this.permissions.isEdit===true) {
                     this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiAutofilter, this));
                     this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
-                    this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
                     this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
                     this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
                     this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onApiFormulaCompleteMenu, this));
@@ -3640,10 +3637,6 @@ define([], function () {
         dh.onApiEditCell = function(state) {
             this.isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
             this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
-        };
-
-        dh.onLockDefNameManager = function(state) {
-            this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         };
 
         dh.onChangeCropState = function(state) {

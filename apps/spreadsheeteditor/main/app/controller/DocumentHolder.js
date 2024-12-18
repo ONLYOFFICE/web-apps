@@ -207,6 +207,12 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.permissions && (this.permissions.isEdit===true) && this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
+
+            }
             return this;
         },
 
@@ -228,6 +234,10 @@ define([
 
         onApiCoAuthoringDisconnect: function() {
             this.permissions.isEdit = false;
+        },
+
+        onLockDefNameManager: function(state) {
+            this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
         },
 
         hideCoAuthTips: function() {
