@@ -169,8 +169,8 @@ VE.ApplicationController = new(function(){
 
     function updateRtl() {
         var $container = $('#pages-container');
-        $container.toggleClass('rtl-sheet', window.isRtl);
-        $container.attr({dir: window.isRtl ? 'rtl' : 'ltr'});
+        $container.toggleClass('rtl-sheet', window.isrtl);
+        $container.attr({dir: window.isrtl ? 'rtl' : 'ltr'});
     }
 
     function setActivePage(index) {
@@ -220,7 +220,7 @@ VE.ApplicationController = new(function(){
         var $prevButton = $('#pages-list-button-prev');
         var $nextButton = $('#pages-list-button-next');
         var $box = $('#id-pages');
-        var rtlPage = window.isRtl;
+        var rtlPage = window.isrtl;
 
         var handleScrollButtonsState = function() {
             if ($container[0].scrollWidth > $container[0].clientWidth) {
