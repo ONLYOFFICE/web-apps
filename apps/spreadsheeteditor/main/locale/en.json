@@ -3412,6 +3412,8 @@
   "SSE.Views.PivotTable.tipRefresh": "Update the information from data source",
   "SSE.Views.PivotTable.tipRefreshCurrent": "Update the information from data source for the current table",
   "SSE.Views.PivotTable.tipSelect": "Select entire pivot table",
+  "SSE.Views.PivotTable.txtCalculatedItems": "Calculated Items",
+  "SSE.Views.PivotTable.tipCalculatedItems": "Calculated items",
   "SSE.Views.PivotTable.tipSubtotals": "Show or hide subtotals",
   "SSE.Views.PivotTable.txtCollapseEntire": "Collapse Entire Field",
   "SSE.Views.PivotTable.txtCreate": "Insert Table",
@@ -4507,5 +4509,20 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
+  "SSE.Views.PivotCalculatedItemsDialog.txtTitle": "Calculated Items in",
+  "SSE.Views.PivotCalculatedItemsDialog.txtNew": "New",
+  "SSE.Views.PivotCalculatedItemsDialog.txtDuplicate": "Duplicate",
+  "SSE.Views.PivotCalculatedItemsDialog.txtEdit": "Edit",
+  "SSE.Views.PivotCalculatedItemsDialog.txtDelete": "Delete",
+  "SSE.Views.PivotCalculatedItemsDialog.txtItemsName": "Items Name",
+  "SSE.Views.PivotCalculatedItemsDialog.txtFormula": "Formula",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtTitle": "Insert Calculated Item in",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtItemName": "Item name",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtItem": "Item",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtFormula": "Formula",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtItems": "Items",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtDescription": "You can use Calculated Items for basic calculations between different items within a single field",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtReadMore": "Read more",
+  "SSE.Views.PivotInsertCalculatedItemDialog.txtInsertIntoFormula": "Insert into formula"
+
 }
