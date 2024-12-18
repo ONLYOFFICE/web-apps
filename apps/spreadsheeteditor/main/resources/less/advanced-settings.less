@@ -698,12 +698,14 @@
     }
     #pivot-insert-calculated-description {
         margin-top: 8px;
-        color: @text-secondary-ie;
-        color: @text-secondary;
-        a {
-            color: @text-secondary-ie; 
-            color: @text-secondary; 
-            text-decoration: underline;
+        
+        label {
+            display: inline;
+            opacity: 0.7;
+        }
+
+        #pivot-insert-calculated-help:hover {
+            opacity: 1;
         }
     }
     #pivot-insert-calculated-items-list {
@@ -728,6 +730,7 @@
                     &:hover {
                         background-color: @highlight-button-pressed-hover-ie;
                         background-color: @highlight-button-pressed-hover;
+                        background-position-x: @button-small-active-icon-offset-x;
                     }
                 }
             }

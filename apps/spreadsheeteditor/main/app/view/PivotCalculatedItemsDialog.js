@@ -78,6 +78,8 @@ define([
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
+            var me = this;
+
             this.btnNew = new Common.UI.Button({
                 el: $('#pivot-calculated-btn-new')
             }).on('click', _.bind(this.onEditItem, this, false, false));
@@ -123,7 +125,9 @@ define([
                 this.itemsList.selectRecord(this.itemsList.store.at(0));
             }
             else {
-                this.onEditItem(false, true);
+                setTimeout(function() {
+                    me.onEditItem(false, true);
+                }, 0);
             }
         },
 

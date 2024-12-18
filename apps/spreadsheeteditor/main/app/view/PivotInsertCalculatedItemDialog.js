@@ -59,6 +59,8 @@ define([
             this.handler        = options.handler;
             this.getWarningMessage = options.getWarningMessage;
 
+            this.helpUrl = null;
+
             this.pivotInfo = this.api.asc_getPivotInfo().pivot;
             this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
             
@@ -81,8 +83,8 @@ define([
                         '<div id="pivot-insert-calculated-items-list"></div>',
                     '</div>',
                     '<div id="pivot-insert-calculated-description">',
-                        '<%= scope.txtDescription %> ',
-                        '<a href="#" target="_blank"><%= scope.txtReadMore %></a>',
+                        '<label><%= scope.txtDescription %> </label>',
+                        '<label id="pivot-insert-calculated-help" class="link"><%= scope.txtReadMore %></label>',
                     '</div>'
                 ].join(''))({scope: this})
             }, options);
@@ -92,8 +94,6 @@ define([
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
-
-            var me = this;
 
             this.itemsList = new Common.UI.ListView({
                 el: $('#pivot-insert-calculated-items-list'),
@@ -113,6 +113,7 @@ define([
             this.itemsList.on('entervalue', _.bind(this.onEnterValueItemsList, this));
             this.itemsList.on('item:click', _.bind(this.onClickItemsList, this));
             this.itemsList.on('item:dblclick', _.bind(this.onDblClickItemsList, this));
+            this.addTooltipItemsList();
 
             this.inputName = new Common.UI.InputField({
                 el : $('#pivot-insert-calculated-input-name'),
@@ -129,6 +130,8 @@ define([
                 validateOnBlur: false,
                 hideErrorOnInput: true
             });
+
+            this.$window.find('#pivot-insert-calculated-help').on('click', _.bind(this.showHelp, this));                
         },
 
         getNewItemName: function() {
@@ -223,6 +226,77 @@ define([
             this.close();
         },
 
+        addTooltipItemsList: function () {
+            var me = this;
+            this.itemsList.dataViewItems.forEach(function(itemView) {
+                if (itemView.tipsArray) {
+                    view.tipsArray.forEach(function(item){
+                        item.remove();
+                    });
+                }
+    
+                var arr = [],
+                    btns = $(itemView.el).find('.list-item-icon');
+                btns.tooltip({
+                    title: me.txtInsertIntoFormula, 
+                    placement: 'cursor',
+                    zIndex : me.itemsList.tipZIndex
+                });
+                btns.each(function(idx, item){
+                    arr.push($(item).data('bs.tooltip').tip());
+                });
+                itemView.tipsArray = arr;
+            });
+        },
+
+        showHelp: function() {
+            if (this.helpUrl==undefined) {
+                var lang = Common.Locale.getCurrentLanguage();
+                lang = lang ? lang.split(/[\-\_]/)[0] : 'en';
+
+                var me = this,
+                    name = '/UsageInstructions/PivotTables.htm',
+                    url = 'resources/help/' + lang + name;
+
+                if ( Common.Controllers.Desktop.isActive() ) {
+                    if ( Common.Controllers.Desktop.isHelpAvailable() )
+                        url = Common.Controllers.Desktop.helpUrl() + name;
+                    else {
+                        const helpCenter = Common.Utils.InternalSettings.get('url-help-center');
+                        if ( helpCenter ) {
+                            const _url_obj = new URL(helpCenter);
+                            if ( !!_url_obj.searchParams )
+                                _url_obj.searchParams.set('function', func);
+
+                            window.open(_url_obj.toString(), '_blank');
+                        }
+
+                        me.helpUrl = null;
+                        return;
+                    }
+                }
+
+                fetch(url).then(function(response){
+                    if ( response.ok ) {
+                        me.helpUrl = url;
+                        me.showHelp();
+                    } else {
+                        url = 'resources/help/' + '{{DEFAULT_LANG}}' + name;
+                        fetch(url).then(function(response){
+                            if ( response.ok ) {
+                                me.helpUrl = url;
+                                me.showHelp();
+                            } else {
+                                me.helpUrl = null;
+                            }
+                        });
+                    }
+                });
+            } else if (this.helpUrl) {
+                window.open(this.helpUrl);
+            }
+        },
+
         getConvertedFormula: function(formula) {
             var formulaTrim = formula.trim();
             var convertedFormula; 
@@ -254,5 +328,6 @@ define([
         txtItems: 'Items',
         txtDescription: 'You can use Calculated Items for basic calculations between different items within a single field',
         txtReadMore: 'Read more',
+        txtInsertIntoFormula: 'Insert into formula'
     }, SSE.Views.PivotInsertCalculatedItemDialog || {}))
 });

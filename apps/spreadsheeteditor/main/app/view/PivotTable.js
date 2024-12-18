@@ -68,6 +68,7 @@ define([
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-calculated-items" class="btn-slot text x-huge"></span>' +
                 '</div>' +
