@@ -167,13 +167,10 @@ define([
 
         setApi: function(o) {
             this.api = o;
-
             if (this.api) {
                 (this.mode.isEdit === true) && this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
-
                 this.documentHolder.setApi(this.api);
             }
-
             return this;
         },
 

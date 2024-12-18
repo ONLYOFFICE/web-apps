@@ -216,6 +216,7 @@ define([], function () {
             me.mnuGuides = new Common.UI.MenuItem({
                 caption     : me.textGuides,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGuides, value: 'show', checkable: true },
@@ -232,6 +233,7 @@ define([], function () {
             me.mnuGridlines = new Common.UI.MenuItem({
                 caption     : me.textGridlines,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGridlines, value: 'show', checkable: true },
