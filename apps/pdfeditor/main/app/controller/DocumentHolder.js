@@ -169,6 +169,8 @@ define([
             this.api = o;
 
             if (this.api) {
+                (this.mode.isEdit === true) && this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
+
                 this.documentHolder.setApi(this.api);
             }
 
@@ -559,6 +561,10 @@ define([
                     item && item.isFromBar && this.api.SetShowTextSelectPanel(false);
                 }
             }
+        },
+
+        onCountPages: function(count) {
+            this.documentHolder && (this.documentHolder._pagesCount = count);
         },
 
         onDialogAddHyperlink: function() {},
