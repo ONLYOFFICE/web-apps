@@ -139,8 +139,8 @@ define([
             return this.itemsList;
         },
 
-        setSettings() {
-            this.pivotInfo = this.api.asc_getPivotInfo().pivot;
+        setSettings: function() {
+            this.pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo();
             this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
             this.itemsObject = this.pivotInfo.asc_getItemsObjectWithFormulas(this.pivotFieldIndex);
 

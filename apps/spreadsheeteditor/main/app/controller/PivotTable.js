@@ -198,8 +198,7 @@ define([
 
         onCalculatedClick: function(btn, opts){
             var me = this;
-            var pivotContextMenu = this.api.asc_getPivotInfo();
-            var pivotInfo = pivotContextMenu.pivot;
+            var pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo();
             var pivotFieldIndex = pivotInfo.asc_getFieldIndexByActiveCell();
             var error = pivotInfo.asc_hasTablesErrorForCalculatedItems(pivotFieldIndex);
             

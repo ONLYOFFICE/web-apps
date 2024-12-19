@@ -61,7 +61,7 @@ define([
 
             this.helpUrl = null;
 
-            this.pivotInfo = this.api.asc_getPivotInfo().pivot;
+            this.pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo();
             this.pivotFieldIndex = this.pivotInfo.asc_getFieldIndexByActiveCell();
             
             var fieldTitle = this.pivotInfo.asc_getCacheFields()[this.pivotFieldIndex].asc_getName();
