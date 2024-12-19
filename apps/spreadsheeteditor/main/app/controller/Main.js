@@ -1365,6 +1365,8 @@ define([
                 if (options.header) {
                     if (options.header.search)
                         this.headerView && this.headerView.lockHeaderBtns('search', disable);
+                    this.headerView && this.headerView.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    this.headerView && this.headerView.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
 
                 if (prev_options) {
