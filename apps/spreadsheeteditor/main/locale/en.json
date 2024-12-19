@@ -1010,6 +1010,8 @@
   "SSE.Controllers.Main.errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
   "SSE.Controllers.Main.errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet.<br>To make a change, unprotect the sheet. You might be requested to enter a password.",
   "SSE.Controllers.Main.errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+  "SSE.Controllers.Main.errorCalculatedItemInPageField": "The item cannot be added or modified. PivotTable report has this field in Filters.",
+  "SSE.Controllers.Main.errorNotUniqueFieldWithCalculated": "If one or more PivotTable have calculated items, no fields can be used in data area two or more times, or in the data area and another area at the same time.",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
   "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "SSE.Controllers.Main.errorConvertXml": "The file has an unsupported format.<br>Only XML Spreadsheet 2003 format can be used.",

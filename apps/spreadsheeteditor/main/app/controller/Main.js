@@ -2226,6 +2226,14 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.CalculatedItemInPageField:
+                        config.msg = this.errorCalculatedItemInPageField;
+                        break;
+
+                    case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
+                        config.msg = this.errorNotUniqueFieldWithCalculated;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
