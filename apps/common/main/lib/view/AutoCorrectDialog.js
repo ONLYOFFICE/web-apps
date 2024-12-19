@@ -93,6 +93,9 @@ define([
 
             this.arrAddExceptions = {};
             this.arrRemExceptions = {};
+
+            if (this.api)
+                _exciptionsLangs = this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().get_DefaultLangs() || [];
             _exciptionsLangs.forEach(function(lang) {
                 path = me.appPrefix + "settings-letter-exception";
                 
@@ -347,6 +350,7 @@ define([
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
                     data        : _exciptionsLangs.map(function(lang){
+                        lang = parseInt(lang);
                         var langName = Common.util.LanguageInfo.getLocalLanguageName(lang);
                         return { 
                             displayValue: langName[1], 
