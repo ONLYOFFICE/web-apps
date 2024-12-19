@@ -42,13 +42,15 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
-            if (/huge/.test(this.options.cls) &&  this.options.split === true && !this.options.hideColorLine) {
+            // options.colorLine: true/false/'line'/'box'
+            var colorLineCls = this.options.colorLine==='box' ? 'btn-color-value-box' : 'btn-color-value-line';
+            if (/huge/.test(this.options.cls) &&  this.options.split === true && (this.options.colorLine!==false)) {
                 var btnEl = $('button', this.cmpEl),
                     btnMenuEl = $(btnEl[1]);
-                btnMenuEl && btnMenuEl.append( $('<div class="btn-color-value-line"></div>'));
-            } else if (!this.options.hideColorLine)
-                $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
-            this.colorEl = this.cmpEl.find('.btn-color-value-line');
+                btnMenuEl && btnMenuEl.append( $('<div class="' + colorLineCls + '"></div>'));
+            } else if ((this.options.colorLine!==false))
+                $('button:first-child', this.cmpEl).append( $('<div class="' + colorLineCls + '"></div>'));
+            this.colorEl = this.cmpEl.find('.' + colorLineCls);
 
             if (this.options.auto)
                 this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
@@ -178,7 +180,7 @@ define([
 
             if (this.colorEl) {
                 this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
-                this.colorEl.toggleClass('bordered', color=='transparent');
+                this.colorEl.toggleClass('bordered', color=='transparent' || this.options.colorLine==='box');
             }
         },
 

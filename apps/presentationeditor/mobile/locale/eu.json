@@ -232,6 +232,7 @@
     "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
   "LongActions": {
@@ -537,7 +538,6 @@
       "textReplace": "Ordeztu",
       "textReplaceAll": "Ordeztu guztia",
       "textRestartApplication": "Mesedez berrabiarazi aplikazioa aldaketek eragina izan dezaten",
-      "textRTL": "Esk.-Ezk.",
       "textSameAsSystem": "Sistemako berdina",
       "textSearch": "Bilatu",
       "textSettings": "Ezarpenak",
@@ -552,9 +552,7 @@
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
       "textVersionHistory": "Bertsioen historia",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
   }
 }

@@ -473,7 +473,9 @@
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
-    "textOk": "OK"
+    "textOk": "OK",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -844,6 +846,7 @@
     "textRenameFile": "Rename File",
     "textEnterNewFileName": "Enter a new file name",
     "textCloseHistory": "Close History",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

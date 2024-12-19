@@ -367,10 +367,11 @@
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
     "uploadImageSizeMessage": "අනුරුව ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
-    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "මුරපදය",
@@ -753,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "දැනුම්දීමකින් තොරව සියළු සාර්ව සබල කරන්න",
       "textEncoding": "ආකේතනය",
       "textExample": "උදාහරණය",
-      "textExplanationChangeDirection": "RTL අතුරුමුහුණත සක්‍රියනය සඳහා යෙදුම නැවත ආරම්භ කෙරේ",
       "textFeedback": "ප්‍රතිපෝෂණය සහ සහාය",
       "textFind": "හොයන්න",
       "textFindAndReplace": "සොයා ප්‍රතිස්ථාපනය",
@@ -795,7 +795,6 @@
       "textRestartApplication": "වෙනස්කම් යෙදීමට කරුණාකර යෙදුම නැවත අරඹන්න",
       "textRight": "දකුණ",
       "textRightToLeft": "දකුණෙන් වමට",
-      "textRtlInterface": "RTL අතුරුමුහුණත",
       "textSameAsSystem": "පද්ධතියේ ලෙසම",
       "textSearch": "සොයන්න",
       "textSearchBy": "සොයන්න",

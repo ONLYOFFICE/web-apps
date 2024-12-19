@@ -232,6 +232,7 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
   "LongActions": {
@@ -512,7 +513,6 @@
       "textEmail": "correu electrònic:",
       "textEnableAll": "Habilitar-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense notificació",
-      "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
       "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cercar",
       "textFindAndReplace": "Cercar i substituir",
@@ -538,8 +538,6 @@
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir-ho tot ",
       "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
-      "textRTL": "De dreta a esquerra",
-      "textRtlInterface": "Interfície RTL",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Cercar",
       "textSettings": "Configuració",

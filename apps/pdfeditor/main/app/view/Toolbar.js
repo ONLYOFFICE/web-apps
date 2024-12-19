@@ -94,7 +94,8 @@ define([
         inSmartartInternal: 'in-smartart-internal',
         inEquation: 'in-equation',
         inAnnotation: 'in-annotation',
-        singlePage: 'single-page'
+        singlePage: 'single-page',
+        cantMergeShape: 'merge-shape-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -735,6 +736,49 @@ define([
                 this.shapeControls.push(this.btnShapeArrange);
                 arr.push(this.btnShapeArrange);
 
+                this.btnShapesMerge = new Common.UI.Button({
+                    id: 'id-toolbar-btn-merge-shapes',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-combine-shapes',
+                    lock: [_set.shapeLock, _set.lostConnect, _set.noDrawingObjects, _set.disableOnStart, _set.cantMergeShape],
+                    menu: new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            {
+                                caption: this.textShapesUnion, 
+                                iconCls: 'menu__icon btn-union-shapes',
+                                value: 'unite',
+                            },
+                            {
+                                caption: this.textShapesCombine, 
+                                iconCls: 'menu__icon btn-combine-shapes',
+                                value: 'exclude',
+                            },
+                            {
+                                caption: this.textShapesFragment, 
+                                iconCls: 'menu__icon btn-fragment-shapes',
+                                value: 'divide',
+                            },
+                            {
+                                caption: this.textShapesIntersect, 
+                                iconCls: 'menu__icon btn-intersect-shapes',
+                                value: 'intersect',
+                            },
+                            {
+                                caption: this.textShapesSubstract, 
+                                iconCls: 'menu__icon btn-substract-shapes',
+                                value: 'subtract',
+                            },
+                        ]
+                    }),
+                    action: 'object-merge',
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -6'
+                });
+                this.shapeControls.push(this.btnShapesMerge);
+                arr.push(this.btnShapesMerge);
+
                 this.btnDelPage = new Common.UI.Button({
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -847,7 +891,7 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
-                        hideColorLine: true,
+                        colorLine: false,
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
@@ -865,7 +909,7 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
-                        hideColorLine: true,
+                        colorLine: false,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
@@ -1286,6 +1330,7 @@ define([
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
 
@@ -1523,6 +1568,7 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
+                this.btnShapesMerge.updateHint(this.tipShapeMerge);
                 this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(

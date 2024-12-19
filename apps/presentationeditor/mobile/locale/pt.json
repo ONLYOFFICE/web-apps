@@ -157,6 +157,7 @@
       "textNo": "Não",
       "textNoLicenseTitle": "Limite de licença atingido",
       "textNoMatches": "Nenhuma correspondência",
+      "textOk": "OK",
       "textOpenFile": "Inserir a Senha para Abrir o Arquivo",
       "textPaidFeature": "Recurso pago",
       "textRemember": "Lembrar minha escolha",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
       "warnNoLicense": "Você atingiu o limite de conexões simultâneas para% 1 editores. Este documento será aberto apenas para visualização. Contate a equipe de vendas% 1 para termos de atualização pessoal.",
       "warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
-      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Descritor de chave desconhecido",
     "errorKeyExpire": "Descritor de chave expirado",
     "errorLoadingFont": "As fontes não foram carregadas. <br> Entre em contato com o administrador do Document Server.",
+    "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -228,11 +229,11 @@
     "splitDividerErrorText": "O número de linhas deve ser um divisor de %1",
     "splitMaxColsErrorText": "O número de colunas deve ser inferior a %1",
     "splitMaxRowsErrorText": "O número de linhas deve ser inferior a %1",
+    "textOk": "OK",
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -513,7 +514,6 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Habilitar todos",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
-      "textExplanationChangeDirection": "O aplicativo será reiniciado para ativação da interface RTL",
       "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
@@ -539,8 +539,6 @@
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
-      "textRTL": "Da direita para esquerda",
-      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",

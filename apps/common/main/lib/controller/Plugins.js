@@ -111,8 +111,8 @@ define([
 
             this._moveOffset = {x:0, y:0};
             this.autostart = [];
+            this.startOnPostLoad = false;
             this.customPluginsDlg = [];
-            this.macrosPlugin = {el: null, show: false};
 
             this.newInstalledBackgroundPlugins = [];
             this.customButtonsArr = [];
@@ -124,18 +124,19 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
             Common.NotificationCenter.on('modal:close', this.onModalClose.bind(this));
+            Common.NotificationCenter.on('script:loaded', this.onPostLoadComplete.bind(this));
         },
 
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
         loadPlugins: function() {
             this.configPlugins.plugins =
-            this.serverPlugins.plugins = false;
+            this.serverPlugins.plugins = undefined;
 
             if (this.configPlugins.config) {
                 this.getPlugins(this.configPlugins.config.pluginsData)
@@ -149,7 +150,8 @@ define([
 
                 if (this.configPlugins.config.options)
                     this.api.setPluginsOptions(this.configPlugins.config.options);
-            }
+            } else
+                this.configPlugins.plugins = false;
 
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
                 var server_plugins_url = '../../../../plugins.json',
@@ -165,7 +167,8 @@ define([
                             .catch(function (err) {
                                 me.serverPlugins.plugins = false;
                             });
-                    }
+                    } else
+                        me.serverPlugins.plugins = false;
                 });
             }
         },
@@ -179,10 +182,6 @@ define([
                 accept();
             })).then(function(){
                 me.onChangeProtectDocument();
-                Common.UI.TooltipManager.addTips({
-                    'moveMacros' : {name: 'help-tip-move-macros', placement: 'bottom-right', text: me.helpMoveMacros, header: me.helpMoveMacrosHeader, target: $('li.ribtab #view').parent(), automove: true}
-                });
-
                 Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             });
         },
@@ -419,7 +418,6 @@ define([
                 me.toolbar && me.toolbar.addCustomControls({action: item.tab}, undefined, [item.btn])
             });
             me.customButtonsArr = [];
-            me.macrosPlugin = {};
 
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
@@ -445,16 +443,6 @@ define([
                             btn.options.separator = tab.separator;
                             me.toolbar && me.toolbar.addCustomControls(tab, [btn]);
                             me.customButtonsArr.push({tab: tab.action, btn: btn});
-                            if (model.get('guid') === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
-                                me.macrosPlugin.el = btn.cmpEl;
-                                if (me.toolbar && me.toolbar.isTabActive('plugins')) {
-                                    me.macrosPlugin.show = true;
-                                    Common.UI.TooltipManager.addTips({
-                                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: me.helpUseMacros, header: me.helpUseMacrosHeader, target: me.macrosPlugin.el, automove: true},
-                                    });
-                                    Common.UI.TooltipManager.removeTip('grayTheme');
-                                }
-                            }
                         }
                         return;
                     }
@@ -673,10 +661,6 @@ define([
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
-            if (plugin.get_Guid() === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}" ) {
-                Common.UI.TooltipManager.closeTip('useMacros');
-            }
-
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
@@ -945,10 +929,11 @@ define([
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
                         if (item.guid === "asc.{E6978D28-0441-4BD7-8346-82FAD68BCA3B}") {
-                            item.tab = {
-                                "id": "view",
-                                "separator": true
-                            }
+                            // item.tab = {
+                            //     "id": "view",
+                            //     "separator": true
+                            // }
+                            return; // hide macros plugin
                         }
 
                         var props = {
@@ -1008,7 +993,8 @@ define([
 
             if (this.appOptions.canPlugins) {
                 this.refreshPluginsList();
-                this.runAutoStartPlugins();
+                this.startOnPostLoad = !Common.Controllers.LaunchController.isScriptLoaded();
+                !this.startOnPostLoad && this.runAutoStartPlugins();
             }
         },
 
@@ -1351,24 +1337,13 @@ define([
                 }, this);
                 this.backgroundPluginsTip.show();
             }
-            this.macrosPlugin.show && Common.UI.TooltipManager.showTip('moveMacros');
-            this.macrosPlugin.show = false;
         },
 
         onActiveTab: function (tab) {
             if (tab === 'plugins') {
-                if (this.macrosPlugin.el) {
-                    Common.UI.TooltipManager.addTips({
-                        'useMacros' : {name: 'help-tip-use-macros', placement: 'bottom-left', text: this.helpUseMacros, header: this.helpUseMacrosHeader, target: this.macrosPlugin.el, automove: true},
-                    });
-                    Common.UI.TooltipManager.removeTip('grayTheme');
-                    this.macrosPlugin.el && Common.UI.TooltipManager.showTip('moveMacros');
-                }
             } else {
                 this.closeBackPluginsTip();
-                Common.UI.TooltipManager.closeTip('moveMacros');
             }
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('useMacros') : Common.UI.TooltipManager.closeTip('useMacros');
         },
 
         closeBackPluginsTip: function() {
@@ -1377,6 +1352,10 @@ define([
                 this.backgroundPluginsTip = undefined;
                 this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
             }
+        },
+
+        onPostLoadComplete: function() {
+            this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
         textRunPlugin: 'Run plugin',

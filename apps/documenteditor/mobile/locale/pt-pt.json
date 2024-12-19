@@ -469,7 +469,9 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
-    "textOk": "OK"
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -797,9 +799,7 @@
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
     "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
-    "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
@@ -812,6 +812,7 @@
     "textRenameFile": "Mudar nome do ficheiro",
     "textSwitchedMobileView": "Alterado para vista móvel",
     "textSwitchedStandardView": "Alterado para a vista predefinida",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
     "btnSend": "Send"
   }
 }

@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Η συγχώνευση απέτυχε.",
     "errorNoTOC": "Δεν υπάρχει πίνακας περιεχομένων για ενημέρωση. Μπορείτε να εισαγάγετε ένα από την καρτέλα Αναφορές.",
     "errorPasswordIsNotCorrect": "Ο κωδικός πρόσβασης που δώσατε δεν είναι σωστός. Βεβαιωθείτε ότι το πλήκτρο CAPS LOCK είναι απενεργοποιημένο και βεβαιωθείτε ότι χρησιμοποιείτε τη σωστή χρήση πεζών-κεφαλαίων.",
+    "errorSaveWatermark": "Αυτό το αρχείο περιέχει μια εικόνα υδατογραφήματος συνδεδεμένη με άλλο τομέα.<br>Για να γίνει ορατή σε PDF, ενημερώστε την εικόνα υδατογραφήματος ώστε να συνδέεται από τον ίδιο τομέα με το έγγραφό σας ή ανεβάστε την από τον υπολογιστή σας.",
     "errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionIdle": "Το έγγραφο δεν τροποποιήθηκε για μεγάλο χρονικό διάστημα. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionToken": "Η σύνδεση με τον εξυπηρετητή διακόπηκε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
@@ -469,7 +470,8 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
     "textEncoding": "Κωδικοποίηση",
     "textEncryptFile": "Κρυπτογράφηση Αρχείου",
-    "textExplanationChangeDirection": "Η εφαρμογή θα επανεκκινηθεί για ενεργοποίηση διεπαφής RTL",
     "textExport": "Εξαγωγή",
     "textExportAs": "Εξαγωγή ως",
     "textFastWV": "Γρήγορη Προβολή Δικτύου",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
     "textRight": "Δεξιά",
     "textRightToLeft": "Δεξιά προς αριστερά",
-    "textRtlInterface": "Διεπαφή RTL",
     "textSameAsSystem": "Ίδιο με το σύστημα",
     "textSave": "Αποθήκευση",
     "textSearch": "Εύρεση",
@@ -812,6 +812,7 @@
     "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
-    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή"
+    "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
+    "warnEmptyRequiredField": "Συμπληρώστε όλα τα απαιτούμενα πεδία για την αποστολή της φόρμας."
   }
 }

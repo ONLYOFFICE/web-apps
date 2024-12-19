@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
     "errorNoTOC": "Es gibt kein Inhaltsverzeichnis. Sie können es auf der Registerkarte \"Verweise\" einfügen.",
     "errorPasswordIsNotCorrect": "Das von Ihnen eingegebene Passwort ist nicht korrekt. Vergewissern Sie sich, dass die CAPS LOCK-Taste ausgeschaltet ist, und achten Sie auf die richtige Großschreibung.",
+    "errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "Die Anzahl der Zeilen muss einen Divisor von %1 sein. ",
     "splitMaxColsErrorText": "Spaltenanzahl muss weniger als %1 sein",
     "splitMaxRowsErrorText": "Die Anzahl der Zeilen muss weniger als %1 sein",
+    "textOk": "OK",
     "unknownErrorText": "Unbekannter Fehler.",
     "uploadDocExtMessage": "Unbekanntes Dokument Format.",
     "uploadDocFileCountMessage": "Keine Dokumente hochgeladen.",
@@ -469,7 +471,7 @@
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
     "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "textOk": "OK"
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
     "textEncoding": "Codierung ",
     "textEncryptFile": "Datei verschlüsseln",
-    "textExplanationChangeDirection": "Die Anwendung wird für die Aktivierung der RTL-Schnittstelle neu gestartet",
     "textExport": "Export",
     "textExportAs": "Exportieren als",
     "textFastWV": "Schnelle Web-Anzeige",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
     "textRight": "Rechts",
     "textRightToLeft": "Von rechts nach links",
-    "textRtlInterface": "RTL-Schnittstelle",
     "textSameAsSystem": "Wie im System",
     "textSave": "Speichern",
     "textSearch": "Suche",
@@ -812,6 +812,7 @@
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
-    "textSwitchedStandardView": "Standard-Ansicht aktiviert"
+    "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
   }
 }

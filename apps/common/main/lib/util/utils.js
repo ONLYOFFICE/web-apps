@@ -914,7 +914,7 @@ define([], function () {
 
     Common.Utils.showBrowserRestriction = function () {
         if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length > 0) return;
-        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
+        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : window.VE ? 'Visio' : 'that');
         var newDiv = document.createElement("div");
         newDiv.innerHTML = '<div class="app-error-panel">' +
             '<div class="message-block">' +
@@ -1206,7 +1206,7 @@ define([], function () {
         if (opts.disablefunc)
             opts.disablefunc(true);
 
-        var app = window.DE || window.PE || window.SSE || window.PDFE;
+        var app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
 
         Common.UI.warning({
             msg: Common.Locale.get("warnFileLocked", {

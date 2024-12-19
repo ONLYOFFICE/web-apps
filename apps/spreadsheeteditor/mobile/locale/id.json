@@ -368,9 +368,10 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
@@ -753,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
       "textEncoding": "Enkoding",
       "textExample": "Contoh",
-      "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
       "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
@@ -795,7 +795,6 @@
       "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
       "textRight": "Kanan",
       "textRightToLeft": "Kanan Ke Kiri",
-      "textRtlInterface": "Antar Muka RTL",
       "textSameAsSystem": "Sama Seperti Sistem",
       "textSearch": "Cari",
       "textSearchBy": "Cari",

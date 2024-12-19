@@ -112,6 +112,10 @@ define([
                     '<span class="btn-slot text" id="slot-chk-rightmenu"></span>' +
                 '</div>' +
             '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+            '</div>' +
         '</section>';
 
         function setEvents() {
@@ -166,6 +170,9 @@ define([
             me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                 me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
             }, me));
+            me.btnMacros && me.btnMacros.on('click', function () {
+                me.fireEvent('macros:click');
+            });
             me.btnViewNormal && me.btnViewNormal.on('click', function (btn, e) {
                 btn.pressed && me.fireEvent('viewtab:viewmode', [Asc.c_oAscESheetViewType.normal]);
             });
@@ -292,6 +299,17 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.lockedControls.push(this.btnViewPageBreak);
+
+                    this.btnMacros = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-macros',
+                        lock: [_set.selRangeEdit, _set.editFormula, _set.lostConnect, _set.disableOnStart],
+                        caption: this.textMacros,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnMacros);
                 }
 
                 this.cmbZoom = new Common.UI.ComboBox({
@@ -377,6 +395,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLeftMenu);
+
                 Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -407,6 +426,7 @@ define([
                 this.chZeros && this.chZeros.render($host.find('#slot-chk-zeros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
+                this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 this.btnViewNormal && this.btnViewNormal.render($host.find('#slot-btn-view-normal'));
                 this.btnViewPageBreak && this.btnViewPageBreak.render($host.find('#slot-btn-view-pagebreak'));
                 return this.$el;
@@ -427,7 +447,7 @@ define([
                         me.btnCreateView.updateHint(me.tipCreate);
                         me.btnCloseView.updateHint(me.tipClose);
                     }
-
+                    me.btnMacros && me.btnMacros.updateHint(me.tipMacros);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
 
                     if (config.isEdit) {
@@ -463,6 +483,7 @@ define([
                         me.toolbar && me.toolbar.$el.find('.group.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.separator.sheet-freeze').hide();
                         me.toolbar && me.toolbar.$el.find('.group.sheet-gridlines').hide();
+                        me.toolbar.$el.find('#slot-btn-macros').closest('.group').prev().addBack().remove();
                     }
 
                     if (!Common.UI.Themes.available()) {
@@ -564,6 +585,9 @@ define([
                     me.chRightMenu.setValue(!Common.localStorage.getBool("sse-hidden-rightmenu", value));
 
                     setEvents.call(me);
+
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
+                        Common.NotificationCenter.trigger('tab:set-active', 'view');
                 });
             },
 
@@ -674,7 +698,9 @@ define([
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
             textFill: 'Fill',
-            textLine: 'Line'
+            textLine: 'Line',
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), SSE.Views.ViewTab || {}));
 });

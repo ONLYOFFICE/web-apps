@@ -157,6 +157,7 @@
       "textNo": "Non",
       "textNoLicenseTitle": "La limite de la licence est atteinte",
       "textNoMatches": "Aucune correspondance",
+      "textOk": "OK",
       "textOpenFile": "Entrer le mot de passe pour ouvrir le fichier",
       "textPaidFeature": "Fonction payante",
       "textRemember": "Se souvenir de mon choix",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
       "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Descripteur de clé inconnu",
     "errorKeyExpire": "Descripteur de clés expiré",
     "errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
+    "errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
     "errorSessionToken": "La connexion au serveur a été interrompue. Veuillez recharger la page.",
@@ -228,11 +229,11 @@
     "splitDividerErrorText": "Le nombre de lignes doit être un diviseur de %1",
     "splitMaxColsErrorText": "Le nombre de colonnes doit être moins que %1",
     "splitMaxRowsErrorText": "Le nombre de lignes doit être moins que %1",
+    "textOk": "OK",
     "unknownErrorText": "Erreur inconnue.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -513,7 +514,6 @@
       "textEmail": "e-mail: ",
       "textEnableAll": "Activer tout",
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
-      "textExplanationChangeDirection": "L'application sera redémarrée pour activer l'interface RTL",
       "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
@@ -539,12 +539,10 @@
       "textReplace": "Remplacer",
       "textReplaceAll": "Remplacer tout",
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
-      "textRTL": "De droite à gauche",
-      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSettings": "Paramètres",
-      "textShowNotification": "Montrer la notification",
+      "textShowNotification": "Afficher la notification",
       "textSlideSize": "Taille de la diapositive",
       "textSpellcheck": "Vérification orthographique",
       "textSubject": "Sujet",

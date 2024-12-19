@@ -241,9 +241,6 @@ define([
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
 
-            if (mode && mode.canFeaturePivot)
-                this.btnPivot.setVisible(true);
-
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
@@ -368,7 +365,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnPivot, this.btnSlicer, this.btnSignature];
+            var allButtons = [this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnSlicer, this.btnSignature, this.btnPivot];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 

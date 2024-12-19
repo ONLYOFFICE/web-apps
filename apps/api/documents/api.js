@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide' | 'pdf' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'visio' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -248,9 +248,14 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
+                    pointerMode: 'select'/'hand' // set cursor mode in presentation editor, select by default
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                    },
+                    submitForm: {
+                        visible: true/false (default: true)
+                        resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     }
                 },
                  coEditing: {
@@ -283,7 +288,7 @@
                 'onError': <error callback>,
                 'onWarning': <warning callback>,
                 'onInfo': <document open callback>,// send view or edit mode
-                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened, deprecated: use onRequestRefreshFile/refreshFile instead
                 'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
                 'onRequestSaveAs': <try to save copy of the document>,
                 'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
@@ -305,6 +310,8 @@
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
+                'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
+                'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
             }
         }
 
@@ -375,6 +382,7 @@
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
+        _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -399,19 +407,6 @@
         };
 
         var _onAppReady = function() {
-            if (_config.type === 'mobile') {
-                document.body.onfocus = function(e) {
-                    setTimeout(function(){
-                        iframe.contentWindow.focus();
-
-                        _sendCommand({
-                            command: 'resetFocus',
-                            data: {}
-                        })
-                    }, 10);
-                };
-            }
-
             _attachMouseEvents();
 
             if (_config.editorConfig) {
@@ -466,11 +461,12 @@
                         'word': 'docx',
                         'cell': 'xlsx',
                         'slide': 'pptx',
-                        'pdf': 'pdf'
+                        'pdf': 'pdf',
+                        'visio': 'vsdx'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/visio.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -484,7 +480,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -493,7 +489,8 @@
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
                         if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
-                        if (typeof type[4] === 'string') _config.documentType = 'word';
+                        if (typeof type[4] === 'string') _config.documentType = 'word'; else
+                        if (typeof type[5] === 'string') _config.documentType = 'visio';
                     }
                 }
 
@@ -847,6 +844,13 @@
             });
         };
 
+        var _refreshFile = function(data) {
+            _sendCommand({
+                command: 'refreshFile',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -883,6 +887,7 @@
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
             setReferenceData    : _setReferenceData,
+            refreshFile         : _refreshFile,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
@@ -1019,6 +1024,7 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
+                'visio': 'visioeditor',
                 'common': 'common'
             },
             appType = 'word',
@@ -1027,7 +1033,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(oform|docxf))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1049,7 +1055,8 @@
                 appType = config.documentType.toLowerCase();
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
-                if (type && typeof type[4] === 'string') appType = 'slide';
+                if (type && typeof type[4] === 'string') appType = 'slide'; else
+                if (type && typeof type[6] === 'string') appType = 'visio';
             }
         }
         if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))

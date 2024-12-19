@@ -464,12 +464,14 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
     "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Ielādē datus...",
@@ -787,7 +789,6 @@
     "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textLight": "Light",
@@ -796,7 +797,6 @@
     "textProtectTurnOff": "Protection is turned off",
     "textRemoveFromFavorites": "Remove from Favorites",
     "textRequirePassword": "Require Password",
-    "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing"
@@ -810,6 +810,7 @@
     "textOk": "Labi",
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
+    "warnEmptyRequiredField": "Aizpildiet visus obligātos laukus, lai nosūtītu veidlapu.",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"

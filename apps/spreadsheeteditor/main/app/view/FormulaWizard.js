@@ -393,7 +393,7 @@ define([
             var result = res ? res.asc_getFunctionResult() : undefined;
             me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
             result = res ? res.asc_getFormulaResult() : undefined;
-            me.lblFormulaResult.html('<b>' + me.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
+            me.lblFormulaResult.html(me.textValue + ':' + ((result!==undefined && result!==null)? result : ''));
         },
 
         getArgumentsValue: function() {

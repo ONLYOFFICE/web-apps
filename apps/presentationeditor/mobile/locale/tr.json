@@ -232,7 +232,8 @@
     "unknownErrorText": "Bilinmeyen hata.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -513,7 +514,6 @@
       "textEmail": "eposta:",
       "textEnableAll": "Hepsini Etkinleştir",
       "textEnableAllMacrosWithoutNotification": "Tüm makroları bildirimsiz etkinleştir",
-      "textExplanationChangeDirection": "RTL arayüzü etkinleştirmesi için uygulama yeniden başlatılacak",
       "textFeedback": "Geri Bildirim & Destek",
       "textFind": "Bul",
       "textFindAndReplace": "Bul ve Değiştir",
@@ -539,8 +539,6 @@
       "textReplace": "Değiştir",
       "textReplaceAll": "Tümünü Değiştir",
       "textRestartApplication": "Değişiklerin harekete geçmesi için lütfen uygulamayı tekrar başlatın.",
-      "textRTL": "Sağdan Sola",
-      "textRtlInterface": "RTL Arayüzü",
       "textSameAsSystem": "Sistemle aynı",
       "textSearch": "Arama",
       "textSettings": "Ayarlar",

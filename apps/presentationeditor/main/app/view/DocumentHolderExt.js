@@ -216,6 +216,7 @@ define([], function () {
             me.mnuGuides = new Common.UI.MenuItem({
                 caption     : me.textGuides,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGuides, value: 'show', checkable: true },
@@ -232,6 +233,7 @@ define([], function () {
             me.mnuGridlines = new Common.UI.MenuItem({
                 caption     : me.textGridlines,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGridlines, value: 'show', checkable: true },
@@ -489,17 +491,43 @@ define([], function () {
                 value : 'delete-layout'
             });
 
+            me.mnuRenameMaster = new Common.UI.MenuItem({
+                caption : me.textRenameMaster,
+                value : 'Rename-master'
+            });
+
+            me.mnuRenameLayout = new Common.UI.MenuItem({
+                caption : me.textRenameLayout,
+                value : 'Rename-layout'
+            });
+
             me.slideMasterMenu = new Common.UI.Menu({
                 //cls: 'shifted-right',
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
                     var isMaster = value.isMaster;
+                    var currentName = ''; 
+
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)) {
+                        _.each(selectedElements, function(element) {
+                            if (Asc.c_oAscTypeSelectElement.Slide == element.get_ObjectType()) {
+                                var elValue = element.get_ObjectValue();
+                                currentName = isMaster ? elValue.get_MasterName() : elValue.get_LayoutName();
+                            }
+                        });
+                    }
+                    
+                    me.mnuRenameMaster.setDisabled(currentName === undefined);
+                    me.mnuRenameLayout.setDisabled(currentName === undefined);
 
                     me.mnuDuplicateMaster.setVisible(isMaster);
                     me.mnuDeleteMaster.setVisible(isMaster);
+                    me.mnuRenameMaster.setVisible(isMaster);
                     me.mnuDuplicateLayout.setVisible(!isMaster);
                     me.mnuDeleteLayout.setVisible(!isMaster);
+                    me.mnuRenameLayout.setVisible(!isMaster);
 
                     isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
                     !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
@@ -511,7 +539,9 @@ define([], function () {
                     me.mnuDuplicateLayout,
                     {caption: '--'},
                     me.mnuDeleteMaster,
-                    me.mnuDeleteLayout
+                    me.mnuRenameMaster,
+                    me.mnuDeleteLayout,
+                    me.mnuRenameLayout
                 ]
             });
 
@@ -681,7 +711,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -752,7 +782,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -972,6 +1002,43 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = PE.getController('Toolbar').getView('Toolbar');
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        })
+                    ]
+                })
+            });
+
             me.menuChartEdit = new Common.UI.MenuItem({
                 caption     : me.editChartText
             });
@@ -1134,6 +1201,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+            
             me.menuImgSaveAsPicture = new Common.UI.MenuItem({
                 caption     : me.textSaveAsPicture
             });
@@ -1646,6 +1718,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
 
+                    me.menuImgResetCrop.setVisible(isimage && value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(disabled);  
+
                     var canEditPoints = me.api && me.api.asc_canEditGeometry();
                     me.menuImgEditPoints.setVisible(canEditPoints);
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
@@ -1673,6 +1749,12 @@ define([], function () {
                         me.menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
                         me.menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
                     }
+                    me.menuShapesMerge.setDisabled(disabled || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
+                    }
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
                     me.menuChartAdvanced.setDisabled(disabled);
@@ -1695,11 +1777,13 @@ define([], function () {
                     { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
+                    me.menuShapesMerge,
                     me.menuImgShapeRotate,
                     menuImgShapeSeparator,          //Separator
                     me.menuImgSaveAsPicture,
                     menuImgSaveAsPictureSeparator,     //Separator
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
                     me.menuImageAdvanced,

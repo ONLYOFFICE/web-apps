@@ -469,7 +469,9 @@
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
-    "textOk": "OK"
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Adatok betöltése...",
@@ -794,11 +796,9 @@
     "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll",
     "textClearAllFields": "Clear All Fields",
     "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textRtlInterface": "RTL Interface",
     "textTheme": "Theme"
   },
   "Toolbar": {
@@ -812,6 +812,7 @@
     "textRenameFile": "Fájl Átnevezése",
     "textSwitchedMobileView": "Váltás Mobil nézetre",
     "textSwitchedStandardView": "Normál nézetre váltott",
+    "warnEmptyRequiredField": "Az űrlap elküldéséhez töltse ki az összes szükséges mezőt.",
     "btnSend": "Send"
   }
 }

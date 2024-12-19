@@ -39,6 +39,7 @@
   "PE.ApplicationController.titleLicenseExp": "License expired",
   "PE.ApplicationController.titleLicenseNotActive": "License not active",
   "PE.ApplicationController.txtClose": "Close",
+  "PE.ApplicationController.txtPressLink": "Click the link to open it",
   "PE.ApplicationController.unknownErrorText": "Unknown error.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.ApplicationController.waitText": "Please, wait...",

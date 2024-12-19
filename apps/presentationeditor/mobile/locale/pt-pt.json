@@ -232,6 +232,7 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
   "LongActions": {
@@ -513,7 +514,6 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Ativar tudo",
       "textEnableAllMacrosWithoutNotification": "Ativar todas as macros sem notificação",
-      "textExplanationChangeDirection": "A aplicação será reiniciada para ativação da interface RTL",
       "textFeedback": "Comentários e suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
@@ -539,8 +539,6 @@
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie a aplicação para aplicar as alterações",
-      "textRTL": "RTL",
-      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "O mesmo que o sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Definições",

@@ -251,6 +251,14 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
                     config.msg = _t.errorInconsistentExt;
                 break;
 
+            case Asc.c_oAscError.ID.CannotSaveWatermark:
+                config.msg = t('Error.errorSaveWatermark');
+                break;
+
+            case Asc.c_oAscError.ID.PDFFormsLocked:
+                config.msg = t('Error.errorPDFFormsLocked');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

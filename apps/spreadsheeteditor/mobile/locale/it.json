@@ -330,6 +330,7 @@
     "errorPrecedentsNoValidRef": "Il comando Traccia precedenti richiede che la cella attiva contenga una formula che include un riferimento valido.",
     "errorPrintMaxPagesCount": "Sfortunatamente, non è possibile stampare più di 1500 pagine contemporaneamente nella versione corrente del programma.<br>Questa restrizione verrà eliminata nelle prossime versioni.",
     "errorProtectedRange": "Questo intervallo non può essere modificato.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -368,9 +369,9 @@
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
     "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -753,7 +754,6 @@
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
       "textEncoding": "Codificazione",
       "textExample": "Esempio",
-      "textExplanationChangeDirection": "L'applicazione verrà riavviata per l'attivazione dell'interfaccia RTL",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
       "textFindAndReplace": "Trovare e sostituire",
@@ -795,7 +795,6 @@
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textRight": "A destra",
       "textRightToLeft": "Da destra a sinistra",
-      "textRtlInterface": "Interfaccia RTL",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Cercare",
       "textSearchBy": "Cercare",

@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Error de combinar.",
     "errorNoTOC": "No hay una tabla de contenidos para actualizar. Se puede insertar uno desde la pestaña de Referencias.",
     "errorPasswordIsNotCorrect": "La contraseña proporcionada no es correcta. Compruebe que la tecla BLOQ MAYÚS está desactivada y asegúrese de utilizar las mayúsculas correctas.",
+    "errorSaveWatermark": "Este archivo contiene una imagen de marca de agua vinculada a otro dominio.<br>Para que sea visible en PDF, actualice la imagen de marca de agua para que se vincule desde el mismo dominio que su documento, o cárguela desde su ordenador.",
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
@@ -469,7 +470,8 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
     "textEncoding": "Codificación",
     "textEncryptFile": "Cifrar archivo",
-    "textExplanationChangeDirection": "La aplicación se reiniciará para que se active la interfaz RTL",
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Vista rápida de la web",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
     "textRight": "Derecha",
     "textRightToLeft": "De derecha a izquierda",
-    "textRtlInterface": "Interfaz RTL",
     "textSameAsSystem": "Igual que el sistema",
     "textSave": "Guardar",
     "textSearch": "Buscar",
@@ -812,6 +812,7 @@
     "textOk": "Aceptar",
     "textRenameFile": "Renombrar archivo",
     "textSwitchedMobileView": "Cambiado a vista móvil",
-    "textSwitchedStandardView": "Cambiado a vista estándar"
+    "textSwitchedStandardView": "Cambiado a vista estándar",
+    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario."
   }
 }

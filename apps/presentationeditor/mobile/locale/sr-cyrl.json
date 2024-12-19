@@ -232,6 +232,7 @@
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
   "LongActions": {
@@ -513,7 +514,6 @@
       "textEmail": "емаил:",
       "textEnableAll": "Омогући све",
       "textEnableAllMacrosWithoutNotification": "Омогући макрое без нотификација",
-      "textExplanationChangeDirection": "Апликација ће бити рестартована за RTL интерфејс активацију",
       "textFeedback": "Повратне Информације и Подршка",
       "textFind": "Пронађи",
       "textFindAndReplace": "Пронађи и замени",
@@ -539,8 +539,6 @@
       "textReplace": "Замени",
       "textReplaceAll": "Замени све",
       "textRestartApplication": "Молимо поново учитајте апликацију да би измене имале ефекта",
-      "textRTL": "RTL",
-      "textRtlInterface": "RTL Интерфејс",
       "textSameAsSystem": "Исто као систем",
       "textSearch": "Претрага",
       "textSettings": "Подешавања",

@@ -16,7 +16,8 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
     const fileTypes = {
         de: 'docx',
         pe: 'pptx',
-        sse: 'xslx'
+        sse: 'xslx',
+        ve: 'vsdx'
     };
     const fileType = fileTypes[window.editorType];
     const { t } = useTranslation();
@@ -142,7 +143,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                            
                         };
 
-                        historyStore.addUser(user);
+                        version.user.id && historyStore.addUser(user);
                     }
 
                     arrVersions.push({
@@ -204,7 +205,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                         color: generateUserColor(color),
                                     };
 
-                                    historyStore.addUser(user);
+                                    change.user.id && historyStore.addUser(user);
                                 }
 
                                 arrVersions.push({

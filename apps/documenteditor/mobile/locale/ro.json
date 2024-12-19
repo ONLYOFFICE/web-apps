@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "Numărul de rânduri trebuie împărțit la %1",
     "splitMaxColsErrorText": "Numărul maxim de coloane este de %1",
     "splitMaxRowsErrorText": "Numărul maxim de rânduri este %1",
+    "textOk": "OK",
     "unknownErrorText": "Eroare necunoscută.",
     "uploadDocExtMessage": "Format de fișier necunoscut.",
     "uploadDocFileCountMessage": "Nu există nicun document încărcat.",
@@ -469,7 +471,7 @@
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
     "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "textOk": "OK"
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",
@@ -618,7 +620,7 @@
     },
     "textAnonymous": "Anonim",
     "textBuyNow": "Vizitarea site-ul Web",
-    "textCancel": "Anulare",
+    "textCancel": "Revocare",
     "textClose": "Închide",
     "textContactUs": "Contactați Departamentul de Vânzări",
     "textConvertForm": "Descarcă fișierul în format PDF pentru a salva formularul în formatul gata sa fie completat.  ",
@@ -654,9 +656,9 @@
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
     "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
     "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
+    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
     "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
   },
   "Settings": {
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile cu notificare  ",
     "textEncoding": "Codificare",
     "textEncryptFile": "Criptare fișier",
-    "textExplanationChangeDirection": "Aplicația va fi repornită pentru a activa interfața care acceptă limbile cu scriere de la dreapta la stânga",
     "textExport": "Export",
     "textExportAs": "Export ca",
     "textFastWV": "Vizualizare rapidă web",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
     "textRight": "Dreapta",
     "textRightToLeft": "De la dreapta la stânga",
-    "textRtlInterface": "Interfața care acceptă limbile cu scriere de la dreapta la stânga",
     "textSameAsSystem": "La fel ca sistemul",
     "textSave": "Salvează",
     "textSearch": "Căutare",
@@ -812,6 +812,7 @@
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
-    "textSwitchedStandardView": "Comutat la vizualizarea standard"
+    "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

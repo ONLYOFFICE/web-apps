@@ -99,7 +99,8 @@ define([
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
-                    'viewtab:viewmode': this.onPreviewMode
+                    'viewtab:viewmode': this.onPreviewMode,
+                    'macros:click':  this.onClickMacros
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -309,6 +310,14 @@ define([
 
         onPreviewMode: function(value) {
             this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
         },
 
         onApiUpdateSheetViewType: function(index) {

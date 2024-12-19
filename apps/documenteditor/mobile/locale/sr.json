@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Spajanje neuspešno.",
     "errorNoTOC": "Nema tabele sadržaja za ažuriranje. Možete ubaciti jednu sa Reference kartice.",
     "errorPasswordIsNotCorrect": "Lozinka koju ste snabdeveli nije tačna. Potvrdi da je CAPS LOCK taster isključen i budite sigurni da koristite pravilan način velikih slova.",
+    "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
     "errorSessionToken": "Konekcija sa serverom je prekinuta. Molimo, ponovo učitajte stranicu.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "Broj redova mora biti delilac %1",
     "splitMaxColsErrorText": "Broj koloni mora biti manji od %1",
     "splitMaxRowsErrorText": "Broj redova mora biti manji od %1",
+    "textOk": "OK",
     "unknownErrorText": "Nepoznata greška.",
     "uploadDocExtMessage": "Nepoznati format dokumenta.",
     "uploadDocFileCountMessage": "Bez otpremljenih dokumenata.",
@@ -469,7 +471,7 @@
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Bez otpremljenih slika.",
     "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "textOk": "OK"
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Omogući makroe bez notifikacija",
     "textEncoding": "Enkodiranje",
     "textEncryptFile": "Enkriptuj fajl",
-    "textExplanationChangeDirection": "Aplikacija će biti restartovana za RTL interfejs aktivaciju",
     "textExport": "Izvoz",
     "textExportAs": "Izvezi kao",
     "textFastWV": "Brzi Mrežni Prikaz",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
     "textRight": "Desno",
     "textRightToLeft": "Desno ka levo",
-    "textRtlInterface": "RTL Interfejs",
     "textSameAsSystem": "Isto kao sistem",
     "textSave": "Sačuvaj",
     "textSearch": "Pronađi",
@@ -812,6 +812,7 @@
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
-    "textSwitchedStandardView": "Prebačeno na standardni prikaz"
+    "textSwitchedStandardView": "Prebačeno na standardni prikaz",
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
   }
 }

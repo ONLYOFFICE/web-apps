@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, Link } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
@@ -18,7 +18,16 @@ const ToolbarView = props => {
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
-    
+
+    useEffect(() => {
+        if ( $$('.skl-container').length ) {
+            $$('.skl-container').remove();
+        }
+
+        return () => {
+        }
+    }, []);
+
     return (
         <Fragment>
             <NavLeft>
@@ -62,7 +71,7 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
-                    ((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
+                    ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();
                             props.openOptions('snackbar');
@@ -96,6 +105,7 @@ const ToolbarView = props => {
                             <Link key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   icon='icon-settings' href={false}
+                                  id='btn-settings'
                                   onClick={() => props.openOptions('settings')}></Link>,
                             <Link key='send-form-link'
                                   id='btn-submit-form'

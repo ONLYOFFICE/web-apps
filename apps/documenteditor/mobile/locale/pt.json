@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Mesclagem falhou.",
     "errorNoTOC": "Não há índice para atualizar. Você pode inserir um na guia Referências.",
     "errorPasswordIsNotCorrect": "A senha que você forneceu não está correta. Verifique se a tecla CAPS LOCK está desativada e certifique-se de usar a capitalização correta.",
+    "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
     "errorSessionToken": "A conexão com o servidor foi interrompida. Por favor recarregue a página.",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "O número de linhas deve ser um divisor de %1",
     "splitMaxColsErrorText": "O número de colunas deve ser inferior a %1",
     "splitMaxRowsErrorText": "O número de linhas deve ser inferior a %1",
+    "textOk": "OK",
     "unknownErrorText": "Erro desconhecido.",
     "uploadDocExtMessage": "Formato de documento desconhecido.",
     "uploadDocFileCountMessage": "Nenhum documento carregado.",
@@ -469,7 +471,7 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
     "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "textOk": "OK"
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
     "textEncoding": "Codificação",
     "textEncryptFile": "Criptografar arquivo",
-    "textExplanationChangeDirection": "O aplicativo será reiniciado para ativação da interface RTL",
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Visualização rápida da Web",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
     "textRight": "Direita",
     "textRightToLeft": "Da direita para a esquerda",
-    "textRtlInterface": "Interface RTL",
     "textSameAsSystem": "O mesmo que sistema",
     "textSave": "Salvar",
     "textSearch": "Pesquisar",
@@ -812,6 +812,7 @@
     "textOk": "OK",
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
-    "textSwitchedStandardView": "Alterado para a visualização padrão"
+    "textSwitchedStandardView": "Alterado para a visualização padrão",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
   }
 }

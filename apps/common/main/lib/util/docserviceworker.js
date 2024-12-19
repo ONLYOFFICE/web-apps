@@ -10,7 +10,9 @@
             })
             .then(function (registrations) {
                 //delete stale service workers
-                for (const registration of registrations) {
+                // for (const registration of registrations) {
+                for (let r in registrations) {
+                    const registration = registrations[r];
                     if (registration !== reg && registration.active && registration.active.scriptURL.endsWith(serviceWorkerName)) {
                         registration.unregister();
                     }

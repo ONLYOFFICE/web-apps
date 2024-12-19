@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "結合に失敗しました。",
     "errorNoTOC": "更新する目次がありません。「参考文献」タブから挿入できます",
     "errorPasswordIsNotCorrect": "入力したパスワードが正しくありません。CAPS LOCKキーがオフになっていることを確認し、正しい大文字を使用するようにしてください。",
+    "errorSaveWatermark": "このファイルには、別のドメインにリンクされた透かし画像が含まれています。<br>PDFで見えるようにするには、文書と同じドメインからリンクされるように透かし画像を更新するか、コンピュータからアップロードしてください。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
@@ -462,6 +463,7 @@
     "splitDividerErrorText": "行の数は％1の約数である必要があります",
     "splitMaxColsErrorText": "列の数は％1未満である必要があります",
     "splitMaxRowsErrorText": "行の数は％1未満である必要があります",
+    "textOk": "OK",
     "unknownErrorText": "不明なエラー",
     "uploadDocExtMessage": "不明な文書形式",
     "uploadDocFileCountMessage": "アップロードされた文書がありません。",
@@ -469,7 +471,7 @@
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
     "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
-    "textOk": "OK"
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "警告を表示してないすべてのマクロを有効にする",
     "textEncoding": "エンコード",
     "textEncryptFile": "ファイルの暗号化",
-    "textExplanationChangeDirection": "RTLインターフェースのアクティベーションのため、アプリケーションが再起動されます。",
     "textExport": "エクスポート",
     "textExportAs": "名前をつけてエクスポート",
     "textFastWV": "Web表示用に最適化",
@@ -770,7 +771,6 @@
     "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
     "textRight": "右",
     "textRightToLeft": "右から左に",
-    "textRtlInterface": "RTLインターフェース",
     "textSameAsSystem": "システム設定と同じ",
     "textSave": "保存",
     "textSearch": "検索",
@@ -812,6 +812,7 @@
     "textOk": "OK",
     "textRenameFile": "ファイル名の変更",
     "textSwitchedMobileView": "モバイルビューに切り替えました",
-    "textSwitchedStandardView": "標準ビューに切り替えました"
+    "textSwitchedStandardView": "標準ビューに切り替えました",
+    "warnEmptyRequiredField": "必須事項をすべて入力し、送信してください。"
   }
 }

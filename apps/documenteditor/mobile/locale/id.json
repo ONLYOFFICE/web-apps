@@ -469,7 +469,9 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "textOk": "OK"
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
+    "textOk": "OK",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -709,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
     "textEncoding": "Enkoding",
     "textEncryptFile": "Enkripsi Berkas",
-    "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
     "textExport": "Ekspor",
     "textExportAs": "Ekspor Sebagai",
     "textFastWV": "Tampilan Web Cepat",
@@ -770,7 +771,6 @@
     "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
     "textRight": "Kanan",
     "textRightToLeft": "Kanan Ke Kiri",
-    "textRtlInterface": "Antar Muka RTL",
     "textSameAsSystem": "Sama seperti sistem",
     "textSave": "Simpan",
     "textSearch": "Cari",
@@ -812,6 +812,7 @@
     "textRenameFile": "Ganti Nama File",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
     "textSwitchedStandardView": "Beralih ke Tampilan standar",
+    "warnEmptyRequiredField": "Isi semua ruas yang dibutuhkan untuk mengirim formulir.",
     "btnSend": "Send"
   }
 }

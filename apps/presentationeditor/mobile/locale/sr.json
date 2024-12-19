@@ -157,6 +157,7 @@
       "textNo": "Ne",
       "textNoLicenseTitle": "Limit licence dostignut",
       "textNoMatches": "Bez poklapanja",
+      "textOk": "OK",
       "textOpenFile": "Unesi lozinku da otvoriš fajl",
       "textPaidFeature": "Plaćena funkcija ",
       "textRemember": "Zapamti moj izbor",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
       "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Nepoznati opisivač ključa ",
     "errorKeyExpire": "Ključni opis istekao",
     "errorLoadingFont": "Fontovi nisu učitani.<br>Molimo kontaktirajte vašeg Dokument Server administratora.",
+    "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
     "errorSessionToken": "Konekcija sa serverom je prekinuta. Molimo, ponovo učitajte stranicu.",
@@ -228,11 +229,11 @@
     "splitDividerErrorText": "Broj redova mora biti delilac %1",
     "splitMaxColsErrorText": "Broj koloni mora biti manji od %1",
     "splitMaxRowsErrorText": "Broj redova mora biti manji od %1",
+    "textOk": "OK",
     "unknownErrorText": "Nepoznata greška.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",
@@ -513,7 +514,6 @@
       "textEmail": "email:",
       "textEnableAll": "Omogući sve",
       "textEnableAllMacrosWithoutNotification": "Omogući makroe bez notifikacija",
-      "textExplanationChangeDirection": "Aplikacija će biti restartovana za RTL interfejs aktivaciju",
       "textFeedback": "Povratne Informacije i Podrška",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
@@ -539,8 +539,6 @@
       "textReplace": "Zameni",
       "textReplaceAll": "Zameni Sve",
       "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
-      "textRTL": "S desna na levo",
-      "textRtlInterface": "RTL Interfejs",
       "textSameAsSystem": "Isto kao sistem",
       "textSearch": "Pretraži",
       "textSettings": "Podešavanja",

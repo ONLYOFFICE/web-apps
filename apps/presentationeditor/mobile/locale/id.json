@@ -232,6 +232,7 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
   "LongActions": {
@@ -513,7 +514,6 @@
       "textEmail": "email:",
       "textEnableAll": "Aktifkan Semua",
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
-      "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
       "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
@@ -539,8 +539,6 @@
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
-      "textRTL": "RTL",
-      "textRtlInterface": "Antar Muka RTL",
       "textSameAsSystem": "Sama Seperti Sistem",
       "textSearch": "Cari",
       "textSettings": "Pengaturan",

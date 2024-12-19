@@ -129,6 +129,7 @@
     }
   },
   "Settings": {
+    "textFillingForms": "Lomakkeiden täyttäminen",
     "textSameAsSystem": "Sama kuin järjetelmässä",
     "advDRMOptions": "Protected File",
     "advDRMPassword": "Password",
@@ -179,12 +180,10 @@
     "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
     "textEncoding": "Encoding",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textFastWV": "Fast Web View",
     "textFeedback": "Feedback & Support",
-    "textFillingForms": "Filling forms",
     "textFind": "Find",
     "textFindAndReplace": "Find and Replace",
     "textFindAndReplaceAll": "Find and Replace All",
@@ -240,7 +239,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRight": "Right",
     "textRightToLeft": "Right To Left",
-    "textRtlInterface": "RTL Interface",
     "textSave": "Save",
     "textSearch": "Find",
     "textSetPassword": "Set Password",
@@ -269,6 +267,20 @@
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
+  },
+  "Toolbar": {
+    "warnEmptyRequiredField": "Täytä kaikki vaaditut kentät lähettääksesi lomakkeen.",
+    "btnSend": "Send",
+    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
+    "dlgLeaveTitleText": "You leave the application",
+    "leaveButtonText": "Leave this Page",
+    "stayButtonText": "Stay on this page",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   },
   "About": {
     "textAbout": "About",
@@ -584,6 +596,7 @@
     "errorMailMergeSaveFile": "Merge failed.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -611,7 +624,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -800,18 +814,5 @@
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
     "warnProcessRightsChange": "You don't have permission to edit this file."
-  },
-  "Toolbar": {
-    "btnSend": "Send",
-    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

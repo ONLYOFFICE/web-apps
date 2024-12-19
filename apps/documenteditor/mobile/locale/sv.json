@@ -444,6 +444,7 @@
     "errorMailMergeSaveFile": "Merge failed.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -469,7 +470,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "Main": {
     "SDK": {
@@ -671,7 +673,6 @@
     "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
     "textEncoding": "Encoding",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textFastWV": "Fast Web View",
@@ -731,7 +732,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRight": "Right",
     "textRightToLeft": "Right To Left",
-    "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
     "textSearch": "Find",
@@ -761,6 +761,20 @@
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
+  },
+  "Toolbar": {
+    "warnEmptyRequiredField": "Fyll i alla fält för att skicka formulär.",
+    "btnSend": "Send",
+    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
+    "dlgLeaveTitleText": "You leave the application",
+    "leaveButtonText": "Leave this Page",
+    "stayButtonText": "Stay on this page",
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchedMobileView": "Switched to Mobile view",
+    "textSwitchedStandardView": "Switched to Standard view"
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -800,18 +814,5 @@
     "uploadImageTextText": "Uploading image...",
     "uploadImageTitleText": "Uploading Image",
     "waitText": "Please, wait..."
-  },
-  "Toolbar": {
-    "btnSend": "Send",
-    "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
-    "dlgLeaveTitleText": "You leave the application",
-    "leaveButtonText": "Leave this Page",
-    "stayButtonText": "Stay on this page",
-    "textCloseHistory": "Close History",
-    "textEnterNewFileName": "Enter a new file name",
-    "textOk": "OK",
-    "textRenameFile": "Rename File",
-    "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
   }
 }

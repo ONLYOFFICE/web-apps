@@ -453,6 +453,7 @@
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
     "errorSessionToken": "The connection to the server has been interrupted. Please, reload the page.",
@@ -469,7 +470,8 @@
     "textOk": "OK",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadImageExtMessage": "Unknown image format.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Ładowanie danych...",
@@ -708,7 +710,6 @@
     "textEnableAllMacrosWithoutNotification": "Włącz wszystkie makra bez powiadomień",
     "textEncoding": "Kodowanie",
     "textEncryptFile": "Zaszyfruj plik",
-    "textExplanationChangeDirection": "Aplikacja zostanie ponownie uruchomiona w celu aktywacji interfejsu RTL",
     "textExport": "Eksport",
     "textExportAs": "Eksport jako",
     "textFastWV": "Szybki podgląd w internecie",
@@ -783,7 +784,6 @@
     "textRequirePassword": "Require Password",
     "textResolvedComments": "Resolved Comments",
     "textRestartApplication": "Please restart the application for the changes to take effect",
-    "textRtlInterface": "RTL Interface",
     "textSetPassword": "Set Password",
     "textShowNotification": "Show Notification",
     "textSpaces": "Spaces",
@@ -806,6 +806,7 @@
     "textCloseHistory": "Zamknij historię",
     "textEnterNewFileName": "Wprowadź nową nazwę pliku",
     "textOk": "OK",
+    "warnEmptyRequiredField": "Wypełnij wszystkie wymagane pola, aby wysłać formularz.",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
