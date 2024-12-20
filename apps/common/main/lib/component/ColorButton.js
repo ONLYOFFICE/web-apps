@@ -72,6 +72,7 @@ define([
                 (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
                 (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
                 (this.options.paletteCls!==undefined) && (config['cls'] = this.options.paletteCls);
+                (this.options.storageSuffix!==undefined) && (config['storageSuffix'] = this.options.storageSuffix);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));

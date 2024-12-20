@@ -1491,6 +1491,12 @@ define([], function () {
                 colorLine: false,
                 colors: config.colors,
                 color: '3D8A44',
+                additionalItemsAfter: [
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1502,9 +1508,6 @@ define([], function () {
                 type: AscPDF.ANNOTATIONS_TYPES.Underline
             });
             annotBarBtns.push(this.btnUnderline);
-            this.btnUnderline.setMenu();
-            this.mnuUnderlineColorPicker = this.btnUnderline.getPicker();
-            this.btnUnderline.currentColor = this.btnUnderline.color;
 
             this.btnStrikeout = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-strikeout', container),
@@ -1517,6 +1520,12 @@ define([], function () {
                 colorLine: false,
                 colors: config.colors,
                 color: 'D43230',
+                additionalItemsAfter: [
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1528,9 +1537,6 @@ define([], function () {
                 type: AscPDF.ANNOTATIONS_TYPES.Strikeout
             });
             annotBarBtns.push(this.btnStrikeout);
-            this.btnStrikeout.setMenu();
-            this.mnuStrikeoutColorPicker = this.btnStrikeout.getPicker();
-            this.btnStrikeout.currentColor = this.btnStrikeout.color;
 
             this.btnHighlight = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-highlight', container),
@@ -1540,6 +1546,12 @@ define([], function () {
                 allowDepress: true,
                 split: true,
                 menu: true,
+                additionalItemsAfter: [
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 colors: [
                     'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                     '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
@@ -1556,9 +1568,6 @@ define([], function () {
                 type: AscPDF.ANNOTATIONS_TYPES.Highlight
             });
             annotBarBtns.push(this.btnHighlight);
-            this.btnHighlight.setMenu();
-            this.mnuHighlightColorPicker = this.btnHighlight.getPicker();
-            this.btnHighlight.currentColor = this.btnHighlight.color;
 
             this.btnEditText = new Common.UI.Button({
                 parentEl: $('#annot-bar-edit-text', container),
@@ -1568,7 +1577,7 @@ define([], function () {
                 hint: this.tipRecognize
             });
             annotBarBtns.push(this.btnEditText);
-            this.fireEvent('annotbar:create', [this.btnStrikeout, this.mnuStrikeoutColorPicker, this.btnUnderline, this.mnuUnderlineColorPicker, this.btnHighlight, this.mnuHighlightColorPicker]);
+            this.fireEvent('annotbar:create', [this.btnStrikeout, this.btnUnderline, this.btnHighlight]);
 
             return container;
         };
