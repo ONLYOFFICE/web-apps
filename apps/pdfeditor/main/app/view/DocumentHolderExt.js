@@ -1621,6 +1621,12 @@ define([], function () {
                     '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                 ],
                 color: 'FFFC54',
+                additionalItemsAfter: [
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1643,6 +1649,12 @@ define([], function () {
                 colorLine: 'box',
                 colors: config.colors,
                 color: '3D8A44',
+                additionalItemsAfter: [
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,

@@ -1439,10 +1439,10 @@ define([
                 button.currentColor = button.color;
                 if (opacity) {
                     var onShowAfter = function(menu) {
-                        if (button.sizePicker) {
-                            button.sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
+                        if (menu.sizePicker) {
+                            menu.sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
                         } else {
-                            button.sizePicker = me.createOpacityPicker(id, menu.cmpEl.find('.custom-scale'));
+                            menu.sizePicker = me.createOpacityPicker(id, menu.cmpEl.find('.custom-scale'));
                         }
                     };
                     button.menu.on('show:after', onShowAfter);
