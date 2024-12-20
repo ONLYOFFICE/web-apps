@@ -15,7 +15,7 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Créer et éditer les tableaux croisés dynamiques</h1>
-            <p>Les tableaux croisés dynamiques vous permet de grouper et organiser de vastes ensembles de données pour présenter des données de synthèse. Dans <a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>l'éditeur de classeurs</b></a> vous pouvez réorganiser les données de plusieurs façons pour n'afficher que les informations importantes et pour se concentrer uniquement sur les aspects importants.</p>
+            <p>Les tableaux croisés dynamiques vous permet de grouper et organiser de vastes ensembles de données pour présenter des données de synthèse. Dans <a href="https://www.onlyoffice.com/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>l'éditeur de classeurs</b></a> vous pouvez réorganiser les données de plusieurs façons pour n'afficher que les informations importantes et pour se concentrer uniquement sur les aspects importants.</p>
             <h3>Créer un nouveau tableau croisé dynamique</h3>
             <p>Pour créer un tableau croisé dynamique,</p>
             <ol>
@@ -76,14 +76,14 @@
                     <p><img alt="Valeurs du tableau croisé dynamique" src="../images/pivot_values.png" /></p>
                 </li>
             </ul>
-            <p>Pour en savoir plus sur un champ de valeur, faites un clic droit sur le champ pour ouvrir le menu contextuel et sélectionnez l'option <b>Afficher les détails</b> ou double-cliquez le champ nécessaire.</p>
+        <p>Pour en savoir plus sur un champ de valeur, faites un clic droit sur le champ pour ouvrir le menu contextuel et sélectionnez l'option Afficher les détails ou double-cliquez le champ nécessaire. Les données associées au champ de valeur s'ouvriront dans une nouvelle feuille de calcul.</p>
 
             <h4>Réorganiser les champs et configurer les paramètres</h4>
             <p>Une foi les champs ajoutés aux sections appropriées, vous pouvez les gérer pour modifier la mise en page et la mise en forme du tableau croisé dynamique. Cliquez sur la flèche noire à droit du champ dans les sections <b>Filtres, Colonnes, Lignes et Valeurs</b> pour afficher le menu contextuel du champ.</p>
             <p><img alt="Menu du tableau croisé dynamique" src="../images/pivot_menu.png" /></p>
             <p>Il vous permet:</p>
             <ul>
-                <li><b>Déplacer</b> le champ sélectionné: <b>Monter</b>, <b>Descendre</b>, <b>Aller au début</b>, ou <b>Déplacer vers le fin</b> de la section actuelle si vous avez ajouté plusieurs champs.</li>
+                <li><b>Déplacer</b> le champ sélectionné: <b>Monter</b>, <b>Descendre</b>, <b>Aller au début</b>, ou <b>Déplacer vers le fin </b>de la section actuelle si vous avez ajouté plusieurs champs.</li>
                 <li><b>Déplacer </b>le champ vers une autre section - <b>Filtres</b>, <b>Colonnes</b>, <b>Lignes</b> ou <b>Valeurs</b>. L'option déjà appliquée à la section actuelle sera désactivée.</li>
                 <li><b>Supprimer</b> <b>le champ</b> sélectionné de la section actuelle.</li>
                 <li>Configurer les <b>paramètres</b> du champ choisi.</li>
@@ -211,6 +211,18 @@
             </ul>
             <p>Le bouton  <span class = "icon icon-pivotselecticon"></span> <b>Sélectionner</b> permet de sélectionner le tableau croisé dynamique entier.</p>
             <p>Lorsque vous avez modifié l'ensemble de données sources, sélectionnez le tableau croisé dynamique et cliquez sur le bouton <span class="icon icon-pivot_refresh"></span> <b>Actualiser</b> pour mettre à jour le tableau croisé dynamique.</p>
+            
+            <h3>Développer ou réduire des champs</h3>
+            <p>Pour développer ou réduire des détails de données, cliquez avec le bouton droit de la souris sur le champ pour ouvrir le menu contextuel, sélectionnez <b>Développer/Réduire</b> dans le menu, ensuite sélectionnez l'option appropriée:</p>
+            <ul>
+                <li><b>Développer</b> à afficher les détails de l'élément sélectionné actuellement.</li>
+                <li><b>Réduire</b> à masquer les détails de l'élément sélectionné actuellement.</li>
+                <li><b>Développer le champ entièrement</b> à afficher les détails de tous éléments dans le champ. La même option est disponible sur la barre d'outils supérieure.</li>
+                <li><b>Réduire le champ entièrement</b> à masquer les détails de tous éléments dans le champ. La même option est disponible sur la barre d'outils supérieure.</li>
+            </ul>
+            <p>Les groupes sont masqués derrière les icône plus/minus. Il est également possible de développer/réduire les champs en faisant un double-clic sur l'en-tête du tableau croisé dynamique.</p>
+            <p>L'option Développer, lors de la sélection du dernier champ de lignes ou colonnes, une boîte de dialogue s'affiche pour ajouter un nouveau champ à la ligne ou à la colonne. Sélectionnez le champ nécessaire et cliquez sur <b>OK</b>.</p>
+            <p><img alt="Tableau croisé dynamique" src="../images/expand_last.png" /></p>
 
             <h3>Modifier le style d'un tableau croisé dynamique</h3>
             <p>Vous pouvez modifier la présentation du tableau croisé dynamique dans une feuille de calcul en utilisant les outils d'édition dans la barre d'outils supérieure.</p>
@@ -294,7 +306,7 @@
                         <li>L'option <em><b>Afficher les champs</b> de filtre de rapport par colonne</em> sélectionnez le nombre de filtres à afficher pour chaque colonne. La valeur par défaut est <em>0</em>. Vous pouvez régler la valeur numérique.</li>
                     </ul>
                 </li>
-                <li>La section <b>Afficher les en-têtes des champs pour les lignes et les colonnes</b> permet d'afficher ou de ne pas afficher les en-têtes des champs dans le tableau croisé dynamique. Cette option est activée par défaut. Décochez-la pour masquer les en-têtes de champ du tableau croisé dynamique.</li>
+                <li>La section <b>Afficher les en-têtes des champs pour les lignes et les colonnes </b>permet d'afficher ou de ne pas afficher les en-têtes des champs dans le tableau croisé dynamique. Cette option est activée par défaut. Décochez-la pour masquer les en-têtes de champ du tableau croisé dynamique.</li>
                 <li>L'option Ajuster automatiquement la largeur de colonne lors de la mise à jour permet d'activer/désactiver l'ajustement automatique de la largeur des colonnes. Cette option est activée par défaut.</li>
             </ul>
             <p><img alt="Paramètres avancés du tableau croisé dynamique" src="../images/pivot_advanced2.png" /></p>

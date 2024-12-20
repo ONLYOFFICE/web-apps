@@ -63,8 +63,10 @@
   { "src": "UsageInstructions/YouTube.htm", "name": "Video einfügen" },
   { "src": "UsageInstructions/HighlightedCode.htm", "name": "Hervorgehobenen Code einfügen" },
   { "src": "UsageInstructions/Translator.htm", "name": "Text übersetzen" },
-  { "src": "UsageInstructions/Thesaurus.htm", "name": "Wort durch Synonym ersetzen" },
-	{"src": "UsageInstructions/ChatGPT.htm", "name": "KI verwenden"},
+    { "src": "UsageInstructions/Thesaurus.htm", "name": "Wort durch Synonym ersetzen" },
+    {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Kommunikation während der Bearbeitung"},
+  { "src": "UsageInstructions/ChatGPT.htm", "name": "KI verwenden" },    
+  {"src": "UsageInstructions/Pixabay.htm", "name": "Bilder hinzufügen"},
   { "src": "UsageInstructions/ViewDocInfo.htm", "name": "Tabelleneigenschaften anzeigen", "headername": "Werkzeuge und Einstellungen" },
   { "src": "UsageInstructions/ScaleToFit.htm", "name": "Ein Arbeitsblatt skalieren" },
   { "src": "UsageInstructions/SavePrintDownload.htm", "name": "Kalkulationstabelle speichern/drucken/herunterladen" },
@@ -76,6 +78,5 @@
   {"src": "HelpfulHints/ImportData.htm", "name": "Daten aus Text-/CSV-Datei erhalten"},
   { "src": "HelpfulHints/About.htm", "name": "Über den Kalkulationstabelleneditor", "headername": "Nützliche Hinweise" },
   { "src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate für Kalkulationstabellen" },
-  { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastenkombinationen" }
-  
+  { "src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastenkombinationen" }  
 ]
