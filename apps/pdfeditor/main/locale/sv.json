@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Nyckelns beskrivning har utgått",
   "PDFE.Controllers.Main.errorLoadingFont": "Typsnittet är inte tillgängligt.<br>Vänligen kontakta dokumentserverns administratör.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Lösenordet som du angav är felaktigt.<br>Se till att CAPS LOCK inte är aktiverat och säkerställ att du använder rätt storlek på tecknen i lösenordet.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Sparar felaktig.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Textredigerarens version har uppdaterats. Sidan kommer att laddas om för att verkställa ändringarna.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
 }
