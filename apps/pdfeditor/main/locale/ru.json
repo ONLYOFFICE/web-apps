@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "PDFE.Controllers.Main.errorLoadingFont": "Шрифты не загружены.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Неверный пароль.<br>Убедитесь, что отключена клавиша CAPS LOCK и используется правильный регистр.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "Действие нельзя выполнить, так как оно вызывает изменения в заблокированных формах.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Сбой при сохранении.",
   "PDFE.Controllers.Main.errorSaveWatermark": "Этот файл содержит изображение водяного знака, привязанное к другому домену.<br>Чтобы сделать его видимым в PDF, обновите изображение водяного знака, чтобы оно было связано с тем же доменом, что и документ, или загрузите его со своего компьютера.",
   "PDFE.Controllers.Main.errorServerVersion": "Версия редактора была обновлена. Страница будет перезагружена, чтобы применить изменения.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

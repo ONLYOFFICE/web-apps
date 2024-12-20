@@ -392,11 +392,16 @@
   "VE.Views.LeftMenu.txtLimit": "Ограниченный доступ",
   "VE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
   "VE.Views.LeftMenu.txtTrialDev": "Пробный режим разработчика",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
   "VE.Views.Statusbar.tipFitPage": "По размеру страницы",
   "VE.Views.Statusbar.tipFitWidth": "По ширине",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
   "VE.Views.Statusbar.tipZoomFactor": "Масштаб",
   "VE.Views.Statusbar.tipZoomIn": "Увеличить",
   "VE.Views.Statusbar.tipZoomOut": "Уменьшить",
+  "VE.Views.Statusbar.txtPage": "Page",
   "VE.Views.Toolbar.textTabFile": "Файл",
   "VE.Views.Toolbar.textTabView": "Вид",
   "VE.Views.ViewTab.textAlwaysShowToolbar": "Всегда показывать панель инструментов",
@@ -412,10 +417,5 @@
   "VE.Views.ViewTab.textZoom": "Масштаб",
   "VE.Views.ViewTab.tipFitPage": "По размеру страницы",
   "VE.Views.ViewTab.tipFitWidth": "По ширине",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
-  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
-  "VE.Views.Statusbar.tipNext": "Next page",
-  "VE.Views.Statusbar.tipPrev": "Previous page",
-  "VE.Views.Statusbar.txtPage": "Page"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

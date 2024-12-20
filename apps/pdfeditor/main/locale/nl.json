@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Sleuteldescriptor vervallen",
   "PDFE.Controllers.Main.errorLoadingFont": "Lettertypes zijn niet geladen.\nNeem alstublieft contact op met de beheerder van de documentserver.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Het ingevoerde wachtwoord is niet correct.\nVerifieer dat de CAPS LOCK toets is uitgeschakeld en let op het juiste gebruik van hoofdletters.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Opslaan mislukt.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "De versie van de editor is bijgewerkt. De pagina wordt opnieuw geladen om de wijzigingen toe te passen.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
 }

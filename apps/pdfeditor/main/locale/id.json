@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Deskriptor kunci tidak berfungsi",
   "PDFE.Controllers.Main.errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Password yang Anda sediakan tidak tepat.<br>Pastikan bahwa CAPS LOCK sudah mati dan pastikan sudah menggunakan huruf besar dengan tepat.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Gagal menyimpan.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Versi editor sudah di update. Halaman akan dimuat ulang untuk menerapkan perubahan.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }

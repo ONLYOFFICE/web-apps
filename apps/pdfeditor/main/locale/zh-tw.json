@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "金鑰描述符已過期",
   "PDFE.Controllers.Main.errorLoadingFont": "字體未載入。<br>請聯絡檔案伺服器管理員。",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "密碼錯誤。<br>核實蓋帽封鎖鍵關閉並且是肯定使用正確資本化。",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "儲存失敗",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "編輯器版本已更新。該頁面將被重新加載以應用更改。",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
 }

@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Ključni deskriptor je potekel",
   "PDFE.Controllers.Main.errorLoadingFont": "Pisave niso naložene.<br>Prosimo kontaktirajte administratorja.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Shranjevanje ni bilo uspešno",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Različica urejevalnika je posodobljena. Stran bo ponovno naložena, da bo spremenila spremembe.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi stran",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi širino",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
 }

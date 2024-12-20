@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
   "PDFE.Controllers.Main.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Das eingegebene Kennwort ist ungültig.<br>Stellen Sie sicher, dass die FESTSTELLTASTE nicht aktiviert ist und dass Sie die korrekte Groß-/Kleinschreibung verwenden.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "Die Aktion kann nicht ausgeführt werden, da sie Änderungen in gesperrten Formularen verursacht.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Speichern fehlgeschlagen.",
   "PDFE.Controllers.Main.errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
   "PDFE.Controllers.Main.errorServerVersion": "Editor-Version wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
@@ -2034,6 +2035,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }

@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Fusione fallita.",
     "errorNoTOC": "Non è presente alcun indice da aggiornare. Puoi inserirne uno dalla scheda Riferimenti.",
     "errorPasswordIsNotCorrect": "La password fornita non è corretta. Verifica che il tasto BLOCCO MAIUSCOLE sia disattivato e assicurati di utilizzare le maiuscole corrette.",
+    "errorPDFFormsLocked": "L'azione non può essere eseguita perché provoca modifiche ai moduli bloccati.",
     "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
@@ -470,8 +471,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
