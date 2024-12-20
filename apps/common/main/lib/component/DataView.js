@@ -1112,6 +1112,21 @@ define([
 
         focusInner: function(e) {
             this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
+        },
+
+        childWillBeVisibleAtScroll: function(index, scrollPosition) {
+            var child = this.dataViewItems[index];
+            if (!child) {
+                return false;
+            }
+
+            var $childEl = child.$el.first();
+            var $containerEl = $(this.el).first();
+
+            var elementOffset = $childEl.offset().top - $containerEl.offset().top + $containerEl.scrollTop();
+            var viewportHeight = scrollPosition + $containerEl.height() + $childEl.outerHeight();
+
+            return elementOffset - scrollPosition > 0 && elementOffset <= viewportHeight;
         }
     });
 
