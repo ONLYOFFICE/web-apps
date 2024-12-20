@@ -901,6 +901,7 @@ define([
                         menu: true,
                         colorLine: false,
                         additionalItemsAfter: [
+                            {caption: '--'},
                             new Common.UI.MenuItem({
                                 template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                                 stopPropagation: true
@@ -915,6 +916,7 @@ define([
                         paletteCls: colorsconfig.cls,
                         paletteWidth: colorsconfig.paletteWidth,
                         storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
@@ -933,6 +935,7 @@ define([
                         menu: true,
                         colorLine: false,
                         additionalItemsAfter: [
+                            {caption: '--'},
                             new Common.UI.MenuItem({
                                 template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                                 stopPropagation: true
@@ -947,6 +950,7 @@ define([
                         paletteCls: colorsconfig.cls,
                         paletteWidth: colorsconfig.paletteWidth,
                         storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
@@ -964,6 +968,7 @@ define([
                         split: true,
                         menu: true,
                         additionalItemsAfter: [
+                            {caption: '--'},
                             new Common.UI.MenuItem({
                                 template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                                 stopPropagation: true
@@ -981,6 +986,7 @@ define([
                         paletteCls: colorsconfig.cls,
                         paletteWidth: colorsconfig.paletteWidth,
                         storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         type: AscPDF.ANNOTATIONS_TYPES.Highlight,
                         dataHint: '1',
                         dataHintDirection: 'top',

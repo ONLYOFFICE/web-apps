@@ -1492,6 +1492,7 @@ define([], function () {
                 colors: config.colors,
                 color: '3D8A44',
                 additionalItemsAfter: [
+                    {caption: '--'},
                     new Common.UI.MenuItem({
                         template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                         stopPropagation: true
@@ -1504,6 +1505,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textUnderline,
                 type: AscPDF.ANNOTATIONS_TYPES.Underline
             });
@@ -1521,6 +1523,7 @@ define([], function () {
                 colors: config.colors,
                 color: 'D43230',
                 additionalItemsAfter: [
+                    {caption: '--'},
                     new Common.UI.MenuItem({
                         template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                         stopPropagation: true
@@ -1533,6 +1536,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textStrikeout,
                 type: AscPDF.ANNOTATIONS_TYPES.Strikeout
             });
@@ -1547,6 +1551,7 @@ define([], function () {
                 split: true,
                 menu: true,
                 additionalItemsAfter: [
+                    {caption: '--'},
                     new Common.UI.MenuItem({
                         template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                         stopPropagation: true
@@ -1564,6 +1569,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textHighlight,
                 type: AscPDF.ANNOTATIONS_TYPES.Highlight
             });
@@ -1622,6 +1628,7 @@ define([], function () {
                 ],
                 color: 'FFFC54',
                 additionalItemsAfter: [
+                    {caption: '--'},
                     new Common.UI.MenuItem({
                         template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                         stopPropagation: true
@@ -1634,6 +1641,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeHighlightColor);
@@ -1650,6 +1658,7 @@ define([], function () {
                 colors: config.colors,
                 color: '3D8A44',
                 additionalItemsAfter: [
+                    {caption: '--'},
                     new Common.UI.MenuItem({
                         template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
                         stopPropagation: true
@@ -1662,6 +1671,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeColor);
