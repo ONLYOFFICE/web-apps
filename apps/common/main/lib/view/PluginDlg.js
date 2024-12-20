@@ -120,7 +120,7 @@ define([], function () {
 
             iframe.src = this.url;
             pholder.append(iframe);
-
+            this.frame = iframe;
             this.on('resizing', function(args){
                 me.boxEl.css('height', parseInt(me.$window.css('height')) - me._headerFooterHeight);
             });
@@ -222,6 +222,10 @@ define([], function () {
             if (btn.length>0) {
                 btn.hide();
             }
+        },
+
+        enablePointerEvents: function(enable) {
+            this.frame && (this.frame.style.pointerEvents = enable ? "" : "none");
         },
 
         textLoading : 'Loading'
