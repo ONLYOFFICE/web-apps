@@ -94,18 +94,6 @@ define([
             this.arrAddExceptions = {};
             this.arrRemExceptions = {};
 
-            if (this.api)
-                _exciptionsLangs = this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().get_DefaultLangs() || [];
-            _exciptionsLangs.forEach(function(lang) {
-                path = me.appPrefix + "settings-letter-exception";
-                
-                value = Common.Utils.InternalSettings.get(path + "-add-" + lang);
-                me.arrAddExceptions[lang] = value ? JSON.parse(value) : [];
-
-                value = Common.Utils.InternalSettings.get(path + "-rem-" + lang);
-                me.arrRemExceptions[lang] = value ? JSON.parse(value) : [];
-            });
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -337,8 +325,19 @@ define([
                     me.api.asc_SetAutoCorrectDoubleSpaceWithPeriod(checked);
                 });
 
-
                 // AutoCorrect
+                if (this.api)
+                    _exciptionsLangs = this.api.asc_GetAutoCorrectSettings().get_FirstLetterExceptionManager().get_DefaultLangs() || [];
+                _exciptionsLangs.forEach(function(lang) {
+                    var path = me.appPrefix + "settings-letter-exception";
+
+                    var value = Common.Utils.InternalSettings.get(path + "-add-" + lang);
+                    me.arrAddExceptions[lang] = value ? JSON.parse(value) : [];
+
+                    value = Common.Utils.InternalSettings.get(path + "-rem-" + lang);
+                    me.arrRemExceptions[lang] = value ? JSON.parse(value) : [];
+                });
+
                 var exciptionsActiveLang = Common.Utils.InternalSettings.get('settings-letter-exception-lang');
                 this.exceptionsLangCmb = new Common.UI.ComboBox({
                     el          : $window.find('#auto-correct-exceptions-lang'),
