@@ -2016,6 +2016,8 @@
   "PDFE.Views.Toolbar.txtRotatePage": "Rotate page",
   "PDFE.Views.Toolbar.txtRotatePageRight": "Rotate page right",
   "PDFE.Views.Toolbar.txtRotateRight": "Rotate right",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.txtUngroup": "Ungroup",
   "PDFE.Views.ViewTab.textAlwaysShowToolbar": "Always Show Toolbar",
   "PDFE.Views.ViewTab.textDarkDocument": "Dark Document",
