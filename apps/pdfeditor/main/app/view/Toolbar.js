@@ -1448,7 +1448,7 @@ define([
                         if (menu.sizePicker) {
                             menu.sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
                         } else {
-                            menu.sizePicker = me.createOpacityPicker(id, menu.cmpEl.find('.custom-scale'));
+                            menu.sizePicker = me.createOpacityPicker(button, id, menu.cmpEl.find('.custom-scale'));
                         }
                     };
                     button.menu.on('show:after', onShowAfter);
@@ -1457,7 +1457,8 @@ define([
                 return button.getPicker();
             },
 
-            createOpacityPicker: function(id, el) {
+            createOpacityPicker: function(button, id, el) {
+                var me = this;
                 var sizePicker = new Common.UI.UpDownPicker({
                     el: el,
                     caption: this.txtOpacity,
@@ -1483,6 +1484,13 @@ define([
                     this.setValue(val + '%');
                     Common.Utils.InternalSettings.set("pdfe-annot-opacity-" + id, val);
                     Common.localStorage.setItem("pdfe-annot-opacity-" + id, val);
+                    if (button.pressed) {
+                        var strcolor = button.currentColor || '0000FF',
+                            r = strcolor[0] + strcolor[1],
+                            g = strcolor[2] + strcolor[3],
+                            b = strcolor[4] + strcolor[5];
+                        me.api && me.api.SetMarkerFormat(button.options.type, true, val, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                    }
                 });
                 sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
                 return sizePicker;
