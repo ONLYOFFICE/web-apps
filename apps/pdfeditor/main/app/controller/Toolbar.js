@@ -1171,16 +1171,22 @@ define([
                 var arr = this.api.asc_getPropertyEditorStamps(),
                     template = _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<img style="width: auto; height: auto;" src="<%= options.stampImage %>"></img>',
+                            '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
                         '</a>'
                     ].join(''));
                 arr.forEach(function(item){
                     var menuItem = new Common.UI.MenuItem({
                         value: item.Type,
-                        stampImage: item.Image,
+                        itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
+                        itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
                         template: template
                     });
                     menu.addItem(menuItem, true);
+                    if (menuItem.cmpEl) {
+                        menuItem.cmpEl.find('div').append(item.Image);
+                        menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
+                    }
+
                 });
                 this.toolbar.btnStamp.options.stampType = arr[0].Type;
             }

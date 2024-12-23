@@ -1519,6 +1519,16 @@ define([
                         me.btnStamp.setMenu(new Common.UI.Menu({
                             restoreHeight: 500
                         }));
+                        var menu = me.btnStamp.menu;
+                        if (menu.cmpEl) {
+                            menu.cmpEl.attr('ratio', 'ratio');
+                            menu.cmpEl.on('app:scaling', function (e, info) {
+                                if ( me.options.scaling != info.ratio ) {
+                                    menu.hide();
+                                    menu.removeAll();
+                                }
+                            });
+                        }
                     }
                 });
             },
