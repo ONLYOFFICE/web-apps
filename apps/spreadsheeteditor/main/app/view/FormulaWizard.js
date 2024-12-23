@@ -355,9 +355,11 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
+                if ($(e.target).parent().find(e.relatedTarget).length<1)
+                    me.onInputChanging(input, true, newValue, oldValue);
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
-                me.onInputChanging(input, newValue, oldValue);
+                me.onInputChanging(input, false, newValue, oldValue);
             }).on('button:click', _.bind(this.onSelectData, this));
             txt.setValue((argval!==undefined && argval!==null) ? argval : '');
             txt._input.on('focus', _.bind(this.onSelectArgument, this, txt));
@@ -381,11 +383,11 @@ define([
             Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
-        onInputChanging: function(input, newValue, oldValue, e) {
+        onInputChanging: function(input, endInsert, newValue, oldValue, e) {
             var me = this,
                 index = input.options.index,
                 arg = me.args[index];
-            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined),
+            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined, !!endInsert),
                 argres = res ? res.asc_getArgumentsResult() : undefined;
             argres = argres ? argres[index] : undefined;
             arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + arg.argTypeName + '</span>' ));
