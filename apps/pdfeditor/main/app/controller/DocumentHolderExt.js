@@ -1380,12 +1380,17 @@ define([], function () {
         };
 
         dh.onShowFormsPDFActions = function(obj, x, y) {
+            var me = this;
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
-                    this.onShowListActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActionsPDF(obj, x, y);
+                    }, 1);
                     break;
                 case AscPDF.FIELD_TYPES.text:
-                    this.onShowDateActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActionsPDF(obj, x, y);
+                    }, 1);
                     break;
             }
         };

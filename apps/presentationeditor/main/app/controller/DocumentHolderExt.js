@@ -1089,12 +1089,14 @@ define([], function () {
             menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
             this._preventClick = true;
-            menu.show();
+            setTimeout(function() {
+                menu.show();
 
-            menu.alignPosition();
-            _.delay(function() {
-                menu.cmpEl.find('.dataview').focus();
-            }, 10);
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.find('.dataview').focus();
+                }, 10);
+            }, 1);
             this._fromShowPlaceholder = false;
         };
 
@@ -1152,12 +1154,14 @@ define([], function () {
             menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
             this._preventClick = true;
-            menu.show();
+            setTimeout(function() {
+                menu.show();
 
-            menu.alignPosition();
-            _.delay(function() {
-                menu.cmpEl.focus();
-            }, 10);
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+            }, 1);
             this._fromShowPlaceholder = false;
         };
 
@@ -1256,12 +1260,14 @@ define([], function () {
             menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
             this._preventClick = true;
-            menu.show();
+            setTimeout(function() {
+                menu.show();
 
-            menu.alignPosition();
-            _.delay(function() {
-                menu.cmpEl.focus();
-            }, 10);
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+            }, 1);
             this._fromShowPlaceholder = false;
         };
 
