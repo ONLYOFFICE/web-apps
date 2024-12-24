@@ -108,8 +108,6 @@ define([
                 reset: this.onResetPlugins.bind(this)
             });
 
-
-            this._moveOffset = {x:0, y:0};
             this.autostart = [];
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
@@ -193,8 +191,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
-                this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
@@ -203,8 +199,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
                 this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
-                this.api.asc_registerCallback("asc_onPluginWindowMouseUp", _.bind(this.onPluginWindowMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginWindowMouseMove", _.bind(this.onPluginWindowMouseMove, this));
                 this.api.asc_registerCallback("asc_onPluginWindowActivate", _.bind(this.openUIPlugin, this));
 
                 this.loadPlugins();
@@ -228,14 +222,13 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
-                        me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
-                                            y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
+                        panel.enablePointerEvents && panel.enablePointerEvents(false);
                         me.api.asc_pluginEnableMouseEvents(true);
                     }
                 },
                 'layout:resizestop': function(e){
                     if (panel) {
+                        panel.enablePointerEvents && panel.enablePointerEvents(true);
                         me.api.asc_pluginEnableMouseEvents(false);
                     }
                 }
@@ -723,9 +716,11 @@ define([
                             },
                             'drag': function(args){
                                 me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                                args[0].enablePointerEvents(args[1]!=='start');
                             },
                             'resize': function(args){
                                 me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                                args[0].enablePointerEvents(args[1]!=='start');
                             },
                             'help': function(){
                                 help && window.open(help, '_blank');
@@ -785,23 +780,6 @@ define([
 
         onToolClose: function(panel) {
             this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.frameId);
-        },
-
-        onPluginMouseUp: function(x, y) {
-            if (this.pluginDlg) {
-                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
-                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
-            } else
-                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-        
-        onPluginMouseMove: function(x, y) {
-            if (this.pluginDlg) {
-                var offset = Common.Utils.getOffset(this.pluginContainer);
-                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-            } else
-                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
         onPluginsInit: function(pluginsdata, fromManager) {
@@ -1192,9 +1170,11 @@ define([
                         },
                         'drag': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                            args[0].enablePointerEvents(args[1]!=='start');
                         },
                         'resize': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                            args[0].enablePointerEvents(args[1]!=='start');
                         },
                         'help': function(){
                             help && window.open(help, '_blank');
@@ -1231,23 +1211,6 @@ define([
                 if (callback)
                     callback.call();
             }
-        },
-
-        onPluginWindowMouseUp: function(frameId, x, y) {
-            if (this.customPluginsDlg[frameId]) {
-                if (this.customPluginsDlg[frameId].binding.dragStop) this.customPluginsDlg[frameId].binding.dragStop();
-                if (this.customPluginsDlg[frameId].binding.resizeStop) this.customPluginsDlg[frameId].binding.resizeStop();
-            } else
-                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
-        onPluginWindowMouseMove: function(frameId, x, y) {
-            if (this.customPluginsDlg[frameId]) {
-                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
-                if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-            } else
-                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
         onPluginPanelShow: function (frameId, variation, lang) {
