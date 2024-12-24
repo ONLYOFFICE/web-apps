@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

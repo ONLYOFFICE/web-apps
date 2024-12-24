@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }
