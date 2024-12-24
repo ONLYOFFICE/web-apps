@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

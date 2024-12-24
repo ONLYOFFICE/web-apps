@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a la página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar al ancho",
   "PDFE.Views.ViewTab.tipHeadings": "Encabezados",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

@@ -2035,5 +2035,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }
