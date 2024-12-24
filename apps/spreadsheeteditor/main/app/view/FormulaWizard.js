@@ -396,6 +396,10 @@ define([
             me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
             result = res ? res.asc_getFormulaResult() : undefined;
             me.lblFormulaResult.html(me.textValue + ':' + ((result!==undefined && result!==null)? result : ''));
+            if (endInsert && res) {
+                argres = res.asc_getArguments();
+                argres && arg.argInput.setValue(argres[index]);
+            }
         },
 
         getArgumentsValue: function() {
