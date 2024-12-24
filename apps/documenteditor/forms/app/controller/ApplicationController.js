@@ -785,10 +785,11 @@ define([
                     _.defer(function() {
                         Common.Gateway.updateVersion();
                         if (callback) callback.call(me);
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     })
                 }
             });
+            Common.NotificationCenter.trigger('api:disconnect');
         },
 
         onLicenseChanged: function(params) {
