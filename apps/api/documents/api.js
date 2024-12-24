@@ -383,6 +383,7 @@
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
+        _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
