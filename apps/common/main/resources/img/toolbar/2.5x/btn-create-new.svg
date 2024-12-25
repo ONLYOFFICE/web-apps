@@ -1,4 +1,9 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13 13h1v2h2v1h-2v2h-1v-2h-2v-1h2z" fill="#000"/>
-    <path d="M6 4v12h4v1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5.586a1 1 0 0 1 .707.293l2.414 2.414a1 1 0 0 1 .293.707V12h-1V7h-2a1 1 0 0 1-1-1V4z" fill="#000"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_386_3166" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="white"/>
+</mask>
+<g mask="url(#mask0_386_3166)">
+<path d="M6.6155 21C6.15517 21 5.77083 20.8458 5.4625 20.5375C5.15417 20.2292 5 19.8448 5 19.3845V4.6155C5 4.15517 5.15417 3.77083 5.4625 3.4625C5.77083 3.15417 6.15517 3 6.6155 3H14.5L19 7.5V13H18V8H14V4H6.6155C6.4615 4 6.32042 4.06408 6.19225 4.19225C6.06408 4.32042 6 4.4615 6 4.6155V19.3845C6 19.5385 6.06408 19.6796 6.19225 19.8078C6.32042 19.9359 6.4615 20 6.6155 20H13V21H6.6155Z" fill="#1C1B1F"/>
+<path d="M18 23V20H15V19H18V16H19V19H22V20H19V23H18Z" fill="#5C89FF"/>
+</g>
 </svg>

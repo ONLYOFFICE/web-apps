@@ -1,6 +1,11 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="3.5" y="3.5" width="5" height="5" rx="0.5" stroke="black"/>
-<rect x="10.4649" y="6" width="5" height="5" rx="0.5" transform="rotate(-45 10.4649 6)" stroke="black"/>
-<rect x="11.5" y="11.5" width="5" height="5" rx="0.5" stroke="black"/>
-<rect x="3.5" y="11.5" width="5" height="5" rx="0.5" stroke="black"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_365_1951" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_365_1951)">
+<path d="M13 20V13H20L20 20L13 20ZM14 19L19 19V14H14L14 19Z" fill="#1C1B1F"/>
+<path d="M16.5551 11.8134L12.3125 7.5708L16.5551 3.32816L20.7978 7.5708L16.5551 11.8134ZM16.5551 10.3992L19.3836 7.5708L16.5551 4.74237L13.7267 7.5708L16.5551 10.3992Z" fill="#1C1B1F"/>
+<path d="M4 20V13H11V20L4 20ZM5 19H10V14H5V19Z" fill="#1C1B1F"/>
+<path d="M4 11V4H11V11H4ZM5 10H10V5H5V10Z" fill="#1C1B1F"/>
+</g>
 </svg>

@@ -1,3 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
-  <path fill="#000" fill-rule="evenodd" d="M17 2 3 9h14V2Zm-1 1.618L7.236 8H16V3.618ZM17 10H3l14 7v-7Z" clip-rule="evenodd"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_365_1733" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_365_1733)">
+<path d="M20 15L20 18.3755C20 18.829 19.8419 19.2132 19.5255 19.528C19.2092 19.8427 18.8289 20 18.3845 20L5.61552 20C5.17119 20 4.79085 19.8418 4.47452 19.5255C4.15819 19.2092 4.00002 18.8288 4.00002 18.3845L4 15L5 15L5.00002 18.3845C5.00002 18.564 5.05769 18.7115 5.17302 18.827C5.28852 18.9423 5.43602 19 5.61552 19L18.3845 19C18.564 19 18.7115 18.9423 18.827 18.827C18.9424 18.7115 19 18.564 19 18.3845L19 15L20 15ZM22 13L2 13L2 12L22 12L22 13Z" fill="#1C1B1F"/>
+<path d="M19 6L19 5L20 5L20 6L19 6Z" fill="#1C1B1F"/>
+<path d="M4 6L4 5L5 5L5 6L4 6Z" fill="#1C1B1F"/>
+<path d="M19 10L19 9L20 9L20 10L19 10Z" fill="#1C1B1F"/>
+<path d="M4 10L4 9L5 9L5 10L4 10Z" fill="#1C1B1F"/>
+<path d="M7 6L7 5L8 5L8 6L7 6Z" fill="#1C1B1F"/>
+<path d="M10 6L10 5L11 5L11 6L10 6Z" fill="#1C1B1F"/>
+<path d="M13 6L13 5L14 5L14 6L13 6Z" fill="#1C1B1F"/>
+<path d="M16 6L16 5L17 5L17 6L16 6Z" fill="#1C1B1F"/>
+</g>
 </svg>

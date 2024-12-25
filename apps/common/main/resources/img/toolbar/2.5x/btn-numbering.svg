@@ -1,3 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
-  <path fill="#000" fill-rule="evenodd" d="M5 7h1V3H4v1h1v3Zm3-2h8v1H8V5Zm0 5h8v1H8v-1Zm8 5H8v1h8v-1Zm-9-4v1H4v-1l2-2H4V8h2l1 1-2 2h2Zm-3 6v-1h2l-.5-1 .5-1H4v-1h2l1 1-.5 1 .5 1-1 1H4Z" clip-rule="evenodd"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_365_1925" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" transform="matrix(-1 0 0 1 24 0)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_365_1925)">
+<path d="M20 17V16H10V17H20ZM20 8V7H10V8H20Z" fill="#1C1B1F"/>
+<path d="M4 20V16.7067C4 16.5065 4.0588 16.3386 4.17639 16.2032C4.29399 16.0677 4.43973 16 4.61361 16H6.00004V14H4.00004V13H6.38644C6.56032 13 6.70605 13.0677 6.82365 13.2032C6.94124 13.3386 7.00004 13.5065 7.00004 13.7067L7 16.2933C7 16.4935 6.9412 16.6614 6.82361 16.7968C6.70601 16.9323 6.56027 17 6.38639 17H5V19H7V20H4ZM6.00004 11V5H4.00004V4H7.00004V11H6.00004Z" fill="#5C89FF"/>
+</g>
 </svg>

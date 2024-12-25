@@ -1,3 +1,9 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 5H5V8H14V5ZM5 4H4V5V8V9H5H9V11H4H3L3 12L3 14H2V15V16V17H3H4H5V16V15V14H4V12H9V14H8V15V16V17H9H10H11V16V15V14H10V12H15V14H14V15V16V17H15H16H17V16V15V14H16V12V11H15H10V9H14H15V8V5V4H14H5ZM3 15H4V16H3V15ZM10 15H9V16H10V15ZM16 15H15V16H16V15Z" fill="black"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_365_2207" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_365_2207)">
+<path d="M23 19H19V17H15V19H10V17L6 17V19H2L2 14H6V16L10 16V14H12V9L7 9L7 4L18 4V9H12V14H15V16H19V14H23V19ZM22 18V15H20V18H22ZM14 18V15H11V18H14ZM17 8V5L8 5V8L17 8ZM5 18L5 15H3L3 18H5Z" fill="#1C1B1F"/>
+<path d="M12 9L13 9V14L12 14V9Z" fill="#1C1B1F"/>
+</g>
 </svg>

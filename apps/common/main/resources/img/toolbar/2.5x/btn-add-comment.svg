@@ -1,4 +1,9 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15 3h1v2h2v1h-2v2h-1V6h-2V5h2V3Z" fill="#000"/>
-    <path d="M6 13v1.92L8.4 13H16V9h1v4a1 1 0 0 1-1 1H8.75l-2.938 2.35A.5.5 0 0 1 5 15.96V14H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h8v1H4v8h2Z" fill="#000"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_352_1388" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_352_1388)">
+<path d="M4 20.2264V6.58501C4 6.14596 4.15733 5.77199 4.472 5.46309C4.78683 5.15436 5.168 5 5.6155 5H18.3845C18.832 5 19.2132 5.15436 19.528 5.46309C19.8427 5.77199 20 6.14596 20 6.58501V11H19V6.58501C19 6.4089 18.9423 6.26419 18.827 6.15086C18.7115 6.03771 18.564 5.98113 18.3845 5.98113H5.6155C5.436 5.98113 5.2885 6.03771 5.173 6.15086C5.05767 6.26419 5 6.4089 5 6.58501V17H12V17.9811H6.2885L4 20.2264Z" fill="#1C1B1F"/>
+<path d="M17 20V17H14V16H17V13H18V16H21V17H18V20H17Z" fill="#5C89FF"/>
+</g>
 </svg>

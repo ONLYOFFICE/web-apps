@@ -1,3 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
-  <path fill="#000" fill-rule="evenodd" d="M4 4h4v1h1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1V8H4V4Zm2 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Zm5 9v-1h1v1h4v-4h-1v-1h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_352_1477" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_352_1477)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11 4H4V11H11V4ZM10 5H5V10H10V5Z" fill="#1C1B1F"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20 13H13V20H20V13ZM19 14H14V19H19V14Z" fill="#1C1B1F"/>
+<rect x="8" y="8" width="8" height="8" fill="#5C89FF"/>
+</g>
 </svg>

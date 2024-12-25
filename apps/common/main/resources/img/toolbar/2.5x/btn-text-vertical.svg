@@ -1,12 +1,8 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="15.5" y="3.5" width="2" height="2" transform="rotate(90 15.5 3.5)" stroke="black"/>
-<rect x="5.5" y="3.5" width="2" height="2" transform="rotate(90 5.5 3.5)" stroke="black"/>
-<rect x="15.5" y="14.5" width="2" height="2" transform="rotate(90 15.5 14.5)" stroke="black"/>
-<rect x="5.5" y="14.5" width="2" height="2" transform="rotate(90 5.5 14.5)" stroke="black"/>
-<rect x="11" y="9" width="2" height="5" transform="rotate(90 11 9)" fill="black"/>
-<rect x="13" y="13" width="2" height="6" transform="rotate(-180 13 13)" fill="black"/>
-<rect x="6" y="4" width="7" height="1" fill="black"/>
-<rect x="6" y="15" width="7" height="1" fill="black"/>
-<rect x="5" y="6" width="8" height="1" transform="rotate(90 5 6)" fill="black"/>
-<rect x="15" y="6" width="8" height="1" transform="rotate(90 15 6)" fill="black"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_365_2297" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect x="24" width="24" height="24" transform="rotate(90 24 0)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_365_2297)">
+<path d="M2.38448 2.38452L6.61548 2.38452L6.61548 4.00002L17.3845 4.00002L17.3845 2.38452L21.6155 2.38452L21.6155 6.61552L20 6.61552L20 17.3845L21.6155 17.3845L21.6155 21.6155L17.3845 21.6155L17.3845 20L6.61548 20L6.61548 21.6155L2.38448 21.6155L2.38448 17.3845L3.99998 17.3845L3.99998 6.61552L2.38448 6.61552L2.38448 2.38452ZM4.99998 6.61552L4.99998 17.3845L6.61548 17.3845L6.61548 19L17.3845 19L17.3845 17.3845L19 17.3845L19 6.61552L17.3845 6.61552L17.3845 5.00002L6.61548 5.00002L6.61548 6.61552L4.99998 6.61552ZM7.99998 8.16552L17 11.6808L17 12.3193L7.99998 15.873L7.99998 14.9L10.6077 13.8693L10.6077 10.1423L7.99998 9.11152L7.99998 8.16552ZM11.4077 10.4385L11.4077 13.5615L15.427 12.0308L15.427 11.9308L11.4077 10.4385ZM18.3845 3.38452L18.3845 5.61552L20.6155 5.61552L20.6155 3.38452L18.3845 3.38452ZM18.3845 18.3845L18.3845 20.6155L20.6155 20.6155L20.6155 18.3845L18.3845 18.3845ZM3.38448 18.3845L3.38448 20.6155L5.61548 20.6155L5.61548 18.3845L3.38448 18.3845ZM3.38448 3.38452L3.38448 5.61552L5.61548 5.61552L5.61548 3.38452L3.38448 3.38452Z" fill="#1C1B1F"/>
+</g>
 </svg>
