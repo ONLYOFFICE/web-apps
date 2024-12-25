@@ -2975,5 +2975,7 @@
   "PE.Views.ViewTab.tipMacros": "Makros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Auswählungstool",
-  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster"
+  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.Header.tipStartOver": "Start from beginning"
 }

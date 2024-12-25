@@ -103,6 +103,10 @@ define([
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
+                    },
+                    'startover:disabled' : function (state) {
+                        if ( me.header.btnStartOver)
+                            me.header.btnStartOver.setDisabled(state);
                     }
                 }
             });

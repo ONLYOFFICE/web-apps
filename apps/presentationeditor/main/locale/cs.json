@@ -2975,5 +2975,7 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.Header.tipStartOver": "Start from beginning"
 }

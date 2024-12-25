@@ -2975,5 +2975,7 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.Header.tipStartOver": "Start from beginning"
 }

@@ -2975,5 +2975,7 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.Header.tipStartOver": "Start from beginning"
 }

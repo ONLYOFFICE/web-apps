@@ -222,6 +222,19 @@ define([
                     me.slideOnlyControls.push(me.btnRedo);
                     me.lockControls.push(me.btnRedo);
 
+                    me.btnStartOver = new Common.UI.Button({
+                        id: 'id-toolbar-btn-start-over',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-preview',
+                        lock: [_set.slideDeleted, _set.noSlides,  _set.lostConnect, _set.disableOnStart, _set.menuFileOpen],
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintTitle: 'Q'
+                    });
+                    me.slideOnlyControls.push(me.btnStartOver);
+                    me.lockControls.push(me.btnStartOver);
+
                     me.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
@@ -1458,6 +1471,7 @@ define([
                 _injectComponent('#slot-btn-save', this.btnSave);
                 _injectComponent('#slot-btn-undo', this.btnUndo);
                 _injectComponent('#slot-btn-redo', this.btnRedo);
+                _injectComponent('#slot-btn-start-over', this.btnStartOver);
                 _injectComponent('#slot-btn-copy', this.btnCopy);
                 _injectComponent('#slot-btn-paste', this.btnPaste);
                 _injectComponent('#slot-btn-cut', this.btnCut);
