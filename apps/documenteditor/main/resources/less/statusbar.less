@@ -1,3 +1,4 @@
+@statusbar-height: 25px;
 .statusbar {
     display: table;
     padding: 2px;
@@ -41,7 +42,7 @@
         button.margin-top-small,
         .margin-top-small > button,
         .margin-top-small > .btn-group {
-            margin-top: 3px;
+            margin-top: calc(@statusbar-height - @x-small-btn-size);
         }
     }
 
@@ -49,7 +50,7 @@
         margin: 0px 6px;
 
         &.short {
-            height: 25px;
+            height: @statusbar-height;
         }
 
         &.space {
@@ -114,11 +115,5 @@
 
     .hide-select-tools {
         display: none;
-    }
-
-    .lang-menu {
-        li a {
-            .padding-x(28px, 20px);
-        }
     }
 }

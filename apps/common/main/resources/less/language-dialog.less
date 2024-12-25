@@ -7,9 +7,9 @@
 
 li {
   .icon.spellcheck-lang {
-    margin: -1px 4px 0 -24px;
+    margin: -1px 4px 0 calc(-1*@x-small-btn-icon-size - 4px);
     .rtl & {
-      margin: -1px -24px 0 4px;
+      margin: -1px calc(-1*@x-small-btn-icon-size - 4px) 0 4px;
     }
   }
 
@@ -41,9 +41,6 @@ li {
   .dropdown-menu {
     li .icon.lang-flag {
       margin-top: 1px;
-    }
-    li a {
-      .padding-x(28px, 20px);
     }
   }
 
