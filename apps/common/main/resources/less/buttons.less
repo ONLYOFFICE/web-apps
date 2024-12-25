@@ -1,5 +1,9 @@
 @x-huge-btn-height: 52px;
 @x-huge-btn-icon-size: 28px;
+@x-small-btn-size: 24px;
+@x-small-btn-icon-size: 24px;
+@x-tiny-btn-size: 20px;
+@x-tiny-btn-icon-size: 20px;
 
 .btn {
     border-radius: 1px;
@@ -14,8 +18,12 @@
         line-height: @value - 2px;
     }
 
+    &.tiny {
+        .btnsize(@x-tiny-btn-size);
+    }
+
     &.small {
-        .btnsize(20px);
+        .btnsize(@x-small-btn-size);
     }
 
     &.normal {
@@ -341,8 +349,8 @@
         }
 
         button.small .icon {
-            width: 20px;
-            height: 20px;
+            width: @x-small-btn-icon-size;
+            height: @x-small-btn-icon-size;
             min-width: 0;
         }
 
@@ -476,9 +484,9 @@
 
     &:not(.x-huge) {
         .icon {
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
+            width: @x-small-btn-icon-size;
+            height: @x-small-btn-icon-size;
+            line-height: @x-small-btn-icon-size;
 
         }
 
@@ -514,7 +522,7 @@
         position: absolute;
         left: 3px;
         bottom: 1px;
-        width: 14px;
+        width: calc(@x-small-btn-size - 2*3px);
         height: 3px;
         background-color: red;
         .rtl & {
@@ -544,8 +552,8 @@
         position: absolute;
         left: 3px;
         bottom: 3px;
-        width: 14px;
-        height: 14px;
+        width: calc(@x-small-btn-size - 2*3px);
+        height: calc(@x-small-btn-size - 2*3px);
         background-color: red;
         .rtl & {
             left: auto;
@@ -602,9 +610,9 @@
     .icon {
         display: inline-block;
         position: relative;
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
+        width: @x-small-btn-icon-size;
+        height: @x-small-btn-icon-size;
+        line-height: @x-small-btn-icon-size;
     }
 
     &[disabled],

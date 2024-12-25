@@ -2,8 +2,9 @@
 @height-tabs: 32px;
 @height-controls: 67px;
 @img-equition-filter: var(--image-border-types-filter);
-
-
+@toolbar-paddings: floor(((@height-controls - 2*@x-small-btn-size)/3));
+@toolbar-small-btn-margin-top: ceil(((@height-controls - 2*@x-small-btn-size)/3));
+@toolbar-group-height: calc(@height-controls - 2 * @toolbar-paddings);
 .toolbar {
     position: relative;
 
@@ -292,8 +293,8 @@
     }
 
     .box-controls {
-        //height: @height-controls;         // button has strange offset in IE when odd height
-        padding: 7px 0;
+        height: @height-controls;         // button has strange offset in IE when odd height
+        padding: @toolbar-paddings 0;
         display: flex;
         .panel {
             display: table;
@@ -363,7 +364,7 @@
             }
         }
         .group {
-            height: 52px !important;
+            height: @toolbar-group-height !important;
             &.flex {
                 vertical-align: bottom;
             }
@@ -430,11 +431,11 @@
     }
 
     .elset {
-        height: 20px;
+        height: @x-small-btn-size;
         font-size: 0;
 
         &:not(:first-child) {
-            margin-top: 8px;
+            margin-top: @toolbar-small-btn-margin-top;
         }
 
         &.font-normal {
@@ -458,29 +459,29 @@
         }
 
         &.long {
-            height: 52px;
+            height: @toolbar-group-height;
         }
 
         &.short {
-            height: 20px;
+            height: @x-small-btn-size;
         }
     }
 
     .btn-slot {
         display: inline-block;
-        width: 20px;
+        width: @x-small-btn-size;
         height: auto;
 
         &.split-large {
-            width: 37px;
+            width: calc(@x-small-btn-size + 17px);
         }
 
         &.split {
-            width: 31px;
+            width: calc(@x-small-btn-size + 11px);
         }
 
         &.split-small {
-            width: 26px;
+            width: calc(@x-small-btn-size + 6px);
         }
 
         &.text {
@@ -845,24 +846,24 @@
         }
 
         & {
-            width: 21px;
-            height: 21px;
+            width: calc(@x-small-btn-size + 1px);
+            height: calc(@x-small-btn-size + 1px);
 
             .pixel-ratio__2_5 & {
-                width: 20px;
-                height: 20px;
+                width: @x-small-btn-size;
+                height: @x-small-btn-size;
             }
         }
 
         .icon {
-            width: 22px;
-            height: 22px;
+            width: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
+            height: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
 
             .pixel-ratio__1_25 &,
             .pixel-ratio__1_75 &,
             .pixel-ratio__2_5 & {
-                width: 20px;
-                height: 20px;
+                width: @x-small-btn-icon-size;
+                height: @x-small-btn-icon-size;
             }
         }
     }
@@ -1047,7 +1048,7 @@
                 }
             }
             .menu-item-icon {
-                background-position-x: -20px;
+                background-position-x: -24px;
                 background-position-x: @button-small-active-icon-offset-x;
             }
 
