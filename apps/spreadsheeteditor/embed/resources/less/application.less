@@ -25,6 +25,9 @@
       background: #f7f7f7;
       border-right: 1px solid #c0c0cd;
     }
+    &.rtl-sheet .worksheet-list-buttons {
+      border-left: 1px solid #c0c0cd;
+    }
 
     @media screen and (min--moz-device-pixel-ratio:0) {
       scrollbar-color: #e8e8e8 #eeeeee;
@@ -97,45 +100,49 @@
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges' width='4' height='8px' fill='rgb(247, 247, 247)'><polygon points='0,3.5 4,7 4,0'/></svg>");
       }
     }
-  }
 
-  ul.worksheet-list {
-    background-color: #F7F7F7;
-    display: flex;
-    padding: 0;
-    margin: 0;
-    white-space: nowrap;
-    margin-left: 68px;
+    ul.worksheet-list {
+      background-color: #F7F7F7;
+      display: flex;
+      padding: 0;
+      margin: 0;
+      white-space: nowrap;
+      margin-left: 68px;
 
-    li {
-      display: inline-block;
-      border-radius: 0;
-      padding: 0 10px 0;
-      line-height: 24px;
-      margin-right: -1px;
+      li {
+        display: inline-block;
+        border-radius: 0;
+        padding: 0 10px 0;
+        line-height: 24px;
+        margin-right: -1px;
+        margin-left: 0;
+        border-right: 1px solid #cacaca;
+        border-left: 1px solid #cacaca;
+        color: rgba(0, 0, 0, 0.8);
+        font-size: 11px;
+        cursor: pointer;
+        letter-spacing: 0.01em;
+        text-align: center;
+
+        &.active {
+          box-shadow: inset 0 4px 0 #49795d;
+          background-color: #ffffff;
+          color: #000;
+          font-weight: bold;
+        }
+
+        &::after {
+          content: attr(tabtitle);
+          font-weight: bold;
+          display: block;
+          height: 0;
+          color: transparent;
+        }
+      }
+    }
+    &.rtl-sheet ul.worksheet-list {
+      margin-right: 68px;
       margin-left: 0;
-      border-right: 1px solid #cacaca;
-      border-left: 1px solid #cacaca;
-      color: rgba(0, 0, 0, 0.8);
-      font-size: 11px;
-      cursor: pointer;
-      letter-spacing: 0.01em;
-      text-align: center;
-
-      &.active {
-        box-shadow: inset 0 4px 0 #49795d;
-        background-color: #ffffff;
-        color: #000;
-        font-weight: bold;
-      }
-
-      &::after {
-        content: attr(tabtitle);
-        font-weight: bold;
-        display: block;
-        height: 0;
-        color: transparent;
-      }
     }
   }
 }

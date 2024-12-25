@@ -80,7 +80,7 @@
     width: 40px;
 }
 
-#slot-combo-insertshape .menu-insert-shape {
+#slot-combo-insertshape .menu-insert-shape, .slot-combo-insertshape .menu-insert-shape {
     width: 330px;
 }
 
@@ -121,7 +121,8 @@
 
 #equation-container,
 #text-bar-container,
-#annot-bar-container {
+#annot-bar-container,
+#annot-sel-bar-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @background-toolbar-ie;
@@ -157,10 +158,11 @@
 }
 
 #text-bar-container,
-#annot-bar-container {
+#annot-bar-container,
+#annot-sel-bar-container {
     padding: 4px 6px;
-    :not(.btn-group.split) .btn-toolbar,
-    .btn-group.split {
+    .btn-toolbar,
+    .btn-group {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -147,6 +147,7 @@ define([], function () { 'use strict';
                 hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
                            parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
 
+            (height===undefined) && (height = parseInt($window.find('.body > .box').css('height')));
             Common.UI.Window.prototype.setHeight.call(this, height + hfHeight);
             $window.find('.body > .box').css('height', height);
         },

@@ -425,7 +425,8 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false,
-                    header: {docmode: true}
+                    header: {docmode: true, search: false},
+                    shortcuts: false
                 }, 'signature');
             }
         },

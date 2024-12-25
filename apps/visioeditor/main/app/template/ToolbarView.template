@@ -1,0 +1,12 @@
+<div class="toolbar toolbar-view">
+    <div class="box-tabs">
+        <div class="extra left"></div>
+        <%= tabsmarkup %>
+        <div class="extra right">
+        </div>
+    </div>
+    <section class="box-controls">
+        <section class="box-panels">
+        </section>
+    </section>
+</div>

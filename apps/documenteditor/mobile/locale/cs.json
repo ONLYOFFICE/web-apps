@@ -469,6 +469,7 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
@@ -710,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Povolit všechna makra bez notifikací",
     "textEncoding": "Kódování",
     "textEncryptFile": "Šifrovat soubor",
-    "textExplanationChangeDirection": "Aplikace bude restartována pro aktivaci rozhraní RTL",
     "textExport": "Exportovat",
     "textExportAs": "Exportovat jako",
     "textFastWV": "Rychlé zobrazení stránky",
@@ -771,7 +771,6 @@
     "textRestartApplication": "Pro provedení změn restartujete aplikaci",
     "textRight": "Vpravo",
     "textRightToLeft": "Zprava doleva",
-    "textRtlInterface": "Rozhraní RTL (písmo zprava doleva)",
     "textSameAsSystem": "Stejné jako systémové",
     "textSave": "Uložit",
     "textSearch": "Najít",

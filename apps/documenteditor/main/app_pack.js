@@ -29,7 +29,10 @@ require([
     'common/main/lib/view/DocumentHolderExt',
     'common/main/lib/view/PdfSignDialog',
     'common/main/lib/view/DocumentPropertyDialog',
+    'common/main/lib/view/MacrosDialog',
+    'common/main/lib/component/AceEditor',
 
+    'documenteditor/main/app/controller/DocumentHolderExt',
     'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',

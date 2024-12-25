@@ -263,6 +263,7 @@ define([
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
                     this.listenTo(view, 'tipchange', this.onChangeTip);
+                    this.listenTo(view, 'contextmenu', this.onContextMenuItem);
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);

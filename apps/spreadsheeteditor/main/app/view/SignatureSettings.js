@@ -413,7 +413,9 @@ define([
                     viewport: true,
                     documentHolder: {clear: true, disable: true},
                     toolbar: true,
-                    celleditor: {previewMode: true}
+                    celleditor: {previewMode: true},
+                    header: {search: false},
+                    shortcuts: false
                 }, 'signature');
             }
         },

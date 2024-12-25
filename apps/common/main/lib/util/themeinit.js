@@ -84,13 +84,13 @@
 
     inject_style_tag(':root .theme-dark {' +
                                 '--toolbar-header-document: #2a2a2a; --toolbar-header-spreadsheet: #2a2a2a;' +
-                                '--toolbar-header-presentation: #2a2a2a; --toolbar-header-pdf: #2a2a2a;}' +
+                                '--toolbar-header-presentation: #2a2a2a; --toolbar-header-pdf: #2a2a2a; --toolbar-header-visio: #2a2a2a;}' +
                             ':root .theme-contrast-dark {' +
                                 '--toolbar-header-document: #1e1e1e; --toolbar-header-spreadsheet: #1e1e1e;' +
-                                '--toolbar-header-presentation: #1e1e1e; --toolbar-header-pdf: #1e1e1e;}');
+                                '--toolbar-header-presentation: #1e1e1e; --toolbar-header-pdf: #1e1e1e; --toolbar-header-visio: #1e1e1e;}');
 
     let objtheme = window.uitheme.colors ? window.uitheme : localstorage.getItem("ui-theme");
-    const header_tokens = ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf'];
+    const header_tokens = ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf', 'toolbar-header-visio'];
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
                 objtheme.indexOf("}", objtheme.length - 1) !== -1 )

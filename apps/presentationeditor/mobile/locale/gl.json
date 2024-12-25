@@ -536,7 +536,6 @@
       "textReplace": "Substituír",
       "textReplaceAll": "Substituír todo",
       "textRestartApplication": "Reinicie o aplicativo para que os cambios teñan efecto",
-      "textRTL": "De dereita a esquerda",
       "textSameAsSystem": "Igual que o sistema",
       "textSearch": "Buscar",
       "textSettings": "Configuración",
@@ -552,9 +551,7 @@
       "textVersionHistory": "Historial de versións",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
       "textTheme": "Theme"
     }
   }

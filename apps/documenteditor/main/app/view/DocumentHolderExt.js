@@ -107,6 +107,45 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = DE.getController('Toolbar').getView();
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        })
+                    ]
+                })
+            });
+
+
+
             me.mnuGroup = new Common.UI.MenuItem({
                 caption : this.txtGroup,
                 iconCls : 'menu__icon btn-shape-group'
@@ -348,6 +387,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+
             me.menuImgRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
@@ -492,6 +536,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
 
+                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(islocked);
+
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
@@ -503,6 +551,12 @@ define([], function () {
                             alignto = Common.Utils.InternalSettings.get("de-img-align-to"); // 1 - page, 2 - margin, 3 - selected
                         me.menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         me.menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
+                    }
+                    me.menuShapesMerge.setDisabled(islocked || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
                     }
                     me.menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked ||
                         (me.api && !me.api.CanUnGroup() && !me.api.CanGroup() && value.imgProps.isSmartArtInternal));
@@ -566,6 +620,7 @@ define([], function () {
                     menuImgControlSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
+                    me.menuShapesMerge,
                     me.menuImageWrap,
                     me.menuImgRotate,
                     { caption: '--' },
@@ -574,6 +629,7 @@ define([], function () {
                     me.menuSaveAsPicture,
                     menuSaveAsPictureSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
@@ -771,7 +827,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -1504,7 +1560,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],

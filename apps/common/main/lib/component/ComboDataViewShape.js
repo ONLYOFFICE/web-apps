@@ -311,6 +311,7 @@ define([
 
         deactivateRecords: function () {
             $(this.cmpEl.find('.field-picker .item')).removeClass('active');
+            this.isRecordActive = false;
         },
 
         isComboViewRecActive: function () {

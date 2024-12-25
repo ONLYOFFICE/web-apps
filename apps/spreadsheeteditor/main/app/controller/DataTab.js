@@ -217,7 +217,7 @@ define([
         },
 
         onTextToColumn: function() {
-            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
+            this.api.asc_TextImport(this._state.CSVOptions.asc_getCodePage(), _.bind(this.onTextToColumnCallback, this), false);
         },
 
         onTextToColumnCallback: function(data) {

@@ -83,7 +83,6 @@
     { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Comunique-se enquanto edita"},
     {"src": "UsageInstructions/Jitsi.htm", "name": "Faça chamadas de áudio e vídeo"},
     {"src": "UsageInstructions/Drawio.htm", "name": "Crie e insira diagramas"},
-	{"src": "UsageInstructions/Zoom.htm", "name": "Organize e agende reuniões do Zoom"},
 	{"src": "UsageInstructions/ChatGPT.htm", "name": "Use IA para escrever texto"},
     {"src": "UsageInstructions/ViewDocInfo.htm", "name": "Ver informações do documento", "headername": "Ferramentas e configurações"},
     {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Salve, baixe, imprima seu documento"},

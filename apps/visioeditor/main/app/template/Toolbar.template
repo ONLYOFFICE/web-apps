@@ -1,0 +1,15 @@
+<div class="toolbar">
+    <div class="box-tabs">
+        <div class="extra left"></div>
+        <%= tabsmarkup %>
+        <div class="extra right"></div>
+    </div>
+    <section class="box-controls" role="tabpanel">
+        <section class="panel static">
+        </section>
+        <section class="box-panels">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
+            </section>
+        </section>
+    </section>
+</div>

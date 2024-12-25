@@ -128,6 +128,10 @@ define([], function () {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
         },
 
+        enablePointerEvents: function(enable) {
+            this.iframePlugin && (this.iframePlugin.style.pointerEvents = enable ? "" : "none");
+        },
+
         textClosePanel: 'Close plugin',
         textLoading: 'Loading'
 

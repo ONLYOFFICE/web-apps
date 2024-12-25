@@ -89,11 +89,13 @@ define([
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
             "toolbar-header-pdf",
+            "toolbar-header-visio",
 
             "text-toolbar-header-on-background-document",
             "text-toolbar-header-on-background-spreadsheet",
             "text-toolbar-header-on-background-presentation",
             "text-toolbar-header-on-background-pdf",
+            "text-toolbar-header-on-background-visio",
 
             "background-normal",
             "background-toolbar",
@@ -120,10 +122,12 @@ define([
             "highlight-toolbar-tab-underline-spreadsheet",
             "highlight-toolbar-tab-underline-presentation",
             "highlight-toolbar-tab-underline-pdf",
+            "highlight-toolbar-tab-underline-visio",
             "highlight-header-tab-underline-document",
             "highlight-header-tab-underline-spreadsheet",
             "highlight-header-tab-underline-presentation",
             "highlight-header-tab-underline-pdf",
+            "highlight-header-tab-underline-visio",
 
             "border-toolbar",
             "border-divider",
@@ -258,6 +262,7 @@ define([
                         _css_array.push('--', c + '-spreadsheet', ':', colors[c], ';');
                         _css_array.push('--', c + '-presentation', ':', colors[c], ';');
                         _css_array.push('--', c + '-pdf', ':', colors[c], ';');
+                        _css_array.push('--', c + '-visio', ':', colors[c], ';');
                         console.log("Obsolete: The 'highlight-toolbar-tab-underline' color for interface themes is deprecated. Please use 'highlight-toolbar-tab-underline-document', 'highlight-toolbar-tab-underline-presentation', etc. instead.");
                     } else
                         _css_array.push('--', c, ':', colors[c], ';');
@@ -443,7 +448,7 @@ define([
 
         return {
             init: function (api) {
-                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf', 'toolbar-header-visio']
                     .forEach(function (i) {
                         document.documentElement.style.removeProperty('--' + i);
                     });
@@ -575,6 +580,14 @@ define([
 
             toggleTheme: function () {
                 this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
+            },
+
+            getThemeColors: function() {
+                const theme_id = window.uitheme.relevant_theme_id();
+                const obj = get_current_theme_colors();
+                obj.type = themes_map[theme_id].type;
+                obj.name = theme_id;
+                return obj;
             }
         }
     })(Common.UI.Themes);

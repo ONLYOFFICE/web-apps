@@ -94,6 +94,10 @@
                 "src": "../apps/common/main/resources/themes/themes.json",
                 "dest": "../deploy/web-apps/apps/common/main/resources/themes/themes.json"
             },
+            "iecompat": {
+                "src": "../apps/common/main/lib/util/fix-ie-compat.js",
+                "dest": "../deploy/web-apps/apps/common/main/lib/util/fix-ie-compat.js"
+            },
             "help": {
                 "expand": true,
                 "cwd": "../apps/common/main/resources/help/",
@@ -253,6 +257,19 @@
             }
         }
     },
+    "ace": {
+        "clean": [
+            "../deploy/web-apps/vendor/ace"
+        ],
+        "copy": {
+            "script": {
+                "expand": true,
+                "cwd": "../vendor/ace",
+                "src": "**",
+                "dest": "../deploy/web-apps/vendor/ace"
+            }
+        }
+    },
     "tasks": {
         "deploy": [
             "increment-build",
@@ -268,7 +285,8 @@
             "deploy-iscroll",
             "deploy-fetch",
             "deploy-es6-promise",
-            "deploy-common-embed"
+            "deploy-common-embed",
+            "deploy-ace"
         ]
     }
 }

@@ -513,7 +513,6 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Összes engedélyezése",
       "textEnableAllMacrosWithoutNotification": "Engedélyezze az összes makrót értesítés nélkül",
-      "textExplanationChangeDirection": "Az alkalmazás újraindul az RTL-interfész aktiválásához",
       "textFeedback": "Visszajelzés és Támogatás",
       "textFind": "Keresés",
       "textFindAndReplace": "Keresés és csere",
@@ -539,7 +538,6 @@
       "textReplace": "Cserél",
       "textReplaceAll": "Mindent cserél",
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
-      "textRTL": "RTL",
       "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSettings": "Beállítások",
@@ -554,8 +552,7 @@
       "textUploaded": "Feltöltve",
       "textVersion": "Verzió",
       "textVersionHistory": "Naplótörténet",
-      "textClose": "Close",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
   }
 }

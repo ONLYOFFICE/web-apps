@@ -470,6 +470,7 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -710,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "تفعيل كل وحدات الماكرو بدون اشعارات",
     "textEncoding": "تشفير",
     "textEncryptFile": "تشفير الملف",
-    "textExplanationChangeDirection": "RTL سيتم إعادة تشغيل التطبيق لتنشيط واجهة ",
     "textExport": "تصدير",
     "textExportAs": "تصدير باسم",
     "textFastWV": "العرض السريع عبر الويب",
@@ -771,7 +771,6 @@
     "textRestartApplication": "برجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
     "textRight": "اليمين",
     "textRightToLeft": "من اليمين إلى اليسار",
-    "textRtlInterface": "الواجهة بالاتجاه من اليمين لليسار",
     "textSameAsSystem": "نفس النظام",
     "textSave": "حفظ",
     "textSearch": "إيجاد",

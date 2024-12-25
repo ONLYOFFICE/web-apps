@@ -26,7 +26,8 @@ const PageAbout = props => {
     const editors = {
         de: 'DOCUMENT EDITOR',
         pe: 'PRESENTATION EDITOR',
-        sse: 'SPREADSHEET EDITOR'
+        sse: 'SPREADSHEET EDITOR',
+        ve: 'VISIO EDITOR'
     };
 
     const nameEditor = (_t.textEditor || editors[editorType]).toUpperCase();

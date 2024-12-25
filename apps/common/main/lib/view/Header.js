@@ -53,7 +53,8 @@ define([
         var _tabStyle = 'fill', _logoImage = '';
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
-            isSSEEditor = !!window.SSE;
+            isSSEEditor = !!window.SSE,
+            isVisioEditor = !!window.VE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -460,7 +461,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
+                me.btnSave.updateHint(appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')) : me.tipDownload);
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
@@ -485,7 +486,7 @@ define([
                 var arr = [];
                 if (me.btnSave) {
                     arr.push({
-                        caption: me.tipSave,
+                        caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.textDownload,
                         value: 'save',
                         checkable: true
                     });
@@ -1033,14 +1034,15 @@ define([
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true) && me.btnPrintQuick.hide();
                     }
                     if (config.showSaveButton) {
-                        me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                        let save_icon = config.canSaveToFile || config.isDesktopApp && config.isOffline ? 'btn-save' : 'btn-download';
+                        me.btnSave = createTitleButton('toolbar__icon icon--inverse ' + save_icon, $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
                     }
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
-                                                    [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
+                                                    [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
-                                                    [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
+                                                    [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',
@@ -1087,7 +1089,8 @@ define([
                 tabBackground = tabBackground || Common.Utils.InternalSettings.get("settings-tab-background") || 'header';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
-                                                                            isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' : '--toolbar-header-presentation'),
+                                                                            isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' :
+                                                                            isVisioEditor ? '--toolbar-header-visio' : '--toolbar-header-presentation'),
                         toolbar_color = Common.UI.Themes.currentThemeColor('--background-toolbar'),
                         logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabBackground==='toolbar') ? toolbar_color : header_color;
                     isDark = (new Common.Utils.RGBColor(logo_type)).isDark();
@@ -1312,6 +1315,10 @@ define([
                     if (me.btnUserName) {
                         me.btnUserName.setDisabled(lock);
                     }
+                } else if ( alias == 'search' ) {
+                    if (me.btnSearch) {
+                        me.btnSearch.setDisabled(lock);
+                    }
                 } else {
                     var _lockButton = function (btn) {
                         btn && Common.Utils.lockControls(cause, lock, {array: [btn]});
@@ -1386,7 +1393,8 @@ define([
             helpQuickAccess: 'Hide or show the functional buttons of your choice.',
             helpQuickAccessHeader: 'Customize Quick Access',
             ariaQuickAccessToolbar: 'Quick access toolbar',
-            textAnnotateDesc: 'Fill forms or annotate'
+            textAnnotateDesc: 'Fill forms or annotate',
+            textDownload: 'Download'
         }
     }(), Common.Views.Header || {}))
 });

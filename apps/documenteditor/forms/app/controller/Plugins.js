@@ -54,7 +54,6 @@ define([
         },
 
         onLaunch: function() {
-            this._moveOffset = {x:0, y:0};
             this.autostart = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
@@ -110,8 +109,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
-                this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
 
@@ -192,9 +189,11 @@ define([
                     },
                     'drag': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'resize': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'help': function(){
                         help && window.open(help, '_blank');
@@ -218,21 +217,6 @@ define([
                 this.pluginDlg.setInnerSize(size[0], size[1]);
                 if (callback)
                     callback.call();
-            }
-        },
-
-        onPluginMouseUp: function(x, y) {
-            if (this.pluginDlg) {
-                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
-                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
-            }
-        },
-
-        onPluginMouseMove: function(x, y) {
-            if (this.pluginDlg) {
-                var offset = Common.Utils.getOffset(this.pluginContainer);
-                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             }
         },
 

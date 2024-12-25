@@ -164,6 +164,13 @@ define([
                 }
             },
 
+            clearMoreButton: function() {
+                this.buttons && this.buttons.forEach(function (btn) {
+                    btn.cmpEl.show();
+                });
+                this.btnMore.hide();
+            },
+
             onMenuMore: function (menu, item) {
                 var btn = this.buttons[item.value];
                 if (btn.cmpEl.prop('id') !== 'left-btn-support')
@@ -190,7 +197,7 @@ define([
             setDisabledMoreMenuItem: function (btn, disabled) {
                 if (this.btnMore && !btn.cmpEl.is(':visible')) {
                     var index =_.indexOf(this.buttons, btn),
-                        item = _.findWhere(this.btnMore.menu.items, {value: index})
+                        item = _.findWhere(this.btnMore.menu.items, {value: index});
                     item && item.setDisabled(disabled);
                 }
             },

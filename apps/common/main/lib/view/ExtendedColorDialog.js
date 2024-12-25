@@ -76,7 +76,7 @@ define([
             this.spinR = new Common.UI.MetricSpinner({
                 el: $('#extended-spin-r'),
                 step: 1,
-                width: 63,
+                width: 67,
                 value: '0',
                 defaultUnit : "",
                 maxValue: 255,
@@ -88,7 +88,7 @@ define([
             this.spinG = new Common.UI.MetricSpinner({
                 el: $('#extended-spin-g'),
                 step: 1,
-                width: 63,
+                width: 67,
                 value: '0',
                 defaultUnit : "",
                 maxValue: 255,
@@ -100,7 +100,7 @@ define([
             this.spinB = new Common.UI.MetricSpinner({
                 el: $('#extended-spin-b'),
                 step: 1,
-                width: 63,
+                width: 67,
                 value: '0',
                 defaultUnit : "",
                 maxValue: 255,

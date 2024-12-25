@@ -52,22 +52,13 @@
 
     .cnt-hb-arrow {
         display:  block;
-        width: 12px;
-        height: 12px;
-        margin: -6px;
+        width: 14px;
+        height: 14px;
+        margin: -8px;
         position: absolute;
-        border: @scaled-one-px-value-ie solid #000;
-        border: @scaled-one-px-value solid #000;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xIDdhNiA2IDAgMSAxIDEyIDBBNiA2IDAgMCAxIDEgN202LTdhNyA3IDAgMSAwIDAgMTRBNyA3IDAgMCAwIDcgMCIgZmlsbD0iIzAwMCIvPgogICAgPHBhdGggZD0iTTcgMTJBNSA1IDAgMSAxIDcgMmE1IDUgMCAwIDEgMCAxMG0wIDFBNiA2IDAgMSAwIDcgMWE2IDYgMCAwIDAgMCAxMiIgZmlsbD0iI2ZmZiIvPgo8L3N2Zz4K");
+        background-clip: content-box;
         .border-radius(50%);
-        &:after{
-            content: ' ';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: @scaled-one-px-value-ie solid #fff;
-            border: @scaled-one-px-value solid #fff;
-            .border-radius(50%);
-        }
     }
 
     .cnt-sat-arrow {

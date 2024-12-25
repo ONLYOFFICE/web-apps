@@ -1,0 +1,196 @@
+//
+// Common
+// --------------------------------------------------
+
+// App variables
+@import "variables.less";
+
+@import "../../../../common/main/resources/less/asc-mixins.less";
+
+// Bootstrap overwrite
+@import "../../../../common/main/resources/less/variables.less";
+@import "../../../../common/main/resources/less/colors-table.less";
+@import "../../../../common/main/resources/less/colors-table-classic.less";
+@import "../../../../common/main/resources/less/colors-table-dark.less";
+@import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
+@import "../../../../common/main/resources/less/colors-table-gray.less";
+//
+// Bootstrap
+// --------------------------------------------------
+
+// Core variables and mixins
+@import "../../../../common/main/resources/mods/less/mixins.less";
+
+// Reset
+@import "../../../../common/main/resources/mods/less/normalize.less";
+
+// Core CSS
+@import "../../../../common/main/resources/mods/less/scaffolding.less";
+@import "../../../../common/main/resources/mods/less/type.less";
+@import "../../../../common/main/resources/mods/less/forms.less";
+@import "../../../../common/main/resources/mods/less/buttons.less";
+
+// Components
+@import "../../../../common/main/resources/mods/less/component-animations.less";
+@import "../../../../common/main/resources/mods/less/dropdowns.less";
+@import "../../../../common/main/resources/mods/less/button-groups.less";
+@import "../../../../common/main/resources/mods/less/input-groups.less";
+@import "../../../../common/main/resources/mods/less/navs";
+
+// Components w/ JavaScript
+@import "../../../../common/main/resources/mods/less/tooltip.less";
+
+// Utility classes
+@import "../../../../common/main/resources/mods/less/utilities.less";
+@import "../../../../common/main/resources/mods/less/responsive-utilities.less";
+
+//
+// Perfect scrollbar
+// --------------------------------------------------
+
+@import (inline) "../../../../../vendor/perfect-scrollbar/src/perfect-scrollbar.css";
+
+//
+// Common
+// --------------------------------------------------
+
+@import "../../../../common/main/resources/less/header.less";
+@import "../../../../common/main/resources/less/buttons.less";
+@import "../../../../common/main/resources/less/dropdown-menu.less";
+@import "../../../../common/main/resources/less/dropdown-submenu.less";
+@import "../../../../common/main/resources/less/separator.less";
+@import "../../../../common/main/resources/less/input.less";
+@import "../../../../common/main/resources/less/combobox.less";
+@import "../../../../common/main/resources/less/window.less";
+@import "../../../../common/main/resources/less/loadmask.less";
+@import "../../../../common/main/resources/less/checkbox.less";
+@import "../../../../common/main/resources/less/dataview.less";
+@import "../../../../common/main/resources/less/masked-field.less";
+@import "../../../../common/main/resources/less/layout.less";
+@import "../../../../common/main/resources/less/advanced-settings-window.less";
+@import "../../../../common/main/resources/less/chat.less";
+//@import "../../../../common/main/resources/less/searchdialog.less";
+@import "../../../../common/main/resources/less/about.less";
+@import "../../../../common/main/resources/less/tooltip.less";
+@import "../../../../common/main/resources/less/scroller.less";
+@import "../../../../common/main/resources/less/synchronize-tip.less";
+@import "../../../../common/main/resources/less/tabbar.less";
+@import "../../../../common/main/resources/less/common.less";
+@import "../../../../common/main/resources/less/switcher.less";
+@import "../../../../common/main/resources/less/opendialog.less";
+@import "../../../../common/main/resources/less/plugins.less";
+@import "../../../../common/main/resources/less/toolbar.less";
+@import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/hint-manager.less";
+@import "../../../../common/main/resources/less/bigscaling.less";
+
+// App
+// --------------------------------------------------
+
+@import "layout.less";
+@import "toolbar.less";
+@import "statusbar.less";
+@import "leftmenu.less";
+@import "filemenu.less";
+
+@import "sprites/iconssmall@1x";
+@import "sprites/iconsbig@1x";
+@import "sprites/iconssmall@2x";
+@import "sprites/iconsbig@2x";
+@import "sprites/iconssmall@1.25x";
+@import "sprites/iconsbig@1.25x";
+@import "sprites/iconssmall@1.5x";
+@import "sprites/iconsbig@1.5x";
+@import "sprites/iconssmall@1.75x";
+@import "sprites/iconsbig@1.75x";
+
+.font-size-tiny {
+    .fontsize(9px); // 9px
+    .fontsize(calc(@font-size-base-app - 2px)); // 9px
+}
+
+.font-size-small {
+    .fontsize(10px); // 10px
+    .fontsize(calc(@font-size-base-app - 1px)); // 10px
+}
+
+.font-size-normal {
+    .fontsize(11px); // 11px
+    .fontsize(@font-size-base-app); // 11px
+}
+
+.font-size-medium {
+    .fontsize(12px); // 12px
+    .fontsize(calc(@font-size-base-app + 1px)); // 12px
+}
+
+.font-size-large {
+    .fontsize(13px); // 13px
+    .fontsize(calc(@font-size-base-app + 2px)); // 13px
+}
+
+.font-size-huge {
+    .fontsize(14px); // 14px
+    .fontsize(calc(@font-size-base-app + 3px)); // 14px
+}
+
+.font-size-very-huge {
+    .fontsize(16px); // 16px
+    .fontsize(calc(@font-size-base-app + 5px)); // 16px
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: @canvas-background;
+
+    .slide-h {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+        max-width: 1350px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .slide-v {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        padding-bottom: 56.1333%;
+    }
+
+    .slide-container {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fbfbfb;
+        border: 1px solid #dfdfdf;
+
+        > .line {
+            height: 20%;
+            margin: 0 120px;
+            border-radius: 6px;
+            background: #f5f5f5;
+
+            &:nth-child(1) {
+                height: 30%;
+                margin: 10% 80px 0;
+            }
+
+            &.empty {
+                background: transparent;
+            }
+        }
+    }
+}

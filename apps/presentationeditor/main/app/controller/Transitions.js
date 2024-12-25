@@ -269,7 +269,7 @@ define([
                 this.view.btnParameters.setIconCls('toolbar__icon icon ' + item.get('imageUrl'));
             }
 
-            if (me.btnParameters.menu.items.length > 0 && this._state.EffectType !== undefined)
+            if (me.btnParameters.menu.getItemsLength() > 0 && this._state.EffectType !== undefined)
                     me.setMenuParameters(this._state.Effect, this._state.EffectType);
 
             me.numDuration.setValue((this._state.Duration !== null  && this._state.Duration !== undefined) ? this._state.Duration / 1000. : '', true);

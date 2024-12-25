@@ -134,11 +134,32 @@ module.exports = (grunt) => {
                     src: packageFile.forms.js.postload.options.out,
                     dest: packageFile.forms.js.postload.options.out,
                 },
+                iecompat: {
+                    options: {
+                        sourceMap: false,
+                    },
+                    files: [{
+                        expand: true,
+                        cwd: packageFile.forms.js.babel.files[0].dest,
+                        src: `*.js`,
+                        dest: packageFile.forms.js.babel.files[0].dest
+                    }]
+                },
+            },
+
+            babel: {
+                options: {
+                    sourceMap: false,
+                    presets: [['@babel/preset-env', {modules: false}]]
+                },
+                dist: {
+                    files: packageFile.forms.js.babel.files
+                }
             },
         });
     });
 
     grunt.registerTask('deploy-app-forms', ['forms-app-init', 'clean:prebuild', /*'imagemin',*/ 'less',
-                                                            'requirejs', 'terser', 'concat', 'copy', 'inline', /*'json-minify',*/
+                                                            'requirejs', 'babel', 'terser', 'concat', 'copy', 'inline', /*'json-minify',*/
                                                             'replace:varsEnviroment', /*'replace:prepareHelp',*/ 'clean:postbuild']);
 }

@@ -65,9 +65,9 @@ Common.UI.FocusManager = new(function() {
                         item.selector = '.listview';
                     else if (field instanceof Common.UI.CheckBox)
                         item.selector = '.checkbox-indeterminate';
-                    else if (field instanceof Common.UI.RadioBox)
+                    else if (Common.UI.RadioBox && field instanceof Common.UI.RadioBox)
                         item.selector = '.radiobox';
-                    else if (field instanceof Common.UI.TreeView)
+                    else if (Common.UI.TreeView && field instanceof Common.UI.TreeView)
                         item.selector = '.treeview';
                     else if (field instanceof Common.UI.Button)
                         item.selector = field.split ? '.btn-group' : 'button';

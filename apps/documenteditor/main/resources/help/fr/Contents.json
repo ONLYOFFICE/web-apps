@@ -169,7 +169,9 @@
         "src": "UsageInstructions/InsertTextObjects.htm",
         "name": "Insérer des objets textuels"
     },
+    {"src": "UsageInstructions/InsertFieldCodes.htm", "name": "Insérer des codes de champ" },
     { "src": "UsageInstructions/InsertSmartArt.htm", "name": "Insérer des graphiques SmartArt" },
+    { "src": "UsageInstructions/InsertTextFromFile.htm", "name": "Insérer du texte à partir d'un fichier" },
     {"src": "UsageInstructions/DrawingOperations.htm", "name": "Dessiner à main levée dans un document" },
     { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
     { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
@@ -191,7 +193,6 @@
         "name": "Changer le style d'habillage"
     },
      { "src": "UsageInstructions/CreateFillableForms.htm", "name": "Créer des formulaires à remplir", "headername": "Formulaires à remplir" },
-    { "src": "UsageInstructions/FillingOutForm.htm", "name": "Remplir un formulaire" },
   {
     "src": "UsageInstructions/UseMailMerge.htm",
     "name": "Utiliser le publipostage",
@@ -230,9 +231,9 @@
     { "src": "UsageInstructions/Typograf.htm", "name": "Corriger la typographie" },
     { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },
     {"src": "UsageInstructions/Jitsi.htm", "name": "Effectuer des appels audio et vidéo"},
-    { "src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes" },    
-	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
-	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
+    { "src": "UsageInstructions/Drawio.htm", "name": "Créer et insérer des diagrammes" },
+    { "src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte" },
+    { "src": "UsageInstructions/TerMef.htm", "name": "Insérer une définition" },
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",

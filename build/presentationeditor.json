@@ -106,6 +106,16 @@
                         "text": "../vendor/requirejs-text/text"
                     }
                 }
+            },
+            "babel": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": "../deploy/web-apps/apps/presentationeditor/main/",
+                        "src": "*.js",
+                        "dest": "../deploy/web-apps/apps/presentationeditor/main/ie"
+                    }
+                ]
             }
         },
         "less": {

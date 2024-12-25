@@ -46,11 +46,11 @@ define([
         const load_scripts = function () {
             const me = this;
 
-            const app = window.DE || window.PE || window.SSE || window.PDFE;
+            const app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
             !app.postLaunchScripts && (app.postLaunchScripts = []);
             // console.log('on_app_ready', app.postLaunchScripts);
 
-            require(app.postLaunchScripts, function () {
+            require({waitSeconds: 0}, app.postLaunchScripts, () => {
                 if (!!Common.UI.ScreenReaderFocusManager) {
                     Common.UI.ScreenReaderFocusManager.init(me.api);
                 }

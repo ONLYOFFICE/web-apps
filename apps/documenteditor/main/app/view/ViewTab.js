@@ -95,6 +95,10 @@ define([
                 '</div>' +
                 '<div class="elset"></div>' +
             '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span class="btn-slot text x-huge" id="slot-btn-macros"></span>' +
+            '</div>' +
         '</section>';
 
         return {
@@ -136,6 +140,9 @@ define([
                 me.cmbsZoom.forEach(function (cmb) {
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
                     cmb.on('show:after', _.bind(me.onComboOpen, this, true));
+                });
+                me.btnMacros && me.btnMacros.on('click', function () {
+                    me.fireEvent('macros:click');
                 });
             },
 
@@ -195,7 +202,8 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    action: 'interface-theme'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 
@@ -259,7 +267,21 @@ define([
                 });
                 this.lockedControls.push(this.chRulers);
 
+                if (this.appConfig.isEdit) {
+                    this.btnMacros = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-macros',
+                        lock: [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.lostConnect, _set.disableOnStart],
+                        caption: this.textMacros,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnMacros);
+                }
+
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -309,6 +331,7 @@ define([
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
                 this.chRulers.render($host.find('#slot-chk-rulers'));
+                this.btnMacros && this.btnMacros.render($host.find('#slot-btn-macros'));
                 this.chLeftMenu.render($host.find('#slot-chk-leftmenu'));
                 this.chRightMenu.render($host.find('#slot-chk-rightmenu'));
 
@@ -325,7 +348,7 @@ define([
                 var created = this.btnsFitToPage.concat(this.btnsFitToWidth).concat(this.cmbsZoom);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
-
+                Common.UI.LayoutManager.addControls(created);
                 return this.$el;
             },
 
@@ -340,6 +363,7 @@ define([
                 this.btnsFitToWidth.forEach(function (btn) {
                     btn.updateHint(me.tipFitToWidth);
                 });
+                this.btnMacros && this.btnMacros.updateHint(this.tipMacros);
 
                 var value = Common.UI.LayoutManager.getInitValue('leftMenu');
                 value = (value!==undefined) ? !value : false;
@@ -401,7 +425,9 @@ define([
             textRightMenu: 'Right panel',
             textTabStyle: 'Tab style',
             textFill: 'Fill',
-            textLine: 'Line'
+            textLine: 'Line',
+            textMacros: 'Macros',
+            tipMacros: 'Macros'
         }
     }()), DE.Views.ViewTab || {}));
 });

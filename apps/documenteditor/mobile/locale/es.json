@@ -470,7 +470,8 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -710,7 +711,6 @@
     "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
     "textEncoding": "Codificación",
     "textEncryptFile": "Cifrar archivo",
-    "textExplanationChangeDirection": "La aplicación se reiniciará para que se active la interfaz RTL",
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Vista rápida de la web",
@@ -771,7 +771,6 @@
     "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
     "textRight": "Derecha",
     "textRightToLeft": "De derecha a izquierda",
-    "textRtlInterface": "Interfaz RTL",
     "textSameAsSystem": "Igual que el sistema",
     "textSave": "Guardar",
     "textSearch": "Buscar",

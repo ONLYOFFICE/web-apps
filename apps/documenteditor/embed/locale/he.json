@@ -50,7 +50,7 @@
   "DE.ApplicationController.titleLicenseNotActive": "רשיון לא פעיל",
   "DE.ApplicationController.txtClose": "סגור",
   "DE.ApplicationController.txtEmpty": "(ריק)",
-  "DE.ApplicationController.txtPressLink": "הקש % 1 ולחץ על קישור",
+  "DE.ApplicationController.txtPressLink": "הקש %1 ולחץ על קישור",
   "DE.ApplicationController.unknownErrorText": "שגיאה לא ידועה.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "הדפדפן שלך לא נתמך.",
   "DE.ApplicationController.waitText": "…נא המתן",

@@ -34,26 +34,26 @@
                 </div>
             </div>
             <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-addslide"></span>
+            </div>
+            <div class="group" style="display:none;"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-changeslide"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-preview"></span>
+                </div>
+            </div>
+            <div class="group" style="display:none;">
+                <span class="btn-slot text x-huge" id="slot-addslidemaster"></span>
+                <span class="btn-slot text x-huge" id="slot-addlayout"></span>
+            </div>
+            <div class="separator long" id="id-toolbar-separator-end-static"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
-                <div class="group normal-mode">
-                    <span class="btn-slot text x-huge slot-addslide"></span>
-                </div>
-                <div class="group" style="display:none;"></div>
-                <div class="group small normal-mode">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-changeslide"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-preview"></span>
-                    </div>
-                </div>
-                <div class="group master-slide-mode" style="display:none;">
-                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
-                    <span class="btn-slot text x-huge slot-addlayout"></span>
-                </div>
-                <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
@@ -95,25 +95,18 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                     <span class="btn-slot text x-huge slot-insertshape"></span>
                 </div>
+                <div class="separator long invisible"></div>
+                <div class="group small slot-combo-insertshape"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
+                        <span class="btn-slot split" id="slot-btn-shapes-merge"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-align-shape"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-slidesize"></span>
-                    </div>
-                </div>
-                <div class="separator long invisible"></div>
-                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 136px;" data-group-width="100%"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-replace"></span>
@@ -124,11 +117,6 @@
                 </div>
             </section>
             <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
-                <div class="group master-slide-mode" style="display:none;">
-                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
-                    <span class="btn-slot text x-huge slot-addlayout"></span>
-                </div>
-                <div class="separator long master-slide-mode" style="display:none;"></div>
                 <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge" id="slot-btn-insplaceholder"></span>
                 </div>
@@ -143,11 +131,6 @@
                 <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>
                 </div>
-                <div class="group normal-mode">
-                    <span class="btn-slot text x-huge slot-addslide"></span>
-                </div>
-                <div class="group" style="display:none;"></div>
-                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-inserttable"></span>
                 </div>
@@ -156,7 +139,7 @@
                     <span class="btn-slot text x-huge slot-insertimg"></span>
                 </div>
                 <div class="separator long invisible"></div>
-                <div class="group small" id="slot-combo-insertshape"></div>
+                <div class="group small slot-combo-insertshape"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
@@ -183,6 +166,14 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insaudio"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
+                </div>
+            </section>
+            <section class="panel" data-tab="design" role="tabpanel" aria-labelledby="design">
+                <div class="group flex small field-styles" id="slot-field-styles" style="min-width: 136px; max-width: 877px; width: 877px" data-group-width="877px"></div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-slidesize"></span>
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">

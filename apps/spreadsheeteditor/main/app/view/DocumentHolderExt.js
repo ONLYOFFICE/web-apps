@@ -974,6 +974,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+            
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
                 iconCls : 'menu__icon btn-arrange-front',
@@ -1060,6 +1065,45 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = SSE.getController('Toolbar').getView('Toolbar');
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        },
+                        {
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        },
+                        {
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        },
+                        {
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        },
+                        {
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        }
+                    ]
+                })
+            });
+
+
+
             me.menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
@@ -1134,12 +1178,14 @@ define([], function () {
                     me.menuEditSignSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
+                    me.menuShapesMerge,
                     me.menuImgRotate,
                     me.menuImgMacro,
                     menuSaveAsPictureSeparator,
                     me.menuSaveAsPicture,
                     me.mnuShapeSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.mnuChartData,
                     me.mnuChartType,
                     me.mnuChartEdit,

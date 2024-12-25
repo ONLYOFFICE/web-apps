@@ -1,0 +1,102 @@
+@import '../../../../../vendor/framework7-react/node_modules/framework7/less/mixins.less';
+@import '../../../../common/mobile/resources/less/_mixins.less';
+@import '../../../../common/mobile/resources/less/colors-table.less';
+@import '../../../../common/mobile/resources/less/colors-table-dark.less';
+@import './app-rtl.less';
+
+@brandColor: var(--brand-visio);
+
+.device-ios {
+    --toolbar-background: var(--background-primary, #fff);
+    --toolbar-segment: var(--brand-visio, #444796);
+    --toolbar-icons: var(--brand-visio, #444796);
+}
+.device-android {
+    --toolbar-background: var(--brand-visio, #444796);
+
+    .theme-type-dark {
+        --toolbar-icons: var(--brand-visio, #444796);
+    }
+}
+
+@toolbar-background: var(--toolbar-background);
+@toolbar-segment: var(--toolbar-segment);
+@button-active-opacity: var(--active-opacity-slide);
+
+@import '../../../../common/mobile/resources/less/collaboration.less';
+@import '../../../../common/mobile/resources/less/common.less';
+@import '../../../../common/mobile/resources/less/common-ios.less';
+@import '../../../../common/mobile/resources/less/common-material.less';
+@import '../../../../common/mobile/resources/less/icons.less';
+@import '../../../../common/mobile/resources/less/about.less';
+@import '../../../../common/mobile/resources/less/contextmenu.less';
+@import './app-material.less';
+@import './app-ios.less';
+@import './icons-ios.less';
+@import './icons-material.less';
+@import './icons-common.less';
+
+:root {
+    --f7-popover-width: 360px;
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+    background: var(--canvas-background);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 6000;
+    position: absolute;
+    padding-top: calc(var(--f7-page-navbar-offset, 0px) + var(--f7-page-subnavbar-offset, 0px));
+    overflow: hidden;
+
+    .slide-h {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+        padding-top: 30%;
+    }
+
+    .slide-v {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        padding-bottom: 56.1333%;
+    }
+
+    .slide-container {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: var(--canvas-content-background);
+        border: 1px solid var(--canvas-page-border);
+
+        -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+        -moz-animation: flickerAnimation 2s infinite ease-in-out;
+        -o-animation: flickerAnimation 2s infinite ease-in-out;
+        animation: flickerAnimation 2s infinite ease-in-out;
+    }
+}
+
+.item-content {
+    .preview{
+        color: @gray;
+    }
+}
+
+.phone, .tablet {
+    .swiper-container{
+        position: static;
+   }
+}
+
+.swiper-pagination-bullet-active{
+    background: @black;
+}
+

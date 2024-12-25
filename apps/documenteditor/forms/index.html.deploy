@@ -49,19 +49,6 @@
             height: 100%;
         }
 
-        .loadmask > .brendpanel .loading-logo {
-            max-width: 200px;
-            height: 20px;
-            margin-left: 10px;
-            text-align: center;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
-        }
         .loadmask > .brendpanel .doc-title {
             flex-grow: 1;
         }
@@ -136,21 +123,18 @@
   </head>
 
   <body class="embed-body">
+        <script>
+            var userAgent = navigator.userAgent.toLowerCase(),
+                check = function(regex){ return regex.test(userAgent); },
+                isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
+        </script>
+
       <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
-      <script>
-          if ( !!window.desktop ) {
-              var sheet = document.createElement('style')
-              sheet.innerHTML = ".device-desktop .loading-logo {display:none;}";
-              document.body.appendChild(sheet);
-
-              document.body.classList.add('device-desktop');
-          }
-      </script>
 
       <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
-            <div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div>
+            <div><div class="doc-title"></div><div class="circle"></div></div>
           </div>
           <div class="placeholder-outer">
           <div class="placeholder">
@@ -160,10 +144,8 @@
       </div>
 
        <script>
-            var  userAgent = navigator.userAgent.toLowerCase(),
-                check = function(regex){ return regex.test(userAgent); },
-                stopLoading = false;
-            if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+            var stopLoading = false;
+            if (isIEBrowser) {
                 var m = /msie (\d+\.\d+)/.exec(userAgent);
                 if (m && parseFloat(m[1]) < 10.0) {
                     document.write(
@@ -208,32 +190,14 @@
             }
 
             var params = getUrlParams(),
-                           lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-                           hideLogo = params["headerlogo"]==='',
-                           logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-                           logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
-                           logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null;
+                           lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
 
             if (stopLoading) {
                document.body.removeChild(document.getElementById('loading-mask'));
-            } else {
-                var elem = document.querySelector('.loading-logo');
-                if (elem) {
-                    if (hideLogo) {
-                        elem.style.display = 'none';
-                    } else if (logo || logoDark || logoLight) {
-                        elem.style.backgroundImage= 'none';
-                        elem.style.width = 'auto';
-                        elem.style.height = 'auto';
-                        var img = document.querySelector('.loading-logo img');
-                        img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo || logoLight : logoLight || logo || logoDark);
-                        img.style.opacity = 1;
-                    }
-                }
-            }
+            } 
         </script>
 
       <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
@@ -251,7 +215,7 @@
               <span id="id-btn-undo" class="margin-right-small big-resolution"></span>
               <span id="id-btn-redo" class="margin-right-small big-resolution"></span>
               <div class="separator big-resolution"></div>
-              <span id="id-btn-prev-field" class="margin-left-small margin-right-small"></span>
+              <span id="id-btn-prev-field" class="margin-x-8"></span>
               <span id="id-btn-next-field" class="margin-right-large"></span>
               <span id="id-btn-clear-fields" class="big-resolution"></span>
           </div>
@@ -296,6 +260,14 @@
       </script>
       <!--application-->
       <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
-      <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
+      <script>
+          isIEBrowser === true &&
+                (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
+                document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
+      </script>
+      <script src="../../../vendor/requirejs/require.js"></script>
+      <script>
+          isIEBrowser === true ? require(['ie/app']) : require(['app']);
+      </script>
   </body>
 </html>

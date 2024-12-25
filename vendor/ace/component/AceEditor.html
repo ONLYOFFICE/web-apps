@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CODE EDITOR</title>
+    <style type="text/css">
+        #editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .ace_content {
+            background: #fff;
+            color: #444;
+        }
+
+        .ace_layer.ace_gutter-layer.ace_folding-enabled {
+            color: #444;
+        }
+        .ace_scroller {
+            border-left: none;
+        }
+        .ace_cursor {
+            color: #444 !important;
+        }
+        .ace_dark.ace_editor, .ace_dark .ace_content, .ace_dark .ace_layer.ace_gutter-layer {
+            background-color: #333;
+        }
+        .ace_dark .ace_content, .ace_dark .ace_layer.ace_gutter-layer, .ace_dark .ace_cursor {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .ace-chrome .ace_marker-layer .ace_selected-word {
+            background: rgb(250, 250, 255, 0.3) !important;
+            border: 1px solid rgb(200, 200, 250);
+        }
+        .ace_active-line, .ace_gutter-active-line, .ace_gutter-active-line-bg {
+            border-bottom: 1px solid;
+            border-top: 1px solid;
+            border-color: #eee !important;
+            background-color: #fff  !important;
+        }
+        .oo_highlight {
+            background-color: #555 !important;
+        }
+        .ace_line-hover, .ace_autocomplete .ace_active-line {
+            background-color: #e0e0e0 !important;
+            border: none !important;
+        }
+        .ace_completion-highlight {
+            color: #0000ff !important;
+            text-shadow: 0 0 0.01em;
+        }
+        .ace_dark .ace_completion-highlight {
+            color: #4FC1FF !important;
+        }
+        .Ace-Tern-farg {
+            color: gray;
+        }
+        .Ace-Tern-farg-current {
+            color: gray;
+        }
+        .Ace-Tern-type {
+            color: #569CD6;
+        }
+        .Ace-Tern-jsdoc-param-name {
+            color: gray;
+        }
+        .ace_gutter, .gutter_bg {
+            background: #fff  !important;
+        }
+        .Ace-Tern-jsdoc-tag {
+            color: #FF5E5C;
+        }
+        .Ace-Tern-farg-current-description {
+            color : #FFFFFF;
+        }
+        .Ace-Tern-farg-current-name {
+            color : white;
+        }
+        .Ace-Tern-tooltip, .Ace-Tern-jsdoc-param-description {
+            color: #444;
+            background-color: #f7f7f7;
+        }
+        .Ace-Tern-tooltip {
+            font-size: 11px;
+            border-radius: 0;
+            border: none;
+            border-top: 1px solid #dfdfdf;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            bottom: 0;
+            left: 0 !important;
+            top: initial !important;
+        }
+        .Ace-Tern-tooltip .Ace-Tern-tooltip-boxclose {
+            color: #444 !important;
+            opacity: 0.7;
+        }
+        .Ace-Tern-tooltip .Ace-Tern-tooltip-boxclose:hover {
+             opacity: 1;
+             background: none;
+             text-decoration: none;
+        }
+        .ace_autocomplete {
+            border-radius: 4px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+            scrollbar-color: #adadad #f7f7f7;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="editor"></div>
+
+    <script src="../ace.js"></script>
+    <script src="../ext-language_tools.js"></script>
+
+    <!-- code -->
+    <script>
+        function getUrlParams() {
+            var e,
+                    a = /\+/g,  // Regex for replacing addition symbol with a space
+                    r = /([^&=]+)=?([^&]*)/g,
+                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                    q = window.location.search.substring(1),
+                    urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        }
+
+        var params = getUrlParams();
+        window.editorType = params["editorType"]; // word/cell/slide
+    </script>
+    <script src="AceEditorCode.js"></script>
+
+</body>
+</html>

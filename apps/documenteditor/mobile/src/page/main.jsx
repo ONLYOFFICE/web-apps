@@ -90,9 +90,6 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     }
 
     useEffect(() => {
-        if ($$('.skl-container').length) {
-            $$('.skl-container').remove();
-        }
 
         document.addEventListener('touchmove', touchMoveHandler);
 

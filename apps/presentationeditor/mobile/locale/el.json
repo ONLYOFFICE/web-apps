@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Άγνωστος περιγραφέας κλειδιού",
     "errorKeyExpire": "Ο περιγραφέας κλειδιού έχει λήξει",
     "errorLoadingFont": "Οι γραμματοσειρές δεν έχουν φορτωθεί.<br>Παρακαλούμε επικοινωνήστε με τον διαχειριστή του Εξυπηρετητή Εγγράφων σας.",
+    "errorSaveWatermark": "Αυτό το αρχείο περιέχει μια εικόνα υδατογραφήματος συνδεδεμένη με άλλο τομέα.<br>Για να γίνει ορατή σε PDF, ενημερώστε την εικόνα υδατογραφήματος ώστε να συνδέεται από τον ίδιο τομέα με το έγγραφό σας ή ανεβάστε την από τον υπολογιστή σας.",
     "errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionIdle": "Το έγγραφο δεν τροποποιήθηκε για μεγάλο χρονικό διάστημα. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionToken": "Η σύνδεση με τον εξυπηρετητή διακόπηκε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
@@ -232,8 +233,7 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -514,7 +514,6 @@
       "textEmail": "email: ",
       "textEnableAll": "Ενεργοποίηση όλων",
       "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
-      "textExplanationChangeDirection": "Η εφαρμογή θα επανεκκινηθεί για ενεργοποίηση διεπαφής RTL",
       "textFeedback": "Ανατροφοδότηση & Υποστήριξη",
       "textFind": "Εύρεση",
       "textFindAndReplace": "Εύρεση και Αντικατάσταση",
@@ -540,8 +539,6 @@
       "textReplace": "Αντικατάσταση",
       "textReplaceAll": "Αντικατάσταση όλων",
       "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
-      "textRTL": "ΑΠΔ",
-      "textRtlInterface": "Διεπαφή RTL",
       "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Εύρεση",
       "textSettings": "Ρυθμίσεις",

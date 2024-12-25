@@ -39,6 +39,7 @@
   "SSE.ApplicationController.titleLicenseExp": "License expired",
   "SSE.ApplicationController.titleLicenseNotActive": "License not active",
   "SSE.ApplicationController.txtClose": "Close",
+  "SSE.ApplicationController.txtPressLink": "Click the link to open it",
   "SSE.ApplicationController.unknownErrorText": "Unknown error.",
   "SSE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "SSE.ApplicationController.waitText": "Please, wait...",

@@ -1,0 +1,19 @@
+@import '../../../../common/mobile/resources/less/common-rtl.less';
+@import '../../../../common/mobile/resources/less/icons.rtl.less';
+
+[dir="rtl"] {
+    .slide-theme .item-theme.active:before {
+        left: -5px;
+        right: unset;
+    }
+
+    .slide-layout {
+        .item-inner:before {
+            left: 11px;
+            right: unset;
+        }
+        .row img {
+            transform: scaleX(-1);
+        }
+    }
+}

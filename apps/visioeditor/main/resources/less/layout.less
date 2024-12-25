@@ -1,0 +1,77 @@
+body {
+    width: 100%;
+    height: 100%;
+    .user-select(none);
+    color: @text-normal-ie;
+    color: @text-normal;
+
+    &.safari {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: scroll;
+
+        &::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        #viewport {
+            &::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+            }
+        }
+    }
+}
+
+label {
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+#viewport {
+    position: absolute;
+    left: 0;
+    top:0;
+    right: 0;
+    bottom: 0;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    overflow: hidden;
+    scroll-behavior: smooth; // chromium bug890248 (Bug 39614)
+}
+
+.layout-region {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    .row {
+        display: table-row;
+    }
+
+    .cell {
+        display: table-cell;
+    }
+
+    .layout-resizer {
+        background-color: transparent;
+    }
+}
+
+.tooltip.main-info {
+    z-index: @zindex-popover;
+
+    .tooltip-inner {
+        max-width: none;
+    }
+}
+
+#editor_sdk {
+    width: 100%;
+    height: 100%;
+}

@@ -595,7 +595,7 @@ define([
                     arr.push(Common.Utils.ThemeColor.getRgbColor(item));
                 });
                 fill.get_fill().put_colors(arr);
-                
+
                 props.put_fill(fill);
                 this.api.ShapeApply(props);
                 this._sliderChanged = false;
@@ -1122,7 +1122,7 @@ define([
                     this.BorderType = this._state.StrokeBorderType = borderType;
                     this.cmbBorderType.setValue(borderType);
                 }
-                
+
                 // pattern colors
                 type1 = typeof(this.FGColor.Color);
                 type2 = typeof(this._state.FGColor);
@@ -1168,7 +1168,7 @@ define([
                     var shadowPreset = shadow.getPreset();
                     if(shadowPreset) {
                         shadowPresetRecord = this.viewShadowShapePresets.store.findWhere({value: shadowPreset});
-                    } 
+                    }
 
                     color = shadow.getColor();
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -1176,11 +1176,11 @@ define([
                     } else {
                         this.ShadowColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
                     }
-                    
+
                     color = this.ShadowColor.Color;
                     type1 = typeof(this.ShadowColor);
                     type2 = typeof(this._state.ShadowColor);
-    
+
                     if ( (type1 !== type2) || (type1=='object' &&
                         (color.effectValue!==this._state.ShadowColor.effectValue || this._state.ShadowColor.color.indexOf(color.color)<0)) ||
                         (type1!='object' && this._state.ShadowColor.indexOf(color)<0 )) {
@@ -1188,7 +1188,7 @@ define([
                         Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.mnuShadowShapeColorPicker);
                         this._state.ShadowColor = color;
                     }
-                } 
+                }
 
                 if(shadowPresetRecord) {
                     this._state.ShadowPreset = shadowPresetRecord;
@@ -1200,7 +1200,7 @@ define([
 
                 this.btnShadowShape.menu.items[1].setChecked(!shadow, true)
 
-                   
+
                 this._noApply = false;
             }
         },
@@ -1738,7 +1738,7 @@ define([
                 } else {
                     me.viewShadowShapePresets.deselectAll();
                 }
-            });            
+            });
             this.mnuShadowShapeColor.menu.on('show:before', function() {
                 if(me._state.ShadowColor) {
                     me.mnuShadowShapeColorPicker.select(me._state.ShadowColor,true);
@@ -1771,7 +1771,7 @@ define([
                             'margin-right:<%= offsetX %>px;' +
                             'box-shadow: <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%> <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px ;"' +
                         '>' +
-                        '</div>' + 
+                        '</div>' +
                     '</div>')
             });
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
@@ -1780,7 +1780,7 @@ define([
             this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#shape-button-shadow-shape-menu-picker'),
                 outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0}
-            });            
+            });
             this.mnuShadowShapeColor.menu.setInnerMenu([{menu: this.mnuShadowShapeColorPicker, index: 0}]);
             this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors())
             this.mnuShadowShapeColorPicker.on('select', _.bind(this.onSelectShadowColor, this));
@@ -1922,7 +1922,7 @@ define([
             if(item.value == 1) {
                 if (this.api)   {
                     var shapeProps = new Asc.asc_CShapeProperty();
-                        
+
                     if(item.checked) {
                         shapeProps.asc_putShadow(null);
                     } else {
@@ -1933,7 +1933,7 @@ define([
                     this.api.ShapeApply(shapeProps);
                 }
                 this.fireEvent('editcomplete', this);
-            } 
+            }
             //Adjust shadow
             else if(item.value == 3) {
                 var me = this;
@@ -1960,7 +1960,7 @@ define([
                     me.mnuShadowShapeColorPicker.setCustomColor('#' + color);
                     me.onSelectShadowColor(null, color);
                 });
-            } 
+            }
             //More colors
             else if(item.value == 2) {
                 this.mnuShadowShapeColorPicker.addNewColor();
@@ -1981,7 +1981,7 @@ define([
             this.api.ShapeApply(shapeProps);
             this.fireEvent('editcomplete', this);
         },
-        
+
         onApiAutoShapes: function(btnChangeShape) {
             var me = this;
             var onShowBefore = function(menu) {
@@ -2014,7 +2014,9 @@ define([
             });
             me.btnChangeShape.shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
-                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    PE.getController('Toolbar').toolbar.cmbsInsertShape.forEach(function(cmb) {
+                        cmb.updateComboView(record);
+                    });
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
@@ -2176,7 +2178,7 @@ define([
 
         disableControls: function(disable, disableFill) {
             if (this._initSettings) return;
-            
+
             this.disableFillPanels(disable || disableFill);
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;

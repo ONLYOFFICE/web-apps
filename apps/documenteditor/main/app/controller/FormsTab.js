@@ -448,7 +448,8 @@ define([
                     toolbar: true,
                     plugins: true,
                     protect: true,
-                    header: {docmode: false}
+                    header: {docmode: false, search: false},
+                    shortcuts: false
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
@@ -466,13 +467,15 @@ define([
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
+                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]});
                 if (!this._submitFail) {
                     Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.view.textFilled);
+                    var text = (typeof this.appConfig.customization.submitForm==='object') ? this.appConfig.customization.submitForm.resultMessage : this.view.textSubmitOk;
+                    if (text==='') return;
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: this.view.textSubmitOk,
+                            text: text || this.view.textSubmitOk,
                             extCls: 'no-arrow colored',
                             showLink: false,
                             target: $('.toolbar'),

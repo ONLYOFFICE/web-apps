@@ -148,14 +148,14 @@ define([
             this.btnRedo.render($('#id-btn-redo'));
 
             this.btnSubmit = new Common.UI.Button({
-                cls: 'btn-text-default auto colored back-color margin-left-small margin-right-small',
+                cls: 'btn-text-default auto colored back-color margin-x-8',
                 caption: this.textSubmit,
                 hint: this.tipSubmit
             });
             this.btnSubmit.render($('#id-submit-group'));
 
             this.btnDownload = new Common.UI.Button({
-                cls: 'btn-text-default auto colored yellow margin-left-small margin-right-small',
+                cls: 'btn-text-default auto colored yellow margin-x-8',
                 caption: this.txtDownload,
                 hint: this.txtDownloadPdf
             });

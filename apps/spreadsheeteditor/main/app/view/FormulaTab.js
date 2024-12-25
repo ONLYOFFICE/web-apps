@@ -112,6 +112,7 @@ define([
                     hint: formulaDialog.sCategoryFinancial,
                     menu: true,
                     split: false,
+                    action: 'formula-financial',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -130,6 +131,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
+                    action: 'formula-logical',
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -146,6 +148,7 @@ define([
                     hint: formulaDialog.sCategoryTextAndData,
                     menu: true,
                     split: false,
+                    action: 'formula-textdata',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -163,6 +166,7 @@ define([
                     hint: formulaDialog.sCategoryDateAndTime,
                     menu: true,
                     split: false,
+                    action: 'formula-datetime',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -180,6 +184,7 @@ define([
                     hint: formulaDialog.sCategoryLookupAndReference,
                     menu: true,
                     split: false,
+                    action: 'formula-reference',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -197,6 +202,7 @@ define([
                     hint: formulaDialog.sCategoryMathematic,
                     menu: true,
                     split: false,
+                    action: 'formula-math',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -214,6 +220,7 @@ define([
                     hint: this.txtRecent,
                     menu: true,
                     split: false,
+                    action: 'formula-recent',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -230,6 +237,7 @@ define([
                     caption: this.txtAutosum,
                     hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')],
                     split: true,
+                    action: 'autosum',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.userProtected],
                     menu: new Common.UI.Menu({
@@ -277,6 +285,7 @@ define([
                     hint: this.txtMore,
                     menu: true,
                     split: false,
+                    action: 'formula-more',
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems, _set.userProtected],
                     dataHint: '1',
@@ -293,6 +302,7 @@ define([
                     caption: this.txtCalculation,
                     split: true,
                     menu: true,
+                    action: 'calculate',
                     disabled: true,
                     lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     dataHint: '1',
@@ -330,6 +340,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'named-ranges',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -402,7 +413,7 @@ define([
                     dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnShowFormulas);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -551,7 +562,7 @@ define([
                     var btn = this.btnMore,
                         mnu;
                     if (btn.menu && btn.menu.rendered) {
-                        for (var i = 0; i < btn.menu.items.length; i++) {
+                        for (var i = 0; i < btn.menu.getItemsLength(true); i++) {
                             if (btn.menu.items[i].options.value===name) {
                                 mnu = btn.menu.items[i];
                                 break;
@@ -630,7 +641,7 @@ define([
                     this.setButtonMenu(this.btnMath, 'Mathematic');
                     this.setButtonMenu(this.btnRecent, 'Last10');
 
-                    var formulas = this.btnAutosum.menu.items;
+                    var formulas = this.btnAutosum.menu.getItems(true);
                     for (var i=0; i<Math.min(4,formulas.length); i++) {
                         this.api && formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
                     }
@@ -641,7 +652,7 @@ define([
                         morearr = [],
                         visiblecount = 0;
 
-                    btn.menu && btn.menu.rendered && btn.menu.removeAll();
+                    btn.menu && btn.menu.rendered && btn.menu.removeAll(true);
 
                     ['Cube', 'Database', 'Engineering',  'Information', 'Statistical', 'Custom'].forEach(function(name) {
                         var mnu = me.setMenuItemMenu(name);
@@ -653,14 +664,14 @@ define([
                     if (morearr.length) {
                         if (btn.menu && btn.menu.rendered) {
                             morearr.forEach(function(item){
-                                btn.menu.addItem(item);
+                                btn.menu.addItem(item, true);
                             });
                         } else {
                             btn.setMenu(new Common.UI.Menu({
                                 items: morearr
                             }));
                         }
-                        btn.menu.items.forEach(function(mnu){
+                        btn.menu.getItems(true).forEach(function(mnu){
                             var menuContainer = mnu.menu.items[0].cmpEl.children(':first'),
                                 menu = mnu.menu._innerMenu;
                             menu.render(menuContainer);
@@ -687,7 +698,7 @@ define([
                 if (mnu) {
                     var hasvisible = false;
                     if (btn.menu && btn.menu.rendered) {
-                        for (var i = 0; i < btn.menu.items.length; i++) {
+                        for (var i = 0; i < btn.menu.getItemsLength(true); i++) {
                             if (btn.menu.items[i].visible) {
                                 hasvisible = true;
                                 break;

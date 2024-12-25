@@ -112,27 +112,6 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            {Common.Locale.isCurrentLangRtl &&
-                <>
-                    <List>
-                        <ListItem>
-                            <div>
-                                <span>{t("Settings.textRtlInterface")}</span>
-                                <span className="beta-badge">Beta</span>
-                            </div>
-                            <Toggle checked={directionMode !== 'ltr'}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeDirectionMode(newDirectionMode);
-                                        props.changeDirectionMode(newDirectionMode);
-                                    }}
-                            />
-                        </ListItem>
-                    </List>
-                    <Block>
-                        <p>{t('Settings.textExplanationChangeDirection')}</p>
-                    </Block>
-                </>
-            }
         </Page>
     );
 };

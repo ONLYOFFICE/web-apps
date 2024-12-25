@@ -197,7 +197,8 @@
             getOffset: getOffset,
             setOffset: setOffset,
             getPosition: getPosition,
-            isMac : isMac
+            isMac : isMac,
+            isIE: isIE
         };
     })();
 }();
