@@ -179,46 +179,4 @@
             resize: none;
         }
     }
-
-    .draw__sheet-item {
-        padding-inline: 16px;
-        height: 48px;
-    }
-
-    #drawbar.navbar {
-        top: unset;
-        bottom: 0;
-        height: calc(44px + var(--f7-safe-area-bottom));
-
-        .navbar-inner {
-            background-color: #fff; /* move to app.less vars */
-            border-top: 1px solid rgba(0, 0, 0, .1); /* move to app.less vars */
-        }
-
-        .draw__buttons {
-            padding-inline: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-
-            button {
-                display: flex;
-                padding: 0;
-                width: 36px;
-                min-width: 36px;
-                border-radius: 7px;
-                &.button-fill {
-                    color: var(--brand-word);
-                    background-color: #E5F0FF; /* move to app.less vars */
-                }
-            }
-
-            .draw__divider {
-                width: 1px;
-                height: 24px;
-                background-color: rgba(0, 0, 0, .1); /* move to app.less vars */
-            }
-        }
-    }
 }

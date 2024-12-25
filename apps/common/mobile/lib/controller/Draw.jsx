@@ -1,83 +1,95 @@
-import React, {useEffect, useState} from 'react'
-import {DrawView} from "../view/Draw";
-import {f7} from 'framework7-react';
+import React, { useEffect, useState } from 'react'
+import { DrawView } from "../view/Draw";
+import { inject, observer } from "mobx-react";
+import { Device } from "../../utils/device";
+import { LocalStorage } from '../../utils/LocalStorage.mjs';
 
-export const DrawController = ({isDrawing, setDrawing}) => {
-    useEffect(() => {
-        Common.Notifications.on('draw:start', () => {
-            setDrawing(true);
-            setCurrentToolProxy('pen');
-        })
+const DEFAULT_TOOL_SETTINGS = { color: '#3D8A44', opacity: 100, lineSize: 1 }
+const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
+const DEFAULT_IOS_COLORS = []
 
-        Common.Notifications.on('draw:stop', () => {
-            setDrawing(false);
-            setCurrentToolProxy(null);
-        })
-
-        return () => {
-            Common.Notifications.off('draw:start');
-            Common.Notifications.off('draw:stop');
+export const DrawController = inject('storeAppOptions', 'storePalette')(observer(({ storeAppOptions, storePalette }) => {
+  useEffect(() => {
+    Common.Notifications.on('draw:start', () => {
+      storeAppOptions.changeDrawMode(true);
+      if (!storePalette.drawColors.length) {
+        const storageColors = LocalStorage.getJson('draw-colors', []);
+        if (!storageColors.length) {
+          const defaultColors = Device.android ? DEFAULT_ANDROID_COLORS : DEFAULT_IOS_COLORS
+          storePalette.setDrawColors(defaultColors);
+          LocalStorage.setJson('draw-colors', defaultColors);
+        } else {
+          storePalette.setDrawColors(storageColors);
         }
-    }, []);
+      }
+      setCurrentToolAndApply('pen');
+    })
 
-    const [currentTool, setCurrentTool] = useState(null)
-    const [settings, setSettings] = useState({color: 'ff0000', lineSize: 2, opacity: 100});
-    // const penSettings = {
-    //     highlighter: {color: 'FFFC54', opacity: 50, size: [2, 4, 6, 8, 10], idx: 1}
-    // }
+    Common.Notifications.on('draw:stop', () => {
+      storeAppOptions.changeDrawMode(false);
+      setCurrentToolAndApply('scroll');
+    })
 
-    const setCurrentToolProxy = val => {
-        setCurrentTool(val);
-        const api = Common.EditorApi.get();
-        switch (val) {
-            case 'pen': {
-                const stroke = new Asc.asc_CStroke();
-                stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-                stroke.put_color(Common.Utils.ThemeColor.getRgbColor(settings.color)); // options.color
-                stroke.asc_putPrstDash(Asc.c_oDashType.solid);
-                stroke.put_width(settings.lineSize); // options.size.arr[options.size.idx]
-                stroke.put_transparent(settings.opacity * 2.55);
-                api.asc_StartDrawInk(stroke, 0);
-                break;
-            }
-            case 'highlighter': { /* same as PEN (idx: 1) */
-                const stroke = new Asc.asc_CStroke();
-                stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
-                stroke.put_color(Common.Utils.ThemeColor.getRgbColor(settings.color));
-                stroke.asc_putPrstDash(Asc.c_oDashType.solid);
-                stroke.put_width(settings.lineSize);
-                stroke.put_transparent(50 * 2.55);
-                api.asc_StartDrawInk(stroke, 0);
-                break
-            }
-            // 2 once buttons
-            // case 'colorPicker': { break }
-            case 'eraser': {
-                api.asc_StartInkEraser();
-                break
-            }
-            case 'eraseEntireScreen': {
-                // method?
-                break
-            }
-            case 'scroll':
-                // scroll method?
-            case null: {
-                api.asc_StopInkDrawer();
-                break
-            }
-        }
+    return () => {
+      Common.Notifications.off('draw:start');
+      Common.Notifications.off('draw:stop');
     }
+  }, []);
 
-    function showSettings() {
-        f7.sheet.open('.draw__sheet')
-    }
+  const [currentTool, setCurrentTool] = useState(null);
+  const [toolSettings, setToolSettings] = useState(() => {
+    const stored = LocalStorage.getJson('draw-settings');
+    return stored || DEFAULT_TOOL_SETTINGS;
+  });
 
-    return isDrawing ? <DrawView
-        currentTool={currentTool}
-        setTool={setCurrentToolProxy}
-        settings={settings}
-        setSettings={setSettings}
-        showSettings={showSettings}
-    /> : null
-}
+  const createStroke = (color, lineSize, opacity) => {
+    const stroke = new Asc.asc_CStroke();
+    stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+    stroke.put_color(Common.Utils.ThemeColor.getRgbColor(color));
+    stroke.asc_putPrstDash(Asc.c_oDashType.solid);
+    stroke.put_width(lineSize);
+    stroke.put_transparent(opacity * 2.55);
+    return stroke;
+  };
+
+  const toolActions = {
+    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, settings.opacity), 0),
+    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, 50), 1),
+    eraser: (api) => api.asc_StartInkEraser(),
+    eraseEntireScreen: (api) => {/* method */
+    },
+    scroll: (api) => api.asc_StopInkDrawer(),
+  };
+
+  const setCurrentToolAndApply = (tool) => {
+    const api = Common.EditorApi.get();
+    toolActions[tool]?.(api, toolSettings);
+    setCurrentTool(tool);
+  };
+
+  const updateToolSettings = (newSettings) => {
+    setToolSettings(prev => {
+      const updatedSettings = { ...prev, ...newSettings };
+      const api = Common.EditorApi.get();
+      toolActions[currentTool]?.(api, updatedSettings);
+      LocalStorage.setJson('draw-settings', updatedSettings)
+      return updatedSettings;
+    });
+  };
+
+  const newCustomColor = (color) => {
+    const updatedColors = [...storePalette.drawColors, color]
+    storePalette.setDrawColors(updatedColors)
+    updateToolSettings({ color })
+    LocalStorage.setJson('draw-colors', updatedColors)
+  }
+
+  return storeAppOptions.isDrawMode ? <DrawView
+    currentTool={currentTool}
+    setTool={setCurrentToolAndApply}
+    settings={toolSettings}
+    setSettings={updateToolSettings}
+    colors={storePalette.drawColors}
+    newCustomColor={newCustomColor}
+  /> : null
+}));

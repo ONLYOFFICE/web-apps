@@ -34,8 +34,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         editLinkSettingsVisible: false,
         snackbarVisible: false,
         fabVisible: true,
-        isOpenModal: false,
-        isDrawing: false
+        isOpenModal: false
     });
     const appOptions = props.storeAppOptions;
     const storeThemes = props.storeThemes;
@@ -250,10 +249,6 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
     };
 
-    const setDrawing = value => {
-        setState(prevState =>( { ...prevState, isDrawing: value }))
-    }
-
     return (
         <Themes fileType={docExt}>
             <MainContext.Provider value={{
@@ -288,8 +283,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                         }
                     </Navbar>
                     <View id="editor_sdk"></View>
-                    <Navbar id='drawbar' style={{ display: !state.isDrawing && 'none' }}>
-                        <DrawController isDrawing={state.isDrawing} setDrawing={setDrawing}/>
+                    <Navbar id='drawbar' style={{ display: !appOptions.isDrawMode && 'none' }}>
+                        <DrawController />
                     </Navbar>
                     {isShowPlaceholder ?
                         <div className="doc-placeholder-container">

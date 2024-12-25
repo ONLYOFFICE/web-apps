@@ -1,0 +1,143 @@
+.draw-sheet {
+    .device-android & {
+        box-shadow: 0 3.75px 11px 0 #00000030, 0 0.5px 5px 0 #0000000A;
+        --f7-sheet-border-radius: 16px;
+    }
+
+    .device-ios & {
+        box-shadow: 0 8px 28px 0 #00000029;
+        --f7-sheet-border-radius: 10px;
+    }
+
+    .swipe-container {
+        height: 20px;
+    }
+
+    &-label {
+        padding-inline: 16px;
+        height: 48px;
+        display: flex;
+
+        .device-android & {
+            font-size: 16px;
+            align-items: center;
+        }
+
+        .device-ios & {
+            align-items: flex-end;
+            text-transform: uppercase;
+            color: #3C3C4399;
+            font-size: 13px;
+            line-height: 18px;
+        }
+    }
+
+    &-item {
+        padding-inline: 16px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.draw-sheet--settings {
+    &-colors {
+        padding-inline: 16px;
+        min-height: 48px;
+
+        &-list {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+
+            &-item {
+                border: 1px solid;
+                aspect-ratio: 1;
+
+                .device-android & {
+                    border-color: #9E9E9E;
+                }
+
+                .device-ios & {
+                    border-color: #8E8E93;
+                }
+            }
+
+            &-add {
+                position: relative;
+                background-color: #fff; // change
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: @brandColor;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    inset: -3px;
+                    background: linear-gradient(to right, #FF0000, #FF8A00, #FAFF01, #00FF1A, #00F0FF, #0029FF, #DB00FF);
+                    z-index: -1;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+}
+
+#drawbar.navbar {
+    top: unset;
+    bottom: 0;
+    height: calc(44px + var(--f7-safe-area-bottom));
+
+    .navbar-inner {
+        border-top: 1px solid;
+
+        .device-android & {
+            background-color: #fff;
+            border-top-color: rgba(0, 0, 0, .1);
+        }
+
+        .device-ios & {
+            background-color: #FCFCFC;
+            border-top-color: #C6C6C8;
+        }
+    }
+
+    .draw-toolbar {
+        padding-inline: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        button {
+            display: flex;
+            padding: 0;
+            width: 36px;
+            min-width: 36px;
+            border-radius: 7px;
+
+            &.button-fill {
+                color: @brandColor;
+                background-color: @toggle-active;
+                //.theme-type-dark {}
+            }
+        }
+
+        &-divider {
+            width: 1px;
+            height: 24px;
+
+            .device-android & {
+                background-color: rgba(0, 0, 0, .1);
+            }
+
+            .device-ios & {
+                background-color: rgba(120, 120, 128, .2);
+            }
+
+            //.theme-type-dark {}
+        }
+    }
+}

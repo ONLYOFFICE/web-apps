@@ -10,9 +10,7 @@ const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
-    const isForm = props.isForm;
-    const canFillForms = props.canFillForms;
-    const isEditableForms = isForm && canFillForms;
+    const isEditableForms = props.isForm && props.canFillForms;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
@@ -22,9 +20,6 @@ const ToolbarView = props => {
     useEffect(() => {
         if ( $$('.skl-container').length ) {
             $$('.skl-container').remove();
-        }
-
-        return () => {
         }
     }, []);
 
@@ -78,7 +73,7 @@ const ToolbarView = props => {
                         }}></Link>,
                     (props.showEditDocument && !isViewer) &&
                         <Link key='edit-link' className={(props.disabledControls || isOpenModal) && 'disabled'} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>,
-                    (props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && 
+                    (props.isEdit && isAvailableExt && !isViewer && !props.isDrawMode && EditorUIController.getToolbarOptions &&
                         <Fragment key='editing-buttons'>
                             {EditorUIController.getToolbarOptions({
                             disabled: disableEditBtn || props.disabledControls || isOpenModal,
@@ -90,7 +85,7 @@ const ToolbarView = props => {
                     (Device.phone ? null : 
                         <Link key='search-link' className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>
                     ),
-                    (window.matchMedia("(min-width: 360px)").matches && !isForm && !isVersionHistoryMode ? 
+                    (window.matchMedia("(min-width: 360px)").matches && !props.isForm && !props.isDrawMode && !isVersionHistoryMode ?
                         <Link key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> 
                     : null),
                     (isVersionHistoryMode ? 
