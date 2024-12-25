@@ -98,25 +98,25 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }, [isViewer]);
 
     // Scroll handler
-
-    const scrollHandler = offset => {
-        const api = Common.EditorApi.get();
+    const scrollHandler = (offset) => {
         const navbarHeight = getNavbarTotalHeight();
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
-
-        if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > 0 && Math.abs(offset) > Math.abs(scrollOffsetRef.current)) {
-                props.closeOptions('fab');
-                f7.navbar.hide('.main-navbar');
-                api.SetMobileTopOffset(undefined, 0);
-            } else if(offset < 0 && Math.abs(offset) <= Math.abs(scrollOffsetRef.current)) {
-                props.openOptions('fab');
-                f7.navbar.show('.main-navbar');
-                api.SetMobileTopOffset(undefined, navbarHeight);
-            }
-
-            scrollOffsetRef.current = offset;
+        if (isSearchbarEnabled || !navbarHeight) {
+            return;
         }
+
+        const api = Common.EditorApi.get();
+        if (offset - scrollOffsetRef.current > 0) {
+            props.closeOptions('fab');
+            f7.navbar.hide('.main-navbar');
+            api.SetMobileTopOffset(undefined, 0);
+        } else {
+            props.openOptions('fab');
+            f7.navbar.show('.main-navbar');
+            api.SetMobileTopOffset(undefined, navbarHeight);
+        }
+
+        scrollOffsetRef.current = offset;
     }
 
     // Back button
@@ -238,7 +238,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             content: Device.ios ?
                 `<div class="input-field">
                     <input type="text" class="modal-text-input" name="modal-title" id="modal-title">
-                </div>` : 
+                </div>` :
                 `<div class="input-field modal-title">
                     <div class="inputs-list list inline-labels">
                         <ul>
@@ -394,7 +394,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     return (
-        <ToolbarView 
+        <ToolbarView
             openOptions={props.openOptions}
             closeOptions={props.closeOptions}
             isEdit={appOptions.isEdit}
