@@ -3,6 +3,45 @@
 @height-controls: 67px;
 @img-equition-filter: var(--image-border-types-filter);
 
+@toolbar-ver-padding: 10px;
+@toolbar-radius: 10px;
+@toolbar-tab-radius: 5px;
+@tab-active-topline-color: red;
+@tab-active-topline-height: 3px;
+#toolbar {
+    padding-left: @toolbar-ver-padding;
+    padding-right: @toolbar-ver-padding;
+}
+.toolbar {
+    .box-controls {
+        border-radius: @toolbar-radius;
+        background-color: @background-toolbar;
+    }
+
+    .box-tabs {
+        padding-left: @toolbar-radius;
+        padding-right: @toolbar-radius;
+    }
+
+    .ribtab {
+        border-top-left-radius: @toolbar-tab-radius;
+        border-top-right-radius: @toolbar-tab-radius;
+
+        &.active {
+            &:before {
+                content: '';
+                position: absolute;
+                background-color: @tab-active-topline-color;
+                top: 0;
+                left: 0;
+                height: @tab-active-topline-height;
+                width: 100%;
+                border-top-left-radius: @toolbar-tab-radius;
+                border-top-right-radius: @toolbar-tab-radius;
+            }
+        }
+    }
+}
 
 .toolbar {
     position: relative;
