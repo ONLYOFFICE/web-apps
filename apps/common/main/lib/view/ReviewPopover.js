@@ -861,10 +861,14 @@ define([
                         topPos = Math.min(sdkBoundsTop + sdkBoundsHeight - outerHeight, this.arrowPosY + sdkBoundsTop - this.arrow.height);
                         topPos = Math.max(topPos, sdkBoundsTopPos);
 
-                        if (parseInt(arrowView.css('top')) + this.arrow.height > outerHeight) {
-                            arrowView.css({top: (outerHeight-this.arrow.height) + 'px'});
+                        var arrowPosY = 0;
+                        if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight))
+                            arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
+                        else {
+                            arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
+                            arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
                         }
-
+                        arrowView.css({top: arrowPosY + 'px'});
                         this.$window.css('top', topPos + 'px');
                     }
                 }
