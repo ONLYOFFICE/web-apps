@@ -1,3 +1,4 @@
+@statusbar-height: 25px;
 .statusbar {
     padding: 0 2px 0;
     z-index: 500;
@@ -44,24 +45,24 @@
 
     #status-tabs-scroll {
         width: 66px;
-        padding: 3px 12px 0 10px;
-        height: 25px;
+        padding: calc(@statusbar-height - @x-small-btn-size) 12px 0 10px;
+        height: @statusbar-height;
         float: left;
 
         .rtl-sheet& {
-            padding: 3px 10px 0 12px;
+            padding: calc(@statusbar-height - @x-small-btn-size) 10px 0 12px;
             float: right;
         }
     }
 
     #status-zoom-box {
-        padding-top: 3px;
+        padding-top: calc(@statusbar-height - @x-small-btn-size);
 
         position: absolute;
-        height: 25px;
+        height: @statusbar-height;
 
         .separator {
-            margin-top: -3px;
+            margin-top: calc(-1*(@statusbar-height - @x-small-btn-size));
         }
 
         #status-label-zoom {
@@ -157,12 +158,12 @@
     }
 
     #status-addtabs-box {
-        padding: 3px 8px 0;
+        padding: calc(@statusbar-height - @x-small-btn-size) 8px 0;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
-        height: 25px;
+        height: @statusbar-height;
         float: left;
         .rtl-sheet& {
             float: right;
@@ -173,7 +174,7 @@
     #status-filtered-box {
         padding-top: 6px;
         position: absolute;
-        height: 25px;
+        height: @statusbar-height;
         .separator {
             position: relative;
             margin-top: -6px;
@@ -183,7 +184,7 @@
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
-        height: 25px;
+        height: @statusbar-height;
         left: 66px;
         right: 160px;
 
@@ -325,7 +326,7 @@
                             position: absolute;
                             top: 0;
                             left: 0;
-                            margin: 3px;
+                            margin: calc(@statusbar-height - @x-small-btn-size);
                             .rtl-sheet& {
                                 left: auto;
                                 right: 0;
@@ -420,7 +421,7 @@
 
     #status-number-of-sheet , #status-action {
         position: absolute;
-        height: 25px;
+        height: @statusbar-height;
         bottom: 0;
         display: flex;
         justify-content: flex-start;
@@ -541,7 +542,7 @@
 
     .separator {
         &.short {
-            height: 25px;
+            height: @statusbar-height
         }
     }
 }

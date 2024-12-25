@@ -1,3 +1,4 @@
+@statusbar-height: 25px;
 .statusbar {
     display: table;
     padding: 2px;
@@ -33,7 +34,7 @@
         button.margin-top-small,
         .margin-top-small > button,
         .margin-top-small > .btn-group {
-            margin-top: 3px;
+            margin-top: calc(@statusbar-height - @x-small-btn-size);
         }
 
         #btn-zoom-up {
@@ -45,7 +46,7 @@
         margin: 0 6px;
 
         &.short {
-            height: 25px;
+            height: @statusbar-height;
         }
 
         &.space {
