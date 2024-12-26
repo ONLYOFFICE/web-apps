@@ -629,15 +629,17 @@ define([
         },
 
         onNeedUpdateExternalReferenceOnOpen: function() {
+            var value = this.api.asc_getUpdateLinks();
             Common.UI.warning({
-                msg: this.warnUpdateExternalData,
-                buttons: [{value: 'ok', caption: this.textUpdate, primary: true}, {value: 'cancel', caption: this.textDontUpdate}],
+                msg: value ? this.warnUpdateExternalAutoupdate : this.warnUpdateExternalData,
+                buttons: [{value: 'ok', caption: value ? this.textContinue : this.textUpdate, primary: true}, {value: 'cancel', caption: value ? this.textTurnOff : this.textDontUpdate}],
                 maxwidth: 600,
                 callback: _.bind(function(btn) {
                     if (btn==='ok') {
                         var links = this.api.asc_getExternalReferences();
                         links && (links.length>0) && this.api.asc_updateExternalReferences(links);
                     }
+                    value && this.api.asc_setUpdateLinks(btn==='ok', true);
                 }, this)
             });
         },
@@ -705,7 +707,10 @@ define([
         warnUpdateExternalData: 'This workbook contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
         textUpdate: 'Update',
         textDontUpdate: 'Don\'t Update',
-        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'
+        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.',
+        warnUpdateExternalAutoupdate: 'This workbook contains links that are updated automatically from external sources that could be unsafe.<br>If you trust the links, press \'Continue\' to update.',
+        textTurnOff: 'Turn off auto update',
+        textContinue: 'Continue'
 
     }, SSE.Controllers.DataTab || {}));
 });
