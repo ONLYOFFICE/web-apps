@@ -78,6 +78,11 @@ define([
                 type: 'light',
                 source: 'static',
             },
+            'theme-white': {
+                text: locale.txtThemeWhite || 'White',
+                type: 'light',
+                source: 'static',
+            },
         }
 
 

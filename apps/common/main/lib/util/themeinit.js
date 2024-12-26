@@ -72,7 +72,7 @@
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-    localstorage.setItem('ui-theme-id', 'theme-gray');
+    localstorage.setItem('ui-theme-id', 'theme-white');
     !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
@@ -127,6 +127,10 @@
         if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
             header_tokens.forEach(function (i) {
                 !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
+            });
+        } else if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-white", 0) === 0 ) {
+            header_tokens.forEach(function (i) {
+                !!document.documentElement.style.setProperty('--' + i, "#ffffff");
             });
         }
     }
