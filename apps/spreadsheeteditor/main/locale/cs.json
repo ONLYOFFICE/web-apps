@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečit sešit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadejte heslo pro deaktivaci zabezpečení listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }
