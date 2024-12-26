@@ -16,6 +16,16 @@
     .box-controls {
         border-radius: @toolbar-radius;
         background-color: @background-toolbar;
+
+        &:after {
+            content: '';
+            position: absolute;
+            box-shadow: 0 3px 5px 2px @highlight-button-pressed;
+            width: 100%;
+            height: 72px;
+            bottom: 0;
+            border-radius: @toolbar-radius;
+        }
     }
 
     .box-tabs {
@@ -29,15 +39,15 @@
 
         &.active {
             &:before {
-                content: '';
-                position: absolute;
-                background-color: @tab-active-topline-color;
-                top: 0;
-                left: 0;
-                height: @tab-active-topline-height;
-                width: 100%;
-                border-top-left-radius: @toolbar-tab-radius;
-                border-top-right-radius: @toolbar-tab-radius;
+                //content: '';
+                //position: absolute;
+                //background-color: @tab-active-topline-color;
+                //top: 0;
+                //left: 0;
+                //height: @tab-active-topline-height;
+                //width: 100%;
+                //border-top-left-radius: @toolbar-tab-radius;
+                //border-top-right-radius: @toolbar-tab-radius;
             }
         }
     }
@@ -439,8 +449,8 @@
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     @minus-px: calc(-1 * @scaled-one-px-value);
-    .box-inner-shadow(0 -1px @border-toolbar-ie);
-    .box-inner-shadow(0 @minus-px @border-toolbar);
+    //.box-inner-shadow(0 -1px @border-toolbar-ie);
+    //.box-inner-shadow(0 @minus-px @border-toolbar);
 
     .group {
         position: relative;
