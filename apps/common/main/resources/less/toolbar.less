@@ -11,13 +11,21 @@
 #toolbar {
     padding-left: @toolbar-ver-padding;
     padding-right: @toolbar-ver-padding;
+
+    &:not(.style-off-tabs) {
+        background: @header-background-color;
+        .toolbar {
+            background-color: @header-background-color;
+        }
+    }
 }
 .toolbar {
     .box-controls {
         border-radius: @toolbar-radius;
+        background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
-        &:after {
+        &:before {
             content: '';
             position: absolute;
             box-shadow: 0 3px 5px 2px @highlight-button-pressed;
@@ -600,6 +608,8 @@
 }
 
 .style-off-tabs {
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     .toolbar {
         .tabs, .box-tabs .extra {
             background-color: transparent;
