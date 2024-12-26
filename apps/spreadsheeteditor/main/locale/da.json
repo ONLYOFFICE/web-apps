@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Beskyt projektmappe",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​arket",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fjern beskyttelse af ark",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Indtast en adgangskode for at fjerne beskyttelsen af ​​projektmappen",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "ປ້ອງກັນປຶ້ມບັນທືກ",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "ໃສ່ລະຫັດຜ່ານເພື່ອຍົກເລີກການປ້ອງກັນແຜ່ນ",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

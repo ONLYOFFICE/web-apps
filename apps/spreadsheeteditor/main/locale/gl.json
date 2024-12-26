@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protexer libro",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza un contrasinal para quitarlle a protección á folla",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotexer folla",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza un contrasinal para quitarlle a protección ao libro"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza un contrasinal para quitarlle a protección ao libro",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

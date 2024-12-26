@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Arbeitsmappe schützen",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protect workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

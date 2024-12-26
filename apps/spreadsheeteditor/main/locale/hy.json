@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Պաշտպանել աշխատագիրքը",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ թերթը չպաշտպանելու համար",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Չպաշտպանել թերթիկը",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

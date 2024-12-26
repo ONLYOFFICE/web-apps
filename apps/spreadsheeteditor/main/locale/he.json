@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "הגנה על חוברת עבודה",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

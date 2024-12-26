@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Захистити книгу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }

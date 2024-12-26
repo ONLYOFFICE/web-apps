@@ -4565,5 +4565,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protéger le classeur",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Entrez un mot de passe pour déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
 }
