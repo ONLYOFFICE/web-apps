@@ -450,7 +450,7 @@
 
 .cousers-menu {
     position: fixed;
-    top: @height-tabs - 8px;
+    top: calc(@toolbar-height-tabs - 8px);
     left: 100%;
     margin-left: -285px;
 
@@ -461,7 +461,7 @@
     z-index: 1042;
 
     .top-title & {
-        top: @height-title + @height-tabs - 8px;
+        top: calc(@toolbar-height-tabs-top-title + @document-title-height - 8px);
     }
 
     > label {

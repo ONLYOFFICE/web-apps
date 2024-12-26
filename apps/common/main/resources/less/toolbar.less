@@ -1,24 +1,21 @@
-@height-title: 28px;
-@height-tabs: 32px;
-@height-controls: 67px;
 @img-equition-filter: var(--image-border-types-filter);
-@toolbar-paddings: floor(((@height-controls - 2*@x-small-btn-size)/3));
-@toolbar-small-btn-margin-top: ceil(((@height-controls - 2*@x-small-btn-size)/3));
-@toolbar-group-height: calc(@height-controls - 2 * @toolbar-paddings);
+@toolbar-paddings: floor(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
+@toolbar-small-btn-margin-top: ceil(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
+@toolbar-group-height: calc(@toolbar-height-controls - 2 * @toolbar-paddings);
 .toolbar {
     position: relative;
 
     &:not(.folded) {
-        height: @height-tabs + @height-controls;
+        height: calc(@toolbar-height-tabs + @toolbar-height-controls);
     }
 
     &.folded {
-        height: @height-tabs;
+        height: @toolbar-height-tabs;
         transition: height .2s;
         overflow: hidden;
 
         &.expanded {
-            height: @height-tabs + @height-controls;
+            height: calc(@toolbar-height-tabs + @toolbar-height-controls);
             overflow: visible;
         }
 
@@ -32,7 +29,7 @@
     }
 
     .box-tabs {
-        height: @height-tabs;
+        height: @toolbar-height-tabs;
         .font-size-medium();
 
         display: flex;
@@ -184,7 +181,7 @@
         }
 
         .scroll {
-            line-height: @height-tabs;
+            line-height: @toolbar-height-tabs;
             min-width: 20px;
             z-index: 1;
             cursor: pointer;
@@ -293,7 +290,7 @@
     }
 
     .box-controls {
-        height: @height-controls;         // button has strange offset in IE when odd height
+        height: @toolbar-height-controls;         // button has strange offset in IE when odd height
         padding: @toolbar-paddings 0;
         display: flex;
         .panel {
@@ -521,14 +518,14 @@
 
     .top-title > & {
         &:not(.folded) {
-            height: 28 + @height-controls;
+            height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
         }
 
         &.folded {
-            height: 28px;
+            height: @toolbar-height-tabs-top-title;
 
             &.expanded {
-                height: 28 + @height-controls;
+                height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
             }
         }
 
@@ -537,7 +534,7 @@
         }
 
         .box-tabs {
-            height: 28px;
+            height: @toolbar-height-tabs-top-title;
         }
 
         .toolbar-mask {

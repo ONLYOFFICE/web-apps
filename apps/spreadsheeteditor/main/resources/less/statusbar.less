@@ -1,4 +1,8 @@
 @statusbar-height: 25px;
+@status-scroll-padding-left: 12px;
+@statusb-scroll-padding-right: 10px;
+@status-scroll-width: calc(2*@x-small-btn-size + @status-scroll-padding-left + @statusb-scroll-padding-right);
+
 .statusbar {
     padding: 0 2px 0;
     z-index: 500;
@@ -44,13 +48,13 @@
 
 
     #status-tabs-scroll {
-        width: 66px;
-        padding: calc(@statusbar-height - @x-small-btn-size) 12px 0 10px;
+        width: @status-scroll-width;
+        padding: calc(@statusbar-height - @x-small-btn-size) @status-scroll-padding-left 0 @statusb-scroll-padding-right;
         height: @statusbar-height;
         float: left;
 
         .rtl-sheet& {
-            padding: calc(@statusbar-height - @x-small-btn-size) 10px 0 12px;
+            padding: calc(@statusbar-height - @x-small-btn-size) @statusb-scroll-padding-right 0 @status-scroll-padding-left;
             float: right;
         }
     }
@@ -185,12 +189,12 @@
         position: absolute;
         overflow: hidden;
         height: @statusbar-height;
-        left: 66px;
+        left: @status-scroll-width;
         right: 160px;
 
         .rtl-sheet& {
             left: 160px;
-            right: 66px;
+            right: @status-scroll-width;
         }
     }
 
@@ -240,8 +244,8 @@
                     .border-radius(0);
                     padding: 0 10px 0;
                     line-height: 24px;
-                    background-color: @background-toolbar-additional-ie;
-                    background-color: @background-toolbar-additional;
+                    background-color: @background-pane-additional-ie;
+                    background-color: @background-pane-additional;
                     outline: none;
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;

@@ -84,7 +84,7 @@ define([
                 this.editMode = false;
                 this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
                 this.isRtlSheet = false;
-                this.tabBarDefPosition = 129;
+                this.tabBarDefPosition = 141;
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
@@ -412,7 +412,8 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
-                this.tabBarDefPosition = this.mode.isEdit ? 129 : 66;
+                this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
+                this.tabBarDefPosition += this.mode.isEdit ? parseInt($('#status-addtabs-box').css('width')) : 0;
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
