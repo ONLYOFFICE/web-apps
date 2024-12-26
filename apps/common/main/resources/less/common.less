@@ -82,8 +82,8 @@ label {
             //position: absolute;
             border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @scaled-one-px-value solid @border-toolbar;
-            background-color: @background-toolbar-ie;
-            background-color: @background-toolbar;
+            background-color: @background-pane-ie;
+            background-color: @background-pane;
             right: 0;
             overflow: hidden;
 
@@ -171,8 +171,8 @@ label {
 
 .statusbar {
     height: 25px;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
     .box-inner-shadow(0 @scaled-one-px-value-ie 0 @border-toolbar-ie);
     .box-inner-shadow(0 @scaled-one-px-value 0 @border-toolbar);
 
@@ -196,8 +196,8 @@ label {
         .float-left();
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
-        background-color: @background-toolbar-ie;
-        background-color: @background-toolbar;
+        background-color: @background-pane-ie;
+        background-color: @background-pane;
         display: flex;
         flex-direction: column;
         padding: 15px 0 24px;
@@ -248,7 +248,7 @@ label {
                     }
 
                     .menu-item-icon {
-                        background-position-x: -20px;
+                        background-position-x: -24px;
                         background-position-x: @button-small-active-icon-offset-x;
                     }
 
@@ -282,9 +282,9 @@ label {
             }
 
             .menu-item-icon {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
+                width: @x-small-btn-icon-size;
+                height: @x-small-btn-icon-size;
+                line-height: @x-small-btn-icon-size;
                 position: relative;
                 &:not(:disabled) {
                     opacity: 0.8;

@@ -1,7 +1,7 @@
-@height-title: 28px;
-@height-tabs: 32px;
-@height-controls: 67px;
 @img-equition-filter: var(--image-border-types-filter);
+@toolbar-paddings: floor(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
+@toolbar-small-btn-margin-top: ceil(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
+@toolbar-group-height: calc(@toolbar-height-controls - 2 * @toolbar-paddings);
 
 @toolbar-ver-padding: 10px;
 @toolbar-radius: 10px;
@@ -47,16 +47,16 @@
     position: relative;
 
     &:not(.folded) {
-        height: @height-tabs + @height-controls;
+        height: calc(@toolbar-height-tabs + @toolbar-height-controls);
     }
 
     &.folded {
-        height: @height-tabs;
+        height: @toolbar-height-tabs;
         transition: height .2s;
         overflow: hidden;
 
         &.expanded {
-            height: @height-tabs + @height-controls;
+            height: calc(@toolbar-height-tabs + @toolbar-height-controls);
             overflow: visible;
         }
 
@@ -70,7 +70,7 @@
     }
 
     .box-tabs {
-        height: @height-tabs;
+        height: @toolbar-height-tabs;
         .font-size-medium();
 
         display: flex;
@@ -222,7 +222,7 @@
         }
 
         .scroll {
-            line-height: @height-tabs;
+            line-height: @toolbar-height-tabs;
             min-width: 20px;
             z-index: 1;
             cursor: pointer;
@@ -331,8 +331,8 @@
     }
 
     .box-controls {
-        //height: @height-controls;         // button has strange offset in IE when odd height
-        padding: 7px 0;
+        height: @toolbar-height-controls;         // button has strange offset in IE when odd height
+        padding: @toolbar-paddings 0;
         display: flex;
         .panel {
             display: table;
@@ -402,7 +402,7 @@
             }
         }
         .group {
-            height: 52px !important;
+            height: @toolbar-group-height !important;
             &.flex {
                 vertical-align: bottom;
             }
@@ -469,11 +469,11 @@
     }
 
     .elset {
-        height: 20px;
+        height: @x-small-btn-size;
         font-size: 0;
 
         &:not(:first-child) {
-            margin-top: 8px;
+            margin-top: @toolbar-small-btn-margin-top;
         }
 
         &.font-normal {
@@ -497,29 +497,29 @@
         }
 
         &.long {
-            height: 52px;
+            height: @toolbar-group-height;
         }
 
         &.short {
-            height: 20px;
+            height: @x-small-btn-size;
         }
     }
 
     .btn-slot {
         display: inline-block;
-        width: 20px;
+        width: @x-small-btn-size;
         height: auto;
 
         &.split-large {
-            width: 37px;
+            width: calc(@x-small-btn-size + 17px);
         }
 
         &.split {
-            width: 31px;
+            width: calc(@x-small-btn-size + 11px);
         }
 
         &.split-small {
-            width: 26px;
+            width: calc(@x-small-btn-size + 6px);
         }
 
         &.text {
@@ -559,14 +559,14 @@
 
     .top-title > & {
         &:not(.folded) {
-            height: 28 + @height-controls;
+            height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
         }
 
         &.folded {
-            height: 28px;
+            height: @toolbar-height-tabs-top-title;
 
             &.expanded {
-                height: 28 + @height-controls;
+                height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
             }
         }
 
@@ -575,7 +575,7 @@
         }
 
         .box-tabs {
-            height: 28px;
+            height: @toolbar-height-tabs-top-title;
         }
 
         .toolbar-mask {
@@ -884,24 +884,24 @@
         }
 
         & {
-            width: 21px;
-            height: 21px;
+            width: calc(@x-small-btn-size + 1px);
+            height: calc(@x-small-btn-size + 1px);
 
             .pixel-ratio__2_5 & {
-                width: 20px;
-                height: 20px;
+                width: @x-small-btn-size;
+                height: @x-small-btn-size;
             }
         }
 
         .icon {
-            width: 22px;
-            height: 22px;
+            width: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
+            height: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
 
             .pixel-ratio__1_25 &,
             .pixel-ratio__1_75 &,
             .pixel-ratio__2_5 & {
-                width: 20px;
-                height: 20px;
+                width: @x-small-btn-icon-size;
+                height: @x-small-btn-icon-size;
             }
         }
     }
@@ -1086,7 +1086,7 @@
                 }
             }
             .menu-item-icon {
-                background-position-x: -20px;
+                background-position-x: -24px;
                 background-position-x: @button-small-active-icon-offset-x;
             }
 

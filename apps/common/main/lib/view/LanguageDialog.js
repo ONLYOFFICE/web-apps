@@ -77,6 +77,7 @@ define([], function () { 'use strict';
         this.cmbLanguage = new Common.UI.ComboBox({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
+            menuCls: 'shifted-right',
             menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
             template: _.template([
