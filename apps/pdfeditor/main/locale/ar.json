@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "واصف المفتاح منتهي الصلاحية",
   "PDFE.Controllers.Main.errorLoadingFont": "لم يتم تحميل الخطوط. <br> الرجاء الاتصال بمسؤول خادم المستندات لديك.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "كلمة المرور التي أدخلتها غير صحيحة.<br>تحقق من إيقاف تشغيل مفتاح CAPS LOCK وتأكد من استخدام الأحرف الكبيرة الصحيحة.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "فشل الحفظ",
   "PDFE.Controllers.Main.errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق الذي يوجد به مستندك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك.",
   "PDFE.Controllers.Main.errorServerVersion": "تم تحديث إصدار المحرر.سيتم اعادة تحميل الصفحة لتطبيق التغييرات",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Ключовий дескриптор закінчився",
   "PDFE.Controllers.Main.errorLoadingFont": "Шрифти не завантажені.<br>Будь ласка, зверніться до адміністратора Сервера документів.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Зазначено неправильний пароль.<br>Пересвідчитесь, що не натиснуто кнопку CAPS LOCK, зверніть увагу на регістр паролю, який ви вводите.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Помилка збереження.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Версія редактора була оновлена. Сторінка буде перезавантажена, щоб застосувати зміни.",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширині",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

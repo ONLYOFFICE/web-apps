@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Кључни опис истекао",
   "PDFE.Controllers.Main.errorLoadingFont": "Фонтови нису учитани.<br>Молимо контактирајте свог Документ Сервер администратора.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Лозинка коју сте снабдели није тачна.<br>Верификуј да је CAPS LOCK дугме искључено и будите сигурни да користите одговарајућу величину слова.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Чување неуспешно.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Верзија уређивача је ажурирана. Страница ће бити поново учитана да се примене промене.",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Gakoaren deskriptorea iraungi da",
   "PDFE.Controllers.Main.errorLoadingFont": "Letra-tipoak ez dira kargatu.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Emandako pasahitza ez da zuzena.<br>Egiaztatu BLOK MAIUS tekla desaktibatuta dagoela eta ziurtatu maiuskula/minuskula zuzenak erabiltzen ari zarela.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Gordetzeak huts egin du.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Editorearen bertsioa eguneratu da. Orria berriz kargatuko da aldaketak aplikatzeko.",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

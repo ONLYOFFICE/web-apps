@@ -432,7 +432,7 @@
     "errorForceSave": "Greška se pojavila u toku čuvanja fajla. Molimo koristite \"Preuzmi kao\" opciju da sačuvate fajl na hard drajv vašeg kompjutera ili pokušajte ponovo kasnije.",
     "errorInconsistentExt": "Greška se pojavila u toku otvaranja fajla.<br>Sadržaj fajla se ne poklapa sa fajl ekstenzijom.",
     "errorInconsistentExtDocx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara tekstualnim dokumentima (npr docx), ali fajl ima nedoslednu ekstenziju: %1.",
-    "errorInconsistentExtPdf": "Pojavila se greška pri otvaranju fajla.<br>Sadržaj fajla odgovara jednom od sledećih formata: pdf/djvu/xps/oxps, ali fajl ima nedoslednu ekstenziju: %1",
+    "errorInconsistentExtPdf": "Pojavila se greška pri otvaranju fajla.<br>Sadržaj fajla odgovara jednom od sledećih formata: pdf/djvu/xps/oxps, ali ekstenzija datoteke nije dosledna: %1",
     "errorInconsistentExtPptx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara prezentacijama (npr pptx), ali fajl ima nedoslednu ekstenziju: %1",
     "errorInconsistentExtXlsx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara proračunskim tabelama (npr xlsx), ali fajl ima nedoslednu ekstenziju: %1.",
     "errorKeyEncrypt": "Nepoznati opisivač ključa ",
@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Spajanje neuspešno.",
     "errorNoTOC": "Nema tabele sadržaja za ažuriranje. Možete ubaciti jednu sa Reference kartice.",
     "errorPasswordIsNotCorrect": "Lozinka koju ste snabdeveli nije tačna. Potvrdi da je CAPS LOCK taster isključen i budite sigurni da koristite pravilan način velikih slova.",
+    "errorPDFFormsLocked": "Radnja se ne može izvršiti jer izaziva promene u zaključanim obrascima.",
     "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
@@ -470,8 +471,7 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Bez otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",

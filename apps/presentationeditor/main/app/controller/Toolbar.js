@@ -2670,7 +2670,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this);
             }
-
+            this._state.themeId = undefined;
             window.styles_loaded = true;
         },
 

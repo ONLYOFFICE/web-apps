@@ -785,10 +785,11 @@ define([
                     _.defer(function() {
                         Common.Gateway.updateVersion();
                         if (callback) callback.call(me);
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     })
                 }
             });
+            Common.NotificationCenter.trigger('api:disconnect');
         },
 
         onLicenseChanged: function(params) {
@@ -1199,7 +1200,9 @@ define([
             var me = this;
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActions(obj, x, y);
+                    }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
@@ -1213,11 +1216,15 @@ define([
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
                     } else
-                        this.onShowImageActions(obj, x, y);
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActions(obj, x, y);
+                    }, 1);
                     break;
             }
         },

@@ -869,6 +869,8 @@ define([], function () {
                 documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromSelBar: true}));
                 documentHolder.mnuStrokeHighlightColorPicker.on('select', _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeHighlightColor));
                 documentHolder.mnuStrokeColorPicker.on('select',          _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeColor));
+                documentHolder.btnStrokeColor.menu.on('show:after',          _.bind(this.onStrokeShowAfter, this));
+                documentHolder.btnStrokeHighlightColor.menu.on('show:after', _.bind(this.onStrokeShowAfter, this));
                 this.api.UpdateInterfaceState();
             }
 
@@ -1378,12 +1380,17 @@ define([], function () {
         };
 
         dh.onShowFormsPDFActions = function(obj, x, y) {
+            var me = this;
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
-                    this.onShowListActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActionsPDF(obj, x, y);
+                    }, 1);
                     break;
                 case AscPDF.FIELD_TYPES.text:
-                    this.onShowDateActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActionsPDF(obj, x, y);
+                    }, 1);
                     break;
             }
         };
@@ -2490,6 +2497,39 @@ define([], function () {
                 g = color[2] + color[3],
                 b = color[4] + color[5];
             this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+        };
+
+        dh.onSetStrokeOpacity = function(sizePicker, direction) {
+            var val = this.api.asc_GetOpacity();
+            if (direction === 'up') {
+                if (val % 10 > 0.1) {
+                    val = Math.ceil(val / 10) * 10;
+                } else {
+                    val += 10;
+                }
+                val = Math.min(100, val);
+            } else {
+                if (val % 10 > 0.1) {
+                    val = Math.floor(val / 10) * 10;
+                } else {
+                    val -= 10
+                }
+                val = Math.max(0, val);
+            }
+            sizePicker.setValue(val + '%');
+            this.api.asc_SetOpacity(val);
+        };
+
+        dh.onStrokeShowAfter = function(menu) {
+            if (!menu.sizePicker) {
+                menu.sizePicker = new Common.UI.UpDownPicker({
+                    el: menu.cmpEl.find('.custom-scale'),
+                    caption: this.documentHolder.txtOpacity,
+                    minWidth: 40
+                });
+                menu.sizePicker.on('click', _.bind(this.onSetStrokeOpacity, this, menu.sizePicker));
+            }
+            menu.sizePicker.setValue(this.api.asc_GetOpacity() + '%');
         };
 
         dh.applySettings = function() {

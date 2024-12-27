@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Kľúč deskriptora vypršal",
   "PDFE.Controllers.Main.errorLoadingFont": "Štýly písma nie sú načítané<br>Prosím kontaktujte Vášho administrátora dokumentových serverov.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Zadané heslo nie je správne.<br>Skontrolujte, že máte vypnutý CAPS LOCK a správnu veľkosť písmen.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Ukladanie zlyhalo.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Verzia editora bola aktualizovaná. Stránka sa opätovne načíta, aby sa vykonali zmeny.",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "キー記述子の有効期限が切れました",
   "PDFE.Controllers.Main.errorLoadingFont": "フォントがダウンロードしませんでした。<br>文書のサーバのアドミ二ストレータを連絡してください。",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "入力されたパスワードが間違っています。<br> CapsLock キーがオフになっていること、大文字と小文字が正しく使われていることを確認してください。　",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "保存に失敗しました。",
   "PDFE.Controllers.Main.errorSaveWatermark": "このファイルには、別のドメインにリンクされた透かし画像が含まれています。<br>PDFで見えるようにするには、文書と同じドメインからリンクされるように透かし画像を更新するか、コンピュータからアップロードしてください。",
   "PDFE.Controllers.Main.errorServerVersion": "エディターのバージョンが更新されました。 変更を適用するために、ページが再読み込みされます。",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }

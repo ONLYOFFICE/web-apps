@@ -392,11 +392,16 @@
   "VE.Views.LeftMenu.txtLimit": "Acceso limitado",
   "VE.Views.LeftMenu.txtTrial": "MODO DE PRUEBA",
   "VE.Views.LeftMenu.txtTrialDev": "Modo desarrollador de prueba",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
   "VE.Views.Statusbar.tipFitPage": "Ajustar a la página",
   "VE.Views.Statusbar.tipFitWidth": "Ajustar al ancho",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
   "VE.Views.Statusbar.tipZoomFactor": "Ampliación",
   "VE.Views.Statusbar.tipZoomIn": "Acercar",
   "VE.Views.Statusbar.tipZoomOut": "Alejar",
+  "VE.Views.Statusbar.txtPage": "Page",
   "VE.Views.Toolbar.textTabFile": "Archivo",
   "VE.Views.Toolbar.textTabView": "Vista",
   "VE.Views.ViewTab.textAlwaysShowToolbar": "Siempre mostrar la barra de herramientas",
@@ -412,10 +417,5 @@
   "VE.Views.ViewTab.textZoom": "Ampliación",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a la página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar al ancho",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
-  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
-  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
-  "VE.Views.Statusbar.tipNext": "Next page",
-  "VE.Views.Statusbar.tipPrev": "Previous page",
-  "VE.Views.Statusbar.txtPage": "Page"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
 }

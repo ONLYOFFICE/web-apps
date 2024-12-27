@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Lejárt kulcsleíró",
   "PDFE.Controllers.Main.errorLoadingFont": "A betűtípusok nincsenek betöltve.<br>Kérjük forduljon a dokumentumszerver rendszergazdájához.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "A megadott jelszó helytelen.<br>Győződjön meg arról, hogy a CAPS LOCK billentyű ki van kapcsolva, és ügyeljen arra, hogy a megfelelő nagybetűket használja.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Sikertelen mentés.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "A szerkesztő verziója frissült. Az oldal újratöltésre kerül a módosítások alkalmazásához.",
@@ -2035,5 +2036,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
 }
