@@ -2975,5 +2975,8 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }

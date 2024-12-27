@@ -2975,5 +2975,8 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }

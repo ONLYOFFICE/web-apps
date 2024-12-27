@@ -328,6 +328,7 @@ define([
                         lock: [_set.menuFileOpen, _set.slideDeleted, _set.noSlides, _set.disableOnStart],
                         split: true,
                         menu: true,
+                        signals: ['disabled'],
                         action: 'preview-slide',
                         dataHint: '1',
                         dataHintDirection: 'bottom',

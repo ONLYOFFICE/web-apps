@@ -2975,5 +2975,8 @@
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }
