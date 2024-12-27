@@ -633,7 +633,7 @@ define([
             Common.UI.warning({
                 msg: value ? this.warnUpdateExternalAutoupdate : this.warnUpdateExternalData,
                 buttons: [{value: 'ok', caption: value ? this.textContinue : this.textUpdate, primary: true}, {value: 'cancel', caption: value ? this.textTurnOff : this.textDontUpdate}],
-                maxwidth: 600,
+                maxwidth: 500,
                 callback: _.bind(function(btn) {
                     if (btn==='ok') {
                         var links = this.api.asc_getExternalReferences();

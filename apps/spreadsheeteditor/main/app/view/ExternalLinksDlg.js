@@ -219,7 +219,7 @@ define([
 
         _setDefaults: function (props) {
             this.refreshList();
-            this.api && this.api.asc_getExternalReferenceAutoUpdate && this.chUpdate.setValue(!!this.api.asc_getExternalReferenceAutoUpdate());
+            this.api && this.chUpdate.setValue(this.api.asc_getUpdateLinks(), true);
         },
 
         refreshList: function() {
