@@ -2977,5 +2977,6 @@
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
   "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
   "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
-  "Common.Views.Header.tipStartOver": "Start from beginning"
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Start from Beginning"
 }

@@ -534,7 +534,7 @@ define([
                 }
                 if (me.btnStartOver) {
                     arr.push({
-                        caption: me.tipStartOver,
+                        caption: me.textStartOver,
                         value: 'startover',
                         checkable: true
                     });

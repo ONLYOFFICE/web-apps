@@ -2977,5 +2977,6 @@
   "PE.Views.ViewTab.tipSelectTool": "Auswählungstool",
   "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
   "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
-  "Common.Views.Header.tipStartOver": "Start from beginning"
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Start from Beginning"
 }

@@ -2977,5 +2977,6 @@
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
   "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
   "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
-  "Common.Views.Header.tipStartOver": "Start from beginning"
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Start from Beginning"
 }

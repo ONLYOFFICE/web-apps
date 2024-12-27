@@ -2977,5 +2977,6 @@
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
   "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
   "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
-  "Common.Views.Header.tipStartOver": "Start from beginning"
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Start from Beginning"
 }
