@@ -26,10 +26,11 @@
         background-color: @background-toolbar;
 
         &:before {
+            @flight-tb-shadow-color: @highlight-button-hover;
             content: '';
             position: absolute;
-            box-shadow: 0 -1px 0 0 @highlight-button-pressed,
-                            -3px 3px 4px 0 @highlight-button-pressed, 3px 3px 4px 0 @highlight-button-pressed;
+            box-shadow: 0 0 0 0 @flight-tb-shadow-color,
+                            -3px 3px 5px -2px @flight-tb-shadow-color, 3px 3px 5px 0px @flight-tb-shadow-color;
             width: 100%;
             height: 72px;
             bottom: 0;
