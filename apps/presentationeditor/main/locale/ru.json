@@ -2975,5 +2975,8 @@
   "PE.Views.ViewTab.tipMacros": "Макросы",
   "PE.Views.ViewTab.tipNormal": "Обычный",
   "PE.Views.ViewTab.tipSelectTool": "Инструмент выделения",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }

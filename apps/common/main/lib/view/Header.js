@@ -54,6 +54,7 @@ define([
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
             isSSEEditor = !!window.SSE,
+            isPEEditor  = !!window.PE,
             isVisioEditor = !!window.VE;
 
         var templateUserItem =
@@ -149,6 +150,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-start-over"></div>' +    
                                     '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
@@ -357,6 +359,10 @@ define([
                 this.btnRedo[props.redo ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
             }
+            if (props.startOver !== undefined) {
+                this.btnStartOver[props.startOver ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-start-over', props.startOver);
+            }
             Common.NotificationCenter.trigger('edit:complete');
 
             if ( caller && caller == 'header' )
@@ -481,6 +487,13 @@ define([
                 });
             }
 
+            if (me.btnStartOver) {
+                me.btnStartOver.updateHint(me.tipStartOver);
+                me.btnStartOver.on('click', function (e) {
+                    me.fireEvent('startover', me);
+                });
+            }
+
             if (me.btnQuickAccess) {
                 me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
                 var arr = [];
@@ -519,6 +532,13 @@ define([
                         checkable: true
                     });
                 }
+                if (me.btnStartOver) {
+                    arr.push({
+                        caption: me.textStartOver,
+                        value: 'startover',
+                        checkable: true
+                    });
+                }
                 me.btnQuickAccess.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar',
                     style: 'min-width: 110px;',
@@ -537,6 +557,9 @@ define([
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true), true);
                         } else if (item.value === 'redo') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true), true);
+                        }
+                        if (item.value === 'startover') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true), true);
                         }
                     });
                 });
@@ -558,6 +581,9 @@ define([
                         case 'redo':
                             props.redo = item.checked;
                             break;
+                        case 'startover':
+                            props.startOver = item.checked;
+                            break;        
                     }
                     onChangeQuickAccess.call(me, 'header', props);
                 });
@@ -1044,6 +1070,10 @@ define([
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
+                    if (isPEEditor) {
+                    me.btnStartOver= createTitleButton('toolbar__icon icon--inverse btn-preview', $html.findById('#slot-btn-dt-start-over'), true, undefined, undefined, 'Q');
+                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-start-over', true) && me.btnStartOver.hide();
+                    }
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',
                         iconCls: 'toolbar__icon icon--inverse btn-more',

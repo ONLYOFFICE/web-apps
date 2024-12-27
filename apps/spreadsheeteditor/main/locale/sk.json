@@ -4566,5 +4566,9 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
-  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?"
+  "SSE.Views.ViewManagerDlg.warnDeleteAnotherView": "Are you sure you want to delete this sheet view?",
+  "SSE.Controllers.DataTab.warnUpdateExternalAutoupdate": "This workbook contains links to external sources which update automatically. This might be unsafe.<br><br>If you trust them, press Continue.",
+  "SSE.Controllers.DataTab.textTurnOff": "Turn off AutoUpdate",
+  "SSE.Controllers.DataTab.textContinue": "Continue",
+  "SSE.Views.ExternalLinksDlg.textAutoUpdate": "Automatically update data from the linked sources"
 }

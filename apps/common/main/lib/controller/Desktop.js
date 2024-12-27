@@ -272,6 +272,7 @@ define([
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title-lang'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title-lang'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['startover'] && (info.hints['startover'] = titlebuttons['startover'].btn.btnEl.attr('data-hint-title-lang'));
             }
 
             native.execCommand('althints:show', JSON.stringify(info));
@@ -482,6 +483,10 @@ define([
 
                 if (!!header.btnRedo)
                     titlebuttons['redo'] = {btn: header.btnRedo};
+
+                if (!!header.btnStartOver) {
+                    titlebuttons['startover'] = {btn: header.btnStartOver};
+                }
 
                 if (!!header.btnQuickAccess)
                     titlebuttons['quickaccess'] = {btn: header.btnQuickAccess};
