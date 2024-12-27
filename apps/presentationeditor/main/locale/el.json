@@ -2976,7 +2976,7 @@
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
   "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Start from Beginning"
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }

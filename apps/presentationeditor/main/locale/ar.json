@@ -2976,7 +2976,7 @@
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
   "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Start from beginning",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Start from Beginning"
+  "Common.Views.Header.textStartOver": "Show from Beginning"
 }
