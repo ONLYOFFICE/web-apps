@@ -2490,17 +2490,21 @@ define([], function () {
         };
 
         dh.onSelectStrokeColor = function(btn, picker, color) {
-            btn.currentColor = color;
-            btn.setColor(btn.currentColor);
-            picker.select(btn.currentColor, true);
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            if (!this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+                color = this.api.asc_GetStrokeColor();
+                color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            }
+            btn.currentColor = color;
+            btn.setColor(btn.currentColor);
+            picker.select(btn.currentColor, true);
         };
 
         dh.onSetStrokeOpacity = function(sizePicker, direction) {
-            var val = this.api.asc_GetOpacity();
+            var val = this.api.asc_GetOpacity(),
+                oldval = val;
             if (direction === 'up') {
                 if (val % 10 > 0.1) {
                     val = Math.ceil(val / 10) * 10;
@@ -2516,8 +2520,9 @@ define([], function () {
                 }
                 val = Math.max(0, val);
             }
+            if (!this.api.asc_SetOpacity(val))
+                val = oldval;
             sizePicker.setValue(val + '%');
-            this.api.asc_SetOpacity(val);
         };
 
         dh.onStrokeShowAfter = function(menu) {
