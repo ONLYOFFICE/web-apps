@@ -273,6 +273,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         }
     }
 
+    const forceDesktopMode = () => {
+        f7.dialog.create({
+            text: t('View.Settings.textRestartApplication'),
+            title: t('View.Settings.notcriticalErrorTitle'),
+            buttons: [
+                {
+                    text: t('View.Settings.textCancel')
+                },
+                {
+                    text: t('Toolbar.btnRestartNow'),
+                    onClick: () => Common.Gateway.switchEditorType('desktop', true),
+                }
+            ]}
+        ).open();
+    }
+
     return (
         <ToolbarView 
             openOptions={props.openOptions}
@@ -299,6 +315,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             closeHistory={closeHistory}
             isOpenModal={props.isOpenModal}
             changeTitleHandler={changeTitleHandler}
+            forceDesktopMode={forceDesktopMode}
         />
     )
 }));
