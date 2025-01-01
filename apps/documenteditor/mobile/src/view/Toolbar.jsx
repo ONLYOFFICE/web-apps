@@ -74,7 +74,7 @@ const ToolbarView = props => {
                 }
                 {!isEditableForms ? [
                     !Device.phone && <Link key='desktop-link' iconOnly href={false}
-                                           className={isOpenModal ? 'disabled' : ''}
+                                           className={isOpenModal || props.disabledControls ? 'disabled' : ''}
                                            onClick={() => props.forceDesktopMode()}>
                                         <SvgIcon symbolId={IconSwitchToDesktop.id}
                                                  className={'icon icon-svg'} />

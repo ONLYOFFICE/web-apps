@@ -228,8 +228,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const forceDesktopMode = () => {
         f7.dialog.create({
-            text: t('Toolbar.warnForceDesktop'),
-            title: t('Main.notcriticalErrorTitle'),
+            text: t('Settings.textRestartApplication'),
+            title: t('Settings.notcriticalErrorTitle'),
             buttons: [
                 {
                     text: t('Edit.textCancel')

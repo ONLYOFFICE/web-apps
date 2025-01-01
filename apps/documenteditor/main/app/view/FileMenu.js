@@ -564,8 +564,8 @@ define([
                 this.items.push(
                     new Common.UI.MenuItem({
                         el      : $('#fm-btn-switchmobile', this.$el),
-                            action  : 'switch:mobile',
-                        caption : 'Switch to mobile editor',
+                        action  : 'switch:mobile',
+                        caption : this.btnSwitchToMobileCaption,
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',

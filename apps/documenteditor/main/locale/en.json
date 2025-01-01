@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Save",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy As",
   "DE.Views.FileMenu.btnSettingsCaption": "Advanced Settings",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to mobile editor",
   "DE.Views.FileMenu.btnToEditCaption": "Edit Document",
   "DE.Views.FileMenu.textDownload": "Download",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank document",

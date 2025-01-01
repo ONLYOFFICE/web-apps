@@ -813,7 +813,6 @@
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
-    "warnEmptyRequiredField": "Fill all required fields to send form.",
-    "warnForceDesktop": "Editor must be restarted to apply settings."
+    "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }
