@@ -6,6 +6,16 @@ import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 
+const debounce = (callback, wait) => {
+    let timeoutId = null;
+    return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback(...args);
+        }, wait);
+    };
+}
+
 const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
@@ -68,6 +78,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         }
     }, []);
 
+    const onMobileScrollDelta = debounce((delta) => scrollHandler(delta), 100);
+
     useEffect(() => {
         const api = Common.EditorApi.get();
         const navbarHeight = getNavbarTotalHeight();
@@ -75,7 +87,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const onEngineCreated = api => {
             if(api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
-                api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
+                api.asc_registerCallback('onMobileScrollDelta', onMobileScrollDelta);
             }
         };
 
@@ -90,7 +102,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
             if (api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
-                api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
+                api.asc_unregisterCallback('onMobileScrollDelta', onMobileScrollDelta);
             }
 
             Common.Notifications.off('engineCreated', onEngineCreated);
