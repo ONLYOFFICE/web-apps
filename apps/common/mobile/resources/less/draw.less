@@ -1,4 +1,6 @@
 .draw-sheet {
+    background-color: @background-primary;
+
     .device-android & {
         box-shadow: 0 3.75px 11px 0 #00000030, 0 0.5px 5px 0 #0000000A;
         --f7-sheet-border-radius: 16px;
@@ -17,6 +19,7 @@
         padding-inline: 16px;
         height: 48px;
         display: flex;
+        color: @text-normal;
 
         .device-android & {
             font-size: 16px;
@@ -26,7 +29,6 @@
         .device-ios & {
             align-items: flex-end;
             text-transform: uppercase;
-            color: #3C3C4399;
             font-size: 13px;
             line-height: 18px;
         }
@@ -54,23 +56,19 @@
             &-item {
                 border: 1px solid;
                 aspect-ratio: 1;
-
-                .device-android & {
-                    border-color: #9E9E9E;
-                }
-
-                .device-ios & {
-                    border-color: #8E8E93;
-                }
+                border-color: @background-menu-divider;
             }
 
             &-add {
                 position: relative;
-                background-color: #fff; // change
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: @brandColor;
+                aspect-ratio: 1;
+
+                i {
+                    background-color: @brandColor;
+                }
 
                 &:after {
                     content: '';
@@ -87,21 +85,12 @@
 
 #drawbar.navbar {
     top: unset;
-    bottom: 0;
+    bottom: env(keyboard-inset-top);
     height: calc(44px + var(--f7-safe-area-bottom));
 
     .navbar-inner {
-        border-top: 1px solid;
-
-        .device-android & {
-            background-color: #fff;
-            border-top-color: rgba(0, 0, 0, .1);
-        }
-
-        .device-ios & {
-            background-color: #FCFCFC;
-            border-top-color: #C6C6C8;
-        }
+        border-top: 1px solid @draw-toolbar-border;
+        background-color: @draw-toolbar-background;
     }
 
     .draw-toolbar {
@@ -120,24 +109,14 @@
 
             &.button-fill {
                 color: @brandColor;
-                background-color: @toggle-active;
-                //.theme-type-dark {}
+                background-color: @button-active-opacity;
             }
         }
 
         &-divider {
             width: 1px;
             height: 24px;
-
-            .device-android & {
-                background-color: rgba(0, 0, 0, .1);
-            }
-
-            .device-ios & {
-                background-color: rgba(120, 120, 128, .2);
-            }
-
-            //.theme-type-dark {}
+            background-color: @background-menu-divider;
         }
     }
 }

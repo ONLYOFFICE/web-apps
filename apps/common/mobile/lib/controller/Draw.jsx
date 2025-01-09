@@ -8,20 +8,23 @@ const DEFAULT_TOOL_SETTINGS = { color: '#3D8A44', opacity: 100, lineSize: 1 }
 const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
 const DEFAULT_IOS_COLORS = []
 
-export const DrawController = inject('storeAppOptions', 'storePalette')(observer(({ storeAppOptions, storePalette }) => {
+export const DrawController = inject('storeAppOptions')(observer(({ storeAppOptions }) => {
+  const [currentTool, setCurrentTool] = useState(null);
+  const [toolSettings, setToolSettings] = useState(() => {
+    const stored = LocalStorage.getJson('draw-settings');
+    return stored || DEFAULT_TOOL_SETTINGS;
+  });
+  const [colors, setColors] = useState(() => {
+    const storageColors = LocalStorage.getJson('draw-colors', []);
+    if (!storageColors.length) {
+      return Device.android ? DEFAULT_ANDROID_COLORS : DEFAULT_IOS_COLORS
+    }
+    return storageColors
+  })
+
   useEffect(() => {
     Common.Notifications.on('draw:start', () => {
       storeAppOptions.changeDrawMode(true);
-      if (!storePalette.drawColors.length) {
-        const storageColors = LocalStorage.getJson('draw-colors', []);
-        if (!storageColors.length) {
-          const defaultColors = Device.android ? DEFAULT_ANDROID_COLORS : DEFAULT_IOS_COLORS
-          storePalette.setDrawColors(defaultColors);
-          LocalStorage.setJson('draw-colors', defaultColors);
-        } else {
-          storePalette.setDrawColors(storageColors);
-        }
-      }
       setCurrentToolAndApply('pen');
     })
 
@@ -35,12 +38,6 @@ export const DrawController = inject('storeAppOptions', 'storePalette')(observer
       Common.Notifications.off('draw:stop');
     }
   }, []);
-
-  const [currentTool, setCurrentTool] = useState(null);
-  const [toolSettings, setToolSettings] = useState(() => {
-    const stored = LocalStorage.getJson('draw-settings');
-    return stored || DEFAULT_TOOL_SETTINGS;
-  });
 
   const createStroke = (color, lineSize, opacity) => {
     const stroke = new Asc.asc_CStroke();
@@ -77,9 +74,9 @@ export const DrawController = inject('storeAppOptions', 'storePalette')(observer
     });
   };
 
-  const newCustomColor = (color) => {
-    const updatedColors = [...storePalette.drawColors, color]
-    storePalette.setDrawColors(updatedColors)
+  const addCustomColor = (color) => {
+    const updatedColors = [...colors, color]
+    setColors(updatedColors)
     updateToolSettings({ color })
     LocalStorage.setJson('draw-colors', updatedColors)
   }
@@ -89,7 +86,7 @@ export const DrawController = inject('storeAppOptions', 'storePalette')(observer
     setTool={setCurrentToolAndApply}
     settings={toolSettings}
     setSettings={updateToolSettings}
-    colors={storePalette.drawColors}
-    newCustomColor={newCustomColor}
+    colors={colors}
+    addCustomColor={addCustomColor}
   /> : null
 }));

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Button, f7, Icon, Range, Sheet } from 'framework7-react';
 import SvgIcon from '../../../../common/mobile//lib/component/SvgIcon'
 import IconDrawPen from '../../../../common/mobile/resources/icons/draw-pen.svg'
@@ -8,15 +9,19 @@ import IconClearObject from '../../../../common/mobile/resources/icons/clear-obj
 import IconScroll from '../../../../common/mobile/resources/icons/scroll.svg'
 import { WheelColorPicker } from "../component/WheelColorPicker";
 
-export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, newCustomColor }) => {
+export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor }) => {
+  const { t } = useTranslation();
+  const _t = t('Draw', { returnObjects: true });
+
   return (
     <React.Fragment>
       <Sheet className='draw-sheet draw-sheet--color-picker' swipeToClose onSheetClosed={() => f7.sheet.open('.draw-sheet--settings')}>
+        <div className='draw-sheet-label'>{_t.textCustomColor}</div>
         <WheelColorPicker
           initialColor={settings.color}
           onSelectColor={(color) => {
             f7.sheet.close('.draw-sheet--color-picker')
-            newCustomColor(color)
+            addCustomColor(color)
           }}
         />
       </Sheet>
@@ -24,7 +29,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
         <div id='swipe-handler' className='swipe-container'>
           <Icon icon='icon icon-swipe'/>
         </div>
-        <div className='draw-sheet-label'>Color</div>
+        <div className='draw-sheet-label'>{_t.textColor}</div>
         <div className='draw-sheet--settings-colors'>
           <div className="draw-sheet--settings-colors-list">
             {colors.map((color, index) => (
@@ -40,18 +45,18 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
                 f7.sheet.open('.draw-sheet--color-picker')
               }}
             >
-              <Icon icon="icon-plus"/>
+              <Icon icon="icon-plus" />
             </div>
           </div>
         </div>
-        <div className='draw-sheet-label'>Line size</div>
+        <div className='draw-sheet-label'>{_t.textLineSize}</div>
         <div className='draw-sheet-item'>
           <Range
             min={0.5} max={10} step={0.5} value={settings.lineSize}
             onRangeChange={(value) => setSettings({ lineSize: value })}
           />
         </div>
-        <div className='draw-sheet-label'>Opacity</div>
+        <div className='draw-sheet-label'>{_t.textOpacity}</div>
         <div className='draw-sheet-item'>
           <Range
             min={0} max={100} step={1} value={settings.opacity}

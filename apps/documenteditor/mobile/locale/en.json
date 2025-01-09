@@ -814,5 +814,11 @@
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
     "warnEmptyRequiredField": "Fill all required fields to send form."
+  },
+  "Draw": {
+    "textOpacity": "Opacity",
+    "textLineSize": "Line size",
+    "textColor": "Color",
+    "textCustomColor": "Custom color"
   }
 }
