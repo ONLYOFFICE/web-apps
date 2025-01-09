@@ -109,6 +109,7 @@ define([
             });
 
             this.autostart = [];
+            this.pluginsWinToShow = [];
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
 
@@ -1111,6 +1112,10 @@ define([
 
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.pluginsWinToShow.push({frameId: frameId, variation: variation});
+                return;
+            }
             if (variation.isVisual) {
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
@@ -1187,9 +1192,18 @@ define([
                     me.customPluginsDlg[frameId].show();
                 }
             }
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
         },
 
         onPluginWindowClose: function(frameId) {
+            if (this.pluginsWinToShow.length>0) {
+                this.pluginsWinToShow = _.reject(this.pluginsWinToShow, function (item) {
+                    return item.frameId === frameId;
+                });
+            }
             if (this.customPluginsDlg[frameId]) {
                 this.customPluginsDlg[frameId].close();
             } else if (this.viewPlugins.customPluginPanels[frameId]) {
@@ -1318,6 +1332,10 @@ define([
         },
 
         onPostLoadComplete: function() {
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
             this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
