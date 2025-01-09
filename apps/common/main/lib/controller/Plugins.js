@@ -109,6 +109,7 @@ define([
             });
 
             this.autostart = [];
+            this.pluginsWinToShow = [];
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
 
@@ -215,9 +216,9 @@ define([
             return this;
         },
 
-        onAfterRender: function(panel, guid) {
+        onAfterRender: function(panel, guid, isActivated) {
             var me = this;
-            this.openUIPlugin(guid);
+            isActivated && this.openUIPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -644,7 +645,7 @@ define([
                 el: '#panel-plugins-' + name,
                 menu: menu
             });
-            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
+            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
         },
 
         openUIPlugin: function (id) {
@@ -1111,6 +1112,10 @@ define([
 
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.pluginsWinToShow.push({frameId: frameId, variation: variation});
+                return;
+            }
             if (variation.isVisual) {
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
@@ -1187,9 +1192,18 @@ define([
                     me.customPluginsDlg[frameId].show();
                 }
             }
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
         },
 
         onPluginWindowClose: function(frameId) {
+            if (this.pluginsWinToShow.length>0) {
+                this.pluginsWinToShow = _.reject(this.pluginsWinToShow, function (item) {
+                    return item.frameId === frameId;
+                });
+            }
             if (this.customPluginsDlg[frameId]) {
                 this.customPluginsDlg[frameId].close();
             } else if (this.viewPlugins.customPluginPanels[frameId]) {
@@ -1222,10 +1236,11 @@ define([
             if (typeof variation.descriptionLocale == 'object')
                 description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
 
-            var baseUrl = variation.baseUrl || "";
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
-            var icons = variation.icons;
-            var icon_url, icon_cls;
+            var baseUrl = variation.baseUrl || "",
+                model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
+                icons = variation.icons,
+                icon_url, icon_cls,
+                isActivated = variation.isActivated!==false;
 
             if (model) {
                 if ("" === baseUrl)
@@ -1265,7 +1280,7 @@ define([
                 baseUrl: baseUrl,
                 icons: icons
             });
-            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
+            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);
@@ -1318,6 +1333,10 @@ define([
         },
 
         onPostLoadComplete: function() {
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
             this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
