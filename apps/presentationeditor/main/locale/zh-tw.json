@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Redo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
   "Common.Views.DocumentAccessDialog.textLoading": "載入中...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "所有更動已儲存",
   "Common.Views.Header.textSaveExpander": "所有更動已儲存",
   "Common.Views.Header.textShare": "分享",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "縮放",
   "Common.Views.Header.tipAccessRights": "管理文檔存取權限",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "重做",
   "Common.Views.Header.tipSave": "儲存",
   "Common.Views.Header.tipSearch": "搜尋",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "復原",
   "Common.Views.Header.tipUndock": "拆分成獨立視窗",
   "Common.Views.Header.tipUsers": "檢視使用者",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

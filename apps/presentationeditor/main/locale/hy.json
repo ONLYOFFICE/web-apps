@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Արագ տպում",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Վերարկել",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Պահպանել",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Հարմարեցնել արագ մուտքը",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Հետարկել",
   "Common.Views.DocumentAccessDialog.textLoading": "Բեռնում...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Բոլոր փոփոխումները պահպանված են",
   "Common.Views.Header.textSaveExpander": "Բոլոր փոփոխումները պահպանված են",
   "Common.Views.Header.textShare": "Տարածել",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "Խոշորացնել",
   "Common.Views.Header.tipAccessRights": "Կառավարել փաստաթղթի մատչման իրավունքները",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Հարմարեցնել արագ մուտքի Գործիքագոտին",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Վերարկել",
   "Common.Views.Header.tipSave": "Պահպանել",
   "Common.Views.Header.tipSearch": "Որոնել",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "Հետարկել",
   "Common.Views.Header.tipUndock": " Ապահարակցել առանձին պատուհանի մեջ",
   "Common.Views.Header.tipUsers": "Դիտել օգտվողներին",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

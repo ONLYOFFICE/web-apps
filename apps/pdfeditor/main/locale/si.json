@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "න්‍යාසය පෙළගැන්නුම",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "මින්පසු හිස් පිටුවක් යොදන්න",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "මින්පෙර හිස් පිටුවක් යොදන්න",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "පෙළ මතින් තීරුව",
   "PDFE.Views.DocumentHolder.txtPressLink": "{0} තද කරගෙන සබැඳිය ඔබන්න",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "තේරීම මුද්‍රණය",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "සිරස්ව පතුරන්න",
   "PDFE.Views.Toolbar.txtGroup": "සමූහය",
   "PDFE.Views.Toolbar.txtObjectsAlign": "තේරූ වස්තූන් පෙළගසන්න",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "පිටුවට පෙළගසන්න",
   "PDFE.Views.Toolbar.txtRotateLeft": "වමට කරකවන්න",
   "PDFE.Views.Toolbar.txtRotatePage": "පිටුව කරකවන්න",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

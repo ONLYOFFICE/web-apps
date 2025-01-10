@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "快速打印",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "重做",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "保存",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "从头开始显示",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "自定义快速访问",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "撤销",
   "Common.Views.DocumentAccessDialog.textLoading": "加载中…",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "所有更改已保存",
   "Common.Views.Header.textSaveExpander": "所有更改已保存",
   "Common.Views.Header.textShare": "共享",
+  "Common.Views.Header.textStartOver": "从头开始显示",
   "Common.Views.Header.textZoom": "缩放",
   "Common.Views.Header.tipAccessRights": "管理文档访问权限",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "自定义快速访问工具栏",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "重做",
   "Common.Views.Header.tipSave": "保存",
   "Common.Views.Header.tipSearch": "查找",
+  "Common.Views.Header.tipStartOver": "从头开始放映幻灯片",
   "Common.Views.Header.tipUndo": "撤销",
   "Common.Views.Header.tipUndock": "移到单独的窗口中",
   "Common.Views.Header.tipUsers": "查看用户",
@@ -1741,7 +1744,7 @@
   "PE.Views.Animation.textUntilNextClick": "直到下一次单击",
   "PE.Views.Animation.txtAddEffect": "添加动画",
   "PE.Views.Animation.txtAnimationPane": "动画窗格",
-  "PE.Views.Animation.txtParameters": "参数",
+  "PE.Views.Animation.txtParameters": "选项",
   "PE.Views.Animation.txtPreview": "预览",
   "PE.Views.Animation.txtSec": "秒",
   "PE.Views.AnimationDialog.textPreviewEffect": "预览效果",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
 }

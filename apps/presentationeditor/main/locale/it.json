@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Stampa rapida",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Ripristina",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Salva",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Accesso rapido personalizzato",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Annulla",
   "Common.Views.DocumentAccessDialog.textLoading": "Caricamento in corso...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Tutte le modifiche sono state salvate",
   "Common.Views.Header.textSaveExpander": "Tutte le modifiche sono state salvate",
   "Common.Views.Header.textShare": "Condividi",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "Ingrandimento",
   "Common.Views.Header.tipAccessRights": "Gestisci i diritti di accesso al documento",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Personalizza la barra degli strumenti di accesso rapido",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Ripristina",
   "Common.Views.Header.tipSave": "Salva",
   "Common.Views.Header.tipSearch": "Cerca",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "Annulla",
   "Common.Views.Header.tipUndock": "Sgancia in una finestra separata",
   "Common.Views.Header.tipUsers": "Visualizzare gli utenti",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macro",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

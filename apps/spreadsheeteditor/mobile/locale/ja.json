@@ -88,7 +88,7 @@
     "textDoNotShowAgain": "再度表示しない",
     "textOk": "OK",
     "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
-    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？"
+    "warnMergeLostData": "セルを結合すると、左上の値のみが保持され、他のセルの値は破棄されます。<br>続行してもよろしいです？"
   },
   "Controller": {
     "Main": {
@@ -231,7 +231,7 @@
       "textRequestMacros": "マクロがURLに対してリクエストを行います。%1へのリクエストを許可しますか？",
       "textUpdate": "更新",
       "textWarnUpdateExternalData": "このワークブックには、安全でない可能性のある1つまたは複数の外部リンクが含まれています。リンクを信頼する場合は、最新のデータを取得するためにそれらを更新してください。",
-      "textYes": "Yes",
+      "textYes": "はい",
       "titleLicenseExp": "ライセンスの有効期限が切れています",
       "titleLicenseNotActive": "ライセンスが無効になっています",
       "titleServerVersion": "編集者が更新された",
@@ -411,7 +411,7 @@
     "textUndo": "元に戻す",
     "textUnlockRange": "範囲を解除",
     "textUnlockRangeWarning": "変更しようとしている範囲がパスワードで保護されています。",
-    "textYes": "Yes",
+    "textYes": "はい",
     "txtEditingMode": "編集モードを設定する",
     "uploadImageTextText": "イメージのアップロード中...",
     "uploadImageTitleText": "イメージのアップロード中",
@@ -513,7 +513,7 @@
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSorting": "並べ替え中",
       "txtSortSelected": "選択したを並べ替える",
-      "txtYes": "Yes"
+      "txtYes": "はい"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
@@ -545,7 +545,7 @@
       "textBorderStyle": "境界線のスタイル",
       "textBottom": "最下部",
       "textBottomBorder": "最下部の境界線",
-      "textBringToForeground": "最前面へ移動",
+      "textBringToForeground": "最前面ヘ移動",
       "textCancel": "キャンセル",
       "textCell": "セル",
       "textCellStyle": "セルのスタイル",
@@ -637,8 +637,8 @@
       "textMinimumValue": "最小値",
       "textMinor": "マイナー",
       "textMinorType": "マイナータイプ",
-      "textMoveBackward": "背面へ移動",
-      "textMoveForward": "最背面へ移動",
+      "textMoveBackward": "背面ヘ移動",
+      "textMoveForward": "前面ヘ移動",
       "textNextToAxis": "軸の隣",
       "textNoBorder": "境界線なし",
       "textNone": "なし",
@@ -676,7 +676,7 @@
       "textScreenTip": "ヒント",
       "textSelectAll": "すべて選択",
       "textSelectObjectToEdit": "編集するためにオブジェクト​​を選んでください",
-      "textSendToBackground": "前面へ移動",
+      "textSendToBackground": "最背面ヘ移動",
       "textSettings": "設定",
       "textShape": "形",
       "textSheet": "シート",

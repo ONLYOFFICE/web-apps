@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Impression rapide",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Répéter",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Enregistrer",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Afficher depuis le début",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Personnaliser l'accès rapide",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Annuler",
   "Common.Views.DocumentAccessDialog.textLoading": "Chargement en cours...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Toutes les modifications sont enregistrées",
   "Common.Views.Header.textSaveExpander": "Toutes les modifications sont enregistrées",
   "Common.Views.Header.textShare": "Partager",
+  "Common.Views.Header.textStartOver": "Afficher depuis le début",
   "Common.Views.Header.textZoom": "Grossissement",
   "Common.Views.Header.tipAccessRights": "Gérer les droits d'accès au document",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Personnaliser la barre d'outils Accès rapide",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Rétablir",
   "Common.Views.Header.tipSave": "Enregistrer",
   "Common.Views.Header.tipSearch": "Rechercher",
+  "Common.Views.Header.tipStartOver": "Démarrer le diaporama à partir du début",
   "Common.Views.Header.tipUndo": "Annuler",
   "Common.Views.Header.tipUndock": "Détacher en fenêtre séparée",
   "Common.Views.Header.tipUsers": "Afficher les utilisateurs",
@@ -1741,7 +1744,7 @@
   "PE.Views.Animation.textUntilNextClick": "Jusqu’au clic suivant",
   "PE.Views.Animation.txtAddEffect": "Ajouter une animation",
   "PE.Views.Animation.txtAnimationPane": "Volet Animation",
-  "PE.Views.Animation.txtParameters": "Paramètres",
+  "PE.Views.Animation.txtParameters": "Options",
   "PE.Views.Animation.txtPreview": "Aperçu",
   "PE.Views.Animation.txtSec": "s",
   "PE.Views.AnimationDialog.textPreviewEffect": "Aperçu de l'effet",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
 }

@@ -905,7 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "פג-תוקף תיאור מפתח",
   "PDFE.Controllers.Main.errorLoadingFont": "גופנים אינם נטענים. <br> נדרש ליצור קשר עם מנהל שרת המסמכים שלך.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "הסיסמה שסופקה אינה נכונה. <br> נא לודא ש-CAPS LOCK כבוי ולהקפיד להשתמש באותיות רישיות נכונות.",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "לא ניתן לבצע את הפעולה מכיוון שהיא גורמת לשינויים בטפסים נעולים.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "שמירה נכשלה.",
   "PDFE.Controllers.Main.errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
   "PDFE.Controllers.Main.errorServerVersion": "גרסת העורך עודכנה. הדף ייטען מחדש כדי להחיל את השינויים.",
@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "יישור מטריצה",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "הוספת עמוד ריק אחרי",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "הוספת עמוד ריק לפני",
+  "PDFE.Views.DocumentHolder.txtOpacity": "שקיפות",
   "PDFE.Views.DocumentHolder.txtOverbar": "סרגל מעל הטקסט",
   "PDFE.Views.DocumentHolder.txtPressLink": "לחץ {0} ולחץ על קישור",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "הדפס בחירה",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "חלוקה אנכית",
   "PDFE.Views.Toolbar.txtGroup": "קבוצה",
   "PDFE.Views.Toolbar.txtObjectsAlign": "יישר אובייקטים נבחרים",
+  "PDFE.Views.Toolbar.txtOpacity": "שקיפות",
   "PDFE.Views.Toolbar.txtPageAlign": "יישור לדף",
   "PDFE.Views.Toolbar.txtRotateLeft": "סיבוב שמאלה",
   "PDFE.Views.Toolbar.txtRotatePage": "סיבוב עמוד",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

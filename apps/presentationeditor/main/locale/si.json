@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "ඉක්මන් මුද්‍රණය",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "පසුසේ",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "සුරකින්න",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "ඉක්මන් ප්‍රවේශය අභිරුචිකරණය",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "පෙරසේ",
   "Common.Views.DocumentAccessDialog.textLoading": "පූරණය වෙමින්...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "සියළුම වෙනස්කම් සුරැකිණි",
   "Common.Views.Header.textSaveExpander": "සියළුම වෙනස්කම් සුරැකිණි",
   "Common.Views.Header.textShare": "බෙදාගන්න",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "විශාල කරන්න",
   "Common.Views.Header.tipAccessRights": "ලේඛනයට ප්‍රවේශ අයිති කළමණාකරනය",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "ඉක්මන් ප්‍රවේශ මෙවලම් තීරුව අභිරුචිකරණය",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "පසුසේ",
   "Common.Views.Header.tipSave": "සුරකින්න",
   "Common.Views.Header.tipSearch": "සොයන්න",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "පෙරසේ",
   "Common.Views.Header.tipUndock": "වෙනම කවුළුවකට ගෙනයන්න",
   "Common.Views.Header.tipUsers": "පරිශ්‍රීලකයින් බලන්න",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
 }

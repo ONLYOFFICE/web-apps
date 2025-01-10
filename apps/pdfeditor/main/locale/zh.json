@@ -905,7 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "密钥描述符已过期",
   "PDFE.Controllers.Main.errorLoadingFont": "字体未加载<br>请与您的文档服务器管理员联系。",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "您提供的密码不正确<br>验证CAPS LOCK键是否关闭，并确保使用正确的大写字母。",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "该操作无法执行，因为它会对已锁定的表单造成更改。",
   "PDFE.Controllers.Main.errorProcessSaveResult": "保存失败",
   "PDFE.Controllers.Main.errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
   "PDFE.Controllers.Main.errorServerVersion": "编辑器版本已更新。页面将被重新加载以应用更改。",
@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "矩阵对齐",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "在后面插入空白页",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "在前面插入空白页",
+  "PDFE.Views.DocumentHolder.txtOpacity": "不透明度",
   "PDFE.Views.DocumentHolder.txtOverbar": "文本上划线",
   "PDFE.Views.DocumentHolder.txtPressLink": "按｛0｝并单击链接",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "打印所选内容",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "垂直分布",
   "PDFE.Views.Toolbar.txtGroup": "组",
   "PDFE.Views.Toolbar.txtObjectsAlign": "对齐选定的对象",
+  "PDFE.Views.Toolbar.txtOpacity": "不透明度",
   "PDFE.Views.Toolbar.txtPageAlign": "与页面对齐",
   "PDFE.Views.Toolbar.txtRotateLeft": "向左旋转",
   "PDFE.Views.Toolbar.txtRotatePage": "旋转页面",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }
