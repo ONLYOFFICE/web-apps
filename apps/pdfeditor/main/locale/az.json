@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Insert blank page after",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insert blank page before",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "PDFE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Print selection",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Distribute vertically",
   "PDFE.Views.Toolbar.txtGroup": "Group",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "Align to Page",
   "PDFE.Views.Toolbar.txtRotateLeft": "Rotate left",
   "PDFE.Views.Toolbar.txtRotatePage": "Rotate page",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Səhifəyə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
 }

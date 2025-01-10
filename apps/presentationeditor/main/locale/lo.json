@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Redo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
   "Common.Views.DocumentAccessDialog.textLoading": "ກໍາລັງໂລດ",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "ບັນທຶກການປ່ຽນແປງທັງໝົດ",
   "Common.Views.Header.textSaveExpander": "ບັນທຶກການປ່ຽນແປງທັງໝົດ",
   "Common.Views.Header.textShare": "Share",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "ຂະຫຍາຍ ",
   "Common.Views.Header.tipAccessRights": "ຄຸ້ມຄອງສິດໃນການເຂົ້າເຖິງເອກະສານ",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "ເຮັດຊ້ຳ, ຕົບແຕ່ງໃໝ່",
   "Common.Views.Header.tipSave": "ບັນທຶກ",
   "Common.Views.Header.tipSearch": "Find",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "ຍົກເລີກ",
   "Common.Views.Header.tipUndock": "ຍົກເລີກເຂົ້າໄປໃນwindowແຍກຕ່າງຫາກ",
   "Common.Views.Header.tipUsers": "View users",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Sisipkan halaman kosong setelah",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Sisipkan halaman kosong sebelum",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Batang di atas teks",
   "PDFE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Cetak pilihan",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Distribusikan ke arah vertikal",
   "PDFE.Views.Toolbar.txtGroup": "Grup",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Ratakan obyek yang dipilih",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "Ratakan ke Halaman",
   "PDFE.Views.Toolbar.txtRotateLeft": "Putar kiri",
   "PDFE.Views.Toolbar.txtRotatePage": "Putar halaman",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
 }

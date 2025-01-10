@@ -16,7 +16,7 @@
   "Common.Controllers.ExternalOleEditor.warningTitle": "Upozorenje ",
   "Common.Controllers.History.notcriticalErrorTitle": "Upozorenje ",
   "Common.Controllers.History.txtErrorLoadHistory": "Učitavanje istorije nije uspelo",
-  "Common.Controllers.Plugins.helpUseMacros": "Pronađite dugme Macros ovde",
+  "Common.Controllers.Plugins.helpUseMacros": "Pronađite dugme Makroi ovde",
   "Common.Controllers.Plugins.helpUseMacrosHeader": "Ažuriran pristup makroima",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Dodaci su uspešno instalirani. Možete im pristupiti ovde.",
   "Common.Controllers.Plugins.textPluginSuccessfullyInstalled": "<b>{0}</b> je uspešno instaliran. Možete pristupiti svim pozadinskim dodacima ovde.",

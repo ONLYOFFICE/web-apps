@@ -163,7 +163,7 @@
       "textRemember": "זכור את הבחירה שלי",
       "textReplaceSkipped": "ההחלפה נעשתה. {0} התרחשויות נפסחו.",
       "textReplaceSuccess": "החיפוש נעשה. התרחשויות הוחלפו: {0}",
-      "textRequestMacros": "פקודת מאקרו שולחת בקשה לכתובת אתר. האם ברצונך להתיר את הבקשה ל - %1?",
+      "textRequestMacros": "מאקרו מגיש בקשה לכתובת אתר. האם ברצונך לאפשר את הבקשה ל - %1?",
       "textYes": "כן",
       "titleLicenseExp": "פג תוקפו של הרישיון",
       "titleLicenseNotActive": "רישיון לא פעיל",

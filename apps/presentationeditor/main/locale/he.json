@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "הדפסה מהירה",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "חזרה על הפעולה",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "שמירה",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "הצגה מההתחלה",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "התאמה אישית של גישה מהירה",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "ביטול",
   "Common.Views.DocumentAccessDialog.textLoading": "טוען...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "כל השינויים שנשמרו",
   "Common.Views.Header.textSaveExpander": "כל השינויים שנשמרו",
   "Common.Views.Header.textShare": "שיתוף",
+  "Common.Views.Header.textStartOver": "הצגה מההתחלה",
   "Common.Views.Header.textZoom": "זום",
   "Common.Views.Header.tipAccessRights": "ניהול זכויות גישה למסמכים",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "התאמה אישית של סרגל הכלים לגישה מהירה",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "לעשות שוב",
   "Common.Views.Header.tipSave": "שמירה",
   "Common.Views.Header.tipSearch": "חיפוש",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "ביטול",
   "Common.Views.Header.tipUndock": "לאפשר לתוך חלון נפרד",
   "Common.Views.Header.tipUsers": "הצג משתמשים",
@@ -1741,7 +1744,7 @@
   "PE.Views.Animation.textUntilNextClick": "עד הלחיצה הבאה",
   "PE.Views.Animation.txtAddEffect": "הוספת אנימציה",
   "PE.Views.Animation.txtAnimationPane": "חלונית אנימציה",
-  "PE.Views.Animation.txtParameters": "פרמטרים",
+  "PE.Views.Animation.txtParameters": "אפשרויות",
   "PE.Views.Animation.txtPreview": "תצוגה מקדימה",
   "PE.Views.Animation.txtSec": "s",
   "PE.Views.AnimationDialog.textPreviewEffect": "אפקט תצוגה מקדימה",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

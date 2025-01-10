@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Redo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
   "Common.Views.DocumentAccessDialog.textLoading": "Kargatzen...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Aldaketa guztiak gordeta",
   "Common.Views.Header.textSaveExpander": "Aldaketa guztiak gordeta",
   "Common.Views.Header.textShare": "Partekatu",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "Zooma",
   "Common.Views.Header.tipAccessRights": "Kudeatu dokumentuaren sarbide-eskubideak",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Berregin",
   "Common.Views.Header.tipSave": "Gorde",
   "Common.Views.Header.tipSearch": "Bilatu",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "Desegin",
   "Common.Views.Header.tipUndock": "Leiho independente batetara banandu",
   "Common.Views.Header.tipUsers": "Ikusi erabiltzaileak",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

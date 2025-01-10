@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Brzo štampanje",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Uradi ponovo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Sačuvaj",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Prilagodi brzi pristup",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Poništi ",
   "Common.Views.DocumentAccessDialog.textLoading": "Učitavanje...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Sve promene sačuvane",
   "Common.Views.Header.textSaveExpander": "Sve promene sačuvane",
   "Common.Views.Header.textShare": "Podeli",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "Zumiraj",
   "Common.Views.Header.tipAccessRights": "Upravljaj pravima pristupa dokumentu",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Prilagodi traku za brzi pristup",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Uradi ponovo",
   "Common.Views.Header.tipSave": "Sačuvaj",
   "Common.Views.Header.tipSearch": "Pretraga",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "Poništi ",
   "Common.Views.Header.tipUndock": "Odvoji u zaseban prozor",
   "Common.Views.Header.tipUsers": "Pregledaj korisnike",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
 }

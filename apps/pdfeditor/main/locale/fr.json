@@ -905,7 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Le descripteur de clé est expiré",
   "PDFE.Controllers.Main.errorLoadingFont": "Les polices ne sont pas téléchargées.<br>Veuillez contacter l'administrateur de Document Server.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct.<br>Vérifiez que la touche CAPS LOCK est désactivée et assurez-vous d'utiliser la bonne majuscule.",
-  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "L'action ne peut pas être exécutée, car elle entraîne des modifications dans les formulaires verrouillés.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Échec de l'enregistrement.",
   "PDFE.Controllers.Main.errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
   "PDFE.Controllers.Main.errorServerVersion": "La version de l'éditeur a été mise à jour. La page sera rechargée pour appliquer les modifications.",
@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Alignement de la matrice",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Insérer une page vide après",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insérer une page vide avant",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacité",
   "PDFE.Views.DocumentHolder.txtOverbar": "Barre au-dessus d'un texte",
   "PDFE.Views.DocumentHolder.txtPressLink": "Appuyez sur {0} et cliquez sur le lien",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Imprimer la sélection",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Distribuer verticalement",
   "PDFE.Views.Toolbar.txtGroup": "Grouper",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Aligner les objets sélectionnés",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacité",
   "PDFE.Views.Toolbar.txtPageAlign": "Aligner sur la page",
   "PDFE.Views.Toolbar.txtRotateLeft": "Faire pivoter vers la gauche",
   "PDFE.Views.Toolbar.txtRotatePage": "Faire pivoter la page",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajuster à la page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface"
 }

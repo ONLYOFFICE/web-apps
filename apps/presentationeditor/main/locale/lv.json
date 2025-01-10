@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "Quick Print",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Redo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
   "Common.Views.DocumentAccessDialog.textLoading": "Ielādē...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "Visas izmaiņas saglabātas",
   "Common.Views.Header.textSaveExpander": "Visas izmaiņas saglabātas",
   "Common.Views.Header.textShare": "Dalīties",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "Palielināšana",
   "Common.Views.Header.tipAccessRights": "Pārvaldīt dokumenta piekļuves tiesības",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "Pārtaisīt",
   "Common.Views.Header.tipSave": "Saglabāt",
   "Common.Views.Header.tipSearch": "Meklēt",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "Atsaukt",
   "Common.Views.Header.tipUndock": "Atdokot atsevišķā logā",
   "Common.Views.Header.tipUsers": "Skatīt lietotājus",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

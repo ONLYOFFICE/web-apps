@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Alinhamento de matriz",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Insira uma página em branco depois",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insira uma página em branco antes",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacidade",
   "PDFE.Views.DocumentHolder.txtOverbar": "Barra sobre texto",
   "PDFE.Views.DocumentHolder.txtPressLink": "Pressione {0} e clique no link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Imprimir seleção",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Distribuir verticalmente",
   "PDFE.Views.Toolbar.txtGroup": "Grupo",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Alinhar objetos selecionados",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacidade",
   "PDFE.Views.Toolbar.txtPageAlign": "Alinhar à página",
   "PDFE.Views.Toolbar.txtRotateLeft": "Girar à esquerda",
   "PDFE.Views.Toolbar.txtRotatePage": "Girar página",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }

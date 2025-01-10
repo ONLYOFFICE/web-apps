@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Մատրիցային հավասարեցում",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Տեղադրեք դատարկ էջ հետո՝",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Տեղադրեք դատարկ էջ առաջ՝",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Տեքստի վրա գիծ",
   "PDFE.Views.DocumentHolder.txtPressLink": "Սեղմել {0} և անցնել հղումը",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Տպել ընտրվածքը",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Ուղղահայաց բաշխում",
   "PDFE.Views.Toolbar.txtGroup": "Խումբ",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Հավասարեցնել ընտրված առարկաները",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "Հավասարեցնել էջին",
   "PDFE.Views.Toolbar.txtRotateLeft": "Պտտել ձախ",
   "PDFE.Views.Toolbar.txtRotatePage": "Պտտել էջը",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

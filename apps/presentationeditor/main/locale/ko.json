@@ -610,6 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "빠른 인쇄",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "Redo",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "Save",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "Customize quick access",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "Undo",
   "Common.Views.DocumentAccessDialog.textLoading": "로드 중 ...",
@@ -658,6 +659,7 @@
   "Common.Views.Header.textSaveEnd": "모든 변경 사항이 저장되었습니다",
   "Common.Views.Header.textSaveExpander": "모든 변경 사항이 저장되었습니다",
   "Common.Views.Header.textShare": "공유",
+  "Common.Views.Header.textStartOver": "Show from Beginning",
   "Common.Views.Header.textZoom": "확대/축소",
   "Common.Views.Header.tipAccessRights": "문서 액세스 권한 관리",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
@@ -668,6 +670,7 @@
   "Common.Views.Header.tipRedo": "다시 실행",
   "Common.Views.Header.tipSave": "저장",
   "Common.Views.Header.tipSearch": "검색",
+  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
   "Common.Views.Header.tipUndo": "실행 취소",
   "Common.Views.Header.tipUndock": "별도 창으로 이동",
   "Common.Views.Header.tipUsers": "사용자 보기",
@@ -2975,8 +2978,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
-  "Common.Views.Header.tipStartOver": "Start slideshow from beginning",
-  "Common.Views.Header.textStartOver": "Show from Beginning"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

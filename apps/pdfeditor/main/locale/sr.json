@@ -1214,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Poravnanje matrice",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Umetni praznu stranicu posle",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Umetni praznu stranicu pre",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Traka preko teksta",
   "PDFE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} i kliknite na link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Štampaj selekciju",
@@ -2011,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Razmesti vertikalno",
   "PDFE.Views.Toolbar.txtGroup": "Grupa",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Poravnaj odabrane predmete",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "Poravnaj do strane",
   "PDFE.Views.Toolbar.txtRotateLeft": "Rotiraj levo",
   "PDFE.Views.Toolbar.txtRotatePage": "Rotiraj stranicu",
@@ -2035,7 +2037,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
 }
