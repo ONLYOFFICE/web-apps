@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Save As",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy As",
   "VE.Views.FileMenu.btnSettingsCaption": "Advanced Settings",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to mobile editor",
   "VE.Views.FileMenu.textDownload": "Download",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Document",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create new",
