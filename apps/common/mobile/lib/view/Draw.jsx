@@ -8,6 +8,7 @@ import IconClearAll from '../../../../common/mobile/resources/icons/clear-all.sv
 import IconClearObject from '../../../../common/mobile/resources/icons/clear-object.svg'
 import IconScroll from '../../../../common/mobile/resources/icons/scroll.svg'
 import { WheelColorPicker } from "../component/WheelColorPicker";
+import { Device } from "../../utils/device";
 
 export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor }) => {
   const { t } = useTranslation();
@@ -51,18 +52,19 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
         </div>
         <div className='draw-sheet-label'>{_t.textLineSize}</div>
         <div className='draw-sheet-item'>
-          <Range
-            min={0.5} max={10} step={0.5} value={settings.lineSize}
-            onRangeChange={(value) => setSettings({ lineSize: value })}
-          />
+          {Device.android ? (
+            <Range
+              min={0.5} max={10} step={0.5} value={settings.lineSize}
+              onRangeChange={(value) => setSettings({ lineSize: value })}
+            />
+          ) : (
+            <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings.lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />
+          )}
         </div>
         <div className='draw-sheet-label'>{_t.textOpacity}</div>
         <div className='draw-sheet-item'>
-          <Range
-            min={0} max={100} step={1} value={settings.opacity}
-            onRangeChange={(value) => setSettings({ opacity: value })}
-            disabled={currentTool === 'highlighter'}
-          />
+          <input style={{ '--color': settings.color }} className={Device.android ? 'opacity-range-input--android' : 'opacity-range-input--ios'} type='range' min={0} max={100} step={1} value={settings.opacity}
+                 onChange={(e) => setSettings({ opacity: parseInt(e.target.value) })}/>
         </div>
       </Sheet>
       <div className="draw-toolbar">

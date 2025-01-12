@@ -53,7 +53,7 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
     pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, settings.opacity), 0),
     highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, 50), 1),
     eraser: (api) => api.asc_StartInkEraser(),
-    eraseEntireScreen: (api) => {/* method */
+    eraseEntireScreen: (api) => {/* fixme: method */
     },
     scroll: (api) => api.asc_StopInkDrawer(),
   };
