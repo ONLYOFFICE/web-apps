@@ -106,7 +106,7 @@ let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            if ( isIEBrowser === true ) return;
+            if ( window.isIEBrowser === true ) return;
 
             let runonce;
             // const el = document.querySelector('div.inlined-svg');

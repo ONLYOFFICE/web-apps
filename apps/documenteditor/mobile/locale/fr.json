@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorNoTOC": "Il n'y a pas de table des matières à mettre à jour. Vous pouvez en insérer une à partir de l'onglet Références.",
     "errorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct. Vérifiez que la touche CAPS LOCK n'est pas activée et assurez-vous d'utiliser les bonnes majuscules.",
+    "errorPDFFormsLocked": "L'action ne peut pas être exécutée car elle entraîne des modifications dans les formulaires verrouillés.",
     "errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",

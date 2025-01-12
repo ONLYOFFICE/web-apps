@@ -136,7 +136,10 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
       <script>
-          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+          var userAgent = navigator.userAgent.toLowerCase(),
+              check = function(regex){ return regex.test(userAgent); },
+              isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
+          if(isIEBrowser) {
               document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
               document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
           }
@@ -160,10 +163,8 @@
       </div>
 
        <script>
-           var  userAgent = navigator.userAgent.toLowerCase(),
-                check = function(regex){ return regex.test(userAgent); },
-                stopLoading = false;
-           if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+           var stopLoading = false;
+           if ( isIEBrowser ) {
                 var m = /msie (\d+\.\d+)/.exec(userAgent);
                 if (m && parseFloat(m[1]) < 10.0) {
                     document.write(
@@ -213,8 +214,8 @@
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
 
-           if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
-               document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+           // if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+           //     document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
 
            if (stopLoading) {
                document.body.removeChild(document.getElementById('loading-mask'));

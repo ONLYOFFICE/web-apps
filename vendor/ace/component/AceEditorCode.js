@@ -264,36 +264,9 @@ var _postMessage = function(msg) {
     };
 
     var fn = function(e) { _onMessage(e); };
-
-    var onMouseUp = function(e) {
-        _postMessage({
-            command: 'mouseUp',
-            data: {
-                x: (undefined === e.clientX) ? e.pageX : e.clientX,
-                y: (undefined === e.clientY) ? e.pageY : e.clientY
-            },
-            referer: 'ace-editor'
-        });
-    };
-
-    var onMouseMove = function(e) {
-        _postMessage({
-            command: 'mouseMove',
-            data: {
-                x: (undefined === e.clientX) ? e.pageX : e.clientX,
-                y: (undefined === e.clientY) ? e.pageY : e.clientY
-            },
-            referer: 'ace-editor'
-        });
-    };
-
     if (window.attachEvent) {
         window.attachEvent('onmessage', fn);
-        window.attachEvent("onmouseup", onMouseUp);
-        window.attachEvent("onmousemove", onMouseMove);
     } else {
         window.addEventListener('message', fn, false);
-        window.addEventListener("mouseup", onMouseUp, false);
-        window.addEventListener("mousemove", onMouseMove, false);
     }
 })(window, undefined);

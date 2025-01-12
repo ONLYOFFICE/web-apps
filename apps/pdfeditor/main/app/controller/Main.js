@@ -683,6 +683,8 @@ define([
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
+                    appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
 
                 if (options.shortcuts) {
@@ -951,12 +953,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -964,7 +965,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     default:
                         if (typeof action.id == 'string'){
@@ -1861,6 +1863,10 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.PDFFormsLocked:
+                        config.msg = this.errorPDFFormsLocked;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2207,7 +2213,7 @@ define([
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });

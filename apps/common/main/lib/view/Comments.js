@@ -300,6 +300,7 @@ define([
                         }
                     }
                     me.fireEvent('comment:show', [commentId, false, isTextSelected]);
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 }
             }
         },

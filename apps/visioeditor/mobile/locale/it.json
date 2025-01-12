@@ -3,7 +3,7 @@
     "textAbout": "Informazioni su",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
-    "textEditor": "Editor di Visio",
+    "textEditor": "Visualizzatore di diagrammi",
     "textEmail": "Email",
     "textPoweredBy": "Tecnologia di",
     "textTel": "Tel",
@@ -207,7 +207,7 @@
       "textVersion": "Versione",
       "textVisioInfo": "Informazioni di Visio",
       "textVisioSettings": "Impostazioni di Visio",
-      "textVisioTitle": "Titolo di Visio"
+      "textVisioTitle": "Titolo di visualizzatore di diagrammi"
     }
   }
 }

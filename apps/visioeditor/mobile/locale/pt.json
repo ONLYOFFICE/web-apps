@@ -3,11 +3,11 @@
     "textAbout": "Sobre",
     "textAddress": "Endereço",
     "textBack": "Voltar",
+    "textEditor": "Visualizador de Diagramas",
     "textEmail": "Email",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel.",
-    "textVersion": "Versão",
-    "textEditor": "Diagram Viewer"
+    "textVersion": "Versão"
   },
   "Common": {
     "Collaboration": {
@@ -205,9 +205,9 @@
       "textTitle": "Titulo",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
-      "textVisioInfo": "Diagram Viewer Info",
-      "textVisioSettings": "Diagram Viewer Settings",
-      "textVisioTitle": "Diagram Viewer Title"
+      "textVisioInfo": "Informações do Visualizador de Diagramas",
+      "textVisioSettings": "Configurações do Visualizador de Diagramas",
+      "textVisioTitle": "Título do Visualizador de Diagramas"
     }
   }
 }

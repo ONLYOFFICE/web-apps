@@ -898,7 +898,8 @@ define([], function () {
                     print: Common.localStorage.getBool('pe-quick-access-print', true),
                     quickPrint: Common.localStorage.getBool('pe-quick-access-quick-print', true),
                     undo: Common.localStorage.getBool('pe-quick-access-undo', true),
-                    redo: Common.localStorage.getBool('pe-quick-access-redo', true)
+                    redo: Common.localStorage.getBool('pe-quick-access-redo', true),
+                    startOver: Common.localStorage.getBool('pe-quick-access-start-over', true)
                 }
             });
             this.dlgQuickAccess.show();
