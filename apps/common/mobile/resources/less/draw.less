@@ -31,6 +31,10 @@
             text-transform: uppercase;
             font-size: 13px;
             line-height: 18px;
+
+            span {
+                padding-bottom: 4px;
+            }
         }
     }
 
@@ -44,8 +48,7 @@
 
 .draw-sheet--settings {
     &-colors {
-        padding-inline: 16px;
-        min-height: 48px;
+        padding: 8px 16px;
 
         &-list {
             width: 100%;
@@ -65,7 +68,7 @@
                 align-items: center;
                 justify-content: center;
                 aspect-ratio: 1;
-                border: 1px solid @background-primary;
+                border: 2px solid @background-primary;
 
                 i {
                     background-color: @brandColor;
@@ -74,7 +77,7 @@
                 &:after {
                     content: '';
                     position: absolute;
-                    inset: -4px;
+                    inset: -5px;
                     background: linear-gradient(to right, #FF0000, #FF8A00, #FAFF01, #00FF1A, #00F0FF, #0029FF, #DB00FF);
                     z-index: -1;
                     border-radius: 4px;
@@ -85,9 +88,18 @@
 }
 
 #drawbar.navbar {
-    top: unset;
-    bottom: env(keyboard-inset-top);
-    height: calc(44px + var(--f7-safe-area-bottom));
+    --height: calc(44px + var(--f7-safe-area-bottom));
+    .device-android & {
+        top: unset;
+        bottom: env(keyboard-inset-top);
+    }
+
+    .device-ios & {
+        top: 100vh;
+        margin-top: calc(-1 * (var(--height) + env(keyboard-inset-top)));
+    }
+
+    height: var(--height);
     --f7-toolbar-border-color: @draw-toolbar-border;
     --f7-toolbar-bg-color: @draw-toolbar-background;
 

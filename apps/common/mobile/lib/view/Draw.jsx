@@ -17,7 +17,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
   return (
     <React.Fragment>
       <Sheet className='draw-sheet draw-sheet--color-picker' swipeToClose onSheetClosed={() => f7.sheet.open('.draw-sheet--settings')}>
-        <div className='draw-sheet-label'>{_t.textCustomColor}</div>
+        <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
         <WheelColorPicker
           initialColor={settings.color}
           onSelectColor={(color) => {
@@ -30,7 +30,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
         <div id='swipe-handler' className='swipe-container'>
           <Icon icon='icon icon-swipe'/>
         </div>
-        <div className='draw-sheet-label'>{_t.textColor}</div>
+        <div className='draw-sheet-label'><span>{_t.textColor}</span></div>
         <div className='draw-sheet--settings-colors'>
           <div className="draw-sheet--settings-colors-list">
             {colors.map((color, index) => (
@@ -50,7 +50,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             </div>
           </div>
         </div>
-        <div className='draw-sheet-label'>{_t.textLineSize}</div>
+        <div className='draw-sheet-label'><span>{_t.textLineSize}</span></div>
         <div className='draw-sheet-item'>
           {Device.android ? (
             <Range
@@ -61,7 +61,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings.lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />
           )}
         </div>
-        <div className='draw-sheet-label'>{_t.textOpacity}</div>
+        <div className='draw-sheet-label'><span>{_t.textOpacity}</span></div>
         <div className='draw-sheet-item'>
           <input style={{ '--color': settings.color }} className={Device.android ? 'opacity-range-input--android' : 'opacity-range-input--ios'} type='range' min={0} max={100} step={1} value={settings.opacity}
                  onChange={(e) => setSettings({ opacity: parseInt(e.target.value) })}/>
