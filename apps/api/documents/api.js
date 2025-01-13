@@ -184,6 +184,7 @@
                             users: false/true // users list button
                             save: false/true // save button
                             editMode: false/true // change mode button
+                            user: false/true // icon of current user
                         },
                         leftMenu: {
                             navigation: false/true,
