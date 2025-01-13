@@ -3654,6 +3654,8 @@
   "DE.Views.Toolbar.textDirLtr": "Left-to-right",
   "DE.Views.Toolbar.textDirRtl": "Right-to-left",
   "DE.Views.Toolbar.tipTextDir": "Text direction",
+  "DE.Views.Toolbar.textIndBefore": "Indent before",
+  "DE.Views.Toolbar.textIndAfter": "Indent after",
   "DE.Views.ViewTab.textAlwaysShowToolbar": "Always Show Toolbar",
   "DE.Views.ViewTab.textDarkDocument": "Dark Document",
   "DE.Views.ViewTab.textFill": "Fill",

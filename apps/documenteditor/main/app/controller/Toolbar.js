@@ -1765,12 +1765,29 @@ define([
         },
 
         onApiTextDirection: function (isRtl){
-            if (this.toolbar.btnTextDir.options.dirRtl !== !!isRtl) {
-                this.toolbar.btnTextDir.changeIcon({
-                    next: isRtl ? 'btn-dir-rtl' : 'btn-dir-ltr',
-                    curr: this.toolbar.btnTextDir.options.dirRtl ? 'btn-dir-rtl' : 'btn-dir-ltr'
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-dir-rtl' : 'btn-dir-ltr',
+                    curr: oldRtl ? 'btn-dir-rtl' : 'btn-dir-ltr'
                 });
-                this.toolbar.btnTextDir.options.dirRtl = !!isRtl;
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnMultilevels.changeIcon({
+                    next: newRtl ? 'btn-multilevels-rtl' : 'btn-multilevels',
+                    curr: oldRtl ? 'btn-multilevels-rtl' : 'btn-multilevels'
+                });
+                toolbar.lblIndentsLeft.setCaption(newRtl ? toolbar.textIndBefore : toolbar.textIndLeft);
+                toolbar.lblIndentsRight.setCaption(newRtl ? toolbar.textIndAfter : toolbar.textIndRight);
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
             }
         },
 
