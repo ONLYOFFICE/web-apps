@@ -552,6 +552,25 @@ define([
                     });
                     this.paragraphControls.push(this.btnLineSpace);
 
+                    this.btnTextDir = new Common.UI.Button({
+                        id: 'id-toolbar-btn-direction',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-dir-ltr',
+                        action: 'text-direction',
+                        dirRtl: false,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: me.textDirLtr, value: false, iconCls: 'menu__icon btn-dir-ltr'},
+                                {caption: me.textDirRtl, value: true, iconCls: 'menu__icon btn-dir-rtl'},
+                            ]
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
+                    });
+                    this.paragraphControls.push(this.btnTextDir);
+
                     this.numIndentsLeft = new Common.UI.MetricSpinner({
                         step: .1,
                         width: 70,
@@ -2096,6 +2115,7 @@ define([
                 _injectComponent('#slot-btn-incoffset', this.btnIncLeftOffset);
                 _injectComponent('#slot-btn-decoffset', this.btnDecLeftOffset);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
+                _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-hidenchars', this.btnShowHidenChars);
                 _injectComponent('#slot-btn-markers', this.btnMarkers);
                 _injectComponent('#slot-btn-numbering', this.btnNumbers);
@@ -2563,6 +2583,7 @@ define([
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnLineSpace.updateHint(this.tipLineSpace);
+                this.btnTextDir.updateHint(this.tipTextDir);
                 this.btnShowHidenChars.updateHint(this.tipShowHiddenChars + Common.Utils.String.platformKey('Shift+8', ' (' + Common.Utils.String.textCtrl + '+{0})'));
                 this.btnMarkers.updateHint(this.tipMarkers);
                 this.btnNumbers.updateHint(this.tipNumbers);
