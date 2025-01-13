@@ -109,7 +109,7 @@ define([
             _options.tpl = _.template(this.template)(_options);
 
             this.arrow = {margin: 20, width: 10, height: 30};
-            this.sdkBounds = {width: 0, height: 0, padding: 10, paddingTop: 20};
+            this.sdkBounds = {width: 0, height: 0, outerWidth: 0, outerHeight: 0, padding: 10, paddingTop: 20};
 
             Common.UI.Window.prototype.initialize.call(this, _options);
 
@@ -772,8 +772,8 @@ define([
 
                     this.$window.css({maxHeight: sdkBoundsHeight + 'px'});
 
-                    this.sdkBounds.width = editorBounds.width;
-                    this.sdkBounds.height = editorBounds.height;
+                    this.sdkBounds.width = this.sdkBounds.outerWidth = editorBounds.width;
+                    this.sdkBounds.height = this.sdkBounds.outerHeight = editorBounds.height;
 
                     // LEFT CORNER
 

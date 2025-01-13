@@ -996,7 +996,7 @@ define([
                 this.getPopover().saveText();
                 this.getPopover().hideTips();
 
-                if (posY < 0 || this.getPopover().sdkBounds.height < posY || (!_.isUndefined(leftX) && this.getPopover().sdkBounds.width < leftX)) {
+                if (posY < 0 || this.getPopover().sdkBounds.outerHeight < posY || (!_.isUndefined(leftX) && this.getPopover().sdkBounds.width < leftX)) {
                     this.getPopover().hide();
                 } else {
                     if (this.isModeChanged)
