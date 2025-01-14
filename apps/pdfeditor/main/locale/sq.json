@@ -2044,5 +2044,7 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Views.ViewTab.tipRecognize": "Redakto tekstin"
+  "PDFE.Views.ViewTab.tipRecognize": "Redakto tekstin",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }

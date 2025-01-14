@@ -2037,5 +2037,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }

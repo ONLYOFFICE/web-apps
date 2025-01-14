@@ -251,6 +251,9 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
+            toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
+            toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
+            toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -1143,6 +1146,54 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
+        },
+
+        onBtnStampClick: function(btn, e) {
+            this.onInsertStamp(btn.options.stampType, btn, e);
+        },
+
+        onMenuStampClick: function(btn, e) {
+            var oldType = this.toolbar.btnStamp.options.stampType;
+            var newType = e.value;
+
+            if(newType !== oldType){
+                this.toolbar.btnStamp.options.stampType = newType;
+            }
+            this.onInsertStamp(newType, btn, e);
+        },
+
+        onInsertStamp: function(type, btn, e) {
+            this.api && this.api.AddStampAnnot(type);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnStamp);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Stamp');
+        },
+
+        onStampShowAfter: function(menu) {
+            var me      = this;
+            if (menu.getItemsLength(true)<1 && this.api) {
+                var arr = this.api.asc_getPropertyEditorStamps(),
+                    template = _.template([
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
+                        '</a>'
+                    ].join(''));
+                arr.forEach(function(item){
+                    var menuItem = new Common.UI.MenuItem({
+                        value: item.Type,
+                        itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
+                        itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
+                        template: template
+                    });
+                    menu.addItem(menuItem, true);
+                    if (menuItem.cmpEl) {
+                        menuItem.cmpEl.find('div').append(item.Image);
+                        menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
+                    }
+
+                });
+                this.toolbar.btnStamp.options.stampType = arr[0].Type;
+            }
         },
 
         onFillRequiredFields: function(isFilled) {
@@ -2236,7 +2287,7 @@ define([
         },
 
         onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },

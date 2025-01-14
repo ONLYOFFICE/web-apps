@@ -2037,5 +2037,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }

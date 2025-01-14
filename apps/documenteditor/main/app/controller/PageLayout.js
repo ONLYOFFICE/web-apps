@@ -227,7 +227,7 @@ define([
             },
 
             onBeforeShapesMerge: function() {               
-                this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+                this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                     item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
                 }, this);
             },
