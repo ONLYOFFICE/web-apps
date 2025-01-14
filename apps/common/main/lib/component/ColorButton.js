@@ -72,6 +72,7 @@ define([
                 (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
                 (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
                 (this.options.paletteCls!==undefined) && (config['cls'] = this.options.paletteCls);
+                (this.options.storageSuffix!==undefined) && (config['storageSuffix'] = this.options.storageSuffix);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
@@ -124,9 +125,8 @@ define([
                     cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItemsBefore ? options.additionalItemsBefore : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') },
-                        {caption: '--'}
-                        ]).concat(eyedropper).concat([
+                            { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') }
+                        ]).concat(options.hideColorsSeparator ? [] : {caption: '--'}).concat(eyedropper).concat([
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')

@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
     "errorNoTOC": "Es gibt kein Inhaltsverzeichnis. Sie können es auf der Registerkarte \"Verweise\" einfügen.",
     "errorPasswordIsNotCorrect": "Das von Ihnen eingegebene Passwort ist nicht korrekt. Vergewissern Sie sich, dass die CAPS LOCK-Taste ausgeschaltet ist, und achten Sie auf die richtige Großschreibung.",
+    "errorPDFFormsLocked": "Die Aktion kann nicht ausgeführt werden, da sie Änderungen in gesperrten Formularen verursacht.",
     "errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
@@ -470,8 +471,7 @@
     "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "applyChangesTextText": "Daten werden geladen...",

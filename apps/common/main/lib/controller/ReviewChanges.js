@@ -294,7 +294,7 @@ define([
                 saveTxtReplyId = '';
 
             if (this.getPopover()) {
-                if (posY < 0 || this.getPopover().sdkBounds.height < posY) {
+                if (posY < 0 || this.getPopover().sdkBounds.outerHeight < posY) {
                     this.getPopover().hide();
                 } else if (this.popoverChanges.length>0) {
                     if (!this.getPopover().isVisible())

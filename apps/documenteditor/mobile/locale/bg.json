@@ -731,6 +731,7 @@
     "errorMailMergeSaveFile": "Merge failed.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
@@ -759,8 +760,7 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",

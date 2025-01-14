@@ -116,13 +116,6 @@ define([], function () {
                     case 'aceEditorReady':
                         this.fireEvent('ready', cmd.data);
                         break;
-                    case 'mouseUp':
-                    case 'mouseMove':
-                        var offset = Common.Utils.getOffset(this.parentEl);
-                        var x = cmd.data.x * Common.Utils.zoom() + offset.left,
-                            y = cmd.data.y * Common.Utils.zoom() + offset.top;
-                        this.fireEvent(cmd.command.toLowerCase(), x, y);
-                        break;
                 }
             }
         },
@@ -158,6 +151,10 @@ define([], function () {
                 referer: 'ace-editor',
                 data: disable
             });
+        },
+
+        enablePointerEvents: function(enable) {
+            this.iframe && (this.iframe.style.pointerEvents = enable ? "" : "none");
         },
 
         destroyEditor: function() {

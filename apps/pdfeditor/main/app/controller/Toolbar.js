@@ -261,23 +261,27 @@ define([
 
         },
 
-        onCreateAnnotBar: function(btnStrikeout, mnuStrikeoutColorPicker, btnUnderline, mnuUnderlineColorPicker, btnHighlight, mnuHighlightColorPicker) {
+        onCreateAnnotBar: function(btnStrikeout, btnUnderline, btnHighlight) {
             var toolbar = this.toolbar;
-            btnStrikeout.currentColor = toolbar.btnStrikeout.currentColor;
-            btnStrikeout.setColor(btnStrikeout.currentColor);
-            btnStrikeout.toggle(toolbar.btnStrikeout.pressed, true);
+
             toolbar.btnsStrikeout.push(btnStrikeout);
+            btnStrikeout.toggle(toolbar.btnStrikeout.pressed, true);
+            btnStrikeout.setColor(toolbar.btnStrikeout.currentColor);
+            var mnuStrikeoutColorPicker = toolbar.createPen(btnStrikeout, 'strikeout', true);
             toolbar.mnusStrikeoutColorPicker.push(mnuStrikeoutColorPicker);
-            btnUnderline.currentColor = toolbar.btnUnderline.currentColor;
-            btnUnderline.setColor(btnUnderline.currentColor);
-            btnUnderline.toggle(toolbar.btnUnderline.pressed, true);
+
             toolbar.btnsUnderline.push(btnUnderline);
+            btnUnderline.toggle(toolbar.btnUnderline.pressed, true);
+            btnUnderline.setColor(toolbar.btnUnderline.currentColor);
+            var mnuUnderlineColorPicker = toolbar.createPen(btnUnderline, 'underline', true);
             toolbar.mnusUnderlineColorPicker.push(mnuUnderlineColorPicker);
-            btnHighlight.currentColor = toolbar.btnHighlight.currentColor;
-            btnHighlight.setColor(btnHighlight.currentColor);
-            btnHighlight.toggle(toolbar.btnHighlight.pressed, true);
+
             toolbar.btnsHighlight.push(btnHighlight);
+            btnHighlight.toggle(toolbar.btnHighlight.pressed, true);
+            btnHighlight.setColor(toolbar.btnHighlight.currentColor);
+            var mnuHighlightColorPicker = toolbar.createPen(btnHighlight, 'highlight', true);
             toolbar.mnusHighlightColorPicker.push(mnuHighlightColorPicker);
+
             btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
             mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
             btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
@@ -940,7 +944,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-strikeout") , parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
@@ -1000,7 +1004,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-underline"), parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
@@ -1060,7 +1064,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-highlight"), parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuHighlightTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);

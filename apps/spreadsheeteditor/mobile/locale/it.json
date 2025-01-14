@@ -291,6 +291,7 @@
     "errorFileVKey": "Errore esterno.<br>Chiave di sicurezza non corretta. Si prega di contattare il team di supporto.",
     "errorFillRange": "Impossibile riempire l'intervallo di celle selezionato.<br>Tutte le celle unite devono avere le stesse dimensioni.",
     "errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizza l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprova più tardi.",
+    "errorFormulaInPivotFieldName": "Non è possibile inserire una formula per un elemento o un nome di campo in un rapporto di tabella pivot.",
     "errorFormulaName": "Un errore nella formula.<br>Nome della formula sbagliato.",
     "errorFormulaParsing": "Errore interno durante l'analisi della formula.",
     "errorFrmlMaxLength": "Non puoi aggiungere questa formula perché la sua lunghezza supera il numero di caratteri consentito.<br>Si prega di modificala e riprovare.",
@@ -321,9 +322,11 @@
     "errorNoDataToParse": "Nessun dato selezionato per l'analisi.",
     "errorOpenWarning": "La lunghezza di una delle formule nel file ha superato<br>il numero consentito di caratteri ed è stata eliminata.",
     "errorOperandExpected": "La sintassi della funzione inserita non è corretta. Si prega di controllare se hai perso una delle parentesi - '(' o ')'.",
+    "errorPasteInPivot": "Non è possibile apportare questa modifica per le celle selezionate, perché influirebbe su una tabella pivot.<br>Utilizza l'elenco dei campi per modificare il rapporto.",
     "errorPasteMaxRange": "L'area di copia non corrisponde a quella di incolla. Si prega di selezionare un'area della stessa dimensione o fare clic sulla prima cella di una riga per incollare le celle copiate.",
     "errorPasteMultiSelect": "Questa azione non può essere eseguita su una selezione di più intervalli.<br>Seleziona un singolo intervallo e riprova.",
     "errorPasteSlicerError": "I filtri dei dati della tabella non possono essere copiati da una cartella di lavoro a un'altra.",
+    "errorPivotFieldNameExists": "Il nome del campo della tabella pivot esiste già.",
     "errorPivotGroup": "Impossibile raggruppare quella selezione.",
     "errorPivotOverlap": "Un report di tabella pivot non può sovrapporsi a una tabella.",
     "errorPivotWithoutUnderlying": "Il rapporto della tabella pivot è stato salvato senza i dati sottostanti.<br>Utilizza il pulsante \"Aggiorna\" per aggiornare il relativo rapporto.",
@@ -368,10 +371,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",

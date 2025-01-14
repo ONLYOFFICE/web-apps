@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorPDFFormsLocked": "Această acțiune nu poate fi efectuată deoarece provoacă modificarea formuarelor blocate.",
     "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
@@ -470,8 +471,7 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Încărcarea datelor...",

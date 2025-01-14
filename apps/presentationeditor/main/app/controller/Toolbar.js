@@ -166,6 +166,9 @@ define([
                     },
                     'undo': this.onUndo,
                     'redo': this.onRedo,
+                    'startover': function(opts) {
+                        this.onPreview(0); 
+                    },
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
@@ -326,6 +329,7 @@ define([
 
             toolbar.btnPreview.on('click',                                         _.bind(me.onPreviewBtnClick, me));
             toolbar.btnPreview.menu.on('item:click',                               _.bind(me.onPreviewItemClick, me));
+            toolbar.btnPreview.on('disabled',                           _.bind(me.onBtnChangeState, me, 'startover:disabled'));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -2666,7 +2670,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this);
             }
-
+            this._state.themeId = undefined;
             window.styles_loaded = true;
         },
 

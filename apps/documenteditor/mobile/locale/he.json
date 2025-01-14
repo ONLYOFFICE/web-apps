@@ -442,6 +442,7 @@
     "errorMailMergeSaveFile": "המיזוג נכשל.",
     "errorNoTOC": "אין תוכן עניינים לעדכון. ניתן להוסיף תוכן עניינים מהכרטיסייה הפניות.",
     "errorPasswordIsNotCorrect": "הסיסמה שהוזנה שגויה. נא לוודא ש-CAPS LOCK כבוי ולהקפיד בשימוש באותיות רישיות נכונות.",
+    "errorPDFFormsLocked": "לא ניתן לבצע את הפעולה מכיוון שהיא גורמת לשינויים בטפסים נעולים.",
     "errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
     "errorSessionAbsolute": "פג תוקפה של פעולת עריכת המסמך. נא לרענן את הדף.",
     "errorSessionIdle": "לא בוצעה עריכה במסמך זמן רב. נא לרענן את הדף.",
@@ -470,8 +471,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
