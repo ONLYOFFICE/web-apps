@@ -2376,6 +2376,7 @@ define([], function () {
 
         dh.removeComment = function(item, e, eOpt){
             this.api && this.api.asc_remove();
+            this.editComplete();
         };
 
         dh.equationCallback = function(eqObj) {
