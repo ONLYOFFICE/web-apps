@@ -277,6 +277,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         <ToolbarView 
             openOptions={props.openOptions}
             isEdit={appOptions.isEdit}
+            isDrawMode={appOptions.isDrawMode}
             docTitle={docTitle}
             isShowBack={isShowBack}
             isCanUndo={isCanUndo}

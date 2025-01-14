@@ -68,28 +68,44 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
         </div>
       </Sheet>
       <div className="draw-toolbar">
-        <Button type='button' fill={currentTool === 'pen'} onClick={() => setTool('pen')}>
-          <SvgIcon symbolId={IconDrawPen.id} className='icon icon-svg'/>
-        </Button>
-        <Button type='button' fill={currentTool === 'highlighter'} onClick={() => setTool('highlighter')}>
-          <SvgIcon symbolId={IconDrawHighlighter.id} className='icon icon-svg'/>
-        </Button>
-        <Button type='button' sheetOpen=".draw-sheet--settings">
-          <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50%" cy="50%" r="8" fill={settings.color}/>
-          </svg>
-        </Button>
-        <div className='draw-toolbar-divider'/>
-        <Button type='button' disabled={false} fill={currentTool === 'eraser'} onClick={() => setTool('eraser')}>
-          <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
-        </Button>
-        <Button type='button' disabled={false} onClick={() => setTool('eraseEntireScreen')}>
-          <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
-        </Button>
-        <div className='draw-toolbar-divider'/>
-        <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')} tabIndex='-1'>
-          <SvgIcon symbolId={IconScroll.id} className='icon icon-svg'/>
-        </Button>
+        <div className="draw-toolbar-item">
+          <Button type='button' fill={currentTool === 'pen'} onClick={() => setTool('pen')}>
+            <SvgIcon symbolId={IconDrawPen.id} className='icon icon-svg'/>
+          </Button>
+        </div>
+        <div className="draw-toolbar-item">
+          <Button type='button' fill={currentTool === 'highlighter'} onClick={() => setTool('highlighter')}>
+            <SvgIcon symbolId={IconDrawHighlighter.id} className='icon icon-svg'/>
+          </Button>
+        </div>
+        <div className="draw-toolbar-item">
+          <Button type='button' sheetOpen=".draw-sheet--settings">
+            <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50%" cy="50%" r="8" fill={settings.color}/>
+            </svg>
+          </Button>
+        </div>
+        <div className="draw-toolbar-item">
+          <div className='draw-toolbar-divider'/>
+        </div>
+        <div className="draw-toolbar-item">
+          <Button type='button' disabled={false} fill={currentTool === 'eraser'} onClick={() => setTool('eraser')}>
+            <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
+          </Button>
+        </div>
+        <div className="draw-toolbar-item">
+          <Button type='button' disabled={false} onClick={() => setTool('eraseEntireScreen')}>
+            <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
+          </Button>
+        </div>
+        <div className="draw-toolbar-item">
+          <div className='draw-toolbar-divider'/>
+        </div>
+        <div className="draw-toolbar-item">
+          <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')} tabIndex='-1'>
+            <SvgIcon symbolId={IconScroll.id} className='icon icon-svg'/>
+          </Button>
+        </div>
       </div>
     </React.Fragment>
   )

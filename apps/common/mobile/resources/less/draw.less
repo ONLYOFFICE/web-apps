@@ -107,24 +107,37 @@
     }
 
     .draw-toolbar {
-        padding-inline: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-inline: 10px;
         width: 100%;
 
-        button {
-            display: flex;
-            padding: 0;
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            border-radius: 7px;
-            border: none;
+        @media (min-width: 550px) {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+        }
 
-            &.button-fill {
-                color: @brandColor;
-                background-color: @button-active-opacity;
+        &-item {
+            @media (min-width: 550px) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            button {
+                display: flex;
+                padding: 0;
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                border-radius: 7px;
+                border: none;
+
+                &.button-fill {
+                    color: @brandColor;
+                    background-color: @button-active-opacity;
+                }
             }
         }
 
