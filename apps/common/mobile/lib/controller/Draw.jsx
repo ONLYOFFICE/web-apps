@@ -6,7 +6,7 @@ import { LocalStorage } from '../../utils/LocalStorage.mjs';
 
 const DEFAULT_TOOL_SETTINGS = { color: '#3D8A44', opacity: 100, lineSize: 1 }
 const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
-const DEFAULT_IOS_COLORS = []
+const DEFAULT_IOS_COLORS = ['#FFFC54', '#72F54A', '#74F9FD', '#EB51F7', '#A900F9', '#FF0303', '#EF8B3A', '#D3D3D4', '#000000']
 
 export const DrawController = inject('storeAppOptions')(observer(({ storeAppOptions }) => {
   const [currentTool, setCurrentTool] = useState(null);

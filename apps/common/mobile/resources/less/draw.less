@@ -89,7 +89,14 @@
 
 #drawbar.navbar {
     --height: calc(44px + var(--f7-safe-area-bottom));
+    height: var(--height);
+    --f7-navbar-border-color: @draw-toolbar-border;
+    --f7-navbar-bg-color: @draw-toolbar-background;
+
     .device-android & {
+        body.theme-type-light & {
+            --f7-navbar-bg-color: #fff;
+        }
         top: unset;
         bottom: env(keyboard-inset-top);
     }
@@ -98,10 +105,6 @@
         top: 100vh;
         margin-top: calc(-1 * (var(--height) + env(keyboard-inset-top)));
     }
-
-    height: var(--height);
-    --f7-toolbar-border-color: @draw-toolbar-border;
-    --f7-toolbar-bg-color: @draw-toolbar-background;
 
     .draw-toolbar {
         padding-inline: 10px;

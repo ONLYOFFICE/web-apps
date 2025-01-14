@@ -87,7 +87,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
           <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
         </Button>
         <div className='draw-toolbar-divider'/>
-        <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')}>
+        <Button type='button' fill={currentTool === 'scroll'} onClick={() => setTool('scroll')} tabIndex='-1'>
           <SvgIcon symbolId={IconScroll.id} className='icon icon-svg'/>
         </Button>
       </div>

@@ -200,11 +200,11 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-sectionbreak"></Icon>
                 </ListItem>
             }
-            {!isHeader && 
+            {!isHeader &&
                 <ListItem title={_t.textTableContents} link="/add-table-contents/">
                     <Icon slot="media" icon="icon-table-contents"></Icon>
                 </ListItem>
-            } 
+            }
             {(isShape || isChart) || (isText && disabledAddFootnote) ? null :
                 <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,
@@ -216,12 +216,14 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-footnote"></Icon>
                 </ListItem>
             }
-            <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
-                props.closeModal();
-                Common.Notifications.trigger('draw:start');
-            }}>
-                <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
-            </ListItem>
+            {!Device.ios && (
+              <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
+                  props.closeModal();
+                  Common.Notifications.trigger('draw:start');
+              }}>
+                  <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
+              </ListItem>
+            )}
         </List>
     )
 };
