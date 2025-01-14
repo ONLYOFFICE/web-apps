@@ -1770,8 +1770,8 @@ define([
                 newRtl = !!isRtl;
             if (oldRtl !== newRtl) {
                 toolbar.btnTextDir.changeIcon({
-                    next: newRtl ? 'btn-dir-rtl' : 'btn-dir-ltr',
-                    curr: oldRtl ? 'btn-dir-rtl' : 'btn-dir-ltr'
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
                 });
                 toolbar.btnMarkers.changeIcon({
                     next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
