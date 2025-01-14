@@ -1,13 +1,14 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_365_2165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-<rect width="24" height="24" fill="#D9D9D9"/>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_696_1395" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
+<rect width="60" height="60" fill="#D9D9D9"/>
 </mask>
-<g mask="url(#mask0_365_2165)">
-<rect x="6.5" y="6.5" width="7" height="7" fill="white" stroke="#1C1B1F"/>
-<rect x="10" y="10" width="8" height="8" fill="#5C89FF"/>
-<path d="M4 4H6V6H4V4Z" fill="#1C1B1F"/>
-<path d="M4 18H6V20H4V18Z" fill="#1C1B1F"/>
-<path d="M18 4H20V6H18V4Z" fill="#1C1B1F"/>
-<path d="M18 18H20V20H18V18Z" fill="#1C1B1F"/>
+<g mask="url(#mask0_696_1395)">
+<path d="M18 18H34V34H18V18Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M32 20H20V32H32V20ZM18 18V34H34V18H18Z" fill="#1C1B1F"/>
+<rect x="26" y="26" width="16" height="16" fill="#5C89FF"/>
+<path d="M14 14H18V18H14V14Z" fill="#1C1B1F"/>
+<path d="M14 42H18V46H14V42Z" fill="#1C1B1F"/>
+<path d="M42 14H46V18H42V14Z" fill="#1C1B1F"/>
+<path d="M42 42H46V46H42V42Z" fill="#1C1B1F"/>
 </g>
 </svg>

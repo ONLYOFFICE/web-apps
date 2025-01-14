@@ -1,21 +1,21 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_365_2069" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-<rect width="24" height="24" fill="#D9D9D9"/>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_696_1381" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
+<rect width="60" height="60" fill="#D9D9D9"/>
 </mask>
-<g mask="url(#mask0_365_2069)">
-<path d="M11 20V11H20V12H13L20.5 19.5L19.5 20.5L12 13V20H11Z" fill="#1C1B1F"/>
-<path d="M4 19H5V20H4V19Z" fill="#1C1B1F"/>
-<path d="M4 16H5V17H4V16Z" fill="#1C1B1F"/>
-<path d="M4 13H5V14H4V13Z" fill="#1C1B1F"/>
-<path d="M4 10H5V11H4V10Z" fill="#1C1B1F"/>
-<path d="M4 7H5V8H4V7Z" fill="#1C1B1F"/>
-<path d="M4 4H5V5H4V4Z" fill="#1C1B1F"/>
-<path d="M7 4H8V5H7V4Z" fill="#1C1B1F"/>
-<path d="M10 4H11V5H10V4Z" fill="#1C1B1F"/>
-<path d="M13 4H14V5H13V4Z" fill="#1C1B1F"/>
-<path d="M16 4H17V5H16V4Z" fill="#1C1B1F"/>
-<path d="M19 4H20V5H19V4Z" fill="#1C1B1F"/>
-<path d="M19 7H20V8H19V7Z" fill="#1C1B1F"/>
-<path d="M7 19H8V20H7V19Z" fill="#1C1B1F"/>
+<g mask="url(#mask0_696_1381)">
+<path d="M28 46V28H46V30H32L47 45L45 47L30 32V46H28Z" fill="#1C1B1F"/>
+<path d="M14 44H16V46H14V44Z" fill="#1C1B1F"/>
+<path d="M14 38H16V40H14V38Z" fill="#1C1B1F"/>
+<path d="M14 32H16V34H14V32Z" fill="#1C1B1F"/>
+<path d="M14 26H16V28H14V26Z" fill="#1C1B1F"/>
+<path d="M14 20H16V22H14V20Z" fill="#1C1B1F"/>
+<path d="M14 14H16V16H14V14Z" fill="#1C1B1F"/>
+<path d="M20 14H22V16H20V14Z" fill="#1C1B1F"/>
+<path d="M26 14H28V16H26V14Z" fill="#1C1B1F"/>
+<path d="M32 14H34V16H32V14Z" fill="#1C1B1F"/>
+<path d="M38 14H40V16H38V14Z" fill="#1C1B1F"/>
+<path d="M44 14H46V16H44V14Z" fill="#1C1B1F"/>
+<path d="M44 20H46V22H44V20Z" fill="#1C1B1F"/>
+<path d="M20 44H22V46H20V44Z" fill="#1C1B1F"/>
 </g>
 </svg>
