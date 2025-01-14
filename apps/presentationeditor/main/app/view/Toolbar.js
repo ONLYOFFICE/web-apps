@@ -2356,7 +2356,7 @@ define([
                             itemTemplate: _.template([
                                 '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
                                 '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;background-size: contain;"></div>',
-                                '<div class="title"><%= title %></div> ',
+                                '<div class="title"><%- title %></div> ',
                                 '</div>'
                             ].join(''))
                         });
