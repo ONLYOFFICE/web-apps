@@ -1041,7 +1041,7 @@
                     const f = localStorage.getItem('asc-force-editor-type');
                     if ( f === 'desktop' ) {
                         config.editorConfig.forceDesktop = true;
-                        return 'main';
+                        return 'desktop';
                     }
                 }
             }
@@ -1078,13 +1078,14 @@
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
+        var corrected_type = correct_app_type(config.type);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
-            appType = config.type === 'mobile' ||  config.type === 'embedded' ? 'word' : 'pdf';
+            appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
             isForm = config.document ? config.document.isForm : undefined;
-            if (config.type === 'embedded')
+            if (corrected_type === 'embedded')
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
-            else if (config.type !== 'mobile')
+            else if (corrected_type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
         } else if (type && typeof type[5] === 'string') { // oform|docxf
             appType = 'word';
@@ -1101,8 +1102,8 @@
             path = extendAppPath(config, path);
         path += appMap[appType];
 
-        const path_type = config.type === "mobile" ? correct_app_type(config.type) :
-                          config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+        const path_type = corrected_type === "mobile" ? "mobile" :
+                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 
