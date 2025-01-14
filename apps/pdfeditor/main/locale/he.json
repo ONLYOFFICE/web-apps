@@ -2037,5 +2037,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }
