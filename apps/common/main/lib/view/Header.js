@@ -488,7 +488,7 @@ define([
             }
 
             if (me.btnStartOver) {
-                me.btnStartOver.updateHint(me.tipStartOver);
+                me.btnStartOver.updateHint(me.tipStartOver + (Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl+Shift+enter' : 'Ctrl+F5')));
                 me.btnStartOver.on('click', function (e) {
                     me.fireEvent('startover', me);
                 });
