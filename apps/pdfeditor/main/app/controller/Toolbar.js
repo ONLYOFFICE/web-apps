@@ -1178,21 +1178,23 @@ define([
                             '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
                         '</a>'
                     ].join(''));
-                arr.forEach(function(item){
-                    var menuItem = new Common.UI.MenuItem({
-                        value: item.Type,
-                        itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
-                        itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
-                        template: template
-                    });
-                    menu.addItem(menuItem, true);
-                    if (menuItem.cmpEl) {
-                        menuItem.cmpEl.find('div').append(item.Image);
-                        menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
-                    }
+                if (arr.length>0) {
+                    arr.forEach(function(item){
+                        var menuItem = new Common.UI.MenuItem({
+                            value: item.Type,
+                            itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
+                            itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
+                            template: template
+                        });
+                        menu.addItem(menuItem, true);
+                        if (menuItem.cmpEl) {
+                            menuItem.cmpEl.find('div').append(item.Image);
+                            menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
+                        }
 
-                });
-                this.toolbar.btnStamp.options.stampType = arr[0].Type;
+                    });
+                    this.toolbar.btnStamp.options.stampType = arr[0].Type;
+                }
             }
         },
 
