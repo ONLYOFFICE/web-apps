@@ -37,14 +37,12 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>
-          {!Device.ios && (
             <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
               props.closeModal();
               Common.Notifications.trigger('draw:start');
             }}>
               <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
             </ListItem>
-          )}
         </List>
     )
 }));

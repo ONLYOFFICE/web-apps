@@ -16,7 +16,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
 
   return (
     <React.Fragment>
-      <Sheet className='draw-sheet draw-sheet--color-picker' swipeToClose onSheetClosed={() => f7.sheet.open('.draw-sheet--settings')}>
+      <Sheet className='draw-sheet draw-sheet--color-picker' backdrop swipeToClose onSheetClosed={() => f7.sheet.open('.draw-sheet--settings')}>
         <div className='draw-sheet-label'><span>{_t.textCustomColor}</span></div>
         <WheelColorPicker
           initialColor={settings.color}
@@ -26,7 +26,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
           }}
         />
       </Sheet>
-      <Sheet className="draw-sheet draw-sheet--settings" swipeToClose style={{ height: 'auto' }}>
+      <Sheet className="draw-sheet draw-sheet--settings" backdrop swipeToClose style={{ height: 'auto' }}>
         <div id='swipe-handler' className='swipe-container'>
           <Icon icon='icon icon-swipe'/>
         </div>
@@ -52,14 +52,14 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
         </div>
         <div className='draw-sheet-label'><span>{_t.textLineSize}</span></div>
         <div className='draw-sheet-item'>
-          {Device.android ? (
+          {/*{Device.android ? (*/}
             <Range
               min={0.5} max={10} step={0.5} value={settings.lineSize}
               onRangeChange={(value) => setSettings({ lineSize: value })}
             />
-          ) : (
-            <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings.lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />
-          )}
+          {/*) : (*/}
+          {/*   <input className='line-size-range--ios' type='range' min={0.5} max={10} step={0.5} value={settings.lineSize} onChange={(e) => setSettings({ lineSize: parseInt(e.target.value) })} />*/}
+          {/* )}*/}
         </div>
         <div className='draw-sheet-label'><span>{_t.textOpacity}</span></div>
         <div className='draw-sheet-item'>
