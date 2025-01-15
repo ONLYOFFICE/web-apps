@@ -218,7 +218,7 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
 
     return (
         <Fragment>
-            <View id="idx-statusbar" className="statusbar" style={{ 'margin-bottom': storeAppOptions.isDrawMode ? 'calc(44px + env(safe-area-inset-bottom) + env(keyboard-inset-top))' : undefined, ...viewStyle }}>
+            <View id="idx-statusbar" className="statusbar" style={{ marginBottom: storeAppOptions.isDrawMode ? 'calc(44px + env(safe-area-inset-bottom) + env(keyboard-inset-top))' : undefined, ...viewStyle }}>
                 {isEdit &&
                     <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
