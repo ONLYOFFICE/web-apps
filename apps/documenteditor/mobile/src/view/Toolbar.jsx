@@ -106,6 +106,12 @@ const ToolbarView = props => {
                     : null),
                     <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
                 ] : [
+                    // /!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                    //                        className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                    //                        onClick={() => props.forceDesktopMode()}>
+                    //                     <SvgIcon symbolId={IconSwitchToDesktop.id}
+                    //                              className={'icon icon-svg'} />
+                    //                 </Link>,
                     <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
                     <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
                     (props.canSubmitForms ?

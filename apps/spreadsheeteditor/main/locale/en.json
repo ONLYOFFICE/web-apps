@@ -2665,7 +2665,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Save",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy As",
   "SSE.Views.FileMenu.btnSettingsCaption": "Advanced Settings",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to mobile editor",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Edit Spreadsheet",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Spreadsheet",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",

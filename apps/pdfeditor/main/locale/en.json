@@ -1261,6 +1261,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Save",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy As",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Advanced Settings",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Edit Document",
   "PDFE.Views.FileMenu.textDownload": "Download",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Document",

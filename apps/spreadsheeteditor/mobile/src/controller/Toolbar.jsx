@@ -282,7 +282,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                     text: t('View.Settings.textCancel')
                 },
                 {
-                    text: t('Toolbar.btnRestartNow'),
+                    text: t('Toolbar.btnSwitchToDesktop'),
                     onClick: () => Common.Gateway.switchEditorType('desktop', true),
                 }
             ]}

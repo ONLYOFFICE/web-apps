@@ -277,7 +277,7 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
-    "btnRestartNow": "Restart now"
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
