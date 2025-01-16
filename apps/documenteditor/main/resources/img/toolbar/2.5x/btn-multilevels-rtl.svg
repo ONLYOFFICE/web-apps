@@ -1,8 +1,10 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13 5H3V6H13V5Z" fill="black"/>
-<path d="M10 10H3V11H10V10Z" fill="black"/>
-<path d="M8 15H3V16H8V15Z" fill="black"/>
-<path d="M16 7H17V3H16H15V4H16V7Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 14H10V13H11V14ZM11 17H10V15H11V17Z" fill="black"/>
-<path d="M14.5 10.5C14.5 11.0523 14.0523 11.5 13.5 11.5C12.9477 11.5 12.5 11.0523 12.5 10.5C12.5 9.94772 12.9477 9.5 13.5 9.5C14.0523 9.5 14.5 9.94772 14.5 10.5Z" fill="black"/>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_692_5185" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
+<rect width="60" height="60" transform="matrix(-1 0 0 1 60 0)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_692_5185)">
+<path d="M28.0001 40L27.9615 38H12.0001V40H28.0001ZM28.0001 22V20H11.9615L12.0001 22H28.0001Z" fill="#1C1B1F"/>
+<path d="M38 26L31 19L33 17L38 22L47 13L49 15L38 26Z" fill="#5C89FF"/>
+<path d="M38 44L31 37L33 35L38 40L47 31L49 33L38 44Z" fill="#5C89FF"/>
+</g>
 </svg>
