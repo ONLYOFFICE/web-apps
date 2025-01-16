@@ -4,7 +4,10 @@ import { inject, observer } from "mobx-react";
 import { Device } from "../../utils/device";
 import { LocalStorage } from '../../utils/LocalStorage.mjs';
 
-const DEFAULT_TOOL_SETTINGS = { color: '#3D8A44', opacity: 100, lineSize: 1 }
+const DEFAULT_TOOL_SETTINGS = {
+  pen: { color: '#FF0000', opacity: 100, lineSize: 2 },
+  highlighter: { color: '#FFFC54', opacity: 50, lineSize: 5 },
+}
 const DEFAULT_ANDROID_COLORS = ['#FF0000', '#FFC000', '#FFFF00', '#92D050', '#00B050', '#00B0F0', '#0070C0', '#002060', '#C00000']
 const DEFAULT_IOS_COLORS = ['#FFFC54', '#72F54A', '#74F9FD', '#EB51F7', '#A900F9', '#FF0303', '#EF8B3A', '#D3D3D4', '#000000']
 
@@ -50,8 +53,8 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
   };
 
   const toolActions = {
-    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, settings.opacity), 0),
-    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.color, settings.lineSize, 50), 1),
+    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity), 0),
+    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.highlighter.color, settings.highlighter.lineSize, settings.highlighter.opacity), 1),
     eraser: (api) => api.asc_StartInkEraser(),
     eraseEntireScreen: (api) => {/* fixme: method */
     },
@@ -66,7 +69,7 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
 
   const updateToolSettings = (newSettings) => {
     setToolSettings(prev => {
-      const updatedSettings = { ...prev, ...newSettings };
+      const updatedSettings = { ...prev, [currentTool]: { ...prev[currentTool], ...newSettings } };
       const api = Common.EditorApi.get();
       toolActions[currentTool]?.(api, updatedSettings);
       LocalStorage.setJson('draw-settings', updatedSettings)
