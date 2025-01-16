@@ -270,6 +270,7 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "textOk": "OK",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
@@ -281,6 +282,7 @@
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Warning",
+      "textDrawing": "Drawing",
       "textAddLink": "Add Link",
       "textAddress": "Address",
       "textBack": "Back",
@@ -554,5 +556,11 @@
       "textVersion": "Version",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textOpacity": "Opacity",
+    "textLineSize": "Line size",
+    "textColor": "Color",
+    "textCustomColor": "Custom color"
   }
 }
