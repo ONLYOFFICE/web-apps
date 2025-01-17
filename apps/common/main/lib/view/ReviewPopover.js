@@ -1266,7 +1266,17 @@ define([
                 str = str.toLowerCase();
                 if (str.length>0) {
                     users = _.filter(users, function(item) {
-                        return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
+                        if (item.email && 0 === item.email.toLowerCase().indexOf(str)) return true;
+
+                        let arr = item.name ? item.name.toLowerCase().split(' ') : [],
+                            inName = false;
+                        for (let i=0; i<arr.length; i++) {
+                            if (0 === arr[i].indexOf(str)) {
+                                inName = true;
+                                break;
+                            }
+                        }
+                        return inName;
                     });
                 }
                 var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">' +
