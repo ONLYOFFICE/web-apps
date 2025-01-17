@@ -158,7 +158,8 @@
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textRenameFile": "Renombrar archivo",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "Versión ",
       "textVisioInfo": "Información del visor de diagramas",
       "textVisioSettings": "Configuración del visor de diagramas",
-      "textVisioTitle": "Título del visor de diagramas"
+      "textVisioTitle": "Título del visor de diagramas",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

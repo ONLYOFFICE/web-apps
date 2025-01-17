@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "për",
+    "textAbout": "Rreth",
     "textAddress": "Adresa",
     "textBack": "Mbrapa",
     "textEditor": "Redaktues dokumenti",
@@ -27,6 +27,7 @@
     "textCurrentPosition": "Pozicion aktual",
     "textDisplay": "Ekran",
     "textDone": "Përfunduar",
+    "textDrawing": "Vizatim",
     "textEmptyImgUrl": "Ju duhet të specifikoni foton URL.",
     "textEvenPage": "Faqe e barabartë",
     "textFootnote": "Shënim në fund të faqes",
@@ -85,7 +86,7 @@
       "textBreakBefore": "Thyerje e faqes më parë",
       "textCancel": "Anulo",
       "textCaps": "Të gjitha me shkronja të mëdha",
-      "textCenter": "Rregullo qendrën",
+      "textCenter": "Rregullo në qendër",
       "textChart": "Grafiku",
       "textCollaboration": "Bashkëpunim",
       "textColor": "Ngjyra e shkronjave",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Rifresko vetëm numrat e faqes",
     "textRows": "Rreshta",
     "txtWarnUrl": "Shtypja e kësaj lidhjeje mund të jetë shumë e dëmshme për pajisjen dhe të dhënat e tua.<br>Jeni i sigurt që doni të vazhdoni?"
+  },
+  "Draw": {
+    "textColor": "Ngjyrë",
+    "textCustomColor": "Ngjyrë e personalizuar",
+    "textLineSize": "Madhësia e linjës",
+    "textOpacity": "Shkallë transparence"
   },
   "Edit": {
     "notcriticalErrorTitle": "Paralajmërim",
@@ -583,8 +590,8 @@
       "Number Too Large To Format": "Numri është shumë i madh për t'u formatuar",
       "Odd Page ": "Faqe teke",
       "Office": "Ofis",
-      "Office 2007 - 2010": "Ofis 2007-2010",
-      "Office 2013 - 2022": "Ofis 2013-2022",
+      "Office 2007 - 2010": "Office 2007-2010",
+      "Office 2013 - 2022": "Office 2013-2022",
       "Orange": "Portokalli",
       "Orange Red": "Portokalli Kuq",
       "Paper": "Letër",
@@ -667,7 +674,7 @@
     "advTxtOptions": "Zgjidh opsionin për TXT",
     "closeButtonText": "Mbyll skedarin",
     "notcriticalErrorTitle": "Paralajmërim",
-    "textAbout": "për",
+    "textAbout": "Rreth",
     "textAddToFavorites": "Shtoni te të preferuarat",
     "textApplication": "Aplikim",
     "textApplicationSettings": "Cilësimet e aplikacionit",
@@ -813,6 +820,7 @@
     "textRenameFile": "Fshij skedarin",
     "textSwitchedMobileView": "Kaluar në pamjen e telefonit",
     "textSwitchedStandardView": "Kaluar në pamjen standarde",
-    "warnEmptyRequiredField": "Mbush të gjitha fushat e kërkuara për të dërguar fomularin."
+    "warnEmptyRequiredField": "Mbush të gjitha fushat e kërkuara për të dërguar fomularin.",
+    "btnSwitchToDesktop": "Switch to Desktop"
   }
 }

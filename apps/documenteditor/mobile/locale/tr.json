@@ -65,7 +65,8 @@
     "textTableSize": "Tablo Boyutu",
     "textWithBlueLinks": "Mavi Bağlantılar Yardımıyla ",
     "textWithPageNumbers": "Sayfa Numaralarıyla",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textSwitchedMobileView": "Mobil görünüme geçildi",
     "textSwitchedStandardView": "Standart görünüme geçildi",
     "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun.",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

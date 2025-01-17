@@ -65,7 +65,8 @@
     "textTableSize": "Tabulas izmērs",
     "textWithBlueLinks": "Ar zilām saitēm",
     "textWithPageNumbers": "Ar lapu numuriem",
-    "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\""
+    "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -812,7 +813,14 @@
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
     "warnEmptyRequiredField": "Aizpildiet visus obligātos laukus, lai nosūtītu veidlapu.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

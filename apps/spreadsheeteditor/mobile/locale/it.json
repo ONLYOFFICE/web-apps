@@ -449,7 +449,9 @@
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textRenameFile": "Rinomina file",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì"
+      "txtYes": "Sì",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -862,5 +865,11 @@
       "txtZh": "Cinese",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -153,13 +153,13 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Edit": {
@@ -197,6 +197,7 @@
       "textOwner": "Owner",
       "textPoweredBy": "Powered By",
       "textPrint": "Print",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
       "textSearch": "Find",
       "textSettings": "Settings",
@@ -208,8 +209,7 @@
       "textVersion": "Version",
       "textVisioInfo": "Diagram Viewer Info",
       "textVisioSettings": "Diagram Viewer Settings",
-      "textVisioTitle": "Diagram Viewer Title",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Diagram Viewer Title"
     }
   }
 }

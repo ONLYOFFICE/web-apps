@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

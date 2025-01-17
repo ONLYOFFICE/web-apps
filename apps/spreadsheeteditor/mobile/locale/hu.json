@@ -448,7 +448,9 @@
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
     "textCloseHistory": "Előzmények bezárása",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -513,7 +515,8 @@
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak rendezése",
       "txtYes": "Igen",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -862,5 +865,11 @@
       "textClose": "Close",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

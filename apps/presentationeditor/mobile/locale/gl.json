@@ -275,7 +275,9 @@
     "leaveButtonText": "Saír desta página",
     "stayButtonText": "Quedarse nesta páxina",
     "textCloseHistory": "Pechar historial",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -319,6 +321,7 @@
       "textTable": "Táboa",
       "textTableSize": "Tamaño da táboa",
       "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
@@ -554,5 +557,11 @@
       "textLight": "Light",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

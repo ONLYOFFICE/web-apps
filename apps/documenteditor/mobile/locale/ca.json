@@ -65,7 +65,8 @@
     "textTableSize": "Mida de la taula",
     "textWithBlueLinks": "Amb enllaços blaus",
     "textWithPageNumbers": "Amb números de pàgina",
-    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+    "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
     "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
     "warnEmptyRequiredField": "Emplena tots els camps necessaris per enviar el formulari.",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

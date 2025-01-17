@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "මෙලෙස සුරකින්න",
   "PDFE.Views.Toolbar.capBtnSelect": "තෝරන්න",
   "PDFE.Views.Toolbar.capBtnShowComments": "අදහස් පෙන්වන්න",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "යොමන්න",
   "PDFE.Views.Toolbar.capBtnTextCallout": "පෙළ ආමන්ත්‍රණය",
   "PDFE.Views.Toolbar.capBtnTextComment": "අදහස",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "තීව්‍රාලෝක පාට",
   "PDFE.Views.Toolbar.tipIncFont": "රුවකුරේ තරම වැඩි කරන්න",
   "PDFE.Views.Toolbar.tipIncPrLeft": "අනුච්ඡේදනය වැඩි කරන්න",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "පෙළ ආමන්ත්‍රණයක් යොදන්න",
   "PDFE.Views.Toolbar.tipInsertTextComment": "අදහසක් යොදන්න",
   "PDFE.Views.Toolbar.tipLastPage": "අන්තිම පිටුවට යන්න",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

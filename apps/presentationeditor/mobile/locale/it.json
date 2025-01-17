@@ -276,7 +276,9 @@
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textRenameFile": "Rinomina file",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Numero di diapositiva",
       "textTable": "Tabella",
       "textTableSize": "Dimensione di tabella",
-      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
+      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -554,5 +557,11 @@
       "textVersion": "Versione",
       "textVersionHistory": "Cronologia delle versioni"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

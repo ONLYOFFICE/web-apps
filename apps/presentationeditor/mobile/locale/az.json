@@ -275,7 +275,9 @@
     "leaveButtonText": "Bu səhifədən çıxın",
     "stayButtonText": "Bu Səhifədə Qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -319,6 +321,7 @@
       "textTable": "Cədvəl",
       "textTableSize": "Cədvəl Ölçüsü",
       "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
@@ -554,5 +557,11 @@
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -158,7 +158,8 @@
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textRenameFile": "重命名文件",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "版本",
       "textVisioInfo": "图表查看器信息",
       "textVisioSettings": "图表查看器设置",
-      "textVisioTitle": "图表查看器标题"
+      "textVisioTitle": "图表查看器标题",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

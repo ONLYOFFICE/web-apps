@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Speichern",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Kopie speichern als",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Erweiterte Einstellungen",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "In den Mobilmodus wechseln",
   "PDFE.Views.FileMenu.btnToEditCaption": "Dokument bearbeiten",
   "PDFE.Views.FileMenu.textDownload": "Herunterladen",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Leeres Dokument",
@@ -1895,6 +1896,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Speichern als...",
   "PDFE.Views.Toolbar.capBtnSelect": "Auswählen",
   "PDFE.Views.Toolbar.capBtnShowComments": "Kommentare anzeigen",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stempel",
   "PDFE.Views.Toolbar.capBtnSubmit": "Senden",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Textaufruf",
   "PDFE.Views.Toolbar.capBtnTextComment": "Textkommentar",
@@ -1971,6 +1973,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Hervorhebungsfarbe",
   "PDFE.Views.Toolbar.tipIncFont": "Schriftart vergrößern",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Einzug vergrößern",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Stempel einfügen",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Textaufruf einfügen",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Textkommentar einfügen",
   "PDFE.Views.Toolbar.tipLastPage": "Zur letzten Seite gehen",
@@ -2037,7 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }

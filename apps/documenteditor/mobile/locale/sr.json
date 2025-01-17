@@ -27,6 +27,7 @@
     "textCurrentPosition": "Trenutna pozicija",
     "textDisplay": "Prikaz",
     "textDone": "Gotovo",
+    "textDrawing": "Crtanje",
     "textEmptyImgUrl": "Morate da naznačite URL slike.",
     "textEvenPage": "Jednaka stranica",
     "textFootnote": "Fusnota ",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Osveži samo brojeve stranice",
     "textRows": "Redovi",
     "txtWarnUrl": "Kliknuti na ovaj link može biti štetno za vaš uređaj i podatke.<br>Da li ste sigurni da želite da nastavite?"
+  },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
   },
   "Edit": {
     "notcriticalErrorTitle": "Upozorenje ",
@@ -813,6 +820,7 @@
     "textRenameFile": "Preimenuj Fajl",
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
-    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
+    "btnSwitchToDesktop": "Switch to Desktop"
   }
 }

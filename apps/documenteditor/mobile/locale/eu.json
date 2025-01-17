@@ -65,7 +65,8 @@
     "textTableSize": "Taularen tamaina",
     "textWithBlueLinks": "Esteka urdinekin",
     "textWithPageNumbers": "Orri-zenbakiekin",
-    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+    "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
     "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
     "warnEmptyRequiredField": "Bete derrigorrezko eremu guztiak formularioa bidaltzeko.",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

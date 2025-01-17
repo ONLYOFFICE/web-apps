@@ -29,6 +29,7 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textEvenPage": "Even Page",
     "textFootnote": "Footnote",
@@ -702,6 +703,7 @@
   "Toolbar": {
     "warnEmptyRequiredField": "Za pošiljanje obrazca izpolnite vsa potrebna polja,",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -712,6 +714,12 @@
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

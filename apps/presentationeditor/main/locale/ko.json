@@ -982,7 +982,7 @@
   "PE.Controllers.Main.errorStockChart": "잘못된 행 순서. 주식형 차트를 작성하려면 시트에 데이터를 다음과 같은 순서로 배치하십시오 : <br> 개시 가격, 최대 가격, 최소 가격, 마감 가격.",
   "PE.Controllers.Main.errorToken": "문서 보안 토큰이 올바르게 구성되지 않았습니다. <br> Document Server 관리자에게 문의하십시오.",
   "PE.Controllers.Main.errorTokenExpire": "문서 보안 토큰이 만료되었습니다. <br> Document Server 관리자에게 문의하십시오.",
-  "PE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+  "PE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
   "PE.Controllers.Main.errorUpdateVersionOnDisconnect": "네트워크 연결이 복원되었으며 파일 버전이 변경되었습니다. <br>계속 작업하기 전에 데이터 손실을 방지하기 위해 파일을 다운로드하거나 내용을 복사한 다음 이 페이지를 새로 고쳐야 합니다.",
   "PE.Controllers.Main.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
   "PE.Controllers.Main.errorUsersExceed": "가격 책정 계획에서 허용 한 사용자 수가 초과되었습니다.",
@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

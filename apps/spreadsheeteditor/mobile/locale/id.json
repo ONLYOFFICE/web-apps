@@ -449,7 +449,9 @@
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama berkas baru",
-    "textRenameFile": "Ganti Nama Berkas"
+    "textRenameFile": "Ganti Nama Berkas",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -862,5 +865,11 @@
       "txtZh": "China",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
@@ -443,19 +449,18 @@
     "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
-    "textOk": "OK",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textOk": "OK",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
-      "textDrawing": "Drawing",
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "notcriticalErrorTitle": "Warning",
@@ -479,6 +484,7 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
@@ -865,11 +871,5 @@
       "txtZh": "Chinese",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
-  },
-  "Draw": {
-    "textOpacity": "Opacity",
-    "textLineSize": "Line size",
-    "textColor": "Color",
-    "textCustomColor": "Custom color"
   }
 }

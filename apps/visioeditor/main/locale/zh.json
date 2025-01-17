@@ -417,5 +417,6 @@
   "VE.Views.ViewTab.textZoom": "缩放",
   "VE.Views.ViewTab.tipFitPage": "适合页面",
   "VE.Views.ViewTab.tipFitWidth": "适合宽度",
-  "VE.Views.ViewTab.tipInterfaceTheme": "界面主题"
+  "VE.Views.ViewTab.tipInterfaceTheme": "界面主题",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

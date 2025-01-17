@@ -4293,7 +4293,7 @@
   "SSE.Views.Toolbar.textTabDraw": "绘图",
   "SSE.Views.Toolbar.textTabFile": "文件",
   "SSE.Views.Toolbar.textTabFormula": "公式",
-  "SSE.Views.Toolbar.textTabHome": "首页",
+  "SSE.Views.Toolbar.textTabHome": "开始",
   "SSE.Views.Toolbar.textTabInsert": "插入",
   "SSE.Views.Toolbar.textTabLayout": "布局",
   "SSE.Views.Toolbar.textTabProtect": "保护",
@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "保护工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

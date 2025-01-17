@@ -3533,7 +3533,7 @@
   "DE.Views.Toolbar.textTabCollaboration": "协作",
   "DE.Views.Toolbar.textTabDraw": "绘图",
   "DE.Views.Toolbar.textTabFile": "文件",
-  "DE.Views.Toolbar.textTabHome": "首页",
+  "DE.Views.Toolbar.textTabHome": "开始",
   "DE.Views.Toolbar.textTabInsert": "插入",
   "DE.Views.Toolbar.textTabLayout": "布局",
   "DE.Views.Toolbar.textTabLinks": "参考",
@@ -3696,5 +3696,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

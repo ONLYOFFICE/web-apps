@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Gem som...",
   "PDFE.Views.Toolbar.capBtnSelect": "Vælg",
   "PDFE.Views.Toolbar.capBtnShowComments": "Show Comments",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Submit",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Text Callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Text Comment",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Fremhæv farve",
   "PDFE.Views.Toolbar.tipIncFont": "Increment font size",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Increase indent",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insert text callout",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Insert text comment",
   "PDFE.Views.Toolbar.tipLastPage": "Go to the last page",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

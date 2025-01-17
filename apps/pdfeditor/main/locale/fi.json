@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Tallenna nimellä...",
   "PDFE.Views.Toolbar.capBtnSelect": "Valitse",
   "PDFE.Views.Toolbar.capBtnShowComments": "Show Comments",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Lähetä",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Text Callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Text Comment",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Korosta väriä",
   "PDFE.Views.Toolbar.tipIncFont": "Lisää fontin kokoa",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Lisää sisennystä",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insert text callout",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Insert text comment",
   "PDFE.Views.Toolbar.tipLastPage": "Go to the last page",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Otsikot",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

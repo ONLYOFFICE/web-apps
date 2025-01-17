@@ -22,6 +22,7 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textFormat": "Format",
     "textImageURL": "Image URL",
@@ -660,6 +661,7 @@
   "Toolbar": {
     "warnEmptyRequiredField": "Udfyld alle obligatoriske felter for at sende formularen.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -712,6 +714,12 @@
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

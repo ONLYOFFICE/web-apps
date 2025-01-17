@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "حفظ باسم...",
   "PDFE.Views.Toolbar.capBtnSelect": "تحديد",
   "PDFE.Views.Toolbar.capBtnShowComments": "عرض التعليقات",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "إرسال",
   "PDFE.Views.Toolbar.capBtnTextCallout": "وسيلة شرح نصية",
   "PDFE.Views.Toolbar.capBtnTextComment": "تعليق للنص",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "لون تمييز النص",
   "PDFE.Views.Toolbar.tipIncFont": "تكبير حجم الخط",
   "PDFE.Views.Toolbar.tipIncPrLeft": "زيادة حجم المسافة البادئة",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "إدراج وسيلة شرح نصية",
   "PDFE.Views.Toolbar.tipInsertTextComment": "إدراج تعليق نصي",
   "PDFE.Views.Toolbar.tipLastPage": "انتقل إلى الصفحة الأخيرة",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

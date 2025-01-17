@@ -3696,5 +3696,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

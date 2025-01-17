@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Gorde honela...",
   "PDFE.Views.Toolbar.capBtnSelect": "Hautatu",
   "PDFE.Views.Toolbar.capBtnShowComments": "Erakutsi iruzkinak",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Bidali",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Text Callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Text Comment",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Nabarmentze-kolorea",
   "PDFE.Views.Toolbar.tipIncFont": "Increment font size",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Increase indent",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insert text callout",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Insert text comment",
   "PDFE.Views.Toolbar.tipLastPage": "Joan azken orrira",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -275,7 +275,9 @@
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
     "textCloseHistory": "Aizvērt vēsturi",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Slaida numurs",
       "textTable": "Tabula",
       "textTableSize": "Tabulas izmērs",
-      "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\""
+      "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",
@@ -554,5 +557,11 @@
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

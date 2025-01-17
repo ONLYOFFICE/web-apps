@@ -63,6 +63,7 @@
     "textTableContents": "Mündəricat",
     "textTableSize": "Cədvəl Ölçüsü",
     "txtNotUrl": "Bu sahədə \"http://www.example.com\" formatında URL olmalıdır",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -810,9 +811,16 @@
     "textOk": "OK",
     "warnEmptyRequiredField": "Tələb olunan bütün sahələri doldurub formanı göndərin.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

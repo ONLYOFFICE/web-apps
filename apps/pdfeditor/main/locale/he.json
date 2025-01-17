@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "שמור בשם...",
   "PDFE.Views.Toolbar.capBtnSelect": "בחר",
   "PDFE.Views.Toolbar.capBtnShowComments": "הצג הערות",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "הגשה",
   "PDFE.Views.Toolbar.capBtnTextCallout": "הסבר טקסט",
   "PDFE.Views.Toolbar.capBtnTextComment": "הערת טקסט",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "הדגש צבע",
   "PDFE.Views.Toolbar.tipIncFont": "הגדלת גופן ",
   "PDFE.Views.Toolbar.tipIncPrLeft": "הגדלת כניסה",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "הוספת הסבר טקסט",
   "PDFE.Views.Toolbar.tipInsertTextComment": "הוספת הערת טקסט",
   "PDFE.Views.Toolbar.tipLastPage": "מעבר לדף האחרון",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Αποθήκευση ως...",
   "PDFE.Views.Toolbar.capBtnSelect": "Επιλογή",
   "PDFE.Views.Toolbar.capBtnShowComments": "Εμφάνιση σχολίων",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Υποβολή",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Επεξήγηση κειμένου",
   "PDFE.Views.Toolbar.capBtnTextComment": "Σχόλιο κειμένου",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Χρώμα επισήμανσης",
   "PDFE.Views.Toolbar.tipIncFont": "Αύξηση μεγέθους γραμματοσειράς",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Αύξηση εσοχής",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Εισαγωγή επεξήγησης κειμένου",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Εισαγωγή σχολίου κειμένου",
   "PDFE.Views.Toolbar.tipLastPage": "Μετάβαση στην τελευταία σελίδα",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -65,7 +65,8 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
     "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

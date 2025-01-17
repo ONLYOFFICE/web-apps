@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

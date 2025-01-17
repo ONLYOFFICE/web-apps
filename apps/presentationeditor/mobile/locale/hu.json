@@ -276,7 +276,9 @@
     "stayButtonText": "Maradjon ezen az oldalon",
     "textCloseHistory": "Napló bezárása",
     "textEnterNewFileName": "Írjon be egy új fájlnevet",
-    "textRenameFile": "Fájl Átnevezése"
+    "textRenameFile": "Fájl Átnevezése",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -554,5 +557,11 @@
       "textVersionHistory": "Naplótörténet",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

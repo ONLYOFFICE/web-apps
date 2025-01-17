@@ -158,7 +158,8 @@
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
-    "textRenameFile": "Վերանվանել ֆայլը"
+    "textRenameFile": "Վերանվանել ֆայլը",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "Տարբերակ",
       "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
       "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
-      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր"
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

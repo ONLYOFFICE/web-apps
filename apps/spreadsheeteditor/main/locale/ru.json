@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Сохранить",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Сохранить копию как",
   "SSE.Views.FileMenu.btnSettingsCaption": "Дополнительные параметры",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Переключиться в мобильный режим",
   "SSE.Views.FileMenu.btnToEditCaption": "Редактировать таблицу",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустая таблица",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Создать новую",

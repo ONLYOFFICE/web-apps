@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Simpan Sebagai...",
   "PDFE.Views.Toolbar.capBtnSelect": "Pilih",
   "PDFE.Views.Toolbar.capBtnShowComments": "Tampilkan Komentar",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Kirim",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Text Callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Komentar Teks",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Warna sorot",
   "PDFE.Views.Toolbar.tipIncFont": "Naikkan ukuran fonta",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Naikkan indentasi",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insert text callout",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Sisipkan komentar teks",
   "PDFE.Views.Toolbar.tipLastPage": "Ke halaman terakhir",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

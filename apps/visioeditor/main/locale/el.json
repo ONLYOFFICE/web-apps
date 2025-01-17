@@ -392,11 +392,16 @@
   "VE.Views.LeftMenu.txtLimit": "Περιορισμός πρόσβασης",
   "VE.Views.LeftMenu.txtTrial": "ΚΑΤΑΣΤΑΣΗ ΔΟΚΙΜΑΣΤΙΚΗΣ ΛΕΙΤΟΥΡΓΙΑΣ",
   "VE.Views.LeftMenu.txtTrialDev": "Δοκιμαστική λειτουργία προγραμματιστή",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
   "VE.Views.Statusbar.tipFitPage": "Προσαρμογή στη σελίδα",
   "VE.Views.Statusbar.tipFitWidth": "Προσαρμογή στο πλάτος",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
   "VE.Views.Statusbar.tipZoomFactor": "Εστίαση",
   "VE.Views.Statusbar.tipZoomIn": "Μεγέθυνση",
   "VE.Views.Statusbar.tipZoomOut": "Σμίκρυνση",
+  "VE.Views.Statusbar.txtPage": "Page",
   "VE.Views.Toolbar.textTabFile": "Αρχείο",
   "VE.Views.Toolbar.textTabView": "Προβολή",
   "VE.Views.ViewTab.textAlwaysShowToolbar": "Καρφίτσωμα κορδέλας",
@@ -413,9 +418,5 @@
   "VE.Views.ViewTab.tipFitPage": "Προσαρμογή στη σελίδα",
   "VE.Views.ViewTab.tipFitWidth": "Προσαρμογή στο πλάτος",
   "VE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
-  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
-  "VE.Views.Statusbar.tipNext": "Next page",
-  "VE.Views.Statusbar.tipPrev": "Previous page",
-  "VE.Views.Statusbar.txtPage": "Page"
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Պահպանել որպես...",
   "PDFE.Views.Toolbar.capBtnSelect": "Ընտրել",
   "PDFE.Views.Toolbar.capBtnShowComments": "Ցույց տալ մեկնաբանությունները",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Հաստատել",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Տեքստային ծանոթագրություն",
   "PDFE.Views.Toolbar.capBtnTextComment": "Տեքստային մեկնաբանություն",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Ընտրվածքի գույն",
   "PDFE.Views.Toolbar.tipIncFont": "Մեծացնել տառատեսակի չափը",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Մեծացնել նահանջը",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Զետեղել տեքստային ծանոթագրություն",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Զետեղել տեքստային մեկնաբանություն",
   "PDFE.Views.Toolbar.tipLastPage": "Գնալ վերջին էջ",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

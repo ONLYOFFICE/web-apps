@@ -158,7 +158,8 @@
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή σε αυτήν τη σελίδα",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
-    "textRenameFile": "Μετονομασία αρχείου"
+    "textRenameFile": "Μετονομασία αρχείου",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "Έκδοση",
       "textVisioInfo": "Πληροφορίες προβολής διαγραμμάτων",
       "textVisioSettings": "Ρυθμίσεις προβολής διαγραμμάτων",
-      "textVisioTitle": "Τίτλος προγράμματος προβολής διαγραμμάτων"
+      "textVisioTitle": "Τίτλος προγράμματος προβολής διαγραμμάτων",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

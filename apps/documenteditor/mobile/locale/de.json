@@ -27,6 +27,7 @@
     "textCurrentPosition": "Aktuelle Position",
     "textDisplay": "Anzeigen",
     "textDone": "Fertig",
+    "textDrawing": "Zeichnen",
     "textEmptyImgUrl": "URL des Bildes erforderlich",
     "textEvenPage": "Gerade Seite",
     "textFootnote": "Fußnote",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Nur Seitenzahlen aktualisieren",
     "textRows": "Zeilen",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
+  },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
@@ -803,6 +810,7 @@
   },
   "Toolbar": {
     "btnSend": "Senden",
+    "btnSwitchToDesktop": "In den Desktopmodus wechseln",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",

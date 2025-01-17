@@ -276,7 +276,9 @@
     "stayButtonText": "Bu Sayfada Kal",
     "textCloseHistory": "Geçmişi kapat",
     "textEnterNewFileName": "Bir dosya ismi girin",
-    "textRenameFile": "Dosyayı yeniden adlandır."
+    "textRenameFile": "Dosyayı yeniden adlandır.",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -554,5 +557,11 @@
       "textVersion": "Sürüm",
       "textVersionHistory": "Sürüm Geçmişi "
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

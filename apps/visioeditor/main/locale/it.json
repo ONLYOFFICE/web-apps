@@ -417,5 +417,6 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Adatta alla pagina",
   "VE.Views.ViewTab.tipFitWidth": "Adatta alla larghezza",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

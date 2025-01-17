@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
@@ -270,20 +276,19 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
-    "textOk": "OK",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textOk": "OK",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
       "notcriticalErrorTitle": "Warning",
-      "textDrawing": "Drawing",
       "textAddLink": "Add Link",
       "textAddress": "Address",
       "textBack": "Back",
@@ -293,6 +298,7 @@
       "textDefault": "Selected text",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFirstSlide": "First Slide",
@@ -557,11 +563,5 @@
       "textVersion": "Version",
       "textVersionHistory": "Version History"
     }
-  },
-  "Draw": {
-    "textOpacity": "Opacity",
-    "textLineSize": "Line size",
-    "textColor": "Color",
-    "textCustomColor": "Custom color"
   }
 }

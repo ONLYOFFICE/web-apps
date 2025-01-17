@@ -610,7 +610,7 @@
   "Common.Views.CustomizeQuickAccessDialog.textQuickPrint": "طباعة سريعة",
   "Common.Views.CustomizeQuickAccessDialog.textRedo": "اعادة",
   "Common.Views.CustomizeQuickAccessDialog.textSave": "حفظ",
-  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "Show from Beginning",
+  "Common.Views.CustomizeQuickAccessDialog.textStartOver": "عرض من البداية",
   "Common.Views.CustomizeQuickAccessDialog.textTitle": "تخصيص الوصول السريع",
   "Common.Views.CustomizeQuickAccessDialog.textUndo": "تراجع",
   "Common.Views.DocumentAccessDialog.textLoading": "جار التحميل...",
@@ -659,7 +659,7 @@
   "Common.Views.Header.textSaveEnd": "تم حفظ كل التغييرات",
   "Common.Views.Header.textSaveExpander": "تم حفظ كل التغييرات",
   "Common.Views.Header.textShare": "مشاركة",
-  "Common.Views.Header.textStartOver": "Show from Beginning",
+  "Common.Views.Header.textStartOver": "عرض من البداية",
   "Common.Views.Header.textZoom": "تكبير/تصغير",
   "Common.Views.Header.tipAccessRights": "إدارة حقوق الوصول إلى المستند",
   "Common.Views.Header.tipCustomizeQuickAccessToolbar": "تخصيص شريط أدوات الوصول السريع",
@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -1070,7 +1070,7 @@
   "PE.Controllers.Main.txtDiagram": "איור חכם",
   "PE.Controllers.Main.txtDiagramTitle": "כותרת תרשים",
   "PE.Controllers.Main.txtEditingMode": "הגדרת מצב עריכה...",
-  "PE.Controllers.Main.txtEnd": "$סיום: {0}s",
+  "PE.Controllers.Main.txtEnd": "סיום: ${0}s",
   "PE.Controllers.Main.txtErrorLoadHistory": "טעינת ההיסטוריה נכשלה",
   "PE.Controllers.Main.txtFiguredArrows": "חצים מובנים",
   "PE.Controllers.Main.txtFirstSlide": "שקופית ראשונה",
@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

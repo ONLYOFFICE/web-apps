@@ -417,5 +417,6 @@
   "VE.Views.ViewTab.textZoom": "תקריב",
   "VE.Views.ViewTab.tipFitPage": "התאמה לדף",
   "VE.Views.ViewTab.tipFitWidth": "התאמה לרוחב",
-  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק"
+  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Salva come...",
   "PDFE.Views.Toolbar.capBtnSelect": "Seleziona",
   "PDFE.Views.Toolbar.capBtnShowComments": "Mostra i commenti",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "‎Invia‎",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Testo callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Commento del testo",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Colore di evidenziazione",
   "PDFE.Views.Toolbar.tipIncFont": "Aumenta dimensione caratteri ",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Aumenta rientro",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Inserisci callout di testo",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Inserisci commento di testo",
   "PDFE.Views.Toolbar.tipLastPage": "Vai all'ultima pagina",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

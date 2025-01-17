@@ -65,7 +65,8 @@
     "textTableSize": "גודל הטבלה",
     "textWithBlueLinks": "עם קישורים כחולים",
     "textWithPageNumbers": "עם מספרי עמודים",
-    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
+    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textRenameFile": "שינוי שם הקובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
     "textSwitchedStandardView": "החלפה לתצוגה רגילה",
-    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס."
+    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס.",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

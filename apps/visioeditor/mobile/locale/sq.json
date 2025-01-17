@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Për",
+    "textAbout": "Rreth",
     "textAddress": "Adresa",
     "textBack": "Mbrapa",
     "textEditor": "Redaktori i Visio-s",
@@ -158,7 +158,8 @@
     "leaveButtonText": "Lëre këtë faqe",
     "stayButtonText": "Qëndroni në këtë faqe",
     "textEnterNewFileName": "Futni një emër të skedarit",
-    "textRenameFile": "Fshij skedarin"
+    "textRenameFile": "Fshij skedarin",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -169,7 +170,7 @@
     },
     "Settings": {
       "notcriticalErrorTitle": "Paralajmërim",
-      "textAbout": "Për",
+      "textAbout": "Rreth",
       "textAddress": "adresa:",
       "textApplication": "Aplikim",
       "textApplicationSettings": "Cilësimet e aplikacionit",
@@ -207,7 +208,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Info Visio",
       "textVisioSettings": "Cilësimet e Visio",
-      "textVisioTitle": "Titulli i Visio"
+      "textVisioTitle": "Titulli i Visio",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

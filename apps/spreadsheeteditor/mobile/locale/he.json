@@ -449,7 +449,9 @@
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגירת היסטוריה",
     "textEnterNewFileName": "הזנת שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textRenameFile": "שינוי שם קובץ",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSorting": "מיון",
       "txtSortSelected": "מיון נבחר",
-      "txtYes": "כן"
+      "txtYes": "כן",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "אזהרה",
@@ -862,5 +865,11 @@
       "txtZh": "סינית",
       "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

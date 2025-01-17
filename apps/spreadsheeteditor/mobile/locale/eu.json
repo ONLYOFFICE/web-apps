@@ -449,7 +449,9 @@
     "stayButtonText": "Jarraitu orrian",
     "textCloseHistory": "Itxi historia",
     "textEnterNewFileName": "Idatzi fitxategi-izen berria",
-    "textRenameFile": "Berrizendatu fitxategia"
+    "textRenameFile": "Berrizendatu fitxategia",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtSorting": "Antolaketa",
       "txtSortSelected": "Antolatu hautaturiko objetuak",
       "txtYes": "Bai",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -862,5 +865,11 @@
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

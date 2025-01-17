@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "වැඩපොත ආරක්‍ෂණය",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "පත්‍රය අනාරක්‍ෂණයට මුරපදයක් යොදන්න",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

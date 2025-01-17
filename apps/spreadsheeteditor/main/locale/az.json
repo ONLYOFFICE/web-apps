@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "İş kitabını Qoruyun",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

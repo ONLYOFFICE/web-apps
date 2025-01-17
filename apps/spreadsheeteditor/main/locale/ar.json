@@ -782,7 +782,7 @@
   "SSE.Controllers.DataTab.strSheet": "ورقة",
   "SSE.Controllers.DataTab.textAddExternalData": "تمت إضافة الرابط إلى مصدر خارجي. بإمكانك تحديث هذه الروابط في تبويب البيانات.",
   "SSE.Controllers.DataTab.textColumns": "أعمدة",
-  "SSE.Controllers.DataTab.textContinue": "Continue",
+  "SSE.Controllers.DataTab.textContinue": "متابعة",
   "SSE.Controllers.DataTab.textDontUpdate": "عدم التحديث",
   "SSE.Controllers.DataTab.textEmptyUrl": "يجب تحديد الرابط",
   "SSE.Controllers.DataTab.textRows": "الصفوف",
@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "حماية المصنف",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

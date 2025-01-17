@@ -60,6 +60,7 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
@@ -685,6 +686,12 @@
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
@@ -855,12 +862,14 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   }
 }

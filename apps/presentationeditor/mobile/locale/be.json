@@ -272,10 +272,12 @@
   "Toolbar": {
     "leaveButtonText": "Сысці са старонкі",
     "stayButtonText": "Застацца на старонцы",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -316,6 +318,7 @@
       "textTableSize": "Памеры табліцы",
       "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
@@ -554,5 +557,11 @@
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

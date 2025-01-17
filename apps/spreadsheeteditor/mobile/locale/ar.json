@@ -449,7 +449,9 @@
     "stayButtonText": "ابقى في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textRenameFile": "إعادة تسمية الملف",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم"
+      "txtYes": "نعم",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -862,5 +865,11 @@
       "txtZh": "الصينية",
       "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -276,7 +276,9 @@
     "stayButtonText": "Jarraitu orrian",
     "textCloseHistory": "Itxi historia",
     "textEnterNewFileName": "Idatzi fitxategi-izen berria",
-    "textRenameFile": "Berrizendatu fitxategia"
+    "textRenameFile": "Berrizendatu fitxategia",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -554,5 +557,11 @@
       "textVersionHistory": "Bertsioen historia",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

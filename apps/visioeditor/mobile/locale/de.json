@@ -153,6 +153,7 @@
     "waitText": "Bitte warten..."
   },
   "Toolbar": {
+    "btnSwitchToDesktop": "In den Desktopmodus wechseln",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
@@ -196,6 +197,7 @@
       "textOwner": "Besitzer",
       "textPoweredBy": "Entwickelt von",
       "textPrint": "Drucken",
+      "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
       "textSameAsSystem": "Wie im System",
       "textSearch": "Suchen",
       "textSettings": "Einstellungen",
