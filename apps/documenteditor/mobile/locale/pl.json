@@ -58,6 +58,7 @@
     "textShape": "Kształt",
     "textTable": "Tabela",
     "textTableContents": "Spis treści",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textPasteImageUrl": "Paste an image URL",
     "textPosition": "Position",
@@ -808,11 +809,18 @@
     "textOk": "OK",
     "warnEmptyRequiredField": "Wypełnij wszystkie wymagane pola, aby wysłać formularz.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "stayButtonText": "Stay on this page",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

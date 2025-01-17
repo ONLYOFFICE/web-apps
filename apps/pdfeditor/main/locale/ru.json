@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Сохранить",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Сохранить копию как",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Дополнительные параметры",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Переключиться в мобильный режим",
   "PDFE.Views.FileMenu.btnToEditCaption": "Редактировать документ",
   "PDFE.Views.FileMenu.textDownload": "Скачать",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустой документ",
@@ -1895,6 +1896,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Сохранить как...",
   "PDFE.Views.Toolbar.capBtnSelect": "Выделить",
   "PDFE.Views.Toolbar.capBtnShowComments": "Показать комментарии",
+  "PDFE.Views.Toolbar.capBtnStamp": "Штамп",
   "PDFE.Views.Toolbar.capBtnSubmit": "Отправить",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Текстовая выноска",
   "PDFE.Views.Toolbar.capBtnTextComment": "Текстовый комментарий",
@@ -1971,6 +1973,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Цвет выделения",
   "PDFE.Views.Toolbar.tipIncFont": "Увеличить размер шрифта",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Увеличить отступ",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Вставить штамп",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Вставить текстовую выноску",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Вставить текстовый комментарий",
   "PDFE.Views.Toolbar.tipLastPage": "Перейти к последней странице",
@@ -2037,7 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
 }

@@ -917,7 +917,7 @@
   "PDFE.Controllers.Main.errorTextFormWrongFormat": "입력한 값이 필드 형식과 일치하지 않습니다.",
   "PDFE.Controllers.Main.errorToken": "문서 보안 토큰이 올바르게 구성되지 않았습니다.<br>Document Server 관리자에게 문의하십시오.",
   "PDFE.Controllers.Main.errorTokenExpire": "문서 보안 토큰이 만료되었습니다.<br>Document Server 관리자에게 문의하십시오.",
-  "PDFE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+  "PDFE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
   "PDFE.Controllers.Main.errorUpdateVersionOnDisconnect": "네트워크 연결이 복원되었습니다. 파일 버전이 변경되었습니다.<br>계속 작업하기 전에 파일을 다운로드하거나 파일 내용을 복사하여 손실된 항목이 없는지 확인한 다음 이 페이지를 다시 로드해야 합니다.",
   "PDFE.Controllers.Main.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
   "PDFE.Controllers.Main.errorUsersExceed": "가격 책정 계획에서 허용 한 사용자 수가 초과되었습니다",
@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Save As...",
   "PDFE.Views.Toolbar.capBtnSelect": "선택",
   "PDFE.Views.Toolbar.capBtnShowComments": "댓글 표시",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "전송",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Text Callout",
   "PDFE.Views.Toolbar.capBtnTextComment": "Text Comment",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Highlight color",
   "PDFE.Views.Toolbar.tipIncFont": "Increment font size",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Increase indent",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insert text callout",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Insert text comment",
   "PDFE.Views.Toolbar.tipLastPage": "마지막 페이지로 이동",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

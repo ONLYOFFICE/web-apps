@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste von Dokumenten zurückzukehren.",
@@ -443,12 +449,14 @@
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
   },
   "Toolbar": {
+    "btnSwitchToDesktop": "In den Desktopmodus wechseln",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
     "textCloseHistory": "Historie schließen",
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
+    "textOk": "OK",
     "textRenameFile": "Datei umbenennen"
   },
   "View": {
@@ -476,6 +484,7 @@
       "textDataTableHint": "Gibt die Datenzellen der Tabelle oder der angegebenen Tabellenspalten zurück",
       "textDisplay": "Anzeigen",
       "textDone": "Fertig",
+      "textDrawing": "Zeichnen",
       "textEmptyImgUrl": "Sie müssen die URL des Bildes angeben.",
       "textExternalLink": "Externer Link",
       "textFilter": "Filter",

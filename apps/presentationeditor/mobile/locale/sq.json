@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "për",
+    "textAbout": "Rreth",
     "textAddress": "Adresa",
     "textBack": "Mbrapa",
     "textEditor": "Redaktori i prezantimeve",
@@ -123,8 +123,8 @@
         "Median": "Mediana",
         "None": "Asnjë",
         "Office": "Zyrë",
-        "Office 2007 - 2010": "Office 2007 - 2010",
-        "Office 2013 - 2022": "Office 2013 - 2022",
+        "Office 2007 - 2010": "Office 2007-2010",
+        "Office 2013 - 2022": "Office 2013-2022",
         "Orange": "Portokalli",
         "Orange Red": "Portokalli Kuq",
         "Paper": "Letër",
@@ -182,6 +182,12 @@
       "warnNoLicenseUsers": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontakto ekipin e shitjeve %1 për kushtet e përmirësimit personal.",
       "warnProcessRightsChange": "Ju nuk keni të drejtë të redaktoni skedarin."
     }
+  },
+  "Draw": {
+    "textColor": "Ngjyrë",
+    "textCustomColor": "Ngjyrë e personalizuar",
+    "textLineSize": "Madhësia e linjës",
+    "textOpacity": "Shkallë transparence"
   },
   "Error": {
     "convertationTimeoutText": "Koha e konvertimit u tejkalua.",
@@ -276,7 +282,9 @@
     "stayButtonText": "Qëndroni në këtë faqe",
     "textCloseHistory": "Mbyll historinë",
     "textEnterNewFileName": "Futni një emër të skedarit",
-    "textRenameFile": "Fshij skedarin"
+    "textOk": "OK",
+    "textRenameFile": "Fshij skedarin",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -290,6 +298,7 @@
       "textDefault": "Teksti i zgjedhur",
       "textDisplay": "Ekran",
       "textDone": "Përfunduar",
+      "textDrawing": "Vizatim",
       "textEmptyImgUrl": "Ju duhet të specifikoni foton URL.",
       "textExternalLink": "Lidhje e jashtme",
       "textFirstSlide": "Slajdi i parë",
@@ -331,7 +340,7 @@
       "textAfter": "pas",
       "textAlign": "Rregulloj",
       "textAlignBottom": "Rregullo fundin",
-      "textAlignCenter": "Rregullo qendrën",
+      "textAlignCenter": "Rregullo në qendër",
       "textAlignLeft": "Rregullo majtas",
       "textAlignMiddle": "Rregullo në mes",
       "textAlignRight": "Rregullo djathtas",
@@ -490,7 +499,7 @@
       "mniSlideStandard": "Standardi (4:3)",
       "mniSlideWide": "Ekran i gjerë (16:9)",
       "notcriticalErrorTitle": "Paralajmërim",
-      "textAbout": "për",
+      "textAbout": "Rreth",
       "textAddress": "adresa:",
       "textApplication": "Aplikim",
       "textApplicationSettings": "Cilësimet e aplikacionit",

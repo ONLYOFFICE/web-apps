@@ -1214,7 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Poravnanje matrice",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Umetni praznu stranicu posle",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Umetni praznu stranicu pre",
-  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Prozirnost",
   "PDFE.Views.DocumentHolder.txtOverbar": "Traka preko teksta",
   "PDFE.Views.DocumentHolder.txtPressLink": "Pritisnite {0} i kliknite na link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Štampaj selekciju",
@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Sačuvaj kao...",
   "PDFE.Views.Toolbar.capBtnSelect": "Odaberi",
   "PDFE.Views.Toolbar.capBtnShowComments": "Prikaži Komentare",
+  "PDFE.Views.Toolbar.capBtnStamp": "Pečat",
   "PDFE.Views.Toolbar.capBtnSubmit": "Podnesi",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Tekstualni oblačić",
   "PDFE.Views.Toolbar.capBtnTextComment": "Tekstualni komentar",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Istakni boju",
   "PDFE.Views.Toolbar.tipIncFont": "Povećaj veličinu fonta",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Uvećaj uvlačenje",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Ubaci pečat",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Ubaci tekstualni oblačić",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Unesi tekstualni komentar",
   "PDFE.Views.Toolbar.tipLastPage": "Idi na zadnju stranicu",
@@ -2012,7 +2014,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Razmesti vertikalno",
   "PDFE.Views.Toolbar.txtGroup": "Grupa",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Poravnaj odabrane predmete",
-  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
+  "PDFE.Views.Toolbar.txtOpacity": "Prozirnost",
   "PDFE.Views.Toolbar.txtPageAlign": "Poravnaj do strane",
   "PDFE.Views.Toolbar.txtRotateLeft": "Rotiraj levo",
   "PDFE.Views.Toolbar.txtRotatePage": "Rotiraj stranicu",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

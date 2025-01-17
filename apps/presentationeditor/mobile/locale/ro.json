@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
+  },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
@@ -270,12 +276,14 @@
     "waitText": "Vă rugăm să așteptați..."
   },
   "Toolbar": {
+    "btnSwitchToDesktop": "Comutare la modul Desktop",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textOk": "OK",
     "textRenameFile": "Redenumire fișier"
   },
   "View": {
@@ -290,6 +298,7 @@
       "textDefault": "Textul selectat",
       "textDisplay": "Afișare",
       "textDone": "Gata",
+      "textDrawing": "Desenare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFirstSlide": "Primul diapozitiv",

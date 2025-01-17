@@ -276,7 +276,9 @@
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגור היסטוריה",
     "textEnterNewFileName": "הזן שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textRenameFile": "שינוי שם קובץ",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "מספר שקופית",
       "textTable": "טבלה",
       "textTableSize": "גודל טבלה",
-      "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
+      "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "אזהרה",
@@ -554,5 +557,11 @@
       "textVersion": "גרסה",
       "textVersionHistory": "היסטוריית גרסאות"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

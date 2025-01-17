@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Uložit jako...",
   "PDFE.Views.Toolbar.capBtnSelect": "Vybrat",
   "PDFE.Views.Toolbar.capBtnShowComments": "Zobrazit komentáře",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Odeslat",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Textová bublina",
   "PDFE.Views.Toolbar.capBtnTextComment": "Textový komentář",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Barva zvýraznění",
   "PDFE.Views.Toolbar.tipIncFont": "Zvětšit velikost písma",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Zvětšit odsazení",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Vložit textové bubliny",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Vložit textový komentář",
   "PDFE.Views.Toolbar.tipLastPage": "Přejít na poslední stránku",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Сачувај као...",
   "PDFE.Views.Toolbar.capBtnSelect": "Одабери",
   "PDFE.Views.Toolbar.capBtnShowComments": "Прикажи коментаре",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Поднеси",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Текстуални Облачић",
   "PDFE.Views.Toolbar.capBtnTextComment": "Текстуални коментар",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Истакни боју",
   "PDFE.Views.Toolbar.tipIncFont": "Повећај величину фонта",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Увећај увлачење",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Убаци текстуални облачић",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Унеси текстуални коментар",
   "PDFE.Views.Toolbar.tipLastPage": "Иди на задњу страницу",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

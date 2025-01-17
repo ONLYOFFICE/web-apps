@@ -158,7 +158,8 @@
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textRenameFile": "إعادة تسمية الملف",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "الإصدار",
       "textVisioInfo": "معلومات عارض المخططات",
       "textVisioSettings": "إعدادات عارض المخططات",
-      "textVisioTitle": "عنوان عارض المخططات"
+      "textVisioTitle": "عنوان عارض المخططات",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

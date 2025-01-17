@@ -65,7 +65,8 @@
     "textTableSize": "වගුවේ ප්‍රමාණය",
     "textWithBlueLinks": "නිල් සබැඳි සමඟ",
     "textWithPageNumbers": "පිටු අංක සමඟ",
-    "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය."
+    "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textRenameFile": "ගොනුව නම් කරන්න",
     "textSwitchedMobileView": "ජංගම දැක්මට මාරු විය",
     "textSwitchedStandardView": "සම්මත දැක්මට මාරු විය",
-    "warnEmptyRequiredField": "ආකෘතිපත්‍රය යැවීමට වුවමනා සියළුම ක්‍ෂේත්‍ර පුරවන්න."
+    "warnEmptyRequiredField": "ආකෘතිපත්‍රය යැවීමට වුවමනා සියළුම ක්‍ෂේත්‍ර පුරවන්න.",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

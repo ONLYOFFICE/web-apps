@@ -1109,7 +1109,7 @@
   "SSE.Controllers.Main.errorToken": "문서 보안 토큰이 올바르게 구성되지 않았습니다. <br> Document Server 관리자에게 문의하십시오.",
   "SSE.Controllers.Main.errorTokenExpire": "문서 보안 토큰이 만료되었습니다. <br> Document Server 관리자에게 문의하십시오.",
   "SSE.Controllers.Main.errorUnexpectedGuid": "외부 오류입니다. <br> 예기치 않은 GUID 오류가 계속 발생하면 지원 담당자에게 문의하십시오.",
-  "SSE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+  "SSE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
   "SSE.Controllers.Main.errorUpdateVersionOnDisconnect": "네트워크 연결이 복원되었으며 파일 버전이 변경되었습니다. <br>계속 작업하기 전에 데이터 손실을 방지하기 위해 파일을 다운로드하거나 내용을 복사한 다음 이 페이지를 새로 고쳐야 합니다.",
   "SSE.Controllers.Main.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
   "SSE.Controllers.Main.errorUsersExceed": "요금제에서 허용하는 사용자 수 초과",
@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "통합 문서 보호",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요."
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

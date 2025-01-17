@@ -4570,5 +4570,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Beveilig werkboek",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het blad op te heffen",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

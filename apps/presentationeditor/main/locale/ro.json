@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Salvează",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Salvare copie ca",
   "PE.Views.FileMenu.btnSettingsCaption": "Setări avansate",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Comutare la modul Mobil",
   "PE.Views.FileMenu.btnToEditCaption": "Editarea prezentării",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Prezentare necompletată",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Creare nou",

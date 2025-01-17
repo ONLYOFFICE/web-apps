@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Enregistrer sous...",
   "PDFE.Views.Toolbar.capBtnSelect": "Sélectionner",
   "PDFE.Views.Toolbar.capBtnShowComments": "Afficher les commentaires",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "Envoyer",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Légende",
   "PDFE.Views.Toolbar.capBtnTextComment": "Commentaire texte",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Couleur de surlignage",
   "PDFE.Views.Toolbar.tipIncFont": "Augmenter la taille de police",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Augmenter le retrait",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Insérer une légende",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Insérer un commentaire texte",
   "PDFE.Views.Toolbar.tipLastPage": "Aller à la dernière page",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

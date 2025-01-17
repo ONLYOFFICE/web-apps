@@ -276,7 +276,9 @@
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
@@ -554,5 +557,11 @@
       "textVersion": "Versão",
       "textVersionHistory": "Histórico de versão"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

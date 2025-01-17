@@ -65,7 +65,8 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "带蓝色链接",
     "textWithPageNumbers": "带页码",
-    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+    "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textRenameFile": "重命名文件",
     "textSwitchedMobileView": "切换到“移动设备”视图",
     "textSwitchedStandardView": "切换到标准视图",
-    "warnEmptyRequiredField": "要发送表单，请填写所有必填项。"
+    "warnEmptyRequiredField": "要发送表单，请填写所有必填项。",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

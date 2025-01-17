@@ -59,6 +59,7 @@
     "textTableSize": "Tabelgrootte",
     "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textOk": "Ok",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
@@ -808,11 +809,18 @@
     "stayButtonText": "Op deze pagina blijven",
     "warnEmptyRequiredField": "Vul alle verplichte velden in om het formulier te verzenden.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

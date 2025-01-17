@@ -1895,6 +1895,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "另存为...",
   "PDFE.Views.Toolbar.capBtnSelect": "请选择",
   "PDFE.Views.Toolbar.capBtnShowComments": "显示批注",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
   "PDFE.Views.Toolbar.capBtnSubmit": "提交",
   "PDFE.Views.Toolbar.capBtnTextCallout": "文本标注",
   "PDFE.Views.Toolbar.capBtnTextComment": "文本批注",
@@ -1945,7 +1946,7 @@
   "PDFE.Views.Toolbar.textTabComment": "批注",
   "PDFE.Views.Toolbar.textTabEdit": "编辑",
   "PDFE.Views.Toolbar.textTabFile": "文件",
-  "PDFE.Views.Toolbar.textTabHome": "首页",
+  "PDFE.Views.Toolbar.textTabHome": "开始",
   "PDFE.Views.Toolbar.textTabInsert": "插入",
   "PDFE.Views.Toolbar.textTabView": "视图",
   "PDFE.Views.Toolbar.textUnderline": "下划线",
@@ -1971,6 +1972,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "高亮色",
   "PDFE.Views.Toolbar.tipIncFont": "增加字体大小",
   "PDFE.Views.Toolbar.tipIncPrLeft": "增加缩进",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "插入文字标注",
   "PDFE.Views.Toolbar.tipInsertTextComment": "插入文字批注",
   "PDFE.Views.Toolbar.tipLastPage": "转到最后一页",
@@ -2038,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

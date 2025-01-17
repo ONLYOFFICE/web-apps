@@ -417,5 +417,6 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

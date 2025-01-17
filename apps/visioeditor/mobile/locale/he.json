@@ -158,7 +158,8 @@
     "leaveButtonText": "יציאה מדף זה",
     "stayButtonText": "להישאר בדף זה",
     "textEnterNewFileName": "נא להזין שם חדש לקובץ",
-    "textRenameFile": "שינוי שם הקובץ"
+    "textRenameFile": "שינוי שם הקובץ",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "גרסה ",
       "textVisioInfo": "מידע אודות מציג התרשימים",
       "textVisioSettings": "הגדרות מציג התרשימים",
-      "textVisioTitle": "כותרת מציג התרשימים"
+      "textVisioTitle": "כותרת מציג התרשימים",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

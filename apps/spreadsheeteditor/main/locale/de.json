@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Speichern",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Kopie speichern als",
   "SSE.Views.FileMenu.btnSettingsCaption": "Erweiterte Einstellungen",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "In den Mobilmodus wechseln",
   "SSE.Views.FileMenu.btnToEditCaption": "Tabelle bearbeiten",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Leere Tabellenkalkulation",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Neue Kalkulationstabelle erstellen",

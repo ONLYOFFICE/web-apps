@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Salvare",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Salvare copie ca",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Setări avansate",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Comutare la modul Mobil",
   "PDFE.Views.FileMenu.btnToEditCaption": "Editare document",
   "PDFE.Views.FileMenu.textDownload": "Descărcare",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Document necompletat",
@@ -1895,6 +1896,7 @@
   "PDFE.Views.Toolbar.capBtnSaveFormDesktop": "Salvare ca...",
   "PDFE.Views.Toolbar.capBtnSelect": "Selectare",
   "PDFE.Views.Toolbar.capBtnShowComments": "Afișare comentarii",
+  "PDFE.Views.Toolbar.capBtnStamp": "Ștampilă",
   "PDFE.Views.Toolbar.capBtnSubmit": "Trimitere",
   "PDFE.Views.Toolbar.capBtnTextCallout": "Bulă cu text",
   "PDFE.Views.Toolbar.capBtnTextComment": "Comentariu text",
@@ -1971,6 +1973,7 @@
   "PDFE.Views.Toolbar.tipHighlightColor": "Culoare de evidențiere",
   "PDFE.Views.Toolbar.tipIncFont": "Creștere font",
   "PDFE.Views.Toolbar.tipIncPrLeft": "Creștere nivel indentare",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Adăugare ștampilă",
   "PDFE.Views.Toolbar.tipInsertTextCallout": "Inserare bulă cu text",
   "PDFE.Views.Toolbar.tipInsertTextComment": "Inserare comentariu text",
   "PDFE.Views.Toolbar.tipLastPage": "Ultima pagină",
@@ -2037,7 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Portivire la pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Potrivire lățime",
   "PDFE.Views.ViewTab.tipHeadings": "Titluri",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
-  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
-  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață"
 }

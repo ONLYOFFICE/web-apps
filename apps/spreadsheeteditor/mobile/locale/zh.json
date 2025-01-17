@@ -449,7 +449,9 @@
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textRenameFile": "重命名文件",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序中",
       "txtSortSelected": "对所选内容排序",
-      "txtYes": "是"
+      "txtYes": "是",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -862,5 +865,11 @@
       "txtZh": "中文",
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

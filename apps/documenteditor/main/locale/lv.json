@@ -3696,5 +3696,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

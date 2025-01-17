@@ -65,6 +65,7 @@
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
@@ -810,9 +811,16 @@
     "textOk": "Aceptar",
     "warnEmptyRequiredField": "Encha todos os campos obrigatorios para poder enviar o formulario.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

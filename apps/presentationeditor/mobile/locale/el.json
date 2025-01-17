@@ -276,7 +276,9 @@
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
-    "textRenameFile": "Μετονομασία αρχείου"
+    "textRenameFile": "Μετονομασία αρχείου",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "Αριθμός διαφάνειας",
       "textTable": "Πίνακας",
       "textTableSize": "Μέγεθος πίνακα",
-      "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»"
+      "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -554,5 +557,11 @@
       "textVersion": "Έκδοση",
       "textVersionHistory": "Ιστορικό εκδόσεων"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

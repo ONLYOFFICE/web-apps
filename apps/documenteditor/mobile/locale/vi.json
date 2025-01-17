@@ -65,7 +65,8 @@
     "textDone": "Done",
     "textRecommended": "Recommended",
     "textRequired": "Required",
-    "textPasteImageUrl": "Paste an image URL"
+    "textPasteImageUrl": "Paste an image URL",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -847,6 +848,13 @@
     "textEnterNewFileName": "Enter a new file name",
     "textCloseHistory": "Close History",
     "btnSend": "Send",
-    "warnEmptyRequiredField": "Fill all required fields to send form."
+    "warnEmptyRequiredField": "Fill all required fields to send form.",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

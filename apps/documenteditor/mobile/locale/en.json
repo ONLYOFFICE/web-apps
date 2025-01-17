@@ -27,10 +27,10 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textEvenPage": "Even Page",
     "textFootnote": "Footnote",
-    "textDrawing": "Drawing",
     "textFormat": "Format",
     "textImage": "Image",
     "textImageURL": "Image URL",
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
@@ -816,11 +822,5 @@
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
     "warnEmptyRequiredField": "Fill all required fields to send form."
-  },
-  "Draw": {
-    "textOpacity": "Opacity",
-    "textLineSize": "Line size",
-    "textColor": "Color",
-    "textCustomColor": "Custom color"
   }
 }

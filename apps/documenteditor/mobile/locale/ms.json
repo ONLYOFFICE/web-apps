@@ -61,6 +61,7 @@
     "textTableSize": "Saiz Jadual",
     "txtNotUrl": "Medan ini perlu sebagai URL dalam \"http://www.example.com\" formatnya",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
@@ -809,10 +810,17 @@
     "textOk": "Okey",
     "warnEmptyRequiredField": "Isi semua medan diperlukan untuk menyerahkan borang.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

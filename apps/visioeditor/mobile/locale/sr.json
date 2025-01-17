@@ -158,7 +158,8 @@
     "leaveButtonText": "Napustite ovu stranicu",
     "stayButtonText": "Ostanite na ovoj stranici",
     "textEnterNewFileName": "Unesite novo ime datoteke",
-    "textRenameFile": "Preimenuj datoteku"
+    "textRenameFile": "Preimenuj datoteku",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "Verzija",
       "textVisioInfo": "Informacije o pregledaču dijagrama",
       "textVisioSettings": "Podešavanja pregledača dijagrama",
-      "textVisioTitle": "Naslov pregledača dijagrama"
+      "textVisioTitle": "Naslov pregledača dijagrama",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

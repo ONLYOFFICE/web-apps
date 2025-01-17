@@ -3696,5 +3696,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

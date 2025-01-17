@@ -417,5 +417,6 @@
   "VE.Views.ViewTab.textZoom": "Zumiranje",
   "VE.Views.ViewTab.tipFitPage": "Prilagodi stranici",
   "VE.Views.ViewTab.tipFitWidth": "Prilagodi širini",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

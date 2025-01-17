@@ -156,6 +156,7 @@
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "textEnterNewFileName": "Introduza o nome para o ficheiro",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textRenameFile": "Rename File"
@@ -198,6 +199,7 @@
       "textOwner": "Owner",
       "textPoweredBy": "Powered By",
       "textPrint": "Print",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
       "textSettings": "Settings",
       "textSubject": "Subject",

@@ -65,7 +65,8 @@
     "textTableSize": "Табела величина",
     "textWithBlueLinks": "Са плавим линковима",
     "textWithPageNumbers": "Са бројевима страница",
-    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
+    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
     "textSwitchedStandardView": "Пребачено на стандардни приказ",
-    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца."
+    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца.",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

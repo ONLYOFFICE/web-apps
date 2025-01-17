@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
   },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
+  },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisni 'OK' da se vratiš na listu dokumenata.",
@@ -276,7 +282,9 @@
     "stayButtonText": "Ostani na ovoj stranici",
     "textCloseHistory": "Zatvori Istoriju",
     "textEnterNewFileName": "Unesi novo ime fajla",
-    "textRenameFile": "Preimenuj fajl"
+    "textOk": "OK",
+    "textRenameFile": "Preimenuj fajl",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -290,6 +298,7 @@
       "textDefault": "Odabrani tekst",
       "textDisplay": "Ekran",
       "textDone": "Gotovo",
+      "textDrawing": "Crtanje",
       "textEmptyImgUrl": "Morate da specifikujete URL slike.",
       "textExternalLink": "Spoljni link",
       "textFirstSlide": "Prvi slajd",

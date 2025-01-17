@@ -60,6 +60,7 @@
     "textTableSize": "Розмір таблиці",
     "txtNotUrl": "Це поле має бути URL-адресою у форматі \"http://www.example.com\"",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
@@ -808,11 +809,18 @@
     "stayButtonText": "Залишитися на сторінці",
     "warnEmptyRequiredField": "Заповніть всі обов'язкові поля для відправлення форми.",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

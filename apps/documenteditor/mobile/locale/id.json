@@ -65,7 +65,8 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
     "textSwitchedStandardView": "Beralih ke Tampilan standar",
     "warnEmptyRequiredField": "Isi semua ruas yang dibutuhkan untuk mengirim formulir.",
-    "btnSend": "Send"
+    "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

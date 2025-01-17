@@ -2711,7 +2711,7 @@
   "PE.Views.Toolbar.capInsertTextArt": "艺术字",
   "PE.Views.Toolbar.capInsertVideo": "视频",
   "PE.Views.Toolbar.capTabFile": "文件",
-  "PE.Views.Toolbar.capTabHome": "首页",
+  "PE.Views.Toolbar.capTabHome": "开始",
   "PE.Views.Toolbar.capTabInsert": "插入",
   "PE.Views.Toolbar.mniCapitalizeWords": "每个单词首字母大写",
   "PE.Views.Toolbar.mniCustomTable": "插入自定义表格",
@@ -2799,7 +2799,7 @@
   "PE.Views.Toolbar.textTabDesign": "设计",
   "PE.Views.Toolbar.textTabDraw": "绘图",
   "PE.Views.Toolbar.textTabFile": "文件",
-  "PE.Views.Toolbar.textTabHome": "首页",
+  "PE.Views.Toolbar.textTabHome": "开始",
   "PE.Views.Toolbar.textTabInsert": "插入",
   "PE.Views.Toolbar.textTable": "表格",
   "PE.Views.Toolbar.textTabProtect": "保护",
@@ -2978,5 +2978,6 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
 }

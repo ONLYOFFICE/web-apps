@@ -65,7 +65,8 @@
     "textTableSize": "Tamaño de tabla",
     "textWithBlueLinks": "Con enlaces azules",
     "textWithPageNumbers": "Con números de página",
-    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -813,6 +814,13 @@
     "textRenameFile": "Renombrar archivo",
     "textSwitchedMobileView": "Cambiado a vista móvil",
     "textSwitchedStandardView": "Cambiado a vista estándar",
-    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario."
+    "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario.",
+    "btnSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -449,7 +449,9 @@
     "stayButtonText": "Ficar na página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Introduza o nome para o ficheiro",
-    "textRenameFile": "Mudar nome do ficheiro"
+    "textRenameFile": "Mudar nome do ficheiro",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -513,7 +515,8 @@
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSorting": "Ordenação",
       "txtSortSelected": "Ordenar seleção",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -862,5 +865,11 @@
       "txtZh": "Chinês",
       "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

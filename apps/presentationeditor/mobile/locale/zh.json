@@ -276,7 +276,9 @@
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textRenameFile": "重命名文件",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK"
   },
   "View": {
     "Add": {
@@ -319,7 +321,8 @@
       "textSlideNumber": "幻灯片编号",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL"
+      "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -554,5 +557,11 @@
       "textVersion": "版本",
       "textVersionHistory": "版本历史"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

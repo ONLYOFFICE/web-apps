@@ -447,8 +447,10 @@
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
     "stayButtonText": "Bu Sayfada Kal",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
+    "textOk": "OK",
     "textRenameFile": "Rename File"
   },
   "View": {
@@ -511,6 +513,7 @@
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textPasteImageUrl": "Paste an image URL",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
@@ -862,5 +865,11 @@
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

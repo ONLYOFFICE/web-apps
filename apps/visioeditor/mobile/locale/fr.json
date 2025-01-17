@@ -158,7 +158,8 @@
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textRenameFile": "Renommer le fichier",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +208,8 @@
       "textVersion": "Version",
       "textVisioInfo": "Info sur Visio",
       "textVisioSettings": "Paramètres de Visio",
-      "textVisioTitle": "Titre du visualiseur de diagramme"
+      "textVisioTitle": "Titre du visualiseur de diagramme",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

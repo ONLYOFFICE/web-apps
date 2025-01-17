@@ -65,7 +65,8 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "含有藍色連結",
     "textWithPageNumbers": "含有頁碼",
-    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。"
+    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -811,8 +812,15 @@
     "textSwitchedStandardView": "切換至標準版檢視",
     "warnEmptyRequiredField": "填寫所有必填欄位以傳送表單。",
     "btnSend": "Send",
+    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }
