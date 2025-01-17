@@ -277,7 +277,8 @@
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "btnSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

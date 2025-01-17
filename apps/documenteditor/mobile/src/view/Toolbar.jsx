@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, Link } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -66,6 +68,12 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
+                    !Device.phone && <Link key='desktop-link' iconOnly href={false}
+                                           className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                                           onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                                 className={'icon icon-svg'} />
+                                    </Link>,
                     ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();
@@ -93,6 +101,12 @@ const ToolbarView = props => {
                     : null),
                     <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
                 ] : [
+                    // /!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                    //                        className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                    //                        onClick={() => props.forceDesktopMode()}>
+                    //                     <SvgIcon symbolId={IconSwitchToDesktop.id}
+                    //                              className={'icon icon-svg'} />
+                    //                 </Link>,
                     <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
                     <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
                     (props.canSubmitForms ?

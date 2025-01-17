@@ -252,6 +252,7 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                        disableForceDesktop: false // hide or show UI option to switch editor in 'Desktop' type
                     },
                     submitForm: {
                         visible: true/false (default: true)
@@ -433,6 +434,15 @@
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
+                    } else
+                    if (msg.event === 'onSwitchEditorType' && !handler) {
+                        if ( msg.data ) {
+                            if ( typeof msg.data.type == 'string' )
+                                localStorage.setItem('asc-force-editor-type', msg.data.type);
+
+                            if ( msg.data.restart )
+                                window.location.reload();
+                        }
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
@@ -1013,6 +1023,34 @@
         return "";
     }
 
+    function isLocalStorageAvailable() {
+        try {
+            const storage = window['localStorage'];
+            return true;
+        }
+        catch(e) {
+            return false;
+        }
+    }
+
+    function correct_app_type(type) {
+        if ( type == 'mobile' ) {
+            if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
+                    config.editorConfig.customization.mobile.disableForceDesktop !== true )
+            {
+                if ( isLocalStorageAvailable() ) {
+                    const f = localStorage.getItem('asc-force-editor-type');
+                    if ( f === 'desktop' ) {
+                        config.editorConfig.forceDesktop = true;
+                        return 'desktop';
+                    }
+                }
+            }
+        }
+
+        return type;
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
             path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
@@ -1041,13 +1079,14 @@
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
+        var corrected_type = correct_app_type(config.type);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
-            appType = config.type === 'mobile' ||  config.type === 'embedded' ? 'word' : 'pdf';
+            appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
             isForm = config.document ? config.document.isForm : undefined;
-            if (config.type === 'embedded')
+            if (corrected_type === 'embedded')
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
-            else if (config.type !== 'mobile')
+            else if (corrected_type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
         } else if (type && typeof type[5] === 'string') { // oform|docxf
             appType = 'word';
@@ -1064,8 +1103,8 @@
             path = extendAppPath(config, path);
         path += appMap[appType];
 
-        const path_type = config.type === "mobile" ? "mobile" :
-                          config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+        const path_type = corrected_type === "mobile" ? "mobile" :
+                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 

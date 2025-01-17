@@ -437,6 +437,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {

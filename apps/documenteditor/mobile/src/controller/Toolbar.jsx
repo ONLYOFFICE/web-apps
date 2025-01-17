@@ -219,6 +219,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.ChangeReaderMode();
     }
 
+    const forceDesktopMode = () => {
+        f7.dialog.create({
+            text: t('Settings.textRestartApplication'),
+            title: t('Settings.notcriticalErrorTitle'),
+            buttons: [
+                {
+                    text: t('Edit.textCancel')
+                },
+                {
+                    text: t('Toolbar.btnSwitchToDesktop'),
+                    onClick: () => Common.Gateway.switchEditorType('desktop', true),
+                }
+            ]}
+        ).open();
+    }
+
     const changeTitleHandler = () => {
         if(!appOptions.canRename) return;
 
@@ -424,6 +440,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             isForm={appOptions.isForm}
             canFillForms={appOptions.canFillForms}
             canSubmitForms={appOptions.canSubmitForms}
+            forceDesktopMode={forceDesktopMode}
         />
     )
 }));

@@ -558,6 +558,22 @@ define([
                         iconCls: 'menu__icon btn-close'
                     }));
             }
+
+            if ( this.mode.canSwitchToMobile ) {
+                $('<li id="fm-btn-switchmobile" class="fm-btn"></li>').insertBefore($('#fm-btn-settings', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-switchmobile', this.$el),
+                        action  : 'switch:mobile',
+                        caption : this.btnSwitchToMobileCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [-2, 22],
+                        iconCls: 'menu__icon btn-switch-mobile'
+                    }));
+            }
+
         },
 
         setMode: function(mode, delay) {

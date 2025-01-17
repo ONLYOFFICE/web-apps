@@ -3,6 +3,8 @@ import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -47,6 +49,12 @@ const ToolbarView = props => {
             }
             <NavRight>
                 {(Device.android && !isVersionHistoryMode) && undo_box}
+                {!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                                       className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                                       onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                             className={'icon icon-svg'} />
+                    </Link>}
                 {(props.showEditDocument && !isVersionHistoryMode) &&
                     <Link className={(props.disabledControls || isOpenModal) ? 'disabled' : ''} icon='icon-edit' href={false} onClick={props.onEditDocument}></Link>
                 }
