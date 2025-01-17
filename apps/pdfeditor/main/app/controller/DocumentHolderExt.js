@@ -68,7 +68,6 @@ define([], function () {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
-                    this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
                     if (this.mode.canComments) {
                         // for text
                         this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
@@ -227,7 +226,7 @@ define([], function () {
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
-                // this.documentHolder.createDelayedElementsPDFEditor();
+                this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
@@ -870,6 +869,8 @@ define([], function () {
                 documentHolder.btnAddAnnotComment.on('click',          _.bind(this.addComment, this, {isFromSelBar: true}));
                 documentHolder.mnuStrokeHighlightColorPicker.on('select', _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeHighlightColor));
                 documentHolder.mnuStrokeColorPicker.on('select',          _.bind(this.onSelectStrokeColor, this, documentHolder.btnStrokeColor));
+                documentHolder.btnStrokeColor.menu.on('show:after',          _.bind(this.onStrokeShowAfter, this));
+                documentHolder.btnStrokeHighlightColor.menu.on('show:after', _.bind(this.onStrokeShowAfter, this));
                 this.api.UpdateInterfaceState();
             }
 
@@ -894,6 +895,20 @@ define([], function () {
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotSelBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
+
+            var popover = this.getApplication().getController('Common.Controllers.Comments').getPopover();
+            if (popover && popover.isVisible()) {
+                var bounds = {
+                        left: popover.getLeft(), right: popover.getLeft() + popover.getWidth(),
+                        top: popover.getTop(), bottom: popover.getTop() + popover.getHeight()
+                    },
+                    right = showPoint[0] + textContainer.outerWidth(),
+                    bottom = showPoint[1] + textContainer.outerHeight();
+                if ((right>bounds.left && right<bounds.right || showPoint[0]>bounds.left && showPoint[0]<bounds.right) &&
+                    (showPoint[1]>bounds.top && showPoint[1]<bounds.bottom || bottom>bounds.top && bottom<bounds.bottom)) {
+                    showPoint[0] = Common.UI.isRTL() ? bounds.right : bounds.left - textContainer.outerWidth();
+                }
+            }
             textContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
@@ -1379,12 +1394,17 @@ define([], function () {
         };
 
         dh.onShowFormsPDFActions = function(obj, x, y) {
+            var me = this;
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
-                    this.onShowListActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActionsPDF(obj, x, y);
+                    }, 1);
                     break;
                 case AscPDF.FIELD_TYPES.text:
-                    this.onShowDateActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActionsPDF(obj, x, y);
+                    }, 1);
                     break;
             }
         };
@@ -2325,10 +2345,6 @@ define([], function () {
             }
         };
 
-        dh.onCountPages = function(count) {
-            this.documentHolder && (this.documentHolder._pagesCount = count);
-        };
-
         dh.onNewPage = function(item) {
             this.api && this.api.asc_AddPage(item.value);
 
@@ -2374,6 +2390,7 @@ define([], function () {
 
         dh.removeComment = function(item, e, eOpt){
             this.api && this.api.asc_remove();
+            this.editComplete();
         };
 
         dh.equationCallback = function(eqObj) {
@@ -2488,13 +2505,51 @@ define([], function () {
         };
 
         dh.onSelectStrokeColor = function(btn, picker, color) {
-            btn.currentColor = color;
-            btn.setColor(btn.currentColor);
-            picker.select(btn.currentColor, true);
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            if (!this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+                color = this.api.asc_GetStrokeColor();
+                color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            }
+            btn.currentColor = color;
+            btn.setColor(btn.currentColor);
+            picker.select(btn.currentColor, true);
+        };
+
+        dh.onSetStrokeOpacity = function(sizePicker, direction) {
+            var val = this.api.asc_GetOpacity(),
+                oldval = val;
+            if (direction === 'up') {
+                if (val % 10 > 0.1) {
+                    val = Math.ceil(val / 10) * 10;
+                } else {
+                    val += 10;
+                }
+                val = Math.min(100, val);
+            } else {
+                if (val % 10 > 0.1) {
+                    val = Math.floor(val / 10) * 10;
+                } else {
+                    val -= 10
+                }
+                val = Math.max(0, val);
+            }
+            if (!this.api.asc_SetOpacity(val))
+                val = oldval;
+            sizePicker.setValue(val + '%');
+        };
+
+        dh.onStrokeShowAfter = function(menu) {
+            if (!menu.sizePicker) {
+                menu.sizePicker = new Common.UI.UpDownPicker({
+                    el: menu.cmpEl.find('.custom-scale'),
+                    caption: this.documentHolder.txtOpacity,
+                    minWidth: 40
+                });
+                menu.sizePicker.on('click', _.bind(this.onSetStrokeOpacity, this, menu.sizePicker));
+            }
+            menu.sizePicker.setValue(this.api.asc_GetOpacity() + '%');
         };
 
         dh.applySettings = function() {

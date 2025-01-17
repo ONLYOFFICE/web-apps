@@ -3,7 +3,7 @@
     "textAbout": "אודות",
     "textAddress": "כתובת",
     "textBack": "חזרה",
-    "textEditor": "עורך תרשימים (Visio)",
+    "textEditor": "מציג התרשימים",
     "textEmail": "דוא\"ל",
     "textPoweredBy": "מופעל על-ידי",
     "textTel": "טל'",
@@ -205,9 +205,9 @@
       "textTitle": "כותרת",
       "textUploaded": "הועלו",
       "textVersion": "גרסה ",
-      "textVisioInfo": "מידע אודות התרשים Visio",
-      "textVisioSettings": "הגדרות התרשים Visio",
-      "textVisioTitle": "כותרת התרשים Visio"
+      "textVisioInfo": "מידע אודות מציג התרשימים",
+      "textVisioSettings": "הגדרות מציג התרשימים",
+      "textVisioTitle": "כותרת מציג התרשימים"
     }
   }
 }

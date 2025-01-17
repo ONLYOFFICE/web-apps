@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Atslēgas deskriptora termiņš beidzies",
   "PDFE.Controllers.Main.errorLoadingFont": "Fonti netiek ielādēti.<br>Sazinieties ar savu dokumentu servera administratoru.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Jūsu sniegtā parole nav pareiza.<br>Pārbaudiet, vai CAPS LOCK taustiņš ir izslēgts, un vai pareizi izmantojat lielos un mazos burtus.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Neizdevās saglabāt.",
   "PDFE.Controllers.Main.errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
   "PDFE.Controllers.Main.errorServerVersion": "Redaktora versija ir atjaunināta. Lapa tiks pārlādēta, lai piemērotu izmaiņas.",
@@ -1213,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Insert blank page after",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insert blank page before",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Bar over text",
   "PDFE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Print selection",
@@ -2010,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Distribute vertically",
   "PDFE.Views.Toolbar.txtGroup": "Group",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
+  "PDFE.Views.Toolbar.txtOpacity": "Opacity",
   "PDFE.Views.Toolbar.txtPageAlign": "Align to Page",
   "PDFE.Views.Toolbar.txtRotateLeft": "Rotate left",
   "PDFE.Views.Toolbar.txtRotatePage": "Rotate page",
@@ -2034,5 +2037,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }

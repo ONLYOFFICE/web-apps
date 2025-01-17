@@ -333,6 +333,20 @@ define([], function () {
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
                 '</tr>',*/
+                '<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" class="subgroup-name"><label><%= scope.txtSheetDir %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" style="padding-top:0;padding-bottom:0;"><label class="comment-text"><%= scope.txtSheetDirDesc %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-sheet-rtl"><div id="fms-rb-sheet-ltr"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-rb-sheet-rtl"></div></td>',
+                '</tr>',
+                '<tr class ="divider edit"></tr>',
                 '<tr class="edit quick-access">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
                 '</tr>',
@@ -936,6 +950,24 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.rbSheetLtr = new Common.UI.RadioBox({
+                el          :$markup.findById('#fms-rb-sheet-ltr'),
+                name        : 'sheet-dir',
+                labelText   : this.txtSheetLtr,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.rbSheetRtl = new Common.UI.RadioBox({
+                el          :$markup.findById('#fms-rb-sheet-rtl'),
+                name        : 'sheet-dir',
+                labelText   : this.txtSheetRtl,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -1121,6 +1153,10 @@ define([], function () {
                 this.inputMaxChange.setValue(value.asc_getMaxChange());
             }
 
+            value = Common.Utils.InternalSettings.get("sse-settings-def-sheet-rtl");
+            this.rbSheetLtr.setValue(!value);
+            this.rbSheetRtl.setValue(value);
+
             var data = [];
             for (var t in Common.UI.Themes.map()) {
                 data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
@@ -1245,6 +1281,8 @@ define([], function () {
 
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
+            this.mode.isEdit && Common.localStorage.setBool("sse-settings-def-sheet-rtl", this.rbSheetRtl.getValue());
 
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {

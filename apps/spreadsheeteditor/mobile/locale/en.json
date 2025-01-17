@@ -443,6 +443,7 @@
     "textWarnDeleteSheet": "The sheet maybe has data. Proceed operation?"
   },
   "Toolbar": {
+    "textOk": "OK",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -454,6 +455,7 @@
   },
   "View": {
     "Add": {
+      "textDrawing": "Drawing",
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "notcriticalErrorTitle": "Warning",
@@ -863,5 +865,11 @@
       "txtZh": "Chinese",
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
+  },
+  "Draw": {
+    "textOpacity": "Opacity",
+    "textLineSize": "Line size",
+    "textColor": "Color",
+    "textCustomColor": "Custom color"
   }
 }

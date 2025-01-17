@@ -514,11 +514,13 @@ define([
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
-                if (options.maxwidth && options.width=='auto') {
+                if ((options.maxwidth || options.minwidth) && options.width=='auto') {
                     var width = !Common.UI.isRTL() ? (Common.Utils.getPosition(text).left + text.width() + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
-                    if (width > options.maxwidth)
+                    if (options.maxwidth && width > options.maxwidth)
                         options.width = options.maxwidth;
+                    else if (options.minwidth && width < options.minwidth)
+                        options.width = options.minwidth;
                 }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));

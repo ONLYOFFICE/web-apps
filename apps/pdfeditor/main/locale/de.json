@@ -905,6 +905,7 @@
   "PDFE.Controllers.Main.errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
   "PDFE.Controllers.Main.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
   "PDFE.Controllers.Main.errorPasswordIsNotCorrect": "Das eingegebene Kennwort ist ungültig.<br>Stellen Sie sicher, dass die FESTSTELLTASTE nicht aktiviert ist und dass Sie die korrekte Groß-/Kleinschreibung verwenden.",
+  "PDFE.Controllers.Main.errorPDFFormsLocked": "Die Aktion kann nicht ausgeführt werden, da sie Änderungen in gesperrten Formularen verursacht.",
   "PDFE.Controllers.Main.errorProcessSaveResult": "Speichern fehlgeschlagen.",
   "PDFE.Controllers.Main.errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
   "PDFE.Controllers.Main.errorServerVersion": "Editor-Version wurde aktualisiert. Die Seite wird neu geladen, um die Änderungen zu übernehmen.",
@@ -1213,6 +1214,7 @@
   "PDFE.Views.DocumentHolder.txtMatrixAlign": "Matrixausrichtung",
   "PDFE.Views.DocumentHolder.txtNewPageAfter": "Leere Seite einfügen nach",
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Leere Seite vorher einfügen",
+  "PDFE.Views.DocumentHolder.txtOpacity": "Undurchsichtigkeit",
   "PDFE.Views.DocumentHolder.txtOverbar": "Balken über dem Text",
   "PDFE.Views.DocumentHolder.txtPressLink": "Drücken Sie {0} und klicken Sie auf den Link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Auswahl drucken",
@@ -2010,6 +2012,7 @@
   "PDFE.Views.Toolbar.txtDistribVert": "Vertikal verteilen",
   "PDFE.Views.Toolbar.txtGroup": "Gruppieren",
   "PDFE.Views.Toolbar.txtObjectsAlign": "Ausgewählte Objekte ausrichten",
+  "PDFE.Views.Toolbar.txtOpacity": "Undurchsichtigkeit",
   "PDFE.Views.Toolbar.txtPageAlign": "An Seite ausrichten",
   "PDFE.Views.Toolbar.txtRotateLeft": "Nach links drehen",
   "PDFE.Views.Toolbar.txtRotatePage": "Seite drehen",
@@ -2034,5 +2037,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Seite anpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Breite anpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Überschriften",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
+  "PDFE.Views.Toolbar.capBtnStamp": "Stamp",
+  "PDFE.Views.Toolbar.tipInsertStamp": "Insert stamp"
 }

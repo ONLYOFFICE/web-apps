@@ -251,6 +251,9 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
+            toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
+            toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
+            toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -258,23 +261,27 @@ define([
 
         },
 
-        onCreateAnnotBar: function(btnStrikeout, mnuStrikeoutColorPicker, btnUnderline, mnuUnderlineColorPicker, btnHighlight, mnuHighlightColorPicker) {
+        onCreateAnnotBar: function(btnStrikeout, btnUnderline, btnHighlight) {
             var toolbar = this.toolbar;
-            btnStrikeout.currentColor = toolbar.btnStrikeout.currentColor;
-            btnStrikeout.setColor(btnStrikeout.currentColor);
-            btnStrikeout.toggle(toolbar.btnStrikeout.pressed, true);
+
             toolbar.btnsStrikeout.push(btnStrikeout);
+            btnStrikeout.toggle(toolbar.btnStrikeout.pressed, true);
+            btnStrikeout.setColor(toolbar.btnStrikeout.currentColor);
+            var mnuStrikeoutColorPicker = toolbar.createPen(btnStrikeout, 'strikeout', true);
             toolbar.mnusStrikeoutColorPicker.push(mnuStrikeoutColorPicker);
-            btnUnderline.currentColor = toolbar.btnUnderline.currentColor;
-            btnUnderline.setColor(btnUnderline.currentColor);
-            btnUnderline.toggle(toolbar.btnUnderline.pressed, true);
+
             toolbar.btnsUnderline.push(btnUnderline);
+            btnUnderline.toggle(toolbar.btnUnderline.pressed, true);
+            btnUnderline.setColor(toolbar.btnUnderline.currentColor);
+            var mnuUnderlineColorPicker = toolbar.createPen(btnUnderline, 'underline', true);
             toolbar.mnusUnderlineColorPicker.push(mnuUnderlineColorPicker);
-            btnHighlight.currentColor = toolbar.btnHighlight.currentColor;
-            btnHighlight.setColor(btnHighlight.currentColor);
-            btnHighlight.toggle(toolbar.btnHighlight.pressed, true);
+
             toolbar.btnsHighlight.push(btnHighlight);
+            btnHighlight.toggle(toolbar.btnHighlight.pressed, true);
+            btnHighlight.setColor(toolbar.btnHighlight.currentColor);
+            var mnuHighlightColorPicker = toolbar.createPen(btnHighlight, 'highlight', true);
             toolbar.mnusHighlightColorPicker.push(mnuHighlightColorPicker);
+
             btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
             mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
             btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
@@ -937,7 +944,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-strikeout") , parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
@@ -997,7 +1004,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-underline"), parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
@@ -1057,7 +1064,7 @@ define([
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, Common.Utils.InternalSettings.get("pdfe-annot-opacity-highlight"), parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 // me.toolbar.mnuHighlightTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
@@ -1139,6 +1146,56 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
+        },
+
+        onBtnStampClick: function(btn, e) {
+            this.onInsertStamp(btn.options.stampType, btn, e);
+        },
+
+        onMenuStampClick: function(btn, e) {
+            var oldType = this.toolbar.btnStamp.options.stampType;
+            var newType = e.value;
+
+            if(newType !== oldType){
+                this.toolbar.btnStamp.options.stampType = newType;
+            }
+            this.onInsertStamp(newType, btn, e);
+        },
+
+        onInsertStamp: function(type, btn, e) {
+            this.api && this.api.AddStampAnnot(type);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnStamp);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Stamp');
+        },
+
+        onStampShowAfter: function(menu) {
+            var me      = this;
+            if (menu.getItemsLength(true)<1 && this.api) {
+                var arr = this.api.asc_getPropertyEditorStamps(),
+                    template = _.template([
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
+                        '</a>'
+                    ].join(''));
+                if (arr.length>0) {
+                    arr.forEach(function(item){
+                        var menuItem = new Common.UI.MenuItem({
+                            value: item.Type,
+                            itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
+                            itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
+                            template: template
+                        });
+                        menu.addItem(menuItem, true);
+                        if (menuItem.cmpEl) {
+                            menuItem.cmpEl.find('div').append(item.Image);
+                            menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
+                        }
+
+                    });
+                    this.toolbar.btnStamp.options.stampType = arr[0].Type;
+                }
+            }
         },
 
         onFillRequiredFields: function(isFilled) {
@@ -2232,7 +2289,7 @@ define([
         },
 
         onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },

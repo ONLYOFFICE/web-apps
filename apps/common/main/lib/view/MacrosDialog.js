@@ -110,7 +110,15 @@ define([], function () {
                 isFunctionsSupport: this._state.isFunctionsSupport,
             });
 
-            this.on('help', this.onHelp);
+            this.on({
+                'help': this.onHelp,
+                'drag': function(args){
+                    args[0].codeEditor && args[0].codeEditor.enablePointerEvents(args[1]!=='start');
+                },
+                'resize': function(args){
+                    args[0].codeEditor && args[0].codeEditor.enablePointerEvents(args[1]!=='start');
+                }
+            });
 
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -265,14 +273,6 @@ define([], function () {
                     me._state.currentValue = value;
                     selectedItem.set('value', value);
                 }
-            });
-            this.codeEditor.on('mouseup', function(x, y) {
-                if (me.binding.dragStop) me.binding.dragStop();
-                if (me.binding.resizeStop) me.binding.resizeStop();
-            });
-            this.codeEditor.on('mousemove', function(x, y) {
-                if (me.binding.drag) me.binding.drag({ pageX: x, pageY: y });
-                if (me.binding.resize) me.binding.resize({ pageX: x, pageY: y });
             });
         },
 

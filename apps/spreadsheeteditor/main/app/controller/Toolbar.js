@@ -2583,6 +2583,10 @@ define([
         },
 
         onApiEditCell: function(state) {
+            this.onEditCell(state);
+        },
+
+        onEditCell: function(state, keepState) {
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar;
@@ -2595,7 +2599,7 @@ define([
                     toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.cmbNumberFormat, toolbar.btnWrap, toolbar.btnMerge, toolbar.btnBackColor,
                                         toolbar.btnBorders, toolbar.btnTableTemplate, toolbar.btnHorizontalAlign, toolbar.btnVerticalAlign],
                                         merge: true,
-                                        clear: [Common.enumLock.editFormula, Common.enumLock.editText]});
+                                        clear: !keepState ? [Common.enumLock.editFormula, Common.enumLock.editText] : undefined});
                     (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l') :
                                        Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l');
                 } else {
@@ -2618,7 +2622,7 @@ define([
                             toolbar.btnNamedRange.menu.items[1]
                         ].concat(toolbar.itemsNamedRange),
                         merge: true,
-                        clear: [Common.enumLock.editFormula, Common.enumLock.editText]
+                        clear: !keepState ? [Common.enumLock.editFormula, Common.enumLock.editText] : undefined
                 });
 
                 var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
@@ -4456,7 +4460,7 @@ define([
 
         onCellsRange: function(status) {
             this.api.isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
-            this.onApiEditCell(this.api.isRangeSelection ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd);
+            this.onEditCell(this.api.isRangeSelection || this.api.isCellEdited ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd, true);
 
             var toolbar = this.toolbar;
             toolbar.lockToolbar(Common.enumLock.selRangeEdit, this.api.isRangeSelection);
@@ -4788,7 +4792,7 @@ define([
         },
 
         onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },

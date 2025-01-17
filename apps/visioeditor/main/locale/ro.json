@@ -392,11 +392,16 @@
   "VE.Views.LeftMenu.txtLimit": "Limitare acces",
   "VE.Views.LeftMenu.txtTrial": "MODUL DE ÎNCERCARE",
   "VE.Views.LeftMenu.txtTrialDev": "Mod dezvoltator de încercare",
+  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
   "VE.Views.Statusbar.tipFitPage": "Portivire la pagina",
   "VE.Views.Statusbar.tipFitWidth": "Potrivire lățime",
+  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
+  "VE.Views.Statusbar.tipNext": "Next page",
+  "VE.Views.Statusbar.tipPrev": "Previous page",
   "VE.Views.Statusbar.tipZoomFactor": "Zoom",
   "VE.Views.Statusbar.tipZoomIn": "Mărire",
   "VE.Views.Statusbar.tipZoomOut": "Micșorare",
+  "VE.Views.Statusbar.txtPage": "Page",
   "VE.Views.Toolbar.textTabFile": "Fişier",
   "VE.Views.Toolbar.textTabView": "Vizualizare",
   "VE.Views.ViewTab.textAlwaysShowToolbar": "Afișează bară de instrumente permanent",
@@ -412,10 +417,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Portivire la pagina",
   "VE.Views.ViewTab.tipFitWidth": "Potrivire lățime",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
-  "VE.Views.Statusbar.sheetIndexText": "Page {0} of {1}",
-  "VE.Views.Statusbar.tipListOfSheets": "List of pages",
-  "VE.Views.Statusbar.tipNext": "Next page",
-  "VE.Views.Statusbar.tipPrev": "Previous page",
-  "VE.Views.Statusbar.txtPage": "Page"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață"
 }
