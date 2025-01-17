@@ -629,8 +629,8 @@ define([
                                     {caption: me.mniFromFile, value: 'file'},
                                     {caption: me.mniFromUrl, value: 'url'},
                                     {caption: me.mniFromStorage, value: 'storage'}
-                                    // ,{caption: '--'},
-                                    // {caption: me.mniSettings, value: 'settings'}
+                                    ,{caption: '--'},
+                                    {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
                             me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
@@ -644,6 +644,8 @@ define([
                                     {caption: me.mniFromFile, value: 'file'},
                                     {caption: me.mniFromUrl, value: 'url'},
                                     {caption: me.mniFromStorage, value: 'storage'}
+                                    ,{caption: '--'},
+                                    {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
                             me.btnCombine.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
