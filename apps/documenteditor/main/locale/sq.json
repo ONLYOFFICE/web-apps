@@ -463,7 +463,7 @@
   "Common.Views.AutoCorrectDialog.textReplaceText": "Zëvëndësoni ndërsa shkruani",
   "Common.Views.AutoCorrectDialog.textReplaceType": "Zëvëndësoni ndërsa shkruani",
   "Common.Views.AutoCorrectDialog.textReset": "Rivendosni",
-  "Common.Views.AutoCorrectDialog.textResetAll": "Rivendos në parametrat e parazgjedhura",
+  "Common.Views.AutoCorrectDialog.textResetAll": "Rivendos në parazgjedhura",
   "Common.Views.AutoCorrectDialog.textRestore": "Rikthe",
   "Common.Views.AutoCorrectDialog.textTitle": "Korrigjimi automatik",
   "Common.Views.AutoCorrectDialog.textWarnAddFL": "Përjashtimet duhet të përmbajnë vetëm shkronjat, të mëdha ose të vogla.",
