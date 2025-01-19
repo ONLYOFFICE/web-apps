@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { LocalStorage } from '../../utils/LocalStorage.mjs';
+import {Device} from '../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconPlusIos from '@common-ios-icons/icon-plus.svg';
+import IconPlusAndroid from '@common-android-icons/icon-plus.svg';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeColors, isTypeCustomColors }) => {
     return (
@@ -195,7 +199,10 @@ const CustomColorPicker = props => {
                     <div className='current-color-hsb-preview' style={{backgroundColor: `#${currentColor}`}}></div>
                 </div>
                 <a href='#' id='add-new-color' className='button button-round' onClick={()=>{addNewColor(stateColor)}}>
-                    <Icon icon={'icon-plus'} slot="media" />
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconPlusIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconPlusAndroid.id} className={'icon icon-svg toolbar-icon'} />
+                    }
                 </a>
             </div>
         </div>

@@ -41,6 +41,12 @@ const config = {
     alias: {
       '@': resolvePath(`../../apps/${editor}/mobile/src`),
       '@common': resolvePath('../../apps/common/mobile'),
+      '@icons': resolvePath(`../../apps/${editor}/mobile/resources/icons/common`),
+      '@ios-icons': resolvePath(`../../apps/${editor}/mobile/resources/icons/ios`),
+      '@android-icons': resolvePath(`../../apps/${editor}/mobile/resources/icons/android`),
+      '@common-icons': resolvePath('../../apps/common/mobile/resources/icons/common'),
+      '@common-ios-icons': resolvePath('../../apps/common/mobile/resources/icons/ios'),
+      '@common-android-icons': resolvePath('../../apps/common/mobile/resources/icons/android'),
     },
     modules: [path.resolve(__dirname, '..', 'node_modules'), 'node_modules'],
   },

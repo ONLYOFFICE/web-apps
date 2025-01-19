@@ -17,6 +17,9 @@ import Snackbar from '../components/Snackbar/Snackbar';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconEditMode from '@icons/icon-edit-mode.svg';
+
 
 export const MainContext = createContext();
 
@@ -352,7 +355,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                         >
                             <div className="fab fab-right-bottom" onClick={() => turnOffViewerMode()}>
                                 <a href="#">
-                                    <i className="icon icon-edit-mode"></i>
+                                    <SvgIcon symbolId={IconEditMode.id} className="icon icon-svg" />
                                 </a>
                             </div>
                         </CSSTransition>

@@ -7,6 +7,7 @@ import { AddTableController } from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
 import { AddOtherController } from "../../controller/add/AddOther";
 import { MainContext } from '../../page/main';
+import SvgIcon from '@common/lib/component/SvgIcon';
 
 const AddLayoutNavbar = ({ tabs, storeTableSettings }) => {
     const isAndroid = Device.android;
@@ -26,7 +27,7 @@ const AddLayoutNavbar = ({ tabs, storeTableSettings }) => {
                 <div className='tab-buttons tabbar'>
                     {tabs.map((item, index) =>
                         <Link key={"de-link-" + item.id} onClick={() => getTableStylesPreviews()} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                            <Icon slot="media" icon={item.icon}></Icon>
+                            <SvgIcon slot="media" symbolId={item.icon} className={'icon icon-svg'} />
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
                 </div> :
