@@ -1705,6 +1705,7 @@
   "DE.Views.BookmarksDialog.textCopy": "Copy",
   "DE.Views.BookmarksDialog.textDelete": "Delete",
   "DE.Views.BookmarksDialog.textGetLink": "Get link",
+  "DE.Views.BookmarksDialog.textAddAndGetLink": "Add & Get Link",
   "DE.Views.BookmarksDialog.textGoto": "Go to",
   "DE.Views.BookmarksDialog.textHidden": "Hidden bookmarks",
   "DE.Views.BookmarksDialog.textLocation": "Location",
