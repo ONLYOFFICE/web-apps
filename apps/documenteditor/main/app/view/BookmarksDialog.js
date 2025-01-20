@@ -193,7 +193,8 @@ define([
                 caption: this.textAdd,
                 cls: this.appOptions.canMakeActionLink ? 'btn-text-split-default' : 'btn-text-default',
                 split: this.appOptions.canMakeActionLink,
-                menu: this.appOptions.canMakeActionLink
+                menu: this.appOptions.canMakeActionLink,
+                takeFocusOnClose: true
             });
             this.btnAdd.on('click', _.bind(this.addBookmark, this, true));
             if(this.appOptions.canMakeActionLink) {
