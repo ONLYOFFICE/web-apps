@@ -7,6 +7,7 @@ import AddSlideController from "../../controller/add/AddSlide";
 import AddShapeController from "../../controller/add/AddShape";
 import { AddOtherController } from "../../controller/add/AddOther";
 import { MainContext } from '../../page/main';
+import SvgIcon from '@common/lib/component/SvgIcon';
 
 const AddLayoutNavbar = ({ tabs }) => {
     const isAndroid = Device.android;
@@ -17,7 +18,8 @@ const AddLayoutNavbar = ({ tabs }) => {
                 <div className='tab-buttons tabbar'>
                     {tabs.map((item, index) =>
                         <Link key={"pe-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                            <Icon slot="media" icon={item.icon}></Icon>
+                            {/* <Icon slot="media" icon={item.icon}></Icon> */}
+                            <SvgIcon symbolId={item.icon} className={'icon icon-svg'} />
                         </Link>)}
                     {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
                 </div> :
