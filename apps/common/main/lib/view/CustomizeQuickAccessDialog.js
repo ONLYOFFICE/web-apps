@@ -149,7 +149,7 @@ define([], function () { 'use strict';
                     quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() === 'checked' : undefined,
                     undo: this.chUndo.getValue() === 'checked',
                     redo: this.chRedo.getValue() === 'checked',
-                    startOver: this.chStartOver.getValue() === 'checked'
+                    startOver: this.chStartOver ? this.chStartOver.getValue() === 'checked' : undefined
                 });
             }
 
