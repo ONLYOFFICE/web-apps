@@ -50,8 +50,8 @@
     var aceEditor;
 
     var onChangeValue = function (event) {
-        document.getElementById('editorLog').innerText = event.data;
-        console.log("onChangeValue");
+        document.getElementById('editorLog').innerText = event.data ? event.data.value : '';
+        console.log("onChangeValue at position(" + event.data.pos.row + ", " + event.data.pos.column + ")");
     };
 
     var onEditorReady = function (event) {
