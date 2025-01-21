@@ -706,6 +706,8 @@ define([
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
+                    var tools = this.$window.find('.tools .tool').length;
+                    (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
                 } else {
                     this.$window.find('.body').css({
                         top:0,
