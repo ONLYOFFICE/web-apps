@@ -110,7 +110,7 @@ define([
                              '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                          ]}
                     ],
-                    lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode] :
+                    lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode] :
                            (this.appPrefix === 'pe-') ? [_set.slideDeleted, _set.lostConnect, _set.noSlides] :
                                                         [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     me = this;
