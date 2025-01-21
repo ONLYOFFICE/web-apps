@@ -4,15 +4,16 @@ import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 import { useTranslation } from 'react-i18next';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconReturnIos from '@common-ios-icons/icon-return.svg';
+import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconPlay from '@icons/icon-play.svg';
-import IconEditIos from '@common-ios-icons/icon-edit.svg';
+import IconEditIos from '@common-ios-icons/icon-edit.svg?ios';
 import IconEditAndroid from '@common-android-icons/icon-edit.svg';
 import IconSearch from '@common-icons/icon-search.svg';
 import IconCollaboration from '@common-icons/icon-collaboration.svg';
 import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
 import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
+import IconHistory from '@common-icons/icon-version-history.svg';
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -80,12 +81,8 @@ const ToolbarView = props => {
                     onAddClick: () => props.openOptions('add')
                 })}
                 {Device.phone ? null : <Link iconOnly className={(props.disabledControls || props.disabledPreview || isOpenModal) && 'disabled'}searchbarEnable='.searchbar' href={false}> <SvgIcon symbolId={IconSearch.id} className={'icon icon-svg'} /></Link>}
-                {props.displayCollaboration && window.matchMedia("(min-width: 375px)").matches && !isVersionHistoryMode ? <Link className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}><SvgIcon symbolId={IconCollaboration.id} className={'icon icon-svg'} /></Link> : null}
-                {isVersionHistoryMode ? <Link iconOnly id='btn-open-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}>
-                        {Device.ios ? 
-                            <SvgIcon symbolId={IconHistoryIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon symbolId={IconHistoryAndroid.id} className={'icon icon-svg'} />
-                        }</Link> : null}
+                {props.displayCollaboration && window.matchMedia("(min-width: 375px)").matches && !isVersionHistoryMode ? <Link iconOnly className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}><SvgIcon symbolId={IconCollaboration.id} className={'icon icon-svg'} /></Link> : null}
+                {isVersionHistoryMode ? <Link iconOnly id='btn-open-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}><SvgIcon symbolId={IconHistory.id} className={'icon icon-svg'} /> </Link> : null}
                 <Link iconOnly className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' href={false} onClick={() => props.openOptions('settings')}>
                     {Device.ios ? 
                         <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :
