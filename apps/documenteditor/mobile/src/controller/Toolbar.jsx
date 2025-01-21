@@ -222,13 +222,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const forceDesktopMode = () => {
         f7.dialog.create({
             text: t('Settings.textRestartApplication'),
-            title: t('Settings.notcriticalErrorTitle'),
+            title: t('Toolbar.textSwitchToDesktop'),
             buttons: [
                 {
                     text: t('Edit.textCancel')
                 },
                 {
-                    text: t('Toolbar.btnSwitchToDesktop'),
+                    text: t('Toolbar.btnRestartNow'),
                     onClick: () => Common.Gateway.switchEditorType('desktop', true),
                 }
             ]}
