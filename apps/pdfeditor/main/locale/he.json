@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "שמירה",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "שמור עותק כ-",
   "PDFE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "עריכת מסמך",
   "PDFE.Views.FileMenu.textDownload": "הורדה",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "מסמך ריק",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

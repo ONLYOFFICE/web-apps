@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Gorde",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Gorde kopia honela",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Ezarpen aurreratuak",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Editatu dokumentua",
   "PDFE.Views.FileMenu.textDownload": "Deskargatu",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Dokumentu hutsa",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
 }

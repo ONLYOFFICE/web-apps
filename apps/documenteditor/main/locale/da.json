@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Gem",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Gem kopi som",
   "DE.Views.FileMenu.btnSettingsCaption": "Avancerede indstillinger",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Rediger dokument",
   "DE.Views.FileMenu.textDownload": "Hent",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Tomt dokument",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }

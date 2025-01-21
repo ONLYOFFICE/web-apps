@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "保存",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "DE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "编辑文档",
   "DE.Views.FileMenu.textDownload": "下载",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "空白文档",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
 }

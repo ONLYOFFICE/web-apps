@@ -811,11 +811,12 @@
     "textSwitchedMobileView": "切換至行動版檢視",
     "textSwitchedStandardView": "切換至標準版檢視",
     "warnEmptyRequiredField": "填寫所有必填欄位以傳送表單。",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

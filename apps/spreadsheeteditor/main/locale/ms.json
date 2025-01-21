@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Simpan",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Simpan SALINAN sebagai",
   "SSE.Views.FileMenu.btnSettingsCaption": "Seting Lanjutan",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Edit Hamparan",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Hamparan Kosong",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Cipta Baharu",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Lindung buku kerja",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan kata laluan untuk melindungi helaian",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Helaian Nyahlindung",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja"
 }

@@ -277,8 +277,9 @@
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
     "textRenameFile": "重命名文件",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

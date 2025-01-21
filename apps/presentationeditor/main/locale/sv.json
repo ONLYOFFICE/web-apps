@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Spara",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Spara kopia som",
   "PE.Views.FileMenu.btnSettingsCaption": "Avancerade inställningar",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Redigera presentation",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Tom presentation",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Skapa ny",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

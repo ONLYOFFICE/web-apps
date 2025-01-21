@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
+  },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
     "criticalErrorExtText": "Πατήστε 'Εντάξει' για να επιστρέψετε στη λίστα εγγράφων.",
@@ -449,9 +455,10 @@
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
+    "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -478,6 +485,7 @@
       "textDataTableHint": "Επιστρέφει τα κελιά δεδομένων από τον πίνακα ή τις καθορισμένες στήλες του πίνακα",
       "textDisplay": "Προβολή",
       "textDone": "Ολοκληρώθηκε",
+      "textDrawing": "Σχέδιο",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFilter": "Φίλτρο",
@@ -515,8 +523,7 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι",
-      "textDrawing": "Drawing"
+      "txtYes": "Ναι"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -865,11 +872,5 @@
       "txtZh": "Κινέζικα",
       "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

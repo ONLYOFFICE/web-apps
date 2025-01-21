@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "保存",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "PDFE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "编辑文档",
   "PDFE.Views.FileMenu.textDownload": "下载",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "空白文件",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "适合页面",
   "PDFE.Views.ViewTab.tipFitToWidth": "适合宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

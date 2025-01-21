@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "保存",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "別名で保存",
   "SSE.Views.FileMenu.btnSettingsCaption": "詳細設定",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "スプレッドシートを編集",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "空白のスプレッドシート",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新規作成",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "ブックを保護する",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください"
 }

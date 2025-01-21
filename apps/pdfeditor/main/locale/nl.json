@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Opslaan",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Kopie opslaan als",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Geavanceerde instellingen",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Document bewerken",
   "PDFE.Views.FileMenu.textDownload": "Downloaden",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Leeg document",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
 }

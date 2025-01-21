@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Kaydet",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Kopyasını kaydet",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Gelişmiş ayarlar",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Belge Düzenle",
   "PDFE.Views.FileMenu.textDownload": "İndir",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Boş Döküman",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sayfaya Sığdır",
   "PDFE.Views.ViewTab.tipFitToWidth": "Genişliğe Sığdır",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıklar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Arayüz teması"
 }

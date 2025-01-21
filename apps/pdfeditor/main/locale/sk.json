@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Uložiť",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Uložiť kópiu ako",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Pokročilé nastavenia",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Upraviť dokument",
   "PDFE.Views.FileMenu.textDownload": "Stiahnuť",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Prázdny dokument",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prispôsobiť na stranu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia"
 }

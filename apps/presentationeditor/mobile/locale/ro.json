@@ -276,7 +276,6 @@
     "waitText": "Vă rugăm să așteptați..."
   },
   "Toolbar": {
-    "btnSwitchToDesktop": "Comutare la modul Desktop",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
@@ -284,7 +283,9 @@
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
     "textOk": "OK",
-    "textRenameFile": "Redenumire fișier"
+    "textRenameFile": "Redenumire fișier",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

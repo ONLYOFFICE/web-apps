@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Desar",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Desar la còpia com a",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Configuració avançada",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Edita el document",
   "PDFE.Views.FileMenu.textDownload": "Baixa",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Document en blanc",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
 }

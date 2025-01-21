@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Spara",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Spara kopia som",
   "SSE.Views.FileMenu.btnSettingsCaption": "Avancerade inställningar",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Redigera kalkylblad",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Tomt kalkylark",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Skapa ny",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Skydda arbetsbok",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd"
 }

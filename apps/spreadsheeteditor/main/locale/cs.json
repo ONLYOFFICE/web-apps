@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Uložit",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Uložit kopii jako",
   "SSE.Views.FileMenu.btnSettingsCaption": "Pokročilá nastavení",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Upravit sešit",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Prázdný sešit",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Vytvořit nový",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečit sešit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadejte heslo pro deaktivaci zabezpečení listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu"
 }

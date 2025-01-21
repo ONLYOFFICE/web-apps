@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
     "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

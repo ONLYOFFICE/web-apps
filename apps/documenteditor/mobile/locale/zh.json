@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "切换到“移动设备”视图",
     "textSwitchedStandardView": "切换到标准视图",
     "warnEmptyRequiredField": "要发送表单，请填写所有必填项。",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

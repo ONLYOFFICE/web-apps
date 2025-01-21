@@ -275,10 +275,11 @@
     "leaveButtonText": "Bu səhifədən çıxın",
     "stayButtonText": "Bu Səhifədə Qalın",
     "textCloseHistory": "Tarixçəni bağlayın",
-    "btnSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

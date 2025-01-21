@@ -449,7 +449,6 @@
     "textWarnDeleteSheet": "選択したシートにはデータが含まれている可能性があります。続行してもよろしいですか？"
   },
   "Toolbar": {
-    "btnSwitchToDesktop": "デスクトップ版に切り替える",
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
@@ -457,7 +456,9 @@
     "textCloseHistory": "履歴を閉じる",
     "textEnterNewFileName": "新しいファイル名を入力する",
     "textOk": "OK",
-    "textRenameFile": "ファイル名の変更"
+    "textRenameFile": "ファイル名の変更",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

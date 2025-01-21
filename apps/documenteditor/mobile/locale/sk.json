@@ -808,14 +808,15 @@
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
     "warnEmptyRequiredField": "Vyplňte všetky požadované polia, aby ste formulár mohli odoslať.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

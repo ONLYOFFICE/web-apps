@@ -808,14 +808,15 @@
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
     "warnEmptyRequiredField": "Vul alle verplichte velden in om het formulier te verzenden.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "저장",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "다른 이름으로 저장",
   "PE.Views.FileMenu.btnSettingsCaption": "고급 설정",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "프리젠 테이션 편집",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "새 프리젠테이션",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "새로 만들기",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

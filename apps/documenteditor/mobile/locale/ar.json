@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
     "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
     "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

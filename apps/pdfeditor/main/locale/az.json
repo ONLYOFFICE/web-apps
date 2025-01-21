@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Qeyd et",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Kopya kimi yadda saxla",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Təkmilləşdirilmiş parametrlər",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Sənədi Redaktə edin",
   "PDFE.Views.FileMenu.textDownload": "Endir",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Boş Sənəd",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Səhifəyə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
 }

@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "ບັນທຶກ",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "ບັນທຶກສຳເນົາເປັນ",
   "PDFE.Views.FileMenu.btnSettingsCaption": "ຕັ້ງ​ຄ່າ​ຂັ້ນ​ສູງ",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "ແກ້ໄຂເອກະສານ",
   "PDFE.Views.FileMenu.textDownload": "ດາວໂຫຼດ",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "ເອກະສານເປົ່າ",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
 }

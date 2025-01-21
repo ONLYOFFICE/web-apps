@@ -276,8 +276,6 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
-    "del_btnSwitchToDesktop": "Switch to Desktop",
-    "textSwitchToDesktop": "Switch to Desktop",
     "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
@@ -286,7 +284,8 @@
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

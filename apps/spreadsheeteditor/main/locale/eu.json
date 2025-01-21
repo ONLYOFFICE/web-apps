@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Gorde",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Gorde kopia honela",
   "SSE.Views.FileMenu.btnSettingsCaption": "Ezarpen aurreratuak",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Editatu kalkulu-orria",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Kalkulu-orri hutsa",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Sortu berria",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Babestu laneko liburua",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko"
 }

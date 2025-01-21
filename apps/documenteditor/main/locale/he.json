@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "שמירה",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "שמור עותק כ-",
   "DE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "עריכת מסמך",
   "DE.Views.FileMenu.textDownload": "הורדה",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "מסמך ריק",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
 }

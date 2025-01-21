@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Uložiť",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Uložiť kópiu ako",
   "DE.Views.FileMenu.btnSettingsCaption": "Pokročilé nastavenia",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Upraviť dokument",
   "DE.Views.FileMenu.textDownload": "Stiahnuť",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Prázdny dokument",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
 }

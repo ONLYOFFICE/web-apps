@@ -280,7 +280,10 @@
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "textOk": "OK",
+    "del_btnSwitchToDesktop": "Switch to Desktop",
+    "textSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now"
   },
   "View": {
     "Add": {

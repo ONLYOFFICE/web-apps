@@ -159,7 +159,8 @@
     "stayButtonText": "Qëndroni në këtë faqe",
     "textEnterNewFileName": "Futni një emër të skedarit",
     "textRenameFile": "Fshij skedarin",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -197,6 +198,7 @@
       "textOwner": "Pronar",
       "textPoweredBy": "E drejtuar nga",
       "textPrint": "Printoni",
+      "textRestartApplication": "Ju lutem rinisni aplikimin që ndryshimet të hyjnë në fuqi",
       "textSameAsSystem": "Njëlloj si sistemi",
       "textSearch": "Gjej",
       "textSettings": "Cilësimet",
@@ -208,8 +210,7 @@
       "textVersion": "Version",
       "textVisioInfo": "Info Visio",
       "textVisioSettings": "Cilësimet e Visio",
-      "textVisioTitle": "Titulli i Visio",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Titulli i Visio"
     }
   }
 }

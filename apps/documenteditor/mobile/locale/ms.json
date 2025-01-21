@@ -809,13 +809,14 @@
     "stayButtonText": "Kekal pada Halaman ini",
     "textOk": "Okey",
     "warnEmptyRequiredField": "Isi semua medan diperlukan untuk menyerahkan borang.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

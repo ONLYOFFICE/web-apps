@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Uložit",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Uložit kopii jako",
   "PE.Views.FileMenu.btnSettingsCaption": "Pokročilá nastavení",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Upravit prezentaci",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Prázdná prezentace",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Vytvořit nový",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

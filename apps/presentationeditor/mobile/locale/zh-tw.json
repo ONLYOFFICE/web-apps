@@ -274,11 +274,12 @@
     "dlgLeaveTitleText": "您已離開應用程式",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
-    "btnSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "שמירה כ-",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "שמור עותק כ-",
   "VE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "הורדה",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "מסמך ריק",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "יצירת חדש",
@@ -417,6 +418,5 @@
   "VE.Views.ViewTab.textZoom": "תקריב",
   "VE.Views.ViewTab.tipFitPage": "התאמה לדף",
   "VE.Views.ViewTab.tipFitWidth": "התאמה לרוחב",
-  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק",
-  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק"
 }

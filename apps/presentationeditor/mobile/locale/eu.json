@@ -277,8 +277,9 @@
     "textCloseHistory": "Itxi historia",
     "textEnterNewFileName": "Idatzi fitxategi-izen berria",
     "textRenameFile": "Berrizendatu fitxategia",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Spara",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Spara kopia som",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Avancerade inställningar",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Redigera dokumentet",
   "PDFE.Views.FileMenu.textDownload": "Ladda ner",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Tomt dokument",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
 }

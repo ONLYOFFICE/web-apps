@@ -27,6 +27,7 @@
     "textCurrentPosition": "Position actuelle",
     "textDisplay": "Affichage",
     "textDone": "Terminé",
+    "textDrawing": "Dessins",
     "textEmptyImgUrl": "Spécifiez l'URL de l'image",
     "textEvenPage": "Page paire",
     "textFootnote": "Note de bas de page",
@@ -65,8 +66,7 @@
     "textTableSize": "Taille du tableau",
     "textWithBlueLinks": "Avec les liens bleus",
     "textWithPageNumbers": "Avec les numéros de page",
-    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRows": "Lignes",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
+  },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",
@@ -407,7 +413,7 @@
     "textTu": "mar.",
     "textType": "Type",
     "textWe": "mer.",
-    "textWrap": "Renvoi à la ligne",
+    "textWrap": "Habillage",
     "textWrappingStyle": "Style d'habillage",
     "textYourOption": "Votre option"
   },
@@ -815,12 +821,7 @@
     "textSwitchedMobileView": "Passé à l'affichage mobile",
     "textSwitchedStandardView": "Passé à l'affichage standard",
     "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire.",
-    "btnSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

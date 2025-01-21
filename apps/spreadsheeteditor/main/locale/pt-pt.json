@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Guardar",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Guardar cópia como",
   "SSE.Views.FileMenu.btnSettingsCaption": "Definições avançadas",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Editar Folha de Cálculo",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Folha de Cálculo em branco",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Criar novo",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger livro",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro"
 }

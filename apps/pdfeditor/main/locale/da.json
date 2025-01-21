@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Gem",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Gem kopi som",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Avancerede indstillinger",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Rediger dokument",
   "PDFE.Views.FileMenu.textDownload": "Hent",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Tomt dokument",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Tilpas til side",
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema"
 }

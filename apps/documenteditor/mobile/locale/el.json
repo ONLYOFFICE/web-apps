@@ -27,6 +27,7 @@
     "textCurrentPosition": "Τρέχουσα Θέση",
     "textDisplay": "Προβολή",
     "textDone": "Ολοκληρώθηκε",
+    "textDrawing": "Σχέδιο",
     "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
     "textEvenPage": "Ζυγή σελίδα",
     "textFootnote": "Υποσημείωση",
@@ -65,8 +66,7 @@
     "textTableSize": "Μέγεθος πίνακα",
     "textWithBlueLinks": "Με Μπλε Συνδέσμους",
     "textWithPageNumbers": "Με Αριθμούς Σελίδων",
-    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»"
   },
   "Common": {
     "Collaboration": {
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Ανανέωση αριθμών σελίδων μόνο",
     "textRows": "Γραμμές",
     "txtWarnUrl": "Αυτός ο σύνδεσμος ενδέχεται να θέσει σε κίνδυνο τη συσκευή και τα δεδομένα σας.<br>Είστε βέβαιοι πως θέλετε να συνεχίσετε;"
+  },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
   },
   "Edit": {
     "notcriticalErrorTitle": "Προειδοποίηση",
@@ -815,12 +821,7 @@
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
     "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
     "warnEmptyRequiredField": "Συμπληρώστε όλα τα απαιτούμενα πεδία για την αποστολή της φόρμας.",
-    "btnSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

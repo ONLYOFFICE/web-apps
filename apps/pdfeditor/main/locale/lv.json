@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Saglabāt",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Saglabāt kopiju kā",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Papildu iestatījumi",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Rediģēt dokumentu",
   "PDFE.Views.FileMenu.textDownload": "Lejupielādēt",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Tukšs dokuments",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
 }

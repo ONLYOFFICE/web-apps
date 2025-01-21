@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Desa",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Desa còpia com a",
   "PE.Views.FileMenu.btnSettingsCaption": "Configuració avançada",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Edita la presentació",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Presentació en blanc",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Crea'n un de nou",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

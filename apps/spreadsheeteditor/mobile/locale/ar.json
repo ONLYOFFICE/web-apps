@@ -450,8 +450,9 @@
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Simpan",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Simpan SALINAN sebagai",
   "DE.Views.FileMenu.btnSettingsCaption": "Seting Lanjutan",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Edit Dokumen",
   "DE.Views.FileMenu.textDownload": "Muat turun",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Dokumen Kosong",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Separa telus",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama Fon",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Saiz Fon"
 }

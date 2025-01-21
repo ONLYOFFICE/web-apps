@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "저장",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "다른 이름으로 저장",
   "SSE.Views.FileMenu.btnSettingsCaption": "고급 설정",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "스프레드시트 편집",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "빈 스프레드시트",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "새로 만들기",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "통합 문서 보호",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "양식 보호를 해제하려면 비밀번호를 입력하세요.",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "시트 보호해제",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요.",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "통합 문서 보호를 해제하려면 비밀번호를 입력하세요."
 }

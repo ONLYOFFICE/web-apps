@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "저장",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "다른 이름으로 저장",
   "DE.Views.FileMenu.btnSettingsCaption": "고급 설정",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "문서 편집",
   "DE.Views.FileMenu.textDownload": "다운로드",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "빈문서",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴 이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
 }

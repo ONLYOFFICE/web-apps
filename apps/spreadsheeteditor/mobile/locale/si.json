@@ -450,8 +450,9 @@
     "textCloseHistory": "ඉතිහාසය වසන්න",
     "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
     "textRenameFile": "ගොනුව නම් කරන්න",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

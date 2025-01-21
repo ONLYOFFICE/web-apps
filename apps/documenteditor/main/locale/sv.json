@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Spara",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Spara kopia som",
   "DE.Views.FileMenu.btnSettingsCaption": "Avancerade inställningar",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Redigera dokumentet",
   "DE.Views.FileMenu.textDownload": "Ladda ner",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Tomt dokument",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "halvgenomskinlig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek"
 }

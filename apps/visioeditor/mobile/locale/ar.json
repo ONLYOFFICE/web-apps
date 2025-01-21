@@ -159,7 +159,8 @@
     "stayButtonText": "ابقى في هذه الصفحة",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

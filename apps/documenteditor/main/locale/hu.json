@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Mentés",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Másolat mentése mint",
   "DE.Views.FileMenu.btnSettingsCaption": "Haladó beállítások",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Dokumentum szerkesztése",
   "DE.Views.FileMenu.textDownload": "Letöltés",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Üres Dokumentum",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

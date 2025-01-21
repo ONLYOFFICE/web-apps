@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Պահպանել",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Պահպանել պատճենը որպես",
   "DE.Views.FileMenu.btnSettingsCaption": "Լրացուցիչ կարգավորումներ",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Խմբագրել փաստաթուղթը",
   "DE.Views.FileMenu.textDownload": "Ներբեռնել",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Դատարկ փաստաթուղթ",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
 }

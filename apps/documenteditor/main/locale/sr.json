@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Sačuvaj",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Sačuvaj kopiju kao",
   "DE.Views.FileMenu.btnSettingsCaption": "Napredna Podešavanja ",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Prebaci na mobilnu verziju",
   "DE.Views.FileMenu.btnToEditCaption": "Uredi Dokument ",
   "DE.Views.FileMenu.textDownload": "Preuzmi",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Prazan dokument ",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
 }

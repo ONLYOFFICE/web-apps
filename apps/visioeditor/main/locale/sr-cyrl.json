@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Сачувај као",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Сачувај копију као",
   "VE.Views.FileMenu.btnSettingsCaption": "Напредна подешавања",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "Преузми",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Празан документ",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Креирај нови",
@@ -417,6 +418,5 @@
   "VE.Views.ViewTab.textZoom": "Зумирај",
   "VE.Views.ViewTab.tipFitPage": "Прилагоди страници",
   "VE.Views.ViewTab.tipFitWidth": "Прилагоди ширини",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Simpan",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Simpan SALINAN sebagai",
   "PE.Views.FileMenu.btnSettingsCaption": "Seting Lanjutan",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Edit Persembahan",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Persembahan Kosong",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Cipta Baharu",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "Passato alla visualizzazione per dispositivi mobili",
     "textSwitchedStandardView": "Passato alla visualizzazione standard",
     "warnEmptyRequiredField": "Compila tutti i campi richiesti per inviare il modulo.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

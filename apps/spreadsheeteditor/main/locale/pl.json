@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Zapisz",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Zapisz kopię jako",
   "SSE.Views.FileMenu.btnSettingsCaption": "Zaawansowane ustawienia",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Edytuj arkusz kalkulacyjny",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Pusty arkusz kalkulacyjny",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Utwórz nowy",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Chroń skoroszyt",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu"
 }

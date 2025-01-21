@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "保存する",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "コピーを別名で保存する",
   "PE.Views.FileMenu.btnSettingsCaption": "詳細設定",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "プレゼンテーションの編集",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "新しいプレゼンテーション",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新規作成",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
 }

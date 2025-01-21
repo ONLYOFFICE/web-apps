@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Сачувај",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Сачувај копију као",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Напредна подешавања",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Уреди документ",
   "PDFE.Views.FileMenu.textDownload": "Преузми",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Празан документ",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

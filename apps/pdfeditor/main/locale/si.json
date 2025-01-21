@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "සුරකින්න",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "මෙලෙස පිටපතක් සුරකින්න",
   "PDFE.Views.FileMenu.btnSettingsCaption": "වැඩිදුර සැකසුම්",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "ලේඛනය සංස්කරණය",
   "PDFE.Views.FileMenu.textDownload": "බාගන්න",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "හිස් ලේඛනය",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "පිටුවට ගළපන්න",
   "PDFE.Views.ViewTab.tipFitToWidth": "පළලට ගළපන්න",
   "PDFE.Views.ViewTab.tipHeadings": "ශ්‍රීර්ෂනාම",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
 }

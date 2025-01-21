@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
     "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

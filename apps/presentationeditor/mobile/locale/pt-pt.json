@@ -277,8 +277,9 @@
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
     "textRenameFile": "Renomear ficheiro",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

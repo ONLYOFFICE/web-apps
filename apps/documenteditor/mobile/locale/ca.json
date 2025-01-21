@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "S'ha canviat a visualització mòbil",
     "textSwitchedStandardView": "S'ha canviat a visualització estàndard",
     "warnEmptyRequiredField": "Emplena tots els camps necessaris per enviar el formulari.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

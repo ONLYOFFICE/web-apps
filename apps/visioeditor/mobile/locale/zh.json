@@ -159,7 +159,8 @@
     "stayButtonText": "留在此页面",
     "textEnterNewFileName": "输入新的文件名称",
     "textRenameFile": "重命名文件",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

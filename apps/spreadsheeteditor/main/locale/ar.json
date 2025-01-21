@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "حفظ",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "حفظ نسخة باسم",
   "SSE.Views.FileMenu.btnSettingsCaption": "الاعدادات المتقدمة",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "تعديل الجدول الحسابي",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "صفحة فارغة",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "إنشاء جديد",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "حماية المصنف",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف"
 }

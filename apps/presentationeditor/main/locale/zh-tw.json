@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "儲存",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本",
   "PE.Views.FileMenu.btnSettingsCaption": "進階設定",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "編輯簡報",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "空白簡報",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新增",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Gorde",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Gorde kopia honela",
   "PE.Views.FileMenu.btnSettingsCaption": "Ezarpen aurreratuak",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Editatu aurkezpena",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Aurkezpen hutsa",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Sortu berria",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

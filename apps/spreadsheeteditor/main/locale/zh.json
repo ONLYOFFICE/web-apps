@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "保存",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "SSE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "编辑电子表格",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "空白电子表格",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新建",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "保护工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护"
 }

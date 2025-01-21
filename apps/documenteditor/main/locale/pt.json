@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Salvar",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Salvar Cópia Em",
   "DE.Views.FileMenu.btnSettingsCaption": "Configurações avançadas",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Editar documento",
   "DE.Views.FileMenu.textDownload": "Baixar",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Documento em branco",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da Fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte"
 }

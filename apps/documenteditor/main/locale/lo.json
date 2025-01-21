@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "ບັນທຶກ",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "ບັນທຶກສຳເນົາເປັນ",
   "DE.Views.FileMenu.btnSettingsCaption": "ຕັ້ງ​ຄ່າ​ຂັ້ນ​ສູງ",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "ແກ້ໄຂເອກະສານ",
   "DE.Views.FileMenu.textDownload": "ດາວໂຫຼດ",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "ເອກະສານເປົ່າ",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

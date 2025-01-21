@@ -812,10 +812,11 @@
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
     "warnEmptyRequiredField": "Aizpildiet visus obligātos laukus, lai nosūtītu veidlapu.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "저장",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "다른 이름으로 저장",
   "PDFE.Views.FileMenu.btnSettingsCaption": "고급 설정",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "문서 편집",
   "PDFE.Views.FileMenu.textDownload": "다운로드",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "빈문서",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "페이지에 맞춤",
   "PDFE.Views.ViewTab.tipFitToWidth": "너비에 맞춤",
   "PDFE.Views.ViewTab.tipHeadings": "제목",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마"
 }

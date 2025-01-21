@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "모바일 보기로 전환되었습니다.",
     "textSwitchedStandardView": "표준 보기로 전환되었습니다.",
     "warnEmptyRequiredField": "양식을 보내려면 모든 필수 필드를 채우십시오.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Shrani",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Shrani kot",
   "DE.Views.FileMenu.btnSettingsCaption": "Napredne nastavitve",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Uredi dokument",
   "DE.Views.FileMenu.textDownload": "Prenesi",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Prazen dokument",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Ime pisave",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave"
 }

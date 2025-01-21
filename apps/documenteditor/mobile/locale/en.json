@@ -809,10 +809,8 @@
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
-    "btnSend": "Send",
-    "del_btnSwitchToDesktop": "Switch to Desktop",
-    "textSwitchToDesktop": "Switch to Desktop",
     "btnRestartNow": "Restart now",
+    "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
@@ -823,6 +821,7 @@
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop",
     "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

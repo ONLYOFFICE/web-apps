@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Gorde",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Gorde kopia honela",
   "DE.Views.FileMenu.btnSettingsCaption": "Ezarpen aurreratuak",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Editatu dokumentua",
   "DE.Views.FileMenu.textDownload": "Deskargatu",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Dokumentu hutsa",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
 }

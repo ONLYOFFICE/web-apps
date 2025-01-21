@@ -80,7 +80,7 @@
     "menuShow": "Afficher",
     "menuUnfreezePanes": "Libérer les volets",
     "menuUnmerge": "Annuler la fusion",
-    "menuUnwrap": "Annuler le renvoi",
+    "menuUnwrap": "Annuler le renvoi à la ligne",
     "menuViewComment": "Voir le commentaire",
     "menuWrap": "Renvoi à la ligne",
     "notcriticalErrorTitle": "Avertissement",
@@ -247,6 +247,12 @@
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
+  },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -449,9 +455,10 @@
     "stayButtonText": "Rester sur cette page",
     "textCloseHistory": "Fermer l'historique",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
+    "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -478,6 +485,7 @@
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
       "textDisplay": "Affichage",
       "textDone": "Terminé",
+      "textDrawing": "Dessins",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFilter": "Filtre",
@@ -515,8 +523,7 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui",
-      "textDrawing": "Drawing"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",
@@ -865,11 +872,5 @@
       "txtZh": "Chinois",
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

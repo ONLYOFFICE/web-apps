@@ -450,8 +450,9 @@
     "textCloseHistory": "Tanca l'historial",
     "textEnterNewFileName": "Introduïu un nom de fitxer nou",
     "textRenameFile": "Canvia el nom del fitxer",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Պահպանել որպես",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Պահպանել պատճենը որպես",
   "VE.Views.FileMenu.btnSettingsCaption": "Լրացուցիչ կարգավորումներ",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "Ներբեռնել",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Դատարկ փաստաթուղթ",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Ստեղծել նորը",
@@ -417,6 +418,5 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
-  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
 }

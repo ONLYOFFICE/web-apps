@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "ບັນທຶກ",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "ບັນທຶກສຳເນົາເປັນ",
   "PE.Views.FileMenu.btnSettingsCaption": "ຕັ້ງ​ຄ່າ​ຂັ້ນ​ສູງ",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "ແກ້ໄຂບົດນຳສະເໜີ",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "ການນໍາສະເໜີເປົ່າ",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "ສ້າງໃໝ່",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

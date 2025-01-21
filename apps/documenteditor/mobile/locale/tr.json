@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "Mobil görünüme geçildi",
     "textSwitchedStandardView": "Standart görünüme geçildi",
     "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

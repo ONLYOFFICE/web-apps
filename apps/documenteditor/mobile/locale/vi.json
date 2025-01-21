@@ -849,7 +849,10 @@
     "textCloseHistory": "Close History",
     "btnSend": "Send",
     "warnEmptyRequiredField": "Fill all required fields to send form.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "del_btnSwitchToDesktop": "Switch to Desktop",
+    "textSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now"
   },
   "Draw": {
     "textColor": "Color",

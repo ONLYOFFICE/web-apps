@@ -159,7 +159,8 @@
     "stayButtonText": "Остани на овој страници",
     "textEnterNewFileName": "Унеси ново име фајла",
     "textRenameFile": "Преименуј фајл",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
