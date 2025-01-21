@@ -277,8 +277,9 @@
     "textCloseHistory": "Napló bezárása",
     "textEnterNewFileName": "Írjon be egy új fájlnevet",
     "textRenameFile": "Fájl Átnevezése",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

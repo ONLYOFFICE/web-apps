@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Захаваць",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Захаваць копію як",
   "SSE.Views.FileMenu.btnSettingsCaption": "Дадатковыя налады",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Рэдагаваць табліцу",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустая табліца",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Стварыць",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Абараніць працоўную кнігу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Каб зняць абарону аркуша, увядзіце пароль",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняць абарону аркуша",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль"
 }

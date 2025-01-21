@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Zapisz",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Zapisz kopię jako",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Ustawienia zaawansowane",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Edytuj dokument",
   "PDFE.Views.FileMenu.textDownload": "Pobierz",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Pusty dokument",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Dopasuj do strony",
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
 }

@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "Váltás Mobil nézetre",
     "textSwitchedStandardView": "Normál nézetre váltott",
     "warnEmptyRequiredField": "Az űrlap elküldéséhez töltse ki az összes szükséges mezőt.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Simpan",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Simpan SALINAN sebagai",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Seting lanjutan",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Edit Dokumen",
   "PDFE.Views.FileMenu.textDownload": "Muat turun",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Dokumen Kosong",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Muat kepada Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Muat kepada Kelebaran",
   "PDFE.Views.ViewTab.tipHeadings": "Pengepala",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka"
 }

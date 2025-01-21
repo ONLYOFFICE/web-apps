@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Shrani",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Shrani kot",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Napredne nastavitve",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Uredi dokument",
   "PDFE.Views.FileMenu.textDownload": "Prenesi",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Prazen dokument",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi stran",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi širino",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
 }

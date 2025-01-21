@@ -1892,7 +1892,7 @@
   "PE.Views.DocumentHolder.textRenameLayout": "Renommer la mise en page",
   "PE.Views.DocumentHolder.textRenameMaster": "Renommer le maître",
   "PE.Views.DocumentHolder.textReplace": "Remplacer l’image",
-  "PE.Views.DocumentHolder.textResetCrop": "Réinitialiser la découpe",
+  "PE.Views.DocumentHolder.textResetCrop": "Réinitialiser le rognage",
   "PE.Views.DocumentHolder.textRotate": "Rotation",
   "PE.Views.DocumentHolder.textRotate270": "Faire pivoter à gauche de 90°",
   "PE.Views.DocumentHolder.textRotate90": "Faire pivoter à droite de 90°",
@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Enregistrer",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Enregistrer la copie sous",
   "PE.Views.FileMenu.btnSettingsCaption": "Paramètres avancés",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Passer en mode mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Modifier la présentation",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Présentation vide",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Créer nouvelle",
@@ -2230,7 +2231,7 @@
   "PE.Views.ImageSettings.textInsert": "Remplacer l’image",
   "PE.Views.ImageSettings.textOriginalSize": "Taille réelle",
   "PE.Views.ImageSettings.textRecentlyUsed": "Utilisés récemment ",
-  "PE.Views.ImageSettings.textResetCrop": "Réinitialiser la découpe",
+  "PE.Views.ImageSettings.textResetCrop": "Réinitialiser le rognage",
   "PE.Views.ImageSettings.textRotate90": "Faire pivoter de 90°",
   "PE.Views.ImageSettings.textRotation": "Rotation",
   "PE.Views.ImageSettings.textSize": "Taille",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
 }

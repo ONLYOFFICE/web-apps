@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Αποθήκευση",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Αποθήκευση αντιγράφου ως",
   "DE.Views.FileMenu.btnSettingsCaption": "Προηγμένες ρυθμίσεις",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Μετάβαση σε Κινητό",
   "DE.Views.FileMenu.btnToEditCaption": "Επεξεργασία εγγράφου",
   "DE.Views.FileMenu.textDownload": "Λήψη",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Κενό έγγραφο",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

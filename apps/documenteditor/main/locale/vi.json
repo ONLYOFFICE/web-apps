@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Lưu",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Save Copy As",
   "DE.Views.FileMenu.btnSettingsCaption": "Cài đặt nâng cao",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Chỉnh sửa Tài liệu",
   "DE.Views.FileMenu.textDownload": "Tải về",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank document",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font size"
 }

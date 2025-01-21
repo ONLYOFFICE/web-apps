@@ -814,8 +814,9 @@
     "textSwitchedMobileView": "Mugikorreko ikuspegira aldatu da",
     "textSwitchedStandardView": "Ikuspegi estandarrera aldatu da",
     "warnEmptyRequiredField": "Bete derrigorrezko eremu guztiak formularioa bidaltzeko.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

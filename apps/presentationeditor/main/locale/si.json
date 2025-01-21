@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "සුරකින්න",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "මෙලෙස පිටපතක් සුරකින්න",
   "PE.Views.FileMenu.btnSettingsCaption": "වැඩිදුර සැකසුම්",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "සමර්පණය සංස්කරණය",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "හිස් සමර්පණය",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "අළුතින් සාදන්න",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
 }

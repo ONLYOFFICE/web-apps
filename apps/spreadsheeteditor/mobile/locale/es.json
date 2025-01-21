@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Color personalizado",
+    "textLineSize": "Tamaño de línea",
+    "textOpacity": "Opacidad "
+  },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
@@ -449,9 +455,10 @@
     "stayButtonText": "Quedarse en esta página",
     "textCloseHistory": "Cerrar historial",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
+    "textOk": "OK",
     "textRenameFile": "Renombrar archivo",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -478,6 +485,7 @@
       "textDataTableHint": "Devuelve las celdas de datos de la tabla o de las columnas de la tabla especificadas",
       "textDisplay": "Mostrar",
       "textDone": "Hecho",
+      "textDrawing": "Dibujar",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFilter": "Filtro",
@@ -515,8 +523,7 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí",
-      "textDrawing": "Drawing"
+      "txtYes": "Sí"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
@@ -865,11 +872,5 @@
       "txtZh": "Chino",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

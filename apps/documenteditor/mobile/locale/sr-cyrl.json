@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
     "textSwitchedStandardView": "Пребачено на стандардни приказ",
     "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

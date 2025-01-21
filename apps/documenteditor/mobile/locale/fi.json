@@ -808,14 +808,15 @@
     "stayButtonText": "Jää tälle sivulle",
     "textCloseHistory": "Sulje historia",
     "warnEmptyRequiredField": "Täytä kaikki vaaditut kentät lähettääksesi lomakkeen.",
-    "btnSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

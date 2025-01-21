@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "حفظ",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "حفظ نسخة باسم",
   "PE.Views.FileMenu.btnSettingsCaption": "الاعدادات المتقدمة",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "تعديل العرض التقديمي",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "عرض تقديمي فارغ",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "إنشاء جديد",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }

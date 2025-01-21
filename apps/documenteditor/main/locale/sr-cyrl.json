@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Сачувај",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Сачувај копију као",
   "DE.Views.FileMenu.btnSettingsCaption": "Напредна подешавања",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Уреди документ",
   "DE.Views.FileMenu.textDownload": "Преузми",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Празан документ",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

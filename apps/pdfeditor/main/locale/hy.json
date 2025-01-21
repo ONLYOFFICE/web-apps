@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Պահպանել",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Պահպանել պատճենը որպես",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Լրացուցիչ կարգավորումներ",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Խմբագրել փաստաթուղթը",
   "PDFE.Views.FileMenu.textDownload": "Ներբեռնել",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Դատարկ փաստաթուղթ",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

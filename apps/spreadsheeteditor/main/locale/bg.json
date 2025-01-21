@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Запази",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Запазване на копието като",
   "SSE.Views.FileMenu.btnSettingsCaption": "Разширени настройки",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Редактиране на електронна таблица",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Blank Spreadsheet",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Create New",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protect workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook"
 }

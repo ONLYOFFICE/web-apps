@@ -159,7 +159,8 @@
     "stayButtonText": "Մնալ այս էջում",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
     "textRenameFile": "Վերանվանել ֆայլը",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

@@ -159,7 +159,8 @@
     "stayButtonText": "Ostanite na ovoj stranici",
     "textEnterNewFileName": "Unesite novo ime datoteke",
     "textRenameFile": "Preimenuj datoteku",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -197,6 +198,7 @@
       "textOwner": "Vlasnik",
       "textPoweredBy": "Pokreće ",
       "textPrint": "Štampaj",
+      "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
       "textSameAsSystem": "Isto kao sistem",
       "textSearch": "Pronađi",
       "textSettings": "Podešavanja",
@@ -208,8 +210,7 @@
       "textVersion": "Verzija",
       "textVisioInfo": "Informacije o pregledaču dijagrama",
       "textVisioSettings": "Podešavanja pregledača dijagrama",
-      "textVisioTitle": "Naslov pregledača dijagrama",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Naslov pregledača dijagrama"
     }
   }
 }

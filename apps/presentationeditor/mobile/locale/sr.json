@@ -284,7 +284,8 @@
     "textEnterNewFileName": "Unesi novo ime fajla",
     "textOk": "OK",
     "textRenameFile": "Preimenuj fajl",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

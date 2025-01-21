@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "Salva come",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "Salva copia come",
   "VE.Views.FileMenu.btnSettingsCaption": "Impostazioni avanzate",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "Scarica",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "Documento vuoto",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Crea nuovo",
@@ -417,6 +418,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Adatta alla pagina",
   "VE.Views.ViewTab.tipFitWidth": "Adatta alla larghezza",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
-  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
 }

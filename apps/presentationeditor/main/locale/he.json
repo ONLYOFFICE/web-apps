@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "שמירה",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "שמור עותק כ-",
   "PE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "עריכת מצגת",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "מצגת ריקה",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "יצרת חדש",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

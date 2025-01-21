@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Պահպանել",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Պահպանել պատճենը որպես",
   "SSE.Views.FileMenu.btnSettingsCaption": "Հավելյալ կարգավորումներ",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Խմբագրել աղյուսակաթերթը",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Դատարկ աղյուսակ",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Ստեղծել նորը",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Պաշտպանել աշխատագիրքը",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ թերթը չպաշտպանելու համար",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Չպաշտպանել թերթիկը",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար"
 }

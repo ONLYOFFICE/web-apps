@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Yadda saxla",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Kopya kimi yadda saxla",
   "DE.Views.FileMenu.btnSettingsCaption": "Təkmilləşdirilmiş Parametrlər",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Sənədi Redaktə edin",
   "DE.Views.FileMenu.textDownload": "Endir",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Boş Sənəd",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
 }

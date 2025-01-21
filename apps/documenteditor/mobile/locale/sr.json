@@ -821,6 +821,7 @@
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
     "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

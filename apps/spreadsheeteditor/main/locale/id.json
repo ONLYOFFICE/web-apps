@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Simpan",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Simpan Salinan sebagai",
   "SSE.Views.FileMenu.btnSettingsCaption": "Pengaturan Lanjut",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Edit Spreadsheet",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Spreadsheet Kosong",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Buat Baru",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteksi workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook"
 }

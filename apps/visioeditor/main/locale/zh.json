@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "另存为",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "VE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "下载",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "空白文档",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新建",
@@ -417,6 +418,5 @@
   "VE.Views.ViewTab.textZoom": "缩放",
   "VE.Views.ViewTab.tipFitPage": "适合页面",
   "VE.Views.ViewTab.tipFitWidth": "适合宽度",
-  "VE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "VE.Views.ViewTab.tipInterfaceTheme": "界面主题"
 }

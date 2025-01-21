@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Зберегти",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Зберегти копію як",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Додаткові налаштування",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Редагувати документ",
   "PDFE.Views.FileMenu.textDownload": "Завантажити",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Пустий документ",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "За розміром сторінки",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширині",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу"
 }

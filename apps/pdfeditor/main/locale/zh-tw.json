@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "存檔",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "另存新檔為",
   "PDFE.Views.FileMenu.btnSettingsCaption": "進階設定",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "編輯文件",
   "PDFE.Views.FileMenu.textDownload": "下載",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "空白文檔",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
 }

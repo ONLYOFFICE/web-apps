@@ -450,8 +450,9 @@
     "textCloseHistory": "סגירת היסטוריה",
     "textEnterNewFileName": "הזנת שם קובץ חדש",
     "textRenameFile": "שינוי שם קובץ",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Salvar",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Salvar Cópia Como",
   "PE.Views.FileMenu.btnSettingsCaption": "Configurações avançadas",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Editar apresentação",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Apresentação em branco",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Criar novo",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selecionar ferramenta",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide mestre"
 }

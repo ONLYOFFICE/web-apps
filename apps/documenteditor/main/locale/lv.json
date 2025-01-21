@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Saglabāt",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Saglabāt kopiju kā",
   "DE.Views.FileMenu.btnSettingsCaption": "Papildu iestatījumi",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Rediģēt dokumentu",
   "DE.Views.FileMenu.textDownload": "Lejupielādēt",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Tukšs dokuments",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }

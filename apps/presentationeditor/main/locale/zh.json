@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "保存",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "另存副本为",
   "PE.Views.FileMenu.btnSettingsCaption": "高级设置",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "编辑演示文稿",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "空白演示文稿",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新增",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
 }

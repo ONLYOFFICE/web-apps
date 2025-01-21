@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Αποθήκευση",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Αποθήκευση αντιγράφου ως",
   "PE.Views.FileMenu.btnSettingsCaption": "Προηγμένες ρυθμίσεις",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Μετάβαση σε Κινητό",
   "PE.Views.FileMenu.btnToEditCaption": "Επεξεργασία παρουσίασης",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Κενή Παρουσίαση",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Δημιουργία Νέας",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
 }

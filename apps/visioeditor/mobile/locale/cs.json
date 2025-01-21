@@ -159,7 +159,8 @@
     "stayButtonText": "Zůstat na této stránce",
     "textEnterNewFileName": "Zadejte nový název souboru",
     "textRenameFile": "Přejmenovat soubor",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

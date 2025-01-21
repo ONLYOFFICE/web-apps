@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Захаваць",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Захаваць копію як",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Дадатковыя налады",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "Рэдагаваць дакумент",
   "PDFE.Views.FileMenu.textDownload": "Спампаваць",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Пусты дакумент",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Desar",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Desar la còpia com a",
   "DE.Views.FileMenu.btnSettingsCaption": "Configuració avançada",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Edita el document",
   "DE.Views.FileMenu.textDownload": "Baixa",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Document en blanc",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subratllar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la lletra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Mida de la lletra"
 }

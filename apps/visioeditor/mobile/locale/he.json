@@ -159,7 +159,8 @@
     "stayButtonText": "להישאר בדף זה",
     "textEnterNewFileName": "נא להזין שם חדש לקובץ",
     "textRenameFile": "שינוי שם הקובץ",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

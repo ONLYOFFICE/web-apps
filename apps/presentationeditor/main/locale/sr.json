@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Sačuvaj",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Sačuvaj kopiju kao",
   "PE.Views.FileMenu.btnSettingsCaption": "Napredna Podešavanja ",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Prebaci na mobilnu verziju",
   "PE.Views.FileMenu.btnToEditCaption": "Uredi Prezentaciju",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Prazna Prezentacija",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Kreiraj Novi",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
 }

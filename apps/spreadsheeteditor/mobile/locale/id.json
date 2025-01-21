@@ -450,8 +450,9 @@
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama berkas baru",
     "textRenameFile": "Ganti Nama Berkas",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

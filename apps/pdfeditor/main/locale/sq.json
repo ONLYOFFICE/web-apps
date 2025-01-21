@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "Ruaj",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "Ruaj Kopjen si",
   "PDFE.Views.FileMenu.btnSettingsCaption": "Cilësime të avancuara",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Ndryshoni në telefon",
   "PDFE.Views.FileMenu.btnToEditCaption": "Redakto dokumentin",
   "PDFE.Views.FileMenu.textDownload": "Shkarko",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "Dokument bosh",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

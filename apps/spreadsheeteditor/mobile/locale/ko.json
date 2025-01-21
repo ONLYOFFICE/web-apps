@@ -448,10 +448,11 @@
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
     "textCloseHistory": "닫기 역사",
-    "btnSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {

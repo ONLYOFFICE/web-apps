@@ -1263,6 +1263,7 @@
   "PDFE.Views.FileMenu.btnSaveCaption": "保存",
   "PDFE.Views.FileMenu.btnSaveCopyAsCaption": "コピーを別名で保存する",
   "PDFE.Views.FileMenu.btnSettingsCaption": "詳細設定",
+  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PDFE.Views.FileMenu.btnToEditCaption": "ドキュメントの編集",
   "PDFE.Views.FileMenu.textDownload": "ダウンロード",
   "PDFE.Views.FileMenuPanels.CreateNew.txtBlank": "空の文書",
@@ -2039,6 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
 }

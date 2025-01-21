@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "שמירה",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "שמירת עותק כ-",
   "SSE.Views.FileMenu.btnSettingsCaption": "הגדרות מתקדמות",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "עריכת גיליון אלקטרוני",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "גיליון אלקטרוני ריק",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "יצרת חדש",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "הגנה על חוברת עבודה",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה"
 }

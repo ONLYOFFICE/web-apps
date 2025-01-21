@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Tallenna",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Tallenna kopio nimellä",
   "DE.Views.FileMenu.btnSettingsCaption": "Laajennetut asetukset",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Muokkaa asiakirjaa",
   "DE.Views.FileMenu.textDownload": "Lataa",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Tyhjä asiakirja",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
 }

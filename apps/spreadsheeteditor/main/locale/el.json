@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Αποθήκευση",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Αποθήκευση αντιγράφου ως",
   "SSE.Views.FileMenu.btnSettingsCaption": "Προηγμένες ρυθμίσεις",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Μετάβαση σε Κινητό",
   "SSE.Views.FileMenu.btnToEditCaption": "Επεξεργασία υπολογιστικού Φύλλου",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Κενό Φύλλο Εργασίας",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Δημιουργία νέου",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Προστασία βιβλίου εργασίας",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας"
 }

@@ -821,6 +821,7 @@
     "textSwitchedMobileView": "Kaluar në pamjen e telefonit",
     "textSwitchedStandardView": "Kaluar në pamjen standarde",
     "warnEmptyRequiredField": "Mbush të gjitha fushat e kërkuara për të dërguar fomularin.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

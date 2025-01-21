@@ -815,7 +815,8 @@
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
     "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
     "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

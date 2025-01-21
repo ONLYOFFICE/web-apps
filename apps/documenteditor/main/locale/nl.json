@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Opslaan",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Kopie opslaan als",
   "DE.Views.FileMenu.btnSettingsCaption": "Geavanceerde instellingen",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Document bewerken",
   "DE.Views.FileMenu.textDownload": "Downloaden",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Leeg document",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "semi-transparant",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Onderstreept",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Lettertype",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte"
 }

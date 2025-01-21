@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Պահպանել",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Պահպանել պատճենը որպես",
   "PE.Views.FileMenu.btnSettingsCaption": "Հավելյալ կարգավորումներ",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Խմբագրել ներկայացումը",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Դատարկ ներկայացում",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Ստեղծել նորը",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -159,7 +159,8 @@
     "stayButtonText": "Rimani su questa pagina",
     "textEnterNewFileName": "Immetti un nuovo nome file",
     "textRenameFile": "Rinomina file",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

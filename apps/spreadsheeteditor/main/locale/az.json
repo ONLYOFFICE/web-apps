@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Yadda saxlayın",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Surəti kimi yadda saxla",
   "SSE.Views.FileMenu.btnSettingsCaption": "Təkmil parametrlər",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Cədvəli Redaktə edin",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Boş Elektron cədvəl",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Yenisini Yaradın",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "İş kitabını Qoruyun",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin"
 }

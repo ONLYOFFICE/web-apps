@@ -2057,6 +2057,7 @@
   "PE.Views.FileMenu.btnSaveCaption": "Зберегти",
   "PE.Views.FileMenu.btnSaveCopyAsCaption": "Зберегти копію як",
   "PE.Views.FileMenu.btnSettingsCaption": "Розширені налаштування",
+  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "PE.Views.FileMenu.btnToEditCaption": "Редагувати презентацію",
   "PE.Views.FileMenuPanels.CreateNew.txtBlank": "Пуста презентація",
   "PE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Створити нову",
@@ -2978,6 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

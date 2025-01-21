@@ -156,10 +156,11 @@
     "dlgLeaveMsgText": "Este documento tem alterações não guardadas. Clique 'Ficar na página' para que o documento seja guardado automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",
     "dlgLeaveTitleText": "Saiu da aplicação",
     "textEnterNewFileName": "Introduza o nome para o ficheiro",
-    "btnSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {

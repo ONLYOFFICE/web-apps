@@ -159,7 +159,8 @@
     "stayButtonText": "Παραμονή σε αυτήν τη σελίδα",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
     "textRenameFile": "Μετονομασία αρχείου",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -197,6 +198,7 @@
       "textOwner": "Ιδιοκτήτης",
       "textPoweredBy": "Υποστηρίζεται από",
       "textPrint": "Εκτύπωση",
+      "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
       "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Εύρεση",
       "textSettings": "Ρυθμίσεις",
@@ -208,8 +210,7 @@
       "textVersion": "Έκδοση",
       "textVisioInfo": "Πληροφορίες προβολής διαγραμμάτων",
       "textVisioSettings": "Ρυθμίσεις προβολής διαγραμμάτων",
-      "textVisioTitle": "Τίτλος προγράμματος προβολής διαγραμμάτων",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Τίτλος προγράμματος προβολής διαγραμμάτων"
     }
   }
 }

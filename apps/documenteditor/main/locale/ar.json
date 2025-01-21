@@ -2187,6 +2187,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "حفظ",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "حفظ نسخة باسم",
   "DE.Views.FileMenu.btnSettingsCaption": "الاعدادات المتقدمة",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "تعديل المستند",
   "DE.Views.FileMenu.textDownload": "تحميل",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "مستند فارغ",
@@ -3696,6 +3697,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
 }

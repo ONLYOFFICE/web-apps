@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "සුරකින්න",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "මෙලෙස පිටපතක් සුරකින්න",
   "SSE.Views.FileMenu.btnSettingsCaption": "වැඩිදුර සැකසුම්",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "පැතුරුම්පත සංස්කරණය",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "හිස් පැතුරුම්පත",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "අළුතින් සාදන්න",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "වැඩපොත ආරක්‍ෂණය",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "පත්‍රය අනාරක්‍ෂණයට මුරපදයක් යොදන්න",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න"
 }

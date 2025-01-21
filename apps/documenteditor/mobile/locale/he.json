@@ -815,7 +815,8 @@
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
     "textSwitchedStandardView": "החלפה לתצוגה רגילה",
     "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס.",
-    "btnSwitchToDesktop": "Switch to Desktop"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "Draw": {
     "textColor": "Color",

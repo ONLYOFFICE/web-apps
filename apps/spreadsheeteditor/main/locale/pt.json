@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Salvar",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Salvar cópia como",
   "SSE.Views.FileMenu.btnSettingsCaption": "Configurações avançadas",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Editar planilha",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Folha de Cálculo em Branco",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Criar novo",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger a pasta de trabalho",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho"
 }

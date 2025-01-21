@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "儲存",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "複製為",
   "SSE.Views.FileMenu.btnSettingsCaption": "進階設定",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "編輯試算表",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "空白試算表",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "新增",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "保護工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護"
 }

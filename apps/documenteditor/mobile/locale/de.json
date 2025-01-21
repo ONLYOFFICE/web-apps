@@ -810,7 +810,6 @@
   },
   "Toolbar": {
     "btnSend": "Senden",
-    "btnSwitchToDesktop": "In den Desktopmodus wechseln",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
@@ -821,6 +820,8 @@
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
-    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
+    "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

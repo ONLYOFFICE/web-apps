@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Uložiť",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Uložiť kópiu ako",
   "SSE.Views.FileMenu.btnSettingsCaption": "Pokročilé nastavenia",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "Upraviť zošit",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Prázdny zošit",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Vytvoriť nový",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečiť zošit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu"
 }

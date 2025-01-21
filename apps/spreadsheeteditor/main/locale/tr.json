@@ -2677,6 +2677,7 @@
   "SSE.Views.FileMenu.btnSaveCaption": "Kaydet",
   "SSE.Views.FileMenu.btnSaveCopyAsCaption": "Kopyasını kaydet",
   "SSE.Views.FileMenu.btnSettingsCaption": "Gelişmiş Ayarlar",
+  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "SSE.Views.FileMenu.btnToEditCaption": "E-Tabloyu düzenle",
   "SSE.Views.FileMenuPanels.CreateNew.txtBlank": "Boş Elektronik Tablo",
   "SSE.Views.FileMenuPanels.CreateNew.txtCreateNew": "Yeni oluştur",
@@ -4570,6 +4571,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Çalışma Kitabını Koru",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
-  "SSE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin"
 }

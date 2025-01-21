@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
+  },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
     "criticalErrorExtText": "Πατήστε 'Εντάξει' για να επιστρέψετε στη λίστα εγγράφων.",
@@ -276,9 +282,10 @@
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
+    "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
-    "btnSwitchToDesktop": "Switch to Desktop",
-    "textOk": "OK"
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -292,6 +299,7 @@
       "textDefault": "Επιλεγμένο κείμενο",
       "textDisplay": "Προβολή",
       "textDone": "Ολοκληρώθηκε",
+      "textDrawing": "Σχέδιο",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFirstSlide": "Πρώτη διαφάνεια",
@@ -321,8 +329,7 @@
       "textSlideNumber": "Αριθμός διαφάνειας",
       "textTable": "Πίνακας",
       "textTableSize": "Μέγεθος πίνακα",
-      "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",
@@ -557,11 +564,5 @@
       "textVersion": "Έκδοση",
       "textVersionHistory": "Ιστορικό εκδόσεων"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }
