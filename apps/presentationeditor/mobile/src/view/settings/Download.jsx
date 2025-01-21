@@ -19,22 +19,22 @@ const Download = props => {
             <BlockTitle>{_t.textDownloadAs}</BlockTitle>
             <List>
                 <ListItem title="PPTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PPTX)}>
-                      <SvgIcon symbolId={IconFormatPptx.id} className={'icon icon-svg'} />
+                      <SvgIcon slot="media" symbolId={IconFormatPptx.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                     <SvgIcon symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
+                     <SvgIcon slot="media" symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
-                     <SvgIcon symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
+                     <SvgIcon slot="media"symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="ODP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODP)}>
-                     <SvgIcon symbolId={IconFormatOdp.id} className={'icon icon-svg'} />
+                     <SvgIcon slot="media" symbolId={IconFormatOdp.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="POTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.POTX)}>
-                     <SvgIcon symbolId={IconFormatPotx.id} className={'icon icon-svg'} />
+                     <SvgIcon slot="media"symbolId={IconFormatPotx.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="OTP" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTP)}>
-                    <SvgIcon symbolId={IconFormatOtp.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatOtp.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>

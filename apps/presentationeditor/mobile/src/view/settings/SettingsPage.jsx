@@ -16,7 +16,7 @@ import IconPrint from '@common-icons/icon-print.svg';
 import IconInfo from '@common-icons/icon-info.svg';
 import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
-import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg';
+import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackAndroid from '@common-android-icons/icon-feedback.svg';
 
 const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {

@@ -8,6 +8,13 @@ import AddShapeController from "../../controller/add/AddShape";
 import { AddOtherController } from "../../controller/add/AddOther";
 import { MainContext } from '../../page/main';
 import SvgIcon from '@common/lib/component/SvgIcon';
+import IconAddShapeIos from '@common-ios-icons/icon-add-shape.svg?ios';
+import IconAddShapeAndroid from '@common-android-icons/icon-add-shape.svg';
+import IconAddOtherIos from '@common-ios-icons/icon-add-other.svg?ios';
+import IconAddOtherAndroid from '@common-android-icons/icon-add-other.svg';
+import IconAddSlideIos from '@ios-icons/icon-add-slide.svg?ios';
+import IconAddSlideAndroid from '@android-icons/icon-add-slide.svg';
+
 
 const AddLayoutNavbar = ({ tabs }) => {
     const isAndroid = Device.android;
@@ -67,14 +74,14 @@ const AddingPage = inject("storeApplicationSettings")(observer(props => {
         tabs.push({
             caption: _t.textSlide,
             id: 'add-slide',
-            icon: 'icon-add-slide',
+            icon: Device.ios ? IconAddSlideIos.id : IconAddSlideAndroid.id,
             component: <AddSlideController />
         });
 
         tabs.push({
             caption: _t.textShape,
             id: 'add-shape',
-            icon: 'icon-add-shape',
+            icon: Device.ios ? IconAddShapeIos.id : IconAddShapeAndroid.id,
             component: <AddShapeController/>
         });
 
@@ -88,7 +95,7 @@ const AddingPage = inject("storeApplicationSettings")(observer(props => {
         tabs.push({
             caption: _t.textOther,
             id: 'add-other',
-            icon: 'icon-add-other',
+            icon: Device.ios ? IconAddOtherIos.id : IconAddOtherAndroid.id,
             component: <AddOtherController />
         });
     }
@@ -97,7 +104,7 @@ const AddingPage = inject("storeApplicationSettings")(observer(props => {
         tabs.push({
             caption: _t.textSlide,
             id: 'add-slide',
-            icon: 'icon-add-slide',
+            icon: Device.ios ? IconAddSlideIos.id : IconAddSlideAndroid.id,
             component: <AddSlideController />
         });
     }

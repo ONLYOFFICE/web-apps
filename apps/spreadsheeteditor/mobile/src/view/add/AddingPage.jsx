@@ -12,7 +12,7 @@ import { AddingContext } from '../../controller/add/Add';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconAddShapeIos from '@common-ios-icons/icon-add-shape.svg?ios';
 import IconAddShapeAndroid from '@common-android-icons/icon-add-shape.svg';
-import IconAddOtherIos from '@common-android-icons/icon-add-other.svg?ios';
+import IconAddOtherIos from '@common-ios-icons/icon-add-other.svg?ios';
 import IconAddOtherAndroid from '@common-android-icons/icon-add-other.svg';
 import IconAddChartIos from '@ios-icons/icon-add-chart.svg?ios';
 import IconAddChartAndroid from '@android-icons/icon-add-chart.svg';

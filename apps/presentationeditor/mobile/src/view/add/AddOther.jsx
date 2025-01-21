@@ -4,12 +4,12 @@ import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, S
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconAddTableIos from '@common-ios-icons/icon-add-table.svg';
+import IconAddTableIos from '@common-ios-icons/icon-add-table.svg?ios';
 import IconAddTableAndroid from '@common-android-icons/icon-add-table.svg';
-import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 import IconImage from '@common-icons/icon-image.svg';
-import IconLinkIos from '@common-ios-icons/icon-link.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
 import IconLinkAndroid from '@common-android-icons/icon-link.svg';
 
 const PageTable = props => {
@@ -61,8 +61,8 @@ const AddOther = props => {
                 onStyleClick: props.onStyleClick,
             }}>
                 {Device.ios ? 
-                    <SvgIcon symbolId={IconAddTableIos} className={'icon icon-svg'} /> :
-                    <SvgIcon symbolId={IconAddTableAndroid} className={'icon icon-svg'} />
+                    <SvgIcon slot="media"  symbolId={IconAddTableIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon slot="media" symbolId={IconAddTableAndroid.id} className={'icon icon-svg'} />
                 }
             </ListItem>
             {!hideAddComment && <ListItem title={_t.textComment} onClick={() => {
@@ -70,12 +70,12 @@ const AddOther = props => {
                 Common.Notifications.trigger('addcomment');
             }}>
                 {Device.ios ? 
-                    <SvgIcon symbolId={IconInsertCommentIos} className={'icon icon-svg'} /> :
-                    <SvgIcon symbolId={IconInsertCommentAndroid} className={'icon icon-svg'} />
+                    <SvgIcon slot="media"  symbolId={IconInsertCommentIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon slot="media"  symbolId={IconInsertCommentAndroid.id} className={'icon icon-svg'} />
                 }
             </ListItem>}
             <ListItem title={_t.textImage} link='/add-image/'>
-                <SvgIcon symbolId={IconImage} className={'icon icon-svg'} />
+                <SvgIcon slot="media" symbolId={IconImage.id} className={'icon icon-svg'} />
             </ListItem>
             {showInsertLink &&
                 <ListItem title={_t.textLink} link={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
@@ -83,8 +83,8 @@ const AddOther = props => {
                     isNavigate: true
                 }}>
                     {Device.ios ? 
-                        <SvgIcon symbolId={IconLinkIos} className={'icon icon-svg'} /> :
-                        <SvgIcon symbolId={IconLinkAndroid} className={'icon icon-svg'} />
+                        <SvgIcon slot="media"  symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media"  symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
             }

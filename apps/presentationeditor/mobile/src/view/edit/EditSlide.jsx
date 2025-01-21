@@ -5,7 +5,7 @@ import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobi
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 

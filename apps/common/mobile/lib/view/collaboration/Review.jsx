@@ -5,19 +5,19 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
-import IconReviewChangesIos from '@common-ios-icons/icon-review-changes.svg';
+import IconReviewChangesIos from '@common-ios-icons/icon-review-changes.svg?ios';
 import IconReviewChangesAndroid from '@common-android-icons/icon-review-changes.svg';
-import IconAcceptChangesIos from '@common-ios-icons/icon-accept-changes.svg';
+import IconAcceptChangesIos from '@common-ios-icons/icon-accept-changes.svg?ios';
 import IconAcceptChangesAndroid from '@common-android-icons/icon-accept-changes.svg';
-import IconRejectChangesIos from '@common-ios-icons/icon-reject-changes.svg';
+import IconRejectChangesIos from '@common-ios-icons/icon-reject-changes.svg?ios';
 import IconRejectChangesAndroid from '@common-android-icons/icon-reject-changes.svg';
 import IconGotoIos from '@common-ios-icons/icon-goto.svg';
 import IconGotoAndroid from '@common-android-icons/icon-goto.svg';
-import IconPrevChangeIos from '@common-ios-icons/icon-prev-change.svg';
+import IconPrevChangeIos from '@common-ios-icons/icon-prev-change.svg?ios';
 import IconPrevChangeAndroid from '@common-android-icons/icon-prev-change.svg';
-import IconNextChangeIos from '@common-ios-icons/icon-next-change.svg';
+import IconNextChangeIos from '@common-ios-icons/icon-next-change.svg?ios';
 import IconNextChangeAndroid from '@common-android-icons/icon-next-change.svg';
 
 const PageReview = props => {
@@ -34,8 +34,8 @@ const PageReview = props => {
                <NavRight>
                    <Link sheetClose=".coauth__sheet">
                         {Device.ios ?
-                            <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                         }
                    </Link>
                </NavRight>
@@ -94,8 +94,8 @@ const DisplayMode = props => {
                 <NavRight>
                     <Link sheetClose=".coauth__sheet">
                         {Device.ios ? 
-                            <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                         }
                     </Link>
                 </NavRight>
@@ -149,8 +149,8 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                     <NavRight>
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
-                                <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                             }
                         </Link>
                     </NavRight>

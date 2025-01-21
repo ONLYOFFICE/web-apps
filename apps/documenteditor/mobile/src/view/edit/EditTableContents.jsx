@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const EditTableContents = props => {

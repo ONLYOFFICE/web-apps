@@ -4,24 +4,24 @@ import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, S
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconPageBreakIos from '@common-ios-icons/icon-pagebreak.svg';
+import IconPageBreakIos from '@common-ios-icons/icon-pagebreak.svg?ios';
 import IconPageBreakAndroid from '@common-android-icons/icon-pagebreak.svg';
-import IconStringBreakIos from '@common-ios-icons/icon-stringbreak.svg';
+import IconStringBreakIos from '@common-ios-icons/icon-stringbreak.svg?ios';
 import IconStringBreakAndroid from '@common-android-icons/icon-stringbreak.svg';
-import IconSectionBreakIos from '@common-ios-icons/icon-sectionbreak.svg';
+import IconSectionBreakIos from '@common-ios-icons/icon-sectionbreak.svg?ios';
 import IconSectionBreakAndroid from '@common-android-icons/icon-sectionbreak.svg';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconExpandUpAndroid from '@common-android-icons/icon-expand-up.svg';
-import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 import IconImage from '@common-icons/icon-image.svg';
-import IconLinkIos from '@common-ios-icons/icon-link.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
 import IconLinkAndroid from '@common-android-icons/icon-link.svg';
-import IconPageNumberIos from '@common-ios-icons/icon-pagenumber.svg';
+import IconPageNumberIos from '@common-ios-icons/icon-pagenumber.svg?ios';
 import IconPageNumberAndroid from '@common-android-icons/icon-pagenumber.svg';
-import IconTableContentsIos from '@ios-icons/icon-table-contents.svg';
+import IconTableContentsIos from '@ios-icons/icon-table-contents.svg?ios';
 import IconTableContentsAndroid from '@android-icons/icon-table-contents.svg';
-import IconFootnoteIos from '@ios-icons/icon-footnote.svg';
+import IconFootnoteIos from '@ios-icons/icon-footnote.svg?ios';
 import IconFootnoteAndroid from '@android-icons/icon-footnote.svg';
 
 const PageNumber = props => {

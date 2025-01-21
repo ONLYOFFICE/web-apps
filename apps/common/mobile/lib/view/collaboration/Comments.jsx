@@ -5,17 +5,17 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconDoneCommentWhite from '@common-android-icons/icon-done-comment-white.svg';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconResolveCommentAndroid from '@common-android-icons/icon-resolve-comment.svg';
-import IconResolveCommentIos from '@common-ios-icons/icon-resolve-comment.svg';
-import IconResolveCommentCheckIos from '@common-ios-icons/icon-resolve-comment-check.svg';
+import IconResolveCommentIos from '@common-ios-icons/icon-resolve-comment.svg?ios';
+import IconResolveCommentCheckIos from '@common-ios-icons/icon-resolve-comment-check.svg?ios';
 import IconResolveCommentCheckAndroid from '@common-android-icons/icon-resolve-comment-check.svg';
-import IconMenuCommentIos from '@common-ios-icons/icon-menu-comment.svg';
+import IconMenuCommentIos from '@common-ios-icons/icon-menu-comment.svg?ios';
 import IconMenuCommentAndroid from '@common-android-icons/icon-menu-comment.svg';
-import IconPrevIos from '@common-ios-icons/icon-prev.svg';
+import IconPrevIos from '@common-ios-icons/icon-prev.svg?ios';
 import IconPrevAndroid from '@common-android-icons/icon-prev.svg';
-import IconNextIos from '@common-ios-icons/icon-next.svg';
+import IconNextIos from '@common-ios-icons/icon-next.svg?ios';
 import IconNextAndroid from '@common-android-icons/icon-next.svg';
 
 // Utils
@@ -732,8 +732,8 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                     <NavRight>
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
-                                <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
                             }
                         </Link>
                     </NavRight>
@@ -894,14 +894,14 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                     <div className='comment-navigation row'>
                         <Link href='#' onClick={onViewPrevComment}>
                             {Device.ios ? 
-                                <SvgIcon symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
                             }
                         </Link>
                         <Link href='#' onClick={onViewNextComment}>
                             {Device.ios ? 
-                                <SvgIcon symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
                             }
                         </Link>
                     </div>

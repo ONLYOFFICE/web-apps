@@ -4,9 +4,9 @@ import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle} f
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../../common/mobile/utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconImageLibraryIos from '@common-ios-icons/icon-image-library.svg';
+import IconImageLibraryIos from '@common-ios-icons/icon-image-library.svg?ios';
 import IconImageLibraryAndroid from '@common-android-icons/icon-image-library.svg';
-import IconLinkIos from '@common-ios-icons/icon-link.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
 import IconLinkAndroid from '@common-android-icons/icon-link.svg';
 
 

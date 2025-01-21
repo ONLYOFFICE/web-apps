@@ -27,7 +27,7 @@ const PageLink = props => {
                         props.isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
                         {Device.android && 
-                            <SvgIcon slot="media" symbolId={IconClose.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg'} />
                         }
                     </Link>
                 </NavLeft>
@@ -38,8 +38,8 @@ const PageLink = props => {
                     }} text={Device.ios ? t('Add.textDone') : ''}>
                         {Device.android && 
                             stateLink.length < 1 ? 
-                                <SvgIcon slot="media" symbolId={IconDoneDisabled.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot="media" symbolId={IconDone.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg'} />
                         }
                     </Link>
                 </NavRight>

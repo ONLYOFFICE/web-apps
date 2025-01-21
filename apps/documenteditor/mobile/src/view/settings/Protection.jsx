@@ -17,11 +17,11 @@ const ProtectionView = inject("storeAppOptions")(observer(props => {
             <Navbar title={t('Settings.textProtection')} backLink={_t.textBack} />
             <List>
                 <ListItem title={isProtected ? t('Settings.textUnprotect') : t('Settings.textProtectDocument')} onClick={() => props.onProtectClick()} link="#">
-                     <SvgIcon symbolId={IconProtectDocument.id} className='icon icon-svg' />
+                     <SvgIcon slot="media" symbolId={IconProtectDocument.id} className='icon icon-svg' />
                 </ListItem>
                 <ListItem title={t('Settings.textEncryptFile')} link="/encrypt">
                     <Icon slot="media" icon="icon-encrypt-file" />
-                    <SvgIcon symbolId={IconEncryptFile.id} className='icon icon-svg' />
+                    <SvgIcon slot="media" symbolId={IconEncryptFile.id} className='icon icon-svg' />
                 </ListItem>
             </List>
         </Page>

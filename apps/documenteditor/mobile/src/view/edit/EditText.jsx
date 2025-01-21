@@ -557,7 +557,7 @@ const PageOrientationTextShape = props => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
                 }}>
-                    <SvgIcon symbolId={IconTextOrientationHorizontal.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextDown')} radio
                     checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
@@ -566,7 +566,7 @@ const PageOrientationTextShape = props => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
                 }}>
-                    <SvgIcon symbolId={IconTextOrientationRotateDown.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotateDown.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextUp')} radio
                     checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
@@ -575,7 +575,7 @@ const PageOrientationTextShape = props => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
                 }}>
-                    <SvgIcon symbolId={IconTextOrientationRotateUp.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotateUp.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -647,7 +647,7 @@ const EditText = props => {
                     onTextColor: props.onTextColor
                 }}>
                     {!isAndroid ?
-                        <SvgIcon symbolId={IconTextColor.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconTextColor.id} className={'icon icon-svg'} /> :
                         fontColorPreview
                     }
                 </ListItem>
@@ -655,7 +655,7 @@ const EditText = props => {
                     onHighlightColor: props.onHighlightColor
                 }}>
                     {!isAndroid ?
-                        <SvgIcon symbolId={IconTextSelection.id} className={'icon icon-svg'} /> : highlightColorPreview
+                        <SvgIcon slot="media" symbolId={IconTextSelection.id} className={'icon icon-svg'} /> : highlightColorPreview
                     }
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
@@ -665,7 +665,7 @@ const EditText = props => {
                     changeLetterSpacing: props.changeLetterSpacing
                 }}>
                     {!isAndroid && 
-                        <SvgIcon symbolId={IconTextAdditionalIos.id} className={'icon icon-svg'} />
+                        <SvgIcon slot="media" symbolId={IconTextAdditionalIos.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
             </List>
@@ -673,16 +673,16 @@ const EditText = props => {
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
-                             <SvgIcon symbolId={IconTextAlignLeft.id} className={'icon icon-svg'} />
+                             <SvgIcon slot="media" symbolId={IconTextAlignLeft.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'button' + (paragraphAlign === 'center' ? ' active' : '')} onClick={() => {props.onParagraphAlign('center')}}>
-                            <SvgIcon symbolId={IconTextAlignCenter.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconTextAlignCenter.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'button' + (paragraphAlign === 'right' ? ' active' : '')} onClick={() => {props.onParagraphAlign('right')}}>
-                            <SvgIcon symbolId={IconTextAlignRight.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconTextAlignRight.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
-                            <SvgIcon symbolId={IconTextAlignJust.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconTextAlignJust.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>
@@ -692,12 +692,12 @@ const EditText = props => {
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(true)
                             }}>
-                                <SvgIcon symbolId={IconDeIndent.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconDeIndent.id} className={'icon icon-svg'} />
                             </a>
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(false)
                             }}>
-                                <SvgIcon symbolId={IconInIndent.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconInIndent.id} className={'icon icon-svg'} />
                             </a>
                         </div>
                     </ListItem>
@@ -708,7 +708,7 @@ const EditText = props => {
                         shapePr
                     }}>
                         {!isAndroid && 
-                            <SvgIcon symbolId={IconTextOrientationAngleCount.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconTextOrientationAngleCount.id} className={'icon icon-svg'} />
                         }
                     </ListItem>
                 }
@@ -722,7 +722,7 @@ const EditText = props => {
                     }}>
                         <div className="preview">{previewList}</div>
                         {!isAndroid && 
-                            <SvgIcon symbolId={IconBullets.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={IconBullets.id} className={'icon icon-svg'} />
                         }
                     </ListItem>
                 }
@@ -730,7 +730,7 @@ const EditText = props => {
                     onLineSpacing: props.onLineSpacing
                 }}>
                     {!isAndroid && 
-                        <SvgIcon symbolId={IconLineSpacing.id} className={'icon icon-svg'} />
+                        <SvgIcon slot="media" symbolId={IconLineSpacing.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
             </List>

@@ -47,7 +47,7 @@ const ToolbarView = props => {
         <Fragment>
             <NavLeft>
                 {(!isViewer && !isVersionHistoryMode) && 
-                    <Link text={Device.ios ? t("Toolbar.textOk") : ''} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}>
+                    <Link iconOnly text={Device.ios ? t("Toolbar.textOk") : ''} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}>
                         {Device.android &&
                             <SvgIcon slot="media" symbolId={IconCheck.id} className={'icon icon-svg'} />
                         }
@@ -62,7 +62,7 @@ const ToolbarView = props => {
                     </a> 
                 : null}
                 {(props.isShowBack && isViewer && !isVersionHistoryMode) && 
-                    <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} onClick={() => Common.Notifications.trigger('goback')}>
+                    <Link iconOnly className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} onClick={() => Common.Notifications.trigger('goback')}>
                         {Device.ios ? 
                             <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> :
                             <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
@@ -96,7 +96,7 @@ const ToolbarView = props => {
                 }
                 {!isEditableForms ? [
                     ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
-                        <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} href={false} onClick={() => {
+                        <Link iconOnly key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} href={false} onClick={() => {
                             props.changeMobileView();
                             props.openOptions('snackbar');
                         }}>
@@ -106,7 +106,7 @@ const ToolbarView = props => {
                         }
                     </Link>,
                     (props.showEditDocument && !isViewer) &&
-                        <Link key='edit-link' className={(props.disabledControls || isOpenModal) && 'disabled'} href={false} onClick={props.onEditDocument}>
+                        <Link iconOnly key='edit-link' className={(props.disabledControls || isOpenModal) && 'disabled'} href={false} onClick={props.onEditDocument}>
                             {Device.ios ? 
                                 <SvgIcon slot="media" symbolId={IconEditForIos.id} className={'icon icon-svg'} />
                             :
@@ -123,41 +123,41 @@ const ToolbarView = props => {
                         </Fragment>
                     ),
                     (Device.phone ? null : 
-                        <Link key='search-link' className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} searchbarEnable='.searchbar' href={false}>
+                        <Link iconOnly key='search-link' className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} searchbarEnable='.searchbar' href={false}>
                             <SvgIcon slot="media" symbolId={IconSearch.id} className={'icon icon-svg'} />
                         </Link>
                     ),
                     (window.matchMedia("(min-width: 360px)").matches && !isForm && !isVersionHistoryMode ? 
-                        <Link key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}>
+                        <Link iconOnly key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}>
                             <SvgIcon slot="media" symbolId={IconCollaboration.id} className={'icon icon-svg'} />
                         </Link>  
                     : null),
                     (isVersionHistoryMode ? 
-                        <Link key='history-link' id='btn-open-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}>
+                        <Link iconOnly key='history-link' id='btn-open-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}>
                             <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
                         </Link>  
                     : null),
                     <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
                 ] : [
-                    <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' href={false} onClick={() => props.movePrevField()}><SvgIcon slot="media" symbolId={IconPrevField.id} className={'icon icon-svg'} /></Link>,
-                    <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' href={false} onClick={() => props.moveNextField()}><SvgIcon slot="media" symbolId={IconNextField.id} className={'icon icon-svg'} /></Link>,
+                    <Link iconOnly key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' href={false} onClick={() => props.movePrevField()}><SvgIcon slot="media" symbolId={IconPrevField.id} className={'icon icon-svg'} /></Link>,
+                    <Link iconOnly key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' href={false} onClick={() => props.moveNextField()}><SvgIcon slot="media" symbolId={IconNextField.id} className={'icon icon-svg'} /></Link>,
                     (props.canSubmitForms ?
                         [
-                            <Link key='btn-settings'
+                            <Link iconOnly key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   href={false}
                                   id='btn-settings'
                                   onClick={() => props.openOptions('settings')}><SvgIcon slot="media" symbolId={IconSettings.id} className={'icon icon-svg'} /></Link>,
-                            <Link key='send-form-link'
+                            <Link iconOnly key='send-form-link'
                                   id='btn-submit-form'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   text={t("Toolbar.btnSend")} href={false}
                                   onClick={() => props.saveForm()}></Link>
                         ] : [
-                            <Link key='save-form-link'
+                            <Link iconOnly key='save-form-link'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                    href={false} onClick={() => props.saveForm()}><SvgIcon slot="media" symbolId={IconSaveForm.id} className={'icon icon-svg'} /></Link>,
-                            <Link key='btn-settings'
+                            <Link iconOnly key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings'
                                   href={false} onClick={() => {props.openOptions('settings')}}> <SvgIcon slot="media" symbolId={IconSettings.id} className={'icon icon-svg'} /></Link>
                         ]

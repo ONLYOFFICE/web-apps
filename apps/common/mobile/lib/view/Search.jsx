@@ -5,11 +5,11 @@ import { Device } from '../../../../common/mobile/utils/device';
 import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconSettingsIos from '@common-ios-icons/icon-settings.svg';
+import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
 import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
-import IconPrevIos from '@common-ios-icons/icon-prev.svg';
+import IconPrevIos from '@common-ios-icons/icon-prev.svg?ios';
 import IconPrevAndroid from '@common-android-icons/icon-prev.svg';
-import IconNextIos from '@common-ios-icons/icon-next.svg';
+import IconNextIos from '@common-ios-icons/icon-next.svg?ios';
 import IconNextAndroid from '@common-android-icons/icon-next.svg';
 
 const searchOptions = observable({

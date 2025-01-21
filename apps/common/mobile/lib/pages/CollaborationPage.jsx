@@ -4,14 +4,14 @@ import { List, ListItem, Navbar, NavRight, Page, Icon, Link } from 'framework7-r
 import { useTranslation } from 'react-i18next';
 import { Device } from "../../utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
-import IconReviewIos from '@common-ios-icons/icon-review.svg';
+import IconReviewIos from '@common-ios-icons/icon-review.svg?ios';
 import IconReviewAndroid from '@common-android-icons/icon-review.svg';
 import IconSharingSettings from '@common-icons/icon-sharing-settings.svg';
-import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
-import IconUsersIos from '@common-ios-icons/icon-users.svg';
+import IconUsersIos from '@common-ios-icons/icon-users.svg?ios';
 import IconUsersAndroid from '@common-android-icons/icon-users.svg';
 
 const CollaborationPage = props => {

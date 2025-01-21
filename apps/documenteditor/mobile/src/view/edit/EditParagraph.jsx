@@ -8,7 +8,7 @@ import SvgIcon from '@common/lib/component/SvgIcon';
 import IconCreateStyle from '@android-icons/icon-create-style.svg';
 import IconRemoveStyle from '@common-icons/icon-remove-style.svg';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const PageAdvancedSettings = props => {
@@ -288,7 +288,7 @@ const EditParagraphStyle = props => {
                     onSaveStyle: props.onSaveStyle
                 }}>
                     {Device.android && 
-                        <SvgIcon symbolId={IconCreateStyle.id} className={'icon icon-svg'} />
+                        <SvgIcon slot="media" symbolId={IconCreateStyle.id} className={'icon icon-svg'} />
                     }
                 </ListItem>
             </List>
