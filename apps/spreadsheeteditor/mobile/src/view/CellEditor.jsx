@@ -40,7 +40,7 @@ const CellEditorView = props => {
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
                     <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
-                        <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg'} />
+                        <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg icon_function'} />
                     </a>
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>

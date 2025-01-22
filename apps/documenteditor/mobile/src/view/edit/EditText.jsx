@@ -22,7 +22,9 @@ import IconInIndent from '@common-icons/icon-in-indent.svg';
 import IconTextOrientationAngleCount from '@common-icons/icon-text-orientation-anglecount.svg';
 import IconBullets from '@common-icons/icon-bullets.svg';
 import IconLineSpacing from '@common-icons/icon-linespacing.svg';
-
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -204,10 +206,9 @@ const PageAdditionalFormatting = props => {
                             </Button>
                             {isAndroid && <label>{(Number.isInteger(letterSpacing) ? letterSpacing : letterSpacing.toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
-                                {Device.ios ? 
-                                    <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
-                                }
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>

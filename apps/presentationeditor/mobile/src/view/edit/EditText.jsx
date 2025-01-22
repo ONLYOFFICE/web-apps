@@ -23,6 +23,8 @@ import IconTextOrientationHorizontal from '@common-icons/icon-text-orientation-h
 import IconTextOrientationRotateup from '@common-icons/icon-text-orientation-rotateup.svg';
 import IconTextOrientationRotatedown from '@common-icons/icon-text-orientation-rotatedown.svg';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconImageLibraryIos from '@common-ios-icons/icon-image-library.svg?ios';
 import IconImageLibraryAndroid from '@common-android-icons/icon-image-library.svg';
 import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
