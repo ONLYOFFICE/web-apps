@@ -246,9 +246,15 @@ define([], function () {
 
             var menu_props = {};
             selectedElements && _.each(selectedElements, function(element, index) {
-                if (Asc.c_oAscTypeSelectElement.Annot == element.get_ObjectType()) {
+                var elType  = element.get_ObjectType(),
+                    elValue = element.get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Annot == elType) {
                     menu_props.annotProps = {};
-                    menu_props.annotProps.value = element.get_ObjectValue();
+                    menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
 
@@ -314,6 +320,10 @@ define([], function () {
                     menu_to_show = documentHolder.editPDFModeMenu;
                     menu_props.annotProps = {};
                     menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
             if (menu_to_show === null) {
@@ -362,7 +372,7 @@ define([], function () {
         };
 
         dh.onShowTextBar = function(bounds) {
-            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
+            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit) || this._state.pageDeleted) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -732,7 +742,7 @@ define([], function () {
         };
 
         dh.onShowAnnotBar = function(bounds, mouseOnTop) {
-            if (this.mode && !this.mode.isEdit) return;
+            if (this.mode && !this.mode.isEdit || this._state.pageDeleted) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -824,7 +834,7 @@ define([], function () {
         };
 
         dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
-            if (this.mode && !this.mode.isEdit) return;
+            if (this.mode && !this.mode.isEdit || this._state.pageDeleted) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -946,7 +956,7 @@ define([], function () {
         };
 
         dh.onShowMathTrack = function(bounds) {
-            if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
+            if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit) || this._state.pageDeleted) return;
 
             this.lastMathTrackBounds = bounds;
             if (!Common.Controllers.LaunchController.isScriptLoaded()) {

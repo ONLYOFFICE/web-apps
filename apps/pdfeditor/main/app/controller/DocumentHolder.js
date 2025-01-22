@@ -281,7 +281,7 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
+            if (this.mode && this.mode.isEdit && (this.mode.isPDFEdit || this.mode.isPDFAnnotate)) {
                 var i = -1,
                     in_equation = false,
                     locked = false;
@@ -292,12 +292,15 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.PdfPage) {
+                        this._state.pageDeleted = selectedElements[i].get_ObjectValue().asc_getDeleteLock();
                     }
                 }
                 if (in_equation) {
                     this._state.equationLocked = locked;
                     this.disableEquationBar();
                 }
+                this._state.pageDeleted && this.clearSelection();
             }
         },
 
