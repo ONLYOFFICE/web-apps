@@ -60,7 +60,7 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
         else ui_rtl = true;
 }
 
-if ( ui_rtl && isIEBrowser !== true ) {
+if ( ui_rtl && window.isIEBrowser !== true ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
