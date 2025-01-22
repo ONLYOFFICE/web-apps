@@ -174,7 +174,7 @@ define([
                 }
             }
 
-            if ( this._settings[Common.Utils.documentSettingsType.Slide].locked ) { // если находимся в locked slide, то считаем, что все элементы в нем тоже недоступны
+            if ( this._settings[Common.Utils.documentSettingsType.Slide].locked ) { // all elements are locked if the slide is locked
                 for (i=0; i<this._settings.length; i++)  {
                     if (this._settings[i])
                         this._settings[i].locked = true;
