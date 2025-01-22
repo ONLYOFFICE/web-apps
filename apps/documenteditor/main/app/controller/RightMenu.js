@@ -247,7 +247,7 @@ define([
                 }
             }
 
-            if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны
+            if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // all elements are locked if header/footer is locked
                 for (i=0; i<this._settings.length; i++)  {
                     if (this._settings[i])
                         this._settings[i].locked = true;
