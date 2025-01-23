@@ -68,4 +68,30 @@
               display: inline-block;
           }
     }
+
+    .preview-color-picker {
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #808080;
+        &:not(:last-child) {
+            margin-right: 3px;
+        }
+    }
+
+    #btn-preview-draw {
+        button {
+            min-width: 20px;
+        }
+
+        .menu-item.checked {
+            color: @text-normal-pressed-ie;
+            color: @text-normal-pressed;
+            background-color: @highlight-button-pressed-ie;
+            background-color: @highlight-button-pressed;
+            &:before {
+                display: none;
+            }
+        }
+    }
 }
