@@ -179,9 +179,9 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', maxwidth: 260},
-                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', maxwidth: 260},
-                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', maxwidth: 260, extCls: 'inc-index'},
+                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', maxwidth: 260, closable: false},
+                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', maxwidth: 260, closable: false},
+                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', maxwidth: 260, extCls: 'inc-index', closable: false},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
