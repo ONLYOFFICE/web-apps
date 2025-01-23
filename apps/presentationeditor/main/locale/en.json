@@ -1385,6 +1385,8 @@
   "del_PE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
   "PE.Controllers.Toolbar.helpTabDesign": "The \"Themes\", \"Colors\", and \"Slide Size\" functions are now under the new \"Design\" tab  for easier navigation.",
   "PE.Controllers.Toolbar.helpTabDesignHeader": "New \"Design\" Tab",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, subtract, and exclude shapes with new editing options.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "New Shape Operations Available",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
