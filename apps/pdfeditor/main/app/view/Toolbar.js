@@ -541,7 +541,7 @@ define([
                     id: 'id-toolbar-btn-incoffset',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incoffset',
-                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.incIndentLock, _set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
