@@ -267,7 +267,7 @@ define([
             //     'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
             // });
             Common.UI.TooltipManager.addTips({
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -380,6 +380,7 @@ define([
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -1762,6 +1763,10 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -3763,6 +3768,8 @@ define([
                     me.controllers.pageLayout.onLaunch(me.toolbar)
                         .setApi(me.api)
                         .onAppReady(config);
+
+                    !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
@@ -3996,11 +4003,14 @@ define([
         onActiveTab: function(tab) {
             (tab === 'ins') ? Common.UI.TooltipManager.showTip('textFromFile') : Common.UI.TooltipManager.closeTip('textFromFile');
             (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('textFromFile');
             Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('rtlDirection');
         }
 
     }, DE.Controllers.Toolbar || {}));
