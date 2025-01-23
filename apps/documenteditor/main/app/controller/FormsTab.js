@@ -287,7 +287,6 @@ define([
             var me = this;
             if (!this._state.formCount) { // add first form
                 this.closeHelpTip('create');
-                Common.UI.TooltipManager.showTip('signatureField');
             } else if (this._state.formCount===1) {
                 setTimeout(function() {
                     // me.showHelpTip('roles');
@@ -632,7 +631,6 @@ define([
             this.closeHelpTip('create');
             this.closeHelpTip('roles');
             this.closeHelpTip('save');
-            Common.UI.TooltipManager.closeTip('signatureField');
         },
 
         onChangeProtectDocument: function(props) {

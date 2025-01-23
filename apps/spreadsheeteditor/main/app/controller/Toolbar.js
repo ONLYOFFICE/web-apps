@@ -275,9 +275,8 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                // 'insPivot' : {name: 'sse-help-tip-ins-pivot', placement: 'bottom-right', text: this.helpInsPivot, header: this.helpInsPivotHeader, target: 'li.ribtab #ins', automove: true},
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
-                // 'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'},
+                'fastUndo' : {name: 'sse-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
+                'calcItems' : {name: 'help-tip-calc-items', placement: 'bottom-left', text: this.helpCalcItems, header: this.helpCalcItemsHeader, target: '#slot-btn-calculated-items', automove: true, closable: false},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -615,6 +614,8 @@ define([
         },
 
         onUndo: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('fastUndo');
+
             if (this.api)
                 this.api.asc_Undo();
 
@@ -2567,6 +2568,10 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.btnUndo.setDisabled(!can);
                     this._state.can_undo = can;
+                    if (can) {
+                        var _main = this.getApplication().getController('Main');
+                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
+                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -4673,12 +4678,6 @@ define([
                     Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
-
-            Common.Utils.asyncCall(function () {
-                if ( config.isEdit ) {
-                    Common.UI.TooltipManager.showTip('insPivot');
-                }
-            });
         },
 
         onFileMenu: function (opts) {
@@ -5249,8 +5248,7 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('insPivot');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            (tab === 'file') && Common.UI.TooltipManager.closeTip('fastUndo');
         },
 
         onClickTab: function(tab) {
@@ -5258,7 +5256,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('calcItems');
         }
     }, SSE.Controllers.Toolbar || {}));
 });
