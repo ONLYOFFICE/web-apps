@@ -1535,6 +1535,8 @@
   "del_SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
   "del_SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
   "del_SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, subtract, and exclude shapes with new editing options.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "New Shape Operations Available",
   "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while editing documents with co-authors in real time.",
   "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" Now Available in Fast Co-Editing mode",
   "SSE.Controllers.Toolbar.helpCalcItems": "You can now create calculated items directly in the spreadsheet editor.",

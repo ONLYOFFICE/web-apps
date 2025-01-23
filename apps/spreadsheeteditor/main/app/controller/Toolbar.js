@@ -277,6 +277,7 @@ define([
             Common.UI.TooltipManager.addTips({
                 'fastUndo' : {name: 'sse-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
                 'calcItems' : {name: 'help-tip-calc-items', placement: 'bottom-left', text: this.helpCalcItems, header: this.helpCalcItemsHeader, target: '#slot-btn-calculated-items', automove: true, closable: false},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -2994,6 +2995,8 @@ define([
                 { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
+            if (!toolbar.btnShapesMerge.isDisabled() && toolbar.isTabActive('layout'))
+                Common.UI.TooltipManager.showTip('mergeShapes');
 
             if (editOptionsDisabled) return;
 
@@ -4790,7 +4793,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onBeforeShapesMerge: function() {               
+        onBeforeShapesMerge: function() {
+            Common.UI.TooltipManager.closeTip('mergeShapes');
             this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
@@ -5249,6 +5253,10 @@ define([
 
         onActiveTab: function(tab) {
             (tab === 'file') && Common.UI.TooltipManager.closeTip('fastUndo');
+            if (tab !== 'layout')
+                Common.UI.TooltipManager.closeTip('mergeShapes');
+            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+                Common.UI.TooltipManager.showTip('mergeShapes');
         },
 
         onClickTab: function(tab) {
@@ -5257,6 +5265,7 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('calcItems');
+            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
     }, SSE.Controllers.Toolbar || {}));
 });
