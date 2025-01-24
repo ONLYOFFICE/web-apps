@@ -1379,10 +1379,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>接続が切断されました</b><br>接続を試みています。接続設定を確認してください。",
   "PE.Controllers.Statusbar.zoomText": "ズーム{0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "保存しようとしているフォントを現在のデバイスで使用することができません。<br>システムフォントを使って、テキストのスタイルが表示されます。利用可能になったとき、保存されたフォントが適用されます。<br>続行しますか。",
-  "PE.Controllers.Toolbar.helpCustomInfo": "「詳細情報」セクションで、ドキュメントのプロパティを作成および編集できます。",
-  "PE.Controllers.Toolbar.helpCustomInfoHeader": "カスタムファイルフィールド",
-  "PE.Controllers.Toolbar.helpGrayTheme": "グレーのテーマを試してみてください。また、[ファイル] タブ – [詳細設定] – [外観] から、さらに多くのカスタマイズオプションにアクセスできます。",
-  "PE.Controllers.Toolbar.helpGrayThemeHeader": "刷新されたインターフェース",
   "PE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "PE.Controllers.Toolbar.textBracket": "括弧",
   "PE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜300の数値を入力してください。",
@@ -2979,5 +2975,9 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
 }

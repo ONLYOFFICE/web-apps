@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "الحد الأقصى لعدد النقاط في السلسلة لكل مخطط هو 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "خطأ! الحد الأعظمي لعدد سلاسل البيانات المسموح به لكل رسم بياني هو 255",
   "SSE.Controllers.Toolbar.errorStockChart": "ترتيب الصف غير صحيح. لبناء مخطط الأسهم قم بوضع البيانات في الصفحة بالترتيب التالي:<br> سعر الافتتاح، أعلى سعر، أقل سعر، سعر الإغلاق.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "قم بإنشاء وتحرير خصائص المستند بنفسك في قسم \"المعلومات\".",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "حقول مخصصة للملفات",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "يمكنك تجربة المظهر الرمادي والوصول إلى مزيد من خيارات التخصيص عبر علامة التبويب \"ملف\" – \"الإعدادات المتقدمة\" – \"المظهر\".",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "واجهة محسّنة",
-  "SSE.Controllers.Toolbar.helpInsPivot": "لبدء العمل مع الجداول المحورية، انتقل إلى علامة التبويب \"إدراج\".",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "الجداول المحورية المُحدّثة",
   "SSE.Controllers.Toolbar.textAccent": "علامات التمييز",
   "SSE.Controllers.Toolbar.textBracket": "أقواس",
   "SSE.Controllers.Toolbar.textDirectional": "اتجاهي",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "حماية المصنف",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

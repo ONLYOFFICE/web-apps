@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Nejvyšší možný počet bodů v řadě na graf je 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "CHYBA! Nejvyšší možný počet datových řad v každém grafu je 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Zvýraznění",
   "SSE.Controllers.Toolbar.textBracket": "Závorky",
   "SSE.Controllers.Toolbar.textDirectional": "Směrové",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečit sešit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadejte heslo pro deaktivaci zabezpečení listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

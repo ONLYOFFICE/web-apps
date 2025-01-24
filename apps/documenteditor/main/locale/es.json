@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Pegar una URL de datos",
   "DE.Controllers.Toolbar.errorAccessDeny": "Está intentando realizar una acción para la que no tiene permiso.<br>Contacte con el administrador del Servidor de documentos.",
   "DE.Controllers.Toolbar.fileUrl": "Pegar la URL de un archivo",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Cree y edite usted mismo las propiedades del documento en la sección Info.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Campos de archivo personalizados",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Pruebe el tema Gris y acceda a más opciones de personalización a través de la pestaña Archivo – Configuración avanzada – Aspecto.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Interfaz renovada",
-  "DE.Controllers.Toolbar.helpSignField": "Inserte el campo de firma en sus formularios PDF.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Firmas",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Resalte el texto eliminado para rastrear fácilmente los cambios y ver el contenido eliminado entre revisiones.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Historial de versiones mejorado",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Inserte texto de archivos externos directamente en su documento.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Importación de texto de fuentes externas",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Acentos",
   "DE.Controllers.Toolbar.textBracket": "Paréntesis",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

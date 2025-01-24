@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "データのURLを貼り付け",
   "DE.Controllers.Toolbar.errorAccessDeny": "権限のない操作を実行しようとしています。<br>ドキュメントサーバーの管理者にご連絡ください。",
   "DE.Controllers.Toolbar.fileUrl": "ファイルのURLを貼り付ける",
-  "DE.Controllers.Toolbar.helpCustomInfo": "「詳細情報」セクションで、ドキュメントのプロパティを作成および編集できます。",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "カスタムファイルフィールド",
-  "DE.Controllers.Toolbar.helpGrayTheme": "グレーのテーマを試してみてください。また、[ファイル] タブ – [詳細設定] – [外観] から、さらに多くのカスタマイズオプションにアクセスできます。",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "刷新されたインターフェース",
-  "DE.Controllers.Toolbar.helpSignField": "署名フィールドをPDFフォームに挿入できます。",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "署名",
-  "DE.Controllers.Toolbar.helpTextDeleted": "削除されたテキストをハイライト表示することで、変更点を簡単に追跡し、リビジョン間の削除されたコンテンツを確認できます。",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "強化されたバージョン履歴",
-  "DE.Controllers.Toolbar.helpTextFromFile": "外部ファイルのテキストを直接ドキュメントに挿入できます。",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "サードパーティソースからのテキストインポート",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "DE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "DE.Controllers.Toolbar.textBracket": "括弧",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

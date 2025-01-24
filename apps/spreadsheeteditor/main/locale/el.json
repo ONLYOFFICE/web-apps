@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Ο μέγιστος αριθμός σημείων σε σειρά ανά γράφημα είναι 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ΣΦΑΛΜΑ! Ο μέγιστος αριθμός σειρών δεδομένων ανά γράφημα είναι 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Λανθασμένη διάταξη γραμμών. Για να δημιουργήσετε ένα γράφημα μετοχών τοποθετήστε τα δεδομένα στο φύλλο με την ακόλουθη σειρά:<br>τιμή ανοίγματος, μέγιστη τιμή, ελάχιστη τιμή, τιμή κλεισίματος.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Δημιουργήστε και επεξεργαστείτε μόνοι σας τις ιδιότητες του εγγράφου στην ενότητα Πληροφορίες.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Προσαρμοσμένα πεδία αρχείου",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Δοκιμάστε το Γκρι θέμα και αποκτήστε πρόσβαση σε περισσότερες επιλογές προσαρμογής μέσω της καρτέλας Αρχείο – Ρυθμίσεις για προχωρημένους – Εμφάνιση.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Ανανεωμένη διεπαφή",
-  "SSE.Controllers.Toolbar.helpInsPivot": "Για να ξεκινήσετε να εργάζεστε με Συγκεντρωτικούς πίνακες, μεταβείτε στην καρτέλα Εισαγωγή.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Ενημερωμένοι Συγκεντρωτικοί Πίνακες",
   "SSE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "SSE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "SSE.Controllers.Toolbar.textDirectional": "Κατευθυντικό",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Προστασία βιβλίου εργασίας",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }
