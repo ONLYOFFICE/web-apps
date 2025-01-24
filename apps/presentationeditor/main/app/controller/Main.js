@@ -1000,6 +1000,8 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
                 me.api.asc_setShowGridlines(value);
 
+                this.appOptions.customization && this.appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(this.appOptions.customization.slidePlayerBackground);
+
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
                     statusbarController         = application.getController('Statusbar'),
