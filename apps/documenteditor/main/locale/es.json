@@ -3689,5 +3689,6 @@
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
   "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "DE.Views.BookmarksDialog.textAddAndGetLink": "Add & Get Link"
 }

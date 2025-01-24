@@ -3689,5 +3689,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупрозрачный",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подчёркнутый",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер шрифта",
+  "DE.Views.BookmarksDialog.textAddAndGetLink": "Add & Get Link"
 }
