@@ -276,6 +276,7 @@
     "waitText": "Veuillez patienter..."
   },
   "Toolbar": {
+    "btnRestartNow": "Redémarrer maintenant",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
@@ -284,8 +285,7 @@
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
     "textOk": "OK",
     "textRenameFile": "Renommer le fichier",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Passer en mode desktop"
   },
   "View": {
     "Add": {
@@ -379,7 +379,7 @@
       "textDeleteImage": "Supprimer l’image",
       "textDeleteLink": "Supprimer le lien",
       "textDeleteSlide": "Supprimer la diapositive",
-      "textDesign": "Design",
+      "textDesign": "Conception",
       "textDisplay": "Affichage",
       "textDistanceFromText": "Distance du texte",
       "textDistributeHorizontally": "Distribuer horizontalement",
