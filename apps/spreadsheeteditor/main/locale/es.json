@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "El número máximo de puntos en serie por gráfico es 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "¡ERROR! El número máximo de series de datos por gráfico es 225",
   "SSE.Controllers.Toolbar.errorStockChart": "Orden de las filas incorrecto. Para crear un gráfico de cotizaciones introduzca los datos en la hoja de la forma siguiente:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Cree y edite usted mismo las propiedades del documento en la sección Info.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Campos de archivo personalizados",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Pruebe el tema Gris y acceda a más opciones de personalización a través de la pestaña Archivo – Configuración avanzada – Aspecto.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Interfaz renovada",
-  "SSE.Controllers.Toolbar.helpInsPivot": "Para empezar a trabajar con tablas dinámicas, acceda a la pestaña Insertar.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Tablas dinámicas actualizadas",
   "SSE.Controllers.Toolbar.textAccent": "Acentos",
   "SSE.Controllers.Toolbar.textBracket": "Corchetes",
   "SSE.Controllers.Toolbar.textDirectional": "Direccional",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger libro",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

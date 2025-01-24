@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
@@ -457,8 +458,7 @@
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
     "textOk": "OK",
     "textRenameFile": "Redenumire fișier",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Add": {

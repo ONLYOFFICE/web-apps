@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Տեղադրել URL-ի տվյալների",
   "DE.Controllers.Toolbar.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
   "DE.Controllers.Toolbar.fileUrl": "Տեղադրել ֆայլի URL-ը",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Դուք կարող եք տեղծել և խմբագրել փաստաթղթի հատկությունները Տեղեկություններ բաժնում:",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Հարմարեցված ֆայլի դաշտեր",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Փորձեք Մոխրագույն թեման և մուտք գործեք անհատականացման ավելի շատ տարբերակներ «Ֆայլ» ներդիրի միջոցով – Ընդլայնված կարգավորումներ – Արտաքին տեսք:",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Նորացված ինտերֆեյս",
-  "DE.Controllers.Toolbar.helpSignField": "Տեղադրեք ստորագրության դաշտը ձեր PDF ձևաթղթերում:",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Ստորագրություններ",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Ընդգծեք ջնջված տեքստը, որպեսզի հեշտությամբ հետևեք փոփոխություններին և տեսնեք հեռացված բովանդակությունը վերանայումների միջև:",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Ընդլայնված Տարբերակի Պատմություն",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Տեղադրեք տեքստ արտաքին ֆայլերից անմիջապես ձեր փաստաթղթում:",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Տեքստի ներմուծում երրորդ կողմի աղբյուրներից",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Զգուշացում",
   "DE.Controllers.Toolbar.textAccent": "Շեշտեր",
   "DE.Controllers.Toolbar.textBracket": "Փակագծեր",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

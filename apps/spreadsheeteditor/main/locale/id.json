@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Jumlah poin maksimum pada seri per bagan adalah 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "KESALAHAN! Jumlah seri data maksimum per grafik adalah 255.",
   "SSE.Controllers.Toolbar.errorStockChart": "Urutan baris salah. Untuk membuat diagram garis, masukkan data pada lembar kerja dengan urutan berikut ini:<br> harga pembukaan, harga maksimal, harga minimal, harga penutupan.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Aksen",
   "SSE.Controllers.Toolbar.textBracket": "Tanda Kurung",
   "SSE.Controllers.Toolbar.textDirectional": "Direksional",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteksi workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan password untuk membuka proteksi sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

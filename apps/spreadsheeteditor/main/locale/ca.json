@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "El nombre màxim de punts de la sèrie per gràfic és de 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERROR! El nombre màxim de sèries de dades per gràfic és de 255",
   "SSE.Controllers.Toolbar.errorStockChart": "L'ordre de fila no és correcte. Per crear un gràfic de valors, col·loca les dades del full en l’ordre següent: <br>preu d’obertura, preu màxim, preu mínim, preu de tancament.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Accents",
   "SSE.Controllers.Toolbar.textBracket": "Claudàtors",
   "SSE.Controllers.Toolbar.textDirectional": "Direccional",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protecció del llibre de treball",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

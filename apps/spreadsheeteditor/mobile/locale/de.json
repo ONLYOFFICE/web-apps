@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
@@ -457,8 +458,7 @@
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textOk": "OK",
     "textRenameFile": "Datei umbenennen",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln"
   },
   "View": {
     "Add": {
