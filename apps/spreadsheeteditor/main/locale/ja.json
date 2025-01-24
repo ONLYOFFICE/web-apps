@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "グラフごとの直列のポイントの最大数は4096です。",
   "SSE.Controllers.Toolbar.errorMaxRows": "エラー！使用可能なデータ系列の数は、1グラフあたり最大255個です。",
   "SSE.Controllers.Toolbar.errorStockChart": "行の順序が正しくありません。この株価チャートを作成するには、<br>始値、高値、安値、終値の順でシートのデータを配置してください。",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "「詳細情報」セクションで、ドキュメントのプロパティを作成および編集できます。",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "カスタムファイルフィールド",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "グレーのテーマを試してみてください。また、[ファイル] タブ – [詳細設定] – [外観] から、さらに多くのカスタマイズオプションにアクセスできます。",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "刷新されたインターフェース",
-  "SSE.Controllers.Toolbar.helpInsPivot": "ピボットテーブルの作業を開始するには、「挿入」タブにアクセスします。",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "更新されたピボットテーブル",
   "SSE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "SSE.Controllers.Toolbar.textBracket": "括弧",
   "SSE.Controllers.Toolbar.textDirectional": "方向",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "ブックを保護する",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

@@ -153,14 +153,14 @@
     "waitText": "Bitte warten..."
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
     "textRenameFile": "Datei umbenennen",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "In den Desktopmodus wechseln"
   },
   "View": {
     "Edit": {

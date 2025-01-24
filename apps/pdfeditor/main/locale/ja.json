@@ -1037,12 +1037,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "ズーム{0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "保存しようとしているフォントは、現在のデバイスでは使用できません。<br>テキストスタイルは、デバイスのフォントのいずれかを使用して表示され、保存されたフォントは、それが使用可能になったときに使用されます。<br>続けますか？",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "利用権限がない操作をしようとしました。<br>文書サーバーの管理者までご連絡ください。",
-  "PDFE.Controllers.Toolbar.helpGrayTheme": "グレーのテーマを試してみてください。また、[ファイル] タブ – [詳細設定] – [外観] から、さらに多くのカスタマイズオプションにアクセスできます。",
-  "PDFE.Controllers.Toolbar.helpGrayThemeHeader": "刷新されたインターフェース",
-  "PDFE.Controllers.Toolbar.helpPdfCoedit": "他の共著者とリアルタイムまたは段落ロックモードでPDFを共同編集できます。",
-  "PDFE.Controllers.Toolbar.helpPdfCoeditHeader": "PDFの共同編集",
-  "PDFE.Controllers.Toolbar.helpPdfSave": "注釈および編集：変更はすべて、別々のコピーを作成することなく元のファイルに保存されます。",
-  "PDFE.Controllers.Toolbar.helpPdfSaveHeader": "強化されたPDFエディタ",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": " 警告",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜300の数値を入力してください。",
   "PDFE.Controllers.Toolbar.textGotIt": "OK",
@@ -2040,5 +2034,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ページに合わせる",
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
 }

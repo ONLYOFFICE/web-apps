@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Επικόλληση URL δεδομένων",
   "DE.Controllers.Toolbar.errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα. <br>Επικοινωνήστε με το διαχειριστή του διακομιστή εγγράφων.",
   "DE.Controllers.Toolbar.fileUrl": "Επικόλληση σε URL αρχείου",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Δημιουργήστε και επεξεργαστείτε μόνοι σας τις ιδιότητες του εγγράφου στην ενότητα Πληροφορίες.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Προσαρμοσμένα πεδία αρχείου",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Δοκιμάστε το Γκρι θέμα και αποκτήστε πρόσβαση σε περισσότερες επιλογές προσαρμογής μέσω της καρτέλας Αρχείο – Ρυθμίσεις για προχωρημένους – Εμφάνιση.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Ανανεωμένη διεπαφή",
-  "DE.Controllers.Toolbar.helpSignField": "Εισαγάγετε το πεδίο υπογραφής στις φόρμες PDF.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Υπογραφές",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Επισημάνετε το διαγραμμένο κείμενο για να παρακολουθείτε εύκολα τις αλλαγές και να βλέπετε το αφαιρεμένο περιεχόμενο μεταξύ των αναθεωρήσεων.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Ενισχυμένο ιστορικό εκδόσεων",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Εισαγάγετε κείμενο από εξωτερικά αρχεία απευθείας στο έγγραφό σας.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Εισαγωγή κειμένου από πηγές τρίτων",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "DE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "DE.Controllers.Toolbar.textBracket": "Αγκύλες",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

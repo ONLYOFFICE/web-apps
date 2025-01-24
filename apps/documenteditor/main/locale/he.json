@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "הדבקת כתובת אתר URL של נתונים",
   "DE.Controllers.Toolbar.errorAccessDeny": "את/ה מנסה לבצע פעולה שאין לך זכויות עליה. <br>נא ליצור קשר עם מנהל שרת המסמכים שלך",
   "DE.Controllers.Toolbar.fileUrl": "הדבקת כתובת URL של קובץ",
-  "DE.Controllers.Toolbar.helpCustomInfo": "צור וערוך את מאפייני המסמך בעצמך במקטע מידע.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "שדות קובץ מותאמים אישית",
-  "DE.Controllers.Toolbar.helpGrayTheme": "נסה את ערכת הנושא אפור וגש לאפשרויות התאמה אישית נוספות דרך הכרטיסיה קובץ - הגדרות מתקדמות - מראה.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "ממשק מחודש",
-  "DE.Controllers.Toolbar.helpSignField": "הוסיפו את שדה החתימה לטפסי PDF.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "חתימות",
-  "DE.Controllers.Toolbar.helpTextDeleted": "סמן טקסט שנמחק כדי לעקוב בקלות אחר שינויים ולראות את התוכן שהוסר בין תיקונים.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "היסטורית הגירסאות של משופר",
-  "DE.Controllers.Toolbar.helpTextFromFile": "הוסף טקסט מקבצים חיצוניים ישירות למסמך.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "ייבוא טקסט ממקורות חיצוניים",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "אזהרה",
   "DE.Controllers.Toolbar.textAccent": "הדגשות",
   "DE.Controllers.Toolbar.textBracket": "סוגריים",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

@@ -1037,12 +1037,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zmadhoj {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Fonti që do të ruani nuk disponohet në pajisjen aktuale.<br>Stili i tekstit do të shfaqet duke përdorur një nga fontet e pajisjes, fonti i ruajtur do të përdoret kur të jetë i disponueshëm.<br>Dëshironi që të vazhdoni?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
-  "PDFE.Controllers.Toolbar.helpGrayTheme": "Provoni temën Gri dhe aksesoni më shumë opsione personalizimi përmes skedarit të skedës - Cilësimet e avancuara - Paraqitja. ",
-  "PDFE.Controllers.Toolbar.helpGrayThemeHeader": "Ndërfaqe e rinovuar",
-  "PDFE.Controllers.Toolbar.helpPdfCoedit": "Bashkë-redaktoni PDF me bashkëautorë të tjerë në modalitetin në kohë reale ose të mbylljes së paragrafëve. ",
-  "PDFE.Controllers.Toolbar.helpPdfCoeditHeader": "Bashkëpunimi PDF",
-  "PDFE.Controllers.Toolbar.helpPdfSave": "Shënoni dhe redaktoni – të gjitha ndryshimet tuaja ruhen në skedarin origjinal pa krijuar kopje të veçanta.",
-  "PDFE.Controllers.Toolbar.helpPdfSaveHeader": "Redaktues i përmirësuar PDF",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Paralajmërim",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Vlera e futu është e pasaktë.<br>Ju lutem vendosni një vlerë numerike midis 1 dhe 300",
   "PDFE.Controllers.Toolbar.textGotIt": "E kuptova",
@@ -2040,5 +2034,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
 }

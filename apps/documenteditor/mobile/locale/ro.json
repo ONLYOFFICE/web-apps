@@ -809,6 +809,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
@@ -820,8 +821,7 @@
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
     "textSwitchedStandardView": "Comutat la vizualizarea standard",
-    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Comutare la modul Desktop",
+    "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

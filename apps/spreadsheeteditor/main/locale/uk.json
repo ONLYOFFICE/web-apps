@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ПОМИЛКА! Максимальна кількість даних на кожну діаграму становить 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Невірний порядок рядків. Щоб побудувати фондову діаграму, помістіть дані на аркуші в наступному порядку: ціна відкриття, максимальна ціна, мінімальна ціна, ціна закриття.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Акценти",
   "SSE.Controllers.Toolbar.textBracket": "Дужки",
   "SSE.Controllers.Toolbar.textDirectional": "Напрямок",
@@ -4571,5 +4565,11 @@
   "SSE.Views.WBProtection.txtProtectWB": "Захистити книгу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

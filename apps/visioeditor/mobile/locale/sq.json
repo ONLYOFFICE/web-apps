@@ -153,14 +153,14 @@
     "waitText": "Ju lutem, prisni..."
   },
   "Toolbar": {
+    "btnRestartNow": "Rinisni tani",
     "dlgLeaveMsgText": "Ju keni ndryshime të pa ruajtura në këtë dokument. Klikoni 'Qëndro në këtë faqe' të prisni për ruajtijen automatike. Klikoni'Lërni këtë faqe' për të hequr të gjitha ndyshimet e pa ruajtura.",
     "dlgLeaveTitleText": "Lërni aplikimin",
     "leaveButtonText": "Lëre këtë faqe",
     "stayButtonText": "Qëndroni në këtë faqe",
     "textEnterNewFileName": "Futni një emër të skedarit",
     "textRenameFile": "Fshij skedarin",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Kaloni në versionin desktop"
   },
   "View": {
     "Edit": {

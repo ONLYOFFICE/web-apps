@@ -153,14 +153,14 @@
     "waitText": "Molimo, sačekajte..."
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostanite na ovoj stranici' da biste sačekali automatsko čuvanje. Kliknite 'Napustite ovu stranicu' da biste odbacili sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napustite ovu stranicu",
     "stayButtonText": "Ostanite na ovoj stranici",
     "textEnterNewFileName": "Unesite novo ime datoteke",
     "textRenameFile": "Preimenuj datoteku",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Edit": {

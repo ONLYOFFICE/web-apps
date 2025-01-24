@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Colar um URL de dados",
   "DE.Controllers.Toolbar.errorAccessDeny": "Está a tentar executar uma ação para a qual não tem permissões.<br>Por favor contacte o administrador do servidor de documentos.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "DE.Controllers.Toolbar.helpSignField": "Insert the signature field into your PDF forms.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Signatures",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Insert text from external files directly into your document.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Text import from third-party sources",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Destaques",
   "DE.Controllers.Toolbar.textBracket": "Parênteses",
@@ -3697,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

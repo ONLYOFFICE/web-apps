@@ -1379,10 +1379,6 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Η σύνδεση χάθηκε</b><br>Απόπειρα επανασύνδεσης. Παρακαλούμε, ελέγξτε τις ρυθμίσεις σύνδεσης.",
   "PE.Controllers.Statusbar.zoomText": "Εστίαση {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Η γραμματοσειρά που επιχειρείτε να αποθηκεύσετε δεν είναι διαθέσιμη στην τρέχουσα συσκευή.<br>Η τεχνοτροπία κειμένου θα εμφανιστεί με μια από τις γραμματοσειρές συστήματος, η αποθηκευμένη γραμματοσειρά θα χρησιμοποιηθεί όταν γίνει διαθέσιμη.<br>Θέλετε να συνεχίσετε;",
-  "PE.Controllers.Toolbar.helpCustomInfo": "Δημιουργήστε και επεξεργαστείτε μόνοι σας τις ιδιότητες του εγγράφου στην ενότητα Πληροφορίες.",
-  "PE.Controllers.Toolbar.helpCustomInfoHeader": "Προσαρμοσμένα πεδία αρχείου",
-  "PE.Controllers.Toolbar.helpGrayTheme": "Δοκιμάστε το Γκρι θέμα και αποκτήστε πρόσβαση σε περισσότερες επιλογές προσαρμογής μέσω της καρτέλας Αρχείο – Ρυθμίσεις για προχωρημένους – Εμφάνιση.",
-  "PE.Controllers.Toolbar.helpGrayThemeHeader": "Ανανεωμένη διεπαφή",
   "PE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "PE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "PE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 300",
@@ -2979,5 +2975,9 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
 }
