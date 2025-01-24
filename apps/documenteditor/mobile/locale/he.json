@@ -65,7 +65,8 @@
     "textTableSize": "גודל הטבלה",
     "textWithBlueLinks": "עם קישורים כחולים",
     "textWithPageNumbers": "עם מספרי עמודים",
-    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
+    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -442,6 +443,7 @@
     "errorMailMergeSaveFile": "המיזוג נכשל.",
     "errorNoTOC": "אין תוכן עניינים לעדכון. ניתן להוסיף תוכן עניינים מהכרטיסייה הפניות.",
     "errorPasswordIsNotCorrect": "הסיסמה שהוזנה שגויה. נא לוודא ש-CAPS LOCK כבוי ולהקפיד בשימוש באותיות רישיות נכונות.",
+    "errorPDFFormsLocked": "לא ניתן לבצע את הפעולה מכיוון שהיא גורמת לשינויים בטפסים נעולים.",
     "errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
     "errorSessionAbsolute": "פג תוקפה של פעולת עריכת המסמך. נא לרענן את הדף.",
     "errorSessionIdle": "לא בוצעה עריכה במסמך זמן רב. נא לרענן את הדף.",
@@ -812,6 +814,14 @@
     "textRenameFile": "שינוי שם הקובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
     "textSwitchedStandardView": "החלפה לתצוגה רגילה",
-    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס."
+    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

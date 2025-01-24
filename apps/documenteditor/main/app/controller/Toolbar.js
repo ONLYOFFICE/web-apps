@@ -259,15 +259,8 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            // this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
-            //     'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
-            // }) : Common.UI.TooltipManager.addTips({
-            //     'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
-            //     'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
-            //     'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
-            // });
             Common.UI.TooltipManager.addTips({
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -431,7 +424,6 @@ define([
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
-            toolbar.btnTextFromFile.menu.on('show:after', _.bind(this.onTextFromFileShowAfter, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -1643,13 +1635,6 @@ define([
             } else if (type === 'storage') {
                 Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
             }
-        },
-
-        onTextFromFileShowAfter: function(menu, e) {
-            if (!(e && e.target === e.currentTarget))
-                return;
-
-            Common.UI.TooltipManager.closeTip('textFromFile');
         },
 
         onMarkerSettingsClick: function(type) {
@@ -3961,13 +3946,14 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'ins') ? Common.UI.TooltipManager.showTip('textFromFile') : Common.UI.TooltipManager.closeTip('textFromFile');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            if (tab !== 'layout')
+                Common.UI.TooltipManager.closeTip('mergeShapes');
+            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+                Common.UI.TooltipManager.showTip('mergeShapes');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('textFromFile');
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
 
     }, DE.Controllers.Toolbar || {}));

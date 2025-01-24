@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { f7 } from 'framework7-react';
-import {observer, inject} from "mobx-react";
 import { Device } from '../../../../common/mobile/utils/device';
 
 import ContextMenuView, { idContextMenuElement, ActionsWithExtraItems } from '../view/ContextMenu';

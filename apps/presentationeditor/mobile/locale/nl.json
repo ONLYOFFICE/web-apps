@@ -274,9 +274,12 @@
     "dlgLeaveTitleText": "U verlaat de applicatie",
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -317,6 +320,7 @@
       "textTableSize": "Tabelgrootte",
       "txtNotUrl": "Dit veld moet een URL bevatten in de notatie \"http://www.internet.nl\"",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -554,5 +558,11 @@
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

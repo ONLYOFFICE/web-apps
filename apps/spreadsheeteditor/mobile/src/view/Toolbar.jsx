@@ -3,7 +3,8 @@ import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 import { useTranslation } from 'react-i18next';
-import SvgIcon from '@common/lib/component/SvgIcon';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconEditIos from '@common-ios-icons/icon-edit.svg?ios';
@@ -43,7 +44,9 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {(props.isShowBack && !isVersionHistoryMode) && <Link iconOnly className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} onClick={() => Common.Notifications.trigger('goback')}>
+                {props.isDrawMode && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-close' : null} className='back-reader-mode' onClick={() => Common.Notifications.trigger('draw:stop')}/>}
+
+                {(!props.isDrawMode && props.isShowBack && !isVersionHistoryMode) && <Link iconOnly className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} onClick={() => Common.Notifications.trigger('goback')}>
                 {Device.ios ? 
                     <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> : 
                     <SvgIcon slot="media" symbolId={IconReturnAndroid.id} className={'icon icon-svg'} />
@@ -61,6 +64,12 @@ const ToolbarView = props => {
             }
             <NavRight>
                 {(Device.android && !isVersionHistoryMode) && undo_box}
+                {!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                                       className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                                       onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                             className={'icon icon-svg'} />
+                    </Link>}
                 {(props.showEditDocument && !isVersionHistoryMode) &&
                     <Link iconOnly className={(props.disabledControls || isOpenModal) ? 'disabled' : ''} href={false} onClick={props.onEditDocument}>
                         {Device.ios ? 
@@ -69,7 +78,7 @@ const ToolbarView = props => {
                         }
                     </Link>
                 }
-                {(props.isEdit && EditorUIController.toolbarOptions && !isVersionHistoryMode) && EditorUIController.toolbarOptions.getEditOptions({
+                {(!props.isDrawMode && props.isEdit && EditorUIController.toolbarOptions && !isVersionHistoryMode) && EditorUIController.toolbarOptions.getEditOptions({
                     disabled: props.disabledEditControls || props.disabledControls || isDisconnected || isOpenModal,
                     wsProps,
                     focusOn,
@@ -78,7 +87,7 @@ const ToolbarView = props => {
                     onAddClick: () => props.openOptions('add')
                 })}
                 {Device.phone ? null : <Link iconOnly className={(props.disabledControls || props.disabledSearch || isOpenModal) && 'disabled'} searchbarEnable='.searchbar' href={false}><SvgIcon symbolId={IconSearch.id} className={'icon icon-svg'} /></Link>}
-                {props.displayCollaboration && window.matchMedia("(min-width: 360px)").matches && !isVersionHistoryMode ? <Link iconOnly className={(props.disabledControls || props.disabledCollaboration || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}><SvgIcon symbolId={IconCollaboration.id} className={'icon icon-svg'} /></Link> : null}
+                {!props.isDrawMode && props.displayCollaboration && window.matchMedia("(min-width: 360px)").matches && !isVersionHistoryMode ? <Link iconOnly className={(props.disabledControls || props.disabledCollaboration || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}><SvgIcon symbolId={IconCollaboration.id} className={'icon icon-svg'} /></Link> : null}
                 {isVersionHistoryMode ? <Link  iconOnly id='btn-open-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}><SvgIcon symbolId={IconHistory.id} className={'icon icon-svg'} /></Link> : null}
                 <Link iconOnly className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' href={false} onClick={() => props.openOptions('settings')}> {Device.ios ? 
                     <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :

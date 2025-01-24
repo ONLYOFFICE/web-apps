@@ -5,8 +5,6 @@
     *   events: {
     *       onChangeValue // text in editor is changed
     *       onEditorReady // editor is ready for use
-    *       onMouseUp
-    *       onMouseMove
     *       onLoad // frame with editor is loaded
     *   }
     * }
@@ -18,13 +16,14 @@
             parentEl = document.getElementById(placeholderId),
             iframe;
 
-        var _setValue = function(value, readonly) {
+        var _setValue = function(value, currentPos, readonly) {
             _postMessage(iframe.contentWindow, {
                 command: 'setValue',
                 referer: 'ace-editor',
                 data: {
                     value: value,
-                    readonly: readonly
+                    readonly: readonly,
+                    currentPos: currentPos
                 }
             });
         };
@@ -80,16 +79,6 @@
                     case 'aceEditorReady':
                         handler = events['onEditorReady'];
                         data = cmd.data;
-                        break;
-                    case 'mouseUp':
-                    case 'mouseMove':
-                        handler = events[cmd.command==='mouseUp' ? 'onMouseUp' : 'onMouseMove'];
-                        var rect = parentEl.getBoundingClientRect(),
-                            offset = {
-                                top: rect.top + window.pageYOffset,
-                                left: rect.left + window.pageXOffset
-                            };
-                        data = [cmd.data.x + offset.left, cmd.data.y + offset.top]
                         break;
                 }
                 if (handler && typeof handler == "function") {

@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Color personalizado",
+    "textLineSize": "Tamaño de línea",
+    "textOpacity": "Opacidad "
+  },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
@@ -449,7 +455,10 @@
     "stayButtonText": "Quedarse en esta página",
     "textCloseHistory": "Cerrar historial",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textOk": "OK",
+    "textRenameFile": "Renombrar archivo",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Devuelve las celdas de datos de la tabla o de las columnas de la tabla especificadas",
       "textDisplay": "Mostrar",
       "textDone": "Hecho",
+      "textDrawing": "Dibujar",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFilter": "Filtro",

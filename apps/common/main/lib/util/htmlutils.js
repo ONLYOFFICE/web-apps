@@ -47,7 +47,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0 || lang.lastIndexOf('ku', 0) === 0;
 }
 
 var ui_rtl = false;
@@ -60,7 +60,7 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
         else ui_rtl = true;
 }
 
-if ( ui_rtl && isIEBrowser !== true ) {
+if ( ui_rtl && window.isIEBrowser !== true ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }

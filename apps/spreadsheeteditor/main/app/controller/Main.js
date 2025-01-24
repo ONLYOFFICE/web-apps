@@ -483,6 +483,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -923,12 +924,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -936,7 +936,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     default:
                         if (typeof action.id == 'string'){
@@ -1022,6 +1023,10 @@ define([
                 value = Common.localStorage.getBool("sse-settings-smooth-scroll", true);
                 Common.Utils.InternalSettings.set("sse-settings-smooth-scroll", value);
                 this.api.asc_SetSmoothScrolling(value);
+
+                value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
+                Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
+                this.api.asc_setDefaultDirection(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
@@ -1361,6 +1366,8 @@ define([
                 if (options.header) {
                     if (options.header.search)
                         this.headerView && this.headerView.lockHeaderBtns('search', disable);
+                    this.headerView && this.headerView.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    this.headerView && this.headerView.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
 
                 if (prev_options) {
@@ -2252,6 +2259,14 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.CalculatedItemInPageField:
+                        config.msg = this.errorCalculatedItemInPageField;
+                        break;
+
+                    case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
+                        config.msg = this.errorNotUniqueFieldWithCalculated;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2507,7 +2522,7 @@ define([
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });
@@ -3134,6 +3149,7 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
+                this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -3162,6 +3178,7 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
+                    this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);

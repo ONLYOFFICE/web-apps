@@ -3,7 +3,7 @@
     "textAbout": "Մասին",
     "textAddress": "Հասցե",
     "textBack": "Հետ",
-    "textEditor": "Visio խմբագիր",
+    "textEditor": "Դիագրամի դիտող",
     "textEmail": "էլփոստ",
     "textPoweredBy": "Մշակող՝",
     "textTel": "Հեռ.",
@@ -158,7 +158,9 @@
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
-    "textRenameFile": "Վերանվանել ֆայլը"
+    "textRenameFile": "Վերանվանել ֆայլը",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -173,6 +175,7 @@
       "textAddress": "հասցե՝",
       "textApplication": "Հավելված",
       "textApplicationSettings": "Հավելվածի կարգավորումներ",
+      "textAuthor": "Հեղինակ",
       "textBack": "Հետ",
       "textClose": "Փակել",
       "textCollaboration": "Համագործակցություն",
@@ -204,10 +207,10 @@
       "textTitle": "Վերնագիր",
       "textUploaded": "Վերբեռնվել է",
       "textVersion": "Տարբերակ",
-      "textVisioInfo": "Visio Ինֆո․",
-      "textVisioSettings": "Visio Կարգավորումներ",
-      "textVisioTitle": "Visio Վերնագիր",
-      "textAuthor": "Author"
+      "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
+      "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

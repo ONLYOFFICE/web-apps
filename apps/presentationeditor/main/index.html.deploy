@@ -212,8 +212,8 @@
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false,
-           isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
-           ieVer = /msie (\d+\.\d+)/.exec(userAgent);
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
+            ieVer = /msie (\d+\.\d+)/.exec(userAgent);
         if (isIEBrowser) {
             if (ieVer && parseFloat(ieVer[1]) < 10.0) {
                 document.write('<div class="app-error-panel">' +
@@ -387,9 +387,6 @@
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
 
     <script>
-        var userAgent = navigator.userAgent.toLowerCase(),
-            check = function(regex){ return regex.test(userAgent); },
-            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/));
         isIEBrowser === true &&
             (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
             document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));

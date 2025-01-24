@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
+  },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
     "criticalErrorExtText": "Πατήστε 'Εντάξει' για να επιστρέψετε στη λίστα εγγράφων.",
@@ -449,7 +455,10 @@
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
-    "textRenameFile": "Μετονομασία αρχείου"
+    "textOk": "Εντάξει",
+    "textRenameFile": "Μετονομασία αρχείου",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Επιστρέφει τα κελιά δεδομένων από τον πίνακα ή τις καθορισμένες στήλες του πίνακα",
       "textDisplay": "Προβολή",
       "textDone": "Ολοκληρώθηκε",
+      "textDrawing": "Σχέδιο",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFilter": "Φίλτρο",

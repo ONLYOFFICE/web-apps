@@ -3,7 +3,7 @@
     "textAbout": "אודות",
     "textAddress": "כתובת",
     "textBack": "חזרה",
-    "textEditor": "עורך תרשימים (Visio)",
+    "textEditor": "מציג התרשימים",
     "textEmail": "דוא\"ל",
     "textPoweredBy": "מופעל על-ידי",
     "textTel": "טל'",
@@ -158,7 +158,9 @@
     "leaveButtonText": "יציאה מדף זה",
     "stayButtonText": "להישאר בדף זה",
     "textEnterNewFileName": "נא להזין שם חדש לקובץ",
-    "textRenameFile": "שינוי שם הקובץ"
+    "textRenameFile": "שינוי שם הקובץ",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -205,9 +207,10 @@
       "textTitle": "כותרת",
       "textUploaded": "הועלו",
       "textVersion": "גרסה ",
-      "textVisioInfo": "מידע אודות התרשים Visio",
-      "textVisioSettings": "הגדרות התרשים Visio",
-      "textVisioTitle": "כותרת התרשים Visio"
+      "textVisioInfo": "מידע אודות מציג התרשימים",
+      "textVisioSettings": "הגדרות מציג התרשימים",
+      "textVisioTitle": "כותרת מציג התרשימים",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

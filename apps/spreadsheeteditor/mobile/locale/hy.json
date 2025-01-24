@@ -449,7 +449,10 @@
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
-    "textRenameFile": "Վերանվանել ֆայլը"
+    "textRenameFile": "Վերանվանել ֆայլը",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,7 +516,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",
@@ -862,5 +866,11 @@
       "txtZh": "Չինական",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

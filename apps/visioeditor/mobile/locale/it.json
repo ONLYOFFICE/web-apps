@@ -3,7 +3,7 @@
     "textAbout": "Informazioni su",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
-    "textEditor": "Editor di Visio",
+    "textEditor": "Visualizzatore di diagrammi",
     "textEmail": "Email",
     "textPoweredBy": "Tecnologia di",
     "textTel": "Tel",
@@ -158,7 +158,9 @@
     "leaveButtonText": "Lascia questa pagina",
     "stayButtonText": "Rimani su questa pagina",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textRenameFile": "Rinomina file",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +209,8 @@
       "textVersion": "Versione",
       "textVisioInfo": "Informazioni di Visio",
       "textVisioSettings": "Impostazioni di Visio",
-      "textVisioTitle": "Titolo di Visio"
+      "textVisioTitle": "Titolo di visualizzatore di diagrammi",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

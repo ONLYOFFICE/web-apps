@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'visio' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'diagram' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -252,6 +252,7 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                        disableForceDesktop: false // hide or show UI option to switch editor in 'Desktop' type
                     },
                     submitForm: {
                         visible: true/false (default: true)
@@ -383,6 +384,7 @@
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
+        _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -432,6 +434,15 @@
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
+                    } else
+                    if (msg.event === 'onSwitchEditorType' && !handler) {
+                        if ( msg.data ) {
+                            if ( typeof msg.data.type == 'string' )
+                                localStorage.setItem('asc-force-editor-type', msg.data.type);
+
+                            if ( msg.data.restart )
+                                window.location.reload();
+                        }
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
@@ -462,11 +473,11 @@
                         'cell': 'xlsx',
                         'slide': 'pptx',
                         'pdf': 'pdf',
-                        'visio': 'vsdx'
+                        'diagram': 'vsdx'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/visio.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/diagram.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -480,7 +491,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -490,7 +501,7 @@
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
                         if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
                         if (typeof type[4] === 'string') _config.documentType = 'word'; else
-                        if (typeof type[5] === 'string') _config.documentType = 'visio';
+                        if (typeof type[5] === 'string') _config.documentType = 'diagram';
                     }
                 }
 
@@ -1012,6 +1023,34 @@
         return "";
     }
 
+    function isLocalStorageAvailable() {
+        try {
+            const storage = window['localStorage'];
+            return true;
+        }
+        catch(e) {
+            return false;
+        }
+    }
+
+    function correct_app_type(type) {
+        if ( type == 'mobile' ) {
+            if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
+                    config.editorConfig.customization.mobile.disableForceDesktop !== true )
+            {
+                if ( isLocalStorageAvailable() ) {
+                    const f = localStorage.getItem('asc-force-editor-type');
+                    if ( f === 'desktop' ) {
+                        config.editorConfig.forceDesktop = true;
+                        return 'desktop';
+                    }
+                }
+            }
+        }
+
+        return type;
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
             path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
@@ -1024,7 +1063,7 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
-                'visio': 'visioeditor',
+                'diagram': 'visioeditor',
                 'common': 'common'
             },
             appType = 'word',
@@ -1040,13 +1079,14 @@
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
+        var corrected_type = correct_app_type(config.type);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
-            appType = config.type === 'mobile' ||  config.type === 'embedded' ? 'word' : 'pdf';
+            appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
             isForm = config.document ? config.document.isForm : undefined;
-            if (config.type === 'embedded')
+            if (corrected_type === 'embedded')
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
-            else if (config.type !== 'mobile')
+            else if (corrected_type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
         } else if (type && typeof type[5] === 'string') { // oform|docxf
             appType = 'word';
@@ -1056,15 +1096,15 @@
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
                 if (type && typeof type[4] === 'string') appType = 'slide'; else
-                if (type && typeof type[6] === 'string') appType = 'visio';
+                if (type && typeof type[6] === 'string') appType = 'diagram';
             }
         }
         if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
             path = extendAppPath(config, path);
         path += appMap[appType];
 
-        const path_type = config.type === "mobile" ? "mobile" :
-                          config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+        const path_type = corrected_type === "mobile" ? "mobile" :
+                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 

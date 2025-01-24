@@ -27,6 +27,7 @@
     "textCurrentPosition": "当前位置",
     "textDisplay": "显示",
     "textDone": "完成",
+    "textDrawing": "绘图",
     "textEmptyImgUrl": "您需要指定图像URL。",
     "textEvenPage": "偶数页",
     "textFootnote": "脚注",
@@ -161,7 +162,7 @@
       "textTableRowsAdd": "已新增表格行",
       "textTableRowsDel": "已刪除的表格行",
       "textTabs": "更改选项卡",
-      "textTrackChanges": "跟踪变化",
+      "textTrackChanges": "跟踪更改",
       "textTryUndoRedo": "快速共同编辑模式下，撤销/重做功能被禁用。",
       "textUnderline": "下划线",
       "textUsers": "用户",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "仅刷新页码",
     "textRows": "列",
     "txtWarnUrl": "点击此链接可能对您的设备和数据有害<br>您确定要继续吗？"
+  },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
   },
   "Edit": {
     "notcriticalErrorTitle": "警告",
@@ -442,6 +449,7 @@
     "errorMailMergeSaveFile": "合并失败",
     "errorNoTOC": "没有要更新的目录。可以从“参考”选项卡插入一个。",
     "errorPasswordIsNotCorrect": "您提供的密码不正确。确认CAPS LOCK键已关闭，并确保使用正确的大写字母。",
+    "errorPDFFormsLocked": "该操作无法执行，因为它会对已锁定的表单造成更改。",
     "errorSaveWatermark": "该文件包含来自其他域名的水印图片。<br>要在 PDF 中显示水印，请将图片链接更新为与文档相同的域名，或从电脑上传图片。",
     "errorSessionAbsolute": "该文件编辑窗口已过期。请刷新该页。",
     "errorSessionIdle": "该文档已经很久没有编辑了。请重新加载页面。",
@@ -667,7 +675,7 @@
     "closeButtonText": "关闭文件",
     "notcriticalErrorTitle": "警告",
     "textAbout": "关于",
-    "textAddToFavorites": "添加到收藏夹",
+    "textAddToFavorites": "收藏",
     "textApplication": "应用程序",
     "textApplicationSettings": "应用程序设置",
     "textAuthor": "作者",
@@ -801,6 +809,7 @@
     "txtProtected": "输入密码并打开文件后，将重置当前密码"
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "btnSend": "发送",
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
@@ -812,6 +821,7 @@
     "textRenameFile": "重命名文件",
     "textSwitchedMobileView": "切换到“移动设备”视图",
     "textSwitchedStandardView": "切换到标准视图",
+    "textSwitchToDesktop": "切换到桌面模式",
     "warnEmptyRequiredField": "要发送表单，请填写所有必填项。"
   }
 }

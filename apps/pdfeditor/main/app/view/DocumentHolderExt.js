@@ -1491,6 +1491,13 @@ define([], function () {
                 colorLine: false,
                 colors: config.colors,
                 color: '3D8A44',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1498,13 +1505,11 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textUnderline,
                 type: AscPDF.ANNOTATIONS_TYPES.Underline
             });
             annotBarBtns.push(this.btnUnderline);
-            this.btnUnderline.setMenu();
-            this.mnuUnderlineColorPicker = this.btnUnderline.getPicker();
-            this.btnUnderline.currentColor = this.btnUnderline.color;
 
             this.btnStrikeout = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-strikeout', container),
@@ -1517,6 +1522,13 @@ define([], function () {
                 colorLine: false,
                 colors: config.colors,
                 color: 'D43230',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1524,13 +1536,11 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textStrikeout,
                 type: AscPDF.ANNOTATIONS_TYPES.Strikeout
             });
             annotBarBtns.push(this.btnStrikeout);
-            this.btnStrikeout.setMenu();
-            this.mnuStrikeoutColorPicker = this.btnStrikeout.getPicker();
-            this.btnStrikeout.currentColor = this.btnStrikeout.color;
 
             this.btnHighlight = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-highlight', container),
@@ -1540,6 +1550,13 @@ define([], function () {
                 allowDepress: true,
                 split: true,
                 menu: true,
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 colors: [
                     'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                     '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
@@ -1552,13 +1569,11 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: toolbar.textHighlight,
                 type: AscPDF.ANNOTATIONS_TYPES.Highlight
             });
             annotBarBtns.push(this.btnHighlight);
-            this.btnHighlight.setMenu();
-            this.mnuHighlightColorPicker = this.btnHighlight.getPicker();
-            this.btnHighlight.currentColor = this.btnHighlight.color;
 
             this.btnEditText = new Common.UI.Button({
                 parentEl: $('#annot-bar-edit-text', container),
@@ -1568,7 +1583,7 @@ define([], function () {
                 hint: this.tipRecognize
             });
             annotBarBtns.push(this.btnEditText);
-            this.fireEvent('annotbar:create', [this.btnStrikeout, this.mnuStrikeoutColorPicker, this.btnUnderline, this.mnuUnderlineColorPicker, this.btnHighlight, this.mnuHighlightColorPicker]);
+            this.fireEvent('annotbar:create', [this.btnStrikeout, this.btnUnderline, this.btnHighlight]);
 
             return container;
         };
@@ -1612,6 +1627,13 @@ define([], function () {
                     '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                 ],
                 color: 'FFFC54',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1619,6 +1641,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeHighlightColor);
@@ -1634,6 +1657,13 @@ define([], function () {
                 colorLine: 'box',
                 colors: config.colors,
                 color: '3D8A44',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -1641,6 +1671,7 @@ define([], function () {
                 paletteCls: config.cls,
                 paletteWidth: config.paletteWidth,
                 storageSuffix: '-draw',
+                hideColorsSeparator: true,
                 hint: this.textColor
             });
             annotSelectBarBtns.push(this.btnStrokeColor);

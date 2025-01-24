@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Illesszen be egy adat URL-t",
   "DE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "DE.Controllers.Toolbar.helpSignField": "Insert the signature field into your PDF forms.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Signatures",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Insert text from external files directly into your document.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Text import from third-party sources",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Figyelmeztetés",
   "DE.Controllers.Toolbar.textAccent": "Akcentusok",
   "DE.Controllers.Toolbar.textBracket": "Zárójelben",
@@ -2187,6 +2177,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Mentés",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Másolat mentése mint",
   "DE.Views.FileMenu.btnSettingsCaption": "Haladó beállítások",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Dokumentum szerkesztése",
   "DE.Views.FileMenu.textDownload": "Letöltés",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Üres Dokumentum",
@@ -3696,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

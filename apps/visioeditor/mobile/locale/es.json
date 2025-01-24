@@ -158,7 +158,9 @@
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textRenameFile": "Renombrar archivo",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "Propietario",
       "textPoweredBy": "Impulsado por",
       "textPrint": "Imprimir",
+      "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",

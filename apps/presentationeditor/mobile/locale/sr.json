@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
   },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
+  },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisni 'OK' da se vratiš na listu dokumenata.",
@@ -270,13 +276,16 @@
     "waitText": "Molimo, sačekajte..."
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napusti ovu stranicu",
     "stayButtonText": "Ostani na ovoj stranici",
     "textCloseHistory": "Zatvori Istoriju",
     "textEnterNewFileName": "Unesi novo ime fajla",
-    "textRenameFile": "Preimenuj fajl"
+    "textOk": "OK",
+    "textRenameFile": "Preimenuj fajl",
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Odabrani tekst",
       "textDisplay": "Ekran",
       "textDone": "Gotovo",
+      "textDrawing": "Crtanje",
       "textEmptyImgUrl": "Morate da specifikujete URL slike.",
       "textExternalLink": "Spoljni link",
       "textFirstSlide": "Prvi slajd",

@@ -514,11 +514,13 @@ define([
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
-                if (options.maxwidth && options.width=='auto') {
+                if ((options.maxwidth || options.minwidth) && options.width=='auto') {
                     var width = !Common.UI.isRTL() ? (Common.Utils.getPosition(text).left + text.width() + parseInt(text_cnt.css('padding-right'))) :
                         (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
-                    if (width > options.maxwidth)
+                    if (options.maxwidth && width > options.maxwidth)
                         options.width = options.maxwidth;
+                    else if (options.minwidth && width < options.minwidth)
+                        options.width = options.minwidth;
                 }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
@@ -704,6 +706,8 @@ define([
                     this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
+                    var tools = this.$window.find('.tools .tool').length;
+                    (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
                 } else {
                     this.$window.find('.body').css({
                         top:0,

@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, Link } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
-import SvgIcon from '@common/lib/component/SvgIcon';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 import IconReturnIos from '@common-ios-icons/icon-return.svg?ios';
 import IconReturnAndroid from '@common-android-icons/icon-return.svg';
 import IconStandardView from '@icons/icon-standard-view.svg';
@@ -25,9 +26,7 @@ const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
-    const isForm = props.isForm;
-    const canFillForms = props.canFillForms;
-    const isEditableForms = isForm && canFillForms;
+    const isEditableForms = props.isForm && props.canFillForms;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
@@ -37,9 +36,6 @@ const ToolbarView = props => {
     useEffect(() => {
         if ( $$('.skl-container').length ) {
             $$('.skl-container').remove();
-        }
-
-        return () => {
         }
     }, []);
 
@@ -95,6 +91,12 @@ const ToolbarView = props => {
                     })
                 }
                 {!isEditableForms ? [
+                    !Device.phone && <Link key='desktop-link' iconOnly href={false}
+                                           className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                                           onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                                 className={'icon icon-svg'} />
+                                    </Link>,
                     ((isViewer || !Device.phone) && props.isMobileViewAvailable && !props.disabledControls && !isVersionHistoryMode) &&
                         <Link iconOnly key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} href={false} onClick={() => {
                             props.changeMobileView();
@@ -113,7 +115,7 @@ const ToolbarView = props => {
                                 <SvgIcon slot="media" symbolId={IconEditForAndroid.id} className={'icon icon-svg'} />
                             }
                         </Link>,
-                    (props.isEdit && isAvailableExt && !isViewer && EditorUIController.getToolbarOptions && 
+                    (props.isEdit && isAvailableExt && !isViewer && !props.isDrawMode && EditorUIController.getToolbarOptions &&
                         <Fragment key='editing-buttons'>
                             {EditorUIController.getToolbarOptions({
                             disabled: disableEditBtn || props.disabledControls || isOpenModal,
@@ -127,7 +129,7 @@ const ToolbarView = props => {
                             <SvgIcon slot="media" symbolId={IconSearch.id} className={'icon icon-svg'} />
                         </Link>
                     ),
-                    (window.matchMedia("(min-width: 360px)").matches && !isForm && !isVersionHistoryMode ? 
+                    (window.matchMedia("(min-width: 360px)").matches && !props.isForm && !props.isDrawMode && !isVersionHistoryMode ?
                         <Link iconOnly key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} onClick={() => props.openOptions('coauth')}>
                             <SvgIcon slot="media" symbolId={IconCollaboration.id} className={'icon icon-svg'} />
                         </Link>  
@@ -139,8 +141,14 @@ const ToolbarView = props => {
                     : null),
                     <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
                 ] : [
-                    <Link iconOnly key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' href={false} onClick={() => props.movePrevField()}><SvgIcon slot="media" symbolId={IconPrevField.id} className={'icon icon-svg'} /></Link>,
-                    <Link iconOnly key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' href={false} onClick={() => props.moveNextField()}><SvgIcon slot="media" symbolId={IconNextField.id} className={'icon icon-svg'} /></Link>,
+                    // /!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                    //                        className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                    //                        onClick={() => props.forceDesktopMode()}>
+                    //                     <SvgIcon symbolId={IconSwitchToDesktop.id}
+                    //                              className={'icon icon-svg'} />
+                    //                 </Link>,
+                    <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
+                    <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
                     (props.canSubmitForms ?
                         [
                             <Link iconOnly key='btn-settings'

@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "ວາງ URL ຂໍ້ມູນ",
   "DE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "DE.Controllers.Toolbar.helpSignField": "Insert the signature field into your PDF forms.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Signatures",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Insert text from external files directly into your document.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Text import from third-party sources",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
   "DE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "DE.Controllers.Toolbar.textBracket": "ວົງເລັບ",
@@ -2187,6 +2177,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "ບັນທຶກ",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "ບັນທຶກສຳເນົາເປັນ",
   "DE.Views.FileMenu.btnSettingsCaption": "ຕັ້ງ​ຄ່າ​ຂັ້ນ​ສູງ",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "ແກ້ໄຂເອກະສານ",
   "DE.Views.FileMenu.textDownload": "ດາວໂຫຼດ",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "ເອກະສານເປົ່າ",
@@ -3696,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

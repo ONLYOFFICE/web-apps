@@ -3,8 +3,10 @@ import { inject, observer } from 'mobx-react';
 import {List, ListItem, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { MainContext } from '../../page/main';
+import { Device } from "../../../../../common/mobile/utils/device";
+import SvgIcon from "../../../../../common/mobile/lib/component/SvgIcon";
+import IconDraw from "../../../../../common/mobile/resources/icons/draw.svg";
 import {Device} from "../../../../../common/mobile/utils/device";
-import SvgIcon from '@common/lib/component/SvgIcon';
 import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 import IconInsimageIos from '@ios-icons/icon-insimage.svg?ios';
@@ -51,6 +53,12 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
                     <SvgIcon slot="media" symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
                     <SvgIcon slot="media" symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
                 }
+            </ListItem>
+            <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
+              props.closeModal();
+              Common.Notifications.trigger('draw:start');
+            }}>
+              <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
             </ListItem>
         </List>
     )

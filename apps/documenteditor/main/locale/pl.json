@@ -1337,16 +1337,6 @@
   "DE.Controllers.Toolbar.dataUrl": "Wklej adres URL danych",
   "DE.Controllers.Toolbar.errorAccessDeny": "Próbujesz wykonać czynność, do której nie masz uprawnień.<br>Skontaktuj się z administratorem serwera dokumentów.",
   "DE.Controllers.Toolbar.fileUrl": "Wklejanie adresu URL pliku",
-  "DE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "DE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "DE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "DE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "DE.Controllers.Toolbar.helpSignField": "Insert the signature field into your PDF forms.",
-  "DE.Controllers.Toolbar.helpSignFieldHeader": "Signatures",
-  "DE.Controllers.Toolbar.helpTextDeleted": "Highlight deleted text to easily track changes and see the removed content between revisions.",
-  "DE.Controllers.Toolbar.helpTextDeletedHeader": "Enhanced Version History",
-  "DE.Controllers.Toolbar.helpTextFromFile": "Insert text from external files directly into your document.",
-  "DE.Controllers.Toolbar.helpTextFromFileHeader": "Text import from third-party sources",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Ostrzeżenie",
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Klamry",
@@ -2187,6 +2177,7 @@
   "DE.Views.FileMenu.btnSaveCaption": "Zapisz",
   "DE.Views.FileMenu.btnSaveCopyAsCaption": "Zapisz kopię jako",
   "DE.Views.FileMenu.btnSettingsCaption": "Zaawansowane ustawienia",
+  "DE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "DE.Views.FileMenu.btnToEditCaption": "Edytuj dokument",
   "DE.Views.FileMenu.textDownload": "Pobierz",
   "DE.Views.FileMenuPanels.CreateNew.txtBlank": "Pusty dokument",
@@ -3696,5 +3687,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
 }

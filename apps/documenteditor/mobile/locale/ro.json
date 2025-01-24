@@ -27,6 +27,7 @@
     "textCurrentPosition": "Poziția curentă",
     "textDisplay": "Afișare",
     "textDone": "Gata",
+    "textDrawing": "Desenare",
     "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
     "textEvenPage": "Pagină pară",
     "textFootnote": "Notă de subsol",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Actualizare numai numere de pagină",
     "textRows": "Rânduri",
     "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
+  },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
   },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
@@ -442,6 +449,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorPDFFormsLocked": "Această acțiune nu poate fi efectuată deoarece provoacă modificarea formuarelor blocate.",
     "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
@@ -801,6 +809,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
@@ -812,6 +821,7 @@
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
     "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "textSwitchToDesktop": "Comutare la modul Desktop",
     "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

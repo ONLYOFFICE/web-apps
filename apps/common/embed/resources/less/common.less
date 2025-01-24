@@ -90,7 +90,7 @@
 }
 
 .embed-body.rtl-font {
-    &[applang=ar] {
+    &[applang=ar], &[applang=ku] {
         font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }
@@ -768,6 +768,14 @@
     .divider {
         margin: 4px 0;
     }
+
+    &.pull-right {
+        .rtl & {
+            float: left;
+            left: 0;
+            right: auto;
+        }
+    }
 }
 
 .dropdown {
@@ -828,7 +836,8 @@
     .tooltip-arrow {
         display: none;
     }
-    .embed-body.rtl-font[applang=ar] & {
+    .embed-body.rtl-font[applang=ar] &,
+    .embed-body.rtl-font[applang=ku] & {
         font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }

@@ -58,6 +58,7 @@
     "textShape": "Kształt",
     "textTable": "Tabela",
     "textTableContents": "Spis treści",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textPasteImageUrl": "Paste an image URL",
     "textPosition": "Position",
@@ -453,6 +454,7 @@
     "errorKeyEncrypt": "Unknown key descriptor",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
@@ -806,12 +808,20 @@
     "textEnterNewFileName": "Wprowadź nową nazwę pliku",
     "textOk": "OK",
     "warnEmptyRequiredField": "Wypełnij wszystkie wymagane pola, aby wysłać formularz.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "stayButtonText": "Stay on this page",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

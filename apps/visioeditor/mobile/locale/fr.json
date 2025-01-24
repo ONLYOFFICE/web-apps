@@ -153,12 +153,14 @@
     "waitText": "Veuillez patienter..."
   },
   "Toolbar": {
+    "btnRestartNow": "Redémarrer maintenant",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textRenameFile": "Renommer le fichier",
+    "textSwitchToDesktop": "Passer en mode desktop"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "Propriétaire",
       "textPoweredBy": "Développé par",
       "textPrint": "Imprimer",
+      "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSettings": "Paramètres",
@@ -207,7 +210,7 @@
       "textVersion": "Version",
       "textVisioInfo": "Info sur Visio",
       "textVisioSettings": "Paramètres de Visio",
-      "textVisioTitle": "Titre de Visio"
+      "textVisioTitle": "Titre du visualiseur de diagramme"
     }
   }
 }

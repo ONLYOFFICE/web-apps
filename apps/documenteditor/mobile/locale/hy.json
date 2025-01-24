@@ -65,7 +65,8 @@
     "textTableSize": "Աղյուսակի չափ",
     "textWithBlueLinks": "Կապույտ հղումներով",
     "textWithPageNumbers": "Էջի համարներով",
-    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ "
+    "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -442,6 +443,7 @@
     "errorMailMergeSaveFile": "Միաձուլումը խափանվեց։",
     "errorNoTOC": "Արդիացնելու համար բովանդակություն չկա: Կարող եք զետեղել այն հղումներ ներդիրից:",
     "errorPasswordIsNotCorrect": "Ձեր տրամադրած գաղտնաբառը ճիշտ չէ: Համոզվեք, որ CAPS LOCK ստեղնն անջատված է և համոզվեք, որ օգտագործեք ճիշտ մեծատառերը:",
+    "errorPDFFormsLocked": "Գործողությունը չի կարող կատարվել, քանի որ այն փոփոխություններ է առաջացնում կողպված ձևերում:",
     "errorSaveWatermark": "Այս ֆայլը պարունակում է ջրանիշի պատկեր՝ կապված մեկ այլ տիրույթի հետ:<br>Այն PDF-ում տեսանելի դարձնելու համար թարմացրեք ջրանիշի պատկերը, որպեսզի այն կապվի նույն տիրույթից, ինչ ձեր փաստաթուղթը, կամ վերբեռնեք այն ձեր համակարգչից:",
     "errorSessionAbsolute": "Փաստաթղթերի խմբագրման աշխատաշրջանն ավարտվել է:Խնդրում ենք վերաբեռնել էջը:",
     "errorSessionIdle": "Փաստաթուղթը երկար ժամանակ չի խմբագրվել։Խնդրում ենք վերաբեռնել էջը:",
@@ -812,6 +814,14 @@
     "textRenameFile": "Վերանվանել ֆայլը",
     "textSwitchedMobileView": " Փոխարկվել է բջջային տեսքի",
     "textSwitchedStandardView": " Փոխարկվել է ստանդարտ տեսքի",
-    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:"
+    "warnEmptyRequiredField": "Լրացրել բոլոր անհրաժեշտ դաշտերը՝ ձևն ուղարկելու համար:",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

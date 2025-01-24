@@ -3,7 +3,7 @@
     "textAbout": "关于",
     "textAddress": "地址",
     "textBack": "返回",
-    "textEditor": "Visio 编辑器",
+    "textEditor": "图表查看器",
     "textEmail": "电子邮件",
     "textPoweredBy": "技术支持方",
     "textTel": "电话",
@@ -136,6 +136,7 @@
     "loadImageTitleText": "图片加载中",
     "loadingDocumentTextText": "文件加载中…",
     "loadingDocumentTitleText": "加载中",
+    "loadThemeTextText": "正在加载主题...",
     "loadThemeTitleText": "正在加载主题",
     "openTextText": "正在打开文档...",
     "openTitleText": "正在打开文件",
@@ -149,16 +150,17 @@
     "txtEditingMode": "设置编辑模式..",
     "uploadImageTextText": "图片上传中...",
     "uploadImageTitleText": "图片上传中",
-    "waitText": "请稍候...",
-    "loadThemeTextText": "Loading theme..."
+    "waitText": "请稍候..."
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "您在该文档中有未保存的修改。点击“留在此页面”等待自动保存。点击“离开此页面”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "您退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "所有者",
       "textPoweredBy": "技术支持方",
       "textPrint": "打印",
+      "textRestartApplication": "要使更改生效，请重新启动应用程序",
       "textSameAsSystem": "与系统一致",
       "textSearch": "查找",
       "textSettings": "设置",
@@ -205,9 +208,9 @@
       "textTitle": "标题",
       "textUploaded": "已上传",
       "textVersion": "版本",
-      "textVisioInfo": "Visio 信息",
-      "textVisioSettings": "Visio设置",
-      "textVisioTitle": "Visio标题"
+      "textVisioInfo": "图表查看器信息",
+      "textVisioSettings": "图表查看器设置",
+      "textVisioTitle": "图表查看器标题"
     }
   }
 }

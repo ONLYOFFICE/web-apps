@@ -109,7 +109,8 @@ define([
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
                 allowBlank  : true,
-                validateOnChange: true
+                validateOnChange: true,
+                validateOnBlur: false
             });
             this.txtSourceRange.on('button:click', _.bind(this.onSelectData, this, 'source'));
 

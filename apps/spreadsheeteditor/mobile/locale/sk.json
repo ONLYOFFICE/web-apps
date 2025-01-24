@@ -447,9 +447,12 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,6 +516,7 @@
       "txtYes": "Áno",
       "sCustom": "Custom",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
@@ -862,5 +866,11 @@
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

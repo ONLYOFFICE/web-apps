@@ -276,6 +276,10 @@ define([
              var isSlideMaster = mode === 'master';
              this._state.slideMasterMode = isSlideMaster;
              this.statusbar.showSlideMasterStatus(isSlideMaster);
+             if (this.statusbar.btnPreview) {
+                this.statusbar.btnPreview.menu.items[1].setDisabled(isSlideMaster);
+                this.statusbar.btnPreview.menu.items[2].setDisabled(isSlideMaster);
+             }
         },
 
         zoomText        : 'Zoom {0}%',

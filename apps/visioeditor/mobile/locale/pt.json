@@ -3,11 +3,11 @@
     "textAbout": "Sobre",
     "textAddress": "Endereço",
     "textBack": "Voltar",
+    "textEditor": "Visualizador de Diagramas",
     "textEmail": "Email",
     "textPoweredBy": "Desenvolvido por",
     "textTel": "Tel.",
-    "textVersion": "Versão",
-    "textEditor": "Diagram Viewer"
+    "textVersion": "Versão"
   },
   "Common": {
     "Collaboration": {
@@ -158,7 +158,9 @@
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textEnterNewFileName": "Digite um novo nome de arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -205,9 +207,10 @@
       "textTitle": "Titulo",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
-      "textVisioInfo": "Diagram Viewer Info",
-      "textVisioSettings": "Diagram Viewer Settings",
-      "textVisioTitle": "Diagram Viewer Title"
+      "textVisioInfo": "Informações do Visualizador de Diagramas",
+      "textVisioSettings": "Configurações do Visualizador de Diagramas",
+      "textVisioTitle": "Título do Visualizador de Diagramas",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

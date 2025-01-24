@@ -216,6 +216,7 @@ define([], function () {
             me.mnuGuides = new Common.UI.MenuItem({
                 caption     : me.textGuides,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGuides, value: 'show', checkable: true },
@@ -232,6 +233,7 @@ define([], function () {
             me.mnuGridlines = new Common.UI.MenuItem({
                 caption     : me.textGridlines,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         { caption: me.textShowGridlines, value: 'show', checkable: true },
@@ -405,7 +407,7 @@ define([], function () {
                     itemTemplate: _.template([
                         '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
                         '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;background-size: contain;"></div>',
-                        '<div class="title"><%= title %></div> ',
+                        '<div class="title"><%- title %></div> ',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {

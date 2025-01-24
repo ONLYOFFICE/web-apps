@@ -80,7 +80,7 @@
     "menuShow": "Afficher",
     "menuUnfreezePanes": "Libérer les volets",
     "menuUnmerge": "Annuler la fusion",
-    "menuUnwrap": "Annuler le renvoi",
+    "menuUnwrap": "Annuler le renvoi à la ligne",
     "menuViewComment": "Voir le commentaire",
     "menuWrap": "Renvoi à la ligne",
     "notcriticalErrorTitle": "Avertissement",
@@ -247,6 +247,12 @@
       "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
+  },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -443,13 +449,16 @@
     "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
   },
   "Toolbar": {
+    "btnRestartNow": "Redémarrer maintenant",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
     "textCloseHistory": "Fermer l'historique",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textOk": "OK",
+    "textRenameFile": "Renommer le fichier",
+    "textSwitchToDesktop": "Passer en mode desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
       "textDisplay": "Affichage",
       "textDone": "Terminé",
+      "textDrawing": "Dessins",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFilter": "Filtre",

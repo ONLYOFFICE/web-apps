@@ -242,7 +242,7 @@ class SearchView extends Component {
     
     onSearchKeyDown(e) {
         if(e.keyCode === 13) {
-            if (this.props.onSearchQuery(this.searchParams(), true) && this.searchTimer) {
+            if (this.state.searchQuery && this.props.onSearchQuery(this.searchParams(), true) && this.searchTimer) {
                 clearInterval(this.searchTimer);
                 this.searchTimer = undefined;
             }

@@ -101,6 +101,7 @@ define([
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
                     window.open('{{SUPPORT_URL}}');
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             /** coauthoring begin **/
