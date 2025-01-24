@@ -52,7 +52,7 @@ define([
 
         initialize: function() {
             this.editMode = true;
-            this._state = {wsLock: false, wsProps: []};
+            this._state = {wsLock: false, wsProps: [], inPivot: false};
 
             this.addListeners({
                 'Toolbar': {
@@ -252,11 +252,20 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            if (pivotInfo && this.rightmenu.mode.canFeaturePivot) {
+            if (this.rightmenu.mode.canFeaturePivot) {
                 settingsType = Common.Utils.documentSettingsType.Pivot;
-                this._settings[settingsType].props = pivotInfo;
-                this._settings[settingsType].locked = isPivotLocked; // disable pivot settings
-                this._settings[settingsType].hidden = 0;
+                if (pivotInfo) {
+                    this._settings[settingsType].props = pivotInfo;
+                    this._settings[settingsType].locked = isPivotLocked; // disable pivot settings
+                    this._settings[settingsType].hidden = 0;
+                }
+                if (this._state.inPivot !== !this._settings[settingsType].hidden) {
+                    this.rightmenu.clearMoreButton();
+                    this.rightmenu.btnPivot.setVisible(!this._settings[settingsType].hidden);
+                    this.rightmenu.setButtons();
+                    this.rightmenu.setMoreButton();
+                    this._state.inPivot = !this._settings[settingsType].hidden;
+                }
             }
 
             if (SelectedObjects.length<=0 && cellInfo) { // cell is selected

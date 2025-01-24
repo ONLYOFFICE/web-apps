@@ -447,9 +447,12 @@
     "dlgLeaveTitleText": "您離開應用程式",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,7 +516,8 @@
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
       "txtYes": "是",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -862,5 +866,11 @@
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

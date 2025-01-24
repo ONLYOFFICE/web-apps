@@ -80,7 +80,7 @@
     "menuShow": "Afficher",
     "menuUnfreezePanes": "Libérer les volets",
     "menuUnmerge": "Annuler la fusion",
-    "menuUnwrap": "Annuler le renvoi",
+    "menuUnwrap": "Annuler le renvoi à la ligne",
     "menuViewComment": "Voir le commentaire",
     "menuWrap": "Renvoi à la ligne",
     "notcriticalErrorTitle": "Avertissement",
@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
+  },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
@@ -291,6 +297,7 @@
     "errorFileVKey": "Erreur externe.<br>Clé de sécurité incorrecte. Contactez l'assistance technique.",
     "errorFillRange": "Il est impossible de remplir la plage de cellules sélectionnée.<br>Toutes les cellules unies doivent être de la même taille.",
     "errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
+    "errorFormulaInPivotFieldName": "Impossible de saisir une formule pour un nom d'élément ou de champ dans un rapport de tableau croisé dynamique.",
     "errorFormulaName": "Il y a une erreur dans la formule : nom de la formule incorrecte.",
     "errorFormulaParsing": "Une erreur interne lors de l'analyse de la formule.",
     "errorFrmlMaxLength": "Vous ne pouvez pas ajouter cette formule car sa longueur dépasse le nombre de caractères autorisés.<br>Modifiez la formule et réessayer.",
@@ -321,9 +328,11 @@
     "errorNoDataToParse": "Aucune donnée à convertir n'a été sélectionnée.",
     "errorOpenWarning": "La longueur de l'une des formules dans le fichier a dépassé <br> le nombre de caractères autorisé, et la formule a été supprimée.",
     "errorOperandExpected": "La syntaxe de la saisie est incorrecte. Veuillez vérifier si l'une des parenthèses - '(' ou ')' est manquante.",
+    "errorPasteInPivot": "Nous ne pouvons pas effectuer cette modification pour les cellules sélectionnées, car cela affecterait un tableau croisé dynamique.<br>Utilisez la liste des champs pour modifier le rapport.",
     "errorPasteMaxRange": "La zone de copie ne correspond pas à la zone de collage.<br>Sélectionnez une zone avec la même taille ou cliquez sur la première cellule d'une ligne pour coller les cellules sélectionnées.",
     "errorPasteMultiSelect": "Cette action ne peut pas être accomplie sur une sélection de plusieurs plages.<br>Sélectionnez une seule plage, puis réessayez.",
     "errorPasteSlicerError": "Les segments de table ne peuvent pas être copiés depuis un classeur vers un autre.",
+    "errorPivotFieldNameExists": "Le nom du champ du tableau croisé dynamique existe déjà.",
     "errorPivotGroup": "Impossible de grouper cette sélection.",
     "errorPivotOverlap": "Report du tableau croise dynamique ne peut pas chevaucher un autre tableau.",
     "errorPivotWithoutUnderlying": "Le rapport de tableau croisé dynamique a été enregistré sans ses données sous-jacentes.<br>Utilisez la commande « Actualiser » pour mettre à jour le rapport.",
@@ -368,10 +377,7 @@
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "advDRMPassword": "Mot de passe",
@@ -449,7 +455,10 @@
     "stayButtonText": "Rester sur cette page",
     "textCloseHistory": "Fermer l'historique",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textOk": "OK",
+    "textRenameFile": "Renommer le fichier",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
       "textDisplay": "Affichage",
       "textDone": "Terminé",
+      "textDrawing": "Dessins",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFilter": "Filtre",

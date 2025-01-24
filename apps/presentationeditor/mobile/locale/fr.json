@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
+  },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
@@ -276,7 +282,10 @@
     "stayButtonText": "Rester sur cette page",
     "textCloseHistory": "Fermer l'historique",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textOk": "OK",
+    "textRenameFile": "Renommer le fichier",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Texte sélectionné",
       "textDisplay": "Affichage",
       "textDone": "Terminé",
+      "textDrawing": "Dessins",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFirstSlide": "Première diapositive",

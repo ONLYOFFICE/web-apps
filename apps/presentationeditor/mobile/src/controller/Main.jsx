@@ -73,7 +73,8 @@ class MainController extends Component {
 
         this._state = {
             licenseType: false,
-            isDocModified: false
+            isDocModified: false,
+            requireUserAction: true
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
@@ -603,6 +604,7 @@ class MainController extends Component {
         Common.Notifications.trigger('document:ready');
 
         appOptions.changeDocReady(true);
+        this._state.requireUserAction = false;
     }
 
     insertImage (data) {
@@ -763,6 +765,7 @@ class MainController extends Component {
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], Asc.c_oAscAsyncAction['Open']);
 
         f7.dialog.alert(
             _t.errorUpdateVersion,
@@ -772,8 +775,9 @@ class MainController extends Component {
                 if (callback) {
                     callback.call(this);
                 }
-                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                this.editorConfig && this.editorConfig.canUpdateVersion && Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             });
+        Common.Notifications.trigger('api:disconnect');
     }
 
     onServerVersion (buildVersion) {
@@ -847,6 +851,10 @@ class MainController extends Component {
                 cssClass: 'dlg-adv-options'
             }).open();
             this.isDRM = true;
+        }
+        if (this._state.requireUserAction) {
+            Common.Gateway.userActionRequired();
+            this._state.requireUserAction = false;
         }
     }
 

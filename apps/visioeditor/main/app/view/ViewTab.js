@@ -333,6 +333,9 @@ define([
                     me.chLeftMenu.setValue(!Common.localStorage.getBool("ve-hidden-leftmenu", value));
 
                     me.setEvents();
+
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
+                        Common.NotificationCenter.trigger('tab:set-active', 'view');
                 });
             },
 

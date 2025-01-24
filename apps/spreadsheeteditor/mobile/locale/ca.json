@@ -449,7 +449,10 @@
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
     "textEnterNewFileName": "Introduïu un nom de fitxer nou",
-    "textRenameFile": "Canvia el nom del fitxer"
+    "textRenameFile": "Canvia el nom del fitxer",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,7 +516,8 @@
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
       "txtYes": "Sí",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -862,5 +866,11 @@
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

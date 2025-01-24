@@ -406,12 +406,20 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestStartFilling'});
             },
 
+            switchEditorType:  function (value, restart) {
+                _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },
 
             requestRefreshFile: function() {
                 _postMessage({ event: 'onRequestRefreshFile' });
+            },
+
+            userActionRequired: function() {
+                _postMessage({ event: 'onUserActionRequired' });
             },
 
             saveDocument: function(data) {

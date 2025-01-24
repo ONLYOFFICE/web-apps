@@ -779,7 +779,12 @@ define([
                     if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
+                    var visible = (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration');
+                    Common.NotificationCenter.trigger('tab:visible', 'review', visible);
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab') && visible) { // collaboration tab has hign priority in view mode
+                        Common.Utils.InternalSettings.set('toolbar-active-tab', null);
+                        Common.NotificationCenter.trigger('tab:set-active', 'review');
+                    }
                     setEvents.call(me);
                 });
             },

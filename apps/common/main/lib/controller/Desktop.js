@@ -275,6 +275,7 @@ define([
                 !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title-lang'));
                 !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title-lang'));
                 !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['startover'] && (info.hints['startover'] = titlebuttons['startover'].btn.btnEl.attr('data-hint-title-lang'));
             }
 
             native.execCommand('althints:show', JSON.stringify(info));
@@ -485,6 +486,10 @@ define([
 
                 if (!!header.btnRedo)
                     titlebuttons['redo'] = {btn: header.btnRedo};
+
+                if (!!header.btnStartOver) {
+                    titlebuttons['startover'] = {btn: header.btnStartOver};
+                }
 
                 if (!!header.btnQuickAccess)
                     titlebuttons['quickaccess'] = {btn: header.btnQuickAccess};
@@ -760,7 +765,8 @@ define([
     const FILE_DOCUMENT = 0x0040,
         FILE_PRESENTATION = 0x0080,
         FILE_SPREADSHEET = 0x0100,
-        FILE_CROSSPLATFORM = 0x0200;
+        FILE_CROSSPLATFORM = 0x0200,
+        FILE_DRAW = 0x4000;
 
     const utils = {};
     utils.defines = {}
@@ -787,6 +793,9 @@ define([
         FILE_DOCUMENT_OFORM: FILE_DOCUMENT + 0x0015,
         FILE_DOCUMENT_DOCXF: FILE_DOCUMENT + 0x0016,
         FILE_DOCUMENT_OFORM_PDF: FILE_DOCUMENT + 0x0017,
+        FILE_DOCUMENT_PAGES:    FILE_DOCUMENT + 0x0018,
+        FILE_DOCUMENT_HWP:      FILE_DOCUMENT + 0x0019,
+        FILE_DOCUMENT_HWPX:     FILE_DOCUMENT + 0x0020,
         FILE_DOCUMENT_XML: FILE_DOCUMENT + 0x0030,
 
         FILE_PRESENTATION:      FILE_PRESENTATION,
@@ -800,6 +809,7 @@ define([
         FILE_PRESENTATION_POTM: FILE_PRESENTATION + 0x0008,
         FILE_PRESENTATION_ODP_FLAT: FILE_PRESENTATION + 0x0009,
         FILE_PRESENTATION_OTP:  FILE_PRESENTATION + 0x000a,
+        FILE_PRESENTATION_KEY:  FILE_PRESENTATION + 0x000d,
 
         FILE_SPREADSHEET:       FILE_SPREADSHEET,
         FILE_SPREADSHEET_XLSX:  FILE_SPREADSHEET + 0x0001,
@@ -812,13 +822,22 @@ define([
         FILE_SPREADSHEET_XLSB:  FILE_SPREADSHEET + 0x0008,
         FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0009,
         FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x000a,
+        FILE_SPREADSHEET_NUMBERS: FILE_SPREADSHEET + 0x000d,
 
         FILE_CROSSPLATFORM:     FILE_CROSSPLATFORM,
         FILE_CROSSPLATFORM_PDF: FILE_CROSSPLATFORM + 0x0001,
         FILE_CROSSPLATFORM_SWF: FILE_CROSSPLATFORM + 0x0002,
         FILE_CROSSPLATFORM_DJVU: FILE_CROSSPLATFORM + 0x0003,
         FILE_CROSSPLATFORM_XPS: FILE_CROSSPLATFORM + 0x0004,
-        FILE_CROSSPLATFORM_PDFA: FILE_CROSSPLATFORM + 0x0009
+        FILE_CROSSPLATFORM_PDFA: FILE_CROSSPLATFORM + 0x0009,
+
+        FILE_DRAW:              FILE_DRAW,
+        FILE_DRAW_VSDX:         FILE_DRAW + 0x0001,
+        FILE_DRAW_VSSX:         FILE_DRAW + 0x0002,
+        FILE_DRAW_VSTX:         FILE_DRAW + 0x0003,
+        FILE_DRAW_VSDM:         FILE_DRAW + 0x0004,
+        FILE_DRAW_VSSM:         FILE_DRAW + 0x0005,
+        FILE_DRAW_VSTM:         FILE_DRAW + 0x0006,
     };
 
     utils.parseFileFormat = function(format) {
@@ -841,6 +860,9 @@ define([
             case utils.defines.FileFormat.FILE_DOCUMENT_ODT_FLAT:   return 'fodt';
             case utils.defines.FileFormat.FILE_DOCUMENT_DOTM:       return 'dotm';
             case utils.defines.FileFormat.FILE_DOCUMENT_XML:       return 'xml';
+            case utils.defines.FileFormat.FILE_DOCUMENT_PAGES:      return 'pages';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HWP:        return 'hwpx';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HWPX:       return 'hwp';
 
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';
@@ -852,6 +874,7 @@ define([
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLTM:    return 'xltm';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLSM:    return 'xlsm';
             case utils.defines.FileFormat.FILE_SPREADSHEET_ODS_FLAT:return 'fods';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_NUMBERS: return 'numbers';
 
             case utils.defines.FileFormat.FILE_PRESENTATION_PPT:    return 'ppt';
             case utils.defines.FileFormat.FILE_PRESENTATION_POTX:   return 'potx';
@@ -863,11 +886,19 @@ define([
             case utils.defines.FileFormat.FILE_PRESENTATION_PPSM:   return 'ppsm';
             case utils.defines.FileFormat.FILE_PRESENTATION_POTM:   return 'potm';
             case utils.defines.FileFormat.FILE_PRESENTATION_ODP_FLAT: return 'fodp';
+            case utils.defines.FileFormat.FILE_PRESENTATION_KEY:    return 'key';
 
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA:
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF:   return 'pdf';
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU:  return 'djvu';
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS:   return 'xps';
+
+            case utils.defines.FileFormat.FILE_DRAW_VSTX:
+            case utils.defines.FileFormat.FILE_DRAW_VSSX:
+            case utils.defines.FileFormat.FILE_DRAW_VSDM:
+            case utils.defines.FileFormat.FILE_DRAW_VSSM:
+            case utils.defines.FileFormat.FILE_DRAW_VSTM:
+            case utils.defines.FileFormat.FILE_DRAW_VSDX:           return 'vsdx';
         }
 
         return '';

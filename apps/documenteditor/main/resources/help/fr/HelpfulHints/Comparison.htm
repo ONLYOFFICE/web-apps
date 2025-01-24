@@ -3,7 +3,7 @@
 <head>
     <title>Comparer et combiner des documents</title>
     <meta charset="utf-8" />
-    <meta name="description" content="Comment comparer et fusionner deux documents" />
+    <meta name="description" content="Instructions comment coparer et fusionner des documents" />
     <link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
     <link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
     <script type="text/javascript" src="../callback.js"></script>
@@ -15,8 +15,8 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>Comparer et combiner des documents</h1>
-        <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> permet de gérer le flux de travail continu par l'ensemble de l'équipe: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" onclick="onhyperlinkclick(this)">partager</a> des fichiers et des dossiers, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">collaborer</a> sur des documents en temps réel, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">communiquer</a> directement depuis l'éditeur, <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">laisser des commentaires</a> pour des fragments du document nécessitant la participation d'une tierce personne, sauvegarder des <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">versions du document</a> pour une utilisation ultérieure, <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">réviser</a> les documents et ajouter les modifications sans modifier le fichier.</p>
-        <p>Si vous avez besoin de comparer et de fusionner deux documents, <a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>l'éditeur de documents</b></a> dispose de la fonctionnalité de <b>Comparaison</b> des documents. Cette fonctionnalité permet d'afficher des différences entre deux documents et de fusionner des documents en acceptant les modifications une par une ou toutes à la fois.</p>
+        <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> permet de gérer le flux de travail continu par l'ensemble de l'équipe: <a href="https://helpcenter.onlyoffice.com/userguides/groups-guides-documents-share-documents.aspx" target="_blank" onclick="onhyperlinkclick(this)">partager</a> des fichiers et des dossiers, <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">collaborer</a> sur des documents en temps réel, <a href="../HelpfulHints/Communicating.htm" onclick="onhyperlinkclick(this)">communiquer</a> directement depuis l'éditeur, <a href="../HelpfulHints/Commenting.htm" onclick="onhyperlinkclick(this)">laisser des commentaires</a> pour des fragments du document nécessitant la participation d'une tierce personne, sauvegarder des <a href="../HelpfulHints/VersionHistory.htm" onclick="onhyperlinkclick(this)">versions du document</a> pour une utilisation ultérieure, <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">réviser</a> les documents et ajouter les modifications sans modifier le fichier.</p>
+        <p>Si vous avez besoin de comparer et de fusionner deux documents, l'éditeur <a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> dispose de la fonctionnalité de <b>Comparaison</b> des documents. Cette fonctionnalité permet d'afficher des différences entre deux documents et de fusionner des documents en acceptant les modifications une par une ou toutes à la fois.</p>
         <p>L'option <b>Combiner</b> peut sembler identique, mais il y a une différence majeure: les Modifications suivies dans les deux versions sont fusionnées dans une seule version et le reste du textes est comparé. </p>
         <p>Une fois les deux documents fusionnés, le document résultant sera sauvegardé sur le portail sous une nouvelle version du fichier source<!-- (in the <em>online version</em> of editors)-->. <!--In the desktop version, when you click the <b>Save</b> button, the dialog window will appear where you will be suggested to save a new file.--></p>
         <p>Si vous ne souhaitez pas fusionner des documents lors de la comparaison, vous pouvez rejeter toutes les modifications pour que le document original demeure inchangé.</p>
@@ -60,11 +60,12 @@
         <p>Cliquez sur le bouton <b>Mode d'affichage</b> <span class="icon icon-review_displaymode"></span> dans la barre d'outils supérieure et sélectionnez l'un des modes disponibles dans la liste:</p>
         <ul>
             <li>
-                <b>Balisage et bulles</b> - cette option est sélectionnée par défaut. Ce mode est utilisé pour afficher le document <b>en cours de comparaison/fusion</b>. Ce mode permet d'afficher toutes les modifications et de modifier le document. Ce mode inclut également une bulle comportant le nom du réviseur, la date et l'heure de la révision et les modifications apportées. Utilisez la bulle pour accepter '(l'icône de coche) ou rejeter (l'icône croix) les modifications. 
-                <p><img alt="Comparer documents - Balisage" src="../images/compare_markup.png" /></p>
+                <b>Balisage et bulles</b> - cette option est sélectionnée par défaut. Ce mode est utilisé pour afficher le document <b>en cours de comparaison/fusion</b>. Ce mode permet d'afficher toutes les modifications et de modifier le document. Ce mode comprend également une bulle qui affiche le nom du réviseur, la date et l'heure de la révision, ainsi que la révision elle-même. Utilisez la bulle pour accepter (symbole coche) ou rejeter (symbole croix) la modification.
+                <p><img alt="Comparer documents - Balisage" src="../images/compare_markup_balloons.png" /></p>
             </li>
+
             <li>
-                <b>Balisage uniquement</b> - cette option est utilisé pour afficher le document <b>en cours de comparaison/fusion</b>. Ce mode permet d'afficher toutes les modifications et de modifier le document. Acune bulle ne s'affiche.
+                <b>Balisage uniquement</b> - ce mode permet d'afficher le document en cours de comparaison/combinaison et permet d'afficher les modifications et de modifier le document. Aucune bulle ne s'affiche.
                 <p><img alt="Comparer documents - Balisage" src="../images/compare_markup.png" /></p>
             </li>
             <li>

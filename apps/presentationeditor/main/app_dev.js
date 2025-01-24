@@ -222,7 +222,8 @@ require([
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
                 'common/main/lib/component/AceEditor',
-                
+
+                'presentationeditor/main/app/controller/DocumentHolderExt',
                 'presentationeditor/main/app/view/FileMenuPanels',
                 'presentationeditor/main/app/view/DocumentHolderExt',
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',

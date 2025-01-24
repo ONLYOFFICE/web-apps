@@ -408,7 +408,8 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.main.js.requirejs.options.out %>','<%= pkg.main.js.postload.options.out %>'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>', '<%= pkg.main.js.postload.options.out %>',
+                                packageFile.main.js.babel.files[0].dest],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
@@ -454,9 +455,9 @@ module.exports = function(grunt) {
                 localization: {
                     files: packageFile['main']['copy']['localization']
                 },
-                // help: {
-                //     files: packageFile['main']['copy']['help']
-                // },
+                help: {
+                    files: packageFile['main']['copy']['help']
+                },
                 indexhtml: {
                     files: packageFile['main']['copy']['indexhtml']
                 }
@@ -526,7 +527,7 @@ module.exports = function(grunt) {
             babel: {
                 options: {
                     sourceMap: false,
-                    presets: ['@babel/preset-env']
+                    presets: [['@babel/preset-env', {modules: false}]]
                 },
                 dist: {
                     files: packageFile.main.js.babel.files

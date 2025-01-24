@@ -120,7 +120,8 @@ define([
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
         changeModeLock: 'change-mode-lock',
-        noStyles: 'no-styles'
+        noStyles: 'no-styles',
+        cantMergeShape: 'merge-shape-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1123,7 +1124,7 @@ define([
                         id: 'tlbtn-columns',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-columns',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.controlPlain, _set.inImage, _set.docPropsLock, _set.previewReviewMode, _set.viewFormMode,
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.controlPlain, _set.inImage, _set.inHeader, _set.docPropsLock, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capBtnColumns,
                         menu: new Common.UI.Menu({
@@ -1561,6 +1562,19 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
+
+                    me.btnShapesMerge = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-merge-shapes',
+                        lock: [_set.imageLock, _set.contentLock, _set.noObjectSelected, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.cantMergeShape],
+                        caption: me.capShapesMerge,
+                        menu: true,
+                        action: 'shapes-merge',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-img-frwd',
@@ -1628,7 +1642,7 @@ define([
                         caption: me.capBtnPageColor,
                         menu: true,
                         eyeDropper: false,
-                        hideColorLine: true,
+                        colorLine: false,
                         additionalItemsBefore: [
                             me.mnuPageNoFill = new Common.UI.MenuItem({
                                 caption: me.strMenuNoFill,
@@ -1643,7 +1657,7 @@ define([
                     });
 
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor, me.btnShapesMerge);
 
                     //
                     // Menus
@@ -2112,10 +2126,11 @@ define([
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
-                _injectComponent('#slot-img-group', this.btnImgGroup);
+                _injectComponent('#slot-img-group', this.btnImgGroup); 
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
+                _injectComponent('#slot-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
                 _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
                 _injectComponent('#slot-spin-ind-left', this.numIndentsLeft);
@@ -2361,6 +2376,38 @@ define([
                             me.mniAlignToPage,
                             me.mniAlignToMargin,
                             me.mniAlignObjects
+                        ]
+                    }));
+
+                    me.btnShapesMerge.updateHint(me.tipShapesMerge);
+                    me.btnShapesMerge.setMenu(new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            {
+                                caption: me.textShapesUnion, 
+                                iconCls: 'menu__icon btn-union-shapes',
+                                value: 'unite',
+                            },
+                            {
+                                caption: me.textShapesCombine, 
+                                iconCls: 'menu__icon btn-combine-shapes',
+                                value: 'exclude',
+                            },
+                            {
+                                caption: me.textShapesFragment, 
+                                iconCls: 'menu__icon btn-fragment-shapes',
+                                value: 'divide',
+                            },
+                            {
+                                caption: me.textShapesIntersect, 
+                                iconCls: 'menu__icon btn-intersect-shapes',
+                                value: 'intersect',
+                            },
+                            {
+                                caption: me.textShapesSubstract, 
+                                iconCls: 'menu__icon btn-substract-shapes',
+                                value: 'subtract',
+                            },
                         ]
                     }));
 

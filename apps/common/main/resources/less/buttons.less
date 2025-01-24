@@ -399,10 +399,6 @@
             .mx-button-otherstates-icon2(@button-xhuge-active-icon-offset-x-ie);
             .mx-button-otherstates-icon2(@button-xhuge-active-icon-offset-x);
         }
-
-        .btn.small {
-            .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
-        }
     }
 }
 
@@ -541,6 +537,29 @@
         .x-huge.split & {
             bottom: auto;
             top: 4px;
+        }
+    }
+    .btn-color-value-box {
+        pointer-events: none;
+        position: absolute;
+        left: 3px;
+        bottom: 3px;
+        width: 14px;
+        height: 14px;
+        background-color: red;
+        .rtl & {
+            left: auto;
+            right: 3px;
+        }
+        &.bordered {
+            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+            border: @scaled-one-px-value solid @border-color-shading;
+        }
+    }
+
+    &.no-icon {
+        .icon {
+            visibility: hidden;
         }
     }
 
@@ -698,7 +717,7 @@
     }
 
     &:not(.split) {
-        .btn-toolbar {
+        > .btn-toolbar {
                 &.dropdown-toggle:not(.x-huge):not(.no-caret) {
                     width: 100%;
                     min-width: 28px;
@@ -745,13 +764,13 @@
             box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
             box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-hover;
 
-            button:not(.active):not(.btn-text-split-default) {
+            > button:not(.active):not(.btn-text-split-default) {
                 background-color: transparent;
             }
         }
 
         &.over:not(.disabled) {
-            button {
+            > button {
                 &:not(.active) {
                     &:hover {
                         background-color: @highlight-button-hover-ie;
@@ -776,13 +795,19 @@
             }
         }
 
-        button.active:not(.disabled) {
+        > button.active:not(.disabled) {
             background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
         }
 
         .btn + .btn {
             margin: 0;
+        }
+    }
+
+    .dropdown-menu {
+        .btn.small {
+            .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
         }
     }
 }

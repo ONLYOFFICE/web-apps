@@ -29,7 +29,6 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 var checkLocalStorage = (function () {
     try {
@@ -48,7 +47,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0 || lang.lastIndexOf('ku', 0) === 0;
 }
 
 var ui_rtl = false;
@@ -61,7 +60,7 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
         else ui_rtl = true;
 }
 
-if ( ui_rtl && !isIE ) {
+if ( ui_rtl && window.isIEBrowser !== true ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
@@ -87,7 +86,7 @@ function checkScaling() {
         }
     }
 
-    if ( !isIE ) {
+    if ( window.isIEBrowser !== true ) {
         matches = {
             'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
         };
@@ -107,7 +106,7 @@ let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            if ( isIE ) return;
+            if ( window.isIEBrowser === true ) return;
 
             let runonce;
             // const el = document.querySelector('div.inlined-svg');

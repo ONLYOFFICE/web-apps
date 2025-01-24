@@ -57,7 +57,8 @@ define([
         isTooltipHiding = false,
         bodyWidth = 0,
         ttOffset = [0, -10],
-        _logoImage = '';
+        _logoImage = '',
+        requireUserAction = true;
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -634,7 +635,8 @@ define([
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !this.appOptions.isOffline &&
+                                            !!this.editorConfig.customization.submitForm && (typeof this.editorConfig.customization.submitForm !== 'object' || this.editorConfig.customization.submitForm.visible!==false);
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
@@ -783,10 +785,11 @@ define([
                     _.defer(function() {
                         Common.Gateway.updateVersion();
                         if (callback) callback.call(me);
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     })
                 }
             });
+            Common.NotificationCenter.trigger('api:disconnect');
         },
 
         onLicenseChanged: function(params) {
@@ -931,20 +934,23 @@ define([
                     Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
                     this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
-                    if (!this.submitedTooltip) {
-                        this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: this.textSubmitOk,
-                            extCls: 'no-arrow colored',
-                            style: 'max-width: 400px',
-                            showLink: false,
-                            target: $('.toolbar'),
-                            placement: 'bottom'
-                        });
-                        this.submitedTooltip.on('closeclick', function () {
-                            this.submitedTooltip.hide();
-                        }, this);
+                    var text = (typeof this.appOptions.customization.submitForm==='object') ? this.appOptions.customization.submitForm.resultMessage : this.textSubmitOk;
+                    if (text!=='') {
+                        if (!this.submitedTooltip) {
+                            this.submitedTooltip = new Common.UI.SynchronizeTip({
+                                text: text || this.textSubmitOk,
+                                extCls: 'no-arrow colored',
+                                style: 'max-width: 400px',
+                                showLink: false,
+                                target: $('.toolbar'),
+                                placement: 'bottom'
+                            });
+                            this.submitedTooltip.on('closeclick', function () {
+                                this.submitedTooltip.hide();
+                            }, this);
+                        }
+                        this.submitedTooltip.show();
                     }
-                    this.submitedTooltip.show();
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                     this.onApiServerDisconnect(true);
                 } else
@@ -990,6 +996,10 @@ define([
                 this.loadMask && this.loadMask.hide();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 me._openDlg.show();
+            }
+            if (requireUserAction) {
+                Common.Gateway.userActionRequired();
+                requireUserAction = false;
             }
         },
 
@@ -1190,7 +1200,9 @@ define([
             var me = this;
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActions(obj, x, y);
+                    }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
@@ -1204,11 +1216,15 @@ define([
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
                     } else
-                        this.onShowImageActions(obj, x, y);
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActions(obj, x, y);
+                    }, 1);
                     break;
             }
         },
@@ -1547,6 +1563,7 @@ define([
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
+            requireUserAction = false;
         },
 
         onOptionsClick: function(menu, item, e) {

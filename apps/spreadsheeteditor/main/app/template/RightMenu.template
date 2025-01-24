@@ -30,9 +30,9 @@
         <button id="id-right-menu-chart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-chart-settings"><i class="icon toolbar__icon btn-menu-chart">&nbsp;</i></button>
         <button id="id-right-menu-text" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-paragraph-settings"><i class="icon toolbar__icon btn-paragraph">&nbsp;</i></button>
         <button id="id-right-menu-textart" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-textart-settings"><i class="icon toolbar__icon btn-menu-textart">&nbsp;</i></button>
-        <button id="id-right-menu-pivot" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-pivot-settings"><i class="icon toolbar__icon btn-pivot-sum">&nbsp;</i></button>
         <button id="id-right-menu-slicer" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-slicer-settings"><i class="icon toolbar__icon btn-slicer">&nbsp;</i></button>
         <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
+        <button id="id-right-menu-pivot" class="btn btn-category arrow-left" data-hint="0" data-hint-direction="left" data-hint-offset="big" content-target="id-pivot-settings"><i class="icon toolbar__icon btn-pivot-sum">&nbsp;</i></button>
         <div id="slot-right-menu-more"></div>
     </div>
 </div>

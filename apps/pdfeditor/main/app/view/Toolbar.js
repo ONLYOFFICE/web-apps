@@ -94,7 +94,8 @@ define([
         inSmartartInternal: 'in-smartart-internal',
         inEquation: 'in-equation',
         inAnnotation: 'in-annotation',
-        singlePage: 'single-page'
+        singlePage: 'single-page',
+        cantMergeShape: 'merge-shape-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -136,7 +137,7 @@ define([
                 if (!config.isPDFEdit) return;
 
                 var _set = Common.enumLock,
-                    arr = []
+                    arr = [];
                 // tab Edit
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
@@ -317,6 +318,7 @@ define([
                 this.paragraphControls.push(this.btnTextHighlightColor);
                 arr.push(this.btnTextHighlightColor);
 
+                var colorsconfig = Common.UI.simpleColorsConfig;
                 this.btnFontColor = new Common.UI.ButtonColored({
                     id: 'id-toolbar-btn-fontcolor',
                     cls: 'btn-toolbar',
@@ -324,11 +326,17 @@ define([
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     split: true,
                     menu: true,
-                    eyeDropper: true,
+                    colors: colorsconfig.colors,
+                    color: '000000',
+                    dynamiccolors: colorsconfig.dynamiccolors,
+                    themecolors: colorsconfig.themecolors,
+                    effects: colorsconfig.effects,
+                    columns: colorsconfig.columns,
+                    paletteCls: colorsconfig.cls,
+                    paletteWidth: colorsconfig.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: '0, -16',
-                    penOptions: {color: '000000'}
+                    dataHintOffset: '0, -16'
                 });
                 this.paragraphControls.push(this.btnFontColor);
                 arr.push(this.btnFontColor);
@@ -735,6 +743,49 @@ define([
                 this.shapeControls.push(this.btnShapeArrange);
                 arr.push(this.btnShapeArrange);
 
+                this.btnShapesMerge = new Common.UI.Button({
+                    id: 'id-toolbar-btn-merge-shapes',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-combine-shapes',
+                    lock: [_set.shapeLock, _set.lostConnect, _set.noDrawingObjects, _set.disableOnStart, _set.cantMergeShape],
+                    menu: new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            {
+                                caption: this.textShapesUnion, 
+                                iconCls: 'menu__icon btn-union-shapes',
+                                value: 'unite',
+                            },
+                            {
+                                caption: this.textShapesCombine, 
+                                iconCls: 'menu__icon btn-combine-shapes',
+                                value: 'exclude',
+                            },
+                            {
+                                caption: this.textShapesFragment, 
+                                iconCls: 'menu__icon btn-fragment-shapes',
+                                value: 'divide',
+                            },
+                            {
+                                caption: this.textShapesIntersect, 
+                                iconCls: 'menu__icon btn-intersect-shapes',
+                                value: 'intersect',
+                            },
+                            {
+                                caption: this.textShapesSubstract, 
+                                iconCls: 'menu__icon btn-substract-shapes',
+                                value: 'subtract',
+                            },
+                        ]
+                    }),
+                    action: 'object-merge',
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -6'
+                });
+                this.shapeControls.push(this.btnShapesMerge);
+                arr.push(this.btnShapesMerge);
+
                 this.btnDelPage = new Common.UI.Button({
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -838,6 +889,22 @@ define([
                     });
                     this.toolbarControls.push(this.chShowComments);
 
+                    this.btnStamp = new Common.UI.Button({
+                        id: 'tlbtn-stamp',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.capBtnStamp,
+                        split: true,
+                        iconCls: 'toolbar__icon btn-stamp',
+                        lock: [_set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        menu: true,
+                        action: 'insert-stamp'
+                    });
+                    this.toolbarControls.push(this.btnStamp);
+
+                    var colorsconfig = Common.UI.simpleColorsConfig;
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
@@ -847,11 +914,27 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
-                        hideColorLine: true,
+                        colorLine: false,
+                        additionalItemsAfter: [
+                            {caption: '--'},
+                            new Common.UI.MenuItem({
+                                template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
+                            })
+                        ],
+                        colors: colorsconfig.colors,
+                        color: 'D43230',
+                        dynamiccolors: colorsconfig.dynamiccolors,
+                        themecolors: colorsconfig.themecolors,
+                        effects: colorsconfig.effects,
+                        columns: colorsconfig.columns,
+                        paletteCls: colorsconfig.cls,
+                        paletteWidth: colorsconfig.paletteWidth,
+                        storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: 'D43230'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
                     this.btnsStrikeout = [this.btnStrikeout];
@@ -865,11 +948,27 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
-                        hideColorLine: true,
+                        colorLine: false,
+                        additionalItemsAfter: [
+                            {caption: '--'},
+                            new Common.UI.MenuItem({
+                                template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
+                            })
+                        ],
+                        colors: colorsconfig.colors,
+                        color: '3D8A44',
+                        dynamiccolors: colorsconfig.dynamiccolors,
+                        themecolors: colorsconfig.themecolors,
+                        effects: colorsconfig.effects,
+                        columns: colorsconfig.columns,
+                        paletteCls: colorsconfig.cls,
+                        paletteWidth: colorsconfig.paletteWidth,
+                        storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '3D8A44'},
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
                     this.btnsUnderline = [this.btnUnderline];
@@ -883,14 +982,30 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        additionalItemsAfter: [
+                            {caption: '--'},
+                            new Common.UI.MenuItem({
+                                template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                                stopPropagation: true
+                            })
+                        ],
+                        colors: [
+                            'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                            '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                        ],
+                        color: 'FFFC54',
+                        dynamiccolors: colorsconfig.dynamiccolors,
+                        themecolors: colorsconfig.themecolors,
+                        effects: colorsconfig.effects,
+                        columns: colorsconfig.columns,
+                        paletteCls: colorsconfig.cls,
+                        paletteWidth: colorsconfig.paletteWidth,
+                        storageSuffix: '-draw',
+                        hideColorsSeparator: true,
                         type: AscPDF.ANNOTATIONS_TYPES.Highlight,
                         dataHint: '1',
                         dataHintDirection: 'top',
-                        dataHintOffset: '0, -16',
-                        penOptions: {color: 'FFFC54', colors: [
-                                'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
-                                '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
-                            ]}
+                        dataHintOffset: '0, -16'
                     });
                     this.btnsHighlight = [this.btnHighlight];
 
@@ -1286,6 +1401,7 @@ define([
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
 
@@ -1298,6 +1414,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-stamp', this.btnStamp);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
@@ -1338,49 +1455,61 @@ define([
                 return $host;
             },
 
-            createPen: function(button, id, transparent, storage) {
-                var mnu;
-                button.setMenu(new Common.UI.Menu({
-                    cls: 'shifted-left',
-                    style: 'min-width: 100px;',
-                    items: [
-                        {template: _.template('<div id="id-toolbar-menu-' + id + '" style="width: 174px; display: inline-block;"></div>')},
-                        {caption: '--'},
-                        {
-                            id: 'id-toolbar-menu-' + id + '-color-new',
-                            template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
-                        },
-                        {caption: '--', visible: !!transparent},
-                        mnu = new Common.UI.MenuItem({
-                            caption: this.strMenuNoFill,
-                            checkable: true,
-                            visible: !!transparent,
-                            style: 'padding-left:20px;padding-right:20px;'
-                        })
-                    ]
-                }), true);
-                button.currentColor = button.options.penOptions.color;
-                button.setColor(button.currentColor);
-                var config = Common.UI.simpleColorsConfig;
-                var picker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-toolbar-menu-' + id),
-                    colors: button.options.penOptions.colors || config.colors,
-                    value: button.currentColor,
-                    dynamiccolors: config.dynamiccolors,
-                    themecolors: config.themecolors,
-                    effects: config.effects,
-                    columns: config.columns,
-                    cls: config.cls,
-                    outerMenu: {menu: button.menu, index: 0, focusOnShow: true},
-                    storageSuffix: storage || ''
+            createPen: function(button, id, opacity) {
+                var me = this;
+                button.setMenu();
+                button.currentColor = button.color;
+                if (opacity) {
+                    var onShowAfter = function(menu) {
+                        if (menu.sizePicker) {
+                            menu.sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
+                        } else {
+                            menu.sizePicker = me.createOpacityPicker(button, id, menu.cmpEl.find('.custom-scale'));
+                        }
+                    };
+                    button.menu.on('show:after', onShowAfter);
+                }
+
+                return button.getPicker();
+            },
+
+            createOpacityPicker: function(button, id, el) {
+                var me = this;
+                var sizePicker = new Common.UI.UpDownPicker({
+                    el: el,
+                    caption: this.txtOpacity,
+                    minWidth: 40
                 });
-                button.setPicker(picker);
-                picker.on('select', _.bind(button.onColorSelect, button));
-                button.menu.setInnerMenu([{menu: picker, index: 0}]);
-                button.menu.cmpEl.find('#id-toolbar-menu-' + id + '-color-new').on('click',  function() {
-                    picker.addNewColor(button.currentColor);
+                sizePicker.on('click', function (direction) {
+                    var val = Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id);
+                    if (direction === 'up') {
+                        if (val % 10 > 0.1) {
+                            val = Math.ceil(val / 10) * 10;
+                        } else {
+                            val += 10;
+                        }
+                        val = Math.min(100, val);
+                    } else {
+                        if (val % 10 > 0.1) {
+                            val = Math.floor(val / 10) * 10;
+                        } else {
+                            val -= 10
+                        }
+                        val = Math.max(0, val);
+                    }
+                    this.setValue(val + '%');
+                    Common.Utils.InternalSettings.set("pdfe-annot-opacity-" + id, val);
+                    Common.localStorage.setItem("pdfe-annot-opacity-" + id, val);
+                    if (button.pressed) {
+                        var strcolor = button.currentColor || '0000FF',
+                            r = strcolor[0] + strcolor[1],
+                            g = strcolor[2] + strcolor[3],
+                            b = strcolor[4] + strcolor[5];
+                        me.api && me.api.SetMarkerFormat(button.options.type, true, val, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                    }
                 });
-                return [picker, mnu];
+                sizePicker.setValue(Common.Utils.InternalSettings.get("pdfe-annot-opacity-" + id) + '%');
+                return sizePicker;
             },
 
             onAppReady: function (config) {
@@ -1415,22 +1544,19 @@ define([
                             }));
                     }
                     if (me.btnStrikeout && me.btnStrikeout.menu) {
-                        var arr = me.createPen(me.btnStrikeout, 'strikeout', false, '-draw');
-                        me.mnuStrikeoutColorPicker = arr[0];
+                        Common.Utils.InternalSettings.set("pdfe-annot-opacity-strikeout", Common.localStorage.getItemAsInt("pdfe-annot-opacity-strikeout", 100));
+                        me.mnuStrikeoutColorPicker = me.createPen(me.btnStrikeout, 'strikeout', true);
                         me.mnusStrikeoutColorPicker = [me.mnuStrikeoutColorPicker];
-                        // me.mnuStrikeoutTransparent = arr[1];
                     }
                     if (me.btnUnderline && me.btnUnderline.menu) {
-                        var arr = me.createPen(me.btnUnderline, 'underline', false, '-draw');
-                        me.mnuUnderlineColorPicker = arr[0];
+                        Common.Utils.InternalSettings.set("pdfe-annot-opacity-underline", Common.localStorage.getItemAsInt("pdfe-annot-opacity-underline", 100));
+                        me.mnuUnderlineColorPicker = me.createPen(me.btnUnderline, 'underline', true);
                         me.mnusUnderlineColorPicker = [me.mnuUnderlineColorPicker];
-                        // me.mnuUnderlineTransparent = arr[1];
                     }
                     if (me.btnHighlight && me.btnHighlight.menu) {
-                        var arr = me.createPen(me.btnHighlight, 'highlight', false, '-draw');
-                        me.mnuHighlightColorPicker = arr[0];
+                        Common.Utils.InternalSettings.set("pdfe-annot-opacity-highlight", Common.localStorage.getItemAsInt("pdfe-annot-opacity-highlight", 50));
+                        me.mnuHighlightColorPicker = me.createPen(me.btnHighlight, 'highlight', true);
                         me.mnusHighlightColorPicker = [me.mnuHighlightColorPicker];
-                        // me.mnuHighlightTransparent = arr[1];
                     }
 
                     if (me.btnTextComment) {
@@ -1453,6 +1579,21 @@ define([
                                 },
                             ]
                         }));
+                    }
+                    if (me.btnStamp) {
+                        me.btnStamp.setMenu(new Common.UI.Menu({
+                            restoreHeight: 500
+                        }));
+                        var menu = me.btnStamp.menu;
+                        if (menu.cmpEl) {
+                            menu.cmpEl.attr('ratio', 'ratio');
+                            menu.cmpEl.on('app:scaling', function (e, info) {
+                                if ( me.options.scaling != info.ratio ) {
+                                    menu.hide();
+                                    menu.removeAll();
+                                }
+                            });
+                        }
                     }
                 });
             },
@@ -1493,6 +1634,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
@@ -1523,6 +1665,7 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
+                this.btnShapesMerge.updateHint(this.tipShapeMerge);
                 this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
                 this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(
@@ -1649,9 +1792,7 @@ define([
                     this.btnTextHighlightColor.menu.setInnerMenu([{menu: this.mnuTextHighlightColorPicker, index: 0}]);
                 }
                 if (this.btnFontColor && this.btnFontColor.menu) {
-                    var arr = this.createPen(this.btnFontColor, 'font');
-                    this.mnuFontColorPicker = arr[0];
-                    this.mnuFontTransparent = arr[1];
+                    this.mnuFontColorPicker = this.createPen(this.btnFontColor, 'font');
                 }
             },
 
@@ -1720,7 +1861,6 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
-                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {

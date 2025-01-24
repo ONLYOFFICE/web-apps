@@ -291,6 +291,7 @@
     "errorFileVKey": "خطأ خارجي. <br> مفتاح أمان غير صحيح. من فضلك ، تواصل مع الدعم.",
     "errorFillRange": "تعذر ملء نطاق الخلايا المحددة.<br> يجب أن تكون جميع الخلايا المدمجة بنفس الحجم.",
     "errorForceSave": "حدث خطأ أثناء حفظ الملف. يرجى استخدام خيار \"تنزيل باسم\" لحفظ الملف على القرص الصلب لجهاز الكمبيوتر الخاص بك أو حاول مرة أخرى لاحقًا.",
+    "errorFormulaInPivotFieldName": "لا يمكن إدخال صيغة لعنصر أو اسم حقل في تقرير جدول محوري",
     "errorFormulaName": "هناك خطأ في المعادلة.<br>اسم المعادلة غير صحيح",
     "errorFormulaParsing": "حدث خطأ داخلي أثناء تحليل الصيغة",
     "errorFrmlMaxLength": "لا يمكنك إضافة هذه الصيغة لأن طولها يتعدى العدد المسموح به من الأحرف.<br>رجاء قم بتعديلها ثم حاول مرة أخرى",
@@ -321,15 +322,18 @@
     "errorNoDataToParse": "لم يتم تحديد أية بيانات لتحليلها.",
     "errorOpenWarning": "تجاوز طول إحدى الصيغ في الملف <br> عدد الأحرف المسموح به وتمت إزالتها.",
     "errorOperandExpected": "بناء الجملة للدالة المدخلة غير صحيح. رجاء تحقق ما إذا نسيت أحد الأقواس '(' أو ')'",
+    "errorPasteInPivot": "لا يمكننا إجراء هذا التغيير على الخلايا المحددة لأنه سيؤثر على الجدول المحوري.<br>استخدم قائمة الحقول لتغيير التقرير.",
     "errorPasteMaxRange": "منطقة النسخ واللصق غير متطابقة. من فضلك ، حدد منطقة بنفس الحجم أو انقر فوق الخلية الأولى في صف للصق الخلايا المنسوخة.",
     "errorPasteMultiSelect": "لا يمكن تنفيذ هذا الإجراء على تحديد نطاق متعدد.<br>حدد نطاقًا واحدًا وحاول مرة أخرى.",
     "errorPasteSlicerError": "لا يمكن نسخ مقسمات طرق العرض من مصنف إلى آخر.",
+    "errorPivotFieldNameExists": "اسم حقل الجدول المحوري موجود بالفعل",
     "errorPivotGroup": "لا يمكن تجميع هذا التحديد.",
     "errorPivotOverlap": "لا يمكن لتقرير الجدول المحوري أن يتداخل مع جدول.",
     "errorPivotWithoutUnderlying": "تم حفظ تقرير الجدول المحوري بدون البيانات الأساسية.<br>استخدم الزر \"تحديث\" لتحديث التقرير.",
     "errorPrecedentsNoValidRef": "يتطلب أمر تتبع السابقين أن تحتوي الخلية النشطة على صيغة تتضمن مراجع صالحة.",
     "errorPrintMaxPagesCount": "للأسف ، لا يمكن طباعة أكثر من 1500 صفحة مرة واحدة في الإصدار الحالي من البرنامج. <br> سيتم التخلص من هذا التقييد في الإصدارات القادمة.",
     "errorProtectedRange": "هذا النطاق غير مسموح بتعديله",
+    "errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق مثل المستند الخاص بك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك",
     "errorSessionAbsolute": "تم انتهاء صلاحية جلسة تعديل المستند. برجاء اعد تحميل الصفحة",
     "errorSessionIdle": "لم يتم تعديل المستند لفترة طويلة.برجاء اعادة تحميل الصفحة",
     "errorSessionToken": "تم اعتراض الاتصال للخادم .برجاء اعادة تحميل الصفحة",
@@ -367,11 +371,7 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
   },
   "LongActions": {
     "advDRMPassword": "كملة السر",
@@ -449,7 +449,10 @@
     "stayButtonText": "ابقى في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textRenameFile": "إعادة تسمية الملف",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,7 +516,8 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم"
+      "txtYes": "نعم",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -862,5 +866,11 @@
       "txtZh": "الصينية",
       "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }
