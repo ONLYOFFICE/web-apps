@@ -70,6 +70,9 @@ define([
                 },
                 'TableSettings': {
                     'pivottable:create':        _.bind(this.onCreateClick, this)
+                },
+                'Toolbar': {
+                    'tab:active':               _.bind(this.onActiveTab, this)
                 }
             });
         },
@@ -197,6 +200,8 @@ define([
         },
 
         onCalculatedClick: function(btn, opts){
+            Common.UI.TooltipManager.closeTip('calcItems');
+
             var me = this;
             var pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo();
             var pivotFieldIndex = pivotInfo.asc_getFieldIndexByActiveCell();
@@ -534,6 +539,8 @@ define([
             Common.Utils.lockControls(Common.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
             Common.Utils.lockControls(Common.enumLock.pivotExpandLock, !(pivotInfo && pivotInfo.asc_canExpandCollapseByActiveCell(this.api)), {array: [this.view.btnExpandField, this.view.btnCollapseField]});
             Common.Utils.lockControls(Common.enumLock.pivotCalcItemsLock, !(pivotInfo && pivotInfo.asc_canChangeCalculatedItemByActiveCell()), {array: [this.view.btnCalculatedItems]});
+            if (!this.view.btnCalculatedItems.isDisabled() && this.view.toolbar && this.view.toolbar.isTabActive('pivot'))
+                Common.UI.TooltipManager.showTip('calcItems');
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);
@@ -569,6 +576,13 @@ define([
                     styles.fillComboView((styleRec) ? styleRec : styles.menuPicker.store.at(0), true);
                 }
             }
+        },
+
+        onActiveTab: function(tab) {
+            if (tab !== 'pivot')
+                Common.UI.TooltipManager.closeTip('calcItems');
+            else if (this.view && this.view.btnCalculatedItems && !this.view.btnCalculatedItems.isDisabled())
+                Common.UI.TooltipManager.showTip('calcItems');
         },
 
         strSheet        : 'Sheet',

@@ -163,7 +163,6 @@ define([
                 me.fireEvent('forms:insert', ['picture']);
             });
             this.btnSignField && this.btnSignField.on('click', function (b, e) {
-                Common.UI.TooltipManager.closeTip('signatureField');
                 me.fireEvent('forms:insert', ['signature']);
             });
             this.btnComplexField && this.btnComplexField.on('click', function (b, e) {

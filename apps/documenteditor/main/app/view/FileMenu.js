@@ -56,7 +56,6 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
-                    this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
                     var $item = $(event.currentTarget);
                     if (!$item.hasClass('active')) {
                         $('.fm-btn',this.el).removeClass('active');
@@ -381,12 +380,10 @@ define([
             this.selectMenu(panel, opts, defPanel);
             this.api && this.api.asc_enableKeyEvents(false);
 
-            this.mode.isEdit && Common.UI.TooltipManager.showTip('customInfo');
             this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
-            this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
             this.$el.hide();
             // if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(false);
             this.fireEvent('menu:hide', [this]);
