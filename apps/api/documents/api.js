@@ -257,7 +257,8 @@
                     submitForm: {
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
-                    }
+                    },
+                    wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -1207,6 +1208,10 @@
                 params += "&indexPostfix=_loader";
             }
         }
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.wordHeadingsColor && typeof config.editorConfig.customization.wordHeadingsColor === 'string') {
+            params += "&headingsColor=" + config.editorConfig.customization.wordHeadingsColor.replace(/#/, '');
+        }
+
         return params;
     }
 
