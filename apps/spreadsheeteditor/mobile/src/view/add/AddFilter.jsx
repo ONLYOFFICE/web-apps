@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {Page, Navbar, List, ListItem, Icon, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconSortdown from '@icons/icon-sortdown.svg';
+import IconSortup  from '@icons/icon-sortup.svg';
 
 const AddSortAndFilter = props => {
     const { t } = useTranslation();
@@ -15,10 +18,10 @@ const AddSortAndFilter = props => {
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className='button' onClick={() => {props.onInsertSort('down')}}>
-                            <Icon slot="media" icon="sortdown"></Icon>
+                            <SvgIcon slot="media" symbolId={IconSortdown.id} className={'icon icon-svg'} />
                         </a>
                         <a className='button' onClick={() => {props.onInsertSort('up')}}>
-                            <Icon slot="media" icon="sortup"></Icon>
+                            <SvgIcon slot="media" symbolId={IconSortup.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>

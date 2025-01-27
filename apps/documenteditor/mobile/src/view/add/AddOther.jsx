@@ -5,6 +5,25 @@ import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 import SvgIcon from '../../../../../common/mobile//lib/component/SvgIcon'
 import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
+import IconPageBreakIos from '@common-ios-icons/icon-pagebreak.svg?ios';
+import IconPageBreakAndroid from '@common-android-icons/icon-pagebreak.svg';
+import IconStringBreakIos from '@common-ios-icons/icon-stringbreak.svg?ios';
+import IconStringBreakAndroid from '@common-android-icons/icon-stringbreak.svg';
+import IconSectionBreakIos from '@common-ios-icons/icon-sectionbreak.svg?ios';
+import IconSectionBreakAndroid from '@common-android-icons/icon-sectionbreak.svg';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconExpandUpAndroid from '@common-android-icons/icon-expand-up.svg';
+import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
+import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
+import IconImage from '@common-icons/icon-image.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
+import IconLinkAndroid from '@common-android-icons/icon-link.svg';
+import IconPageNumberIos from '@common-ios-icons/icon-pagenumber.svg?ios';
+import IconPageNumberAndroid from '@common-android-icons/icon-pagenumber.svg';
+import IconTableContentsIos from '@ios-icons/icon-table-contents.svg?ios';
+import IconTableContentsAndroid from '@android-icons/icon-table-contents.svg';
+import IconFootnoteIos from '@ios-icons/icon-footnote.svg?ios';
+import IconFootnoteAndroid from '@android-icons/icon-footnote.svg';
 
 const PageNumber = props => {
     const { t } = useTranslation();
@@ -35,17 +54,26 @@ const PageBreak = props => {
                 <ListItem title={_t.textPageBreak} link='#' className='no-indicator' onClick={() => {
                     props.onPageBreak()
                 }}>
-                    <Icon slot="media" icon="icon-pagebreak"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconPageBreakIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconPageBreakAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textColumnBreak} link='#' className='no-indicator' onClick={() => {
                     props.onColumnBreak();
                 }}>
-                    <Icon slot="media" icon="icon-stringbreak"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconStringBreakIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconStringBreakAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textSectionBreak} link={'/add-section-break/'} routeProps={{
                     onInsertSectionBreak: props.onInsertSectionBreak
                 }}>
-                    <Icon slot="media" icon="icon-sectionbreak"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconSectionBreakIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconSectionBreakAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             </List>
         </Page>
@@ -121,11 +149,15 @@ const PageFootnote = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {setStartAt(props.onFootnoteStartAt(stateStartAt, true))}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{stateStartAt}</label>}
                             <Button outline className='increment item-link' onClick={() => {setStartAt(props.onFootnoteStartAt(stateStartAt, false))}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUpAndroid.id} className={'icon icon-svg'} />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -174,21 +206,30 @@ const AddOther = props => {
                 props.closeModal();
                 Common.Notifications.trigger('addcomment');
             }}>
-                <Icon slot="media" icon="icon-insert-comment"></Icon>
+                {Device.ios ? 
+                    <SvgIcon slot="media" symbolId={IconInsertCommentIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon slot="media" symbolId={IconInsertCommentAndroid.id} className={'icon icon-svg'} />
+                }
             </ListItem>}
             <ListItem title={_t.textImage} link='/add-image/'>
-                <Icon slot="media" icon="icon-image"></Icon>
+                 <SvgIcon slot="media" symbolId={IconImage.id} className={'icon icon-svg'} />
             </ListItem>
             {(isText && !disabledAddLink) && <ListItem title={_t.textLink} href={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
                 isNavigate: true
             }}>
-                <Icon slot="media" icon="icon-link"></Icon>
+                {Device.ios ? 
+                    <SvgIcon slot="media" symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon slot="media" symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
+                }
             </ListItem>}
             {!disabledAddPageNumber &&
                 <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
                     onInsertPageNumber: props.onInsertPageNumber
                 }}>
-                    <Icon slot="media" icon="icon-pagenumber"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconPageNumberIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconPageNumberAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             }
             {(isShape || isChart) || (isText && disabledAddBreak) ? null :
@@ -197,14 +238,20 @@ const AddOther = props => {
                     onColumnBreak: props.onColumnBreak,
                     onInsertSectionBreak: props.onInsertSectionBreak
                 }}>
-                    <Icon slot="media" icon="icon-sectionbreak"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconSectionBreakIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconSectionBreakAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             }
-            {!isHeader &&
+            {!isHeader && 
                 <ListItem title={_t.textTableContents} link="/add-table-contents/">
-                    <Icon slot="media" icon="icon-table-contents"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconTableContentsIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconTableContentsAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
-            }
+            } 
             {(isShape || isChart) || (isText && disabledAddFootnote) ? null :
                 <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,
@@ -213,7 +260,10 @@ const AddOther = props => {
                     onInsertFootnote: props.onInsertFootnote,
                     initFootnoteStartAt: props.initFootnoteStartAt
                 }}>
-                    <Icon slot="media" icon="icon-footnote"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconFootnoteIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconFootnoteAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             }
           <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
@@ -230,8 +280,8 @@ const AddOtherContainer = inject("storeComments","storeFocusObjects", "storeLink
 
 export {
     AddOtherContainer as AddOther,
-    PageNumber as PageAddNumber,
-    PageBreak as PageAddBreak,
-    PageSectionBreak as PageAddSectionBreak,
+        PageNumber as PageAddNumber,
+        PageBreak as PageAddBreak,
+        PageSectionBreak as PageAddSectionBreak,
     PageFootnote as PageAddFootnote,
 };

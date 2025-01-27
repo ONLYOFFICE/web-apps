@@ -4,6 +4,13 @@ import {f7, Page, Navbar, NavRight, List, ListItem, Link, Icon, Range, Tab, Tabs
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconMoveForeground from '@common-icons/icon-move-foreground.svg';
+import IconMoveBackground from '@common-icons/icon-move-background.svg';
+import IconMoveForward from '@common-icons/icon-move-forward.svg';
+import IconMoveBackward from '@common-icons/icon-move-backward.svg';
 
 const EditShape = props => {
     const { t } = useTranslation();
@@ -141,7 +148,12 @@ const PageStyle = props => {
                 </div>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -215,7 +227,12 @@ const PageCustomFillColor = props => {
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -251,7 +268,12 @@ const PageStyleNoFill = props => {
             <Navbar backLink={_t.textBack} title={_t.textBorder}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -299,7 +321,12 @@ const PageReplace = props => {
             <Navbar title={_t.textReplace} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -337,22 +364,27 @@ const PageReorder = props => {
             <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForeground.id} className={'icon icon-svg'} /> 
                 </ListItem>
                 <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-background"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForward.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackward.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -385,7 +417,12 @@ const PageBorderColor = props => {
             <Navbar title={_t.textColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -417,7 +454,12 @@ const PageCustomBorderColor = props => {
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
