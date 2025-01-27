@@ -1034,8 +1034,8 @@
         }
     }
 
-    function correct_app_type(type) {
-        if ( type == 'mobile' ) {
+    function correct_app_type(config) {
+        if ( config.type == 'mobile' ) {
             if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
                     config.editorConfig.customization.mobile.disableForceDesktop !== true )
             {
@@ -1049,7 +1049,7 @@
             }
         }
 
-        return type;
+        return config.type;
     }
 
     function getAppPath(config) {
@@ -1080,7 +1080,7 @@
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
-        var corrected_type = correct_app_type(config.type);
+        var corrected_type = correct_app_type(config);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
             appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
