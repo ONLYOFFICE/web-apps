@@ -4571,5 +4571,7 @@
   "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
   "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
   "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }
