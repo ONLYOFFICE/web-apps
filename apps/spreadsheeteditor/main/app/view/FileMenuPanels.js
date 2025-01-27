@@ -327,6 +327,12 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-smooth-scroll"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-show-hscroll"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-show-vscroll"></div></td>',
+                '</tr>',
                 /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
@@ -496,6 +502,22 @@ define([], function () {
             this.chSmoothScroll = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-smooth-scroll'),
                 labelText: this.strSmoothScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chHScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-show-hscroll'),
+                labelText: this.strHScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chVScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-show-vscroll'),
+                labelText: this.strVScroll,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -1211,6 +1233,10 @@ define([], function () {
                 this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
                 this.chDateSystem.setValue(this.api.asc_getDate1904());
             }
+            if (this.mode.isEdit) {
+                this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
+                this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
+            }
         },
 
         isValid: function() {
@@ -1330,6 +1356,9 @@ define([], function () {
                     this.inputMaxChange.getValue() && value.asc_setMaxChange(Common.Utils.String.parseFloat(this.inputMaxChange.getValue()));
                     this.api.asc_UpdateCalcSettings(value);
                 }
+
+                this.api.asc_SetShowHorizontalScroll(this.chHScroll.isChecked());
+                this.api.asc_SetShowVerticalScroll(this.chVScroll.isChecked());
             }
         },
 
