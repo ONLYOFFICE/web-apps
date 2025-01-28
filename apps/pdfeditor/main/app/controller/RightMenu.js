@@ -145,15 +145,10 @@ define([
             }
             // this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
-            var page_deleted = false;
             for (i=0; i<SelectedObjects.length; i++)
             {
                 var eltype = SelectedObjects[i].get_ObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
-
-                if (eltype === Asc.c_oAscTypeSelectElement.PdfPage) {
-                    page_deleted = SelectedObjects[i].get_ObjectValue().asc_getDeleteLock();
-                }
 
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
                     continue;
@@ -170,13 +165,6 @@ define([
                         this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                         this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
                     }
-                }
-            }
-
-            if ( page_deleted ) { // all elements are locked if the page is locked
-                for (i=0; i<this._settings.length; i++)  {
-                    if (this._settings[i])
-                        this._settings[i].locked = true;
                 }
             }
 

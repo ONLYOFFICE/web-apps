@@ -62,8 +62,10 @@ define([], function () {
                 initMenu: function (value) {
                     var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
-                    me.menuAddComment.setVisible(me.mode && me.mode.canComments || disabled);
-                    me.menuRemoveComment.setVisible(value && value.annotProps && value.annotProps.value || disabled);
+                    me.menuAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuAddComment.setDisabled(disabled);
+                    me.menuRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFViewCopy,
@@ -110,8 +112,10 @@ define([], function () {
                 initMenu: function (value) {
                     var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFEditCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
-                    me.menuEditAddComment.setVisible(me.mode && me.mode.canComments || disabled);
-                    me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value || disabled);
+                    me.menuEditAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuEditAddComment.setDisabled(disabled);
+                    me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuEditRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFEditCopy,
@@ -354,8 +358,6 @@ define([], function () {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
-                    var disabled = false;//(value.pageProps!==undefined && value.pageProps.locked);
-
                     var align = value.tableProps.value.get_CellsVAlign();
                     var cls = '';
                     switch (align) {
@@ -375,28 +377,28 @@ define([], function () {
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     if (me.api) {
-                        me.mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
-                        me.mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
+                        me.mnuTableMerge.setDisabled(value.tableProps.locked || !me.api.CheckBeforeMergeCells());
+                        me.mnuTableSplit.setDisabled(value.tableProps.locked || !me.api.CheckBeforeSplitCells());
                     }
-                    me.menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
-                    me.menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDistRows.setDisabled(value.tableProps.locked);
+                    me.menuTableDistCols.setDisabled(value.tableProps.locked);
 
-                    me.tableMenu.items[5].setDisabled(value.tableProps.locked || disabled);
-                    me.tableMenu.items[6].setDisabled(value.tableProps.locked || disabled);
+                    me.tableMenu.items[5].setDisabled(value.tableProps.locked);
+                    me.tableMenu.items[6].setDisabled(value.tableProps.locked);
 
-                    me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableCellAlign.setDisabled(value.tableProps.locked);
 
                     me.menuTableSaveAsPicture.setVisible(!isEquation);
                     menuTableSaveAsPictureSeparator.setVisible(!isEquation);
 
                     me.menuTableAdvanced.setVisible(!isEquation);
-                    me.menuTableAdvanced.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableAdvanced.setDisabled(value.tableProps.locked);
                     menuTableSettingsSeparator.setVisible(me.menuTableAdvanced.isVisible());
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     me.menuTableCopy.setDisabled(!cancopy);
-                    me.menuTableCut.setDisabled(value.tableProps.locked || disabled || !cancopy);
-                    me.menuTablePaste.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableCut.setDisabled(value.tableProps.locked || !cancopy);
+                    me.menuTablePaste.setDisabled(value.tableProps.locked);
 
                     // hyperlink properties
                     var text = null;
@@ -776,8 +778,7 @@ define([], function () {
                         imgdisabled = (value.imgProps!==undefined && value.imgProps.locked),
                         shapedisabled = (value.shapeProps!==undefined && value.shapeProps.locked),
                         chartdisabled = (value.chartProps!==undefined && value.chartProps.locked),
-                        page_deleted = false,//(value.pageProps!==undefined && value.pageProps.locked),
-                        disabled = imgdisabled || shapedisabled || chartdisabled || page_deleted,
+                        disabled = imgdisabled || shapedisabled || chartdisabled,
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal(),
                         lastSeparator = menuImgSaveAsPictureSeparator;
@@ -832,7 +833,6 @@ define([], function () {
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.mode && me.mode.canComments);
                     !me.menuAddCommentImg.isVisible() && lastSeparator.setVisible(false);
-                    me.menuAddCommentImg.setDisabled(page_deleted);
                     /** coauthoring end **/
                     me.menuImgShapeAlign.setDisabled(disabled);
                     if (!disabled) {
@@ -1044,9 +1044,7 @@ define([], function () {
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
-                    var page_deleted = false;//(value.pageProps!==undefined && value.pageProps.locked);
-
-                    var disabled = (value.paraProps!==undefined  && value.paraProps.locked) || page_deleted ||
+                    var disabled = (value.paraProps!==undefined  && value.paraProps.locked) ||
                         (isInShape && value.shapeProps.locked);
                     var isEquation= (value.mathProps && value.mathProps.value);
                     me._currentParaObjDisabled = disabled;
@@ -1115,7 +1113,6 @@ define([], function () {
 
                     /** coauthoring begin **/
                     me.menuAddCommentPara.setVisible(me.mode && me.mode.canComments);
-                    me.menuAddCommentPara.setDisabled(page_deleted);
                     /** coauthoring end **/
 
                     menuCommentParaSeparator.setVisible(/** coauthoring begin **/ me.menuAddCommentPara.isVisible() || /** coauthoring end **/ me.menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
