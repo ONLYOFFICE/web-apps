@@ -354,7 +354,7 @@ define([], function () {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
-                    var disabled = (value.pageProps!==undefined && value.pageProps.locked);
+                    var disabled = false;//(value.pageProps!==undefined && value.pageProps.locked);
 
                     var align = value.tableProps.value.get_CellsVAlign();
                     var cls = '';
@@ -776,7 +776,7 @@ define([], function () {
                         imgdisabled = (value.imgProps!==undefined && value.imgProps.locked),
                         shapedisabled = (value.shapeProps!==undefined && value.shapeProps.locked),
                         chartdisabled = (value.chartProps!==undefined && value.chartProps.locked),
-                        page_deleted = (value.pageProps!==undefined && value.pageProps.locked),
+                        page_deleted = false,//(value.pageProps!==undefined && value.pageProps.locked),
                         disabled = imgdisabled || shapedisabled || chartdisabled || page_deleted,
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal(),
@@ -1044,7 +1044,7 @@ define([], function () {
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
-                    var page_deleted = (value.pageProps!==undefined && value.pageProps.locked);
+                    var page_deleted = false;//(value.pageProps!==undefined && value.pageProps.locked);
 
                     var disabled = (value.paraProps!==undefined  && value.paraProps.locked) || page_deleted ||
                         (isInShape && value.shapeProps.locked);

@@ -195,7 +195,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-symbol',
                     caption: me.capBtnInsSymbol,
-                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
                     menu: new Common.UI.Menu({
                         style: 'min-width: 100px;',
                         items: [
@@ -218,7 +218,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-big-inserthyperlink',
                     caption: me.capInsertHyperlink,
-                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.pageDeleted, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

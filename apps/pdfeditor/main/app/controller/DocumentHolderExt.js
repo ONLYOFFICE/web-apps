@@ -372,7 +372,7 @@ define([], function () {
         };
 
         dh.onShowTextBar = function(bounds) {
-            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit) || this._state.pageDeleted) return;
+            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -742,7 +742,7 @@ define([], function () {
         };
 
         dh.onShowAnnotBar = function(bounds, mouseOnTop) {
-            if (this.mode && !this.mode.isEdit || this._state.pageDeleted) return;
+            if (this.mode && !this.mode.isEdit) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -834,7 +834,7 @@ define([], function () {
         };
 
         dh.onShowAnnotSelectBar = function(bounds, mouseOnTop) {
-            if (this.mode && !this.mode.isEdit || this._state.pageDeleted) return;
+            if (this.mode && !this.mode.isEdit) return;
 
             if (_.isUndefined(this._XY)) {
                 this._XY = [
@@ -956,7 +956,7 @@ define([], function () {
         };
 
         dh.onShowMathTrack = function(bounds) {
-            if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit) || this._state.pageDeleted) return;
+            if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastMathTrackBounds = bounds;
             if (!Common.Controllers.LaunchController.isScriptLoaded()) {
