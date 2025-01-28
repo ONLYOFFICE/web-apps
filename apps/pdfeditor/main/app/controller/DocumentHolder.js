@@ -281,7 +281,7 @@ define([
                     }
                 }
             }
-            if (this.mode && this.mode.isEdit && (this.mode.isPDFEdit || this.mode.isPDFAnnotate)) {
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit) {
                 var i = -1,
                     in_equation = false,
                     locked = false;

@@ -149,7 +149,6 @@ define([
             {
                 var eltype = SelectedObjects[i].get_ObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
-
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
                     continue;
 

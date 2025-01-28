@@ -418,13 +418,12 @@ define([], function () {
                         me.menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
                     if (!_.isUndefined(value.paraProps)) {
-                        me.menuAddHyperlinkTable.setDisabled(value.paraProps.locked || disabled);
-                        menuHyperlinkTable.setDisabled(value.paraProps.locked || disabled);
-                        me._currentParaObjDisabled = value.paraProps.locked || disabled;
+                        me.menuAddHyperlinkTable.setDisabled(value.paraProps.locked);
+                        menuHyperlinkTable.setDisabled(value.paraProps.locked);
+                        me._currentParaObjDisabled = value.paraProps.locked;
                     }
 
                     me.menuAddCommentTable.setVisible(me.mode && me.mode.canComments);
-                    me.menuAddCommentTable.setDisabled(disabled);
 
                     //equation menu
                     var eqlen = 0;
