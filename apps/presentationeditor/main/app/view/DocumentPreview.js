@@ -101,6 +101,13 @@ define([
             this.pages = new PE.Models.Pages({current:1, count:1, start:1});
             this.pages.on('change', _.bind(_updatePagesCaption,this));
             this.currentDrawColor = 'ff0000';
+            this.drawTool = {
+                pen: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 1, opacity: 100 }),
+                highlighter: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 6, opacity: 50 }),
+                eraser: () => Common.NotificationCenter.trigger('draw-tool:eraser'),
+                eraseAll: () => Common.NotificationCenter.trigger('draw-tool:erase-all'),
+                stop: () => Common.NotificationCenter.trigger('draw-tool:stop'),
+            };
         },
 
         render: function () {
@@ -133,14 +140,14 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption: this.txtPen,
-                            value: 0,
+                            value: 'pen',
                             iconCls: 'menu__icon btn-pen-tool',
                             checkable: true,
                             toggleGroup: 'preview-draw-tool'
                         }),
                         new Common.UI.MenuItem({
                             caption: this.txtHighlighter,
-                            value: 1,
+                            value: 'highlighter',
                             iconCls: 'menu__icon btn-highlighter-tool',
                             checkable: true,
                             toggleGroup: 'preview-draw-tool'
@@ -148,45 +155,66 @@ define([
                         { caption: '--' },
                         {
                             caption: this.txtInkColor,
-                            value: 2,
                             style: 'padding-left: 28px;',
                             menu: new Common.UI.Menu({
-                                items: [{ value: 'ff0000' }, { value: '00ff00' }, { value: '000000' }, { value: 'ffffff' }],
+                                items: [{value:"FFFFFF"},{value:"000000"},{value:"E81416"},{value:"FFA500"},{value:"FAEB36"},{value:"79C314"},{value:"487DE7"},{value:"4B369D"},{value:"70369D"}],
                                 menuAlign: 'tl-tr',
-                                style: 'height: auto; min-height: fit-content; display: flex; padding: 5px;',
-                                itemTemplate: _.template('<div id="<%= id %>" class="preview-color-picker" style="background-color: #<%= options.value %>"></div>')
+                                style: 'min-width: 176px; padding: 5px; height: auto; min-height: fit-content;',
+                                itemTemplate: _.template('<div id="<%= id %>" class="preview-color-cell" style="background-color: #<%= options.value %>"></div>')
                             })
                         },
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             caption: this.txtEraser,
-                            value: 3,
+                            value: 'eraser',
                             iconCls: 'menu__icon btn-clearstyle',
                             checkable: true,
                             toggleGroup: 'preview-draw-tool'
                         }),
-                        { caption: this.txtEraseScreen, value: 4, iconCls: 'menu__icon btn-clear-all' },
-                        { caption: '--' },
-                        new Common.UI.MenuItem({
-                            caption: this.txtSelect,
-                            value: 5,
-                            style: 'padding-left: 28px;',
-                            checkable: true,
-                            toggleGroup: 'preview-draw-tool'
-                        }),
+                        { caption: this.txtEraseScreen, value: 'eraseAll', iconCls: 'menu__icon btn-clear-all' },
                     ]
                 }),
             });
 
-            this.btnDraw.menu.on('item:toggle', function(_, item, state) {
-                state && this.selectDrawTool(item.value);
-            }.bind(this));
+            this.btnDraw.menu.on('item:click', (_, item) => {
+                if (this.currentDrawTool === item.value) {
+                    item.setChecked(false);
+                    this.drawTool['stop']();
+                    this.btnDraw.toggle(false);
+                    return;
+                }
 
-            this.btnDraw.menu.items[3].menu.on('item:click', function(menu, item) {
+                if (item.value === 'eraseAll') {
+                    this.btnDraw.toggle(false);
+                    const currentTool = this.btnDraw.menu.getChecked();
+                    currentTool?.setChecked(false);
+                } else {
+                    this.btnDraw.toggle(true);
+                    this.currentDrawTool = item.value;
+                }
+
+                this.drawTool[item.value]();
+            });
+
+            this.btnDraw.menu.items[3].menu.on('item:click', (menu, item) => {
                 this.currentDrawColor = item.value;
-                var currentTool = _.findWhere(this.btnDraw.menu.items, {checked: true});
-                currentTool && this.selectDrawTool(currentTool.value);
-            }.bind(this));
+                const currentTool = this.btnDraw.menu.getChecked();
+                this.btnDraw.toggle(true);
+
+                if (!currentTool) {
+                    this.btnDraw.menu.items[0].setChecked(true);
+                    this.drawTool['pen']();
+                    return;
+                }
+
+                if (currentTool.value === 'pen' || currentTool.value === 'highlighter') {
+                    this.drawTool[currentTool.value]();
+                } else {
+                    this.btnDraw.menu.items[this.btnDraw.menu.items.indexOf(currentTool)].setChecked(false);
+                    this.btnDraw.menu.items[0].setChecked(true);
+                    this.drawTool['pen']();
+                }
+            });
 
             this.btnPrev = new Common.UI.Button({
                 el: $('#btn-preview-prev',this.el),
@@ -326,6 +354,7 @@ define([
                     me.btnFullScreen.changeIcon({curr: 'btn-fullscreen', next: 'btn-preview-exit-fullscreen'});
                 } else {
                     me.btnFullScreen.changeIcon({curr: 'btn-preview-exit-fullscreen', next: 'btn-fullscreen'});
+                    me.btnDraw.toggle(false);
                 }
 
                 setTimeout( function() {
@@ -356,27 +385,6 @@ define([
             me.previewControls.on('mouseleave', function(e) {
                 me.previewControls.removeClass('over');
             });
-        },
-
-        selectDrawTool: function(index) {
-            switch (index) {
-                case 0: {
-                    Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 3.5, opacity: 100 });
-                    break;
-                }
-                case 1: {
-                    Common.NotificationCenter.trigger('draw-tool:pen', { index: 1, color: this.currentDrawColor, size: 8, opacity: 50 });
-                    break;
-                }
-                case 3: {
-                    Common.NotificationCenter.trigger('draw-tool:eraser');
-                    break;
-                }
-                case 5: {
-                    Common.NotificationCenter.trigger('draw-tool:stop');
-                    break;
-                }
-            }
         },
 
         show: function() {
@@ -516,7 +524,6 @@ define([
         txtEraser: 'Eraser',
         txtEraseScreen: 'Erase screen',
         txtInkColor: 'Ink color',
-        txtSelect: 'Select',
         txtPrev: 'Previous Slide',
         txtNext: 'Next Slide',
         txtClose: 'Close Slideshow',

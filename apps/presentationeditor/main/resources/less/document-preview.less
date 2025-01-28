@@ -69,14 +69,14 @@
           }
     }
 
-    .preview-color-picker {
+    .preview-color-cell {
         cursor: pointer;
         width: 16px;
         height: 16px;
-        border: 1px solid #808080;
-        &:not(:last-child) {
-            margin-right: 3px;
-        }
+        border: @scaled-one-px-value-ie solid #808080;
+        border: @scaled-one-px-value solid #808080;
+        float: left;
+        .margin-right-2();
     }
 
     #btn-preview-draw {
