@@ -48,7 +48,7 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
                   f7.sheet.open('.draw-sheet--color-picker')
                 }}
               >
-                <Icon icon="icon-plus" style={{ backgroundColor: 'var(--brand-word)' }}/>
+                <Icon icon="icon-plus"/>
               </div>
             </div>
           </div>
