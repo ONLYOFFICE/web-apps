@@ -258,6 +258,7 @@
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     },
+                    slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                 },
                  coEditing: {
