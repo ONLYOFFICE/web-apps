@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Diagrama bakoitzak gehienez ere 4096 puntu izan ditzake serieko.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ERROREA! Diagrama bakoitzak gehienez ere 255 datu-serie izan ditzake.",
   "SSE.Controllers.Toolbar.errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, ezarri orriko datuak ordena honetan:<br>Irekierako prezioa, gehienezko prezioa, gutxienezko prezioa, eta itxierako prezioa.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Azentuak",
   "SSE.Controllers.Toolbar.textBracket": "Parentesiak",
   "SSE.Controllers.Toolbar.textDirectional": "Norabidezkoa",
@@ -4571,5 +4565,13 @@
   "SSE.Views.WBProtection.txtProtectWB": "Babestu laneko liburua",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

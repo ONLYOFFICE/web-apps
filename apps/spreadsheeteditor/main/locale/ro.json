@@ -1529,12 +1529,12 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Numărul maxim de puncte de date pe serie în diagramă este limitat la 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "EROARE! Numărul maxim de serii de date dintr-o diagramă este 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Creați și editați proprietățile documentului de sine stătător în secțiunea Informații.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Câmpuri personalizate de fișier",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Încercați tema Gri și accesați mai multe opțiuni de particularizare din fila Fișier - Setări avansate - Aspect.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Interfata modernizată",
-  "SSE.Controllers.Toolbar.helpInsPivot": "Accesați fila Inserare pentru a începe să lucrați cu tabele pivot.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Tabele pivot actualizate",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Lucrați cu elemente calculate în Tabele dinamice.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Elemente calculate",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Anulați cu ușurință modificările în timpul colaborării la foi de calcul în modul Rapid.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "Funcția Anulare în modul de colaborare în timp real",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Îmbinați, fragmentați, faceți să se intersectează, extrageți forme în câteva clipe pentru a crea elemente vizuale particularizate.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Îmbinare forme",
   "SSE.Controllers.Toolbar.textAccent": "Accente",
   "SSE.Controllers.Toolbar.textBracket": "Paranteze",
   "SSE.Controllers.Toolbar.textDirectional": "Direcțional",
@@ -4571,5 +4571,7 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protejarea registrului de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduceți parola pentru dezactivarea protejării a foii de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Anularea protecției foii de calcul",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

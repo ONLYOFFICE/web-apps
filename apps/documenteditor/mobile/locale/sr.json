@@ -809,6 +809,7 @@
     "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "btnSend": "Pošalji ",
     "dlgLeaveMsgText": "Imate nesačuvane promene. Kliknite \"Ostani na ovoj Stranici\" da sačekate auto-čuvanje. Kliknite \"Izađi iz ove Stranice\" da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
@@ -820,8 +821,7 @@
     "textRenameFile": "Preimenuj Fajl",
     "textSwitchedMobileView": "Prebačeno na mobilni prikaz",
     "textSwitchedStandardView": "Prebačeno na standardni prikaz",
-    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju",
+    "warnEmptyRequiredField": "Popuni sva potrebna polja za slanje obrasca."
   }
 }

@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "Максималан број тачака у серијама по графикону је 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "ГРЕШКА! Максималан број серије података по графикону је 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Нетачан ред редова. За израду графикона берзанске трговине, поставите податке на листу у следећем редоследу:<br> отварајућа цена, макс цена, мин цена, затварајућа цена.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Креирај и измени својства документа у секцији Информације.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Прилагођена поља датотеке",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Испробајте Сиву тему и приступите више опцијама прилагођавања преко картице Датотека – Напредна подешавања – Изглед.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Редизајниран интерфејс",
-  "SSE.Controllers.Toolbar.helpInsPivot": "За почетак рада са Pivot табелама, приступите картици Уметање.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Ажуриране Pivot табеле",
   "SSE.Controllers.Toolbar.textAccent": "Нагласци",
   "SSE.Controllers.Toolbar.textBracket": "Заграде",
   "SSE.Controllers.Toolbar.textDirectional": "Усмерено",
@@ -4571,5 +4565,13 @@
   "SSE.Views.WBProtection.txtProtectWB": "Заштити радни лист",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

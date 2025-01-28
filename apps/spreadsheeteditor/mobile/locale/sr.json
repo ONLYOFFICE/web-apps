@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?"
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napusti ovu Stranicu",
@@ -457,8 +458,7 @@
     "textEnterNewFileName": "Unesi novo ime fajla",
     "textOk": "OK",
     "textRenameFile": "Preimenuj Fajl",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Add": {

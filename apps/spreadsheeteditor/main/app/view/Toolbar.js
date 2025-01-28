@@ -2198,7 +2198,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-sheet-rtl',
                     lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                    caption: this.textRtlSheet + ' (Beta)',
+                    caption: this.textRtlSheet,
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -2599,7 +2599,7 @@ define([
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
             _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
             _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
-            _updateHint(this.btnRtlSheet, this.tipRtlSheet + ' (Beta)');
+            _updateHint(this.btnRtlSheet, this.tipRtlSheet);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });

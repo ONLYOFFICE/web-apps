@@ -717,22 +717,7 @@ define([
                 } else if (item === 'storage') {
                     Common.NotificationCenter.trigger('storage:document-load', 'compare');
                 } else if (item === 'settings') {
-                    var value = me._state.compareSettings ? me._state.compareSettings.getWords() : true;
-                    (new Common.Views.OptionsDialog({
-                        title: me.textTitleComparison,
-                        items: [
-                            {caption: me.textChar, value: false, checked: (value===false)},
-                            {caption: me.textWord, value: true, checked: (value!==false)}
-                        ],
-                        label: me.textShow,
-                        handler: function (dlg, result) {
-                            if (result=='ok') {
-                                me._state.compareSettings = new AscCommonWord.ComparisonOptions();
-                                me._state.compareSettings.putWords(dlg.getSettings());
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }
-                    })).show();
+                    me.onCompareSettings();
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
@@ -765,9 +750,31 @@ define([
                     })).show();
                 } else if (item === 'storage') {
                     Common.NotificationCenter.trigger('storage:document-load', 'combine');
+                } else if (item === 'settings') {
+                    me.onCompareSettings();
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onCompareSettings: function() {
+            var me = this,
+                value = me._state.compareSettings ? me._state.compareSettings.getWords() : true;
+            (new Common.Views.OptionsDialog({
+                title: me.textTitleComparison,
+                items: [
+                    {caption: me.textChar, value: false, checked: (value===false)},
+                    {caption: me.textWord, value: true, checked: (value!==false)}
+                ],
+                label: me.textShow,
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        me._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                        me._state.compareSettings.putWords(dlg.getSettings());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         setRevisedFile: function(data) {

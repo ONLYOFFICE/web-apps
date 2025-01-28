@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "Fleta e punës ndoshta ka të dhëna. Të vazhdohet operacioni?"
   },
   "Toolbar": {
+    "btnRestartNow": "Rinisni tani",
     "dlgLeaveMsgText": "Ju keni ndryshime të pa ruajtura në këtë dokument. Klikoni 'Qëndro në këtë faqe' të prisni për ruajtijen automatike. Klikoni'Lërni këtë faqe' për të hequr të gjitha ndyshimet e pa ruajtura.",
     "dlgLeaveTitleText": "Lërni aplikimin",
     "leaveButtonText": "Lëre këtë faqe",
@@ -457,8 +458,7 @@
     "textEnterNewFileName": "Futni një emër të skedarit",
     "textOk": "OK",
     "textRenameFile": "Fshij skedarin",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Kaloni në versionin desktop"
   },
   "View": {
     "Add": {

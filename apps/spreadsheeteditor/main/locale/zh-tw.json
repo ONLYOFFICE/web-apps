@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "每個圖表系列中的最大點數量為4096。",
   "SSE.Controllers.Toolbar.errorMaxRows": "錯誤！每個圖表的數據系列數量上限為255",
   "SSE.Controllers.Toolbar.errorStockChart": "行順序不正確。建立股票圖表時，請按照以下順序在工作表上放置數據：開盤價、最高價、最低價、收盤價。",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "重音符號",
   "SSE.Controllers.Toolbar.textBracket": "括號",
   "SSE.Controllers.Toolbar.textDirectional": "方向性的",
@@ -4571,5 +4565,13 @@
   "SSE.Views.WBProtection.txtProtectWB": "保護工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "מספר הנקודות המרבי בסדרה לכל תרשים הוא 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255",
   "SSE.Controllers.Toolbar.errorStockChart": "סדר שורה שגוי. <br>כדי לבנות תרשים מלאי מקם את הנתונים על הגיליון בסדר הבא: מחיר פתיחה, מחיר מקסימלי, מחיר מינימלי, מחיר סגירה.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "צור וערוך את מאפייני המסמך בעצמך במקטע מידע.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "שדות קובץ מותאמים אישית",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "נסה את ערכת הנושא אפור וגש לאפשרויות התאמה אישית נוספות דרך הכרטיסיה קובץ - הגדרות מתקדמות - מראה.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "ממשק מחודש",
-  "SSE.Controllers.Toolbar.helpInsPivot": "כדי להתחיל לעבוד עם טבלאות PivotTable, גש לכרטיסיה הוספה.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "טבלאות Pivot Table מעודכנות",
   "SSE.Controllers.Toolbar.textAccent": "הדגשות",
   "SSE.Controllers.Toolbar.textBracket": "סוגריים",
   "SSE.Controllers.Toolbar.textDirectional": "כיווני",
@@ -4571,5 +4565,13 @@
   "SSE.Views.WBProtection.txtProtectWB": "הגנה על חוברת עבודה",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "הזנת סיסמה כדי להסיר הגנה גיליון",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "הסרת הגנה על גליון",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "הזנת סיסמה כדי לבטל את ההגנה חוברת עבודה",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

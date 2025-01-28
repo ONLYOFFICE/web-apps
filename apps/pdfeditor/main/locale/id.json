@@ -1037,12 +1037,6 @@
   "PDFE.Controllers.Statusbar.zoomText": "Perbesar {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Anda mencoba melakukan sesuatu yang tidak memiliki izin.<br>Silakan hubungi admin Server Dokumen Anda.",
-  "PDFE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "PDFE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "PDFE.Controllers.Toolbar.helpPdfCoedit": "Sunting bersama PDF dengan penulis lain dalam mode real-time atau penguncian paragraf.",
-  "PDFE.Controllers.Toolbar.helpPdfCoeditHeader": "PDF collaboration",
-  "PDFE.Controllers.Toolbar.helpPdfSave": "Anotasi dan sunting - semua perubahan Anda disimpan ke berkas asli tanpa membuat salinan terpisah.",
-  "PDFE.Controllers.Toolbar.helpPdfSaveHeader": "Penyunting PDF yang Diperbaiki",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Peringatan",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Got it",
@@ -2040,5 +2034,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
 }

@@ -2300,6 +2300,11 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.EditProtectedRange:
+                        config.maxwidth = 600;
+                        config.msg = this.errorEditProtectedRange;
+                        break;
+
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
                         if (errData === 'pdf')

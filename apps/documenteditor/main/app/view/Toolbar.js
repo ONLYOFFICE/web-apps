@@ -216,7 +216,7 @@ define([
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-undo',
-                        lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.viewMode],
+                        lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -228,7 +228,7 @@ define([
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-redo',
-                        lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.viewMode],
+                        lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -251,7 +251,7 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockCommentsIns, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
@@ -262,7 +262,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
+                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockCommentsIns, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
@@ -293,7 +293,7 @@ define([
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incfont',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -303,7 +303,7 @@ define([
                         id: 'id-toolbar-btn-decfont',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decfont',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -313,7 +313,7 @@ define([
                         id: 'id-toolbar-btn-bold',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-bold',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -324,7 +324,7 @@ define([
                         id: 'id-toolbar-btn-italic',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-italic',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -335,7 +335,7 @@ define([
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -346,7 +346,7 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -357,7 +357,7 @@ define([
                         id: 'id-toolbar-btn-superscript',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-superscript',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'superscriptGroup',
                         dataHint: '1',
@@ -369,7 +369,7 @@ define([
                         id: 'id-toolbar-btn-subscript',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-subscript',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'superscriptGroup',
                         dataHint: '1',
@@ -382,7 +382,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                                _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -407,7 +407,7 @@ define([
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         split: true,
                         menu: true,
                         auto: true,
@@ -423,7 +423,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                                _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.viewMode],
                         split: true,
                         transparent: true,
                         menu: true,
@@ -440,7 +440,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-change-case',
                         action: 'change-case',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         menu: new Common.UI.Menu({
                             items: [
                                 {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -459,7 +459,7 @@ define([
                         id: 'id-toolbar-btn-align-left',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-left',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -471,7 +471,7 @@ define([
                         id: 'id-toolbar-btn-align-center',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-center',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -483,7 +483,7 @@ define([
                         id: 'id-toolbar-btn-align-right',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-right',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -495,7 +495,7 @@ define([
                         id: 'id-toolbar-btn-align-just',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-align-just',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'alignGroup',
                         dataHint: '1',
@@ -507,7 +507,7 @@ define([
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -517,7 +517,7 @@ define([
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top'
                     });
@@ -528,7 +528,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
                         action: 'line-space',
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -560,7 +560,7 @@ define([
                         value: '0 cm',
                         maxValue: 55.87,
                         minValue: -55.87,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: 'small'
@@ -570,7 +570,7 @@ define([
 
                     this.lblIndentsLeft = new Common.UI.Label({
                         caption: this.textIndLeft,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblIndentsLeft);
 
@@ -582,7 +582,7 @@ define([
                         value: '0 cm',
                         maxValue: 55.87,
                         minValue: -55.87,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'big'
@@ -592,7 +592,7 @@ define([
 
                     this.lblIndentsRight = new Common.UI.Label({
                         caption: this.textIndRight,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblIndentsRight);
 
@@ -606,7 +606,7 @@ define([
                         minValue: 0,
                         allowAuto   : true,
                         autoText    : this.txtAutoText,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: 'big'
@@ -616,7 +616,7 @@ define([
 
                     this.lblSpacingBefore = new Common.UI.Label({
                         caption: this.textSpaceBefore,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblSpacingBefore);
 
@@ -630,7 +630,7 @@ define([
                         minValue: 0,
                         allowAuto   : true,
                         autoText    : this.txtAutoText,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -640,7 +640,7 @@ define([
 
                     this.lblSpacingAfter = new Common.UI.Label({
                         caption: this.textSpaceAfter,
-                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode]
                     });
                     this.paragraphControls.push(this.lblSpacingAfter);
 
@@ -648,7 +648,7 @@ define([
                         id: 'id-toolbar-btn-hidenchars',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paragraph',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockForms, _set.viewMode],
                         enableToggle: true,
                         split: true,
                         action: 'hidden-chars',
@@ -670,7 +670,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -687,7 +687,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal,  _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -704,7 +704,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-multilevels' : 'btn-multilevels-rtl'),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                                _set.lostConnect, _set.disableOnStart, _set.docLockViewPara, _set.docLockForms, _set.docLockCommentsPara, _set.fixedForm, _set.viewMode],
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -737,7 +737,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-inserttable',
                         lock: [_set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock, _set.cantAddTable, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsTable,
                         action: 'insert-table',
                         menu: new Common.UI.Menu({
@@ -761,7 +761,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock,  _set.contentLock,  _set.cantAddImagePara,
-                                _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                                _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsImage,
                         menu: new Common.UI.Menu({
                             items: [
@@ -783,7 +783,7 @@ define([
                         caption: me.capBtnInsChart,
                         iconCls: 'toolbar__icon btn-insertchart',
                         lock: [ _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.controlPlain, _set.richDelLock, _set.plainDelLock, _set.contentLock,
-                                _set.chartLock, _set.cantAddChart, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                                _set.chartLock, _set.cantAddChart, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         menu: true,
                         action: 'insert-chart',
                         dataHint: '1',
@@ -797,7 +797,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-text',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.contentLock, _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsTextbox,
                         enableToggle: true,
                         split: true,
@@ -814,7 +814,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-textart',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain, _set.richDelLock, _set.plainDelLock, _set.contentLock, _set.inFootnote, _set.cantAddImagePara,
-                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsTextart,
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
@@ -848,7 +848,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-from-file',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock,
-                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsTextFromFile,
                         menu: true,
                         dataHint: '1',
@@ -882,7 +882,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-datetime',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnDateTime,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -895,7 +895,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-quick-field',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsField,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -908,7 +908,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-blankpage',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.richDelLock, _set.plainDelLock, _set.inHeader,  _set.inFootnote,  _set.inControl,
-                            _set.cantPageBreak, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.cantPageBreak, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnBlankPage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -921,7 +921,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertshape',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain,  _set.contentLock,  _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
-                                _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                                _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsShape,
                         enableToggle: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
@@ -937,7 +937,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-smart-art',
                         lock: [_set.paragraphLock, _set.headerLock, _set.inEquation, _set.controlPlain,  _set.contentLock,  _set.inFootnote, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsSmartArt,
                         menu: true,
                         action: 'insert-smartart',
@@ -952,7 +952,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertequation',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.controlPlain, _set.richDelLock, _set.plainDelLock, _set.cantAddEquation,
-                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsEquation,
                         split: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'}),
@@ -968,7 +968,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-symbol',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsSymbol,
                         menu: new Common.UI.Menu({
                             style: 'min-width: 100px;',
@@ -992,7 +992,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropcap icon-rtl',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.controlPlain, _set.dropcapLock, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsDropcap,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar shifted-right',
@@ -1037,7 +1037,7 @@ define([
                         id: 'tlbtn-controls',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-controls',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: me.capBtnInsControls,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar shifted-right',
@@ -1125,7 +1125,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-columns',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.controlPlain, _set.inImage, _set.inHeader, _set.docPropsLock, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnColumns,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar shifted-right',
@@ -1185,7 +1185,7 @@ define([
                         id: 'tlbtn-pageorient',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-pageorient',
-                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnPageOrient,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
@@ -1229,7 +1229,7 @@ define([
                         id: 'tlbtn-pagemargins',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-pagemargins',
-                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnMargins,
                         menu: new Common.UI.Menu({
                             cls: 'menu-margins',
@@ -1290,7 +1290,7 @@ define([
                         id: 'tlbtn-pagesize',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-pagesize',
-                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnPageSize,
                         menu: new Common.UI.Menu({
                             restoreHeight: true,
@@ -1415,7 +1415,7 @@ define([
                         id: 'tlbtn-line-numbers',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-line-numbering',
-                        lock: [_set.docPropsLock, _set.inImagePara, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.docPropsLock, _set.inImagePara, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnLineNumbers,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
@@ -1468,7 +1468,7 @@ define([
                         id: 'tlbtn-line-hyphenation',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-hyphenation',
-                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: this.capBtnHyphenation,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
@@ -1504,7 +1504,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-clearstyle',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
-                            _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
@@ -1514,7 +1514,7 @@ define([
                         id: 'id-toolbar-btn-copystyle',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copystyle',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockForms, _set.viewMode],
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom'
@@ -1675,7 +1675,7 @@ define([
                         cls: 'input-group-nr',
                         menuCls: 'scrollable-menu',
                         menuStyle: 'min-width: 55px;max-height: 454px;',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         hint: this.tipFontSize,
                         dataHint: '1',
                         dataHintDirection: 'top'
@@ -1686,7 +1686,7 @@ define([
                         cls: 'input-group-nr',
                         menuCls: 'scrollable-menu',
                         menuStyle: 'min-width: 325px;',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         hint: this.tipFontName,
                         store: new Common.Collections.Fonts(),
                         dataHint: '1',
@@ -1705,7 +1705,7 @@ define([
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
                         lock: [_set.noStyles, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
-                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewText, _set.docLockForms, _set.docLockCommentsText, _set.viewMode],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
                         style: 'min-width:139px;',
@@ -1858,7 +1858,7 @@ define([
                             id: 'id-toolbar-btn-undo',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon btn-undo',
-                            lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.viewMode],
+                            lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
@@ -1870,7 +1870,7 @@ define([
                             id: 'id-toolbar-btn-redo',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon btn-redo',
-                            lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.viewMode],
+                            lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
@@ -2146,7 +2146,7 @@ define([
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
                         Common.enumLock.plainDelLock, Common.enumLock.inHeader, Common.enumLock.inFootnote, Common.enumLock.inControl, Common.enumLock.cantPageBreak, Common.enumLock.previewReviewMode,
-                        Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.docLockComments, Common.enumLock.viewMode],
+                        Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockViewIns, Common.enumLock.docLockForms, Common.enumLock.docLockCommentsIns, Common.enumLock.viewMode],
                         true, true, undefined, '1', 'bottom', 'small', undefined, 'page-break');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);

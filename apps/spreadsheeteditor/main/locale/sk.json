@@ -1529,12 +1529,6 @@
   "SSE.Controllers.Toolbar.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
   "SSE.Controllers.Toolbar.errorMaxRows": "CHYBA! Maximálny počet dátových radov na graf je 255",
   "SSE.Controllers.Toolbar.errorStockChart": "Nesprávne poradie riadkov. Ak chcete vytvoriť burzový graf, umiestnite údaje na hárok v nasledujúcom poradí:<br> začiatočná cena, max cena, min cena, konečná cena.",
-  "SSE.Controllers.Toolbar.helpCustomInfo": "Create and edit the document properties yourself in the Info section.",
-  "SSE.Controllers.Toolbar.helpCustomInfoHeader": "Custom file fields",
-  "SSE.Controllers.Toolbar.helpGrayTheme": "Try Gray theme and access more customization options via File tab вЂ“ Advanced Settings вЂ“ Appearance.",
-  "SSE.Controllers.Toolbar.helpGrayThemeHeader": "Revamped interface",
-  "SSE.Controllers.Toolbar.helpInsPivot": "To start working with Pivot Tables, access the Insert tab.",
-  "SSE.Controllers.Toolbar.helpInsPivotHeader": "Updated Pivot Tables",
   "SSE.Controllers.Toolbar.textAccent": "Akcenty",
   "SSE.Controllers.Toolbar.textBracket": "Zátvorky",
   "SSE.Controllers.Toolbar.textDirectional": "Smerové",
@@ -4571,5 +4565,13 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zabezpečiť zošit",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
+  "SSE.Controllers.Toolbar.helpCalcItems": "Work with calculated items in Pivot Tables.",
+  "SSE.Controllers.Toolbar.helpCalcItemsHeader": "Calculated items",
+  "SSE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on sheets in Fast mode.",
+  "SSE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "SSE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "SSE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
 }

@@ -809,6 +809,7 @@
     "txtProtected": "Sapo të futni fjalëkalimin dhe të hapni skedarin, fjalëkalimi aktual do të rivendoset"
   },
   "Toolbar": {
+    "btnRestartNow": "Rinisni tani",
     "btnSend": "Dërgo",
     "dlgLeaveMsgText": "Ju keni ndryshime të paruajtura. Kliko 'Qëndro në këtë faqe' për të pritur ruajtjen automatike. Kliko 'Lëre këtë faqe' për të hequr të gjitha ndryshimet e paruajtura.",
     "dlgLeaveTitleText": "Lërni aplikimin",
@@ -820,8 +821,7 @@
     "textRenameFile": "Fshij skedarin",
     "textSwitchedMobileView": "Kaluar në pamjen e telefonit",
     "textSwitchedStandardView": "Kaluar në pamjen standarde",
-    "warnEmptyRequiredField": "Mbush të gjitha fushat e kërkuara për të dërguar fomularin.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Kaloni në versionin desktop",
+    "warnEmptyRequiredField": "Mbush të gjitha fushat e kërkuara për të dërguar fomularin."
   }
 }

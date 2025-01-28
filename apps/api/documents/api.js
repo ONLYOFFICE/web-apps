@@ -258,7 +258,8 @@
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     },
-                    slidePlayerBackground: '#000000' // background color for slide show in presentation editor
+                    slidePlayerBackground: '#000000', // background color for slide show in presentation editor
+                    wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -1034,8 +1035,8 @@
         }
     }
 
-    function correct_app_type(type) {
-        if ( type == 'mobile' ) {
+    function correct_app_type(config) {
+        if ( config.type == 'mobile' ) {
             if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
                     config.editorConfig.customization.mobile.disableForceDesktop !== true )
             {
@@ -1049,7 +1050,7 @@
             }
         }
 
-        return type;
+        return config.type;
     }
 
     function getAppPath(config) {
@@ -1080,7 +1081,7 @@
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
-        var corrected_type = correct_app_type(config.type);
+        var corrected_type = correct_app_type(config);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
             appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
@@ -1208,6 +1209,10 @@
                 params += "&indexPostfix=_loader";
             }
         }
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.wordHeadingsColor && typeof config.editorConfig.customization.wordHeadingsColor === 'string') {
+            params += "&headingsColor=" + config.editorConfig.customization.wordHeadingsColor.replace(/#/, '');
+        }
+
         return params;
     }
 
