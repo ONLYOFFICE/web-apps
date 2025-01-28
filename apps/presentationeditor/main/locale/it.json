@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Connessione persa</b><br>Tentativo di connessione in corso. Si prega di controllare le impostazioni di connessione.",
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Il carattere che vuoi salvare non è accessibile su questo dispositivo.<br>Lo stile di testo sarà visualizzato usando uno dei caratteri di sistema, il carattere salvato sarà usato quando accessibile.<br>Vuoi continuare?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Accenti",
   "PE.Controllers.Toolbar.textBracket": "Parentesi",
   "PE.Controllers.Toolbar.textFontSizeErr": "Il valore inserito non è corretto.<br>Inserisci un valore numerico compreso tra 1 e 300",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macro",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

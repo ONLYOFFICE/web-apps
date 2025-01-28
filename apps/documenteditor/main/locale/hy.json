@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Տեղադրել URL-ի տվյալների",
   "DE.Controllers.Toolbar.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
   "DE.Controllers.Toolbar.fileUrl": "Տեղադրել ֆայլի URL-ը",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Զգուշացում",
   "DE.Controllers.Toolbar.textAccent": "Շեշտեր",
   "DE.Controllers.Toolbar.textBracket": "Փակագծեր",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Lidhja ka humbur</b><br>Po përpiqemi të lidhemi. Ju lutem kontrolloni cilësimet e lidhjes.",
   "PE.Controllers.Statusbar.zoomText": "Zmadhoj {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Fonti që do të ruani nuk disponohet në pajisjen aktuale.<br>Stili i tekstit do të shfaqet duke përdorur një nga fontet e sistemit, fonti i ruajtur do të përdoret kur të jetë i disponueshëm.<br>Dëshironi të vazhdoni?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Kombinoni, fragmentoni, kryqëzoni, zbrisni forma në sekonda për të krijuar pamje vizuale të personalizuara.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Bashkoni format",
+  "PE.Controllers.Toolbar.helpTabDesign": "Aplikoni temat, ndryshoni skemat e ngjyrave dhe madhësinë e rrëshqitjes nga skeda e sapo shtuar \"Dizajn\".",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Skeda Dizajn",
   "PE.Controllers.Toolbar.textAccent": "Akcente",
   "PE.Controllers.Toolbar.textBracket": "Kllapa",
   "PE.Controllers.Toolbar.textFontSizeErr": "Vlera e futu është e pasaktë.<br>Ju lutem vendosni një vlerë numerike midis 1 dhe 300",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
-  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master"
 }

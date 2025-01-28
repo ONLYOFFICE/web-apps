@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "දත්ත ඒ.ස.නි. අලවන්න",
   "DE.Controllers.Toolbar.errorAccessDeny": "අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ ලේඛන සේවාදායකයේ පරිපාලක අමතන්න.",
   "DE.Controllers.Toolbar.fileUrl": "ගොනුවක ඒ.ස.නි. අලවන්න",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "අවවාදයයි",
   "DE.Controllers.Toolbar.textAccent": "උදාත්ත",
   "DE.Controllers.Toolbar.textBracket": "වරහන්",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Combine",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "Union",
   "DE.Views.Toolbar.textSmile": "සුදු සිනාමුසු මුහුණ",
   "DE.Views.Toolbar.textSpaceAfter": "පසුව හිස්තැනක්",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

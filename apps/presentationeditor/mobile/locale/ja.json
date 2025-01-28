@@ -276,6 +276,7 @@
     "waitText": "少々お待ちください..."
   },
   "Toolbar": {
+    "btnRestartNow": "今すぐ再起動",
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了する",
     "leaveButtonText": "このページから移動する",
@@ -284,8 +285,7 @@
     "textEnterNewFileName": "新しいファイル名を入力する",
     "textOk": "OK",
     "textRenameFile": "ファイル名の変更",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "デスクトップ版に切り替える"
   },
   "View": {
     "Add": {

@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "La police que vous allez sauvegarder n'est pas disponible sur l'appareil actuel.<br>Le style de texte sera affiché en utilisant l'une des polices de l'appareil, la police sauvegardée sera utilisée lorsqu'elle sera disponible.<br>Voulez-vous continuer ?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insérez des tampons dans vos documents PDF.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Tampons",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Annulez facilement les modifications lorsque vous collaborez sur des PDF en mode rapide.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "« Annuler » dans la coédition en temps réel",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Sélectionnez plusieurs aperçus de pages pour les déplacer, les supprimer ou les faire pivoter en toute simplicité.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Sélection multiple pour les pages PDF",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Avertissement",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "La valeur saisie est incorrecte.<br>Veuillez saisir une valeur numérique comprise entre 1 et 300",
   "PDFE.Controllers.Toolbar.textGotIt": "OK",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajuster à la page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajuster à la largeur",
   "PDFE.Views.ViewTab.tipHeadings": "Titres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Thème d’interface"
 }

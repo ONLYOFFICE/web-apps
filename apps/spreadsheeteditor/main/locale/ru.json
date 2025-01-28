@@ -2720,6 +2720,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Язык формул",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Пример: СУММ; МИН; МАКС; СЧЁТ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Показывать подсказки функций",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Показать горизонтальную полосу прокрутки",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "Пропускать слова из ПРОПИСНЫХ БУКВ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsWithNumbers": "Пропускать слова с цифрами",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMacrosSettings": "Настройки макросов",
@@ -2740,6 +2741,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Разделитель разрядов тысяч",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Единица измерения",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Использовать разделители на базе региональных настроек",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Показать вертикальную полосу прокрутки",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "Стандартное значение масштаба",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "Каждые 10 минут",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Каждые 30 минут",
@@ -4571,7 +4573,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Защитить книгу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введите пароль для отключения защиты листа",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги"
 }

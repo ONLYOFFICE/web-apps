@@ -2783,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "Show from Beginning",
   "PE.Views.Toolbar.textShowCurrent": "Show from Current Slide",

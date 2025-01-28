@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>ຂາດເຊື່ອມຕໍ່</b><br>ກຳລັງພະຍາຍາມເຊື່ອມຕໍ່. ກະລຸນາກວດເບິ່ງການຕັ້ງຄ່າການເຊື່ອມຕໍ່.",
   "PE.Controllers.Statusbar.zoomText": "ຂະຫຍາຍ {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "ຕົວອັກສອນທີ່ທ່ານ ກຳ ລັງຈະບັນທຶກແມ່ນບໍ່ມີຢູ່ໃນອຸປະກອນປັດຈຸບັນ. <br> ຮູບແບບຕົວ ໜັງ ສືຈະຖືກສະແດງໂດຍໃຊ້ຕົວອັກສອນລະບົບໜຶ່ງ, ຕົວອັກສອນທີ່ບັນທຶກຈະຖືກ ນຳ ໃຊ້ໃນເວລາທີ່ມັນມີຢູ່. <br> ທ່ານຕ້ອງການສືບຕໍ່ບໍ ?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "PE.Controllers.Toolbar.textBracket": "ວົງປີກາ",
   "PE.Controllers.Toolbar.textFontSizeErr": "ຄ່າທີ່ປ້ອນເຂົ້າບໍ່ຖືກຕ້ອງ. <br> ກະລຸນາໃສ່ຄ່າຕົວເລກລະຫວ່າງ 1 ເຖິງ 300",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "ສະແດງແຕ່ເລີ່ມຕົ້ນ",
   "PE.Views.Toolbar.textShowCurrent": "ສະແດງຈາກແຜ່ນສະໄລ້ປັດຈຸບັນ",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

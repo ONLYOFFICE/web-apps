@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "זום {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "הגופן שאתה עומד לשמור אינו זמין במכשיר הנוכחי.<br>סגנון הטקסט יוצג באמצעות אחד מגופני המכשיר, הגופן שנשמר ישמש כאשר הוא יהיה זמין.<br>האם ברצונך להמשיך?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "את/ה מנסה לבצע פעולה שאין לך זכויות עליה.<br> נא ליצור קשר עם מנהל שרת המסמכים שלך.",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "אזהרה",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "הערך שהוזן אינו נכון.<br>נא להזין ערך מספרי בין 1 ל 300",
   "PDFE.Controllers.Toolbar.textGotIt": "הבנתי",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "מתאים לדף",
   "PDFE.Views.ViewTab.tipFitToWidth": "מתאים לרוחב",
   "PDFE.Views.ViewTab.tipHeadings": "כותרות",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא"
 }

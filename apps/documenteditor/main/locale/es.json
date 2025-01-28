@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Pegar una URL de datos",
   "DE.Controllers.Toolbar.errorAccessDeny": "Está intentando realizar una acción para la que no tiene permiso.<br>Contacte con el administrador del Servidor de documentos.",
   "DE.Controllers.Toolbar.fileUrl": "Pegar la URL de un archivo",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Fusionar formas",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Acentos",
   "DE.Controllers.Toolbar.textBracket": "Paréntesis",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

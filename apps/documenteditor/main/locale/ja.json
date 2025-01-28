@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "データのURLを貼り付け",
   "DE.Controllers.Toolbar.errorAccessDeny": "権限のない操作を実行しようとしています。<br>ドキュメントサーバーの管理者にご連絡ください。",
   "DE.Controllers.Toolbar.fileUrl": "ファイルのURLを貼り付ける",
+  "DE.Controllers.Toolbar.helpMergeShapes": "カスタムビジュアルを作成するために、形状を結合、断片化、交差、減算する操作を数秒で行うことができます。",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "図形を結合",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "警告",
   "DE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "DE.Controllers.Toolbar.textBracket": "括弧",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Налепи URL података",
   "DE.Controllers.Toolbar.errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте свог Документ Сервер администратора.",
   "DE.Controllers.Toolbar.fileUrl": "Налепи URL датотеке",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Упозорење",
   "DE.Controllers.Toolbar.textAccent": "Нагласци",
   "DE.Controllers.Toolbar.textBracket": "Заграде",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -2720,6 +2720,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Jezik formule",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Primer:SUM;MIN;MAX;COUNT",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Prikaži funkciju pomoću iskačuće poruke",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "Ignoriši reči napisane VELIKIM SLOVIMA",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsWithNumbers": "Ignoriši reči sa brojevima",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMacrosSettings": "Makroi podešavanja",
@@ -2740,6 +2741,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Hiljade separator",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Jedinica mere",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Koristi separatore zasnovane na regionalnim podešavanjima",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "Podrazumevana zoom vrednost",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "Svakih 10 minuta",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Svakih 30 minuta",
@@ -4571,7 +4573,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Zaštiti radni list",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Unesite lozinku da nezaštitite list",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu"
 }

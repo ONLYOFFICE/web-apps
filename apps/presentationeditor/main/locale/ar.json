@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>انقطع الاتصال</b><br>جارى محاولة الاتصال. يرجى التحقق من إعدادات الاتصال.",
   "PE.Controllers.Statusbar.zoomText": "تكبير/تصغير {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "الخط الذي تقوم بحفظه غير متاح على جهازك الحالي.<br>سيتم إظهار نمط التص باستخدام أحد خطوط النظام، و سيتم استخدام الخط المحفوظ حال توافره..<br>هل تريد المتابعة؟",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "علامات التمييز",
   "PE.Controllers.Toolbar.textBracket": "أقواس",
   "PE.Controllers.Toolbar.textFontSizeErr": "القيمة المدخلة غير صحيحة.<br>الرجاء إدخال قيمة بين 1 و 300",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }

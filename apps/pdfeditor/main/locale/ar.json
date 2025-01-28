@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "تكبير/تصغير {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "الخط الذي ستحفظه غير متوفر على جهازك الحالي.<br> سيتم إظهار النص بإحدى الخطوط المتوفرة على الجهاز، الخط المحفوظ سيتم استخدامه عند توفره.<br>هل تود المتابعة؟ ",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "أنت تحاول تنفيذ إجراء ليس لديك صلاحيات به.<br>الرجاء الاتصال بالمسئول عن خادم المستندات.",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "تحذير",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "القيمة المدخلة غير صحيحة.<br>الرجاء إدخال قيمة بين 1 و 300",
   "PDFE.Controllers.Toolbar.textGotIt": "مفهوم",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ملائم للصفحة",
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }

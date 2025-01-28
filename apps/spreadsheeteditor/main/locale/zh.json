@@ -2720,6 +2720,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "公式语言",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "示例：\b总和;  最小; 最大;计数",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "显示功能提示",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "忽略大写单词",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsWithNumbers": "忽略带数字的单词",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMacrosSettings": "宏设置",
@@ -2740,6 +2741,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "千位分隔符",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "测量单位",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "根据区域设置使用分隔符",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "默认缩放值",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "每10分钟",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "每30分钟",
@@ -4571,7 +4573,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "保护工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "输入密码以取消工作表保护",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护"
 }

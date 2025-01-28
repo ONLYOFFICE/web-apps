@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Εστίαση {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Η γραμματοσειρά που πρόκειται να αποθηκεύσετε δεν είναι διαθέσιμη στην τρέχουσα συσκευή. Το στυλ κειμένου θα εμφανιστεί χρησιμοποιώντας μία από τις γραμματοσειρές της συσκευής, η αποθηκευμένη γραμματοσειρά θα χρησιμοποιηθεί όταν είναι διαθέσιμη. Θέλετε να συνεχίσετε;",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα.<br>Παρακαλούμε να επικοινωνήστε με τον διαχειριστή του διακομιστή εγγράφων.",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Εισαγάγετε σφραγίδα στα έγγραφά σας PDF.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Σφραγίδες",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Αναιρέστε εύκολα τις αλλαγές κατά τη συνεργασία σε αρχεία PDF σε γρήγορη λειτουργία.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Αναίρεση\" σε συν-επεξεργασία σε πραγματικό χρόνο",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Επιλέξτε πολλές προεπισκοπήσεις σελίδων για να τις μετακινήσετε, να τις διαγράψετε ή να τις περιστρέψετε με ευκολία.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Πολλαπλή επιλογή για σελίδες PDF",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 300",
   "PDFE.Controllers.Toolbar.textGotIt": "Ελήφθη",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

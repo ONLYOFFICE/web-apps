@@ -905,6 +905,7 @@
   "DE.Controllers.Main.errorDirectUrl": "Verificați linkul la document.<br>Trebuie să fie un link direct spre fișierul de încărcat.",
   "DE.Controllers.Main.errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca",
   "DE.Controllers.Main.errorEditingSaveas": "S-a produs o eroare în timpul editării documentului.<br>Pentru copierea de rezervă pe PC utilizați opțiunea Salvare ca...",
+  "DE.Controllers.Main.errorEditProtectedRange": "Nu aveți permisiunea de a edita selecția deoarece acestă este protejată.",
   "DE.Controllers.Main.errorEmailClient": "Client de poștă electronică imposibil de găsit. ",
   "DE.Controllers.Main.errorEmptyTOC": "Începeți să creați un cuprins prin aplicarea stilurilor de titlu din Galeria de stiluri la textul selectat.",
   "DE.Controllers.Main.errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",

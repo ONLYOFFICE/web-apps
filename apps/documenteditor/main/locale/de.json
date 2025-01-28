@@ -905,6 +905,7 @@
   "DE.Controllers.Main.errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
   "DE.Controllers.Main.errorEditingDownloadas": "Bei der Arbeit mit dem Dokument ist ein Fehler aufgetreten. <br> Verwenden Sie die Option 'Herunterladen als', um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
   "DE.Controllers.Main.errorEditingSaveas": "Bei der Arbeit mit dem Dokument ist ein Fehler aufgetreten. <br> Verwenden Sie die Option \"Speichern als ...\", um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
+  "DE.Controllers.Main.errorEditProtectedRange": "Sie dürfen diese Auswahl nicht bearbeiten, da sie geschützt ist.",
   "DE.Controllers.Main.errorEmailClient": "Es wurde kein E-Mail-Client gefunden.",
   "DE.Controllers.Main.errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
   "DE.Controllers.Main.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",

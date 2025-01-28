@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Ngjit një URL të dhënash",
   "DE.Controllers.Toolbar.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
   "DE.Controllers.Toolbar.fileUrl": "Ngjitni një skedar URL",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Kombinoni, fragmentoni, kryqëzoni, zbrisni forma në sekonda për të krijuar pamje vizuale të personalizuara.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Bashkoni format",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Paralajmërim",
   "DE.Controllers.Toolbar.textAccent": "Akcente",
   "DE.Controllers.Toolbar.textBracket": "Kllapa",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Nënvizim",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Emri i fontit",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

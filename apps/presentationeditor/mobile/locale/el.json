@@ -276,6 +276,7 @@
     "waitText": "Παρακαλούμε, περιμένετε..."
   },
   "Toolbar": {
+    "btnRestartNow": "Επανεκκίνηση τώρα",
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές στο έγγραφο. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
@@ -284,8 +285,7 @@
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
     "textOk": "Εντάξει",
     "textRenameFile": "Μετονομασία αρχείου",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Μετάβαση στην επιφάνεια εργασίας"
   },
   "View": {
     "Add": {

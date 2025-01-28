@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Trying to connect. Please check connection settings.",
   "PE.Controllers.Statusbar.zoomText": "Thu phóng {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Phông chữ bạn sẽ lưu không có sẵn trên thiết bị hiện tại.<br>Kiểu văn bản sẽ được hiển thị bằng một trong các phông chữ hệ thống, phông chữ đã lưu sẽ được sử dụng khi có sẵn.<br>Bạn có muốn tiếp tục?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "PE.Controllers.Toolbar.textBracket": "Dấu ngoặc",
   "PE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 300",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "Hiển thị từ đầu",
   "PE.Views.Toolbar.textShowCurrent": "Hiển thị từ slide Hiện tại",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -471,6 +471,7 @@
     "uploadImageExtMessage": "නොදන්නා අනුරුවක ආකෘතියකි.",
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
     "uploadImageSizeMessage": "අනුරුව ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },

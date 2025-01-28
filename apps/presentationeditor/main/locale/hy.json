@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "Կապը ընդատվել է</b><br> Փորձում է միանալ: Խնդրում ենք ստուգել կապի կարգավորումները:",
   "PE.Controllers.Statusbar.zoomText": "Խոշորացնել {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Տառատեսակը, որն ուզում եք պահպանել, այս սարքում տեղակայված չէ։<br>Տեքստի ոճը կցուցադրվի համակարգի տառատեսակներից մեկով, իսկ պահպանված տառատեսակը կգործածվի, երբ տեղակայվի։<br>Շարունակե՞լ։",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Հնչյունատարբերիչ նշաններ",
   "PE.Controllers.Toolbar.textBracket": "Փակագծեր",
   "PE.Controllers.Toolbar.textFontSizeErr": "Խնդրում ենք մուտքագրել 1-ից 300 թվային արժեք:",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

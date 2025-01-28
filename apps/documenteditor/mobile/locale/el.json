@@ -478,7 +478,8 @@
     "uploadDocSizeMessage": "Ξεπεράστηκε το μέγιστο μέγεθος εγγράφου.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -809,6 +810,7 @@
     "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
   },
   "Toolbar": {
+    "btnRestartNow": "Επανεκκίνηση τώρα",
     "btnSend": "Αποστολή",
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
@@ -820,8 +822,7 @@
     "textRenameFile": "Μετονομασία αρχείου",
     "textSwitchedMobileView": "Μετάβαση σε προβολή κινητού",
     "textSwitchedStandardView": "Εναλλαγή σε τυπική προβολή",
-    "warnEmptyRequiredField": "Συμπληρώστε όλα τα απαιτούμενα πεδία για την αποστολή της φόρμας.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Μετάβαση στην επιφάνεια εργασίας",
+    "warnEmptyRequiredField": "Συμπληρώστε όλα τα απαιτούμενα πεδία για την αποστολή της φόρμας."
   }
 }

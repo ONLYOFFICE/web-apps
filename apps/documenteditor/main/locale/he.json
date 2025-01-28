@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "הדבקת כתובת אתר URL של נתונים",
   "DE.Controllers.Toolbar.errorAccessDeny": "את/ה מנסה לבצע פעולה שאין לך זכויות עליה. <br>נא ליצור קשר עם מנהל שרת המסמכים שלך",
   "DE.Controllers.Toolbar.fileUrl": "הדבקת כתובת URL של קובץ",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "אזהרה",
   "DE.Controllers.Toolbar.textAccent": "הדגשות",
   "DE.Controllers.Toolbar.textBracket": "סוגריים",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

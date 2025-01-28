@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Liitä datan verkko-osoite",
   "DE.Controllers.Toolbar.errorAccessDeny": "Sinulla ei ole oikeuksia suorittaa tätä toimintoa.<br>Ota yhteyttä asiakirjapalvelimen ylläpitäjään.",
   "DE.Controllers.Toolbar.fileUrl": "Liitä tiedoston URL",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Varoitus",
   "DE.Controllers.Toolbar.textAccent": "Aksentit",
   "DE.Controllers.Toolbar.textBracket": "Hakasulkeet",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Combine",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "Union",
   "DE.Views.Toolbar.textSmile": "Valkoinen hymiö",
   "DE.Views.Toolbar.textSpaceAfter": "Välilyönti jälkeen",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

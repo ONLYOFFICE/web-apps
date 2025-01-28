@@ -478,7 +478,8 @@
     "uploadDocSizeMessage": "Kufiri maksimal i madhësisë së dokumentit është tejkaluar.",
     "uploadImageExtMessage": "Format i panjohur i fotos.",
     "uploadImageFileCountMessage": "Fotot nuk janë ngarkuar.",
-    "uploadImageSizeMessage": "Fotoja është shumë e madhe. Madhësia maksimale është 25MB."
+    "uploadImageSizeMessage": "Fotoja është shumë e madhe. Madhësia maksimale është 25MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Ngarkimi i të dhënave...",

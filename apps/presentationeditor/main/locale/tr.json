@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Bağlantı kesildi</b><br>Bağlanmayı deneyin. Lütfen bağlantı ayarlarını kontrol edin.",
   "PE.Controllers.Statusbar.zoomText": "Büyütme {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Kaydedeceğiniz yazı tipi kullandığınız cihazda mevcut değil.<br>Yazı tipi, şimdilik cihazınızda bulunan yazı tiplerinden biri ile gösterilecektir, tercih ettiğiniz yazı tipi cihaza yüklendiğinde kullanılacaktır.<br>Devam etmek istiyor musunuz?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Aksanlar",
   "PE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "PE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 300 arasında sayısal değer giriniz.",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "Başlangıçtan itibaren göster",
   "PE.Views.Toolbar.textShowCurrent": "Mevcut slayttan itibaren göster",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>සම්බන්ධතාවය නැති විය</b><br>සම්බන්ධ වීමට උත්සාහ දරමින්. සම්බන්ධතාවයේ සැකසුම් පරීක්‍ෂා කරන්න.",
   "PE.Controllers.Statusbar.zoomText": "විශාලනය {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "ඔබ සුරැකීමට සැරසෙන රුවකුරු වත්මන් උපාංගයේ නැත.<br>පද්ධතියෙහි රුවකුරු වලින් එකක් භාවිතයෙන් පෙළහි ශෛලිය පෙන්වනු ඇත, සුරකින ලද රුවකුර තිබෙන විට එය භාවිතා කරනු ඇත.<br>ඔබට ඉදිරියට යාමට වුවමනා ද?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "උදාත්ත",
   "PE.Controllers.Toolbar.textBracket": "වරහන්",
   "PE.Controllers.Toolbar.textFontSizeErr": "ඇතුල් කළ අගය වැරදියි.<br>කරුණාකර 1 සහ 300 අතර සංඛ්‍යාත්මක අගයක් ඇතුල් කරන්න",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "මුල සිට පෙන්වන්න",
   "PE.Views.Toolbar.textShowCurrent": "වත්මන් සර්පණයේ සිට පෙන්වන්න",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
 }
