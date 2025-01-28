@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "لصق رابط بيانات",
   "DE.Controllers.Toolbar.errorAccessDeny": "أنت تحاول تنفيذ إجراء ليس لديك صلاحيات القيام به.<br> الرجاء الاتصال بمسؤول خادم المستندات.",
   "DE.Controllers.Toolbar.fileUrl": "لصق عنوان ملف",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "تحذير",
   "DE.Controllers.Toolbar.textAccent": "علامات التمييز",
   "DE.Controllers.Toolbar.textBracket": "أقواس",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

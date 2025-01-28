@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Επικόλληση URL δεδομένων",
   "DE.Controllers.Toolbar.errorAccessDeny": "Προσπαθείτε να εκτελέσετε μια ενέργεια για την οποία δεν έχετε δικαιώματα. <br>Επικοινωνήστε με το διαχειριστή του διακομιστή εγγράφων.",
   "DE.Controllers.Toolbar.fileUrl": "Επικόλληση σε URL αρχείου",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Συνδυάστε, κατακερματίστε, διασταυρώστε, αφαιρέστε σχήματα σε δευτερόλεπτα για να δημιουργήσετε προσαρμοσμένα γραφικά.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Συγχώνευση σχημάτων",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Προειδοποίηση",
   "DE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "DE.Controllers.Toolbar.textBracket": "Αγκύλες",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Sambungan telah hilang</b><br>Sedang cuba untuk menyambung. Sila semak seting sambungan.",
   "PE.Controllers.Statusbar.zoomText": "Zum {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Fon yang anda akan simpan tidak tersedia pada peranti semasa.<br>Gaya teks akan dipaparkan menggunakan satu daripada fon system, fon yang disimpan akan digunakan apabila ia tersedia.<br>Adakah anda mahu teruskan?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Aksen",
   "PE.Controllers.Toolbar.textBracket": "Tanda kurung",
   "PE.Controllers.Toolbar.textFontSizeErr": "Nilai yang dimasukkan adalah tidak betul.<br>Sila masukkan nilai berangka di antara 1 dan 300",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "Tunjuk dari Permulaan",
   "PE.Views.Toolbar.textShowCurrent": "Tunjuk dari Slaid Semasa",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

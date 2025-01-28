@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Spojení je ztraceno</b><br>Pokus o opětovné připojení. Zkontrolujte nastavení připojení.",
   "PE.Controllers.Statusbar.zoomText": "Přiblížení {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Písmo (font) ve kterém se chystáte uložit, není na tomto zařízení k dispozici.<br>Text bude zobrazen pomocí některého ze systémových písem s tím, že uložené písmo bude použito v případě budoucí dostupnosti.<br>Chcete pokračovat?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Závorky",
   "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu v rozmezí 1 až 300",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Sloučit",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Sjednocení",
   "PE.Views.Toolbar.textShowBegin": "Zobrazit od začátku",
   "PE.Views.Toolbar.textShowCurrent": "Zobrazit od právě otevřeného snímku",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

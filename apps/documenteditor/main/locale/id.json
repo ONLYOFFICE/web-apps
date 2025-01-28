@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Paste URL data",
   "DE.Controllers.Toolbar.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Peringatan",
   "DE.Controllers.Toolbar.textAccent": "Aksen",
   "DE.Controllers.Toolbar.textBracket": "Tanda Kurung",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Combine",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "Union",
   "DE.Views.Toolbar.textSmile": "Wajah Senyum Putih",
   "DE.Views.Toolbar.textSpaceAfter": "Space after",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -464,6 +464,7 @@
     "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",

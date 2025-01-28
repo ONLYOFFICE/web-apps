@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Codul de eroare: %1",
     "errorDirectUrl": "Verificați linkul la document.<br>Trebuie să fie un link direct spre fișierul de încărcat.",
     "errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Încărcați documentul pentru copierea de rezervă locală. ",
+    "errorEditProtectedRange": "Nu aveți permisiunea de a edita selecția deoarece acestă este protejată.",
     "errorEmptyTOC": "Începeți să creați un cuprins prin aplicarea stilurilor de titlu din Galeria de stiluri la textul selectat.",
     "errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dvs.",

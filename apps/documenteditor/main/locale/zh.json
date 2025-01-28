@@ -3689,5 +3689,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -1379,6 +1379,9 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>La connexion est perdue</b><br>Tentative de connexion. Veuillez vérifier les paramètres de connexion.",
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "La police que vous allez enregistrer n'est pas disponible sur l'appareil actuel.<br>Le style du texte sera affiché à l'aide de l'une des polices de système, la police sauvée sera utilisée lorsqu'elle est disponible.<br>Voulez-vous continuer?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combinez, fragmentez, croisez, soustrayez des formes en quelques secondes pour créer des visuels personnalisés.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Fusionner les formes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Appliquez des thèmes, modifiez les couleurs et la taille des diapositives à partir du nouvel onglet Conception.",
   "PE.Controllers.Toolbar.helpTabDesignHeader": "Onglet Conception",
   "PE.Controllers.Toolbar.textAccent": "Types d'accentuation",
   "PE.Controllers.Toolbar.textBracket": "Crochets",
@@ -2976,8 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Outil de sélection",
-  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab."
+  "PE.Views.ViewTab.tipSlideMaster": "Masque de diapositives"
 }

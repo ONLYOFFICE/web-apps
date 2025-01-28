@@ -472,7 +472,8 @@
     "uploadDocSizeMessage": "Փաստաթղթի չափի առավելագույն սահմանաչափը գերազանցվել է:",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",

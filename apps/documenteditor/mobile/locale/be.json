@@ -452,6 +452,7 @@
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact the admin.<br>When you click OK, you will be prompted to download the document.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",

@@ -478,7 +478,8 @@
     "uploadDocSizeMessage": "سنووری زۆرترین قەبارەی بەڵگەنامە تێپەڕی.",
     "uploadImageExtMessage": "فۆرماتی نەزانراوی وێنە.",
     "uploadImageFileCountMessage": "هیچ وێنەیەک بارنەکرا.",
-    "uploadImageSizeMessage": "وێنەکە زۆر گەورەیە. گەورەترین قەبارەی قبووڵکراو بریتییە لە 25 مێگابایت."
+    "uploadImageSizeMessage": "وێنەکە زۆر گەورەیە. گەورەترین قەبارەی قبووڵکراو بریتییە لە 25 مێگابایت.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "بارکردنی دراوە...",

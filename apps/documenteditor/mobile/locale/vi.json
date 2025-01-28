@@ -476,7 +476,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "textOk": "OK",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms."
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",

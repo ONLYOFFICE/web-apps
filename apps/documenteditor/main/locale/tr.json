@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Bir veri URL'si yapıştırın",
   "DE.Controllers.Toolbar.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Uyarı",
   "DE.Controllers.Toolbar.textAccent": "Aksan",
   "DE.Controllers.Toolbar.textBracket": "Ayraç",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Birleştir",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "Union",
   "DE.Views.Toolbar.textSmile": "Beyaz Gülen Yüz",
   "DE.Views.Toolbar.textSpaceAfter": "Sonrasında boşluk",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

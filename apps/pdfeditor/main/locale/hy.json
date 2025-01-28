@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Խոշորացնել {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Տառատեսակը, որը պատրաստվում եք պահպանել, հասանելի չէ ընթացիկ սարքում:<br>Տեքստի ոճը կցուցադրվի սարքի տառատեսակներից մեկի միջոցով, պահված տառատեսակը կօգտագործվի, երբ այն հասանելի լինի:<br>Ցանկանու՞մ եք շարունակել:",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Զգուշացում",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Խնդրում ենք մուտքագրել 1-ից 300 թվային արժեք:",
   "PDFE.Controllers.Toolbar.textGotIt": "Հասկանալի է",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
 }

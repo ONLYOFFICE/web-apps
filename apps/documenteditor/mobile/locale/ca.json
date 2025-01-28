@@ -470,6 +470,7 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"

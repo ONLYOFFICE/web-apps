@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Vložte URL -adresa domény",
   "DE.Controllers.Toolbar.errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
   "DE.Controllers.Toolbar.fileUrl": "Vložit URL adresu souboru",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Varování",
   "DE.Controllers.Toolbar.textAccent": "Zvýraznění",
   "DE.Controllers.Toolbar.textBracket": "Závorky",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Sloučit",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "Sjednocení",
   "DE.Views.Toolbar.textSmile": "Veselý obličej",
   "DE.Views.Toolbar.textSpaceAfter": "Mezera za",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

@@ -2720,6 +2720,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Limba formulă",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Exemplu: Sumă; Min; Max; Calcul",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Afișare sfaturi ecran pentru funcții",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Afișare bară de defilare horizontală",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "Ignoră cuvintele cu MAJUSCULE",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsWithNumbers": "Ignoră cuvintele care conțin numere",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMacrosSettings": "Setări macrocomandă",
@@ -2740,6 +2741,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Separator mii",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Unitate de măsură ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Utiluzați separatoarele care sunt definite în setările regionale ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Afișare bară de defilare verticală",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "Valori implicite Zoom",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "La fiecare 10 minute",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "La fiecare 30 minute",
@@ -4571,7 +4573,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protejarea registrului de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduceți parola pentru dezactivarea protejării a foii de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Anularea protecției foii de calcul",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul"
 }

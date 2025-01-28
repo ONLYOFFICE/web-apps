@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>החיבור אבד</b>.<br>מנסה להתחבר. אנא בדוק הגדרות חיבור.",
   "PE.Controllers.Statusbar.zoomText": "זום {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "הגופן שאת/ה עומד/ת לשמור אינו זמין במכשיר הנוכחי.<br>סגנון הטקסט יוצג באמצעות אחד מגופני המערכת, הגופן שנשמר ישמש כאשר יהיה זמין.<br>האם להמשיך?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "הדגשות",
   "PE.Controllers.Toolbar.textBracket": "סוגריים",
   "PE.Controllers.Toolbar.textFontSizeErr": "הערך שהוזן אינו נכון.<br>נא להזין ערך מספרי בין 1 ל 300",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

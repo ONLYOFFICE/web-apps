@@ -722,6 +722,7 @@
     "errorDefaultMessage": "Error code: %1",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",

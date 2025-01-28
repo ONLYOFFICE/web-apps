@@ -1337,6 +1337,8 @@
   "DE.Controllers.Toolbar.dataUrl": "Colar um URL de dados",
   "DE.Controllers.Toolbar.errorAccessDeny": "Está a tentar executar uma ação para a qual não tem permissões.<br>Por favor contacte o administrador do servidor de documentos.",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
   "DE.Controllers.Toolbar.notcriticalErrorTitle": "Aviso",
   "DE.Controllers.Toolbar.textAccent": "Destaques",
   "DE.Controllers.Toolbar.textBracket": "Parênteses",
@@ -3505,7 +3507,7 @@
   "DE.Views.Toolbar.textShapesCombine": "Combine",
   "DE.Views.Toolbar.textShapesFragment": "Fragment",
   "DE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "DE.Views.Toolbar.textShapesSubstract": "Substract",
+  "DE.Views.Toolbar.textShapesSubstract": "Subtract",
   "DE.Views.Toolbar.textShapesUnion": "União",
   "DE.Views.Toolbar.textSmile": "White Smiling Face",
   "DE.Views.Toolbar.textSpaceAfter": "Space after",
@@ -3688,6 +3690,5 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
-  "DE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "DE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes"
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
 }

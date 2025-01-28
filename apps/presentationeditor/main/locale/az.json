@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Connection is lost</b><br>Trying to connect. Please check connection settings.",
   "PE.Controllers.Statusbar.zoomText": "Miqyası dəyişin {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Yadda saxlayacağınız şrift cari cihazda mövcud deyil. <br> Mətn üslubu sistem şriftlərindən biri ilə göstəriləcək, mövcud olduqda saxlanmış şrift istifadə olunacaq. <br> Davam etmək istəyirsiniz?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Vurğular",
   "PE.Controllers.Toolbar.textBracket": "Mötərizələr",
   "PE.Controllers.Toolbar.textFontSizeErr": "Daxil edilmiş dəyər yanlışdır. <br> 1 ilə 300 arasında rəqəmsal dəyər daxil edin",
@@ -2779,7 +2783,7 @@
   "PE.Views.Toolbar.textShapesCombine": "Combine",
   "PE.Views.Toolbar.textShapesFragment": "Fragment",
   "PE.Views.Toolbar.textShapesIntersect": "Intersect",
-  "PE.Views.Toolbar.textShapesSubstract": "Substract",
+  "PE.Views.Toolbar.textShapesSubstract": "Subtract",
   "PE.Views.Toolbar.textShapesUnion": "Union",
   "PE.Views.Toolbar.textShowBegin": "Başlanğıcdan göstərin",
   "PE.Views.Toolbar.textShowCurrent": "Cari Slayddan göstərin",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

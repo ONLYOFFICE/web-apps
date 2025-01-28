@@ -2720,6 +2720,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Formelsprache ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Beispiel: SUM; MIN; MAX; COUNT",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Tipps für Funktionen anzeigen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Horizontale Bildlaufleiste anzeigen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsInUPPERCASE": "Wörter in GROSSBUCHSTABEN ignorieren",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strIgnoreWordsWithNumbers": "Wörter mit Zahlen ignorieren",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMacrosSettings": "Makro-Einstellungen",
@@ -2740,6 +2741,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Tausendertrennzeichen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUnit": "Maßeinheit   ",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Trennzeichen basierend auf regionalen Einstellungen verwenden",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Vertikale Bildlaufleiste anzeigen",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strZoom": "Standard-Zoom-Wert",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text10Minutes": "Alle 10 Minuten",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Alle 30 Minuten",
@@ -4571,7 +4573,5 @@
   "SSE.Views.WBProtection.txtProtectWB": "Arbeitsmappe schützen",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strHScroll": "Show horizontal scroll bar",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strVScroll": "Show vertical scroll bar"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben"
 }

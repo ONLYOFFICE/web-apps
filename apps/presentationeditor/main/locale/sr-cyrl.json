@@ -1379,6 +1379,10 @@
   "PE.Controllers.Statusbar.textDisconnect": "<b>Конекција је изгубљена</b><br>Покушај конектовања. Молим вас проверите подешавања конекције.",
   "PE.Controllers.Statusbar.zoomText": "Зумирај {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Фонт који ћете сачувати није доступан на тренутном уређају.<br>Стил текста ће бити приказан користећи један од системских фонтова, сачувани фонт ће бити коришћен када буде доступан.<br>Да ли желите да наставите?",
+  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
+  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "Нагласци",
   "PE.Controllers.Toolbar.textBracket": "Заграде",
   "PE.Controllers.Toolbar.textFontSizeErr": "Унета вредност је нетачна.<br>Молимо унесите нумеричку вредност између 1 и 300.",
@@ -2975,9 +2979,5 @@
   "PE.Views.ViewTab.tipMacros": "Макрои",
   "PE.Views.ViewTab.tipNormal": "Нормалан",
   "PE.Views.ViewTab.tipSelectTool": "Одабери алатку",
-  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова",
-  "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
-  "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
-  "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab"
+  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова"
 }

@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Zmadhoj {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Fonti që do të ruani nuk disponohet në pajisjen aktuale.<br>Stili i tekstit do të shfaqet duke përdorur një nga fontet e pajisjes, fonti i ruajtur do të përdoret kur të jetë i disponueshëm.<br>Dëshironi që të vazhdoni?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Ju po përpiqeni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin e serverit të dokumenteve. ",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Futni stampa në dokumentet tuaja PDF.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stampa",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Zhbëni me lehtësi ndryshimet gjatë bashkëpunimit në PDF në modalitetin e shpejtë.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Zhbëni\" në bashkë-redaktim në kohë reale",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Zgjidhni pamje paraprake të shumta të faqeve për t'i lëvizur, fshirë ose rrotulluar me lehtësi.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Shumëzgjedhje për faqet PDF",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Paralajmërim",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Vlera e futu është e pasaktë.<br>Ju lutem vendosni një vlerë numerike midis 1 dhe 300",
   "PDFE.Controllers.Toolbar.textGotIt": "E kuptova",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }
