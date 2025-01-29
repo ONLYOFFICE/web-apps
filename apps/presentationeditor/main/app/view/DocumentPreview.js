@@ -189,7 +189,7 @@ define([
                 if (item.value === 'eraseAll') {
                     this.btnDraw.toggle(false);
                     const currentTool = this.btnDraw.menu.getChecked();
-                    currentTool?.setChecked(false);
+                    currentTool && currentTool.setChecked(false);
                 } else {
                     this.btnDraw.toggle(true);
                     this.currentDrawTool = item.value;
