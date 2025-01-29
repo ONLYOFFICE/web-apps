@@ -181,6 +181,7 @@ define([
                     item.setChecked(false);
                     this.drawTool['select']();
                     this.btnDraw.toggle(false);
+                    this.currentDrawTool = undefined;
                     return;
                 }
 
