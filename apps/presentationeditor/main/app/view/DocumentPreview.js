@@ -103,10 +103,10 @@ define([
             this.currentDrawColor = 'ff0000';
             this.drawTool = {
                 pen: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 1, opacity: 100 }),
-                highlighter: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 6, opacity: 50 }),
+                highlighter: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 1, color: this.currentDrawColor, size: 6, opacity: 50 }),
                 eraser: () => Common.NotificationCenter.trigger('draw-tool:eraser'),
                 eraseAll: () => Common.NotificationCenter.trigger('draw-tool:erase-all'),
-                stop: () => Common.NotificationCenter.trigger('draw-tool:stop'),
+                select: () => Common.NotificationCenter.trigger('draw-tool:select'),
             };
         },
 
@@ -179,7 +179,7 @@ define([
             this.btnDraw.menu.on('item:click', (_, item) => {
                 if (this.currentDrawTool === item.value) {
                     item.setChecked(false);
-                    this.drawTool['stop']();
+                    this.drawTool['select']();
                     this.btnDraw.toggle(false);
                     return;
                 }
@@ -445,7 +445,7 @@ define([
             this.$el.off('mousemove');
             this.fireEvent('editcomplete', this);
             Common.NotificationCenter.trigger('preview:hide');
-            Common.NotificationCenter.trigger('draw-tool:stop');
+            Common.NotificationCenter.trigger('draw-tool:select');
         },
 
         setApi: function(o) {

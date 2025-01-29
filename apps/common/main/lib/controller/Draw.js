@@ -74,7 +74,7 @@ define([
             Common.NotificationCenter.on({
                 'draw-tool:pen': this.startDraw.bind(this),
                 'draw-tool:eraser': this.startEraser.bind(this),
-                'draw-tool:stop': this.stopDraw.bind(this),
+                'draw-tool:select': this.stopDraw.bind(this),
                 'draw-tool:erase-all': this.onEraseAllInksOnSlide.bind(this),
                 'app:ready': this.onAppReady.bind(this),
                 'api:disconnect': _.bind(this.onCoAuthoringDisconnect, this)
