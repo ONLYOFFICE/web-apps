@@ -437,7 +437,7 @@ define([], function () {
                     '<td>',
                         '<div><div id="fms-cmb-macros"></div>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td><label><%= scope.strFontSizeType %></label></td>',
                     '<td><span id="fms-cmb-font-size-type"></span></td>',
                 '</tr>',
@@ -938,6 +938,9 @@ define([], function () {
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
+
+            if (Common.Utils.InternalSettings.get("de-settings-western-font-size")===undefined && this.cmbFontSizeType.cmpEl)
+                this.cmbFontSizeType.cmpEl.closest('tr').hide();
         },
 
         setApi: function(o) {
