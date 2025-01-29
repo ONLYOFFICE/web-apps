@@ -155,7 +155,7 @@ define([
                         { caption: '--' },
                         {
                             caption: this.txtInkColor,
-                            style: 'padding-left: 28px;',
+                            style: `padding-${Common.UI.isRTL() ? 'right' : 'left'}: 28px;`,
                             menu: new Common.UI.Menu({
                                 items: [{value:"FFFFFF"},{value:"000000"},{value:"E81416"},{value:"FFA500"},{value:"FAEB36"},{value:"79C314"},{value:"487DE7"},{value:"4B369D"},{value:"70369D"}],
                                 menuAlign: 'tl-tr',
