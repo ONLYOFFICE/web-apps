@@ -437,6 +437,10 @@ define([], function () {
                     '<td>',
                         '<div><div id="fms-cmb-macros"></div>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strFontSizeType %></label></td>',
+                    '<td><span id="fms-cmb-font-size-type"></span></td>',
+                '</tr>',
                 '<tr class ="divider-group"></tr>',
                 '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
@@ -763,6 +767,22 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.cmbFontSizeType = new Common.UI.ComboBox({
+                el          : $markup.find('#fms-cmb-font-size-type'),
+                style       : 'width: 160px;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                menuStyle   : 'min-width:100%;',
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: false, displayValue: this.strChinese },
+                    { value: true, displayValue: this.strWestern }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.chPaste = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-paste-settings'),
                 labelText: this.strPasteButton,
@@ -1011,6 +1031,9 @@ define([], function () {
             value = Common.Utils.InternalSettings.get("settings-tab-style");
             item = this.cmbTabStyle.store.findWhere({value: value});
             this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
+
+            if (Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined)
+                this.cmbFontSizeType.setValue(Common.Utils.InternalSettings.get("de-settings-western-font-size"));
         },
 
         applySettings: function() {
@@ -1072,6 +1095,12 @@ define([], function () {
 
             if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
+
+            if (Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined) {
+                var val = this.cmbFontSizeType.getValue();
+                Common.localStorage.setBool("de-settings-western-font-size", val);
+                Common.Utils.InternalSettings.set("de-settings-western-font-size", val);
             }
 
             Common.localStorage.save();

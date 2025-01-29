@@ -258,7 +258,8 @@
                     submitForm: {
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
-                    }
+                    },
+                    forceWesternFontSize: false/true // used only in the document editor with lang=zh, Chinese by default
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
