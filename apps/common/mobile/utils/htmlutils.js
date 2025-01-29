@@ -28,7 +28,7 @@ function isLocalStorageAvailable() {
     let lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
     lang = ((lang && lang[1]) || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
     Common.Locale.currentLang = lang;
-    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0 || lang.lastIndexOf('ku', 0) === 0;
+    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
 }
 
 {
