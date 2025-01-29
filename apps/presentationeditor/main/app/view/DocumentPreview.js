@@ -132,9 +132,10 @@ define([
                     style: 'min-width: 120px; height: auto; min-height: fit-content;',
                     additionalAlign: function(root) {
                         var parent = root.parent();
+                        var parentOffset = Common.Utils.getOffset(parent);
                         root.css({
-                            left: parent.offset().left + (parent.outerWidth() - root.outerWidth()) / 2,
-                            top: parent.offset().top - root.outerHeight() - 8
+                            left: parentOffset.left + (parent.outerWidth() - root.outerWidth()) / 2,
+                            top: parentOffset.top - root.outerHeight() - 8
                         });
                     },
                     items: [
