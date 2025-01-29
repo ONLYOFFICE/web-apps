@@ -47,8 +47,10 @@ define([], function () {
                 '<div class="current-plugin-frame">',
                 '</div>',
                 '<div class="current-plugin-header">',
+                    '<div class="tools">',
+                        '<div class="plugin-close close"></div>',
+                    '</div>',
                     '<label></label>',
-                    '<div class="plugin-close close"></div>',
                 '</div>',
             '</div>',
             '<div id="plugins-mask" style="display: none;">'
@@ -79,8 +81,28 @@ define([], function () {
                 hint: this.textClosePanel
             });
 
+            if(this.isCanDocked) {
+                this.showDockedButton();
+            }
+
             this.trigger('render:after', this);
             return this;
+        },
+
+        showDockedButton: function() {
+            var header = this.$el.find('.current-plugin-header .tools'),
+                btnId = 'id-pluginpnl-docked',
+                btn = header.find('#' + btnId);
+            if (btn.length < 1) {
+                var iconCls = 'btn-promote';
+                btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    this.fireEvent('docked', this.iframePlugin.id, this.variation);
+                }, this));
+                header.append(btn);
+            }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         openInsideMode: function(name, url, frameId, guid) {

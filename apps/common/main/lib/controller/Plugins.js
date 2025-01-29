@@ -604,9 +604,9 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        addPluginToSideMenu: function (plugin, langName, menu) {
+        addPluginToSideMenu: function (plugin, variation, langName, menu, frameId, url) {
             function createUniqueName (name) {
-                var n = name.toLowerCase().replace(/[^a-z0-9\-_:\.]/g, '-'),
+                var n = name.toLowerCase().replace(/[^a-z0-9\-_:]/g, '-'),
                     panelName = n;
                 var index = 0;
                 while(true) {
@@ -643,11 +643,122 @@ define([
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + name,
-                menu: menu
+                menu: menu,
+                isCanDocked: variation.get_IsCanDocked()
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
+            this.viewPlugins.pluginPanels[pluginGuid].on('docked', _.bind(function() {
+                this.onPluginClose(plugin);
+                this.addPluginToWindow(plugin, variation, langName, menu, frameId, url);
+                this.savePluginDockedPosition(pluginGuid, Asc.PluginType.Window);
+            }, this));
+           
+            if (!this.viewPlugins.pluginPanels[plugin.get_Guid()].openInsideMode(langName, url, frameId, plugin.get_Guid()))
+                this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
         },
 
+        addPluginToWindow: function(plugin, variation, langName, menu, frameId, url) {
+            var me = this;
+            var createPluginDlg = function () {
+                var isCustomWindow = variation.get_CustomWindow(),
+                    arrBtns = variation.get_Buttons(),
+                    newBtns = [],
+                    size = variation.get_Size(),
+                    isModal = variation.get_Modal();
+                if (!size || size.length<2) size = [800, 600];
+
+                if (_.isArray(arrBtns)) {
+                    _.each(arrBtns, function(b, index){
+                        if (b.visible)
+                            newBtns[index] = {caption: b.text, value: index, primary: b.primary};
+                    });
+                }
+
+                var help = variation.get_Help();
+                me.pluginDlg = new Common.Views.PluginDlg({
+                    guid: plugin.get_Guid(),
+                    cls: isCustomWindow ? 'plain' : '',
+                    header: !isCustomWindow,
+                    title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
+                    width: size[0], // inner width
+                    height: size[1], // inner height
+                    url: url,
+                    frameId : frameId,
+                    buttons: isCustomWindow ? undefined : newBtns,
+                    toolcallback: function(event) {
+                        me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                    },
+                    help: !!help,
+                    loader: plugin.get_Loader(),
+                    modal: isModal!==undefined ? isModal : true,
+                    isCanDocked: variation.get_IsCanDocked()
+                });
+                me.pluginDlg.on({
+                    'render:after': function(obj){
+                        obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                            me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                        });
+                        me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                    },
+                    'close': function(obj){
+                        me.pluginDlg = undefined;
+                    },
+                    'drag': function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    },
+                    'resize': function(args){
+                        me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                    },
+                    'help': function(){
+                        help && window.open(help, '_blank');
+                    },
+                    'docked': function(){
+                        me.onPluginClose(plugin);
+                        me.addPluginToSideMenu(plugin, variation, langName, menu, frameId, url);
+                        me.savePluginDockedPosition(plugin.get_Guid(), Asc.PluginType.Panel);
+                    },
+                    'header:click': function(type){
+                        me.api.asc_pluginButtonClick(type, plugin.get_Guid());
+                    }
+                });
+
+                me.pluginDlg.show();
+            };
+
+            if (this.pluginDlg) {
+                this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
+                setTimeout(createPluginDlg, 10);
+            } else {
+                createPluginDlg();
+            }
+        },
+
+        closePluginInPanel: function(guid) {
+            var panel = this.viewPlugins.pluginPanels[guid];
+            if (panel && panel.iframePlugin) {
+                panel.closeInsideMode(guid);
+                this.viewPlugins.pluginPanels[guid].$el.remove();
+                delete this.viewPlugins.pluginPanels[guid];
+                var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
+                this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
+                return true;
+            }
+            return false;
+        },
+
+        savePluginDockedPosition: function(guid, position) {
+            var state = (localStorage.getItem('plugins-docked-position') || '{}');
+            state = JSON.parse(state);
+            state[guid] = position;
+            localStorage.setItem('plugins-docked-position', JSON.stringify(state));
+        },
+
+        getPluginDockedPosition: function(guid) {
+            var state = (localStorage.getItem('plugins-docked-position') || '{}');
+            state = JSON.parse(state);
+            return state[guid];
+        },
+        
         openUIPlugin: function (id) {
             var model = this.viewPlugins.storePlugins.findWhere({guid: id}),
                 menu = model ? model.get('menu') : (this.viewPlugins.customPluginPanels[id] && this.viewPlugins.customPluginPanels[id].menu);
@@ -659,90 +770,30 @@ define([
             if (variation.get_Visual()) {
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.get_Url();
+                var langName = plugin.get_Name(lang);
+                var isCanDocked = variation.get_IsCanDocked();
+                var dockedPosition = this.getPluginDockedPosition(plugin.get_Guid());
+                var menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
+                var isInsideMode = variation.get_InsideMode();
+                
+                if(isCanDocked) {
+                    isInsideMode = dockedPosition === Asc.PluginType.Panel || dockedPosition === Asc.PluginType.PanelRight;
+                    menu = isInsideMode ? dockedPosition : menu;
+                }
+
+                !menu && (menu = 'left');
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
                 if (urlAddition)
                     url += urlAddition;
-                if (variation.get_InsideMode()) {
-                    var guid = plugin.get_Guid(),
-                        langName = plugin.get_Name(lang),
-                        menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
-                        !menu && (menu = 'left');
-                        this.addPluginToSideMenu(plugin, langName, menu);
-                    if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
-                        this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                if (isInsideMode) {
+                    this.addPluginToSideMenu(plugin, variation, langName, menu, frameId, url);
                 } else {
-                    var me = this;
-                    var createPluginDlg = function () {
-                        var isCustomWindow = variation.get_CustomWindow(),
-                            arrBtns = variation.get_Buttons(),
-                            newBtns = [],
-                            size = variation.get_Size(),
-                            isModal = variation.get_Modal();
-                        if (!size || size.length<2) size = [800, 600];
-
-                        if (_.isArray(arrBtns)) {
-                            _.each(arrBtns, function(b, index){
-                                if (b.visible)
-                                    newBtns[index] = {caption: b.text, value: index, primary: b.primary};
-                            });
-                        }
-
-                        var help = variation.get_Help();
-                        me.pluginDlg = new Common.Views.PluginDlg({
-                            guid: plugin.get_Guid(),
-                            cls: isCustomWindow ? 'plain' : '',
-                            header: !isCustomWindow,
-                            title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
-                            width: size[0], // inner width
-                            height: size[1], // inner height
-                            url: url,
-                            frameId : frameId,
-                            buttons: isCustomWindow ? undefined : newBtns,
-                            toolcallback: function(event) {
-                                me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
-                            },
-                            help: !!help,
-                            loader: plugin.get_Loader(),
-                            modal: isModal!==undefined ? isModal : true
-                        });
-                        me.pluginDlg.on({
-                            'render:after': function(obj){
-                                obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                    me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
-                                });
-                                me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                            },
-                            'close': function(obj){
-                                me.pluginDlg = undefined;
-                            },
-                            'drag': function(args){
-                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                                args[0].enablePointerEvents(args[1]!=='start');
-                            },
-                            'resize': function(args){
-                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                                args[0].enablePointerEvents(args[1]!=='start');
-                            },
-                            'help': function(){
-                                help && window.open(help, '_blank');
-                            },
-                            'header:click': function(type){
-                                me.api.asc_pluginButtonClick(type, plugin.get_Guid());
-                            }
-                        });
-
-                        me.pluginDlg.show();
-                    };
-                    if (this.pluginDlg) {
-                        this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
-                        setTimeout(createPluginDlg, 10);
-                    } else {
-                        createPluginDlg();
-                    }
-
+                    this.addPluginToWindow(plugin, variation, langName, menu, frameId, url);
                 }
+                this.viewPlugins.openedPluginMode(plugin.get_Guid(), isInsideMode);
+            } else {
+                this.viewPlugins.openedPluginMode(plugin.get_Guid(), variation.get_InsideMode());
             }
-            this.viewPlugins.openedPluginMode(plugin.get_Guid(), variation.get_InsideMode());
         },
 
         onPluginClose: function(plugin) {
@@ -751,15 +802,8 @@ define([
             if (this.pluginDlg && this.pluginDlg.guid === guid)
                 this.pluginDlg.close();
             else {
-                var panel = this.viewPlugins.pluginPanels[guid];
-                if (panel && panel.iframePlugin) {
-                    isIframePlugin = true;
-                    panel.closeInsideMode(guid);
-                    this.viewPlugins.pluginPanels[guid].$el.remove();
-                    delete this.viewPlugins.pluginPanels[guid];
-                    var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
-                    this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
-                }
+                var successClosed = this.closePluginInPanel(guid);
+                successClosed && (isIframePlugin = true);
             }
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
@@ -1161,6 +1205,7 @@ define([
                             me.api.asc_pluginButtonClick(-1, variation.guid, frameId);
                         },
                         help: !!help,
+                        isCanDocked: variation.isCanDocked,
                         modal: isModal!==undefined ? isModal : true
                     });
                     me.customPluginsDlg[frameId].on({
@@ -1183,6 +1228,9 @@ define([
                         },
                         'help': function(){
                             help && window.open(help, '_blank');
+                        },
+                        'docked': function(frameId){
+                            me.onPluginPanelShow(frameId, variation, lang);
                         },
                         'header:click': function(type){
                             me.api.asc_pluginButtonClick(type, variation.guid, frameId);
@@ -1222,8 +1270,9 @@ define([
                 var resizable = (minSize && minSize.length>1 && maxSize && maxSize.length>1 && (maxSize[0] > minSize[0] || maxSize[1] > minSize[1] || maxSize[0]==0 || maxSize[1] == 0));
                 this.customPluginsDlg[frameId].setResizable(resizable, minSize, maxSize);
                 this.customPluginsDlg[frameId].setInnerSize(size[0], size[1]);
-                if (callback)
-                    callback.call();
+            }
+            if (callback) {
+                callback.call();
             }
         },
 
@@ -1278,9 +1327,14 @@ define([
                 menu: menu,
                 frameId: frameId,
                 baseUrl: baseUrl,
-                icons: icons
+                icons: icons,
+                isCanDocked: variation.isCanDocked
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
+            this.viewPlugins.customPluginPanels[frameId].on('docked',  _.bind(function(frameId) {
+				this.onPluginWindowClose(frameId);
+				this.onPluginWindowShow(frameId, variation);
+            }, this));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);

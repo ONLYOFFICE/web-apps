@@ -99,17 +99,40 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-    }
 
-    .close {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 12px;
-        right: 12px;
-        .rtl & {
-            right: auto;
-            left: 12px;
+        .tools {
+            display: flex;
+            flex-direction: row-reverse;
+            position: absolute;
+            right: 0;
+            .padding-right-12();
+
+            .rtl & {
+                right: auto;
+                left: 0;
+            }
+
+            & > * {
+                width: 20px;
+                height: 20px;
+                &:not(:first-child) {
+                    .margin-right-2();
+                }
+            }
+            
+
+            .custom {
+                border-radius: 1px;
+                &:hover {
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
+                }
+                &:active {
+                    background-color: @highlight-button-pressed-ie;
+                    background-color: @highlight-button-pressed;
+                    background-position-x: @button-small-active-icon-offset-x;;
+                }
+            }
         }
     }
 

@@ -132,6 +132,10 @@ define([], function () {
             this.on('close', function() {
                 $(window).off('resize', onMainWindowResize);
             });
+
+            if(this.options.isCanDocked) {
+                this.showDockedButton();
+            }
         },
 
         _onLoad: function() {
@@ -200,6 +204,24 @@ define([], function () {
                 this.setWidth(Math.max(main_width-bordersOffset*2, this.initConfig.minwidth));
                 this.$window.css('left', bordersOffset);
             }
+        },
+
+        showDockedButton: function() {
+            var header = this.$window.find('.header .tools:not(.left)'),
+                // header = this.$window.find('.header .tools.left'),
+                btnId = 'id-plugindlg-docked',
+                btn = header.find('#' + btnId);
+            if (btn.length < 1) {
+                var iconCls = 'btn-promote';
+                btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    this.close();
+                    this.fireEvent('docked', this.frameId, this.options.variation);
+                }, this));
+                header.append(btn);
+            }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         showButton: function(id, toRight) {
