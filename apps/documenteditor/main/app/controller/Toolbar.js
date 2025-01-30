@@ -109,7 +109,8 @@ define([
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
-                    'menu:show': this.onFileMenu.bind(this, 'show')
+                    'menu:show': this.onFileMenu.bind(this, 'show'),
+                    'settings:apply': _.bind(this.applySettings, this)
                 },
                 'Common.Views.Header': {
                     'print': function (opts) {
@@ -3671,7 +3672,7 @@ define([
             var lang = config.lang ? config.lang.toLowerCase() : 'en',
                 langPrefix = lang.split(/[\-_]/)[0];
             if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
-                me._state.type_fontsize = 'string';
+                me._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
             }
 
             this.btnsComment = [];
@@ -3918,6 +3919,18 @@ define([
             }
         },
 
+        applySettings: function() {
+            if (this.toolbar.cmbFontSize && Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined) {
+                this.toolbar.cmbFontSize.setData(Common.Utils.InternalSettings.get("de-settings-western-font-size") ? this.toolbar._fontSizeWestern.concat(this.toolbar._fontSizeChinese) :
+                                                                                                                      this.toolbar._fontSizeChinese.concat(this.toolbar._fontSizeWestern));
+                this._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
+                if (this._state.fontsize!==undefined) {
+                    var oldval = this._state.fontsize;
+                    this._state.fontsize = undefined;
+                    this.onApiFontSize(parseFloat(oldval));
+                }
+            }
+        },
         onPluginToolbarMenu: function(data) {
             var api = this.api;
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
