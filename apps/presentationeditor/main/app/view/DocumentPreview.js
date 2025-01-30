@@ -101,7 +101,7 @@ define([
 
             this.pages = new PE.Models.Pages({current:1, count:1, start:1});
             this.pages.on('change', _.bind(_updatePagesCaption,this));
-            this.currentDrawColor = 'ff0000';
+            this.currentDrawColor = 'E81416';
             this.drawTool = {
                 pen: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 1, opacity: 100 }),
                 highlighter: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 1, color: this.currentDrawColor, size: 6, opacity: 50 }),
@@ -162,11 +162,9 @@ define([
                             {
                                 caption: this.txtInkColor,
                                 menu: new Common.UI.Menu({
-                                    // items: [{ value: "FFFFFF" }, { value: "000000" }, { value: "E81416" }, { value: "FFA500" }, { value: "FAEB36" }, { value: "79C314" }, { value: "487DE7" }, { value: "4B369D" }, { value: "70369D" }],
                                     menuAlign: 'tl-tr',
                                     cls: "preview-draw-color-picker-menu",
                                     style: 'min-width: 140px; padding: 0px; height: auto; min-height: fit-content;',
-                                    // itemTemplate: _.template('<div id="<%= id %>" class="preview-color-cell" style="background-color: #<%= options.value %>"></div>')
                                 })
                             },
                             { caption: '--' },
@@ -184,7 +182,8 @@ define([
 
                 this.drawColorPicker = new Common.UI.ColorPaletteExt({
                     el: $('.preview-draw-color-picker-menu'),
-                    colors: ["FFFFFF","000000","E81416","FFA500","FAEB36","79C314","487DE7","4B369D","70369D"]
+                    colors: ["FFFFFF","000000","E81416","FFA500","FAEB36","79C314","487DE7","4B369D","70369D"],
+                    value: 'E81416'
                 });
                 this.drawColorPicker.on('select', (_picker, color) => {
                     this.currentDrawColor = color;
