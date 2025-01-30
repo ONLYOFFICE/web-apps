@@ -69,16 +69,6 @@
           }
     }
 
-    .preview-color-cell {
-        cursor: pointer;
-        width: 16px;
-        height: 16px;
-        border: @scaled-one-px-value-ie solid #808080;
-        border: @scaled-one-px-value solid #808080;
-        float: left;
-        .margin-right-2();
-    }
-
     #btn-preview-draw {
         button {
             min-width: 20px;
@@ -91,6 +81,11 @@
             background-color: @highlight-button-pressed;
             &:before {
                 display: none;
+            }
+
+            .menu-item-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
             }
         }
     }

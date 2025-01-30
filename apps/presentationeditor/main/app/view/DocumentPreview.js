@@ -42,7 +42,8 @@ define([
     'backbone',
     'common/main/lib/component/BaseView',
     'presentationeditor/main/app/model/Pages',
-    'common/main/lib/component/InputField'
+    'common/main/lib/component/InputField',
+    'common/main/lib/component/ColorPaletteExt',
 ], function () {
     'use strict';
 
@@ -85,7 +86,7 @@ define([
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
                         '</div>',
                     '</div>',
-                    '<div class="preview-group dropup" style="display:flex;height: 100%;align-items: center;">',
+                    '<div id="preview-group-draw" class="preview-group" style="display:flex;height: 100%;align-items: center;">',
                         '<div class="separator"></div>',
                         '<div id="btn-preview-draw"></div>',
                     '</div>',
@@ -117,106 +118,115 @@ define([
                 scope: this
             }));
 
-            this.btnDraw = new Common.UI.Button({
-                parentEl: $('#btn-preview-draw', this.el),
-                cls: 'btn-toolbar small',
-                iconCls: 'toolbar__icon btn-pen-tool',
-                onlyIcon: true,
-                stopPropagation: true,
-                takeFocusOnClose: true,
-                hint: this.txtDraw,
-                hintAnchor: 'top',
-                hintContainer: '#pe-preview',
-                menu: new Common.UI.Menu({
-                    menuAlign: 'tl-tr',
-                    style: 'min-width: 120px; height: auto; min-height: fit-content;',
-                    additionalAlign: function(root) {
-                        var parent = root.parent();
-                        var parentOffset = Common.Utils.getOffset(parent);
-                        root.css({
-                            left: parentOffset.left + (parent.outerWidth() - root.outerWidth()) / 2,
-                            top: parentOffset.top - root.outerHeight() - 8
-                        });
-                    },
-                    items: [
-                        new Common.UI.MenuItem({
-                            caption: this.txtPen,
-                            value: 'pen',
-                            iconCls: 'menu__icon btn-pen-tool',
-                            checkable: true,
-                            toggleGroup: 'preview-draw-tool'
-                        }),
-                        new Common.UI.MenuItem({
-                            caption: this.txtHighlighter,
-                            value: 'highlighter',
-                            iconCls: 'menu__icon btn-highlighter-tool',
-                            checkable: true,
-                            toggleGroup: 'preview-draw-tool'
-                        }),
-                        { caption: '--' },
-                        {
-                            caption: this.txtInkColor,
-                            style: `padding-${Common.UI.isRTL() ? 'right' : 'left'}: 28px;`,
-                            menu: new Common.UI.Menu({
-                                items: [{value:"FFFFFF"},{value:"000000"},{value:"E81416"},{value:"FFA500"},{value:"FAEB36"},{value:"79C314"},{value:"487DE7"},{value:"4B369D"},{value:"70369D"}],
-                                menuAlign: 'tl-tr',
-                                style: 'min-width: 176px; padding: 5px; height: auto; min-height: fit-content;',
-                                itemTemplate: _.template('<div id="<%= id %>" class="preview-color-cell" style="background-color: #<%= options.value %>"></div>')
-                            })
+            if (Common.Utils.isIE) {
+                document.getElementById('preview-group-draw').style.display = 'none';
+            } else {
+                this.btnDraw = new Common.UI.Button({
+                    parentEl: $('#btn-preview-draw', this.el),
+                    cls: 'btn-toolbar small',
+                    iconCls: 'toolbar__icon btn-pen-tool',
+                    onlyIcon: true,
+                    stopPropagation: true,
+                    takeFocusOnClose: true,
+                    hint: this.txtDraw,
+                    hintAnchor: 'top',
+                    hintContainer: '#pe-preview',
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        cls: "shifted-right",
+                        style: 'min-width: 120px; height: auto; min-height: fit-content;',
+                        additionalAlign: function (root) {
+                            var parent = root.parent();
+                            var parentOffset = Common.Utils.getOffset(parent);
+                            root.css({
+                                left: parentOffset.left + (parent.outerWidth() - root.outerWidth()) / 2,
+                                top: parentOffset.top - root.outerHeight() - 8
+                            });
                         },
-                        { caption: '--' },
-                        new Common.UI.MenuItem({
-                            caption: this.txtEraser,
-                            value: 'eraser',
-                            iconCls: 'menu__icon btn-clearstyle',
-                            checkable: true,
-                            toggleGroup: 'preview-draw-tool'
-                        }),
-                        { caption: this.txtEraseScreen, value: 'eraseAll', iconCls: 'menu__icon btn-clear-all' },
-                    ]
-                }),
-            });
+                        items: [
+                            new Common.UI.MenuItem({
+                                caption: this.txtPen,
+                                value: 'pen',
+                                iconCls: 'menu__icon btn-pen-tool',
+                                checkable: true,
+                                toggleGroup: 'preview-draw-tool'
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: this.txtHighlighter,
+                                value: 'highlighter',
+                                iconCls: 'menu__icon btn-highlighter-tool',
+                                checkable: true,
+                                toggleGroup: 'preview-draw-tool'
+                            }),
+                            { caption: '--' },
+                            {
+                                caption: this.txtInkColor,
+                                menu: new Common.UI.Menu({
+                                    // items: [{ value: "FFFFFF" }, { value: "000000" }, { value: "E81416" }, { value: "FFA500" }, { value: "FAEB36" }, { value: "79C314" }, { value: "487DE7" }, { value: "4B369D" }, { value: "70369D" }],
+                                    menuAlign: 'tl-tr',
+                                    cls: "preview-draw-color-picker-menu",
+                                    style: 'min-width: 140px; padding: 0px; height: auto; min-height: fit-content;',
+                                    // itemTemplate: _.template('<div id="<%= id %>" class="preview-color-cell" style="background-color: #<%= options.value %>"></div>')
+                                })
+                            },
+                            { caption: '--' },
+                            new Common.UI.MenuItem({
+                                caption: this.txtEraser,
+                                value: 'eraser',
+                                iconCls: 'menu__icon btn-clearstyle',
+                                checkable: true,
+                                toggleGroup: 'preview-draw-tool'
+                            }),
+                            { caption: this.txtEraseScreen, value: 'eraseAll', iconCls: 'menu__icon btn-clear-all' },
+                        ]
+                    }),
+                });
 
-            this.btnDraw.menu.on('item:click', (_, item) => {
-                if (this.currentDrawTool === item.value) {
-                    item.setChecked(false);
-                    this.drawTool['select']();
-                    this.btnDraw.toggle(false);
-                    this.currentDrawTool = undefined;
-                    return;
-                }
-
-                if (item.value === 'eraseAll') {
-                    this.btnDraw.toggle(false);
+                this.drawColorPicker = new Common.UI.ColorPaletteExt({
+                    el: $('.preview-draw-color-picker-menu'),
+                    colors: ["FFFFFF","000000","E81416","FFA500","FAEB36","79C314","487DE7","4B369D","70369D"]
+                });
+                this.drawColorPicker.on('select', (_picker, color) => {
+                    this.currentDrawColor = color;
                     const currentTool = this.btnDraw.menu.getChecked();
-                    currentTool && currentTool.setChecked(false);
-                } else {
-                    this.btnDraw.toggle(true);
-                    this.currentDrawTool = item.value;
-                }
 
-                this.drawTool[item.value]();
-            });
+                    if (!currentTool) {
+                        this.btnDraw.toggle(true);
+                        this.btnDraw.menu.items[0].setChecked(true);
+                        this.drawTool['pen']();
+                        return;
+                    }
 
-            this.btnDraw.menu.items[3].menu.on('item:click', (menu, item) => {
-                this.currentDrawColor = item.value;
-                const currentTool = this.btnDraw.menu.getChecked();
-                this.btnDraw.toggle(true);
+                    if (currentTool.value === 'pen' || currentTool.value === 'highlighter') {
+                        this.drawTool[currentTool.value]();
+                    } else {
+                        this.btnDraw.menu.items[this.btnDraw.menu.items.indexOf(currentTool)].setChecked(false);
+                        this.btnDraw.menu.items[0].setChecked(true);
+                        this.drawTool['pen']();
+                    }
+                });
 
-                if (!currentTool) {
-                    this.btnDraw.menu.items[0].setChecked(true);
-                    this.drawTool['pen']();
-                    return;
-                }
+                this.btnDraw.menu.on('item:click', (_, item) => {
+                    if (this.currentDrawTool === item.value) {
+                        item.setChecked(false);
+                        this.drawTool['select']();
+                        this.btnDraw.toggle(false);
+                        this.currentDrawTool = undefined;
+                        return;
+                    }
 
-                if (currentTool.value === 'pen' || currentTool.value === 'highlighter') {
-                    this.drawTool[currentTool.value]();
-                } else {
-                    this.btnDraw.menu.items[this.btnDraw.menu.items.indexOf(currentTool)].setChecked(false);
-                    this.btnDraw.menu.items[0].setChecked(true);
-                    this.drawTool['pen']();
-                }
-            });
+                    if (item.value === 'eraseAll') {
+                        this.btnDraw.toggle(false);
+                        const currentTool = this.btnDraw.menu.getChecked();
+                        currentTool && currentTool.setChecked(false);
+                    } else {
+                        this.btnDraw.toggle(true);
+                        this.currentDrawTool = item.value;
+                    }
+
+                    this.drawTool[item.value]();
+                });
+            }
 
             this.btnPrev = new Common.UI.Button({
                 el: $('#btn-preview-prev',this.el),
@@ -267,6 +277,9 @@ define([
             });
             this.btnClose.on('click', _.bind(function() {
                 if (this.api) this.api.EndDemonstration();
+                this.btnDraw.menu.clearAll();
+                this.btnDraw.toggle(false);
+                this.currentDrawTool = undefined;
             }, this));
 
             this.btnFullScreen = new Common.UI.Button({
@@ -356,7 +369,7 @@ define([
                     me.btnFullScreen.changeIcon({curr: 'btn-fullscreen', next: 'btn-preview-exit-fullscreen'});
                 } else {
                     me.btnFullScreen.changeIcon({curr: 'btn-preview-exit-fullscreen', next: 'btn-fullscreen'});
-                    me.btnDraw.toggle(false);
+                    me.btnDraw.menu.hide();
                 }
 
                 setTimeout( function() {
