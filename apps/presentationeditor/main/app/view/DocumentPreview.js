@@ -276,9 +276,11 @@ define([
             });
             this.btnClose.on('click', _.bind(function() {
                 if (this.api) this.api.EndDemonstration();
-                this.btnDraw.menu.clearAll();
-                this.btnDraw.toggle(false);
-                this.currentDrawTool = undefined;
+                if (this.btnDraw) {
+                    this.btnDraw.menu.clearAll();
+                    this.btnDraw.toggle(false);
+                    this.currentDrawTool = undefined;
+                }
             }, this));
 
             this.btnFullScreen = new Common.UI.Button({
@@ -368,7 +370,9 @@ define([
                     me.btnFullScreen.changeIcon({curr: 'btn-fullscreen', next: 'btn-preview-exit-fullscreen'});
                 } else {
                     me.btnFullScreen.changeIcon({curr: 'btn-preview-exit-fullscreen', next: 'btn-fullscreen'});
-                    me.btnDraw.menu.hide();
+                    if (me.btnDraw) {
+                        me.btnDraw.menu.hide();
+                    }
                 }
 
                 setTimeout( function() {
