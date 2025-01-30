@@ -674,16 +674,20 @@ define([
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
+                    me.onEditComplete();
                 });
                 me.view.btnNext.on('click', function(){
                     me.api.asc_MoveToFillingForm(true);
+                    me.onEditComplete();
                 });
                 me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
+                    me.onEditComplete();
                 });
                 me.view.btnSubmit.on('click', function(){
                     if (!me.api.asc_IsAllRequiredFormsFilled()) {
                         me.api.asc_MoveToFillingForm(true, true, true);
+                        me.onEditComplete();
                         if (!me.requiredTooltip) {
                             me.requiredTooltip = new Common.UI.SynchronizeTip({
                                 extCls: 'colored',
@@ -726,9 +730,12 @@ define([
                 });
                 me.view.btnUndo.on('click', function(){
                     me.api.Undo(false);
+                    me.onEditComplete();
+
                 });
                 me.view.btnRedo.on('click', function(){
                     me.api.Redo(false);
+                    me.onEditComplete();
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -1098,7 +1105,7 @@ define([
                             closable: false,
                             msg: err,
                             callback: function(btn){
-                                Common.NotificationCenter.trigger('edit:complete', me);
+                                me.onEditComplete();
                             }
                         });
                     }).on('close', function(obj){
@@ -2131,6 +2138,11 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onEditComplete: function() {
+            var me = this;
+            me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
         },
 
         errorDefaultMessage     : 'Error code: %1',
