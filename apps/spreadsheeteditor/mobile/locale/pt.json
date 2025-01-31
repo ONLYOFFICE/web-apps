@@ -517,7 +517,8 @@
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
       "txtYes": "Sim",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

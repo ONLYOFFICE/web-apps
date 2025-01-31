@@ -517,7 +517,8 @@
       "sCustom": "Custom",
       "textDone": "Done",
       "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozornenie",

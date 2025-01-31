@@ -517,7 +517,8 @@
       "txtSorting": "Сортирање",
       "txtSortSelected": "Сортирај одабрано",
       "txtYes": "Да",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",

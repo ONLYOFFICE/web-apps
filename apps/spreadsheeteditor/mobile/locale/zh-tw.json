@@ -517,7 +517,8 @@
       "txtSortSelected": "排序已選擇項目",
       "txtYes": "是",
       "sCustom": "Custom",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

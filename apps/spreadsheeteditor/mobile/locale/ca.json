@@ -517,7 +517,8 @@
       "txtSortSelected": "Ordenar els objectes seleccionats",
       "txtYes": "Sí",
       "sCustom": "Custom",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",

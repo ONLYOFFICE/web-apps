@@ -517,7 +517,8 @@
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
       "txtYes": "Ano",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",

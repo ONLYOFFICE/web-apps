@@ -517,7 +517,8 @@
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
       "txtYes": "نعم",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
