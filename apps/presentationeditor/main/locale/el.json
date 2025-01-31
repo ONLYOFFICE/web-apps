@@ -2025,13 +2025,17 @@
   "PE.Views.DocumentPreview.goToSlideText": "Μετάβαση στη διαφάνεια",
   "PE.Views.DocumentPreview.slideIndexText": "Διαφάνεια {0} από {1}",
   "PE.Views.DocumentPreview.txtClose": "Κλείσιμο προβολής διαφανειών",
+  "PE.Views.DocumentPreview.txtDraw": "Σχεδίαση",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Τέλος προβολής διαφανειών",
+  "PE.Views.DocumentPreview.txtEraser": "Γόμα",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Έξοδος από την πλήρη οθόνη",
   "PE.Views.DocumentPreview.txtFinalMessage": "Τέλος προεπισκόπησης διαφανειών. Κάντε κλικ για έξοδο.",
   "PE.Views.DocumentPreview.txtFullScreen": "Πλήρης οθόνη",
+  "PE.Views.DocumentPreview.txtHighlighter": "Επισήμανση",
   "PE.Views.DocumentPreview.txtNext": "Επόμενη διαφάνεια",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Μη έγκυρος αριθμός διαφάνειας",
   "PE.Views.DocumentPreview.txtPause": "Παύση παρουσίασης",
+  "PE.Views.DocumentPreview.txtPen": "Πένα",
   "PE.Views.DocumentPreview.txtPlay": "Έναρξη παρουσίασης",
   "PE.Views.DocumentPreview.txtPrev": "Προηγούμενη διαφάνεια",
   "PE.Views.DocumentPreview.txtReset": "Επαναφορά",
@@ -2979,5 +2983,7 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
 }

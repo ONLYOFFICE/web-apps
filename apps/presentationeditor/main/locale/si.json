@@ -2979,5 +2979,11 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "සාමාන්‍ය",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය"
+  "PE.Views.ViewTab.tipSlideMaster": "ප්‍රධාන සර්පණය",
+  "PE.Views.DocumentPreview.txtDraw": "Draw",
+  "PE.Views.DocumentPreview.txtEraser": "Eraser",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
+  "PE.Views.DocumentPreview.txtPen": "Pen"
 }

@@ -2979,5 +2979,11 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
+  "PE.Views.DocumentPreview.txtDraw": "Draw",
+  "PE.Views.DocumentPreview.txtEraser": "Eraser",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
+  "PE.Views.DocumentPreview.txtPen": "Pen"
 }

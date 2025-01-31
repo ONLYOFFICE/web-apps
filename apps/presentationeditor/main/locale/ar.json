@@ -2025,13 +2025,16 @@
   "PE.Views.DocumentPreview.goToSlideText": "الذهاب إلى الشريحة",
   "PE.Views.DocumentPreview.slideIndexText": "الشريحة {0} من {1}",
   "PE.Views.DocumentPreview.txtClose": "إغلاق عرض الشرائح",
+  "PE.Views.DocumentPreview.txtDraw": "رسم",
   "PE.Views.DocumentPreview.txtEndSlideshow": "نهاية العرض التقديمي",
+  "PE.Views.DocumentPreview.txtEraser": "ممحاة",
   "PE.Views.DocumentPreview.txtExitFullScreen": "الخروج من وضع الشاشة الكاملة",
   "PE.Views.DocumentPreview.txtFinalMessage": "انتهى عرض الشريحة. اضغط للخروج",
   "PE.Views.DocumentPreview.txtFullScreen": "ملء الشاشة",
   "PE.Views.DocumentPreview.txtNext": "الشريحة التالية",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "رقم الشريحة غير صحيح",
   "PE.Views.DocumentPreview.txtPause": "ايقاف مؤقت للعرض التقديمي",
+  "PE.Views.DocumentPreview.txtPen": "قلم",
   "PE.Views.DocumentPreview.txtPlay": "بدء العرض التقديمي",
   "PE.Views.DocumentPreview.txtPrev": "الشريحة السابقة",
   "PE.Views.DocumentPreview.txtReset": "إعادة ضبط",
@@ -2979,5 +2982,8 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
 }
