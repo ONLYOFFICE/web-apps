@@ -260,6 +260,8 @@
                     },
                     slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
+                    showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
