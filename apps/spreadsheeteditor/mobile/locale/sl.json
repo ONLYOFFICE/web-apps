@@ -41,6 +41,7 @@
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "notcriticalErrorTitle": "Warning",
+      "sCatDatabase": "Database",
       "sCatDateAndTime": "Date and time",
       "sCatEngineering": "Engineering",
       "sCatFinancial": "Financial",
@@ -97,8 +98,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes",
-      "sCatDatabase": "Database"
+      "txtYes": "Yes"
     },
     "Edit": {
       "textChangeShape": "Spremeni obliko",

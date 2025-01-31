@@ -517,8 +517,8 @@
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
       "txtYes": "Ya",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "sCatDatabase": "Database",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",

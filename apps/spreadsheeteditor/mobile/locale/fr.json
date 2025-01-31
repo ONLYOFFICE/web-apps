@@ -289,7 +289,7 @@
     "errorDependentsNoFormulas": "La commande Tracer les dépendances n'a trouvé aucune formule faisant référence à la cellule active.",
     "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
-    "errorEditView": "L'actuelle vue de la feuille ne peut pas être éditée et les nouvelles ne peuvent pas être créées pour le moment parce que certaines d'entre elles sont en cours d'édition.",
+    "errorEditView": "Il est impossible de modifier le mode Feuille actuel et de créer de nouveaux modes pour le moment parce que certains modes sont en cours d'édition.",
     "errorEmailClient": "Aucun client d'email ne peut être trouvé",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileRequest": "Erreur externe.<br>Erreur de demande du fichier. Contactez l'assistance technique.",
@@ -465,6 +465,7 @@
       "errorMaxRows": "ERREUR! Le nombre maximal de séries de données par diagramme est 255.",
       "errorStockChart": "Ordre des lignes est incorrect. Pour créer un graphique boursier organisez vos données sur la feuille de calcul dans l'ordre suivant:<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
       "notcriticalErrorTitle": "Avertissement",
+      "sCatDatabase": "Base de données",
       "sCatDateAndTime": "Date et heure",
       "sCatEngineering": "Ingénierie",
       "sCatFinancial": "Financier",
@@ -523,8 +524,7 @@
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSorting": "Tri",
       "txtSortSelected": "Trier l'objet sélectionné ",
-      "txtYes": "Oui",
-      "sCatDatabase": "Database"
+      "txtYes": "Oui"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertissement",

@@ -459,6 +459,7 @@
       "errorMaxRows": "දෝෂයකි! ප්‍රස්ථාරයකට උපරිම දත්ත ශ්‍රේණි ගණන 255 කි.",
       "errorStockChart": "වැරදි පේළි අනුපිළිවෙලකි. කොටස් ප්‍රස්ථාරයක් තැනීමට, පහත දැක්වෙන අනුපිළිවෙලට පත්‍රයේ දත්ත තබන්න:<br> ඇරඹුම් මිල, උපරිම මිල, අවම මිල, අවසාන මිල.",
       "notcriticalErrorTitle": "අවවාදයයි",
+      "sCatDatabase": "දත්ත සමුදාය",
       "sCatDateAndTime": "දිනය සහ වේලාව",
       "sCatEngineering": "යන්ත්‍රණය",
       "sCatFinancial": "මූල්‍යමය",
@@ -517,8 +518,7 @@
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
       "txtYes": "ඔව්",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",

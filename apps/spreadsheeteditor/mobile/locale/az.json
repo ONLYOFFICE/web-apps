@@ -459,6 +459,7 @@
       "errorMaxRows": "XƏTA! Qrafik üzrə verilənlər seriyasının maksimum sayı 255-dir.",
       "errorStockChart": "Yanlış sıra ardıcıllığı. Birja qrafiki yaratmaq üçün məlumatları vərəqdə aşağıdakı ardıcıllıqla yerləşdirin:<br> açılış qiyməti, maksimum qiymət, minimum qiymət, bağlanış qiyməti.",
       "notcriticalErrorTitle": "Xəbərdarlıq",
+      "sCatDatabase": "Verilənlər bazası",
       "sCatDateAndTime": "Tarix və saat",
       "sCatEngineering": "Mühəndislik",
       "sCatFinancial": "Maliyyə",
@@ -517,8 +518,7 @@
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textPasteImageUrl": "Paste an image URL",
       "textThisRowHint": "Choose only this row of the specified column",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
-      "sCatDatabase": "Database"
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
     },
     "Edit": {
       "notcriticalErrorTitle": "Xəbərdarlıq",

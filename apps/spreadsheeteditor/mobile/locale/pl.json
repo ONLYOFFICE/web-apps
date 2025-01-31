@@ -444,6 +444,7 @@
   },
   "View": {
     "Add": {
+      "sCatDatabase": "Baza danych",
       "textAddLink": "Dodaj link",
       "textAddress": "Adres",
       "textBack": "Wstecz",
@@ -505,8 +506,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes",
-      "sCatDatabase": "Database"
+      "txtYes": "Yes"
     },
     "Edit": {
       "textAddCustomColor": "Dodaj niestandardowy kolor",

@@ -465,6 +465,7 @@
       "errorMaxRows": "GABIM! Numri maksimal i serive të të dhënave për grafik është 255.",
       "errorStockChart": "Rendi i gabuar i rreshtave. Për të ndërtuar një grafik aksionesh, vendosni të dhënat në fletë në rendin e mëposhtëm:<br> çmimi i hapjes, çmimi maksimal, çmimi minimal, çmimi i mbylljes.",
       "notcriticalErrorTitle": "Paralajmërim",
+      "sCatDatabase": "Baza e të dhënave",
       "sCatDateAndTime": "Data dhe ora",
       "sCatEngineering": "Inxhinieri",
       "sCatFinancial": "Financiare",
@@ -523,8 +524,7 @@
       "txtNotUrl": "Kjo fushë duhet të jetë në formatin URL \"http://www.example.com\"",
       "txtSorting": "Rendtitjen",
       "txtSortSelected": "Renditja e zgjedhur",
-      "txtYes": "Po",
-      "sCatDatabase": "Database"
+      "txtYes": "Po"
     },
     "Edit": {
       "notcriticalErrorTitle": "Paralajmërim",

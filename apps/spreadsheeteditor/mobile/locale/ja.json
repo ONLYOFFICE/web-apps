@@ -465,6 +465,7 @@
       "errorMaxRows": "エラー！ グラフごとのデータ系列の最大数は255です。",
       "errorStockChart": "行の順序が正しくありません。株価チャートを作るようにシートにこのようにデータを配置してください：<br>始値、最高価格、最小価格、終値。",
       "notcriticalErrorTitle": " 警告",
+      "sCatDatabase": "データベース",
       "sCatDateAndTime": "日付と時刻",
       "sCatEngineering": "エンジニアリング",
       "sCatFinancial": "財務",
@@ -523,8 +524,7 @@
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSorting": "並べ替え中",
       "txtSortSelected": "選択したを並べ替える",
-      "txtYes": "はい",
-      "sCatDatabase": "Database"
+      "txtYes": "はい"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",

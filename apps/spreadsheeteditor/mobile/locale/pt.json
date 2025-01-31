@@ -459,6 +459,7 @@
       "errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255.",
       "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de dados",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Engenharia",
       "sCatFinancial": "Financeiro",
@@ -517,8 +518,7 @@
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
       "txtYes": "Sim",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
