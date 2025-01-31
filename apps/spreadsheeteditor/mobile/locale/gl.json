@@ -517,7 +517,8 @@
       "txtYes": "Si",
       "sCustom": "Custom",
       "textDrawing": "Drawing",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

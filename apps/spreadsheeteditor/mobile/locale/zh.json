@@ -523,7 +523,8 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序中",
       "txtSortSelected": "对所选内容排序",
-      "txtYes": "是"
+      "txtYes": "是",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

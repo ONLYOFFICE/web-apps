@@ -517,7 +517,8 @@
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
       "textPasteImageUrl": "Paste an image URL",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Waarschuwing",

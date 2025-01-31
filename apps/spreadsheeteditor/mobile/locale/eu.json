@@ -517,7 +517,8 @@
       "txtSortSelected": "Antolatu hautaturiko objetuak",
       "txtYes": "Bai",
       "sCustom": "Custom",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",

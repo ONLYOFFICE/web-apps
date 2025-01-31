@@ -523,7 +523,8 @@
       "txtNotUrl": "Kjo fushë duhet të jetë në formatin URL \"http://www.example.com\"",
       "txtSorting": "Rendtitjen",
       "txtSortSelected": "Renditja e zgjedhur",
-      "txtYes": "Po"
+      "txtYes": "Po",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Paralajmërim",

@@ -517,7 +517,8 @@
       "txtSortSelected": "Kiválasztottak rendezése",
       "txtYes": "Igen",
       "sCustom": "Custom",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

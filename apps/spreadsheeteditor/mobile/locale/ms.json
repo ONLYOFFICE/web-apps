@@ -517,7 +517,8 @@
       "textDone": "Done",
       "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

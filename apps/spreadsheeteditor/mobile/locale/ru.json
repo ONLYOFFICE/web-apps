@@ -523,7 +523,8 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",

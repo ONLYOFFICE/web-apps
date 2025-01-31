@@ -517,7 +517,8 @@
       "txtSortSelected": "정렬 선택",
       "txtYes": "확인",
       "sCustom": "Custom",
-      "textDrawing": "Drawing"
+      "textDrawing": "Drawing",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",

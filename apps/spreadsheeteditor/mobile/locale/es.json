@@ -523,7 +523,8 @@
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar los objetos seleccionados",
-      "txtYes": "Sí"
+      "txtYes": "Sí",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertencia",
