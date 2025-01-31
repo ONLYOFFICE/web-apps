@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
+  "Draw": {
+    "textColor": "Colore",
+    "textCustomColor": "Colore personalizzato",
+    "textLineSize": "Dimensione della riga",
+    "textOpacity": "Opacità"
+  },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco dei documenti.",
@@ -443,16 +449,16 @@
     "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Rinomina file",
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Add": {
@@ -479,6 +485,7 @@
       "textDataTableHint": "Restituisce le celle di dati della tabella o le colonne della tabella specificate",
       "textDisplay": "Visualizzare",
       "textDone": "Fatto",
+      "textDrawing": "Disegno",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
       "textExternalLink": "Link esterno",
       "textFilter": "Filtro",
@@ -517,7 +524,6 @@
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
       "txtYes": "Sì",
-      "textDrawing": "Drawing",
       "sCatDatabase": "Database"
     },
     "Edit": {
@@ -867,11 +873,5 @@
       "txtZh": "Cinese",
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

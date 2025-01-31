@@ -465,6 +465,7 @@
       "errorMaxRows": "ΣΦΑΛΜΑ! Ο μέγιστος αριθμός σειρών δεδομένων ανά γράφημα είναι 255.",
       "errorStockChart": "Εσφαλμένη διάταξη γραμμών. Για να φτιάξετε γράφημα μετοχών, βάλτε τα δεδομένα στο φύλλο με την ακόλουθη σειρά:<br> τιμή εκκίνησης, μέγιστη τιμή, ελάχιστη τιμή, τιμή κλεισίματος.",
       "notcriticalErrorTitle": "Προειδοποίηση",
+      "sCatDatabase": "Βάση δεδομένων",
       "sCatDateAndTime": "Ημερομηνία και ώρα",
       "sCatEngineering": "Μηχανική",
       "sCatFinancial": "Χρηματοοικονομικά",
@@ -523,8 +524,7 @@
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSorting": "Ταξινόμηση",
       "txtSortSelected": "Ταξινόμηση επιλεγμένων",
-      "txtYes": "Ναι",
-      "sCatDatabase": "Database"
+      "txtYes": "Ναι"
     },
     "Edit": {
       "notcriticalErrorTitle": "Προειδοποίηση",

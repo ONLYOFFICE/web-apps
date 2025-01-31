@@ -513,12 +513,12 @@
       "txtSorting": "Pengisihan",
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
       "textDone": "Done",
       "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "sCatDatabase": "Database"
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

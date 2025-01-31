@@ -516,9 +516,9 @@
       "txtSorting": "Šķirošana",
       "txtSortSelected": "Šķirot izvēlēto",
       "txtYes": "Jā",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",

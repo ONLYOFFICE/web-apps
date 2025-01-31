@@ -459,6 +459,7 @@
       "errorMaxRows": "خطأ! الحد الأقصى لعدد سلاسل البيانات لكل مخطط هو 255.",
       "errorStockChart": "ترتيب الصف غير صحيح. لإنشاء مخطط أسهم، ضع البيانات في الجدول بهذا الترتيب:<br> سعر الافتتاح، أقصى سعر، أقل سعر، سعر الإغلاق",
       "notcriticalErrorTitle": "تحذير",
+      "sCatDatabase": "قاعدة بيانات",
       "sCatDateAndTime": "التاريخ و الوفت",
       "sCatEngineering": "الهندسة",
       "sCatFinancial": "مالي",
@@ -517,8 +518,7 @@
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
       "txtYes": "نعم",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",

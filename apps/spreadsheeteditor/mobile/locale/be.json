@@ -446,6 +446,7 @@
     "Add": {
       "errorMaxRows": "ПАМЫЛКА! максімальная колькасць радкоў даных адной дыяграмы - 255.",
       "notcriticalErrorTitle": "Увага",
+      "sCatDatabase": "Базы даных",
       "sCatEngineering": "Інжынерныя",
       "sCatFinancial": "Фінансавыя",
       "textAddLink": "Дадаць спасылку",
@@ -505,8 +506,7 @@
       "txtNo": "No",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected",
-      "sCatDatabase": "Database"
+      "txtSortSelected": "Sort selected"
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",

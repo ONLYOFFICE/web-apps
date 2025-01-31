@@ -459,6 +459,7 @@
       "errorMaxRows": "오류! 차트 당 최대 데이터 시리즈 수는 255입니다.",
       "errorStockChart": "줄의 순서가 잘못되었습니다. 주식형 차트를 생성하려면 <br> 시가, 최고가, 최저가, 종가의 순서로 데이터를 테이블에 배치하십시오.",
       "notcriticalErrorTitle": "경고",
+      "sCatDatabase": "데이터베이스",
       "sCatDateAndTime": "날짜 및 시간",
       "sCatEngineering": "엔지니어링",
       "sCatFinancial": "재무",
@@ -517,8 +518,7 @@
       "txtSortSelected": "정렬 선택",
       "txtYes": "확인",
       "sCustom": "Custom",
-      "textDrawing": "Drawing",
-      "sCatDatabase": "Database"
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
