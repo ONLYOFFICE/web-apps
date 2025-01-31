@@ -2025,10 +2025,13 @@
   "PE.Views.DocumentPreview.goToSlideText": "Přejít na snímek",
   "PE.Views.DocumentPreview.slideIndexText": "Snímek {0} z {1}",
   "PE.Views.DocumentPreview.txtClose": "Zavřít prezentaci",
+  "PE.Views.DocumentPreview.txtDraw": "Kreslit",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Ukončit prezentaci",
+  "PE.Views.DocumentPreview.txtEraser": "Guma",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Ukončit režim celé obrazovky",
   "PE.Views.DocumentPreview.txtFinalMessage": "Konec náhledu snímku. Opustíte kliknutím.",
   "PE.Views.DocumentPreview.txtFullScreen": "Na celou obrazovku",
+  "PE.Views.DocumentPreview.txtHighlighter": "Zvýrazňovač",
   "PE.Views.DocumentPreview.txtNext": "Další snímek",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Neplatné číslo snímku",
   "PE.Views.DocumentPreview.txtPause": "Pozastavit prezentaci",
@@ -2979,5 +2982,8 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
+  "PE.Views.DocumentPreview.txtPen": "Pen"
 }

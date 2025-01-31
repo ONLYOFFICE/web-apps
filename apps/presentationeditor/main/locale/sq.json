@@ -2025,13 +2025,17 @@
   "PE.Views.DocumentPreview.goToSlideText": "Shkoni në slajd",
   "PE.Views.DocumentPreview.slideIndexText": "Slajdi {0} nga {1}",
   "PE.Views.DocumentPreview.txtClose": "Mbyllni shfaqjen e slajdit",
+  "PE.Views.DocumentPreview.txtDraw": "Vizatoni",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Fundi i shfaqjes së slajdit",
+  "PE.Views.DocumentPreview.txtEraser": "Gomë",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Dilni nga ekrani i plotë",
   "PE.Views.DocumentPreview.txtFinalMessage": "Fundi i shikimit të slajdit. Klikoni për të dalë.",
   "PE.Views.DocumentPreview.txtFullScreen": "Ekran i plotë",
+  "PE.Views.DocumentPreview.txtHighlighter": "Theksues",
   "PE.Views.DocumentPreview.txtNext": "Slajdi i ardhshëm",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Numër i slajdit i pavlefshëm ",
   "PE.Views.DocumentPreview.txtPause": "Ndaloni prezantimin",
+  "PE.Views.DocumentPreview.txtPen": "Laps",
   "PE.Views.DocumentPreview.txtPlay": "Filloni prezantimin",
   "PE.Views.DocumentPreview.txtPrev": "Saljdi i mëparshëm",
   "PE.Views.DocumentPreview.txtReset": "Rivendosni",
@@ -2979,5 +2983,7 @@
   "PE.Views.ViewTab.tipMacros": "Makrot",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Selektoni mjetin",
-  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slajdi master",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
 }

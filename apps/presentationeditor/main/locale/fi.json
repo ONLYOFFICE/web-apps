@@ -2979,5 +2979,11 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normaali",
   "PE.Views.ViewTab.tipSelectTool": "Valitse työkalu",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.DocumentPreview.txtDraw": "Draw",
+  "PE.Views.DocumentPreview.txtEraser": "Eraser",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
+  "PE.Views.DocumentPreview.txtPen": "Pen"
 }
