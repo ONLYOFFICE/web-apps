@@ -51,6 +51,25 @@
             // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
             navigator.__defineGetter__('platform', () => 'Win32Debug');
 
+        const getUrlParams = () => {
+            let e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = s => decodeURIComponent(s.replace(a, " ")),
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        };
+        let params = getUrlParams();
+        if ( /pdf|djvu|xps|oxps/.test(params['fileType']) ) {
+            const toolbar = document.getElementsByClassName('skl-navbar--word')[0];
+            toolbar.classList.add('pdf-view');
+        }
+
         const element_add_class = (el, cls) => (el && el.classList.add(cls));
 
         let navbar = document.querySelector('.skl-navbar');
@@ -74,19 +93,6 @@
             element_add_class(navbar, `skl-navbar--md`);
         }
 
-        const getUrlParams = () => {
-            let e,
-                a = /\+/g,  // Regex for replacing addition symbol with a space
-                r = /([^&=]+)=?([^&]*)/g,
-                d = s => decodeURIComponent(s.replace(a, " ")),
-                q = window.location.search.substring(1),
-                urlParams = {};
-
-            while (e = r.exec(q))
-                urlParams[d(e[1])] = d(e[2]);
-
-            return urlParams;
-        };
         function encodeUrlParam(str) {
             return str.replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;')
@@ -94,7 +100,6 @@
                 .replace(/>/g, '&gt;');
         }
 
-        let params = getUrlParams();
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
     </script>
