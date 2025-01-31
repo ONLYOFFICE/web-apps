@@ -608,6 +608,13 @@ define([
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
+                    if (this.editorConfig.customization) {
+                        if (this.editorConfig.customization.showVerticalScroll!==undefined && this.editorConfig.customization.showVerticalScroll!==null)
+                            docInfo.asc_putShowVerticalScroll(this.editorConfig.customization.showVerticalScroll);
+                        if (this.editorConfig.customization.showHorizontalScroll!==undefined && this.editorConfig.customization.showHorizontalScroll!==null)
+                            docInfo.asc_putShowHorizontalScroll(this.editorConfig.customization.showHorizontalScroll);
+                    }
+
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
@@ -3689,6 +3696,13 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
+
+                    if (this.editorConfig.customization) {
+                        if (this.editorConfig.customization.showVerticalScroll!==undefined && this.editorConfig.customization.showVerticalScroll!==null)
+                            docInfo.asc_putShowVerticalScroll(this.editorConfig.customization.showVerticalScroll);
+                        if (this.editorConfig.customization.showHorizontalScroll!==undefined && this.editorConfig.customization.showHorizontalScroll!==null)
+                            docInfo.asc_putShowHorizontalScroll(this.editorConfig.customization.showHorizontalScroll);
+                    }
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                             this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
