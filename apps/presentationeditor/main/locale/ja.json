@@ -2979,5 +2979,11 @@
   "PE.Views.ViewTab.tipMacros": "マクロ",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSelectTool": "選択ツール",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Views.DocumentPreview.txtDraw": "Draw",
+  "PE.Views.DocumentPreview.txtEraser": "Eraser",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
+  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
+  "PE.Views.DocumentPreview.txtPen": "Pen"
 }
