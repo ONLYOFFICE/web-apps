@@ -258,7 +258,12 @@ define([
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
                     slideOf: me.previewPanel.slideIndexText,
-                    finalMessage: me.previewPanel.txtFinalMessage
+                    finalMessage: me.previewPanel.txtFinalMessage,
+                    pen: me.previewPanel.txtPen,
+                    highlighter: me.previewPanel.txtHighlighter,
+                    inkColor: me.previewPanel.txtInkColor,
+                    eraser: me.previewPanel.txtEraser,
+                    eraseScreen: me.previewPanel.txtEraseScreen,
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
                 reporterObject.customization = me.viewport.mode.customization;
