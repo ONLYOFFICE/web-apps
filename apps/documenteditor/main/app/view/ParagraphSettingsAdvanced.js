@@ -888,8 +888,10 @@ define([
                 this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
                 value = props.asc_getRtlDirection();
-                this.rbDirRtl.setValue(value, true);
-                this.rbDirLtr.setValue(!value, true);
+                if (value !== undefined) {
+                    this.rbDirRtl.setValue(value, true);
+                    this.rbDirLtr.setValue(!value, true);
+                }
 
                 this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.LEFT, true);
 
