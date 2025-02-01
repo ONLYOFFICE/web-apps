@@ -3690,5 +3690,15 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Souligné",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la police",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police",
-  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+  "DE.Controllers.Main.errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+  "DE.Controllers.Toolbar.helpRtlDir": "Toggle between right-to-left (RTL) and left-to-right (LTR) text direction in  your documents.",
+  "DE.Controllers.Toolbar.helpRtlDirHeader": "Switch text direction",
+  "DE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "DE.Views.ParagraphSettingsAdvanced.textDirLtr": "Left-to-right",
+  "DE.Views.ParagraphSettingsAdvanced.textDirRtl": "Right-to-left",
+  "DE.Views.Toolbar.textDirLtr": "Left-to-right",
+  "DE.Views.Toolbar.textDirRtl": "Right-to-left",
+  "DE.Views.Toolbar.tipTextDir": "Text direction",
+  "DE.Views.Toolbar.textIndBefore": "Indent before",
+  "DE.Views.Toolbar.textIndAfter": "Indent after"
 }
