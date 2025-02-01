@@ -207,10 +207,8 @@ define([
             if ( has_edit_users ) {
                 $panelUsers['show']();
                 $btnUsers.find('.caption').html(originalCount);
-                isPDFEditor && appConfig && (appConfig.isPDFEdit || appConfig.isPDFAnnotate || appConfig.isPDFFill) && Common.UI.TooltipManager.showTip('pdfCoedit')
             } else {
                 $panelUsers['hide']();
-                isPDFEditor && appConfig && (appConfig.isPDFEdit || appConfig.isPDFAnnotate || appConfig.isPDFFill) && Common.UI.TooltipManager.closeTip('pdfCoedit')
             }
             updateDocNamePosition();
         }
@@ -229,7 +227,6 @@ define([
 
                 usertip.hide();
             }
-            isPDFEditor && appConfig && (appConfig.isPDFEdit || appConfig.isPDFAnnotate || appConfig.isPDFFill) && Common.UI.TooltipManager.closeTip('pdfCoedit')
         }
 
         function updateDocNamePosition(config) {
@@ -488,7 +485,7 @@ define([
             }
 
             if (me.btnStartOver) {
-                me.btnStartOver.updateHint(me.tipStartOver);
+                me.btnStartOver.updateHint(me.tipStartOver + (Common.Utils.String.platformKey(Common.Utils.isMac ? 'Ctrl+Shift+enter' : 'Ctrl+F5')));
                 me.btnStartOver.on('click', function (e) {
                     me.fireEvent('startover', me);
                 });

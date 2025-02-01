@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
   },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
+  },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
@@ -443,19 +449,23 @@
     "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
-    "textRenameFile": "Redenumire fișier"
+    "textOk": "OK",
+    "textRenameFile": "Redenumire fișier",
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "EROARE! Număr maxim serii de date în diagramă este 225.",
       "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
       "notcriticalErrorTitle": "Avertisment",
+      "sCatDatabase": "Bază de date",
       "sCatDateAndTime": "Dată și oră",
       "sCatEngineering": "Inginerie",
       "sCatFinancial": "Financiar",
@@ -476,6 +486,7 @@
       "textDataTableHint": "Returnează celule de date dintr-un tabel sau colonele selectate într-un tabel",
       "textDisplay": "Afișare",
       "textDone": "Gata",
+      "textDrawing": "Desenare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFilter": "Filtrare",

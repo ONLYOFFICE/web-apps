@@ -437,6 +437,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -998,6 +999,8 @@ define([
                 value = Common.localStorage.getBool("pe-settings-showgrid");
                 Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
                 me.api.asc_setShowGridlines(value);
+
+                this.appOptions.customization && this.appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(this.appOptions.customization.slidePlayerBackground);
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),

@@ -158,7 +158,9 @@
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textEnterNewFileName": "Digite um novo nome de arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +209,8 @@
       "textVersion": "Versão",
       "textVisioInfo": "Informações do Visualizador de Diagramas",
       "textVisioSettings": "Configurações do Visualizador de Diagramas",
-      "textVisioTitle": "Título do Visualizador de Diagramas"
+      "textVisioTitle": "Título do Visualizador de Diagramas",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

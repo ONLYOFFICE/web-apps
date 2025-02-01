@@ -861,7 +861,8 @@ define([], function () {
         dh.disableSpecialPaste = function() {
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container'),
                 docProtection = this.documentHolder._docProtection,
-                disabled = this._isDisabled || docProtection.isReadOnly || docProtection.isCommentsOnly;
+                unprotectedRegion = this.documentHolder._unprotectedRegion,
+                disabled = this._isDisabled || docProtection.isReadOnly && !unprotectedRegion.canInsObject || docProtection.isCommentsOnly && !unprotectedRegion.canInsObject;
 
             if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
                 this.btnSpecialPaste.setDisabled(!!disabled);
@@ -2276,7 +2277,8 @@ define([], function () {
         dh.disableEquationBar = function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container'),
                 docProtection = this.documentHolder._docProtection,
-                disabled = this._isDisabled || this._state.equationLocked || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly;
+                unprotectedRegion = this.documentHolder._unprotectedRegion,
+                disabled = this._isDisabled || this._state.equationLocked || docProtection.isReadOnly && !unprotectedRegion.canInsObject || docProtection.isFormsOnly || docProtection.isCommentsOnly && !unprotectedRegion.canInsObject;
 
             if (eqContainer.length>0 && eqContainer.is(':visible')) {
                 this.equationBtns.forEach(function(item){

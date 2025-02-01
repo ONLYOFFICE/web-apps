@@ -449,13 +449,17 @@
     "stayButtonText": "ابقى في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textRenameFile": "إعادة تسمية الملف",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "خطأ! الحد الأقصى لعدد سلاسل البيانات لكل مخطط هو 255.",
       "errorStockChart": "ترتيب الصف غير صحيح. لإنشاء مخطط أسهم، ضع البيانات في الجدول بهذا الترتيب:<br> سعر الافتتاح، أقصى سعر، أقل سعر، سعر الإغلاق",
       "notcriticalErrorTitle": "تحذير",
+      "sCatDatabase": "قاعدة بيانات",
       "sCatDateAndTime": "التاريخ و الوفت",
       "sCatEngineering": "الهندسة",
       "sCatFinancial": "مالي",
@@ -513,7 +517,8 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم"
+      "txtYes": "نعم",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -862,5 +867,11 @@
       "txtZh": "الصينية",
       "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

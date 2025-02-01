@@ -129,7 +129,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'diagram' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 

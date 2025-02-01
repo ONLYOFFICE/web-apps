@@ -65,7 +65,8 @@
     "textTableSize": "حجم الجدول",
     "textWithBlueLinks": "بروابط زرقاء",
     "textWithPageNumbers": "مع أرقام الصفحات",
-    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
+    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -471,7 +472,8 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -813,6 +815,14 @@
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
     "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
-    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة."
+    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

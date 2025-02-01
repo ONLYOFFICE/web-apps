@@ -137,7 +137,7 @@ define([
                 if (!config.isPDFEdit) return;
 
                 var _set = Common.enumLock,
-                    arr = []
+                    arr = [];
                 // tab Edit
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
@@ -889,6 +889,21 @@ define([
                     });
                     this.toolbarControls.push(this.chShowComments);
 
+                    this.btnStamp = new Common.UI.Button({
+                        id: 'tlbtn-stamp',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.capBtnStamp,
+                        split: true,
+                        iconCls: 'toolbar__icon btn-stamp',
+                        lock: [_set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        menu: true,
+                        action: 'insert-stamp'
+                    });
+                    this.toolbarControls.push(this.btnStamp);
+
                     var colorsconfig = Common.UI.simpleColorsConfig;
                     this.btnStrikeout = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-strikeout',
@@ -1399,6 +1414,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-stamp', this.btnStamp);
                 this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
@@ -1564,6 +1580,21 @@ define([
                             ]
                         }));
                     }
+                    if (me.btnStamp) {
+                        me.btnStamp.setMenu(new Common.UI.Menu({
+                            restoreHeight: 500
+                        }));
+                        var menu = me.btnStamp.menu;
+                        if (menu.cmpEl) {
+                            menu.cmpEl.attr('ratio', 'ratio');
+                            menu.cmpEl.on('app:scaling', function (e, info) {
+                                if ( me.options.scaling != info.ratio ) {
+                                    menu.hide();
+                                    menu.removeAll();
+                                }
+                            });
+                        }
+                    }
                 });
             },
 
@@ -1603,6 +1634,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnStamp.updateHint(this.tipInsertStamp);
                 this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
@@ -1829,7 +1861,6 @@ define([
 
                 this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
-                Common.UI.TooltipManager.closeTip('pdfSave');
             },
 
             createSynchTip: function () {

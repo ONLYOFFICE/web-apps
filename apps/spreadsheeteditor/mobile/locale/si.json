@@ -449,13 +449,17 @@
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
     "textCloseHistory": "ඉතිහාසය වසන්න",
     "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
-    "textRenameFile": "ගොනුව නම් කරන්න"
+    "textRenameFile": "ගොනුව නම් කරන්න",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "දෝෂයකි! ප්‍රස්ථාරයකට උපරිම දත්ත ශ්‍රේණි ගණන 255 කි.",
       "errorStockChart": "වැරදි පේළි අනුපිළිවෙලකි. කොටස් ප්‍රස්ථාරයක් තැනීමට, පහත දැක්වෙන අනුපිළිවෙලට පත්‍රයේ දත්ත තබන්න:<br> ඇරඹුම් මිල, උපරිම මිල, අවම මිල, අවසාන මිල.",
       "notcriticalErrorTitle": "අවවාදයයි",
+      "sCatDatabase": "දත්ත සමුදාය",
       "sCatDateAndTime": "දිනය සහ වේලාව",
       "sCatEngineering": "යන්ත්‍රණය",
       "sCatFinancial": "මූල්‍යමය",
@@ -513,7 +517,8 @@
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
-      "txtYes": "ඔව්"
+      "txtYes": "ඔව්",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",
@@ -862,5 +867,11 @@
       "txtZh": "චීන",
       "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

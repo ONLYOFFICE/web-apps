@@ -276,7 +276,10 @@
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
     "textCloseHistory": "ඉතිහාසය වසන්න",
     "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
-    "textRenameFile": "ගොනුව නම් කරන්න"
+    "textRenameFile": "ගොනුව නම් කරන්න",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "සර්පණයේ අංකය",
       "textTable": "වගුව",
       "textTableSize": "වගුවේ ප්‍රමාණය",
-      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය."
+      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",
@@ -554,5 +558,11 @@
       "textVersion": "අනුවාදය",
       "textVersionHistory": "අනුවාද ඉතිහාසය"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

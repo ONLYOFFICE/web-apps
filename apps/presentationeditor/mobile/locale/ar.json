@@ -276,7 +276,10 @@
     "stayButtonText": "البقاء في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
-    "textRenameFile": "إعادة تسمية الملف"
+    "textRenameFile": "إعادة تسمية الملف",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "رقم الشريحة",
       "textTable": "جدول",
       "textTableSize": "حجم الجدول",
-      "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
+      "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",
@@ -554,5 +558,11 @@
       "textVersion": "الإصدار",
       "textVersionHistory": "سجل الإصدارات"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -3,6 +3,9 @@ import { inject, observer } from 'mobx-react';
 import {List, ListItem, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { MainContext } from '../../page/main';
+import { Device } from "../../../../../common/mobile/utils/device";
+import SvgIcon from "../../../../../common/mobile/lib/component/SvgIcon";
+import IconDraw from "../../../../../common/mobile/resources/icons/draw.svg";
 
 const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props => {
     const { t } = useTranslation();
@@ -33,6 +36,12 @@ const AddOther = inject("storeFocusObjects", "storeAppOptions")(observer(props =
                 isNavigate: true
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
+            </ListItem>
+            <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
+              props.closeModal();
+              Common.Notifications.trigger('draw:start');
+            }}>
+              <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
             </ListItem>
         </List>
     )

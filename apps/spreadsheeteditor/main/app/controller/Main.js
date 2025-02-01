@@ -483,6 +483,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -606,6 +607,13 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
+
+                    if (this.editorConfig.customization) {
+                        if (this.editorConfig.customization.showVerticalScroll!==undefined && this.editorConfig.customization.showVerticalScroll!==null)
+                            docInfo.asc_putShowVerticalScroll(this.editorConfig.customization.showVerticalScroll);
+                        if (this.editorConfig.customization.showHorizontalScroll!==undefined && this.editorConfig.customization.showHorizontalScroll!==null)
+                            docInfo.asc_putShowHorizontalScroll(this.editorConfig.customization.showHorizontalScroll);
+                    }
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
@@ -3148,6 +3156,7 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
+                this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -3176,6 +3185,7 @@ define([
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                     if (this._state.fastCoauth && !oldval)
                         this.synchronizeChanges();
+                    this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
@@ -3686,6 +3696,13 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
+
+                    if (this.editorConfig.customization) {
+                        if (this.editorConfig.customization.showVerticalScroll!==undefined && this.editorConfig.customization.showVerticalScroll!==null)
+                            docInfo.asc_putShowVerticalScroll(this.editorConfig.customization.showVerticalScroll);
+                        if (this.editorConfig.customization.showHorizontalScroll!==undefined && this.editorConfig.customization.showHorizontalScroll!==null)
+                            docInfo.asc_putShowHorizontalScroll(this.editorConfig.customization.showHorizontalScroll);
+                    }
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                             this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer

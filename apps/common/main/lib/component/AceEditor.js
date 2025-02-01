@@ -111,7 +111,8 @@ define([], function () {
             if (cmd && cmd.referer == "ace-editor") {
                 switch (cmd.command) {
                     case 'changeValue':
-                        this.fireEvent('change', cmd.data);
+                        data = cmd.data || {};
+                        this.fireEvent('change', data.value, data.pos);
                         break;
                     case 'aceEditorReady':
                         this.fireEvent('ready', cmd.data);
@@ -126,13 +127,14 @@ define([], function () {
                 this.loadMask.hide();
         },
 
-        setValue: function(value, readonly) {
+        setValue: function(value, currentPos, readonly) {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'setValue',
                 referer: 'ace-editor',
                 data: {
                     value: value,
-                    readonly: readonly
+                    readonly: readonly,
+                    currentPos: currentPos
                 }
             });
         },

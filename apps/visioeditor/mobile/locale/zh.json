@@ -153,12 +153,14 @@
     "waitText": "请稍候..."
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "您在该文档中有未保存的修改。点击“留在此页面”等待自动保存。点击“离开此页面”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "您退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "所有者",
       "textPoweredBy": "技术支持方",
       "textPrint": "打印",
+      "textRestartApplication": "要使更改生效，请重新启动应用程序",
       "textSameAsSystem": "与系统一致",
       "textSearch": "查找",
       "textSettings": "设置",

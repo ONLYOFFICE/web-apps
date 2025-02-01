@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Për",
+    "textAbout": "Rreth",
     "textAddress": "Adresa",
     "textBack": "Mbrapa",
     "textEditor": "Redaktori i Visio-s",
@@ -153,12 +153,14 @@
     "waitText": "Ju lutem, prisni..."
   },
   "Toolbar": {
+    "btnRestartNow": "Rinisni tani",
     "dlgLeaveMsgText": "Ju keni ndryshime të pa ruajtura në këtë dokument. Klikoni 'Qëndro në këtë faqe' të prisni për ruajtijen automatike. Klikoni'Lërni këtë faqe' për të hequr të gjitha ndyshimet e pa ruajtura.",
     "dlgLeaveTitleText": "Lërni aplikimin",
     "leaveButtonText": "Lëre këtë faqe",
     "stayButtonText": "Qëndroni në këtë faqe",
     "textEnterNewFileName": "Futni një emër të skedarit",
-    "textRenameFile": "Fshij skedarin"
+    "textRenameFile": "Fshij skedarin",
+    "textSwitchToDesktop": "Kaloni në versionin desktop"
   },
   "View": {
     "Edit": {
@@ -169,7 +171,7 @@
     },
     "Settings": {
       "notcriticalErrorTitle": "Paralajmërim",
-      "textAbout": "Për",
+      "textAbout": "Rreth",
       "textAddress": "adresa:",
       "textApplication": "Aplikim",
       "textApplicationSettings": "Cilësimet e aplikacionit",
@@ -196,6 +198,7 @@
       "textOwner": "Pronar",
       "textPoweredBy": "E drejtuar nga",
       "textPrint": "Printoni",
+      "textRestartApplication": "Ju lutem rinisni aplikimin që ndryshimet të hyjnë në fuqi",
       "textSameAsSystem": "Njëlloj si sistemi",
       "textSearch": "Gjej",
       "textSettings": "Cilësimet",

@@ -449,13 +449,17 @@
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor"
+    "textRenameFile": "Přejmenovat soubor",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "CHYBA! Maximální počet datových řad v grafu je 255.",
       "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
       "notcriticalErrorTitle": "Varování",
+      "sCatDatabase": "Databáze",
       "sCatDateAndTime": "Datum a čas",
       "sCatEngineering": "Technické",
       "sCatFinancial": "Finanční",
@@ -513,7 +517,8 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano"
+      "txtYes": "Ano",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -862,5 +867,11 @@
       "txtZh": "Čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

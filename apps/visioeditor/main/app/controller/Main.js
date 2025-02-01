@@ -346,7 +346,7 @@ define([
                 if( Common.Controllers.Desktop.isActive() ) {
                     !this.editorConfig.recent && (this.editorConfig.recent = []);
                 }
-                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || /*!_.isEmpty(this.editorConfig.createUrl) ||*/ this.editorConfig.templates && this.editorConfig.templates.length;
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
@@ -373,6 +373,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {

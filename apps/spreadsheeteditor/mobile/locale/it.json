@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
+  "Draw": {
+    "textColor": "Colore",
+    "textCustomColor": "Colore personalizzato",
+    "textLineSize": "Dimensione della riga",
+    "textOpacity": "Opacità"
+  },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco dei documenti.",
@@ -443,13 +449,16 @@
     "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textOk": "OK",
+    "textRenameFile": "Rinomina file",
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Restituisce le celle di dati della tabella o le colonne della tabella specificate",
       "textDisplay": "Visualizzare",
       "textDone": "Fatto",
+      "textDrawing": "Disegno",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
       "textExternalLink": "Link esterno",
       "textFilter": "Filtro",
@@ -513,7 +523,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì"
+      "txtYes": "Sì",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",

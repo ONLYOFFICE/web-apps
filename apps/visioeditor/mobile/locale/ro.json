@@ -153,12 +153,14 @@
     "waitText": "Vă rugăm să așteptați..."
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
-    "textRenameFile": "Redenumire fișier"
+    "textRenameFile": "Redenumire fișier",
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "Proprietar",
       "textPoweredBy": "Dezvoltat de",
       "textPrint": "Imprimare",
+      "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSettings": "Setări",

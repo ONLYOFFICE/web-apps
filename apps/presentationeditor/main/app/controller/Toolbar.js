@@ -306,12 +306,17 @@ define([
         },
 
         setMode: function(mode) {
-            var _main = this.getApplication().getController('Main');
+            var _main = this.getApplication().getController('Main'),
+                me = this;
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
-                // 'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'},
+                'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
+                                callback: function() {
+                                    if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
+                                        Common.UI.TooltipManager.showTip('mergeShapes');
+                                }},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-btn-shapes-merge', closable: false, prev: 'tabDesign'},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -995,6 +1000,9 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.inSlideMaster, in_slide_master, {array: [me.toolbar.btnInsertPlaceholder, me.toolbar.chTitle, me.toolbar.chFooters]});
                 this._state.in_slide_master = in_slide_master;
             }
+
+            if (!this.toolbar.btnShapesMerge.isDisabled() && this.toolbar.isTabActive('home'))
+                Common.UI.TooltipManager.showTip('mergeShapes');
         },
 
         onApiStyleChange: function(v) {
@@ -1763,8 +1771,9 @@ define([
             }
         },
 
-        onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+        onBeforeShapesMerge: function() {
+            Common.UI.TooltipManager.closeTip('mergeShapes', true);
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },
@@ -2784,6 +2793,7 @@ define([
 
                 var animationController = me.getApplication().getController('Animation');
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
+                Array.prototype.push.apply(me.toolbar.slideOnlyControls,animationController.getView().getButtons());
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
@@ -2851,6 +2861,11 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
+            Common.Utils.asyncCall(function () {
+                if ( config.isEdit ) {
+                    Common.UI.TooltipManager.showTip('tabDesign');
+                }
+            });
         },
 
         onFileMenu: function (opts) {
@@ -3103,13 +3118,19 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            if (tab !== 'home') {
+                Common.UI.TooltipManager.closeTip('tabDesign');
+                Common.UI.TooltipManager.closeTip('mergeShapes');
+            } else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+                setTimeout(function() {
+                    Common.UI.TooltipManager.showTip('mergeShapes');
+                }, 10);
             this._state.activeTab = tab;
             this.showStaticElements();
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('mergeShapes');
         },
 
         showStaticElements: function() {

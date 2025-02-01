@@ -476,6 +476,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -2297,6 +2298,11 @@ define([
                     case Asc.c_oAscError.ID.CannotSaveWatermark:
                         config.maxwidth = 600;
                         config.msg = this.errorSaveWatermark;
+                        break;
+
+                    case Asc.c_oAscError.ID.EditProtectedRange:
+                        config.maxwidth = 600;
+                        config.msg = this.errorEditProtectedRange;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:

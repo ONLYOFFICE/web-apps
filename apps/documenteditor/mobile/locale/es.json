@@ -27,6 +27,7 @@
     "textCurrentPosition": "Posición actual",
     "textDisplay": "Mostrar",
     "textDone": "Hecho",
+    "textDrawing": "Dibujar",
     "textEmptyImgUrl": "Hay que especificar URL de imagen.",
     "textEvenPage": "Página par",
     "textFootnote": "Nota a pie de página",
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Actualizar solamente los números de página",
     "textRows": "Filas",
     "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Color personalizado",
+    "textLineSize": "Tamaño de línea",
+    "textOpacity": "Opacidad "
   },
   "Edit": {
     "notcriticalErrorTitle": "Advertencia",
@@ -471,7 +478,8 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",
@@ -802,6 +810,7 @@
     "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar ahora",
     "btnSend": "Enviar",
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
@@ -813,6 +822,7 @@
     "textRenameFile": "Renombrar archivo",
     "textSwitchedMobileView": "Cambiado a vista móvil",
     "textSwitchedStandardView": "Cambiado a vista estándar",
+    "textSwitchToDesktop": "Cambiar a escritorio",
     "warnEmptyRequiredField": "Rellene todos los campos obligatorios para enviar el formulario."
   }
 }

@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
   },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
+  },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisnite 'OK' da se vratite na listu dokumenata.",
@@ -443,19 +449,23 @@
     "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?"
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napusti ovu Stranicu",
     "stayButtonText": "Ostani na ovoj Stranici",
     "textCloseHistory": "Zatvori Istoriju",
     "textEnterNewFileName": "Unesi novo ime fajla",
-    "textRenameFile": "Preimenuj Fajl"
+    "textOk": "OK",
+    "textRenameFile": "Preimenuj Fajl",
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Add": {
       "errorMaxRows": "GREŠKA! Maksimalan broj serije podataka po grafikonu je 255.",
       "errorStockChart": "Netačan red redova. Za izradu grafikona berzanske trgovine, postavite podatke na listu u sledećem redosledu:<br>otvarajuća cena, maks cena, min cena, zatvarajuća cena.",
       "notcriticalErrorTitle": "Upozorenje ",
+      "sCatDatabase": "Baza podataka",
       "sCatDateAndTime": "Datum i vreme",
       "sCatEngineering": "Inženjerstvo ",
       "sCatFinancial": "Finansijski ",
@@ -476,6 +486,7 @@
       "textDataTableHint": "Vraća ćelije podataka tabele ili određene kolone tabele",
       "textDisplay": "Ekran",
       "textDone": "Gotovo",
+      "textDrawing": "Crtanje",
       "textEmptyImgUrl": "Morate da specifikujete URL slike.",
       "textExternalLink": "Spoljni link",
       "textFilter": "Filter",

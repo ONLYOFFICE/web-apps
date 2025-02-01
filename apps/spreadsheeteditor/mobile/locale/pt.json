@@ -449,13 +449,17 @@
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255.",
       "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de dados",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Engenharia",
       "sCatFinancial": "Financeiro",
@@ -513,7 +517,8 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -862,5 +867,11 @@
       "txtZh": "Chinês",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

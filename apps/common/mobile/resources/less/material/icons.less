@@ -48,6 +48,10 @@
         }
     }
     .navbar {
+        .icon-svg {
+            fill: @toolbar-icons;
+        }
+
         i.icon {
             &.icon-collaboration {
                 width: 24px;
@@ -65,7 +69,7 @@
             &.icon-close {
                 width: 24px;
                 height: 24px;
-                .encoded-svg-mask('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.9844 6.42188L13.4062 12L18.9844 17.5781L17.5781 18.9844L12 13.4062L6.42188 18.9844L5.01562 17.5781L10.5938 12L5.01562 6.42188L6.42188 5.01562L12 10.5938L17.5781 5.01562L18.9844 6.42188Z"/></svg>', @text-normal);
+                .encoded-svg-mask('<svg xmlns="http://www.w3.org/2000/svg" fill="@{toolbar-icons}" width="24" height="24" viewBox="0 0 24 24"><path d="M18.9844 6.42188L13.4062 12L18.9844 17.5781L17.5781 18.9844L12 13.4062L6.42188 18.9844L5.01562 17.5781L10.5938 12L5.01562 6.42188L6.42188 5.01562L12 10.5938L17.5781 5.01562L18.9844 6.42188Z"/></svg>', @toolbar-icons);
             }
             &.icon-done-disabled {
                 width: 24px;

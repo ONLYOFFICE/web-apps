@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
+  "Draw": {
+    "textColor": "Գույն",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Փոխակերպման ժամկետը գերազանցվել է:",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
@@ -449,13 +455,17 @@
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
     "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
-    "textRenameFile": "Վերանվանել ֆայլը"
+    "textRenameFile": "Վերանվանել ֆայլը",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ՍԽԱԼ։ Մեկ գծապատկերի տվյալաշարքերի առավելագույն թիվը 255-ն է։",
       "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
       "notcriticalErrorTitle": "Զգուշացում",
+      "sCatDatabase": "Տվյալների բազա",
       "sCatDateAndTime": "Ամսաթիվ և ժամ",
       "sCatEngineering": "Ճարտարագիտական",
       "sCatFinancial": "Ֆինանսական",
@@ -513,7 +523,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",

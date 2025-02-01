@@ -327,6 +327,7 @@
   "VE.Views.FileMenu.btnSaveAsCaption": "حفظ باسم",
   "VE.Views.FileMenu.btnSaveCopyAsCaption": "حفظ نسخة باسم",
   "VE.Views.FileMenu.btnSettingsCaption": "الإعدادات المتقدمة",
+  "VE.Views.FileMenu.btnSwitchToMobileCaption": "Switch to Mobile",
   "VE.Views.FileMenu.textDownload": "تحميل",
   "VE.Views.FileMenuPanels.CreateNew.txtBlank": "مستند فارغ",
   "VE.Views.FileMenuPanels.CreateNew.txtCreateNew": "إنشاء جديد",

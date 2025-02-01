@@ -9,6 +9,9 @@ export class storeAppOptions {
             setConfigOptions: action,
             setPermissionOptions: action,
 
+            isDrawMode: observable,
+            changeDrawMode: action,
+
             lostEditingRights: observable,
             changeEditingRights: action,
             canBrandingExt: observable,
@@ -27,6 +30,11 @@ export class storeAppOptions {
     canBranding = true;
     config = {};
     customization;
+
+    isDrawMode = false;
+    changeDrawMode(value) {
+        this.isDrawMode = value;
+    }
 
     lostEditingRights = false;
     changeEditingRights (value) {

@@ -158,7 +158,9 @@
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor"
+    "textRenameFile": "Přejmenovat soubor",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -205,6 +207,7 @@
       "textTitle": "Název",
       "textUploaded": "Nahráno",
       "textVersion": "Verze",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textVisioInfo": "Diagram Viewer Info",
       "textVisioSettings": "Diagram Viewer Settings",
       "textVisioTitle": "Diagram Viewer Title"

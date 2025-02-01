@@ -179,9 +179,9 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.TooltipManager.addTips({
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
-                // 'pdfCoedit' : {name: 'help-tip-pdf-coedit', placement: 'bottom-left', text: this.helpPdfCoedit, header: this.helpPdfCoeditHeader, target: '#tlb-box-users', automove: true, maxwidth: 320},
-                // 'pdfSave' : {name: 'help-tip-pdf-save', placement: mode.compactHeader ? 'bottom-right' : 'right-bottom', text: this.helpPdfSave, header: this.helpPdfSaveHeader, target: mode.compactHeader ? '#slot-btn-save' : '#slot-btn-dt-save', automove: true, maxwidth: 320, extCls: 'inc-index'},
+                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
+                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
+                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -251,6 +251,9 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
+            toolbar.btnStamp.on('click',                                _.bind(this.onBtnStampClick, this));
+            toolbar.btnStamp.menu.on('item:click',                      _.bind(this.onMenuStampClick, this));
+            toolbar.btnStamp.menu.on('show:after',                      _.bind(this.onStampShowAfter, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -503,6 +506,11 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
                     this._state.can_undo = can;
+
+                    if (can) {
+                        var _main = this.getApplication().getController('Main');
+                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
+                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -762,7 +770,6 @@ define([
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
-                Common.UI.TooltipManager.closeTip('pdfSave');
                 Common.NotificationCenter.trigger('edit:complete', toolbar);
             }
         },
@@ -806,11 +813,12 @@ define([
         },
 
         onUndo: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('fastUndo');
+
             if (this.api)
                 this.api.Undo();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-
             Common.component.Analytics.trackEvent('ToolBar', 'Undo');
         },
 
@@ -1145,6 +1153,59 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
+        onBtnStampClick: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('addStamp');
+            this.onInsertStamp(btn.options.stampType, btn, e);
+        },
+
+        onMenuStampClick: function(btn, e) {
+            var oldType = this.toolbar.btnStamp.options.stampType;
+            var newType = e.value;
+
+            if(newType !== oldType){
+                this.toolbar.btnStamp.options.stampType = newType;
+            }
+            this.onInsertStamp(newType, btn, e);
+        },
+
+        onInsertStamp: function(type, btn, e) {
+            this.api && this.api.AddStampAnnot(type);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnStamp);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Stamp');
+        },
+
+        onStampShowAfter: function(menu) {
+            Common.UI.TooltipManager.closeTip('addStamp');
+
+            var me      = this;
+            if (menu.getItemsLength(true)<1 && this.api) {
+                var arr = this.api.asc_getPropertyEditorStamps(),
+                    template = _.template([
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
+                        '</a>'
+                    ].join(''));
+                if (arr.length>0) {
+                    arr.forEach(function(item){
+                        var menuItem = new Common.UI.MenuItem({
+                            value: item.Type,
+                            itemWidth: item.Image.width/Common.Utils.applicationPixelRatio(),
+                            itemHeight: item.Image.height/Common.Utils.applicationPixelRatio(),
+                            template: template
+                        });
+                        menu.addItem(menuItem, true);
+                        if (menuItem.cmpEl) {
+                            menuItem.cmpEl.find('div').append(item.Image);
+                            menuItem.cmpEl.find('canvas').css({width: '100%', height: '100%'});
+                        }
+
+                    });
+                    this.toolbar.btnStamp.options.stampType = arr[0].Type;
+                }
+            }
+        },
+
         onFillRequiredFields: function(isFilled) {
             this.toolbar && this.toolbar.btnSubmit && this.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.toolbar.btnSubmit]});
         },
@@ -1429,15 +1490,15 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            (tab === 'comment') ? Common.UI.TooltipManager.showTip('addStamp') : Common.UI.TooltipManager.closeTip('addStamp');
             if (tab === 'file') {
-                Common.UI.TooltipManager.closeTip('pdfCoedit');
-                Common.UI.TooltipManager.closeTip('pdfSave');
+                Common.UI.TooltipManager.closeTip('selectPages');
+                Common.UI.TooltipManager.closeTip('fastUndo');
             }
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('addStamp');
         },
 
         applySettings: function() {
@@ -2236,7 +2297,7 @@ define([
         },
 
         onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },

@@ -22,6 +22,7 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textFormat": "Format",
     "textImageURL": "Image URL",
@@ -659,6 +660,7 @@
   },
   "Toolbar": {
     "warnEmptyRequiredField": "Udfyld alle obligatoriske felter for at sende formularen.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
@@ -669,7 +671,8 @@
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "About": {
     "textAbout": "About",
@@ -713,6 +716,12 @@
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
@@ -729,6 +738,7 @@
     "errorDefaultMessage": "Error code: %1",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",

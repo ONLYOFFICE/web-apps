@@ -47,11 +47,17 @@ define([
         Common.enumLock = {};
 
     var enumLock = {
-        docLockView: 'lock-mode-view',
-        docLockForms: 'lock-mode-forms',
-        docLockReview: 'lock-mode-review',
-        docLockComments: 'lock-mode-comments',
-        protectLock: 'protect-lock'
+        docLockView: 'lock-mode-view', // protected (readonly) document
+        docLockForms: 'lock-mode-forms', // protected (fill forms) document
+        docLockReview: 'lock-mode-review', // protected (review) document
+        docLockComments: 'lock-mode-comments', // protected (commenting) document
+        protectLock: 'protect-lock',
+        docLockViewText: 'lock-mode-view-text', // lock text props in protected (readonly) document
+        docLockViewPara: 'lock-mode-view-para', // lock para props in protected (readonly) document
+        docLockViewIns: 'lock-mode-view-ins', // lock insert objects in protected (readonly) document
+        docLockCommentsText: 'lock-mode-comments-text', // lock text props in protected (commenting) document
+        docLockCommentsPara: 'lock-mode-comments-para', // lock para props in protected (commenting) document
+        docLockCommentsIns: 'lock-mode-comments-ins' // lock insert objects in protected (commenting) document
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

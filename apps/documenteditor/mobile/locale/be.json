@@ -63,6 +63,7 @@
     "textTableContents": "Змест",
     "textTableSize": "Памеры табліцы",
     "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -451,6 +452,7 @@
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact the admin.<br>When you click OK, you will be prompted to download the document.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
@@ -808,11 +810,19 @@
     "textCloseHistory": "Закрыць гісторыю",
     "textOk": "Добра",
     "warnEmptyRequiredField": "Запоўніце ўсе абавязковыя палі, патрэбныя для адпраўлення формы. ",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

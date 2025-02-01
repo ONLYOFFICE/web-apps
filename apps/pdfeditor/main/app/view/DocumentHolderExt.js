@@ -814,7 +814,7 @@ define([], function () {
                     me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     // me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     // me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || /*me.menuChartEdit.isVisible() || */me.menuChartAdvanced.isVisible());
+                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() /*|| me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/);
                     menuAdvancedSettingsSeparator.setVisible(
                         me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() ||
                         me.menuImgReplace.isVisible() || me.menuImageAdvanced.isVisible() ||

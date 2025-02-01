@@ -27,6 +27,7 @@
     "textCurrentPosition": "Poziția curentă",
     "textDisplay": "Afișare",
     "textDone": "Gata",
+    "textDrawing": "Desenare",
     "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
     "textEvenPage": "Pagină pară",
     "textFootnote": "Notă de subsol",
@@ -228,6 +229,12 @@
     "textRows": "Rânduri",
     "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
   },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
     "textActualSize": "Dimensiunea reală",
@@ -426,6 +433,7 @@
     "errorDefaultMessage": "Codul de eroare: %1",
     "errorDirectUrl": "Verificați linkul la document.<br>Trebuie să fie un link direct spre fișierul de încărcat.",
     "errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Încărcați documentul pentru copierea de rezervă locală. ",
+    "errorEditProtectedRange": "Nu aveți permisiunea de a edita selecția deoarece acestă este protejată.",
     "errorEmptyTOC": "Începeți să creați un cuprins prin aplicarea stilurilor de titlu din Galeria de stiluri la textul selectat.",
     "errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dvs.",
@@ -802,6 +810,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
@@ -813,6 +822,7 @@
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
     "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "textSwitchToDesktop": "Comutare la modul Desktop",
     "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }
