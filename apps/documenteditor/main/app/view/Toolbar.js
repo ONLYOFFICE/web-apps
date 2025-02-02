@@ -434,6 +434,21 @@ define([
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
 
+                    this.btnBorders = new Common.UI.Button({
+                        id: 'id-toolbar-btn-borders',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-border-out',
+                        borderId    : 'outer',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        borderscolor: Common.Utils.ThemeColor.getRgbColor('#000000'),
+                        split: true,    
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
+                    })    
+                    this.paragraphControls.push(this.btnBorders);               
+                    
                     this.btnChangeCase = new Common.UI.Button({
                         id: 'id-toolbar-btn-case',
                         cls: 'btn-toolbar',
@@ -2110,6 +2125,7 @@ define([
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
+                _injectComponent('#slot-btn-borders', this.btnBorders);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup);
@@ -2508,6 +2524,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnParagraphColor.updateHint(this.tipPrColor);
+                this.btnBorders.updateHint(this.tipBorders);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
@@ -2722,6 +2739,121 @@ define([
                     items: []
                 }));
 
+                if (this.btnBorders && this.btnBorders.rendered) {
+                    this.btnBorders.setMenu(new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items:[
+                            {
+                                caption: this.textBottomBorders,
+                                iconCls: 'menu__icon btn-border-bottom',
+                                borderId: 'bottom',
+                            },
+                            {
+                                caption: this.textTopBorders,
+                                iconCls: 'menu__icon btn-border-top',
+                                borderId: 'top',
+                            },
+                            {
+                                caption: this.textLeftBorders,
+                                iconCls: 'menu__icon btn-border-left',
+                                borderId: 'left',
+                            },
+                            {
+                                caption: this.textRightBorders,
+                                iconCls: 'menu__icon btn-border-right',
+                                borderId: 'right',
+                            },
+                            { caption: '--' },
+                            {
+                                caption: this.textNoBorders,
+                                iconCls: 'menu__icon btn-border-no',
+                                borderId: 'none',
+                            },
+                            {
+                                caption: this.textAllBorders,
+                                iconCls: 'menu__icon btn-border-all',
+                                borderId: 'all',
+                            },
+                            {
+                                caption: this.textOutBorders,
+                                iconCls: 'menu__icon btn-border-out',
+                                borderId: 'outer',
+                            },
+                            {
+                                caption: this.textInsideBorders,
+                                iconCls: 'menu__icon btn-border-inside',
+                                borderId: 'inner',
+                            },
+                            { caption: '--' },
+                            {
+                                id: 'id-toolbar-menu-item-border-width',
+                                caption: this.textBordersStyle,
+                                iconCls: 'menu__icon btn-border-style',
+                                menu: (function () {
+                                    var txtPt = ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt); 
+                                    var itemTemplate = _.template(
+                                        '<a id="<%= id %>" tabindex="-1" type="menuitem">' +
+                                          '<div class="border-size-item">' +
+                                            '<span class="border-size-text"><%= options.displayValue %></span>' +
+                                            '<svg><use xlink:href="#<%= options.imgId %>"></use></svg>' + 
+                                          '</div>' +
+                                        '</a>'
+                                      );
+                                    me.mnuBorderWidth = new Common.UI.Menu({
+                                        style: 'min-width: 100px;',
+                                        cls: 'shifted-right',
+                                        menuAlign: 'tl-tr',
+                                        id: 'toolbar-menu-borders-width',
+                                        items: [
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '0.5' + txtPt,   value: 0.5,  pxValue: 0.5,  imgId: 'half-pt', checked:true},
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '1 ' + txtPt,    value: 1,    pxValue: 1,    imgId: 'one-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '1.5 ' + txtPt,  value: 1.5,  pxValue: 2,    imgId: 'one-and-half-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '2.25 ' + txtPt, value: 2.25, pxValue: 3,    imgId: 'two-and-quarter-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '3 ' + txtPt,    value: 3,    pxValue: 4,    imgId: 'three-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '4.5 ' + txtPt,  value: 4.5,  pxValue: 6,    imgId: 'four-and-half-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '6 ' + txtPt,    value: 6,    pxValue: 8,    imgId: 'six-pt' },
+                                        ]
+                                    });
+                                    return me.mnuBorderWidth;
+                                })()
+                            },
+                            this.mnuBorderColor = new Common.UI.MenuItem({
+                                id: 'id-toolbar-mnu-item-border-color',
+                                caption: this.textBordersColor,
+                                iconCls: 'mnu-icon-item mnu-border-color',
+                                template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon"></span><%= caption %></a>'),
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    cls: 'shifted-left',
+                                    items: [
+                                        {
+                                            id: 'id-toolbar-menu-auto-bordercolor',
+                                            caption: this.textAutoColor,
+                                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto"></span><%= caption %></a>'),
+                                            stopPropagation: true
+                                        },
+                                        { caption: '--' },
+                                        { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                                        { caption: '--' },
+                                        {
+                                            id: "id-toolbar-menu-new-bordercolor",
+                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
+                                            stopPropagation: true
+                                        }
+                                    ]
+                                })
+                            })
+                        ]
+                }))   
+                this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-bordercolor'),
+                    outerMenu: {menu: this.mnuBorderColor.menu, index: 2},
+                    
+                });
+                this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 2}]);
+                this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors()) 
+            }    
+                    
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     var smartArtData = Common.define.smartArt.getSmartArtData();
                     smartArtData.forEach(function (item, index) {
