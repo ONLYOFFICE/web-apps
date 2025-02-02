@@ -556,11 +556,19 @@ module.exports = function(grunt) {
                     dest: packageFile.main.reporter.uglify.dest
                 },
             },
+            inline: {
+                options: {
+                    uglify: true
+                },
+                dist: {
+                    src: '<%= Object.keys(pkg.main.reporter.copy)[0] %>'
+                }
+            },
             copy: packageFile.main.reporter.copy
         });
 
 
-        grunt.task.run(['terser', 'copy']);
+        grunt.task.run(['terser', 'copy', 'inline']);
     });
 
     grunt.registerTask('mobile-app-init', function() {
