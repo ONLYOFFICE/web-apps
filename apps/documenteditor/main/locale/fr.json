@@ -3700,5 +3700,6 @@
   "DE.Views.Toolbar.textDirRtl": "Right-to-left",
   "DE.Views.Toolbar.tipTextDir": "Text direction",
   "DE.Views.Toolbar.textIndBefore": "Indent before",
-  "DE.Views.Toolbar.textIndAfter": "Indent after"
+  "DE.Views.Toolbar.textIndAfter": "Indent after",
+  "DE.Views.DocumentHolder.textFieldCodes": "Toggle field codes"
 }

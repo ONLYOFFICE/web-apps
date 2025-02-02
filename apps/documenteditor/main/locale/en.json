@@ -1965,6 +1965,7 @@
   "DE.Views.DocumentHolder.textDistributeRows": "Distribute rows",
   "DE.Views.DocumentHolder.textEditControls": "Content control settings",
   "DE.Views.DocumentHolder.textEditField": "Edit field",
+  "DE.Views.DocumentHolder.textFieldCodes": "Toggle field codes",
   "DE.Views.DocumentHolder.textEditObject": "Edit object",
   "DE.Views.DocumentHolder.textEditPoints": "Edit points",
   "DE.Views.DocumentHolder.textEditWrapBoundary": "Edit wrap boundary",
