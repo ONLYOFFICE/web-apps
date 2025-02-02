@@ -1362,14 +1362,9 @@ define([
             if (this.api) {
                 if (!btn.pressed) {
                     if (this._state.rtlDir)
-                        type = (type==0) ? 3 : 1;
+                        type = (type==0) ? 3 : 0;
                     else
                         type = (type==1) ? 3 : 1;
-                } else {
-                    if (this._state.rtlDir) {
-                        if (type===0) type = 1;
-                        else if (type===1) type = 0;
-                    }
                 }
                 this.api.put_PrAlign(type);
             }
