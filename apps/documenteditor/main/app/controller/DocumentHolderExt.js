@@ -278,6 +278,8 @@ define([], function () {
             view.menuParaRefreshField.on('click', _.bind(me.onRefreshField, me));
             view.menuTableEditField.on('click', _.bind(me.onEditField, me));
             view.menuParaEditField.on('click', _.bind(me.onEditField, me));
+            view.menuTableFieldCodes.on('click', _.bind(me.onFieldCodes, me));
+            view.menuParaFieldCodes.on('click', _.bind(me.onFieldCodes, me));
             view.menuParagraphBreakBefore.on('click', _.bind(me.onParagraphBreakBefore, me));
             view.menuParagraphKeepLines.on('click', _.bind(me.onParagraphKeepLines, me));
             view.menuParagraphVAlign.menu.on('item:click', _.bind(me.paragraphVAlign, me));
@@ -2043,6 +2045,11 @@ define([], function () {
 
         dh.onEditField = function(item, e){
             this.documentHolder.fireEvent('field:edit', ['edit']);
+        };
+
+        dh.onFieldCodes = function(item, e){
+            this.api && this.api.asc_ToggleComplexFieldCodes();
+            this.editComplete();
         };
 
         dh.onParagraphBreakBefore = function(item, e){

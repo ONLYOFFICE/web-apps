@@ -1005,6 +1005,9 @@ define([], function () {
             me.menuTableEditField = new Common.UI.MenuItem({
                 caption: me.textEditField
             });
+            me.menuTableFieldCodes = new Common.UI.MenuItem({
+                caption: me.textFieldCodes
+            });
 
             var menuTableFieldSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1113,7 +1116,7 @@ define([], function () {
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 11; i < 31; i++) { // from menuEquationSeparatorInTable to menuAddCommentTable (except menuAddCommentTable)
+                    for (var i = 11; i < 32; i++) { // from menuEquationSeparatorInTable to menuAddCommentTable (except menuAddCommentTable)
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -1317,6 +1320,8 @@ define([], function () {
                     me.menuTableRefreshField.setDisabled(disabled);
                     me.menuTableEditField.setVisible(!!in_field);
                     me.menuTableEditField.setDisabled(disabled);
+                    me.menuTableFieldCodes.setVisible(!!in_field);
+                    me.menuTableFieldCodes.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
                 },
                 items: [
@@ -1333,6 +1338,7 @@ define([], function () {
                     menuEquationSeparatorInTable,
                     me.menuTableRefreshField,
                     me.menuTableEditField,
+                    me.menuTableFieldCodes,
                     menuTableFieldSeparator,
                     me.menuTableSelectText,
                     me.menuTableInsertText,
@@ -1683,6 +1689,9 @@ define([], function () {
             me.menuParaEditField = new Common.UI.MenuItem({
                 caption: me.textEditField
             });
+            me.menuParaFieldCodes = new Common.UI.MenuItem({
+                caption: me.textFieldCodes
+            });
 
             var menuParaFieldSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1927,6 +1936,8 @@ define([], function () {
                     me.menuParaRefreshField.setDisabled(disabled);
                     me.menuParaEditField.setVisible(!!in_field);
                     me.menuParaEditField.setDisabled(disabled);
+                    me.menuParaFieldCodes.setVisible(!!in_field);
+                    me.menuParaFieldCodes.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1975,6 +1986,7 @@ define([], function () {
                     menuParaControlSeparator,
                     me.menuParaRefreshField,
                     me.menuParaEditField,
+                    me.menuParaFieldCodes,
                     menuParaFieldSeparator,
                     me.menuParaTOCSettings,
                     me.menuParaTOCRefresh,
