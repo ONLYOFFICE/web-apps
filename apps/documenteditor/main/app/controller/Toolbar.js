@@ -86,7 +86,8 @@ define([
                 in_equation: false,
                 in_chart: false,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
-                suppress_num: undefined
+                suppress_num: undefined,
+                rtlDir: undefined
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -612,20 +613,13 @@ define([
         },
 
         onApiParagraphAlign: function(v) {
-            if (this._state.pralign !== v) {
+            if (this._state.pralign !== v || this.api.asc_isRtlTextDirection() !== this._state.rtlDir) {
                 this._state.pralign = v;
+                this._state.rtlDir = this.api.asc_isRtlTextDirection();
 
                 var index = -1,
                     align,
                     toolbar = this.toolbar;
-
-                switch (v) {
-                    case 0: index = 2; align = 'btn-align-right'; break;
-                    case 1: index = 0; align = 'btn-align-left'; break;
-                    case 2: index = 1; align = 'btn-align-center'; break;
-                    case 3: index = 3; align = 'btn-align-just'; break;
-                    default:  index = -255; align = 'btn-align-left'; break;
-                }
 
                 if (v === null || v===undefined) {
                     toolbar.btnAlignRight.toggle(false, true);
@@ -635,8 +629,8 @@ define([
                     return;
                 }
 
-                toolbar.btnAlignRight.toggle(v===0, true);
-                toolbar.btnAlignLeft.toggle(v===1, true);
+                toolbar.btnAlignRight.toggle(this._state.rtlDir ? v===1 : v===0, true);
+                toolbar.btnAlignLeft.toggle(this._state.rtlDir ? v===0 : v===1, true);
                 toolbar.btnAlignCenter.toggle(v===2, true);
                 toolbar.btnAlignJust.toggle(v===3, true);
             }
@@ -1367,7 +1361,15 @@ define([
             this._state.pralign = undefined;
             if (this.api) {
                 if (!btn.pressed) {
-                    type = (type==1) ? 3 : 1;
+                    if (this._state.rtlDir)
+                        type = (type==0) ? 3 : 1;
+                    else
+                        type = (type==1) ? 3 : 1;
+                } else {
+                    if (this._state.rtlDir) {
+                        if (type===0) type = 1;
+                        else if (type===1) type = 0;
+                    }
                 }
                 this.api.put_PrAlign(type);
             }
