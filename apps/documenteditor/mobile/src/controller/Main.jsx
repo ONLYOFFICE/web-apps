@@ -247,7 +247,7 @@ class MainController extends Component {
                 }
 
                 const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isFormType = /^(pdf|docxf|oform|djvu|xps|oxps)$/.test(fileType);
                 const isPDF = fileType === 'pdf';
 
                 if(isFormType) {
