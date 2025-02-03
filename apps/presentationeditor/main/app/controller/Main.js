@@ -1221,7 +1221,8 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     header: {search: type==='not-loaded'},
-                    shortcuts: type==='not-loaded'
+                    shortcuts: type==='not-loaded',
+                    documentPreview: {draw: false}
                 }, type || 'disconnect');
             },
 
@@ -1279,7 +1280,9 @@ define([
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
-
+                if (options.documentPreview) {
+                    options.documentPreview.draw && app.getController('Viewport').setDisabledPreview(disable);
+                }
                 if (prev_options) {
                     this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }

@@ -113,6 +113,7 @@ define([
             Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
             Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
+            this._isDisabledPreview = false;
         },
 
         setApi: function(api) {
@@ -274,6 +275,7 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                 }, 100);
                 this.previewPanel.show();
+                this.previewPanel.btnDraw && this.previewPanel.btnDraw.setDisabled(this._isDisabledPreview);
                 var _onWindowResize = function() {
                     if (isResized) return;
                     isResized = true;
@@ -377,6 +379,10 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
+        },
+
+        setDisabledPreview: function(disable) {
+            this._isDisabledPreview = disable;
         },
 
         textFitPage: 'Fit to Page',
