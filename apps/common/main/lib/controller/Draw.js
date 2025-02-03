@@ -164,7 +164,10 @@ define([
                     this.api.asc_StopInkDrawer();
                 else {
                     this.view.depressButtons(btn);
-                    this.startDraw(btn.options.penOptions);
+                    var options = _.clone(btn.options.penOptions);
+                    options.size = options.size.arr[options.size.idx];
+                    options.index = options.idx;
+                    this.startDraw(options);
                 }
             }
         },
