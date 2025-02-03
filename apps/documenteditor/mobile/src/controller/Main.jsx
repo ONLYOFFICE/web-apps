@@ -246,15 +246,12 @@ class MainController extends Component {
                     }
                 }
 
-                const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform|djvu|xps|oxps)$/.test(fileType);
-                const isPDF = fileType === 'pdf';
 
-                if(isFormType) {
+                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
                     this.changeEditorBrandColorForPdf();
                 }
 
-                if(isPDF) {
+                if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
                     }
