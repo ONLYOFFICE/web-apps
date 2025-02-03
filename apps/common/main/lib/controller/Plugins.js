@@ -855,7 +855,7 @@ define([
                         isDisplayedInViewer = false,
                         isBackgroundPlugin = false,
                         isSystem;
-                    item.variations.forEach(function(itemVar, itemInd){
+                    item.variations && item.variations.forEach(function(itemVar, itemInd){
                         var variationType = Asc.PluginType.getType(itemVar.type);
                         isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
