@@ -505,6 +505,7 @@
       "txtSorting": "Sorterer",
       "txtSortSelected": "Sortèr valgte",
       "txtYes": "Ja",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",

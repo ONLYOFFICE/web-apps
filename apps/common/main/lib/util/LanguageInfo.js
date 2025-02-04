@@ -438,9 +438,7 @@ Common.util.LanguageInfo = new(function() {
         0x045f : ["tmz", "Tamanaku"],
         0x0c5f : ["tmz-MA", "Tamaziɣt n laṭlaṣ (Meṛṛuk)", "Tamanaku (Morocco)"],
         0x0431 : ["ts-ZA", "Tsonga (South Africa)", "Tsonga (South Africa)"],
-        0x0433 : ["ven-ZA", "South Africa", "South Africa"],
-        0x0092 : ["ku", "Central Kurdish"],
-        0x7C92 : ["ku-Arab", "کوردیی ناوەندی", "Central Kurdish"]
+        0x0433 : ["ven-ZA", "South Africa", "South Africa"]
     };
 
     return {

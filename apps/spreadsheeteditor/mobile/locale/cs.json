@@ -459,6 +459,7 @@
       "errorMaxRows": "CHYBA! Maximální počet datových řad v grafu je 255.",
       "errorStockChart": "Nesprávné pořadí řádků. Pro vytvoření burzovního grafu umístěte data na list v následujícím pořadí:<br> otevírací cena, maximální cena, minimální cena, uzavírací cena.",
       "notcriticalErrorTitle": "Varování",
+      "sCatDatabase": "Databáze",
       "sCatDateAndTime": "Datum a čas",
       "sCatEngineering": "Technické",
       "sCatFinancial": "Finanční",

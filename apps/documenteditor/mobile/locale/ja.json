@@ -478,7 +478,8 @@
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -809,6 +810,7 @@
     "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。"
   },
   "Toolbar": {
+    "btnRestartNow": "今すぐ再起動",
     "btnSend": "送信",
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了します",
@@ -820,8 +822,7 @@
     "textRenameFile": "ファイル名の変更",
     "textSwitchedMobileView": "モバイルビューに切り替えました",
     "textSwitchedStandardView": "標準ビューに切り替えました",
-    "warnEmptyRequiredField": "必須事項をすべて入力し、送信してください。",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "デスクトップ版に切り替える",
+    "warnEmptyRequiredField": "必須事項をすべて入力し、送信してください。"
   }
 }

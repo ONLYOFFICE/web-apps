@@ -465,6 +465,7 @@
       "errorMaxRows": "错误！每个图表的最大数据系列数为255。",
       "errorStockChart": "行的顺序有误。要想建立股票图表，请将数据按照如下顺序安放到表格中：<br> 开盘价格，最高价格，最低价格，收盘价格。",
       "notcriticalErrorTitle": "警告",
+      "sCatDatabase": "数据库",
       "sCatDateAndTime": "日期和时间",
       "sCatEngineering": "工程",
       "sCatFinancial": "金融",

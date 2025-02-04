@@ -459,6 +459,7 @@
       "errorMaxRows": "錯誤！每個圖表的最大數據系列數為255。",
       "errorStockChart": "行序錯誤。要建立股票圖表，請將數據按照以下順序工作表：<br> 開盤價、最高價、最低價、收盤價。 ",
       "notcriticalErrorTitle": "警告",
+      "sCatDatabase": "資料庫",
       "sCatDateAndTime": "日期和時間",
       "sCatEngineering": "工程",
       "sCatFinancial": "金融",

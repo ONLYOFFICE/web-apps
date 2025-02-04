@@ -459,6 +459,7 @@
       "errorMaxRows": "HATA! Veri serisi grafik başına en fazla 255 olabilir.",
       "errorStockChart": "Yanlış satır sırası. Bir hisse senedi grafiği oluşturmak için tablodaki verileri aşağıdaki sırayla yerleştirin:<br> açılış fiyatı, maksimum fiyat, minimum fiyat, kapanış fiyatı.",
       "notcriticalErrorTitle": "Uyarı",
+      "sCatDatabase": "Veri tabanı",
       "sCatDateAndTime": "Tarih ve saat",
       "sCatEngineering": "Mühendislik",
       "sCatFinancial": "Finansal",

@@ -336,6 +336,13 @@ define([
                     } else if (type === Asc.c_oAscTypeSelectElement.Paragraph || type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header) {
                         var value = selectedElements[i].get_ObjectValue();
                         value && (locked = locked || value.get_Locked());
+                    } else if (type === Asc.c_oAscTypeSelectElement.UnProtectedRegion) { //(unprotected region)
+                        var value = selectedElements[i].get_ObjectValue();
+                        me.documentHolder._unprotectedRegion = {
+                            canEditText: value.get_canEditText(),
+                            canEditPara: value.get_canEditPara(),
+                            canInsObject: value.get_canInsObject()
+                        };
                     }
                 }
                 if (in_equation) {

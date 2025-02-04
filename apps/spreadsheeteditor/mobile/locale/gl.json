@@ -459,6 +459,7 @@
       "errorMaxRows": "ERRO! O número máximo de serie de datos, por gráfico, é 255.",
       "errorStockChart": "Orde incorrecta das filas. Para construír un gráfico de accións, coloque os datos na folla na seguinte orde: <br>prezo de apertura, prezo máximo, prezo mínimo e prezo de peche.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de datos",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Enxeñaría",
       "sCatFinancial": "Financeiro",

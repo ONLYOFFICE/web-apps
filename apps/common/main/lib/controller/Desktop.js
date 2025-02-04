@@ -560,7 +560,8 @@ define([
             // if ( native.features.opentemplate )
             {
                 const filemenu = webapp.getController('LeftMenu').leftMenu.getMenu('file');
-                if ( filemenu.miNew.visible ) {
+                const cancreatenew = webapp.getController('Main').appOptions.canCreateNew;
+                if ( filemenu.miNew.visible && !!cancreatenew ) {
                     const miNewFromTemplate = new Common.UI.MenuItem({
                         el: $('<li id="fm-btn-create-fromtpl" class="fm-btn"></li>'),
                         action: 'create:fromtemplate',

@@ -465,6 +465,7 @@
       "errorMaxRows": "EROARE! Număr maxim serii de date în diagramă este 225.",
       "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
       "notcriticalErrorTitle": "Avertisment",
+      "sCatDatabase": "Bază de date",
       "sCatDateAndTime": "Dată și oră",
       "sCatEngineering": "Inginerie",
       "sCatFinancial": "Financiar",

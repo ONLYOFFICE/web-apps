@@ -472,7 +472,8 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",

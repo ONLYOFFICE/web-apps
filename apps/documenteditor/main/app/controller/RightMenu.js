@@ -177,7 +177,8 @@ define([
             var isChart = false,
                 isShape = false,
                 isSmartArtInternal = false,
-                isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
+                isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly,
+                unprotectedRegion = {};
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 is_form = control_props && control_props.get_FormPr(),
@@ -186,14 +187,21 @@ define([
             {
                 var content_locked = false;
                 var eltype = SelectedObjects[i].get_ObjectType(),
+                    value = SelectedObjects[i].get_ObjectValue(),
                     settingsType = this.getDocumentSettingsType(eltype);
                 if (eltype === Asc.c_oAscTypeSelectElement.Math)
                     in_equation = true;
+                else if (eltype === Asc.c_oAscTypeSelectElement.UnProtectedRegion) { //(unprotected region)
+                    unprotectedRegion = {
+                        canEditText: value.get_canEditText(),
+                        canEditPara: value.get_canEditPara(),
+                        canInsObject: value.get_canInsObject()
+                    };
+                }
 
                 if (settingsType===undefined || settingsType>=this._settings.length || this._settings[settingsType]===undefined)
                     continue;
 
-                var value = SelectedObjects[i].get_ObjectValue();
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
                     var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                     content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
@@ -222,7 +230,12 @@ define([
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
-                this._settings[settingsType].locked = value.get_Locked() || content_locked || isProtected;
+                if (settingsType == Common.Utils.documentSettingsType.Paragraph) { // unlock paraphaph in unprotected regions
+                    this._settings[settingsType].locked = value.get_Locked() || content_locked || this._state.docProtection.isReadOnly && !unprotectedRegion.canEditPara ||
+                                                          this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly && !unprotectedRegion.canEditPara;
+                } else
+                    this._settings[settingsType].locked = value.get_Locked() || content_locked || isProtected;
+
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked() || isProtected;
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked

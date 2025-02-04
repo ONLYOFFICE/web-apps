@@ -246,15 +246,12 @@ class MainController extends Component {
                     }
                 }
 
-                const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
-                const isPDF = fileType === 'pdf';
 
-                if(isFormType) {
+                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
                     this.changeEditorBrandColorForPdf();
                 }
 
-                if(isPDF) {
+                if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
                     }
@@ -461,6 +458,8 @@ class MainController extends Component {
                         'mobile'   : true,
                         'translate': _translate
                     };
+                    let hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+                    hcolor && (config['headings-color'] = '#' + hcolor[1]);
                     this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);

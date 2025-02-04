@@ -448,6 +448,7 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",

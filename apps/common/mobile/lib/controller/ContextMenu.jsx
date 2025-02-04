@@ -251,10 +251,15 @@ class ContextMenuController extends Component {
 
     render() {
         return (
-            <Fragment>
-                <ContextMenuView items={this.state.items} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
-                <ActionsWithExtraItems items={this.state.extraItems} onMenuItemClick={this.onMenuItemClick} opened={this.state.openedMore} onActionClosed={this.onActionClosed}/>
-            </Fragment>
+            <div>
+                <ContextMenuView items={this.state.items}
+                                 onMenuClosed={this.onMenuClosed}
+                                 onMenuItemClick={this.onMenuItemClick} />
+                <ActionsWithExtraItems items={this.state.extraItems}
+                                       onMenuItemClick={this.onMenuItemClick}
+                                       opened={this.state.openedMore}
+                                       onActionClosed={this.onActionClosed}/>
+            </div>
         )
     }
 }

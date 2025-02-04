@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Դուք ֆայլը խմբագրելու թույլտվություն չունեք:"
     }
   },
+  "Draw": {
+    "textColor": "Գույն",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Փոխակերպման ժամկետը գերազանցվել է:",
     "criticalErrorExtText": "Սեղմեք «Լավ»՝ փաստաթղթերի ցանկին վերադառնալու համար:",
@@ -459,6 +465,7 @@
       "errorMaxRows": "ՍԽԱԼ։ Մեկ գծապատկերի տվյալաշարքերի առավելագույն թիվը 255-ն է։",
       "errorStockChart": "Սխալ տողերի հերթականություն:Տվյալների տատանման գծապատկեր կառուցելու համար տվյալները թերթիկի վրա տեղադրեք հետևյալ հաջորդականությամբ.<br> Բացման գին,առավելագույն գին,նվազագույն գին, փակման գին։",
       "notcriticalErrorTitle": "Զգուշացում",
+      "sCatDatabase": "Տվյալների բազա",
       "sCatDateAndTime": "Ամսաթիվ և ժամ",
       "sCatEngineering": "Ճարտարագիտական",
       "sCatFinancial": "Ֆինանսական",
@@ -866,11 +873,5 @@
       "txtZh": "Չինական",
       "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

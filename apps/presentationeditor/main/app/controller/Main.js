@@ -1000,6 +1000,8 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
                 me.api.asc_setShowGridlines(value);
 
+                this.appOptions.customization && this.appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(this.appOptions.customization.slidePlayerBackground);
+
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
                     statusbarController         = application.getController('Statusbar'),
@@ -1219,7 +1221,8 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     header: {search: type==='not-loaded'},
-                    shortcuts: type==='not-loaded'
+                    shortcuts: type==='not-loaded',
+                    documentPreview: {draw: false}
                 }, type || 'disconnect');
             },
 
@@ -1277,7 +1280,9 @@ define([
                     appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
                     appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
-
+                if (options.documentPreview) {
+                    options.documentPreview.draw && app.getController('Viewport').setDisabledPreview(disable);
+                }
                 if (prev_options) {
                     this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }

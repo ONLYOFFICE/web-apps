@@ -459,6 +459,7 @@
       "errorMaxRows": "ERROREA! Diagrama bakotzean datu serie kopuru maximoa 255 da.",
       "errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, sartu datuak orrian ordena honetan:<br> irekierako prezioa, gehienezko prezioa, gutxieneko prezioa, itxierako prezioa.",
       "notcriticalErrorTitle": "Abisua",
+      "sCatDatabase": "Datu-basea",
       "sCatDateAndTime": "Data eta ordua",
       "sCatEngineering": "Ingeniaritza",
       "sCatFinancial": "Finantzak",

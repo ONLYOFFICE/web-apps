@@ -459,6 +459,7 @@
       "errorMaxRows": "ERROR! El nombre màxim de sèries de dades per gràfic és de 255.",
       "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, posa les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
       "notcriticalErrorTitle": "Advertiment",
+      "sCatDatabase": "Base de dades",
       "sCatDateAndTime": "Data i hora",
       "sCatEngineering": "Enginyeria",
       "sCatFinancial": "Financer",

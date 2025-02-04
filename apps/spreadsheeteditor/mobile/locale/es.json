@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "La hoja puede tener datos. ¿Continuar con la operación?"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar ahora",
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
@@ -457,14 +458,14 @@
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
     "textOk": "OK",
     "textRenameFile": "Renombrar archivo",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Cambiar a escritorio"
   },
   "View": {
     "Add": {
       "errorMaxRows": "¡ERROR! El número máximo de series de datos para un gráfico es 255.",
       "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
       "notcriticalErrorTitle": "Advertencia",
+      "sCatDatabase": "Base de Datos",
       "sCatDateAndTime": "Fecha y hora",
       "sCatEngineering": "Ingeniería",
       "sCatFinancial": "Financiero",

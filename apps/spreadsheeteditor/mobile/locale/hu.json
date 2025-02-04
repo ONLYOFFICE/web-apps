@@ -459,6 +459,7 @@
       "errorMaxRows": "HIBA! Az adatsorok maximális száma diagramonként 255.",
       "errorStockChart": "Helytelen sorsorrend. Részvénydiagram felépítéséhez helyezze el az adatokat a lapon a következő sorrendben:<br> nyitóár, max. ár, min. ár, záróár.",
       "notcriticalErrorTitle": "Figyelmeztetés",
+      "sCatDatabase": "Adatbázis",
       "sCatDateAndTime": "Dátum és idő",
       "sCatEngineering": "Mérnöki",
       "sCatFinancial": "Pénzügyi",

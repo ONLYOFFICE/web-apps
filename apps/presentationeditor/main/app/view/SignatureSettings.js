@@ -367,7 +367,8 @@ define([
                     documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     header: {search: false},
-                    shortcuts: false
+                    shortcuts: false,
+                    documentPreview: {draw: true}
                 }, 'signature');
             }
         },

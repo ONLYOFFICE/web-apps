@@ -1037,6 +1037,12 @@
   "PDFE.Controllers.Statusbar.zoomText": "Зумирај {0}%",
   "PDFE.Controllers.Toolbar.confirmAddFontName": "Фонт који покушавате да сачувате није доступан на тренутном уређају.<br>Стил текста ће бити приказан користећи један од фонтова са уређаја, сачувани фонт ће бити коришћен када постане доступан.<br>Да ли желите да наставите?",
   "PDFE.Controllers.Toolbar.errorAccessDeny": "Покушавате да изведете акцију на коју немате права.<br>Молимо контактирајте свог Документ Сервер администратора.",
+  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
+  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
+  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
+  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
+  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
+  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages",
   "PDFE.Controllers.Toolbar.notcriticalErrorTitle": "Упозорење",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "Унета вредност је нетачна.<br>Молимо унесите нумеричку вредност између 1 и 300.",
   "PDFE.Controllers.Toolbar.textGotIt": "Разумем",
@@ -2034,11 +2040,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Controllers.Toolbar.helpAddStamp": "Insert stamps into your PDF documents.",
-  "PDFE.Controllers.Toolbar.helpAddStampHeader": "Stamps",
-  "PDFE.Controllers.Toolbar.helpFastUndo": "Easily undo changes while collaborating on PDFs in Fast mode.",
-  "PDFE.Controllers.Toolbar.helpFastUndoHeader": "\"Undo\" in real-time co-editing",
-  "PDFE.Controllers.Toolbar.helpSelectPages": "Select multiple page previews to move, delete, or rotate them with ease.",
-  "PDFE.Controllers.Toolbar.helpSelectPagesHeader": "Multi-select for PDF pages"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
 }

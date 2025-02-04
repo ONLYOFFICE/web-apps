@@ -465,6 +465,7 @@
       "errorMaxRows": "GREŠKA! Maksimalan broj serije podataka po grafikonu je 255.",
       "errorStockChart": "Netačan red redova. Za izradu grafikona berzanske trgovine, postavite podatke na listu u sledećem redosledu:<br>otvarajuća cena, maks cena, min cena, zatvarajuća cena.",
       "notcriticalErrorTitle": "Upozorenje ",
+      "sCatDatabase": "Baza podataka",
       "sCatDateAndTime": "Datum i vreme",
       "sCatEngineering": "Inženjerstvo ",
       "sCatFinancial": "Finansijski ",

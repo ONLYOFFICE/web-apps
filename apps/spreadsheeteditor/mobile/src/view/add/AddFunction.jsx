@@ -75,7 +75,8 @@ const AddFunction = props => {
     const descriptions = useMemo(() => {
         const initialArrDesc = [
             'DateAndTime', 
-            'Engineering', 
+            'Engineering',
+            'Database',
             'Financial', 
             'Information', 
             'Logical', 

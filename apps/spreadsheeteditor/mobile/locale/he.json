@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' כדי לחזור לרשימת המסמכים.",
@@ -459,6 +465,7 @@
       "errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255.",
       "errorStockChart": "סדר שורה שגוי. כדי לבנות תרשים עמודות יש למקם את הנתונים על הגיליון בסדר הבא:<br>מחיר פתיחה, מחיר מקסימלי, מחיר מינימלי, מחיר סגירה.",
       "notcriticalErrorTitle": "אזהרה",
+      "sCatDatabase": "מסד נתונים",
       "sCatDateAndTime": "תאריך ושעה",
       "sCatEngineering": "הנדסה",
       "sCatFinancial": "פיננסי",
@@ -866,11 +873,5 @@
       "txtZh": "סינית",
       "warnDownloadAs": "אם תימשך השמירה בפורמט זה כל התכונות מלבד הטקסט יאבדו.<br>האם להמשיך בוודאות?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

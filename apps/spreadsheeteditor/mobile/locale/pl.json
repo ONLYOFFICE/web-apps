@@ -444,6 +444,7 @@
   },
   "View": {
     "Add": {
+      "sCatDatabase": "Baza danych",
       "textAddLink": "Dodaj link",
       "textAddress": "Adres",
       "textBack": "Wstecz",

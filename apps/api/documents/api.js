@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'diagram' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -259,7 +259,11 @@
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     },
-                    forceWesternFontSize: false/true // used only in the document editor with lang=zh, Chinese by default
+                    forceWesternFontSize: false/true, // used only in the document editor with lang=zh, Chinese by default
+                    slidePlayerBackground: '#000000', // background color for slide show in presentation editor
+                    wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
+                    showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -474,12 +478,11 @@
                         'word': 'docx',
                         'cell': 'xlsx',
                         'slide': 'pptx',
-                        'pdf': 'pdf',
-                        'diagram': 'vsdx'
+                        'pdf': 'pdf'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/diagram.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -493,7 +496,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -502,8 +505,7 @@
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
                         if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
-                        if (typeof type[4] === 'string') _config.documentType = 'word'; else
-                        if (typeof type[5] === 'string') _config.documentType = 'diagram';
+                        if (typeof type[4] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -1035,8 +1037,8 @@
         }
     }
 
-    function correct_app_type(type) {
-        if ( type == 'mobile' ) {
+    function correct_app_type(config) {
+        if ( config.type == 'mobile' ) {
             if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
                     config.editorConfig.customization.mobile.disableForceDesktop !== true )
             {
@@ -1050,7 +1052,7 @@
             }
         }
 
-        return type;
+        return config.type;
     }
 
     function getAppPath(config) {
@@ -1065,7 +1067,6 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
-                'diagram': 'visioeditor',
                 'common': 'common'
             },
             appType = 'word',
@@ -1074,14 +1075,14 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
-        var corrected_type = correct_app_type(config.type);
+        var corrected_type = correct_app_type(config);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
             appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
@@ -1097,8 +1098,7 @@
                 appType = config.documentType.toLowerCase();
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
-                if (type && typeof type[4] === 'string') appType = 'slide'; else
-                if (type && typeof type[6] === 'string') appType = 'diagram';
+                if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
         if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
@@ -1209,6 +1209,10 @@
                 params += "&indexPostfix=_loader";
             }
         }
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.wordHeadingsColor && typeof config.editorConfig.customization.wordHeadingsColor === 'string') {
+            params += "&headingsColor=" + config.editorConfig.customization.wordHeadingsColor.replace(/#/, '');
+        }
+
         return params;
     }
 

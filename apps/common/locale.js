@@ -183,7 +183,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar|he|ku)$/i.test(currentLang));
+        return currentLang && (/^(ar|he)$/i.test(currentLang));
     };
 
     return {

@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Fehlercode: %1",
     "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
+    "errorEditProtectedRange": "Sie dürfen diese Auswahl nicht bearbeiten, da sie geschützt ist.",
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",

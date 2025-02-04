@@ -459,6 +459,7 @@
       "errorMaxRows": "ERRO! O número máximo de série de dados, por gráfico, é 255.",
       "errorStockChart": "Ordem das linhas incorreta. Para construir um gráfico de cotações, introduza os dados na folha com a seguinte ordem:<br>preço de abertura, preço máximo, preço mínimo, preço de fecho.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de dados",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Engenharia",
       "sCatFinancial": "Financeiras",

@@ -129,7 +129,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'diagram' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
@@ -855,7 +855,7 @@ define([
                         isDisplayedInViewer = false,
                         isBackgroundPlugin = false,
                         isSystem;
-                    item.variations.forEach(function(itemVar, itemInd){
+                    item.variations && item.variations.forEach(function(itemVar, itemInd){
                         var variationType = Asc.PluginType.getType(itemVar.type);
                         isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;

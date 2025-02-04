@@ -459,6 +459,7 @@
       "errorMaxRows": "XƏTA! Qrafik üzrə verilənlər seriyasının maksimum sayı 255-dir.",
       "errorStockChart": "Yanlış sıra ardıcıllığı. Birja qrafiki yaratmaq üçün məlumatları vərəqdə aşağıdakı ardıcıllıqla yerləşdirin:<br> açılış qiyməti, maksimum qiymət, minimum qiymət, bağlanış qiyməti.",
       "notcriticalErrorTitle": "Xəbərdarlıq",
+      "sCatDatabase": "Verilənlər bazası",
       "sCatDateAndTime": "Tarix və saat",
       "sCatEngineering": "Mühəndislik",
       "sCatFinancial": "Maliyyə",

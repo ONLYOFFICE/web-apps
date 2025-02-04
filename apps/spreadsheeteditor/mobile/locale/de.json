@@ -465,6 +465,7 @@
       "errorMaxRows": "FEHLER! Maximale Anzahl an Datenreihen pro Diagramm ist 255.",
       "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in dieser Reihenfolge:<br> Eröffnungskurs, Maximaler Preis, Minimaler Preis, Schlusskurs.",
       "notcriticalErrorTitle": "Warnung",
+      "sCatDatabase": "Datenbank",
       "sCatDateAndTime": "Datum und Uhrzeit",
       "sCatEngineering": "Ingenieurwesen",
       "sCatFinancial": "Finanziell",
