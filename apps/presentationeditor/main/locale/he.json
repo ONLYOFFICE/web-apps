@@ -1380,7 +1380,7 @@
   "PE.Controllers.Statusbar.zoomText": "זום {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "הגופן שאת/ה עומד/ת לשמור אינו זמין במכשיר הנוכחי.<br>סגנון הטקסט יוצג באמצעות אחד מגופני המערכת, הגופן שנשמר ישמש כאשר יהיה זמין.<br>האם להמשיך?",
   "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "מיזוג הצורות",
   "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
   "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "הדגשות",
@@ -2028,10 +2028,12 @@
   "PE.Views.DocumentPreview.txtDraw": "ציור",
   "PE.Views.DocumentPreview.txtEndSlideshow": "סיום מצגת",
   "PE.Views.DocumentPreview.txtEraser": "מחק",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
   "PE.Views.DocumentPreview.txtExitFullScreen": "יציאה ממסך מלא",
   "PE.Views.DocumentPreview.txtFinalMessage": "סוף התצוגה המקדימה של השקופיות. לחיצה כדי לצאת.",
   "PE.Views.DocumentPreview.txtFullScreen": "מסך מלא",
   "PE.Views.DocumentPreview.txtHighlighter": "סימון",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
   "PE.Views.DocumentPreview.txtNext": "השקופית הבאה",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "מספר שקופית לא חוקי",
   "PE.Views.DocumentPreview.txtPause": "השהיית מצגת",
@@ -2983,7 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "פקודות מאקרו",
   "PE.Views.ViewTab.tipNormal": "רגיל",
   "PE.Views.ViewTab.tipSelectTool": "כלי הבחירה",
-  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
+  "PE.Views.ViewTab.tipSlideMaster": "תבנית בסיס לשקופיות"
 }

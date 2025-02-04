@@ -1155,8 +1155,8 @@
   "PE.Controllers.Main.txtShape_chevron": "Σιρίτι",
   "PE.Controllers.Main.txtShape_chord": "Χορδή Κύκλου",
   "PE.Controllers.Main.txtShape_circularArrow": "Κυκλικό βέλος",
-  "PE.Controllers.Main.txtShape_cloud": "Σύννεφο",
-  "PE.Controllers.Main.txtShape_cloudCallout": "Επεξήγηση σε σύννεφο",
+  "PE.Controllers.Main.txtShape_cloud": "Cloud",
+  "PE.Controllers.Main.txtShape_cloudCallout": "Πρόσκληση Cloud",
   "PE.Controllers.Main.txtShape_corner": "Γωνία",
   "PE.Controllers.Main.txtShape_cube": "Κύβος",
   "PE.Controllers.Main.txtShape_curvedConnector3": "Καμπυλωτός σύνδεσμος",
@@ -2028,10 +2028,12 @@
   "PE.Views.DocumentPreview.txtDraw": "Σχεδίαση",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Τέλος προβολής διαφανειών",
   "PE.Views.DocumentPreview.txtEraser": "Γόμα",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Διαγράψτε την οθόνη",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Έξοδος από την πλήρη οθόνη",
   "PE.Views.DocumentPreview.txtFinalMessage": "Τέλος προεπισκόπησης διαφανειών. Κάντε κλικ για έξοδο.",
   "PE.Views.DocumentPreview.txtFullScreen": "Πλήρης οθόνη",
   "PE.Views.DocumentPreview.txtHighlighter": "Επισήμανση",
+  "PE.Views.DocumentPreview.txtInkColor": "Μελάνι",
   "PE.Views.DocumentPreview.txtNext": "Επόμενη διαφάνεια",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Μη έγκυρος αριθμός διαφάνειας",
   "PE.Views.DocumentPreview.txtPause": "Παύση παρουσίασης",
@@ -2983,7 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
 }

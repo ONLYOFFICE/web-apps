@@ -94,11 +94,14 @@ define([
                 "Enter a date": this.txtEnterDate,
                 "Click to load image": this.txtClickToLoad
             }
-            this.api = new Asc.asc_docs_api({
-                'id-view'  : 'editor_sdk',
-                'embedded' : true,
-                'translate': translationTable
-            });
+            var config = {
+                 'id-view'  : 'editor_sdk',
+                 'embedded' : true,
+                 'translate': translationTable
+            },
+                hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+            hcolor && (config['headings-color'] = '#' + hcolor[1]);
+            this.api = new Asc.asc_docs_api(config);
 
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
