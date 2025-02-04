@@ -100,9 +100,10 @@ define([
         setMode: function(mode) {
             this.appConfig = mode;
 
-            this.view = this.createView('Common.Views.Draw', {
-                mode: mode
-            });
+            if (mode.isEdit)
+                this.view = this.createView('Common.Views.Draw', {
+                    mode: mode
+                });
 
             return this;
         },
