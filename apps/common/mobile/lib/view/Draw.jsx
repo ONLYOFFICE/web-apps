@@ -98,11 +98,11 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
           </Button>
         </div>
-        <div className="draw-toolbar-item">
-          <Button type='button' disabled={false} onClick={() => setTool('eraseEntireScreen')}>
-            <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
-          </Button>
-        </div>
+        {/*<div className="draw-toolbar-item">*/}
+        {/*  <Button type='button' disabled={false} onClick={() => setTool('eraseEntireScreen')}>*/}
+        {/*    <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>*/}
+        {/*  </Button>*/}
+        {/*</div>*/}
         <div className="draw-toolbar-item">
           <div className='draw-toolbar-divider'/>
         </div>
