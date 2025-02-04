@@ -1,5 +1,5 @@
 +function registerServiceWorker() {
-    if ('serviceWorker' in navigator && !window.location.origin.lastIndexOf('file://', 0) === 0) {
+    if ('serviceWorker' in navigator && !(window.location.origin.lastIndexOf('file://', 0) === 0)) {
         const serviceWorkerName = 'document_editor_service_worker.js';
         const serviceWorkerPath = '../../../../' + serviceWorkerName;
         let reg;
