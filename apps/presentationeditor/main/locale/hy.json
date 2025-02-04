@@ -2028,10 +2028,12 @@
   "PE.Views.DocumentPreview.txtDraw": "Նկարել",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Ցուցադրման ավարտ",
   "PE.Views.DocumentPreview.txtEraser": "Ջնջիչ",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Ելք լիաէկրան կերպից",
   "PE.Views.DocumentPreview.txtFinalMessage": "Սահիկների դիտումն ավարտվեց։ Կտտացրեք, որ դուրս գաք։",
   "PE.Views.DocumentPreview.txtFullScreen": "Լիաէկրան",
   "PE.Views.DocumentPreview.txtHighlighter": "Գունանշիչ",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
   "PE.Views.DocumentPreview.txtNext": "Հաջորդ սահիկ",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Անվավեր լուսապատկերի համար",
   "PE.Views.DocumentPreview.txtPause": "Դադարեցնել ներկայացումը",
@@ -2983,7 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "Մակրոներ",
   "PE.Views.ViewTab.tipNormal": "Սովորական",
   "PE.Views.ViewTab.tipSelectTool": "Ընտրել գործիք",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

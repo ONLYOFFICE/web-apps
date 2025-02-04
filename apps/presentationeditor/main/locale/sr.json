@@ -2028,10 +2028,12 @@
   "PE.Views.DocumentPreview.txtDraw": "Crtaj",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Završi slajdšou",
   "PE.Views.DocumentPreview.txtEraser": "Gumica za brisanje",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Obriši ekran",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Izlaz iz prikaza celog ekrana",
   "PE.Views.DocumentPreview.txtFinalMessage": "Kraj pregleda slajda. Kliknite da izađete.",
   "PE.Views.DocumentPreview.txtFullScreen": "Prikaz celog ekrana",
   "PE.Views.DocumentPreview.txtHighlighter": "Marker",
+  "PE.Views.DocumentPreview.txtInkColor": "Boja mastila",
   "PE.Views.DocumentPreview.txtNext": "Sledeći slajd",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Nevažeći broj slajda",
   "PE.Views.DocumentPreview.txtPause": "Pauziraj prezentaciju ",
@@ -2983,7 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
 }

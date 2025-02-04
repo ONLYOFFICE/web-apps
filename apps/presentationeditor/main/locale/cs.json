@@ -2028,13 +2028,16 @@
   "PE.Views.DocumentPreview.txtDraw": "Kreslit",
   "PE.Views.DocumentPreview.txtEndSlideshow": "Ukončit prezentaci",
   "PE.Views.DocumentPreview.txtEraser": "Guma",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
   "PE.Views.DocumentPreview.txtExitFullScreen": "Ukončit režim celé obrazovky",
   "PE.Views.DocumentPreview.txtFinalMessage": "Konec náhledu snímku. Opustíte kliknutím.",
   "PE.Views.DocumentPreview.txtFullScreen": "Na celou obrazovku",
   "PE.Views.DocumentPreview.txtHighlighter": "Zvýrazňovač",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
   "PE.Views.DocumentPreview.txtNext": "Další snímek",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "Neplatné číslo snímku",
   "PE.Views.DocumentPreview.txtPause": "Pozastavit prezentaci",
+  "PE.Views.DocumentPreview.txtPen": "Pen",
   "PE.Views.DocumentPreview.txtPlay": "Spustit prezentaci",
   "PE.Views.DocumentPreview.txtPrev": "Předchozí snímek",
   "PE.Views.DocumentPreview.txtReset": "Obnovit",
@@ -2982,8 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
-  "PE.Views.DocumentPreview.txtPen": "Pen"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
 }

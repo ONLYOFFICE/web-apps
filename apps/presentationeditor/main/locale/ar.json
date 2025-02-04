@@ -1380,7 +1380,7 @@
   "PE.Controllers.Statusbar.zoomText": "تكبير/تصغير {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "الخط الذي تقوم بحفظه غير متاح على جهازك الحالي.<br>سيتم إظهار نمط التص باستخدام أحد خطوط النظام، و سيتم استخدام الخط المحفوظ حال توافره..<br>هل تريد المتابعة؟",
   "PE.Controllers.Toolbar.helpMergeShapes": "Combine, fragment, intersect, subtract shapes in seconds to create custom visuals.",
-  "PE.Controllers.Toolbar.helpMergeShapesHeader": "Merge shapes",
+  "PE.Controllers.Toolbar.helpMergeShapesHeader": "دمج الأشكال",
   "PE.Controllers.Toolbar.helpTabDesign": "Apply themes, change color schemes and slide size from the newly added Design tab.",
   "PE.Controllers.Toolbar.helpTabDesignHeader": "Design tab",
   "PE.Controllers.Toolbar.textAccent": "علامات التمييز",
@@ -2028,9 +2028,12 @@
   "PE.Views.DocumentPreview.txtDraw": "رسم",
   "PE.Views.DocumentPreview.txtEndSlideshow": "نهاية العرض التقديمي",
   "PE.Views.DocumentPreview.txtEraser": "ممحاة",
+  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
   "PE.Views.DocumentPreview.txtExitFullScreen": "الخروج من وضع الشاشة الكاملة",
   "PE.Views.DocumentPreview.txtFinalMessage": "انتهى عرض الشريحة. اضغط للخروج",
   "PE.Views.DocumentPreview.txtFullScreen": "ملء الشاشة",
+  "PE.Views.DocumentPreview.txtHighlighter": "أداة التمييز",
+  "PE.Views.DocumentPreview.txtInkColor": "Ink color",
   "PE.Views.DocumentPreview.txtNext": "الشريحة التالية",
   "PE.Views.DocumentPreview.txtPageNumInvalid": "رقم الشريحة غير صحيح",
   "PE.Views.DocumentPreview.txtPause": "ايقاف مؤقت للعرض التقديمي",
@@ -2982,8 +2985,5 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
-  "PE.Views.DocumentPreview.txtEraseScreen": "Erase screen",
-  "PE.Views.DocumentPreview.txtHighlighter": "Highlighter",
-  "PE.Views.DocumentPreview.txtInkColor": "Ink color"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
 }
