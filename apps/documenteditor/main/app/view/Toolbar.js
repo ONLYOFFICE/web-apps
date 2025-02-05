@@ -2927,7 +2927,7 @@ define([
 
                 // Numbering
                 var loadPreset = function(url, lang, callback) {
-                    lang = lang.replace('_', '-').toLowerCase();
+                    lang = (lang || 'en').replace('_', '-').toLowerCase();
                     Common.Utils.loadConfig(url, function (langJson) {
                         var presets;
                         if (langJson !== 'error') {
