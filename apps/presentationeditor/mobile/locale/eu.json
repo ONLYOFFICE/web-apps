@@ -276,7 +276,10 @@
     "stayButtonText": "Jarraitu orrian",
     "textCloseHistory": "Itxi historia",
     "textEnterNewFileName": "Idatzi fitxategi-izen berria",
-    "textRenameFile": "Berrizendatu fitxategia"
+    "textRenameFile": "Berrizendatu fitxategia",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Diapositiba zenbakia",
       "textTable": "Taula",
       "textTableSize": "Taularen tamaina",
-      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa"
+      "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Abisua",
@@ -538,7 +542,6 @@
       "textReplace": "Ordeztu",
       "textReplaceAll": "Ordeztu guztia",
       "textRestartApplication": "Mesedez berrabiarazi aplikazioa aldaketek eragina izan dezaten",
-      "textRTL": "Esk.-Ezk.",
       "textSameAsSystem": "Sistemako berdina",
       "textSearch": "Bilatu",
       "textSettings": "Ezarpenak",
@@ -553,9 +556,13 @@
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
       "textVersionHistory": "Bertsioen historia",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

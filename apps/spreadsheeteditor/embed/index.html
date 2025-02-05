@@ -41,19 +41,6 @@
             height: 100%;
         }
 
-        .loadmask > .brendpanel .loading-logo {
-            max-width: 200px;
-            height: 20px;
-            margin-left: 10px;
-            text-align: center;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
-        }
         .loadmask > .brendpanel .doc-title {
             flex-grow: 1;
         }
@@ -138,12 +125,10 @@
   </head>
 
   <body class="embed-body">
+    <script type="text/javascript" src="../../common/embed/lib/util/htmlutils.js"></script>
         <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
               <div>
-                  <div class="brand-logo loading-logo">
-                      <img src="">
-                  </div>
                   <div class="doc-title"></div>
                   <div class="circle"></div>
               </div>
@@ -198,26 +183,11 @@
           }
 
           var params = getUrlParams(),
-              lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-              hideLogo = params["headerlogo"]==='',
-              logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+              lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
 
-          var elem = document.querySelector('.loading-logo');
-          if (elem) {
-              if (hideLogo) {
-                  elem.style.display = 'none';
-              } else if (logo) {
-                  elem.style.backgroundImage= 'none';
-                  elem.style.width = 'auto';
-                  elem.style.height = 'auto';
-                  var img = document.querySelector('.loading-logo img');
-                  img && img.setAttribute('src', logo);
-                  img.style.opacity = 1;
-              }
-          }
       </script>
 
       <div class="viewer">
@@ -271,7 +241,7 @@
           </div>
       </div>
 
-      <div class="hyperlink-tooltip" data-toggle="tooltip" title="Click the link to open it" style="display:none;"></div>
+      <div class="hyperlink-tooltip" data-toggle="tooltip" title="" style="display:none;"></div>
 
       <!--vendor-->
       <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

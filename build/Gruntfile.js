@@ -149,6 +149,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-terser');
+    grunt.loadNpmTasks('grunt-babel');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -335,6 +336,7 @@ module.exports = function(grunt) {
     doRegisterTask('fetch');
     doRegisterTask('es6-promise');
     doRegisterTask('common-embed');
+    doRegisterTask('ace');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             terser: {
@@ -406,7 +408,8 @@ module.exports = function(grunt) {
 
             replace: {
                 writeVersion: {
-                    src: ['<%= pkg.main.js.requirejs.options.out %>','<%= pkg.main.js.postload.options.out %>'],
+                    src: ['<%= pkg.main.js.requirejs.options.out %>', '<%= pkg.main.js.postload.options.out %>',
+                                packageFile.main.js.babel.files[0].dest],
                     overwrite: true,
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/g,
@@ -508,6 +511,27 @@ module.exports = function(grunt) {
                     src: packageFile.main.js.postload.options.out,
                     dest: packageFile.main.js.postload.options.out,
                 },
+                iecompat: {
+                    options: {
+                        sourceMap: false,
+                    },
+                    files: [{
+                        expand: true,
+                        cwd: packageFile.main.js.babel.files[0].dest,
+                        src: `*.js`,
+                        dest: packageFile.main.js.babel.files[0].dest
+                    }]
+                },
+            },
+
+            babel: {
+                options: {
+                    sourceMap: false,
+                    presets: [['@babel/preset-env', {modules: false}]]
+                },
+                dist: {
+                    files: packageFile.main.js.babel.files
+                }
             },
         });
 
@@ -532,11 +556,19 @@ module.exports = function(grunt) {
                     dest: packageFile.main.reporter.uglify.dest
                 },
             },
+            inline: {
+                options: {
+                    uglify: true
+                },
+                dist: {
+                    src: '<%= Object.keys(pkg.main.reporter.copy)[0] %>'
+                }
+            },
             copy: packageFile.main.reporter.copy
         });
 
 
-        grunt.task.run(['terser', 'copy']);
+        grunt.task.run(['terser', 'copy', 'inline']);
     });
 
     grunt.registerTask('mobile-app-init', function() {
@@ -797,10 +829,11 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-ace',                    ['ace-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
+                                                            'requirejs', 'babel', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/

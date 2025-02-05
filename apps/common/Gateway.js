@@ -147,6 +147,10 @@ if (window.Common === undefined) {
                 $me.trigger('setreferencedata', data);
             },
 
+            'refreshFile': function(data) {
+                $me.trigger('refreshfile', data);
+            },
+
             'setRequestedDocument': function(data) {
                 $me.trigger('setrequesteddocument', data);
             },
@@ -402,8 +406,20 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestStartFilling'});
             },
 
+            switchEditorType:  function (value, restart) {
+                _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            requestRefreshFile: function() {
+                _postMessage({ event: 'onRequestRefreshFile' });
+            },
+
+            userActionRequired: function() {
+                _postMessage({ event: 'onUserActionRequired' });
             },
 
             saveDocument: function(data) {

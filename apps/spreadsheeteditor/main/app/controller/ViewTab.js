@@ -99,7 +99,8 @@ define([
                     'viewtab:openview': this.onOpenView,
                     'viewtab:createview': this.onCreateView,
                     'viewtab:manager': this.onOpenManager,
-                    'viewtab:viewmode': this.onPreviewMode
+                    'viewtab:viewmode': this.onPreviewMode,
+                    'macros:click':  this.onClickMacros
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this),
@@ -268,7 +269,7 @@ define([
             var params  = this.api.asc_getSheetViewSettings();
             this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
-            this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
+            this.view.btnFreezePanes.menu && (typeof this.view.btnFreezePanes.menu === 'object') && this.view.btnFreezePanes.menu.items && this.view.btnFreezePanes.menu.items[0].setCaption(!!params.asc_getIsFreezePane() ? this.view.textUnFreeze : this.view.capBtnFreeze);
             this.view.chZeros.setValue(!!params.asc_getShowZeros(), true);
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex();
@@ -291,9 +292,9 @@ define([
         onThemeChanged: function () {
             if (this.view && Common.UI.Themes.available()) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
-                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.items, {value: current_theme});
+                    menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( !!menu_item ) {
-                    this.view.btnInterfaceTheme.menu.clearAll();
+                    this.view.btnInterfaceTheme.menu.clearAll(true);
                     menu_item.setChecked(true, true);
                 }
             }
@@ -309,6 +310,14 @@ define([
 
         onPreviewMode: function(value) {
             this.api && this.api.asc_SetSheetViewType(value);
+        },
+
+        onClickMacros: function() {
+            var me = this;
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
         },
 
         onApiUpdateSheetViewType: function(index) {

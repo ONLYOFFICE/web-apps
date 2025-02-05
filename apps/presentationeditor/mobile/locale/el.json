@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
+  },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
     "criticalErrorExtText": "Πατήστε 'Εντάξει' για να επιστρέψετε στη λίστα εγγράφων.",
@@ -210,6 +216,7 @@
     "errorKeyEncrypt": "Άγνωστος περιγραφέας κλειδιού",
     "errorKeyExpire": "Ο περιγραφέας κλειδιού έχει λήξει",
     "errorLoadingFont": "Οι γραμματοσειρές δεν έχουν φορτωθεί.<br>Παρακαλούμε επικοινωνήστε με τον διαχειριστή του Εξυπηρετητή Εγγράφων σας.",
+    "errorSaveWatermark": "Αυτό το αρχείο περιέχει μια εικόνα υδατογραφήματος συνδεδεμένη με άλλο τομέα.<br>Για να γίνει ορατή σε PDF, ενημερώστε την εικόνα υδατογραφήματος ώστε να συνδέεται από τον ίδιο τομέα με το έγγραφό σας ή ανεβάστε την από τον υπολογιστή σας.",
     "errorSessionAbsolute": "Η σύνοδος επεξεργασίας του εγγράφου έληξε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionIdle": "Το έγγραφο δεν τροποποιήθηκε για μεγάλο χρονικό διάστημα. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
     "errorSessionToken": "Η σύνδεση με τον εξυπηρετητή διακόπηκε. Παρακαλούμε, φορτώστε ξανά τη σελίδα.",
@@ -232,8 +239,7 @@
     "unknownErrorText": "Άγνωστο σφάλμα.",
     "uploadImageExtMessage": "Άγνωστη μορφή εικόνας.",
     "uploadImageFileCountMessage": "Δεν μεταφορτώθηκαν εικόνες.",
-    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Η εικόνα είναι πολύ μεγάλη. Το μέγιστο μέγεθος είναι 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
@@ -270,13 +276,16 @@
     "waitText": "Παρακαλούμε, περιμένετε..."
   },
   "Toolbar": {
+    "btnRestartNow": "Επανεκκίνηση τώρα",
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές στο έγγραφο. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
-    "textRenameFile": "Μετονομασία αρχείου"
+    "textOk": "Εντάξει",
+    "textRenameFile": "Μετονομασία αρχείου",
+    "textSwitchToDesktop": "Μετάβαση στην επιφάνεια εργασίας"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Επιλεγμένο κείμενο",
       "textDisplay": "Προβολή",
       "textDone": "Ολοκληρώθηκε",
+      "textDrawing": "Σχέδιο",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFirstSlide": "Πρώτη διαφάνεια",
@@ -514,7 +524,6 @@
       "textEmail": "email: ",
       "textEnableAll": "Ενεργοποίηση όλων",
       "textEnableAllMacrosWithoutNotification": "Ενεργοποίηση όλων των μακροεντολών χωρίς ειδοποίηση",
-      "textExplanationChangeDirection": "Η εφαρμογή θα επανεκκινηθεί για ενεργοποίηση διεπαφής RTL",
       "textFeedback": "Ανατροφοδότηση & Υποστήριξη",
       "textFind": "Εύρεση",
       "textFindAndReplace": "Εύρεση και Αντικατάσταση",
@@ -540,8 +549,6 @@
       "textReplace": "Αντικατάσταση",
       "textReplaceAll": "Αντικατάσταση όλων",
       "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
-      "textRTL": "ΑΠΔ",
-      "textRtlInterface": "Διεπαφή RTL",
       "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Εύρεση",
       "textSettings": "Ρυθμίσεις",

@@ -315,7 +315,6 @@ define([
         onApiEditCell: function(state) {
             var disableAdd = (state == Asc.c_oAscCellEditorState.editFormula),
                 disable = (state != Asc.c_oAscCellEditorState.editEnd),
-                mask = $('.statusbar-mask'),
                 statusbar = this.statusbar;
 
             statusbar.isEditFormula = disableAdd;
@@ -326,14 +325,6 @@ define([
             statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
 
             statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
-
-            if (disableAdd && mask.length>0 || !disableAdd && mask.length==0) return;
-            statusbar.$el.find('.statusbar').toggleClass('masked', disableAdd);
-            if(disableAdd) {
-                mask = $("<div class='statusbar-mask'>").appendTo(statusbar.$el);
-            } else {
-                mask.remove();
-            }
         },
 
         createDelayedElements: function() {
@@ -661,6 +652,12 @@ define([
             if (this.api && this.api.asc_getActiveWorksheetIndex() !== sheetIndex) {
                 this.api.asc_showWorksheet(sheetIndex);
                 this.loadTabColor(sheetIndex);
+            } else {
+                var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sheetIndex});
+                if (tab) {
+                    this.statusbar.tabbar.setTabVisible(tab.index);
+                    this.statusbar.sheetListMenu.items[sheetIndex].setChecked(true);
+                }
             }
             var me = this;
             setTimeout(function(){
@@ -927,14 +924,15 @@ define([
             return isDragDrop;
         },
 
-        showDisconnectTip: function () {
+        showDisconnectTip: function (text) {
             var me = this;
+            text = text || this.textDisconnect;
             if (!this.disconnectTip) {
                 var target = this.statusbar.getStatusLabel();
                 target = target.is(':visible') ? target.parent() : this.statusbar.isVisible() ? this.statusbar.$el : $(document.body);
                 this.disconnectTip = new Common.UI.SynchronizeTip({
                     target  : target,
-                    text    : this.textDisconnect,
+                    text    : text,
                     placement: 'top',
                     position: this.statusbar.isVisible() ? undefined : {bottom: 0},
                     showLink: false,
@@ -946,6 +944,8 @@ define([
                         me.disconnectTip = null;
                     }
                 });
+            } else {
+                this.disconnectTip.setText(text);
             }
             this.disconnectTip.show();
         },

@@ -367,6 +367,9 @@
     "uploadImageFileCountMessage": "අනුරුවක් උඩුගත කර නැත.",
     "uploadImageSizeMessage": "අනුරුව ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
@@ -446,13 +449,17 @@
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
     "textCloseHistory": "ඉතිහාසය වසන්න",
     "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
-    "textRenameFile": "ගොනුව නම් කරන්න"
+    "textRenameFile": "ගොනුව නම් කරන්න",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "දෝෂයකි! ප්‍රස්ථාරයකට උපරිම දත්ත ශ්‍රේණි ගණන 255 කි.",
       "errorStockChart": "වැරදි පේළි අනුපිළිවෙලකි. කොටස් ප්‍රස්ථාරයක් තැනීමට, පහත දැක්වෙන අනුපිළිවෙලට පත්‍රයේ දත්ත තබන්න:<br> ඇරඹුම් මිල, උපරිම මිල, අවම මිල, අවසාන මිල.",
       "notcriticalErrorTitle": "අවවාදයයි",
+      "sCatDatabase": "දත්ත සමුදාය",
       "sCatDateAndTime": "දිනය සහ වේලාව",
       "sCatEngineering": "යන්ත්‍රණය",
       "sCatFinancial": "මූල්‍යමය",
@@ -510,7 +517,8 @@
       "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
       "txtSorting": "වර්ග කිරීම",
       "txtSortSelected": "තේරූ දෑ වර්ග කරන්න",
-      "txtYes": "ඔව්"
+      "txtYes": "ඔව්",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",
@@ -751,7 +759,6 @@
       "textEnableAllMacrosWithoutNotification": "දැනුම්දීමකින් තොරව සියළු සාර්ව සබල කරන්න",
       "textEncoding": "ආකේතනය",
       "textExample": "උදාහරණය",
-      "textExplanationChangeDirection": "RTL අතුරුමුහුණත සක්‍රියනය සඳහා යෙදුම නැවත ආරම්භ කෙරේ",
       "textFeedback": "ප්‍රතිපෝෂණය සහ සහාය",
       "textFind": "හොයන්න",
       "textFindAndReplace": "සොයා ප්‍රතිස්ථාපනය",
@@ -793,7 +800,6 @@
       "textRestartApplication": "වෙනස්කම් යෙදීමට කරුණාකර යෙදුම නැවත අරඹන්න",
       "textRight": "දකුණ",
       "textRightToLeft": "දකුණෙන් වමට",
-      "textRtlInterface": "RTL අතුරුමුහුණත",
       "textSameAsSystem": "පද්ධතියේ ලෙසම",
       "textSearch": "සොයන්න",
       "textSearchBy": "සොයන්න",
@@ -861,5 +867,11 @@
       "txtZh": "චීන",
       "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

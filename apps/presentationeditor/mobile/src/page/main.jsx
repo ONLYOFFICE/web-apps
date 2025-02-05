@@ -14,6 +14,7 @@ import SettingsController from '../controller/settings/Settings';
 import AddView from '../view/add/Add';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
+import { DrawController } from "../../../../common/mobile/lib/controller/Draw";
 
 export const MainContext = createContext();
 
@@ -126,9 +127,6 @@ class MainPage extends Component {
     }
 
     componentDidMount () {
-        if ($$('.skl-container').length) {
-            $$('.skl-container').remove();
-        }
           
 
         document.addEventListener('touchmove', this.touchMoveHandler);
@@ -215,6 +213,9 @@ class MainPage extends Component {
                         </Navbar>
                         {/* Page content */}
                         <View id="editor_sdk" />
+                        <Navbar id='drawbar' style={{ display: !appOptions.isDrawMode && 'none' }}>
+                            <DrawController />
+                        </Navbar>
 
                         {isShowPlaceholder ?
                             <div className="doc-placeholder">

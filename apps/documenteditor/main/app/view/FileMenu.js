@@ -56,7 +56,6 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
-                    this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
                     var $item = $(event.currentTarget);
                     if (!$item.hasClass('active')) {
                         $('.fm-btn',this.el).removeClass('active');
@@ -381,12 +380,10 @@ define([
             this.selectMenu(panel, opts, defPanel);
             this.api && this.api.asc_enableKeyEvents(false);
 
-            this.mode.isEdit && Common.UI.TooltipManager.showTip('customInfo');
             this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
-            this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
             this.$el.hide();
             // if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(false);
             this.fireEvent('menu:hide', [this]);
@@ -419,7 +416,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
+            this.miSave[this.mode.showSaveButton && this.mode.canSaveToFile && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
 
             var canEdit = this.mode.canRequestEditRights && (!this.mode.isEdit && this.mode.canEdit || this.mode.isPDFForm && this.mode.canFillForms && this.mode.isRestrictedEdit);
             this.miEdit[canEdit?'show':'hide']();
@@ -558,6 +555,22 @@ define([
                         iconCls: 'menu__icon btn-close'
                     }));
             }
+
+            if ( this.mode.canSwitchToMobile ) {
+                $('<li id="fm-btn-switchmobile" class="fm-btn"></li>').insertBefore($('#fm-btn-settings', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-switchmobile', this.$el),
+                        action  : 'switch:mobile',
+                        caption : this.btnSwitchToMobileCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [-2, 22],
+                        iconCls: 'menu__icon btn-switch-mobile'
+                    }));
+            }
+
         },
 
         setMode: function(mode, delay) {

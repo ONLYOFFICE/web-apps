@@ -276,7 +276,10 @@
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor"
+    "textRenameFile": "Přejmenovat soubor",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Číslo snímku",
       "textTable": "Tabulka",
       "textTableSize": "Velikost tabulky",
-      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
@@ -514,7 +518,6 @@
       "textEmail": "email:",
       "textEnableAll": "Zapnout vše",
       "textEnableAllMacrosWithoutNotification": "Povolit všechna makra bez notifikací",
-      "textExplanationChangeDirection": "Aplikace bude restartována pro aktivaci rozhraní RTL",
       "textFeedback": "Zpětná vazba a technická podpora",
       "textFind": "Najít",
       "textFindAndReplace": "Najít a nahradit",
@@ -540,8 +543,6 @@
       "textReplace": "Nahradit",
       "textReplaceAll": "Nahradit vše",
       "textRestartApplication": "Pro provedení změn restartujete aplikaci",
-      "textRTL": "RTL",
-      "textRtlInterface": "Rozhraní RTL (písmo zprava doleva)",
       "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Najít",
       "textSettings": "Nastavení",
@@ -557,5 +558,11 @@
       "textVersion": "Verze",
       "textVersionHistory": "Historie verzí"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

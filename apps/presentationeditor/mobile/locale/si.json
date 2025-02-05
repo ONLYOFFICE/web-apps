@@ -276,7 +276,10 @@
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
     "textCloseHistory": "ඉතිහාසය වසන්න",
     "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
-    "textRenameFile": "ගොනුව නම් කරන්න"
+    "textRenameFile": "ගොනුව නම් කරන්න",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "සර්පණයේ අංකය",
       "textTable": "වගුව",
       "textTableSize": "වගුවේ ප්‍රමාණය",
-      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය."
+      "txtNotUrl": "මෙම ක්‍ෂේත්‍රය \"http://උපවසම.උදාහරණය.ලංකා\" ආකෘතියේ ඒ.ස.නි. ක් විය යුතුය.",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "අවවාදයයි",
@@ -514,7 +518,6 @@
       "textEmail": "වි-තැපෑල:",
       "textEnableAll": "සියල්ල සබල කරන්න",
       "textEnableAllMacrosWithoutNotification": "දැනුම්දීමකින් තොරව සියළුම සාර්ව සබල කරන්න",
-      "textExplanationChangeDirection": "RTL අතුරුමුහුණත සක්‍රියනය සඳහා යෙදුම නැවත ආරම්භ කෙරේ",
       "textFeedback": "ප්‍රතිපෝෂණය සහ සහාය",
       "textFind": "හොයන්න",
       "textFindAndReplace": "සොයා ප්‍රතිස්ථාපනය",
@@ -540,8 +543,6 @@
       "textReplace": "ප්‍රතිස්ථාපනය",
       "textReplaceAll": "සියල්ල ප්‍රතිස්ථාපනය",
       "textRestartApplication": "වෙනස්කම් යෙදීමට කරුණාකර යෙදුම නැවත අරඹන්න",
-      "textRTL": "RTL",
-      "textRtlInterface": "RTL අතුරුමුහුණත",
       "textSameAsSystem": "පද්ධතියේ ලෙසම",
       "textSearch": "සොයන්න",
       "textSettings": "සැකසුම්",
@@ -557,5 +558,11 @@
       "textVersion": "අනුවාදය",
       "textVersionHistory": "අනුවාද ඉතිහාසය"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

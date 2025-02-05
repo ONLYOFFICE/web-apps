@@ -27,6 +27,7 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textEvenPage": "Even Page",
     "textFootnote": "Footnote",
@@ -228,6 +229,12 @@
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
     "textActualSize": "Actual size",
@@ -426,6 +433,7 @@
     "errorDefaultMessage": "Error code: %1",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
@@ -442,6 +450,7 @@
     "errorMailMergeSaveFile": "Merge failed.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
@@ -710,7 +719,6 @@
     "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
     "textEncoding": "Encoding",
     "textEncryptFile": "Encrypt File",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textFastWV": "Fast Web View",
@@ -771,7 +779,6 @@
     "textRestartApplication": "Please restart the application for the changes to take effect",
     "textRight": "Right",
     "textRightToLeft": "Right To Left",
-    "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
     "textSearch": "Find",
@@ -803,6 +810,7 @@
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
@@ -814,6 +822,7 @@
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop",
     "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

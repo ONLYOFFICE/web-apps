@@ -157,6 +157,7 @@
       "textNo": "No",
       "textNoLicenseTitle": "È stato raggiunto il limite della licenza",
       "textNoMatches": "Nessuna corrispondenza",
+      "textOk": "OK",
       "textOpenFile": "Inserisci la password per aprire il file",
       "textPaidFeature": "Funzionalità a pagamento",
       "textRemember": "Ricordare la mia scelta",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
-      "warnProcessRightsChange": "Non hai il permesso di modificare il file.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Descrittore della chiave sconosciuto",
     "errorKeyExpire": "Descrittore della chiave è scaduto",
     "errorLoadingFont": "I caratteri non sono stati caricati.<br>Si prega di contattare l'amministratore di Document Server.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -228,12 +229,11 @@
     "splitDividerErrorText": "Il numero di righe deve essere un divisore di %1",
     "splitMaxColsErrorText": "Il numero di colonne deve essere inferiore a% 1",
     "splitMaxRowsErrorText": "Il numero di righe deve essere inferiore a% 1",
+    "textOk": "OK",
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
@@ -276,7 +276,10 @@
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textRenameFile": "Rinomina file",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Numero di diapositiva",
       "textTable": "Tabella",
       "textTableSize": "Dimensione di tabella",
-      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
+      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -514,7 +518,6 @@
       "textEmail": "email: ",
       "textEnableAll": "Attivare tutto",
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
-      "textExplanationChangeDirection": "L'applicazione verrà riavviata per l'attivazione dell'interfaccia RTL",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
       "textFindAndReplace": "Trovare e sostituire",
@@ -540,8 +543,6 @@
       "textReplace": "Sostituire",
       "textReplaceAll": "Sostituire tutto",
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
-      "textRTL": "Da destra a sinistra",
-      "textRtlInterface": "Interfaccia RTL",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Trova",
       "textSettings": "Impostazioni",
@@ -557,5 +558,11 @@
       "textVersion": "Versione",
       "textVersionHistory": "Cronologia delle versioni"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

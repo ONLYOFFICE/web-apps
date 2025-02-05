@@ -54,10 +54,10 @@ define([
         },
 
         onLaunch: function() {
-            this._moveOffset = {x:0, y:0};
             this.autostart = [];
-
+            this.startOnPostLoad = false;
             Common.Gateway.on('init', this.loadConfig.bind(this));
+            Common.NotificationCenter.on('script:loaded', this.onPostLoadComplete.bind(this));
         },
 
         loadConfig: function(data) {
@@ -110,8 +110,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
-                this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
 
@@ -178,7 +176,12 @@ define([
                     },
                     help: !!help,
                     loader: plugin.get_Loader(),
-                    modal: isModal!==undefined ? isModal : true
+                    modal: isModal!==undefined ? isModal : !variation.get_InsideMode(),
+                    resizable: !!variation.get_InsideMode(),
+                    minwidth: variation.get_InsideMode() ? 300 : undefined,
+                    minheight: variation.get_InsideMode() ? 300 : undefined,
+                    maxwidth: variation.get_InsideMode() ? Common.Utils.innerWidth() : undefined,
+                    maxheight: variation.get_InsideMode() ? Common.Utils.innerHeight() : undefined
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
@@ -192,9 +195,11 @@ define([
                     },
                     'drag': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'resize': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'help': function(){
                         help && window.open(help, '_blank');
@@ -221,21 +226,6 @@ define([
             }
         },
 
-        onPluginMouseUp: function(x, y) {
-            if (this.pluginDlg) {
-                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
-                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
-            }
-        },
-
-        onPluginMouseMove: function(x, y) {
-            if (this.pluginDlg) {
-                var offset = Common.Utils.getOffset(this.pluginContainer);
-                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-            }
-        },
-
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
             this.parsePlugins(pluginsdata, true);
@@ -245,6 +235,10 @@ define([
             if (this.autostart && this.autostart.length > 0) {
                 this.api.asc_pluginRun(this.autostart.shift(), 0, '');
             }
+        },
+
+        onPostLoadComplete: function() {
+            this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
         resetPluginsList: function() {
@@ -357,7 +351,8 @@ define([
 
             if (this.appOptions.canPlugins) {
                 this.refreshPluginsList();
-                this.runAutoStartPlugins();
+                this.startOnPostLoad = !Common.Controllers.LaunchController.isScriptLoaded();
+                !this.startOnPostLoad && this.runAutoStartPlugins();
             }
         },
 

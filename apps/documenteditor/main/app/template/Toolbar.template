@@ -66,6 +66,7 @@
                         <span class="btn-slot split" id="slot-btn-decoffset"></span>
                         <span class="btn-slot split" id="slot-btn-incoffset"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-left<% } else { %>slot-btn-align-right<% } %>"></span>
@@ -169,6 +170,7 @@
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-align"></span>
                     <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-shapes-merge"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

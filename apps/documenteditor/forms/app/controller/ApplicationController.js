@@ -57,7 +57,8 @@ define([
         isTooltipHiding = false,
         bodyWidth = 0,
         ttOffset = [0, -10],
-        _logoImage = '';
+        _logoImage = '',
+        requireUserAction = true;
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -93,11 +94,14 @@ define([
                 "Enter a date": this.txtEnterDate,
                 "Click to load image": this.txtClickToLoad
             }
-            this.api = new Asc.asc_docs_api({
-                'id-view'  : 'editor_sdk',
-                'embedded' : true,
-                'translate': translationTable
-            });
+            var config = {
+                 'id-view'  : 'editor_sdk',
+                 'embedded' : true,
+                 'translate': translationTable
+            },
+                hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+            hcolor && (config['headings-color'] = '#' + hcolor[1]);
+            this.api = new Asc.asc_docs_api(config);
 
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
@@ -489,6 +493,11 @@ define([
                     this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
             }
             this.appOptions.canBackToFolder = !!_canback;
+
+            if (this.editorConfig.canRequestRefreshFile) {
+                Common.Gateway.on('refreshfile',                         _.bind(this.onRefreshFile, this));
+                this.api.asc_registerCallback('asc_onRequestRefreshFile',       _.bind(this.onRequestRefreshFile, this));
+            }
         },
 
         onExternalMessage: function(msg) {
@@ -609,10 +618,17 @@ define([
                     buttons: [],
                     closable: false
                 });
+                if (this._isDocReady || this._isPermissionsInited) { // receive after refresh file
+                    Common.NotificationCenter.trigger('api:disconnect');
+                }
                 return;
             }
 
             if ( this.onServerVersion(params.asc_getBuildVersion())) return;
+            if ( this._isDocReady || this._isPermissionsInited ) {
+                this.api.asc_LoadDocument();
+                return;
+            }
 
             this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
             if (params.asc_getRights() !== Asc.c_oRights.Edit)
@@ -622,7 +638,8 @@ define([
             this.appOptions.trialMode      = params.asc_getLicenseMode();
             this.appOptions.isBeta         = params.asc_getIsBeta();
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+            this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !this.appOptions.isOffline &&
+                                            !!this.editorConfig.customization.submitForm && (typeof this.editorConfig.customization.submitForm !== 'object' || this.editorConfig.customization.submitForm.visible!==false);
 
             var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
@@ -660,16 +677,20 @@ define([
             } else {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
+                    me.onEditComplete();
                 });
                 me.view.btnNext.on('click', function(){
                     me.api.asc_MoveToFillingForm(true);
+                    me.onEditComplete();
                 });
                 me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
+                    me.onEditComplete();
                 });
                 me.view.btnSubmit.on('click', function(){
                     if (!me.api.asc_IsAllRequiredFormsFilled()) {
                         me.api.asc_MoveToFillingForm(true, true, true);
+                        me.onEditComplete();
                         if (!me.requiredTooltip) {
                             me.requiredTooltip = new Common.UI.SynchronizeTip({
                                 extCls: 'colored',
@@ -712,9 +733,12 @@ define([
                 });
                 me.view.btnUndo.on('click', function(){
                     me.api.Undo(false);
+                    me.onEditComplete();
+
                 });
                 me.view.btnRedo.on('click', function(){
                     me.api.Redo(false);
+                    me.onEditComplete();
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -730,7 +754,7 @@ define([
                     Common.Gateway.requestClose();
                 });
             }
-
+            this._isPermissionsInited = true;
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             this.api.asc_LoadDocument();
             this.api.Resize();
@@ -750,12 +774,17 @@ define([
                         })
                     }
                 });
+                if (this._isDocReady) { // receive after refresh file
+                    Common.NotificationCenter.trigger('api:disconnect');
+                }
                 return true;
             }
             return false;
         },
 
         onUpdateVersion: function(callback) {
+            console.log("Obsolete: The 'onOutdatedVersion' event is deprecated. Please use 'onRequestRefreshFile' event and 'refreshFile' method instead.");
+
             var me = this;
             me.needToUpdateVersion = true;
             me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -766,10 +795,11 @@ define([
                     _.defer(function() {
                         Common.Gateway.updateVersion();
                         if (callback) callback.call(me);
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     })
                 }
             });
+            Common.NotificationCenter.trigger('api:disconnect');
         },
 
         onLicenseChanged: function(params) {
@@ -914,20 +944,23 @@ define([
                     Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
                     this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
-                    if (!this.submitedTooltip) {
-                        this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: this.textSubmitOk,
-                            extCls: 'no-arrow colored',
-                            style: 'max-width: 400px',
-                            showLink: false,
-                            target: $('.toolbar'),
-                            placement: 'bottom'
-                        });
-                        this.submitedTooltip.on('closeclick', function () {
-                            this.submitedTooltip.hide();
-                        }, this);
+                    var text = (typeof this.appOptions.customization.submitForm==='object') ? this.appOptions.customization.submitForm.resultMessage : this.textSubmitOk;
+                    if (text!=='') {
+                        if (!this.submitedTooltip) {
+                            this.submitedTooltip = new Common.UI.SynchronizeTip({
+                                text: text || this.textSubmitOk,
+                                extCls: 'no-arrow colored',
+                                style: 'max-width: 400px',
+                                showLink: false,
+                                target: $('.toolbar'),
+                                placement: 'bottom'
+                            });
+                            this.submitedTooltip.on('closeclick', function () {
+                                this.submitedTooltip.hide();
+                            }, this);
+                        }
+                        this.submitedTooltip.show();
                     }
-                    this.submitedTooltip.show();
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                     this.onApiServerDisconnect(true);
                 } else
@@ -973,6 +1006,10 @@ define([
                 this.loadMask && this.loadMask.hide();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 me._openDlg.show();
+            }
+            if (requireUserAction) {
+                Common.Gateway.userActionRequired();
+                requireUserAction = false;
             }
         },
 
@@ -1071,7 +1108,7 @@ define([
                             closable: false,
                             msg: err,
                             callback: function(btn){
-                                Common.NotificationCenter.trigger('edit:complete', me);
+                                me.onEditComplete();
                             }
                         });
                     }).on('close', function(obj){
@@ -1173,7 +1210,9 @@ define([
             var me = this;
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActions(obj, x, y);
+                    }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
@@ -1187,11 +1226,15 @@ define([
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
                     } else
-                        this.onShowImageActions(obj, x, y);
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActions(obj, x, y);
+                    }, 1);
                     break;
             }
         },
@@ -1530,6 +1573,7 @@ define([
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
+            requireUserAction = false;
         },
 
         onOptionsClick: function(menu, item, e) {
@@ -2042,6 +2086,66 @@ define([
             if (this.view.btnOptions && this.view.btnOptions.menu) {
                 (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can) : this.view.btnOptions.menu.items[1].setDisabled(!can);
             }
+        },
+
+        onRequestRefreshFile: function() {
+            Common.Gateway.requestRefreshFile();
+        },
+
+        onRefreshFile: function(data) {
+            if (data) {
+                var docInfo = new Asc.asc_CDocInfo();
+                if (data.document) {
+                    docInfo.put_Id(data.document.key);
+                    docInfo.put_Url(data.document.url);
+                    docInfo.put_Title(data.document.title);
+                    if (labelDocName && data.document.title) {
+                        this.updateWindowTitle(true);
+                        labelDocName.text(data.document.title || '');
+                        this.embedConfig.docTitle = data.document.title;
+                    }
+                    data.document.referenceData && docInfo.put_ReferenceData(data.document.referenceData);
+                }
+                if (data.editorConfig) {
+                    docInfo.put_CallbackUrl(data.editorConfig.callbackUrl);
+                }
+                if (data.token)
+                    docInfo.put_Token(data.token);
+
+                var _user = new Asc.asc_CUserInfo(); // change for guest!!
+                _user.put_Id(this.appOptions.user.id);
+                _user.put_FullName(this.appOptions.user.fullname);
+                _user.put_IsAnonymousUser(!!this.appOptions.user.anonymous);
+                docInfo.put_UserInfo(_user);
+
+                var _options = $.extend({}, this.document.options, this.editorConfig.actionLink || {});
+                docInfo.put_Options(_options);
+
+                docInfo.put_Format(this.document.fileType);
+                docInfo.put_Lang(this.editorConfig.lang);
+                docInfo.put_Mode(this.editorConfig.mode);
+                docInfo.put_Permissions(this.permissions);
+                docInfo.put_DirectUrl(data.document && data.document.directUrl ? data.document.directUrl : this.document.directUrl);
+                docInfo.put_VKey(data.document && data.document.vkey ?  data.document.vkey : this.document.vkey);
+                docInfo.put_EncryptedInfo(data.editorConfig && data.editorConfig.encryptionKeys ? data.editorConfig.encryptionKeys : this.editorConfig.encryptionKeys);
+
+                var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                docInfo.asc_putIsEnabledMacroses(!!enable);
+                enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                docInfo.asc_putIsEnabledPlugins(!!enable);
+                
+
+                var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
+                if (type && typeof type[1] === 'string') {
+                    this.permissions.edit = this.permissions.review = false;
+                }
+                this.api.asc_refreshFile(docInfo);
+            }
+        },
+
+        onEditComplete: function() {
+            var me = this;
+            me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
         },
 
         errorDefaultMessage     : 'Error code: %1',

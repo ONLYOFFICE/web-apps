@@ -42,13 +42,15 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
-            if (/huge/.test(this.options.cls) &&  this.options.split === true && !this.options.hideColorLine) {
+            // options.colorLine: true/false/'line'/'box'
+            var colorLineCls = this.options.colorLine==='box' ? 'btn-color-value-box' : 'btn-color-value-line';
+            if (/huge/.test(this.options.cls) &&  this.options.split === true && (this.options.colorLine!==false)) {
                 var btnEl = $('button', this.cmpEl),
                     btnMenuEl = $(btnEl[1]);
-                btnMenuEl && btnMenuEl.append( $('<div class="btn-color-value-line"></div>'));
-            } else if (!this.options.hideColorLine)
-                $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
-            this.colorEl = this.cmpEl.find('.btn-color-value-line');
+                btnMenuEl && btnMenuEl.append( $('<div class="' + colorLineCls + '"></div>'));
+            } else if ((this.options.colorLine!==false))
+                $('button:first-child', this.cmpEl).append( $('<div class="' + colorLineCls + '"></div>'));
+            this.colorEl = this.cmpEl.find('.' + colorLineCls);
 
             if (this.options.auto)
                 this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
@@ -70,6 +72,7 @@ define([
                 (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
                 (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
                 (this.options.paletteCls!==undefined) && (config['cls'] = this.options.paletteCls);
+                (this.options.storageSuffix!==undefined) && (config['storageSuffix'] = this.options.storageSuffix);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
@@ -122,9 +125,8 @@ define([
                     cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItemsBefore ? options.additionalItemsBefore : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') },
-                        {caption: '--'}
-                        ]).concat(eyedropper).concat([
+                            { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') }
+                        ]).concat(options.hideColorsSeparator ? [] : {caption: '--'}).concat(eyedropper).concat([
                         {
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
@@ -178,7 +180,7 @@ define([
 
             if (this.colorEl) {
                 this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
-                this.colorEl.toggleClass('bordered', color=='transparent');
+                this.colorEl.toggleClass('bordered', color=='transparent' || this.options.colorLine==='box');
             }
         },
 

@@ -258,7 +258,7 @@ define([
         },
 
         onSpellCheckVariantsFound: function (property) {
-            if (property===null && this._currentSpellObj === property && !(this.panelSpellcheck && this.panelSpellcheck.isVisible()))
+            if (!this.panelSpellcheck || !this.panelSpellcheck.rendered || property===null && this._currentSpellObj === property && !this.panelSpellcheck.isVisible())
                 return;
 
             this._currentSpellObj = property;
@@ -289,6 +289,7 @@ define([
         },
 
         onApiEditCell: function(state) {
+            if (!this.panelSpellcheck || !this.panelSpellcheck.rendered) return;
             if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.panelSpellcheck.buttonNext.setDisabled(!this.panelSpellcheck.lblComplete.hasClass('hidden'));
                 this.panelSpellcheck.cmbDictionaryLanguage.setDisabled((this.languages && this.languages.length > 0) ? false : true);

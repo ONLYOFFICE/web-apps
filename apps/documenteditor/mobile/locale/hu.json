@@ -65,7 +65,8 @@
     "textTableSize": "Táblázat mérete",
     "textWithBlueLinks": "Kék linkkel",
     "textWithPageNumbers": "Oldalszámokkal",
-    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie"
+    "txtNotUrl": "A mező URL-címének a \"http://www.example.com\" formátumban kell lennie",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -469,6 +470,8 @@
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincsenek feltöltött képek.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
@@ -795,11 +798,9 @@
     "txtProtected": "A jelszó megadása és a fájl megnyitása után az aktuális fájl jelszava visszaáll",
     "textClearAllFields": "Clear All Fields",
     "textClose": "Close",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textRtlInterface": "RTL Interface",
     "textTheme": "Theme"
   },
   "Toolbar": {
@@ -814,6 +815,14 @@
     "textSwitchedMobileView": "Váltás Mobil nézetre",
     "textSwitchedStandardView": "Normál nézetre váltott",
     "warnEmptyRequiredField": "Az űrlap elküldéséhez töltse ki az összes szükséges mezőt.",
-    "btnSend": "Send"
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

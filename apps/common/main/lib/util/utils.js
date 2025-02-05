@@ -148,7 +148,7 @@ define([], function () {
                         "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                     if (window.matchMedia(str_mq_125).matches) {
-                        scale.devicePixelRatio = 1.5;
+                        scale.devicePixelRatio = 1.25;
                     } else if (window.matchMedia(str_mq_150).matches) {
                         scale.devicePixelRatio = 1.5;
                     } else if (window.matchMedia(str_mq_175).matches) {
@@ -914,7 +914,7 @@ define([], function () {
 
     Common.Utils.showBrowserRestriction = function () {
         if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length > 0) return;
-        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
+        var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : window.VE ? 'Visio' : 'that');
         var newDiv = document.createElement("div");
         newDiv.innerHTML = '<div class="app-error-panel">' +
             '<div class="message-block">' +
@@ -1138,7 +1138,7 @@ define([], function () {
         });
     };
 
-    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle) {
+    Common.Utils.injectButtons = function ($slots, id, iconCls, caption, lock, split, menu, toggle, dataHint, dataHintDirection, dataHintOffset, dataHintTitle, action) {
         var btnsArr = createButtonSet();
         btnsArr.setDisabled(true);
         id = id || ("id-toolbar-" + iconCls);
@@ -1157,6 +1157,7 @@ define([], function () {
                 enableToggle: toggle || false,
                 lock: lock,
                 disabled: true,
+                action: action,
                 dataHint: dataHint,
                 dataHintDirection: dataHintDirection,
                 dataHintOffset: dataHintOffset,
@@ -1205,7 +1206,7 @@ define([], function () {
         if (opts.disablefunc)
             opts.disablefunc(true);
 
-        var app = window.DE || window.PE || window.SSE || window.PDFE;
+        var app = window.DE || window.PE || window.SSE || window.PDFE || window.VE;
 
         Common.UI.warning({
             msg: Common.Locale.get("warnFileLocked", {
@@ -1369,7 +1370,7 @@ define([], function () {
         if (window.isrtl === undefined) {
             if (window.nativeprocvars && window.nativeprocvars.rtl !== undefined)
                 window.isrtl = window.nativeprocvars.rtl;
-            else window.isrtl = Common.Locale.isCurrentLanguageRtl() ? !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) : false;
+            else window.isrtl = !Common.Utils.isIE && Common.Locale.isCurrentLanguageRtl();
         }
 
         return window.isrtl;
@@ -1589,5 +1590,17 @@ define([], function () {
         columns: 5,
         cls: 'palette-large',
         paletteWidth: 174
+    };
+
+    Common.UI.isValidNumber = function (val) {
+        let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
+        if (typeof val === 'string') {
+            let findComma = val.match(/,/g);
+            if (findComma && findComma.length === 1) {
+                val = val.replace(',','.');
+            }
+        }
+
+        return (typeof val === 'number') ||  !(val === '' || !regstr.test(val.trim()) || isNaN(parseFloat(val)));
     };
 });

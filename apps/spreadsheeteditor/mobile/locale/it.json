@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
   },
+  "Draw": {
+    "textColor": "Colore",
+    "textCustomColor": "Colore personalizzato",
+    "textLineSize": "Dimensione della riga",
+    "textOpacity": "Opacità"
+  },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
     "criticalErrorExtText": "Premi 'OK' per tornare all'elenco dei documenti.",
@@ -291,6 +297,7 @@
     "errorFileVKey": "Errore esterno.<br>Chiave di sicurezza non corretta. Si prega di contattare il team di supporto.",
     "errorFillRange": "Impossibile riempire l'intervallo di celle selezionato.<br>Tutte le celle unite devono avere le stesse dimensioni.",
     "errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizza l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprova più tardi.",
+    "errorFormulaInPivotFieldName": "Non è possibile inserire una formula per un elemento o un nome di campo in un rapporto di tabella pivot.",
     "errorFormulaName": "Un errore nella formula.<br>Nome della formula sbagliato.",
     "errorFormulaParsing": "Errore interno durante l'analisi della formula.",
     "errorFrmlMaxLength": "Non puoi aggiungere questa formula perché la sua lunghezza supera il numero di caratteri consentito.<br>Si prega di modificala e riprovare.",
@@ -321,15 +328,18 @@
     "errorNoDataToParse": "Nessun dato selezionato per l'analisi.",
     "errorOpenWarning": "La lunghezza di una delle formule nel file ha superato<br>il numero consentito di caratteri ed è stata eliminata.",
     "errorOperandExpected": "La sintassi della funzione inserita non è corretta. Si prega di controllare se hai perso una delle parentesi - '(' o ')'.",
+    "errorPasteInPivot": "Non è possibile apportare questa modifica per le celle selezionate, perché influirebbe su una tabella pivot.<br>Utilizza l'elenco dei campi per modificare il rapporto.",
     "errorPasteMaxRange": "L'area di copia non corrisponde a quella di incolla. Si prega di selezionare un'area della stessa dimensione o fare clic sulla prima cella di una riga per incollare le celle copiate.",
     "errorPasteMultiSelect": "Questa azione non può essere eseguita su una selezione di più intervalli.<br>Seleziona un singolo intervallo e riprova.",
     "errorPasteSlicerError": "I filtri dei dati della tabella non possono essere copiati da una cartella di lavoro a un'altra.",
+    "errorPivotFieldNameExists": "Il nome del campo della tabella pivot esiste già.",
     "errorPivotGroup": "Impossibile raggruppare quella selezione.",
     "errorPivotOverlap": "Un report di tabella pivot non può sovrapporsi a una tabella.",
     "errorPivotWithoutUnderlying": "Il rapporto della tabella pivot è stato salvato senza i dati sottostanti.<br>Utilizza il pulsante \"Aggiorna\" per aggiornare il relativo rapporto.",
     "errorPrecedentsNoValidRef": "Il comando Traccia precedenti richiede che la cella attiva contenga una formula che include un riferimento valido.",
     "errorPrintMaxPagesCount": "Sfortunatamente, non è possibile stampare più di 1500 pagine contemporaneamente nella versione corrente del programma.<br>Questa restrizione verrà eliminata nelle prossime versioni.",
     "errorProtectedRange": "Questo intervallo non può essere modificato.",
+    "errorSaveWatermark": "Questo file contiene un'immagine di filigrana collegata a un altro dominio.<br>Per renderla visibile nel PDF, aggiorna l'immagine di filigrana in modo che sia collegata allo stesso dominio del documento, oppure caricala dal tuo computer.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -367,8 +377,7 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Password",
@@ -440,13 +449,16 @@
     "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textOk": "OK",
+    "textRenameFile": "Rinomina file",
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Add": {
@@ -473,6 +485,7 @@
       "textDataTableHint": "Restituisce le celle di dati della tabella o le colonne della tabella specificate",
       "textDisplay": "Visualizzare",
       "textDone": "Fatto",
+      "textDrawing": "Disegno",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
       "textExternalLink": "Link esterno",
       "textFilter": "Filtro",
@@ -510,7 +523,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì"
+      "txtYes": "Sì",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -751,7 +765,6 @@
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
       "textEncoding": "Codificazione",
       "textExample": "Esempio",
-      "textExplanationChangeDirection": "L'applicazione verrà riavviata per l'attivazione dell'interfaccia RTL",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
       "textFindAndReplace": "Trovare e sostituire",
@@ -793,7 +806,6 @@
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textRight": "A destra",
       "textRightToLeft": "Da destra a sinistra",
-      "textRtlInterface": "Interfaccia RTL",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Cercare",
       "textSearchBy": "Cercare",

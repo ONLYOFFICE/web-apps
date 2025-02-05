@@ -276,7 +276,10 @@
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
     "textEnterNewFileName": "Introduïu un nom de fitxer nou",
-    "textRenameFile": "Canvia el nom del fitxer"
+    "textRenameFile": "Canvia el nom del fitxer",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Número de diapositiva",
       "textTable": "Taula",
       "textTableSize": "Mida de la taula",
-      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\""
+      "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -513,7 +517,6 @@
       "textEmail": "correu electrònic:",
       "textEnableAll": "Habilitar-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense notificació",
-      "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
       "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cercar",
       "textFindAndReplace": "Cercar i substituir",
@@ -539,8 +542,6 @@
       "textReplace": "Substituir",
       "textReplaceAll": "Substituir-ho tot ",
       "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
-      "textRTL": "De dreta a esquerra",
-      "textRtlInterface": "Interfície RTL",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Cercar",
       "textSettings": "Configuració",
@@ -557,5 +558,11 @@
       "textVersionHistory": "Historial de versions",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

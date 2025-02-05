@@ -334,6 +334,7 @@
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
     "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
@@ -346,8 +347,10 @@
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPivotGroup": "Cannot group that selection.",
     "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
@@ -444,15 +447,19 @@
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ຜິດພາດ!, ຈຳນວນຊູດຂໍ້ມູນສູງສຸດຕໍ່ຜັງແມ່ນ 255",
       "errorStockChart": "ລຳດັບແຖວບໍ່ຖືກຕ້ອງ. ເພື່ອສ້າງຕາຕະລາງເກັບຂໍ້ຮູບກ້າບ, ວາງຂໍ້ມູນໃສ່ແຜ່ນງານຕາມລໍາດັບຕໍ່ໄປນີ້:<br>ລາຄາເປີດ, ລາຄາສູງສຸດ, ລາຄາຕໍ່າສຸດ, ລາຄາປິດ.",
       "notcriticalErrorTitle": "ເຕືອນ",
+      "sCatDatabase": "ດາຕ້າເບສ",
       "sCatDateAndTime": "ວັນທີ ແລະ ເວລາ",
       "sCatEngineering": "ວິສະວະກຳ",
       "sCatFinancial": "ການເງິນ",
@@ -510,6 +517,7 @@
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
       "txtYes": "ແມ່ນແລ້ວ",
       "sCustom": "Custom",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
@@ -850,16 +858,20 @@
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -276,7 +276,10 @@
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama file yang baru",
-    "textRenameFile": "Ganti Nama File"
+    "textRenameFile": "Ganti Nama File",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Nomor Slide",
       "textTable": "Tabel",
       "textTableSize": "Ukuran Tabel",
-      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
+      "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -514,7 +518,6 @@
       "textEmail": "email:",
       "textEnableAll": "Aktifkan Semua",
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
-      "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
       "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
@@ -540,8 +543,6 @@
       "textReplace": "Ganti",
       "textReplaceAll": "Ganti Semua",
       "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
-      "textRTL": "RTL",
-      "textRtlInterface": "Antar Muka RTL",
       "textSameAsSystem": "Sama Seperti Sistem",
       "textSearch": "Cari",
       "textSettings": "Pengaturan",
@@ -557,5 +558,11 @@
       "textVersion": "Versi",
       "textVersionHistory": "Riwayat Versi"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

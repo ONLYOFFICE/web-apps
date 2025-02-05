@@ -41,7 +41,8 @@ PE.ApplicationController = new(function(){
         created = false,
         currentPage = 0,
         ttOffset = [5, -10],
-        labelDocName;
+        labelDocName,
+        requireUserAction = true;
 
     var LoadingDocument = -256;
 
@@ -233,6 +234,7 @@ PE.ApplicationController = new(function(){
 
                         $tooltip.find('.tooltip-arrow').css({left: 10});
                     });
+                    $ttEl.data('bs.tooltip').options.title = me.txtPressLink;
                 }
 
                 if ( !$tooltip ) {
@@ -270,6 +272,7 @@ PE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
+        config.customization && config.customization.slidePlayerBackground && api.asc_setDemoBackgroundColor(config.customization.slidePlayerBackground);
 
         if (!embedConfig.autostart || embedConfig.autostart == 'player') {
             api.SetDemonstrationModeOnly();
@@ -517,6 +520,7 @@ PE.ApplicationController = new(function(){
         $('#btn-play').on('click', onPlayStart);
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
+        requireUserAction = false;
     }
 
     function onEditorPermissions(params) {
@@ -591,6 +595,10 @@ PE.ApplicationController = new(function(){
             if(isCustomLoader) hidePreloader();
             else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        }
+        if (requireUserAction) {
+            Common.Gateway.userActionRequired();
+            requireUserAction = false;
         }
     }
 
@@ -879,6 +887,7 @@ PE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
+        txtPressLink: 'Click the link to open it'
     }
 })();

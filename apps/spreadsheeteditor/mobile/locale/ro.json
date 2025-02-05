@@ -242,11 +242,17 @@
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită.<br>Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
+  },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -291,6 +297,7 @@
     "errorFileVKey": "Eroare externă.<br>Cheia de securitate incorectă. Contactați Seviciul de Asistență Clienți.",
     "errorFillRange": "Completarea celulelor selectate nu este posibilă.<br>Configurați toate coloanele îmbinate la aceeași dimensiune.",
     "errorForceSave": "S-a produs o eroare în timpul salvării fișierului. Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca... sau încercați din nou mai târziu.",
+    "errorFormulaInPivotFieldName": "Imposibil de adăugat o formulă pentru un nume de element sau un nume de câmp în raportul PivotTable.",
     "errorFormulaName": "Eroare în formulă.<br>Numele formulei incorect.",
     "errorFormulaParsing": "Eroare internă de parsare cu formulă.",
     "errorFrmlMaxLength": "Nu puteți adăuga aceată formulă deaorece lungimea conținutului formulei depășește limita maximă de caractere.<br>Editați-o și încercați din nou.",
@@ -321,15 +328,18 @@
     "errorNoDataToParse": "Datele pentru parsare nu au fost selectate.",
     "errorOpenWarning": "Lungimea conținutului unei formule din foie a depășit<br>limita maximă de caractere și a fost eliminată. ",
     "errorOperandExpected": "Sintaxa funcției incorectă. Verificați încadrarea în paranteze - '(' sau ')'.",
+    "errorPasteInPivot": "Este imposibilă modificarea celulelor selectate deoarece va afecta tabelul pivot.<br>Folosiți lista de câmpuri pentru a modifica raportul.",
     "errorPasteMaxRange": "Zona de copiere nu corespunde zonei de lipire. Pentru lipirea celulelor copiate, selectați o zonă de aceeași demensiune sau faceți clic pe prima celula din rând.",
     "errorPasteMultiSelect": "Operaţia nu poate fi efectuată asupra zonelor selectate multiple.<br>Selectați o singură zonă și încercați încă o dată.",
     "errorPasteSlicerError": "Slicere din tabel nu pot fi copiate dintr-un registru de calcul în altul.",
+    "errorPivotFieldNameExists": "Nume de câmp în tabelul pivot deja existent.",
     "errorPivotGroup": "Obiectele selectate nu pot fi combinate într-un grup.",
     "errorPivotOverlap": "Un raport Pivot Table nu poate suprapune un tabel.",
     "errorPivotWithoutUnderlying": "Raportul Pivot Table a fost salvat fără datele subiacente.<br>Faceți clic pe butonul Actualizare ca raportul să fie actualizat.",
     "errorPrecedentsNoValidRef": "Comanda Trasare precedente nu a găsit nicio formulă care face referire la celula activă.",
     "errorPrintMaxPagesCount": "Din păcate, imprimarea a 1500 de pagini deodată nu este posibilă la versiunea curentă a aplicației<br>Această restricție va fi eliminată într-o versiunea nouă.",
     "errorProtectedRange": "Modificarea acestei zone nu este permisă.",
+    "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
@@ -367,8 +377,7 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -440,19 +449,23 @@
     "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
-    "textRenameFile": "Redenumire fișier"
+    "textOk": "OK",
+    "textRenameFile": "Redenumire fișier",
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "EROARE! Număr maxim serii de date în diagramă este 225.",
       "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
       "notcriticalErrorTitle": "Avertisment",
+      "sCatDatabase": "Bază de date",
       "sCatDateAndTime": "Dată și oră",
       "sCatEngineering": "Inginerie",
       "sCatFinancial": "Financiar",
@@ -473,6 +486,7 @@
       "textDataTableHint": "Returnează celule de date dintr-un tabel sau colonele selectate într-un tabel",
       "textDisplay": "Afișare",
       "textDone": "Gata",
+      "textDrawing": "Desenare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFilter": "Filtrare",
@@ -751,7 +765,6 @@
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
       "textExample": "Exemplu",
-      "textExplanationChangeDirection": "Aplicația va fi repornită pentru a activa interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textFeedback": "Feedback și asistența",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
@@ -793,7 +806,6 @@
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRight": "Dreapta",
       "textRightToLeft": "De la dreapta la stânga",
-      "textRtlInterface": "Interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSearchBy": "Căutare",

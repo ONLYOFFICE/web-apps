@@ -62,6 +62,7 @@ define([
             var me = this;
             me.langJson = {};
             me.langDescJson = {};
+            me.formulasLoaded = false;
 
             this.addListeners({
                 'FileMenu': {
@@ -117,14 +118,14 @@ define([
             return this;
         },
 
-        setApi: function (api) {
+        setApi: function (api, loadTranslations) {
             this.api = api;
 
             if (this.formulasGroups) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
-                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
+                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true, loadTranslations);
 
-                if (!this.mode.isEdit) return;
+                if (!this.mode.isEdit || loadTranslations) return;
 
                 var me = this;
 
@@ -175,7 +176,9 @@ define([
             this.appOptions.lang = data.config.lang;
         },
 
-        reloadTranslations: function (lang, suppressEvent) {
+        reloadTranslations: function (lang, suppressEvent, loadTranslations) {
+            this.formulasLoaded = false;
+
             lang = (lang || 'en').toLowerCase();
             var index = _.indexOf(SSE.Collections.formulasLangs, lang);
             if (index<0) {
@@ -203,7 +206,7 @@ define([
                     });
             }
 
-            if (!this.mode.isEdit) return;
+            if (!this.mode.isEdit || loadTranslations) return;
 
             if (me.langDescJson[lang])
                 me.loadingFormulas(me.langDescJson[lang], suppressEvent);
@@ -249,6 +252,8 @@ define([
         },
 
         onSendFunctionWizardInfo: function(props) {
+            if (!this.formulasLoaded) return;
+
             if (props) {
                 // show formula settings
                 var me = this;
@@ -266,6 +271,7 @@ define([
                         origin: origin,
                         args: (descrarr && descrarr[origin]) ? descrarr[origin].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()) : args,
                         desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : '',
+                        argsDesc: (descrarr && descrarr[origin] && descrarr[origin].ad) ? descrarr[origin].ad.split('!') : [],
                         custom: !!custom
                     };
 
@@ -430,6 +436,7 @@ define([
                     last10FunctionsGroup && last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
                 }
             }
+            this.formulasLoaded = true;
             (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
         },
 

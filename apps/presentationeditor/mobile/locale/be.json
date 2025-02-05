@@ -272,11 +272,14 @@
   "Toolbar": {
     "leaveButtonText": "Сысці са старонкі",
     "stayButtonText": "Застацца на старонцы",
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -316,6 +319,7 @@
       "textTableSize": "Памеры табліцы",
       "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
@@ -544,18 +548,21 @@
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textFindAndReplaceAll": "Find and Replace All",
       "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL",
-      "textRtlInterface": "RTL Interface",
       "textTel": "tel:",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

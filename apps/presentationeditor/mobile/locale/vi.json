@@ -278,7 +278,12 @@
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "btnSwitchToDesktop": "Switch to Desktop",
+    "textOk": "OK",
+    "del_btnSwitchToDesktop": "Switch to Desktop",
+    "textSwitchToDesktop": "Switch to Desktop",
+    "btnRestartNow": "Restart now"
   },
   "View": {
     "Add": {
@@ -321,7 +326,8 @@
       "textDone": "Done",
       "textRecommended": "Recommended",
       "textRequired": "Required",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warning",
@@ -589,5 +595,11 @@
       "textRtlInterface": "RTL Interface",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

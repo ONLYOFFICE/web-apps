@@ -274,9 +274,12 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -317,6 +320,7 @@
       "textTableSize": "Saiz Jadual",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -535,7 +539,6 @@
       "textReplace": "Gantikan",
       "textReplaceAll": "Gantikan Semua",
       "textRestartApplication": "Mulakan semula aplikasi untuk perubahan tersebut berkuat kuasa",
-      "textRTL": "RTL",
       "textSearch": "Carian",
       "textSettings": "Seting",
       "textShowNotification": "Tunjuk Pemberitahuan",
@@ -549,13 +552,17 @@
       "textVersion": "Versi",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

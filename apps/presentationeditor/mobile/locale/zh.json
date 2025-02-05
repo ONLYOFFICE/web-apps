@@ -171,7 +171,7 @@
       "titleUpdateVersion": "版本已更改",
       "txtIncorrectPwd": "密码有误",
       "txtProtected": "在您输入密码和打开文件后，该文件的当前密码将被重置",
-      "warnLicenseAnonymous": "匿名用户的访问被拒绝<br>此文档将仅打开以供查看。",
+      "warnLicenseAnonymous": "匿名用户的访问被拒绝。<br>此文档将以只读模式打开。",
       "warnLicenseBefore": "许可证未激活<br>请与管理员联系。",
       "warnLicenseExceeded": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看。请与管理员联系以了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。请更新您的许可证并刷新页面。",
@@ -182,6 +182,12 @@
       "warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
       "warnProcessRightsChange": "您没有编辑文件的权限。"
     }
+  },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -270,13 +276,16 @@
     "waitText": "请稍候..."
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textOk": "确定",
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "所选文字",
       "textDisplay": "显示",
       "textDone": "完成",
+      "textDrawing": "绘图",
       "textEmptyImgUrl": "您需要指定图像的URL。",
       "textExternalLink": "外部链接",
       "textFirstSlide": "第一张幻灯片",
@@ -514,7 +524,6 @@
       "textEmail": "电子邮件：",
       "textEnableAll": "全部启用",
       "textEnableAllMacrosWithoutNotification": "启用全部宏，不显示通知",
-      "textExplanationChangeDirection": "应用程序将重新启动以开启 RTL 界面",
       "textFeedback": "反馈和支持",
       "textFind": "查找",
       "textFindAndReplace": "查找和替换",
@@ -540,8 +549,6 @@
       "textReplace": "替换",
       "textReplaceAll": "全部替换",
       "textRestartApplication": "请重新启动应用程序以使更改生效",
-      "textRTL": "RTL (文字从右到左)",
-      "textRtlInterface": "RTL 界面 (文字从右到左)",
       "textSameAsSystem": "与系统一致",
       "textSearch": "查找",
       "textSettings": "设置",

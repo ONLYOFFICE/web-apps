@@ -165,6 +165,7 @@
       "textDefault": "Selected text",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFirstSlide": "First Slide",
@@ -390,7 +391,6 @@
       "textEmail": "email:",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textFind": "Find",
       "textFindAndReplace": "Find and Replace",
@@ -415,8 +415,6 @@
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL",
-      "textRtlInterface": "RTL Interface",
       "textSearch": "Find",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",
@@ -462,6 +460,12 @@
     "textOk": "Ok",
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -550,12 +554,15 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

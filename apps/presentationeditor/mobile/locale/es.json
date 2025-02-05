@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Color personalizado",
+    "textLineSize": "Tamaño de línea",
+    "textOpacity": "Opacidad "
+  },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
@@ -276,7 +282,10 @@
     "stayButtonText": "Quedarse en esta página",
     "textCloseHistory": "Cerrar historial",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textOk": "OK",
+    "textRenameFile": "Renombrar archivo",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Texto seleccionado",
       "textDisplay": "Mostrar",
       "textDone": "Hecho",
+      "textDrawing": "Dibujar",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFirstSlide": "Primera diapositiva",
@@ -514,7 +524,6 @@
       "textEmail": "correo: ",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
-      "textExplanationChangeDirection": "La aplicación se reiniciará para que se active la interfaz RTL",
       "textFeedback": "Comentarios y asistencia",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
@@ -540,8 +549,6 @@
       "textReplace": "Reemplazar",
       "textReplaceAll": "Reemplazar todo",
       "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
-      "textRTL": "De derecha a izquierda",
-      "textRtlInterface": "Interfaz RTL",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",

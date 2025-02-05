@@ -95,7 +95,7 @@
       "errorOpensource": "무료 커뮤니티 버전을 사용하는 경우 열린 파일만 볼 수 있습니다. 모바일 온라인 에디터 기능을 사용하기 위해서는 유료 라이선스가 필요합니다.",
       "errorProcessSaveResult": "저장하지 못했습니다.",
       "errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
-      "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+      "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
       "leavePageText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",
       "notcriticalErrorTitle": "경고",
       "SDK": {
@@ -275,8 +275,11 @@
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
     "textCloseHistory": "닫기 역사",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "슬라이드 번호",
       "textTable": "표",
       "textTableSize": "표 크기",
-      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다."
+      "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
@@ -538,7 +542,6 @@
       "textReplace": "바꾸기",
       "textReplaceAll": "모두 바꾸기",
       "textRestartApplication": "변경 사항이 적용되려면 애플리케이션을 다시 시작하세요.",
-      "textRTL": "RTL",
       "textSameAsSystem": "시스템과 동일",
       "textSearch": "검색",
       "textSettings": "설정",
@@ -553,9 +556,13 @@
       "textUploaded": "업로드 되었습니다",
       "textVersion": "버전",
       "textVersionHistory": "버전 기록",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

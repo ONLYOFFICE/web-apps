@@ -276,7 +276,10 @@
     "stayButtonText": "Maradjon ezen az oldalon",
     "textCloseHistory": "Napló bezárása",
     "textEnterNewFileName": "Írjon be egy új fájlnevet",
-    "textRenameFile": "Fájl Átnevezése"
+    "textRenameFile": "Fájl Átnevezése",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Dia száma",
       "textTable": "Táblázat",
       "textTableSize": "Táblázat mérete",
-      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”"
+      "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -513,7 +517,6 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Összes engedélyezése",
       "textEnableAllMacrosWithoutNotification": "Engedélyezze az összes makrót értesítés nélkül",
-      "textExplanationChangeDirection": "Az alkalmazás újraindul az RTL-interfész aktiválásához",
       "textFeedback": "Visszajelzés és Támogatás",
       "textFind": "Keresés",
       "textFindAndReplace": "Keresés és csere",
@@ -539,7 +542,6 @@
       "textReplace": "Cserél",
       "textReplaceAll": "Mindent cserél",
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
-      "textRTL": "RTL",
       "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSettings": "Beállítások",
@@ -554,8 +556,13 @@
       "textUploaded": "Feltöltve",
       "textVersion": "Verzió",
       "textVersionHistory": "Naplótörténet",
-      "textClose": "Close",
-      "textRtlInterface": "RTL Interface"
+      "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

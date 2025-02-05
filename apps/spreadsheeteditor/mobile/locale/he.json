@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' כדי לחזור לרשימת המסמכים.",
@@ -291,6 +297,7 @@
     "errorFileVKey": "שגיאה חיצונית.<br>מפתח אבטחה שגוי. נא ליצור קשר עם התמיכה.",
     "errorFillRange": "לא ניתן למלא את טווח התאים שנבחר.<br>כל התאים הממוזגים צריכים להיות באותו גודל.",
     "errorForceSave": "אירעה שגיאה בעת שמירת הקובץ. נא להשתמש באפשרות 'הורד כ' כדי לשמור את הקובץ בכונן הקשיח של המחשב שלך או לנסות שוב מאוחר יותר.",
+    "errorFormulaInPivotFieldName": "לא ניתן להזין נוסחה לפריט או לשם שדה בדו\"ח טבלת ציר.",
     "errorFormulaName": "שגיאה בנוסחה.<br>שם נוסחה שגוי.",
     "errorFormulaParsing": "שגיאה פנימית בזמן ניתוח הנוסחה.",
     "errorFrmlMaxLength": "לא ניתן להוסיף נוסחה זו מכיוון שאורכה עולה על מספר התווים המותר.<br>נא לערוך אותה מחדש ואז לנסות שוב.",
@@ -321,15 +328,18 @@
     "errorNoDataToParse": "לא נבחרו נתונים לניתוח.",
     "errorOpenWarning": "אורכה של אחת הנוסחאות בקובץ חרג<br>ממספר התווים המותר והיא הוסרה.",
     "errorOperandExpected": "תחביר הפונקציה שהוזן אינו נכון. נא לבדוק אם נשכח אחד הסוגריים - '(' או ')'.",
+    "errorPasteInPivot": "לא ניתן לבצע שינוי זה לגבי התאים שנבחרו כיוון שזה ישפיע על טבלת ציר.<br>ניתן להשתמש ברשימת השדות לשינוי הדו\"ח.",
     "errorPasteMaxRange": "אזור ההעתקה וההדבקה אינו תואם. נא לבחור אזור באותו גודל או ללחוץ על התא הראשון ברציפות כדי להדביק את התאים שהועתקו.",
     "errorPasteMultiSelect": "לא ניתן לבצע פעולה זו בבחירת טווח מרובה.<br>נא לבחור טווח יחיד ונסה שוב.",
     "errorPasteSlicerError": "לא ניתן להעתיק חותכי גליון עבודה מגליון אחד לאחר.",
+    "errorPivotFieldNameExists": "שם השדה בטבלת הציר כבר קיים.",
     "errorPivotGroup": "לא ניתן לקבץ את הבחירה הזו.",
     "errorPivotOverlap": "דוח טבלת ציר אינו יכול לחפוף טבלה.",
     "errorPivotWithoutUnderlying": "דוח טבלת הציר נשמר ללא הנתונים הבסיסיים.<br>נא להשתמש בלחצן 'רענן' כדי לעדכן את הדוח.",
     "errorPrecedentsNoValidRef": "הפקודה \"עקוב אחר מקורות\" דורשת שהתא הפעיל יכיל נוסחה הכוללת הפניות תקפות.",
     "errorPrintMaxPagesCount": "למרבה הצער, לא ניתן להדפיס יותר מ 1500 עמודים בבת אחת בגירסה הנוכחית של התוכנית.<br>הגבלה זו תבוטל במהדורות הקרובות.",
     "errorProtectedRange": "טווח זה אינו מותר לעריכה.",
+    "errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
     "errorSessionAbsolute": "פג תוקפו של הפעלת עריכת המסמכים. נא לטעון מחדש את הדף.",
     "errorSessionIdle": "המסמך לא נערך די הרבה זמן. נא לטעון מחדש את הדף.",
     "errorSessionToken": "החיבור לשרת שובש. נא לטעון מחדש את הדף.",
@@ -367,8 +377,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת גודל המסמך המרבי.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "advDRMPassword": "סיסמה",
@@ -446,13 +455,17 @@
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגירת היסטוריה",
     "textEnterNewFileName": "הזנת שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textRenameFile": "שינוי שם קובץ",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255.",
       "errorStockChart": "סדר שורה שגוי. כדי לבנות תרשים עמודות יש למקם את הנתונים על הגיליון בסדר הבא:<br>מחיר פתיחה, מחיר מקסימלי, מחיר מינימלי, מחיר סגירה.",
       "notcriticalErrorTitle": "אזהרה",
+      "sCatDatabase": "מסד נתונים",
       "sCatDateAndTime": "תאריך ושעה",
       "sCatEngineering": "הנדסה",
       "sCatFinancial": "פיננסי",
@@ -510,7 +523,8 @@
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSorting": "מיון",
       "txtSortSelected": "מיון נבחר",
-      "txtYes": "כן"
+      "txtYes": "כן",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "אזהרה",
@@ -751,7 +765,6 @@
       "textEnableAllMacrosWithoutNotification": "הפעל את כל פקודות המאקרו ללא הודעה",
       "textEncoding": "קידוד",
       "textExample": "דוגמה",
-      "textExplanationChangeDirection": "היישום יופעל מחדש לצורך הפעלת ממשק RTL",
       "textFeedback": "משוב ותמיכה",
       "textFind": "איתור",
       "textFindAndReplace": "איתור והחלפה",
@@ -793,7 +806,6 @@
       "textRestartApplication": "נא להפעיל מחדש את היישום כדי שהשינויים ייכנסו לתוקף",
       "textRight": "ימין",
       "textRightToLeft": "מימין לשמאל",
-      "textRtlInterface": "ממשק מימין לשמאל",
       "textSameAsSystem": "זהה למערכת",
       "textSearch": "חיפוש",
       "textSearchBy": "חיפוש",

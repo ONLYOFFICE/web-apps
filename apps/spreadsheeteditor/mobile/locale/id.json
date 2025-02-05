@@ -368,6 +368,9 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -446,7 +449,10 @@
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama berkas baru",
-    "textRenameFile": "Ganti Nama Berkas"
+    "textRenameFile": "Ganti Nama Berkas",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -510,7 +516,9 @@
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "sCatDatabase": "Database",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",
@@ -751,7 +759,6 @@
       "textEnableAllMacrosWithoutNotification": "Aktifkan semua macros tanpa notifikasi",
       "textEncoding": "Enkoding",
       "textExample": "Contoh",
-      "textExplanationChangeDirection": "Aplikasi akan dijalankan ulang untuk aktivasi antar muka RTL",
       "textFeedback": "Masukan & Dukungan",
       "textFind": "Cari",
       "textFindAndReplace": "Cari dan Ganti",
@@ -793,7 +800,6 @@
       "textRestartApplication": "Silakan mulai ulang aplikasi untuk menerapkan perubahan",
       "textRight": "Kanan",
       "textRightToLeft": "Kanan Ke Kiri",
-      "textRtlInterface": "Antar Muka RTL",
       "textSameAsSystem": "Sama Seperti Sistem",
       "textSearch": "Cari",
       "textSearchBy": "Cari",
@@ -861,5 +867,11 @@
       "txtZh": "China",
       "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -252,7 +252,16 @@
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
-                    }
+                        disableForceDesktop: false // hide or show UI option to switch editor in 'Desktop' type
+                    },
+                    submitForm: {
+                        visible: true/false (default: true)
+                        resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
+                    },
+                    slidePlayerBackground: '#000000', // background color for slide show in presentation editor
+                    wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
+                    showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -284,7 +293,7 @@
                 'onError': <error callback>,
                 'onWarning': <warning callback>,
                 'onInfo': <document open callback>,// send view or edit mode
-                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened, deprecated: use onRequestRefreshFile/refreshFile instead
                 'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
                 'onRequestSaveAs': <try to save copy of the document>,
                 'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
@@ -306,6 +315,8 @@
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
+                'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
+                'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
             }
         }
 
@@ -376,6 +387,8 @@
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
+        _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
+        _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -425,6 +438,15 @@
 
                     if (msg.event === 'onRequestEditRights' && !handler) {
                         _applyEditRights(false, 'handler isn\'t defined');
+                    } else
+                    if (msg.event === 'onSwitchEditorType' && !handler) {
+                        if ( msg.data ) {
+                            if ( typeof msg.data.type == 'string' )
+                                localStorage.setItem('asc-force-editor-type', msg.data.type);
+
+                            if ( msg.data.restart )
+                                window.location.reload();
+                        }
                     } else {
                         if (msg.event === 'onAppReady') {
                             _onAppReady();
@@ -472,7 +494,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -835,6 +857,13 @@
             });
         };
 
+        var _refreshFile = function(data) {
+            _sendCommand({
+                command: 'refreshFile',
+                data: data
+            });
+        };
+
         var _serviceCommand = function(command, data) {
             _sendCommand({
                 command: 'internalCommand',
@@ -871,6 +900,7 @@
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
             setReferenceData    : _setReferenceData,
+            refreshFile         : _refreshFile,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
@@ -995,6 +1025,34 @@
         return "";
     }
 
+    function isLocalStorageAvailable() {
+        try {
+            const storage = window['localStorage'];
+            return true;
+        }
+        catch(e) {
+            return false;
+        }
+    }
+
+    function correct_app_type(config) {
+        if ( config.type == 'mobile' ) {
+            if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
+                    config.editorConfig.customization.mobile.disableForceDesktop !== true )
+            {
+                if ( isLocalStorageAvailable() ) {
+                    const f = localStorage.getItem('asc-force-editor-type');
+                    if ( f === 'desktop' ) {
+                        config.editorConfig.forceDesktop = true;
+                        return 'desktop';
+                    }
+                }
+            }
+        }
+
+        return config.type;
+    }
+
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
             path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
@@ -1015,20 +1073,21 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(oform|docxf))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
                 fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
                             config.editorConfig && (config.editorConfig.mode !== 'view');
         }
+        var corrected_type = correct_app_type(config);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
-            appType = config.type === 'mobile' ||  config.type === 'embedded' ? 'word' : 'pdf';
+            appType = corrected_type === 'mobile' || corrected_type === 'embedded' ? 'word' : 'pdf';
         } else if (type && typeof type[1] === 'string') { // pdf - need check
             isForm = config.document ? config.document.isForm : undefined;
-            if (config.type === 'embedded')
+            if (corrected_type === 'embedded')
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
-            else if (config.type !== 'mobile')
+            else if (corrected_type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
         } else if (type && typeof type[5] === 'string') { // oform|docxf
             appType = 'word';
@@ -1044,8 +1103,8 @@
             path = extendAppPath(config, path);
         path += appMap[appType];
 
-        const path_type = config.type === "mobile" ? "mobile" :
-                          config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+        const path_type = corrected_type === "mobile" ? "mobile" :
+                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 
@@ -1148,6 +1207,10 @@
                 params += "&indexPostfix=_loader";
             }
         }
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.wordHeadingsColor && typeof config.editorConfig.customization.wordHeadingsColor === 'string') {
+            params += "&headingsColor=" + config.editorConfig.customization.wordHeadingsColor.replace(/#/, '');
+        }
+
         return params;
     }
 

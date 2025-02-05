@@ -365,7 +365,10 @@ define([
                     review: true,
                     viewport: false,
                     documentHolder: {clear: true, disable: true},
-                    toolbar: true
+                    toolbar: true,
+                    header: {search: false},
+                    shortcuts: false,
+                    documentPreview: {draw: true}
                 }, 'signature');
             }
         },

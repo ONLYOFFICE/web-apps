@@ -342,6 +342,7 @@
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
     "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
@@ -349,8 +350,10 @@
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPivotGroup": "Cannot group that selection.",
     "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
@@ -444,15 +447,19 @@
     "dlgLeaveTitleText": "您離開應用程式",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "錯誤！每個圖表的最大數據系列數為255。",
       "errorStockChart": "行序錯誤。要建立股票圖表，請將數據按照以下順序工作表：<br> 開盤價、最高價、最低價、收盤價。 ",
       "notcriticalErrorTitle": "警告",
+      "sCatDatabase": "資料庫",
       "sCatDateAndTime": "日期和時間",
       "sCatEngineering": "工程",
       "sCatFinancial": "金融",
@@ -510,7 +517,8 @@
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
       "txtYes": "是",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -854,12 +862,16 @@
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

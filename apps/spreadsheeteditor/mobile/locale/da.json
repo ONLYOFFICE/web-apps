@@ -311,6 +311,7 @@
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limitation.<br>Please, contact your admin for details.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFrmlMaxLength": "You cannot add this formula as its length exceeds the allowed number of characters.<br>Please, edit it and try again.",
     "errorFrmlMaxTextLength": "Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)",
     "errorFrmlWrongReferences": "The function refers to a sheet that does not exist.<br>Please, check the data and try again.",
@@ -333,9 +334,11 @@
     "errorNoDataToParse": "No data was selected to parse.",
     "errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",
     "errorOperandExpected": "The entered function syntax is not correct. Please, check if you missed one of the parentheses - '(' or ')'.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPasteMaxRange": "The copy and paste area does not match. Please, select an area of the same size or click the first cell in a row to paste the copied cells.",
     "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPivotGroup": "Cannot group that selection.",
     "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
@@ -442,11 +445,14 @@
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
     "stayButtonText": "Bliv på siden",
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -499,9 +505,11 @@
       "txtSorting": "Sorterer",
       "txtSortSelected": "Sortèr valgte",
       "txtYes": "Ja",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
@@ -838,7 +846,6 @@
       "advDRMEnterPassword": "Your password, please:",
       "strFuncLocale": "Formula Language",
       "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textNoMatches": "No Matches",
       "textReplace": "Replace",
@@ -846,7 +853,6 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
-      "textRtlInterface": "RTL Interface",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",
@@ -861,5 +867,11 @@
       "textVersionHistory": "Version History",
       "txtSemicolon": "Semicolon"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

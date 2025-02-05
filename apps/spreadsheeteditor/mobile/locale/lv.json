@@ -341,6 +341,7 @@
     "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
     "errorEmailClient": "No email client could be found",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
     "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
@@ -348,8 +349,10 @@
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
     "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorPivotGroup": "Cannot group that selection.",
     "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
@@ -445,8 +448,11 @@
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
     "textCloseHistory": "Aizvērt vēsturi",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -510,7 +516,9 @@
       "txtSorting": "Šķirošana",
       "txtSortSelected": "Šķirot izvēlēto",
       "txtYes": "Jā",
-      "sCustom": "Custom"
+      "sCatDatabase": "Database",
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",
@@ -854,12 +862,16 @@
       "warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
       "textClose": "Close",
       "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
     }
   },
+  "Draw": {
+    "textColor": "Цвет",
+    "textCustomColor": "Пользовательский цвет",
+    "textLineSize": "Толщина линии",
+    "textOpacity": "Непрозрачность"
+  },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
     "criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
@@ -270,13 +276,16 @@
     "waitText": "Пожалуйста, подождите..."
   },
   "Toolbar": {
+    "btnRestartNow": "Перезапустить сейчас",
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
     "textCloseHistory": "Закрыть историю",
     "textEnterNewFileName": "Введите новое имя файла",
-    "textRenameFile": "Переименовать файл"
+    "textOk": "OK",
+    "textRenameFile": "Переименовать файл",
+    "textSwitchToDesktop": "Переключить в десктопный режим"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Выделенный текст",
       "textDisplay": "Отображать",
       "textDone": "Готово",
+      "textDrawing": "Рисование",
       "textEmptyImgUrl": "Необходимо указать URL рисунка.",
       "textExternalLink": "Внешняя ссылка",
       "textFirstSlide": "Первый слайд",
@@ -514,7 +524,6 @@
       "textEmail": "email: ",
       "textEnableAll": "Включить все",
       "textEnableAllMacrosWithoutNotification": "Включить все макросы без уведомления",
-      "textExplanationChangeDirection": "Приложение будет перезапущено для активации RTL-интерфейса",
       "textFeedback": "Обратная связь и поддержка",
       "textFind": "Поиск",
       "textFindAndReplace": "Поиск и замена",
@@ -540,8 +549,6 @@
       "textReplace": "Заменить",
       "textReplaceAll": "Заменить все",
       "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
-      "textRTL": "Справа налево",
-      "textRtlInterface": "RTL-интерфейс",
       "textSameAsSystem": "Системная",
       "textSearch": "Поиск",
       "textSettings": "Настройки",

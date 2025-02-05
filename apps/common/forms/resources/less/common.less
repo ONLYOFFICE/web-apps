@@ -8,56 +8,26 @@
 @import "../../../../common/main/resources/less/colors-table-dark-contrast.less";
 @import "../../../../common/main/resources/less/colors-table-gray.less";
 // Core variables and mixins
-//@import "../../../../../vendor/bootstrap/less/variables.less";
-
-//@icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
 
 @import "../../../../common/main/resources/mods/less/mixins.less";
 
 // Reset
 @import "../../../../common/main/resources/mods/less/normalize.less";
-//@import "../../../../../vendor/bootstrap/less/print.less";
 
 // Core CSS
 @import "../../../../common/main/resources/mods/less/scaffolding.less";
 @import "../../../../common/main/resources/mods/less/type.less";
-//@import "code.less";
-//@import "grid.less";
-//@import "tables.less";
 @import "../../../../common/main/resources/mods/less/forms.less";
 @import "../../../../common/main/resources/mods/less/buttons.less";
 
 // Components
 @import "../../../../common/main/resources/mods/less/component-animations.less";
-//@import "../../../../../vendor/bootstrap/less/glyphicons.less";
-//@import "dropdowns.less";
-//@import "button-groups.less";
-//@import "input-groups.less";
-//@import "navs.less";
-//@import "navbar.less";
-//@import "breadcrumbs.less";
-//@import "pagination.less";
-//@import "pager.less";
-//@import "../../../../../vendor/bootstrap/less/labels.less";
-//@import "badges.less";
-//@import "jumbotron.less";
-//@import "thumbnails.less";
-//@import "../../../../../vendor/bootstrap/less/alerts.less";
-//@import "progress-bars.less";
-//@import "media.less";
-//@import "list-group.less";
-//@import "panels.less";
-//@import "wells.less";
-//@import "../../../../../vendor/bootstrap/less/close.less";
 
 // Components w/ JavaScript
-//@import "../../../../../vendor/bootstrap/less/modals.less";
 @import "../../../../common/main/resources/mods/less/tooltip.less";
-//@import "../../../../../vendor/bootstrap/less/popovers.less";
 @import "../../../../common/main/resources/mods/less/dropdowns.less";
 @import "../../../../common/main/resources/mods/less/button-groups.less";
 @import "../../../../common/main/resources/mods/less/input-groups.less";
-//@import "carousel.less";
 
 // Utility classes
 @import "../../../../common/main/resources/mods/less/utilities.less";
@@ -89,10 +59,6 @@
 @import "../../../../common/main/resources/less/advanced-settings-window.less";
 @import "../../../../common/main/resources/less/searchdialog.less";
 
-@toolbarBorderColor:            @border-toolbar-ie;
-@toolbarBorderColor:            @border-toolbar;
-@toolbarTopColor:               @background-toolbar-ie;
-@toolbarTopColor:               @background-toolbar;
 @toolbarFontSize:               12px;
 
 @iconSpriteCommonPath:          "../../../../common/forms/resources/img/glyphicons.png";
@@ -141,7 +107,8 @@
     font-size: @toolbarFontSize;
     min-width: 340px;
     z-index: 100;
-    background-color: @toolbarTopColor;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
 
     display: flex;
     align-items: center;
@@ -153,7 +120,8 @@
         width: 100%;
         height: 40px;
 
-        .box-inner-shadow(0 -1px 0 @toolbarBorderColor);
+        .box-inner-shadow(0 -1px 0 @border-toolbar-ie);
+        .box-inner-shadow(0 -1px 0 @border-toolbar);
     }
 
     .group {
@@ -164,7 +132,7 @@
             input {
                 font-size: inherit;
                 padding: 0;
-                text-align: right;
+                .text-align-right();
             }
 
             .text {
@@ -174,7 +142,7 @@
 
         &.left {
             left: 0;
-            padding-left: 10px;
+            .padding-left-10();
 
             .item {
                 float: left;
@@ -188,7 +156,7 @@
 
         &.right {
             right: 0;
-            padding-right: 10px;
+            .padding-right-10();
 
             .item {
                 display: inline-block;
@@ -217,16 +185,19 @@
     }
 
     .margin-right-small {
-        margin-right: 8px;
+        .margin-right-8();
     }
     .margin-right-large {
-        margin-right: 12px;
+        .margin-right(12px);
     }
     .margin-left-small {
-        margin-left: 8px;
+        .margin-left-8();
     }
     .margin-left-large {
-        margin-left: 12px;
+        .margin-left-12();
+    }
+    .margin-x-8 {
+        .margin-x(8px, 8px);
     }
 }
 
@@ -234,7 +205,7 @@
 // -------------------------
 .brand-logo {
     display: block;
-    width: 100px;
+    width: 86px;
     height: 20px;
     background: data-uri('../../../../common/main/resources/img/header/dark-logo_s.svg') no-repeat;
 }
@@ -283,11 +254,11 @@
             display: inline-block;
 
             &:first-child {
-                margin-right: 5px;
+                .margin-right-5();
             }
 
             &:last-child {
-                margin-left: 5px;
+                .margin-left-5();
             }
         }
     }
@@ -643,6 +614,9 @@
     line-height: 22px;
     padding: 0 0 0 3px;
     vertical-align: middle;
+    .rtl & {
+        padding: 0 3px 0 0;
+    }
 }
 
 #page-number {
@@ -671,11 +645,14 @@
 
     .title {
         padding: 5px 5px 5px 28px;
-        float: left;
+        .float-left();
         font-weight: normal;
         font-size: 11px;
         margin: 0px;
         text-overflow: ellipsis;
+        .rtl & {
+            padding: 5px 28px 5px 5px;
+        }
     }
 
     .zoom {
@@ -689,6 +666,11 @@
     }
     .mi-icon  {
         margin: 0;
+    }
+    
+    #id-menu-zoom-out {
+        .rtl & {
+            margin: 2px 0 0 5px;    }
     }
 }
 
@@ -714,4 +696,9 @@
 
 .search-bar {
     z-index: 50;
+}
+
+label {
+    margin-bottom: 0;
+    font-weight: normal;
 }

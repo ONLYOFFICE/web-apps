@@ -29,7 +29,6 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 var checkLocalStorage = (function () {
     try {
@@ -56,12 +55,12 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
     ui_rtl = window.nativeprocvars.rtl;
 } else {
     if ( isLangRtl(lang) )
-        if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
-            ui_rtl = localStorage.getItem("ui-rtl") === '1';
+        if ( checkLocalStorage && localStorage.getItem("settings-ui-rtl") !== null )
+            ui_rtl = localStorage.getItem("settings-ui-rtl") === '1';
         else ui_rtl = true;
 }
 
-if ( ui_rtl && !isIE ) {
+if ( ui_rtl && window.isIEBrowser !== true ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
@@ -87,7 +86,7 @@ function checkScaling() {
         }
     }
 
-    if ( !isIE ) {
+    if ( window.isIEBrowser !== true ) {
         matches = {
             'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
         };
@@ -107,7 +106,7 @@ let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
 window.Common = {
     Utils: {
         injectSvgIcons: function () {
-            if ( isIE ) return;
+            if ( window.isIEBrowser === true ) return;
 
             let runonce;
             // const el = document.querySelector('div.inlined-svg');
@@ -141,19 +140,22 @@ window.Common = {
 
 !params.skipScaling && checkScaling();
 
-if ( !!params.uitheme ) {
+if ( !window.uitheme.id && !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {
-        params.uitheme = 'theme-dark';
-        params.uithemetype = 'dark';
+        window.uitheme.id = 'theme-dark';
+        window.uitheme.type = 'dark';
     } else
     if ( params.uitheme == 'default-light' ) {
-        params.uitheme = 'theme-classic-light';
-        params.uithemetype = 'light';
+        window.uitheme.id = 'theme-classic-light';
+        window.uitheme.type = 'light';
     } else
-    if ( params.uitheme == 'theme-system' ) {}
+    if ( params.uitheme == 'theme-system' ) {
+        window.uitheme.adapt_to_system_theme();
+    } else {
+        window.uitheme.id = params.uitheme;
+    }
 }
 
-!window.uitheme.id && params.uitheme && (window.uitheme.id = params.uitheme);
 if ( !window.uitheme.id ) {
     window.uitheme.adapt_to_system_theme();
 } else {

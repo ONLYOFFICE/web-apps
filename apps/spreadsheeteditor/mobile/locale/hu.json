@@ -368,6 +368,9 @@
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -445,14 +448,18 @@
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
     "textCloseHistory": "Előzmények bezárása",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "HIBA! Az adatsorok maximális száma diagramonként 255.",
       "errorStockChart": "Helytelen sorsorrend. Részvénydiagram felépítéséhez helyezze el az adatokat a lapon a következő sorrendben:<br> nyitóár, max. ár, min. ár, záróár.",
       "notcriticalErrorTitle": "Figyelmeztetés",
+      "sCatDatabase": "Adatbázis",
       "sCatDateAndTime": "Dátum és idő",
       "sCatEngineering": "Mérnöki",
       "sCatFinancial": "Pénzügyi",
@@ -510,7 +517,8 @@
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak rendezése",
       "txtYes": "Igen",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -857,9 +865,13 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

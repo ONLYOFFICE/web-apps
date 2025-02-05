@@ -65,7 +65,8 @@
     "textTableSize": "Tablo Boyutu",
     "textWithBlueLinks": "Mavi Bağlantılar Yardımıyla ",
     "textWithPageNumbers": "Sayfa Numaralarıyla",
-    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır"
+    "txtNotUrl": "Bu alan \"http://www.example.com\" formatında bir URL olmak zorundadır",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -470,6 +471,8 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -710,7 +713,6 @@
     "textEnableAllMacrosWithoutNotification": "Tüm makroları bildirimsiz etkinleştir",
     "textEncoding": "Kodlama",
     "textEncryptFile": "Dosyayı Şifrele",
-    "textExplanationChangeDirection": "RTL arayüzü etkinleştirmesi için uygulama yeniden başlatılacak",
     "textExport": "Dışa aktar",
     "textExportAs": "Olarak dışa aktar",
     "textFastWV": "Hızlı Web Görünümü",
@@ -771,7 +773,6 @@
     "textRestartApplication": "Değişikliklerin geçerli olması için lütfen uygulamayı yeniden başlatın",
     "textRight": "Sağ",
     "textRightToLeft": "Sağdan Sola",
-    "textRtlInterface": "RTL Arayüzü",
     "textSameAsSystem": "Sistemle aynı",
     "textSave": "Kaydet",
     "textSearch": "Ara",
@@ -814,6 +815,14 @@
     "textSwitchedMobileView": "Mobil görünüme geçildi",
     "textSwitchedStandardView": "Standart görünüme geçildi",
     "warnEmptyRequiredField": "Formu gönderebilmek için gerekli tüm alanları doldurun.",
-    "btnSend": "Send"
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

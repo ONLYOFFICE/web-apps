@@ -65,7 +65,8 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com links azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
+    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -442,6 +443,7 @@
     "errorMailMergeSaveFile": "Mesclagem falhou.",
     "errorNoTOC": "Não há índice para atualizar. Você pode inserir um na guia Referências.",
     "errorPasswordIsNotCorrect": "A senha que você forneceu não está correta. Verifique se a tecla CAPS LOCK está desativada e certifique-se de usar a capitalização correta.",
+    "errorPDFFormsLocked": "A ação não pode ser executada porque causa alterações em formulários bloqueados.",
     "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
@@ -470,7 +472,8 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -710,7 +713,6 @@
     "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
     "textEncoding": "Codificação",
     "textEncryptFile": "Criptografar arquivo",
-    "textExplanationChangeDirection": "O aplicativo será reiniciado para ativação da interface RTL",
     "textExport": "Exportar",
     "textExportAs": "Exportar como",
     "textFastWV": "Visualização rápida da Web",
@@ -771,7 +773,6 @@
     "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
     "textRight": "Direita",
     "textRightToLeft": "Da direita para a esquerda",
-    "textRtlInterface": "Interface RTL",
     "textSameAsSystem": "O mesmo que sistema",
     "textSave": "Salvar",
     "textSearch": "Pesquisar",
@@ -814,6 +815,14 @@
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
-    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

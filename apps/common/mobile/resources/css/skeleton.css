@@ -7,6 +7,7 @@ body.theme-type-light {
     --background-navbar-word: #446995;
     --background-navbar-cell: #40865c;
     --background-navbar-slide: #BE664F;
+    --background-navbar-visio: #444796;
 }
 
 body.theme-type-dark {
@@ -14,10 +15,14 @@ body.theme-type-dark {
     --background-navbar-word: #232323;
     --background-navbar-cell: #232323;
     --background-navbar-slide: #232323;
+    --background-navbar-visio: #232323;
+    --background-navbar-pdf: #232323;
+
+    background-color: var(--background-primary, #232323);
 }
 
 .skl-navbar {
-    --box-logo-height: 0;
+    --box-logo-height: 0px;
     --skl-navbar-height: 44px;
     --skl-pixel-ratio: 1;
 }
@@ -52,12 +57,20 @@ body.theme-type-dark {
     background-color: var(--background-navbar-word, #446995);
 }
 
+.skl-navbar.skl-navbar--word.skl-navbar--md.pdf-view {
+    background-color: var(--background-navbar-pdf, #AA5252);
+}
+
 .skl-navbar.skl-navbar--cell.skl-navbar--md {
     background-color: var(--background-navbar-cell, #40865c);
 }
 
 .skl-navbar.skl-navbar--slide.skl-navbar--md {
     background-color: var(--background-navbar-slide, #BE664F);
+}
+
+.skl-navbar.skl-navbar--visio.skl-navbar--md {
+    background-color: var(--background-navbar-visio, #444796);
 }
 
 .skl-navbar::before {
@@ -158,5 +171,11 @@ body.theme-type-dark {
 .md .slide-editor {
     --f7-navbar-bg-color: var(--background-navbar-slide, #BE664F);
     --f7-subnavbar-bg-color: var(--background-navbar-slide, #BE664F);
+    --f7-subnavbar-height: 56px;
+}
+
+.md .visio-editor {
+    --f7-navbar-bg-color: var(--background-navbar-visio, #444796);
+    --f7-subnavbar-bg-color: var(--background-navbar-visio, #444796);
     --f7-subnavbar-height: 56px;
 }

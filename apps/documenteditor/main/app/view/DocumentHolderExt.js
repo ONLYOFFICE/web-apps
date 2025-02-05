@@ -107,6 +107,45 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = DE.getController('Toolbar').getView();
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'ppm-toolbar shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        })
+                    ]
+                })
+            });
+
+
+
             me.mnuGroup = new Common.UI.MenuItem({
                 caption : this.txtGroup,
                 iconCls : 'menu__icon btn-shape-group'
@@ -348,6 +387,11 @@ define([], function () {
                 })
             });
 
+            me.menuImgResetCrop = new Common.UI.MenuItem({
+                caption: me.textResetCrop,
+                iconCls: 'menu__icon btn-reset',
+            });
+
             me.menuImgRemoveControl = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
                 caption: me.textRemoveControl,
@@ -492,6 +536,10 @@ define([], function () {
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(islocked);
 
+                    me.menuImgResetCrop.setVisible(value.imgProps.value.asc_getIsCrop()); 
+                    if (me.menuImgResetCrop.isVisible()) 
+                        me.menuImgResetCrop.setDisabled(islocked);
+
                     if (me.menuChartEdit.isVisible())
                         me.menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
@@ -503,6 +551,12 @@ define([], function () {
                             alignto = Common.Utils.InternalSettings.get("de-img-align-to"); // 1 - page, 2 - margin, 3 - selected
                         me.menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         me.menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
+                    }
+                    me.menuShapesMerge.setDisabled(islocked || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
                     }
                     me.menuImageArrange.setDisabled( (wrapping == Asc.c_oAscWrapStyle2.Inline) && !value.imgProps.value.get_FromGroup() || content_locked ||
                         (me.api && !me.api.CanUnGroup() && !me.api.CanGroup() && value.imgProps.isSmartArtInternal));
@@ -566,6 +620,7 @@ define([], function () {
                     menuImgControlSeparator,
                     me.menuImageArrange,
                     me.menuImageAlign,
+                    me.menuShapesMerge,
                     me.menuImageWrap,
                     me.menuImgRotate,
                     { caption: '--' },
@@ -574,6 +629,7 @@ define([], function () {
                     me.menuSaveAsPicture,
                     menuSaveAsPictureSeparator,
                     me.menuImgCrop,
+                    me.menuImgResetCrop,
                     me.menuOriginalSize,
                     me.menuImgReplace,
                     me.menuChartEdit,
@@ -771,7 +827,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -949,6 +1005,9 @@ define([], function () {
             me.menuTableEditField = new Common.UI.MenuItem({
                 caption: me.textEditField
             });
+            me.menuTableFieldCodes = new Common.UI.MenuItem({
+                caption: me.textFieldCodes
+            });
 
             var menuTableFieldSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1057,7 +1116,7 @@ define([], function () {
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 11; i < 31; i++) { // from menuEquationSeparatorInTable to menuAddCommentTable (except menuAddCommentTable)
+                    for (var i = 11; i < 32; i++) { // from menuEquationSeparatorInTable to menuAddCommentTable (except menuAddCommentTable)
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -1261,6 +1320,8 @@ define([], function () {
                     me.menuTableRefreshField.setDisabled(disabled);
                     me.menuTableEditField.setVisible(!!in_field);
                     me.menuTableEditField.setDisabled(disabled);
+                    me.menuTableFieldCodes.setVisible(!!in_field);
+                    me.menuTableFieldCodes.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
                 },
                 items: [
@@ -1277,6 +1338,7 @@ define([], function () {
                     menuEquationSeparatorInTable,
                     me.menuTableRefreshField,
                     me.menuTableEditField,
+                    me.menuTableFieldCodes,
                     menuTableFieldSeparator,
                     me.menuTableSelectText,
                     me.menuTableInsertText,
@@ -1504,7 +1566,7 @@ define([], function () {
                 iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
@@ -1626,6 +1688,9 @@ define([], function () {
             });
             me.menuParaEditField = new Common.UI.MenuItem({
                 caption: me.textEditField
+            });
+            me.menuParaFieldCodes = new Common.UI.MenuItem({
+                caption: me.textFieldCodes
             });
 
             var menuParaFieldSeparator = new Common.UI.MenuItem({
@@ -1871,6 +1936,8 @@ define([], function () {
                     me.menuParaRefreshField.setDisabled(disabled);
                     me.menuParaEditField.setVisible(!!in_field);
                     me.menuParaEditField.setDisabled(disabled);
+                    me.menuParaFieldCodes.setVisible(!!in_field);
+                    me.menuParaFieldCodes.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1919,6 +1986,7 @@ define([], function () {
                     menuParaControlSeparator,
                     me.menuParaRefreshField,
                     me.menuParaEditField,
+                    me.menuParaFieldCodes,
                     menuParaFieldSeparator,
                     me.menuParaTOCSettings,
                     me.menuParaTOCRefresh,
@@ -2078,7 +2146,7 @@ define([], function () {
                     }
 
                     me.menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
-                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo() || me._docProtection.isReadOnly);
+                    me.menuViewUndo.setDisabled(!me.api.asc_getCanUndo());
                     me.menuViewCopySeparator.setVisible(isInSign);
 
                     var isRequested = (signProps) ? signProps.asc_getRequested() : false;

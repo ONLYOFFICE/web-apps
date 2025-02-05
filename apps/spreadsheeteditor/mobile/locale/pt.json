@@ -291,6 +291,7 @@
     "errorFileVKey": "Erro externo. <br> Chave de segurança incorreta. Por favor, contate o suporte.",
     "errorFillRange": "Não foi possível preencher o intervalo selecionado de células.<br>Todas as células mescladas precisam ser do mesmo tamanho.",
     "errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Transferir como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",
+    "errorFormulaInPivotFieldName": "Não é possível inserir uma fórmula para um item ou nome de campo em um relatório de tabela dinâmica.",
     "errorFormulaName": "Um erro na fórmula. <br> Nome da fórmula incorreto.",
     "errorFormulaParsing": "Erro interno enquanto a fórmula é analisada.",
     "errorFrmlMaxLength": "Você não pode adicionar esta fórmula, pois seu comprimento excede o número permitido de caracteres.<br>Por favor, edite-a e tente novamente.",
@@ -321,9 +322,11 @@
     "errorNoDataToParse": "Nenhum dado foi selecionado para analisar.",
     "errorOpenWarning": "O comprimento de uma das fórmulas do arquivo excedeu o número permitido de caracteres e foi removido.",
     "errorOperandExpected": "A sintaxe da função inserida não está correta. Por favor, verifique se você perdeu um dos parênteses - '(' ou ')'.",
+    "errorPasteInPivot": "Não podemos fazer essa alteração nas células selecionadas porque isso afetará uma tabela dinâmica.<br>Use a lista de campos para alterar o relatório.",
     "errorPasteMaxRange": "A área de cópia e cola não corresponde. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPasteMultiSelect": "Esta ação não pode ser feita em uma seleção de gama múltipla.<br>Selecionar uma única gama e tentar novamente.",
     "errorPasteSlicerError": "A Segmentação de Dados de tabela não podem ser copiados de uma pasta de trabalho para outra.",
+    "errorPivotFieldNameExists": "O nome do campo da tabela dinâmica já existe.",
     "errorPivotGroup": "Não é possível agrupar essa seleção.",
     "errorPivotOverlap": "Um relatório de tabela dinâmica não pode se sobrepor a uma tabela.",
     "errorPivotWithoutUnderlying": "O relatório da tabela dinâmica foi salvo sem os dados subjacentes.<br>Use o botão \"Atualizar\" para atualizar o relatório.",
@@ -446,13 +449,17 @@
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255.",
       "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de dados",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Engenharia",
       "sCatFinancial": "Financeiro",
@@ -510,7 +517,8 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -751,7 +759,6 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem uma notificação",
       "textEncoding": "Codificação",
       "textExample": "Exemplo",
-      "textExplanationChangeDirection": "O aplicativo será reiniciado para ativação da interface RTL",
       "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
@@ -793,7 +800,6 @@
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRight": "Direita",
       "textRightToLeft": "Da direita para a esquerda",
-      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSearchBy": "Pesquisar",
@@ -861,5 +867,11 @@
       "txtZh": "Chinês",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

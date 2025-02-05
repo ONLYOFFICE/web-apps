@@ -327,8 +327,11 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-smooth-scroll"></div></td>',
                 '</tr>',
-            '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-show-hscroll"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-show-vscroll"></div></td>',
                 '</tr>',
                 /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -336,6 +339,20 @@ define([], function () {
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
                 '</tr>',*/
+                '<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" class="subgroup-name"><label><%= scope.txtSheetDir %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" style="padding-top:0;padding-bottom:0;"><label class="comment-text"><%= scope.txtSheetDirDesc %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-sheet-rtl"><div id="fms-rb-sheet-ltr"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-rb-sheet-rtl"></div></td>',
+                '</tr>',
+                '<tr class ="divider edit"></tr>',
                 '<tr class="edit quick-access">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
                 '</tr>',
@@ -485,6 +502,22 @@ define([], function () {
             this.chSmoothScroll = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-smooth-scroll'),
                 labelText: this.strSmoothScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chHScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-show-hscroll'),
+                labelText: this.strHScroll,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.chVScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-show-vscroll'),
+                labelText: this.strVScroll,
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
@@ -878,14 +911,6 @@ define([], function () {
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
-            this.chRTL = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-rtl-ui'),
-                labelText: this.strRTLSupport,
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-
             this.chTabBack = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-tab-background'),
                 labelText: this.txtTabBack,
@@ -943,6 +968,24 @@ define([], function () {
                 allowDecimal: false,
                 maskExp: /[0-9]/,
                 dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.rbSheetLtr = new Common.UI.RadioBox({
+                el          :$markup.findById('#fms-rb-sheet-ltr'),
+                name        : 'sheet-dir',
+                labelText   : this.txtSheetLtr,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.rbSheetRtl = new Common.UI.RadioBox({
+                el          :$markup.findById('#fms-rb-sheet-rtl'),
+                name        : 'sheet-dir',
+                labelText   : this.txtSheetRtl,
+                dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
@@ -1027,7 +1070,6 @@ define([], function () {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
-            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -1124,7 +1166,6 @@ define([], function () {
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1133,6 +1174,10 @@ define([], function () {
                 this.spnMaxIterations.setValue(value.asc_getMaxIterations());
                 this.inputMaxChange.setValue(value.asc_getMaxChange());
             }
+
+            value = Common.Utils.InternalSettings.get("sse-settings-def-sheet-rtl");
+            this.rbSheetLtr.setValue(!value);
+            this.rbSheetRtl.setValue(value);
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -1187,6 +1232,10 @@ define([], function () {
                 this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
                 this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
                 this.chDateSystem.setValue(this.api.asc_getDate1904());
+            }
+            if (this.mode.isEdit) {
+                this.chHScroll.setValue(this.api.asc_GetShowHorizontalScroll());
+                this.chVScroll.setValue(this.api.asc_GetShowVerticalScroll());
             }
         },
 
@@ -1259,8 +1308,8 @@ define([], function () {
             Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
 
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
-            Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
+            this.mode.isEdit && Common.localStorage.setBool("sse-settings-def-sheet-rtl", this.rbSheetRtl.getValue());
+
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
@@ -1307,16 +1356,9 @@ define([], function () {
                     this.inputMaxChange.getValue() && value.asc_setMaxChange(Common.Utils.String.parseFloat(this.inputMaxChange.getValue()));
                     this.api.asc_UpdateCalcSettings(value);
                 }
-            }
 
-            if (isRtlChanged) {
-                var config = {
-                    title: this.txtWorkspaceSettingChange,
-                    msg: this.txtRestartEditor,
-                    iconCls: 'warn',
-                    buttons: ['ok']
-                };
-                Common.UI.alert(config);
+                this.api.asc_SetShowHorizontalScroll(this.chHScroll.isChecked());
+                this.api.asc_SetShowVerticalScroll(this.chVScroll.isChecked());
             }
         },
 
@@ -1374,6 +1416,7 @@ define([], function () {
                 showSave: this.mode.showSaveButton,
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                mode: this.mode,
                 props: {
                     save: Common.localStorage.getBool('sse-quick-access-save', true),
                     print: Common.localStorage.getBool('sse-quick-access-print', true),
@@ -1424,7 +1467,6 @@ define([], function () {
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
         txtCacheMode: 'Default cache mode',
-        strRTLSupport: 'RTL interface',
         strMacrosSettings: 'Macros Settings',
         txtWarnMacros: 'Show Notification',
         txtRunMacros: 'Enable All',
@@ -1495,8 +1537,6 @@ define([], function () {
         txtAdvancedSettings: 'Advanced Settings',
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
-        txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
         txtScreenReader: 'Turn on screen reader support',
@@ -1519,7 +1559,7 @@ define([], function () {
 
         events: function() {
             return {
-                'click .blank-document-btn':_.bind(this._onBlankDocument, this),
+                'click .blank-document':_.bind(this._onBlankDocument, this),
                 'click .thumb-list .thumb-wrap': _.bind(this._onDocumentTemplate, this)
             };
         },
@@ -1528,8 +1568,8 @@ define([], function () {
             '<div class="header"><%= scope.txtCreateNew %></div>',
             '<div class="thumb-list">',
                 '<% if (blank) { %> ',
-                '<div class="blank-document">',
-                    '<div class="blank-document-btn" data-hint="2" data-hint-direction="left-top" data-hint-offset="10, 1">',
+                '<div class="blank-document" data-hint="2" data-hint-direction="left-top" data-hint-offset="22, 13">',
+                    '<div class="blank-document-btn">',
                         '<div class="btn-blank-format"><div class="svg-format-blank"></div></div>',
                     '</div>',
                     '<div class="title"><%= scope.txtBlank %></div>',
@@ -1904,8 +1944,6 @@ define([], function () {
                 this.lblDate.text(this.dateToString(value));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
-
-            this.renderCustomProperties();
         },
 
         updateFileInfo: function() {
@@ -1957,6 +1995,8 @@ define([], function () {
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
                 !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
+
+            this.renderCustomProperties();
             this.SetDisabled();
         },
 

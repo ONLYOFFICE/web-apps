@@ -65,7 +65,8 @@
     "textTableSize": "حجم الجدول",
     "textWithBlueLinks": "بروابط زرقاء",
     "textWithPageNumbers": "مع أرقام الصفحات",
-    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  "
+    "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -442,6 +443,8 @@
     "errorMailMergeSaveFile": "فشل الدمج",
     "errorNoTOC": "لا يوجد جدول محتويات ليتم تحديثه. بإمكانك إدراج واحد من تبويب المراجع",
     "errorPasswordIsNotCorrect": "كلمة السر المدخلة غير صحيحة. تأكد أن زر القفل غير مفعل و استخدام الحروف الكبيرة و الصغيرة بشكل صحيح",
+    "errorPDFFormsLocked": "لا يمكن تنفيذ هذا الإجراء لأنه يتسبب في تغييرات في النماذج المغلقة.",
+    "errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق مثل المستند الخاص بك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك",
     "errorSessionAbsolute": "تم انتهاء صلاحية جلسة تعديل المستند. برجاء اعد تحميل الصفحة",
     "errorSessionIdle": "لم يتم تعديل المستند لفترة طويلة.برجاء اعادة تحميل الصفحة",
     "errorSessionToken": "تم اعتراض الاتصال للخادم .برجاء اعادة تحميل الصفحة",
@@ -470,7 +473,7 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -710,7 +713,6 @@
     "textEnableAllMacrosWithoutNotification": "تفعيل كل وحدات الماكرو بدون اشعارات",
     "textEncoding": "تشفير",
     "textEncryptFile": "تشفير الملف",
-    "textExplanationChangeDirection": "RTL سيتم إعادة تشغيل التطبيق لتنشيط واجهة ",
     "textExport": "تصدير",
     "textExportAs": "تصدير باسم",
     "textFastWV": "العرض السريع عبر الويب",
@@ -771,7 +773,6 @@
     "textRestartApplication": "برجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
     "textRight": "اليمين",
     "textRightToLeft": "من اليمين إلى اليسار",
-    "textRtlInterface": "الواجهة بالاتجاه من اليمين لليسار",
     "textSameAsSystem": "نفس النظام",
     "textSave": "حفظ",
     "textSearch": "إيجاد",
@@ -814,6 +815,14 @@
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
     "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
-    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة."
+    "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Umwandlung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste der Dokumente zurückzukehren.",
@@ -270,13 +276,16 @@
     "waitText": "Bitte warten..."
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
     "textCloseHistory": "Historie schließen",
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
-    "textRenameFile": "Datei umbenennen"
+    "textOk": "OK",
+    "textRenameFile": "Datei umbenennen",
+    "textSwitchToDesktop": "In den Desktopmodus wechseln"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "Ausgewählter Text",
       "textDisplay": "Anzeigen",
       "textDone": "Fertig",
+      "textDrawing": "Zeichnen",
       "textEmptyImgUrl": "Sie müssen die URL des Bildes angeben.",
       "textExternalLink": "Externer Link",
       "textFirstSlide": "Erste Folie",
@@ -514,7 +524,6 @@
       "textEmail": "E-Mail: ",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
-      "textExplanationChangeDirection": "Die Anwendung wird für die Aktivierung der RTL-Schnittstelle neu gestartet",
       "textFeedback": "Feedback und Support",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
@@ -540,8 +549,6 @@
       "textReplace": "Ersetzen",
       "textReplaceAll": "Alle ersetzen",
       "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
-      "textRTL": "RTL",
-      "textRtlInterface": "RTL-Schnittstelle",
       "textSameAsSystem": "Wie im System",
       "textSearch": "Suche",
       "textSettings": "Einstellungen",

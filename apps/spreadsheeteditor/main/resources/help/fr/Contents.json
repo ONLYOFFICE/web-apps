@@ -113,7 +113,8 @@
         "src": "UsageInstructions/UseNamedRanges.htm",
         "name": "Utiliser les plages nommées"
     },
-    {"src": "UsageInstructions/WatchWindow.htm", "name": "Fenêtre Espions"},
+    { "src": "UsageInstructions/WatchWindow.htm", "name": "Fenêtre Espions" },
+    {"src": "UsageInstructions/GoalSeek.htm", "name": "Valeur cible" },
   {
     "src": "UsageInstructions/InsertImages.htm",
     "name": "Insérer des images",
@@ -164,8 +165,7 @@
     {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
     {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
-    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },    
-	{"src": "UsageInstructions/Zoom.htm", "name": "Organiser et programmer des réunions de Zoom"},
+    { "src": "UsageInstructions/CommunicationPlugins.htm", "name": "Communiquer lors de l'édition" },
 	{"src": "UsageInstructions/ChatGPT.htm", "name": "Utiliser l'intelligence artificielle pour rédiger un texte"},
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
