@@ -2819,6 +2819,8 @@ define([
                             me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
+            } else {
+                me.getApplication().getController('Common.Controllers.Draw').setApi(me.api).setMode(config);
             }
 
             tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
