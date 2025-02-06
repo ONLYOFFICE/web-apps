@@ -132,7 +132,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-inserttable',
                     caption: me.capInsertTable,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
@@ -153,7 +153,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insertchart',
                     caption: me.capInsertChart,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -165,7 +165,7 @@ define([
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-smart-art',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
                     action: 'insert-smartart',
@@ -180,7 +180,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-insertequation',
                     caption: me.capInsertEquation,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                     split: true,
                     menu: new Common.UI.Menu({cls: 'menu-shapes'}),
                     action: 'insert-equation',
@@ -230,7 +230,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-textart',
                     caption: me.capInsertTextArt,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
@@ -261,7 +261,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-datetime',
                     caption: me.capBtnDateTime,
-                    lock: [_set.lostConnect, _set.paragraphLock, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.paragraphLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -273,7 +273,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagenum',
                     caption: me.capBtnSlideNum,
-                    lock: [_set.lostConnect, _set.paragraphLock, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.paragraphLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -288,7 +288,7 @@ define([
                     menuWidth: 330,
                     style: 'width: 140px;',
                     enableKeyEvents: true,
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '-16, 0'
@@ -324,11 +324,11 @@ define([
 
                 if (this.toolbar && this.toolbar.$el) {
                     this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg').add(this.toolbar.$el.find('.slot-insertimg')), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                     this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext').add(this.toolbar.$el.find('.slot-instext')), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, true, '1', 'bottom', 'small', undefined, 'insert-text');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, true, '1', 'bottom', 'small', undefined, 'insert-text');
                     this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape').add(this.toolbar.$el.find('.slot-insertshape')), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small', undefined, 'insert-shape');
+                        [Common.enumLock.pageDeleted, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small', undefined, 'insert-shape');
                     this.btnsAddPage = Common.Utils.injectButtons($host.find('.slot-inspage').add(this.toolbar.$el.find('.slot-inspage')), 'tlbtn-insertpage-', 'toolbar__icon btn-blankpage', this.capInsPage,
                         [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small', undefined, 'insert-page');
                 }
