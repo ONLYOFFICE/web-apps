@@ -6,7 +6,6 @@ import { MainContext } from '../../page/main';
 import { Device } from "../../../../../common/mobile/utils/device";
 import SvgIcon from "../../../../../common/mobile/lib/component/SvgIcon";
 import IconDraw from "../../../../../common/mobile/resources/icons/draw.svg";
-import {Device} from "../../../../../common/mobile/utils/device";
 import IconInsertCommentIos from '@common-ios-icons/icon-insert-comment.svg?ios';
 import IconInsertCommentAndroid from '@common-android-icons/icon-insert-comment.svg';
 import IconInsimageIos from '@ios-icons/icon-insimage.svg?ios';
