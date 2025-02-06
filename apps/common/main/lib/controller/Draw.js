@@ -199,7 +199,7 @@ define([
         },
 
         createToolbarPanel: function(groups) {
-            return this.view.getPanel(groups);
+            return this.view ? this.view.getPanel(groups) : null;
         },
 
         getView: function(name) {
