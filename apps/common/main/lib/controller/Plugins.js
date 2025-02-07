@@ -1230,7 +1230,11 @@ define([
                             help && window.open(help, '_blank');
                         },
                         'docked': function(frameId){
-                            me.onPluginPanelShow(frameId, variation, lang);
+                            me.triggerDockedEvent(frameId);
+                            setTimeout(function () {
+                                me.customPluginsDlg[frameId].close();
+                                me.onPluginPanelShow(frameId, variation, lang);
+                            }, 0);
                         },
                         'header:click': function(type){
                             me.api.asc_pluginButtonClick(type, variation.guid, frameId);
@@ -1244,6 +1248,13 @@ define([
                 let plg = this.pluginsWinToShow.shift();
                 plg && this.onPluginWindowShow(plg.frameId, plg.variation);
             }
+        },
+
+        triggerDockedEvent: function(frameId) {
+            $('#' + frameId)[0].contentWindow.postMessage(JSON.stringify({
+                type: 'plugin_docked',
+                frameId: frameId
+            }), "*");
         },
 
         onPluginWindowClose: function(frameId) {
@@ -1332,8 +1343,11 @@ define([
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
             this.viewPlugins.customPluginPanels[frameId].on('docked',  _.bind(function(frameId) {
-				this.onPluginWindowClose(frameId);
-				this.onPluginWindowShow(frameId, variation);
+                this.triggerDockedEvent(frameId);
+                setTimeout( _.bind(function() {
+                    this.onPluginWindowClose(frameId);
+                    this.onPluginWindowShow(frameId, variation);
+                }, this), 0);
             }, this));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))

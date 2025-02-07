@@ -215,8 +215,7 @@ define([], function () {
                 var iconCls = 'btn-promote';
                 btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
                 btn.on('click', _.bind(function() {
-                    this.close();
-                    this.fireEvent('docked', this.frameId, this.options.variation);
+                    this.fireEvent('docked', this.frameId);
                 }, this));
                 header.append(btn);
             }
