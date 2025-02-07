@@ -2969,9 +2969,9 @@ define([
 
                 function compareColors(colorA, colorB) {
                     if (!colorA || !colorB) return false;
-                    return colorA.r === colorB.r &&
-                           colorA.g === colorB.g &&
-                           colorA.b === colorB.b;
+                    return colorA.get_r() === colorB.get_r() &&
+                           colorA.get_g() === colorB.get_g() &&
+                           colorA.get_b() === colorB.get_b();
                 }
         
                 var targetBorder = borderSide[item.options.borderId];
@@ -3001,7 +3001,7 @@ define([
                 } else {
                     targetBorder.forEach(side => {
                         var same = toleranceEror(currentBorder[side].width, bordersWidth) &&
-                                     compareColors(currentBorder[side].color, bordersColor);  
+                                   compareColors(currentBorder[side].color, bordersColor);  
                         if (same) {
                             borders[`put_${side}`](new Asc.asc_CTextBorder({ Size: 0 }));               
                         } else {
