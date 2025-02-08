@@ -48,4 +48,3 @@ To run the sprite image build script, Python version 3.6 or higher is required.
      ```html
      <div class="smb smb-file_name_without_extension"></div>
      ```
-```
