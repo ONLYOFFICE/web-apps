@@ -2947,6 +2947,7 @@ define([
                         currentBorder[side] = {
                             width: sizePts, 
                             color: border.asc_getColor(),
+                            value: border.asc_getValue()
                         };
                     }
                 });
@@ -2962,7 +2963,7 @@ define([
                     none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
                 };
 
-                function toleranceEror(a, b, t) {
+                function toleranceError(a, b, t) {
                     t = 0.01;
                     return Math.abs(a - b) < t;
                 }
@@ -2974,38 +2975,53 @@ define([
                            colorA.get_b() === colorB.get_b();
                 }
         
-                var targetBorder = borderSide[item.options.borderId];
+                var targetBorder = borderSide[item.options.borderId],
+                    brd = new Asc.asc_CTextBorder();
 
                 if (item.options.borderId === 'none') {
                     targetBorder.forEach(side => {
-                        borders[`put_${side}`](new Asc.asc_CTextBorder({ Size: 0 }));
+                        brd.put_Color( new Asc.asc_CTextBorder());
+                        brd.put_Value(0); 
+                        borders[`put_${side}`](brd);
                     });
                 } else if (item.options.borderId === 'all') {
                     targetBorder.forEach(side => {
-                        borders[`put_${side}`](borderStyle);
+                        brd.put_Color(bordersColor);
+                        brd.put_Size(bordersWidth * 25.4 / 72);
+                        brd.put_Value(1); 
+                        borders[`put_${side}`](brd);
                     });
                 } else if (item.options.borderId === 'outer') {
                     var outerSame = targetBorder.every(side => 
-                        toleranceEror(currentBorder[side].width, bordersWidth) &&
-                        compareColors(currentBorder[side].color, bordersColor) 
-                    );
+                        toleranceError(currentBorder[side].width, bordersWidth) &&
+                        compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
                     if (outerSame) {
                         targetBorder.forEach(side => {
-                            borders[`put_${side}`](new Asc.asc_CTextBorder({ Size: 0 }));
+                            brd.put_Color( new Asc.asc_CTextBorder());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);  
                         });
                     } else {
                         targetBorder.forEach(side => {
-                            borders[`put_${side}`](borderStyle);                            
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);
                         });
                     }
                 } else {
                     targetBorder.forEach(side => {
-                        var same = toleranceEror(currentBorder[side].width, bordersWidth) &&
-                                   compareColors(currentBorder[side].color, bordersColor);  
+                        var same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                   compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
                         if (same) {
-                            borders[`put_${side}`](new Asc.asc_CTextBorder({ Size: 0 }));               
+                            brd.put_Color( new Asc.asc_CTextBorder());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);               
                         } else {
-                            borders[`put_${side}`](borderStyle);        
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);        
                         }
                     });
                 }
