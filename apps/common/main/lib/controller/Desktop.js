@@ -924,6 +924,14 @@ define([
                     t == utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF ||
                     t == utils.defines.FileFormat.FILE_CROSSPLATFORM_DJVU ||
                     t ==  utils.defines.FileFormat.FILE_CROSSPLATFORM_XPS;
+        } else
+        if ( window.VE ) {
+            return t == utils.defines.FileFormat.FILE_DRAW_VSDX ||
+                    t == utils.defines.FileFormat.FILE_DRAW_VSDM ||
+                    t == utils.defines.FileFormat.FILE_DRAW_VSTX ||
+                    t == utils.defines.FileFormat.FILE_DRAW_VSTM ||
+                    t == utils.defines.FileFormat.FILE_DRAW_VSSX ||
+                    t ==  utils.defines.FileFormat.FILE_DRAW_VSSM;
         }
 
         return false;
