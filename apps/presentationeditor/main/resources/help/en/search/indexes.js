@@ -262,8 +262,8 @@ var indexes =
     },
    {
         "id": "UsageInstructions/PresentationViewer.htm", 
-        
-        
+        "title": "Presentation viewer", 
+        "body": "When you open the ONLYOFFICE Presentation Editor with viewer access rights, you can freely navigate the presentation using the viewing tools available. The top toolbar has the following tabs and quick access buttons: Available tabs: File tab, View tab, Plugins tab, AI tab. The View tab allows changing the pointer style. Use the Hand tool for navigating the slide, and the Select tool for selecting slide objects. Quick access buttons: Edit current file - close the presentation viewer mode and switch to editing. Print - print the current presentation. Open file location - in the desktop version, it allows opening the folder, where the file is stored, in the File Explorer window. In the online version, it allows opening the folder of the Documents module, where the file is stored, in a new browser tab. Download file - download the current presentation onto your hard disk drive. Search - allows to search the presentation for a particular word or symbol, etc. The left panel has the following buttons: - allows using the Search and Replace tool, - allows viewing slides and navigating them, - allows opening the Comments panel, - (available in the online version only) allows opening the Chat panel, - (available in the online version only) allows contacting our support team, - (available in the online version only) allows viewing the information about the program. The Slide list has all presentation slides available for quick access. The Status bar at the bottom of the editor window contains the Start slideshow icon, some navigation tools: slide number indicator and zoom buttons. The Status bar also displays some notifications (such as \"All changes saved\", ‘Connection is lost’ when there is no connection and the editor is trying to reconnect etc.). The Scroll bar on the right allows scrolling the presentation up and down."
     },
    {
         "id": "UsageInstructions/PreviewPresentation.htm", 
