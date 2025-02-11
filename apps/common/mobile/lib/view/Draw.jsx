@@ -37,8 +37,10 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             <div className="draw-sheet--settings-colors-list">
               {colors.map((color, index) => (
                 <div
-                  key={index} className="draw-sheet--settings-colors-list-item" style={{ backgroundColor: color }}
+                  key={index}
+                  className="draw-sheet--settings-colors-list-item" style={{ backgroundColor: color }}
                   onClick={() => setSettings({ color })}
+                  onTouchStart={() => setSettings({ color })}
                 />
               ))}
               <div
