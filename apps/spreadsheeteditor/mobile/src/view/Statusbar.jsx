@@ -19,7 +19,7 @@ const PageListMove = props => {
             <Page>
                 <Navbar title={t('Statusbar.textMoveBefore')}/>
                 <List>
-                    <ListGroup>
+                    <ListGroup style={Device.phone ? { paddingBottom: '44px' } : undefined}>
                         { allSheets.map((model, index) => 
                             model.hidden ? null : 
                             <ListItem 
