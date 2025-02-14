@@ -13,7 +13,7 @@
   "DE.ApplicationController.criticalErrorTitle": "오류",
   "DE.ApplicationController.downloadErrorText": "다운로드 실패",
   "DE.ApplicationController.downloadTextText": "문서 다운로드 중...",
-  "DE.ApplicationController.errorAccessDeny": "권한이없는 작업을 수행하려고합니다. <br> Document Server 관리자에게 문의하십시오.",
+  "DE.ApplicationController.errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다.<br>관리자에게 문의하십시오.",
   "DE.ApplicationController.errorDefaultMessage": "오류 코드: %1",
   "DE.ApplicationController.errorEditingDownloadas": "  문서 작업 중에 알수 없는 장애가 발생했습니다.<br>  \"다른 이름으로 다운로드...\"를 선택하여 파일을 현재 사용 중인 컴퓨터 하드 디스크에 저장하시기 바랍니다.",
   "DE.ApplicationController.errorFilePassProtect": "이 문서는 암호로 보호되어있어 열 수 없습니다.",

@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Cor personalizada",
+    "textLineSize": "Tamanho da linha",
+    "textOpacity": "Opacidade"
+  },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
     "criticalErrorExtText": "Pressione 'OK' para voltar para a lista de documentos.",
@@ -270,16 +276,16 @@
     "waitText": "Por favor, aguarde..."
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Renomear arquivo",
+    "textSwitchToDesktop": "Mudar para o desktop"
   },
   "View": {
     "Add": {
@@ -293,6 +299,7 @@
       "textDefault": "Texto selecionado",
       "textDisplay": "Exibir",
       "textDone": "Concluído",
+      "textDrawing": "Desenho",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFirstSlide": "Primeiro slide",
@@ -322,8 +329,7 @@
       "textSlideNumber": "Número do slide",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Atenção",
@@ -558,11 +564,5 @@
       "textVersion": "Versão",
       "textVersionHistory": "Histórico de versão"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

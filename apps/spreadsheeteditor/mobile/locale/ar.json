@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
     }
   },
+  "Draw": {
+    "textColor": "اللون",
+    "textCustomColor": "لون مخصص",
+    "textOpacity": "معدل الشفافية",
+    "textLineSize": "Line size"
+  },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",
     "criticalErrorExtText": "اضغط على 'موافق' للعودة إلى قائمة المستند",
@@ -449,9 +455,9 @@
     "stayButtonText": "ابقى في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
+    "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
     "btnRestartNow": "Restart now",
-    "textOk": "OK",
     "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
@@ -867,11 +873,5 @@
       "txtZh": "الصينية",
       "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

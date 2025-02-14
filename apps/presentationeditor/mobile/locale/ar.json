@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "ليس لديك الإذن بتعديل هذا الملف."
     }
   },
+  "Draw": {
+    "textColor": "اللون",
+    "textCustomColor": "لون مخصص",
+    "textOpacity": "معدل الشفافية",
+    "textLineSize": "Line size"
+  },
   "Error": {
     "convertationTimeoutText": "تم تجاوز مهلة التحويل.",
     "criticalErrorExtText": "اضغط على 'موافق' للعودة إلى قائمة المستندات",
@@ -276,9 +282,9 @@
     "stayButtonText": "البقاء في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
+    "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
     "btnRestartNow": "Restart now",
-    "textOk": "OK",
     "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
@@ -558,11 +564,5 @@
       "textVersion": "الإصدار",
       "textVersionHistory": "سجل الإصدارات"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }
