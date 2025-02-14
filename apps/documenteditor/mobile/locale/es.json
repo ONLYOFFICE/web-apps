@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Código de error: %1",
     "errorDirectUrl": "Por favor, verifique el vínculo al documento.<br>Este vínculo debe ser un vínculo directo al archivo para descargar.",
     "errorEditingDownloadas": "Se ha producido un error al trabajar con el documento.<br>Descargue el documento para guardar la copia de seguridad del archivo localmente.",
+    "errorEditProtectedRange": "No tiene permiso para editar esta selección porque está protegida.",
     "errorEmptyTOC": "Empezar a crear una tabla de contenidos aplicando un estilo de encabezamiento de la galería de Estilos al texto seleccionado.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileSizeExceed": "El tamaño del archivo excede el límite de su servidor.<br>Por favor, contacte con su administrador.",
@@ -478,8 +479,7 @@
     "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
-    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Cargando datos...",

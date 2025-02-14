@@ -433,6 +433,7 @@
     "errorDefaultMessage": "错误代码：%1",
     "errorDirectUrl": "请验证指向文档的链接<br>此链接必须是要下载的文档的直接链接。",
     "errorEditingDownloadas": "使用文档时出错。<br>请下载文档以便在本地保存文件备份副本。",
+    "errorEditProtectedRange": "此选区已受保护，无法编辑。",
     "errorEmptyTOC": "通过将样式库中的标题样式应用于所选文本，开始创建目录。",
     "errorFilePassProtect": "该文件已启动密码保护，无法打开。",
     "errorFileSizeExceed": "文件大小超过了服务器限制<br>请联系您的管理员。",
@@ -478,8 +479,7 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图片格式",
     "uploadImageFileCountMessage": "没有图片上传",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
   },
   "LongActions": {
     "applyChangesTextText": "数据加载中…",

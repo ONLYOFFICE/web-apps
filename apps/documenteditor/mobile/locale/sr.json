@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Greška kod: %1",
     "errorDirectUrl": "Molimo verifikujte link do dokumenta.<br>Ovaj link mora biti direktan link do fajla za preuzimanje.",
     "errorEditingDownloadas": "Greška je nastala u toku rada sa dokumentom.<br>Preuzmite dokument da sačuvate rezervnu kopiju fajla lokalno.",
+    "errorEditProtectedRange": "Nije vam dozvoljeno da uređujete ovaj odabir jer je zaštićen.",
     "errorEmptyTOC": "Počni da kreiraš tabelu sadržaja primenjujući stil naslova iz galerije Stilova na odabran tekst.",
     "errorFilePassProtect": "Fajl je zaštićen lozinkom i nije se mogao otvoriti.",
     "errorFileSizeExceed": "Fajl prevazilazi limite vašeg servera.<br>Molimo, kontaktirajte vašeg admina.",
@@ -478,8 +479,7 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Bez otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",

@@ -24,6 +24,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Wystąpił błąd podczas otwierania pliku.<br>Zawartość pliku odpowiada prezentacji (np. pptx), ale plik ma nieprawidłowe rozszerzenie: %1.",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Wystąpił błąd podczas otwierania pliku.<br>Zawartość pliku odpowiada arkuszowi kalkulacyjnemu (np. xlsx), ale plik ma nieprawidłowe rozszerzenie: %1.",
   "PE.ApplicationController.errorLoadingFont": "Czcionki nie zostały załadowane.<br>Skontaktuj się z administratorem Serwera Dokumentów.",
+  "PE.ApplicationController.errorToken": "Token bezpieczeństwa dokumentu jest nieprawidłowo uformowany.<br>Prosimy o kontakt z administratorem serwera dokumentów.",
   "PE.ApplicationController.errorTokenExpire": "Token zabezpieczeń dokumentu wygasł.<br>Prosimy o kontakt z administratorem serwera dokumentów.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Połączenie z internetem zostało odzyskane, a wersja pliku uległa zmianie.<br>Zanim będziesz mógł kontynuować pracę, musisz pobrać plik albo skopiować jego zawartość, aby mieć pewność, że nic nie zostało utracone, a następnie odświeżyć stronę.",
   "PE.ApplicationController.errorUserDrop": "Nie można uzyskać dostępu do tego pliku.",

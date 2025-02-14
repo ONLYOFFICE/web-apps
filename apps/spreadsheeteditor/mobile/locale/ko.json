@@ -103,6 +103,8 @@
       "SDK": {
         "Diagram Title": "차트 제목",
         "Print_Area": "인쇄 영역",
+        "Row": "행",
+        "Row Labels": "행 레이블",
         "Title": "제목",
         "%1 of %2": "%1 of %2",
         "%1 or %2": "%1 or %2",
@@ -191,8 +193,6 @@
         "Red": "Red",
         "Red Orange": "Red Orange",
         "Red Violet": "Red Violet",
-        "Row": "Row",
-        "Row Labels": "Row Labels",
         "Seconds": "Seconds",
         "Series": "Series",
         "Slipstream": "Slipstream",
