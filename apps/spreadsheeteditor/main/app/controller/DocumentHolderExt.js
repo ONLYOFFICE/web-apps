@@ -3346,7 +3346,12 @@ define([], function () {
                 }
 
                 var importText;
+            
                 _.each(pasteItems, function(menuItem, index) {
+                    if (menuItem === Asc.c_oSpecialPasteProps.paste) {
+                        return;
+                    }
+            
                     if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
                         importText = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
@@ -3366,16 +3371,29 @@ define([], function () {
                         me._arrSpecialPaste[menuItem][2] = mnu;
                     }
                 });
-                var newgroup = false;
+                var groupTitles = [me.txtFormula, me.txtValue, me.txtOther];
+            
+                menu.addItem(new Common.UI.MenuItem({
+                    caption: me.txtPaste + ' (P)',
+                    value: 'paste',
+                    checkable: true,
+                    toggleGroup: 'specialPasteGroup'
+                }).on('click', _.bind(me.onSpecialPasteItemClick, me)));
+            
                 for (var i = 0; i < 3; i++) {
-                    if (newgroup && groups[i].length>0) {
-                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                        newgroup = false;
+                    if (groups[i].length > 0) {
+                        if (menu.items.length > 0) {
+                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        }
+                        menu.addItem(new Common.UI.MenuItem({
+                            header: groupTitles[i],
+                            disabled: true,
+                            cls: 'menu-header'
+                        }));
+                        _.each(groups[i], function (menuItem, index) {
+                            menu.addItem(menuItem);
+                        });
                     }
-                    _.each(groups[i], function(menuItem, index) {
-                        menu.addItem(menuItem);
-                        newgroup = true;
-                    });
                 }
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
                 me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
