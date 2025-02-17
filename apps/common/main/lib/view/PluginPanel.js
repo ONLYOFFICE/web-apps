@@ -94,7 +94,7 @@ define([], function () {
                 btnId = 'id-pluginpnl-docked',
                 btn = header.find('#' + btnId);
             if (btn.length < 1) {
-                var iconCls = 'btn-promote';
+                var iconCls = 'btn-demote';
                 btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
                 btn.on('click', _.bind(function() {
                     this.fireEvent('docked', this.iframePlugin.id);

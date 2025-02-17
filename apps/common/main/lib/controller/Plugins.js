@@ -747,14 +747,14 @@ define([
         },
 
         savePluginDockedPosition: function(guid, position) {
-            var state = (localStorage.getItem('plugins-docked-position') || '{}');
+            var state = (Common.localStorage.getItem('plugins-docked-position') || '{}');
             state = JSON.parse(state);
             state[guid] = position;
-            localStorage.setItem('plugins-docked-position', JSON.stringify(state));
+            Common.localStorage.setItem('plugins-docked-position', JSON.stringify(state));
         },
 
         getPluginDockedPosition: function(guid) {
-            var state = (localStorage.getItem('plugins-docked-position') || '{}');
+            var state = (Common.localStorage.getItem('plugins-docked-position') || '{}');
             state = JSON.parse(state);
             return state[guid];
         },
