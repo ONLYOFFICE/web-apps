@@ -741,7 +741,12 @@ define([
                     me.onEditComplete();
                 });
 
-                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                var role;
+                if (this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
+                    role = new AscCommon.CRestrictionSettings();
+                    role.put_OFormRole(this.appOptions.user.roles[0]);
+                }
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
@@ -2051,7 +2056,12 @@ define([
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
-            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
+            var role;
+            if (this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
+                role = new AscCommon.CRestrictionSettings();
+                role.put_OFormRole(this.appOptions.user.roles[0]);
+            }
+            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
         },
 
         onApiServerDisconnect: function(enableDownload) {

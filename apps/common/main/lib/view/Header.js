@@ -406,7 +406,7 @@ define([
                     updateDocNamePosition();
                 });
                 me.btnStartFill.on('click', function (e) {
-                    Common.Gateway.requestStartFilling();
+                    Common.NotificationCenter.trigger('forms:request-fill');
                 });
             }
 

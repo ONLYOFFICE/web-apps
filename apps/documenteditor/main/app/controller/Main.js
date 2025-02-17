@@ -1815,7 +1815,14 @@ define([
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
                 this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-                this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                if (this.appOptions.isRestrictedEdit && this.appOptions.canFillForms) {
+                    var role;
+                    if (this.appOptions.isPDFForm && this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
+                        role = new AscCommon.CRestrictionSettings();
+                        role.put_OFormRole(this.appOptions.user.roles[0]);
+                    }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
                 this.api.asc_LoadDocument();
             },
 
