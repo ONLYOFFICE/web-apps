@@ -1372,6 +1372,7 @@ define([
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
+                me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
@@ -1947,8 +1948,16 @@ define([
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
 
-            onStartFilling: function() {
+            onStartFilling: function(data) {
+                if (data && data.disconnect) {
+                    this.api.asc_DisconnectEveryone();
+                } else
+                    this.onDisconnectEveryone();
+            },
+
+            onDisconnectEveryone: function() {
                 Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
+                appHeader.onStartFilling();
             },
 
             applyModeCommonElements: function() {
