@@ -99,7 +99,7 @@ define([], function () {
                 var btnUndock = new Common.UI.Button({
                     parentEl: this.$el.find('.' + btnCls),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-demote',
+                    iconCls: 'toolbar__icon btn-unpin',
                     hint: this.textUndock
                 });
                 btnUndock.on('click', _.bind(function() {

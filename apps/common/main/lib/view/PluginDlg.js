@@ -212,7 +212,7 @@ define([], function () {
                 btnId = 'id-plugindlg-docked',
                 btn = header.find('#' + btnId);
             if (btn.length < 1) {
-                var iconCls = 'btn-promote';
+                var iconCls = 'btn-pin';
                 btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
                 btn.on('click', _.bind(function() {
                     var tip = btn.data('bs.tooltip');
