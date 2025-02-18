@@ -91,15 +91,20 @@ define([], function () {
 
         showDockedButton: function() {
             var header = this.$el.find('.current-plugin-header .tools'),
-                btnId = 'id-pluginpnl-docked',
-                btn = header.find('#' + btnId);
+                btnCls = 'plugin-undock',
+                btn = header.find('.' + btnCls);
             if (btn.length < 1) {
-                var iconCls = 'btn-demote';
-                btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
-                btn.on('click', _.bind(function() {
+                btn = $('<div class="' + btnCls + '"></div>');
+                header.append(btn);
+                var btnUndock = new Common.UI.Button({
+                    parentEl: this.$el.find('.' + btnCls),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-demote',
+                    hint: this.textUndock
+                });
+                btnUndock.on('click', _.bind(function() {
                     this.fireEvent('docked', this.iframePlugin.id);
                 }, this));
-                header.append(btn);
             }
             btn.show();
             header.removeClass('hidden');
@@ -155,7 +160,8 @@ define([], function () {
         },
 
         textClosePanel: 'Close plugin',
-        textLoading: 'Loading'
+        textLoading: 'Loading',
+        textUndock: 'Unpin plugin'
 
     }, Common.Views.PluginPanel || {}));
 });

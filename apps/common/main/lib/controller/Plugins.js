@@ -773,12 +773,12 @@ define([
                 var langName = plugin.get_Name(lang);
                 var isCanDocked = variation.get_IsCanDocked();
                 var dockedPosition = this.getPluginDockedPosition(plugin.get_Guid());
-                var menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
+                var menu = this.isPDFEditor ? 'left' : (variation.get_Type() === Asc.PluginType.PanelRight ? 'right' : 'left');
                 var isInsideMode = variation.get_InsideMode();
                 
                 if(isCanDocked) {
                     isInsideMode = dockedPosition === Asc.PluginType.Panel || dockedPosition === Asc.PluginType.PanelRight;
-                    menu = isInsideMode ? dockedPosition : menu;
+                    menu = isInsideMode ? (dockedPosition === Asc.PluginType.PanelRight ? 'right' : 'left') : menu;
                 }
 
                 !menu && (menu = 'left');
@@ -1230,7 +1230,7 @@ define([
                             help && window.open(help, '_blank');
                         },
                         'docked': function(frameId){
-                            me.triggerDockedEvent(frameId);
+                            me.triggerDockedEvent(frameId, isPanel ? variation.type : 'panel'); // if the initial state of plugin is 'panelRight'/'panel' - move to corresponding panel, otherwise move to left panel
                             setTimeout(function () {
                                 me.customPluginsDlg[frameId].close();
                                 me.onPluginPanelShow(frameId, variation, lang);
@@ -1250,10 +1250,11 @@ define([
             }
         },
 
-        triggerDockedEvent: function(frameId) {
+        triggerDockedEvent: function(frameId, placement) {
             $('#' + frameId)[0].contentWindow.postMessage(JSON.stringify({
                 type: 'plugin_docked',
-                frameId: frameId
+                frameId: frameId,
+                placement: placement
             }), "*");
         },
 
@@ -1343,7 +1344,7 @@ define([
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
             this.viewPlugins.customPluginPanels[frameId].on('docked',  _.bind(function(frameId) {
-                this.triggerDockedEvent(frameId);
+                this.triggerDockedEvent(frameId, 'window');
                 setTimeout( _.bind(function() {
                     this.onPluginWindowClose(frameId);
                     this.onPluginWindowShow(frameId, variation);

@@ -113,24 +113,8 @@
             }
 
             & > * {
-                width: 20px;
-                height: 20px;
                 &:not(:first-child) {
-                    .margin-right-2();
-                }
-            }
-            
-
-            .custom {
-                border-radius: 1px;
-                &:hover {
-                    background-color: @highlight-button-hover-ie;
-                    background-color: @highlight-button-hover;
-                }
-                &:active {
-                    background-color: @highlight-button-pressed-ie;
-                    background-color: @highlight-button-pressed;
-                    background-position-x: @button-small-active-icon-offset-x;;
+                    .margin-right-4();
                 }
             }
         }
