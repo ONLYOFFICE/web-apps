@@ -2682,6 +2682,8 @@ define([], function () {
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                             '<tbody>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                '<tr><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
@@ -2742,6 +2744,25 @@ define([], function () {
 
             var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
+            this.cmbPrinter = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-printer'),
+                menuStyle: 'min-width: 248px;max-height: 280px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                placeHolder: this.txtPrinterNotSelected,
+                itemsTemplate:  _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "add" && items.length > 1) { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                data: [],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));
+
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
                 menuStyle: 'min-width: 248px;max-height: 280px;',
@@ -2791,11 +2812,7 @@ define([], function () {
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
-                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
-                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
-                ],
+                data        : [],
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
@@ -2855,26 +2872,7 @@ define([], function () {
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
-                data: [
-                    { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
-                    { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
-                    { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
-                    { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
-                    { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
-                    { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
-                    { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
-                    { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
-                    { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
-                    { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
-                    { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
-                    { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
-                    { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
-                    { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
-                    { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
-                    { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]},
-                    { value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}
-                ],
+                data: [],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
@@ -3025,8 +3023,92 @@ define([], function () {
                 this.updateMetricUnit();
                 this._initSettings = false;
             }
+            this.updateSettings();
             this.updateScroller();
             this.fireEvent('show', this);
+
+        },
+
+        updateSettings: function() {
+            var dataFromNative = {"printers":[{"duplex_supported":true,"name":"ML-2010","paper_supported":[{"height":279,"name":"Letter","width":216},{"height":356,"name":"Legal","width":216},{"height":297,"name":"A4","width":210},{"height":267,"name":"Executive","width":184},{"height":279,"name":"Ledger","width":432},{"height":420,"name":"A3","width":297},{"height":241,"name":"Env10","width":105},{"height":191,"name":"Monarch","width":98},{"height":229,"name":"C5","width":162},{"height":220,"name":"DL","width":110},{"height":364,"name":"B4","width":257},{"height":257,"name":"B5","width":182},{"height":250,"name":"EnvISOB5","width":176},{"height":148,"name":"Postcard","width":100},{"height":200,"name":"DoublePostcardRotated","width":148},{"height":210,"name":"A5","width":148},{"height":148,"name":"A6","width":105},{"height":182,"name":"B6","width":128},{"height":162,"name":"C6","width":114},{"height":330,"name":"Folio","width":210},{"height":165,"name":"EnvPersonal","width":92},{"height":225,"name":"Env9","width":98},{"height":343,"name":"Oficio","width":216}]},{"duplex_supported":false,"name":"Samsung_M2020_Series_SEC30CDA7EF9160","paper_supported":[{"height":152,"name":"4x6","width":102},{"height":343,"name":"8.5x13.5","width":216},{"height":297,"name":"A4","width":210},{"height":210,"name":"A5","width":148},{"height":257,"name":"B5","width":182},{"height":241,"name":"Env10","width":105},{"height":229,"name":"EnvC5","width":162},{"height":220,"name":"EnvDL","width":110},{"height":191,"name":"EnvMonarch","width":98},{"height":267,"name":"Executive","width":184},{"height":330,"name":"FanFoldGermanLegal","width":216},{"height":250,"name":"ISOB5","width":176},{"height":356,"name":"Legal","width":216},{"height":279,"name":"Letter","width":216}]}]};
+            var printers = [];
+            if(dataFromNative && dataFromNative.printers) {
+                printers = dataFromNative.printers.map(function(printer) {
+                    return {
+                        value: printer.name,
+                        displayValue: printer.name,
+                        paperSupported: printer.paper_supported,
+                        isDuplexSupported: printer.duplex_supported
+                    }
+                });
+            }
+            console.log(printers);
+            this.setCmbPrinterOptions(printers);
+            this.setCmbSidesOptions(true);
+            this.setCmbPaperSizeOptions();
+            this.cmbPrinter.setValue(null);
+            this._printer = this.cmbPrinter.getValue();
+        },
+
+        setCmbPrinterOptions: function(printersList) {
+            var list = (printersList || []);
+            list.push({ value: 'add', displayValue: this.txtAddPrinter });
+            this.cmbPrinter.setData(list);
+        },
+
+        setCmbSidesOptions: function(isDuplexSupported) {
+            var cmbValue = this.cmbSides.getValue();
+            var list = [{ value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc }];
+            if(isDuplexSupported) {
+                list.push(
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                );
+            } else if(cmbValue != 'one') {
+                cmbValue = 'one';
+            }
+            this.cmbSides.setData(list);
+            this.cmbSides.setValue(cmbValue);
+        },
+
+        setCmbPaperSizeOptions(paperSizeList) {
+            var defaultList = [
+                { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
+                { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
+                { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
+                { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
+                { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
+                { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
+                { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]}
+            ];
+            var resultList = [];
+
+            // TODO: Добавить изменение единиц измерения
+            if(paperSizeList && paperSizeList.length > 0) {
+                resultList = paperSizeList.map(function(item, index) {
+                    return {
+                        value: index, 
+                        displayValue: [item.name, item.width / 10, item.height / 10, 'cm'], 
+                        caption: item.name, 
+                        size: [item.width, item.height]
+                    }
+                });
+            } else {
+                resultList = defaultList;
+            }
+
+            resultList.push({ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []});
+            this.cmbPaperSize.setData(resultList);
         },
 
         updateScroller: function() {
@@ -3044,6 +3126,18 @@ define([], function () {
 
         setApi: function(api) {
 
+        },
+
+        onPrinterSelected: function(combo, record) {
+            if (record.value == 'add') {
+                console.log('Add printer');
+                combo.setValue(this._printer);
+            } else {
+                this.setCmbSidesOptions(record.isDuplexSupported);
+                this.setCmbPaperSizeOptions(record.paperSupported);
+
+                this._printer = combo.getValue();
+            }
         },
 
         updateMetricUnit: function() {
@@ -3089,6 +3183,9 @@ define([], function () {
 
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
+        txtPrinter: 'Printer',
+        txtAddPrinter: 'Add printer',
+        txtPrinterNotSelected: 'Printer not selected',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current page',
         txtAllPages: 'All pages',
