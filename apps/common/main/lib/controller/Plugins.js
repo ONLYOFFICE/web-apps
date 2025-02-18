@@ -197,7 +197,7 @@ define([
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
                 this.api.asc_registerCallback('asc_onPluginHideButton', _.bind(this.onPluginHideButton, this));
 
-                this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onPluginWindowShow, this));
+                this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onApiPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
                 this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
                 this.api.asc_registerCallback("asc_onPluginWindowActivate", _.bind(this.openUIPlugin, this));
@@ -1155,7 +1155,80 @@ define([
         },
 
         // Plugin can create windows
-        onPluginWindowShow: function(frameId, variation) {
+        onPluginWindowShow: function(frameId, variation, lang) {
+            var me = this,
+                isCustomWindow = variation.isCustomWindow,
+                arrBtns = variation.buttons,
+                newBtns = [],
+                size = variation.size,
+                isModal = variation.isModal,
+                variationType = Asc.PluginType.getType(variation.type),
+                isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
+            if (!size || size.length<2) size = [800, 600];
+
+            var description = variation.description;
+            if (typeof variation.descriptionLocale == 'object')
+                description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
+
+            _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
+                if (typeof b.textLocale == 'object')
+                    b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
+                    newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
+            });
+
+            var help = variation.help;
+            me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
+                cls: isCustomWindow ? 'plain' : '',
+                header: !isCustomWindow,
+                title: description,
+                width: size[0], // inner width
+                height: size[1], // inner height
+                url: variation.url,
+                frameId : frameId,
+                buttons: isCustomWindow ? undefined : newBtns,
+                toolcallback: function(event) {
+                    me.api.asc_pluginButtonClick(-1, variation.guid, frameId);
+                },
+                help: !!help,
+                isCanDocked: variation.isCanDocked,
+                modal: isModal!==undefined ? isModal : true
+            });
+            me.customPluginsDlg[frameId].on({
+                'render:after': function(obj){
+                    obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                        me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), variation.guid, frameId);
+                    });
+                    me.customPluginsDlg[frameId].options.pluginContainer = me.customPluginsDlg[frameId].$window.find('#id-plugin-container');
+                },
+                'close': function(obj){
+                    me.customPluginsDlg[frameId] = undefined;
+                },
+                'drag': function(args){
+                    me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                },
+                'resize': function(args){
+                    me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                },
+                'help': function(){
+                    help && window.open(help, '_blank');
+                },
+                'docked': function(frameId){
+                    me.triggerDockedEvent(frameId, isPanel ? variation.type : 'panel'); // if the initial state of plugin is 'panelRight'/'panel' - move to corresponding panel, otherwise move to left panel
+                    setTimeout(function () {
+                        me.customPluginsDlg[frameId].close();
+                        me.onPluginPanelShow(frameId, variation, lang);
+                    }, 0);
+                },
+                'header:click': function(type){
+                    me.api.asc_pluginButtonClick(type, variation.guid, frameId);
+                }
+            });
+
+            me.customPluginsDlg[frameId].show();
+        },
+
+        onApiPluginWindowShow: function(frameId, variation) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) {
                 this.pluginsWinToShow.push({frameId: frameId, variation: variation});
                 return;
@@ -1165,88 +1238,18 @@ define([
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var variationType = Asc.PluginType.getType(variation.type);
-                var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
+                var isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
                     isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
                 } else if (visible && !variation.isInsideMode) {
-                    var me = this,
-                        isCustomWindow = variation.isCustomWindow,
-                        arrBtns = variation.buttons,
-                        newBtns = [],
-                        size = variation.size,
-                        isModal = variation.isModal;
-                    if (!size || size.length<2) size = [800, 600];
-
-                    var description = variation.description;
-                    if (typeof variation.descriptionLocale == 'object')
-                        description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
-
-                    _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
-                        if (typeof b.textLocale == 'object')
-                            b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                        if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
-                            newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
-                    });
-
-                    var help = variation.help;
-                    me.customPluginsDlg[frameId] = new Common.Views.PluginDlg({
-                        cls: isCustomWindow ? 'plain' : '',
-                        header: !isCustomWindow,
-                        title: description,
-                        width: size[0], // inner width
-                        height: size[1], // inner height
-                        url: url,
-                        frameId : frameId,
-                        buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: function(event) {
-                            me.api.asc_pluginButtonClick(-1, variation.guid, frameId);
-                        },
-                        help: !!help,
-                        isCanDocked: variation.isCanDocked,
-                        modal: isModal!==undefined ? isModal : true
-                    });
-                    me.customPluginsDlg[frameId].on({
-                        'render:after': function(obj){
-                            obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), variation.guid, frameId);
-                            });
-                            me.customPluginsDlg[frameId].options.pluginContainer = me.customPluginsDlg[frameId].$window.find('#id-plugin-container');
-                        },
-                        'close': function(obj){
-                            me.customPluginsDlg[frameId] = undefined;
-                        },
-                        'drag': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
-                            args[0].enablePointerEvents(args[1]!=='start');
-                        },
-                        'resize': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
-                            args[0].enablePointerEvents(args[1]!=='start');
-                        },
-                        'help': function(){
-                            help && window.open(help, '_blank');
-                        },
-                        'docked': function(frameId){
-                            me.triggerDockedEvent(frameId, isPanel ? variation.type : 'panel'); // if the initial state of plugin is 'panelRight'/'panel' - move to corresponding panel, otherwise move to left panel
-                            setTimeout(function () {
-                                me.customPluginsDlg[frameId].close();
-                                me.onPluginPanelShow(frameId, variation, lang);
-                            }, 0);
-                        },
-                        'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type, variation.guid, frameId);
-                        }
-                    });
-
-                    me.customPluginsDlg[frameId].show();
+                    this.onPluginWindowShow(frameId, variation, lang);
                 }
             }
             if (this.pluginsWinToShow.length>0) {
                 let plg = this.pluginsWinToShow.shift();
-                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+                plg && this.onApiPluginWindowShow(plg.frameId, plg.variation);
             }
         },
 
@@ -1347,7 +1350,7 @@ define([
                 this.triggerDockedEvent(frameId, 'window');
                 setTimeout( _.bind(function() {
                     this.onPluginWindowClose(frameId);
-                    this.onPluginWindowShow(frameId, variation);
+                    this.onPluginWindowShow(frameId, variation, lang);
                 }, this), 0);
             }, this));
 
@@ -1404,7 +1407,7 @@ define([
         onPostLoadComplete: function() {
             if (this.pluginsWinToShow.length>0) {
                 let plg = this.pluginsWinToShow.shift();
-                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+                plg && this.onApiPluginWindowShow(plg.frameId, plg.variation);
             }
             this.startOnPostLoad && this.runAutoStartPlugins();
         },
