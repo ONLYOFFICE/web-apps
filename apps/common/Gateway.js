@@ -409,6 +409,13 @@ if (window.Common === undefined) {
                 });
             },
 
+            requestFillingStatus:  function (role) {
+                _postMessage({
+                    event:'onRequestFillingStatus',
+                    data: role
+                });
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },

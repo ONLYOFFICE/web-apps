@@ -472,6 +472,7 @@ define([
             this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
+            this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -664,6 +665,7 @@ define([
                 me.view.btnDownload.updateHint('');
             }
             me.showFillingForms(false); // hide filling forms
+            me.view.btnFillStatus.setVisible(this.appOptions.canFillForms && this.appOptions.canRequestFillingStatus);
             if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
@@ -722,6 +724,9 @@ define([
                 });
                 me.view.btnRedo.on('click', function(){
                     me.api.Redo(false);
+                });
+                me.view.btnFillStatus.on('click', function(){
+                    Common.Gateway.requestFillingStatus(me.appOptions.user.roles && me.appOptions.user.roles.length>0 ? me.appOptions.user.roles[0] : undefined);
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
