@@ -724,12 +724,7 @@ define([
                     me.api.Redo(false);
                 });
 
-                var role;
-                if (this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
-                    role = new AscCommon.CRestrictionSettings();
-                    role.put_OFormRole(this.appOptions.user.roles[0]);
-                }
-                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
@@ -1508,14 +1503,15 @@ define([
             me._isDocReady = true;
 
             if (me.appOptions.canFillForms) {
-                var oform = me.api.asc_GetOForm();
-                if (oform && me.appOptions.user.roles && me.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
+                var oform = me.api.asc_GetOForm(),
+                    role = new AscCommon.CRestrictionSettings();
+                if (oform && me.appOptions.user.roles && me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
+                    role.put_OFormRole(this.appOptions.user.roles[0]);
                     me.showFillingForms(true);
                 } else {
-                    var role = new AscCommon.CRestrictionSettings();
                     role.put_OFormNoRole(true);
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
             }
 
             this.hidePreloader();
@@ -2049,10 +2045,12 @@ define([
                 this.view.btnOptions.menu.items[1].setDisabled(state || !this.api.asc_getCanRedo()); // redo
                 this.view.btnOptions.menu.items[3].setDisabled(); // clear
             }
-            var role;
-            if (this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
+            var oform = me.api.asc_GetOForm(),
                 role = new AscCommon.CRestrictionSettings();
+            if (oform && this.appOptions.user.roles && this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
                 role.put_OFormRole(this.appOptions.user.roles[0]);
+            } else {
+                role.put_OFormNoRole(true);
             }
             this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
         },
