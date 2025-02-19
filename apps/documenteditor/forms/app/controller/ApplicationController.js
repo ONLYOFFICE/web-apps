@@ -658,20 +658,13 @@ define([
             DE.getController('Plugins').setMode(this.appOptions, this.api);
 
             var me = this;
-            me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
             me.view.btnDownload.setVisible(false && this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
                 me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
                 me.view.btnDownload.updateHint('');
             }
-            if (!this.appOptions.canFillForms) {
-                me.view.btnPrev.setVisible(false);
-                me.view.btnNext.setVisible(false);
-                me.view.btnClear.setVisible(false);
-                me.view.btnUndo.setVisible(false);
-                me.view.btnRedo.setVisible(false);
-                me.view.btnRedo.$el.next().hide();
-            } else {
+            me.showFillingForms(false); // hide filling forms
+            if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
                 });
@@ -1513,6 +1506,18 @@ define([
 
             var me = this;
             me._isDocReady = true;
+
+            if (me.appOptions.canFillForms) {
+                var oform = me.api.asc_GetOForm();
+                if (oform && me.appOptions.user.roles && me.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
+                    me.showFillingForms(true);
+                } else {
+                    var role = new AscCommon.CRestrictionSettings();
+                    role.put_OFormNoRole(true);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
+            }
+
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             Common.NotificationCenter.trigger('app:face', this.appOptions); // for Desktop controller only
@@ -1907,7 +1912,7 @@ define([
             var me = this;
             _.delay(function(){
                 if (event.get_Type() == 0) {
-                    me.api && me.appOptions.canFillForms && me.fillMenuProps(me.api.getSelectedElements(), event);
+                    me.api && me.appOptions.canFillForms && me.isFormFillingVisible && me.fillMenuProps(me.api.getSelectedElements(), event);
                 }
             },10);
         },
@@ -2039,12 +2044,39 @@ define([
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
+            if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
+                this.view.btnOptions.menu.items[0].setDisabled(state || !this.api.asc_getCanUndo()); // undo
+                this.view.btnOptions.menu.items[1].setDisabled(state || !this.api.asc_getCanRedo()); // redo
+                this.view.btnOptions.menu.items[3].setDisabled(); // clear
+            }
             var role;
             if (this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
                 role = new AscCommon.CRestrictionSettings();
                 role.put_OFormRole(this.appOptions.user.roles[0]);
             }
             this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
+        },
+
+        showFillingForms: function(visible) {
+            this.isFormFillingVisible = visible;
+            if (this.view) {
+                visible = visible && this.appOptions.canFillForms;
+                this.view.btnPrev.setVisible(visible);
+                this.view.btnNext.setVisible(visible);
+                this.view.btnClear.setVisible(visible);
+                this.view.btnUndo.setVisible(visible);
+                this.view.btnRedo.setVisible(visible);
+                this.view.btnRedo.$el.next().hide();
+                this.view.btnSubmit.setVisible(visible && this.appOptions.canSubmitForms);
+                if (this.view.btnOptions && this.view.btnOptions.menu) {
+                    var menuItems = this.view.btnOptions.menu.items;
+                    menuItems[0].setVisible(visible); // undo
+                    menuItems[1].setVisible(visible); // redo
+                    menuItems[2].setVisible(visible); // --
+                    menuItems[3].setVisible(visible); // clear
+                    menuItems[4].setVisible(visible); // --
+                }
+            }
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -2074,10 +2106,10 @@ define([
         onApiCanRevert: function(which, can) {
             if (!this.view) return;
 
-            (which=='undo') ? this.view.btnUndo.setDisabled(!can) : this.view.btnRedo.setDisabled(!can);
+            (which=='undo') ? this.view.btnUndo.setDisabled(!can || this._isDisabled) : this.view.btnRedo.setDisabled(!can || this._isDisabled);
 
             if (this.view.btnOptions && this.view.btnOptions.menu) {
-                (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can) : this.view.btnOptions.menu.items[1].setDisabled(!can);
+                (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can || this._isDisabled) : this.view.btnOptions.menu.items[1].setDisabled(!can || this._isDisabled);
             }
         },
 
