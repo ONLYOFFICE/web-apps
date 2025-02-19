@@ -412,6 +412,12 @@ if (window.Common === undefined) {
             switchEditorType:  function (value, restart) {
                 _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
             },
+            requestFillingStatus:  function (role) {
+                _postMessage({
+                    event:'onRequestFillingStatus',
+                    data: role
+                });
+            },
 
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });

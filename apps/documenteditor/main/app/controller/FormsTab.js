@@ -510,6 +510,17 @@ define([
                 // }
 
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
+                if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm && me.api) {
+                    var oform = me.api.asc_GetOForm(),
+                        role = new AscCommon.CRestrictionSettings();
+                    if (oform && config.user.roles && config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                        role.put_OFormRole(config.user.roles[0]);
+                        me.view && me.view.showFillingForms(true);
+                    } else {
+                        role.put_OFormNoRole(true);
+                    }
+                    me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
                 if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api) {
                     if (me.api.asc_IsAllRequiredFormsFilled())
                         me.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');

@@ -400,15 +400,9 @@ define([
                 updateDocNamePosition();
             }
 
-            if (me.btnStartFill) {
-                Common.Gateway.on('startfilling', function() {
-                    me.btnStartFill.setVisible(false);
-                    updateDocNamePosition();
-                });
-                me.btnStartFill.on('click', function (e) {
-                    Common.NotificationCenter.trigger('forms:request-fill');
-                });
-            }
+            me.btnStartFill && me.btnStartFill.on('click', function (e) {
+                Common.NotificationCenter.trigger('forms:request-fill');
+            });
 
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
@@ -1362,6 +1356,11 @@ define([
             setDocumentReadOnly: function (readonly) {
                 this.readOnly = readonly;
                 this.setDocumentCaption(this.documentCaption);
+            },
+
+            onStartFilling: function() {
+                this.btnStartFill && this.btnStartFill.setVisible(false);
+                updateDocNamePosition();
             },
 
             textBack: 'Go to Documents',

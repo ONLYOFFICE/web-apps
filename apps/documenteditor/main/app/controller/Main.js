@@ -1375,6 +1375,7 @@ define([
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
+                me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
@@ -1816,12 +1817,7 @@ define([
                 this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
                 this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canFillForms) {
-                    var role;
-                    if (this.appOptions.isPDFForm && this.appOptions.user.roles && this.appOptions.user.roles.length>0) {
-                        role = new AscCommon.CRestrictionSettings();
-                        role.put_OFormRole(this.appOptions.user.roles[0]);
-                    }
-                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 }
                 this.api.asc_LoadDocument();
             },
@@ -1950,8 +1946,13 @@ define([
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
 
-            onStartFilling: function() {
+            onStartFilling: function(disconnect) {
+                disconnect ? this.api.asc_DisconnectEveryone() : this.onDisconnectEveryone();
+            },
+
+            onDisconnectEveryone: function() {
                 Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
+                appHeader.onStartFilling();
             },
 
             applyModeCommonElements: function() {
