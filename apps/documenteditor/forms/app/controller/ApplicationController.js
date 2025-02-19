@@ -2045,7 +2045,7 @@ define([
                 this.view.btnOptions.menu.items[1].setDisabled(state || !this.api.asc_getCanRedo()); // redo
                 this.view.btnOptions.menu.items[3].setDisabled(); // clear
             }
-            var oform = me.api.asc_GetOForm(),
+            var oform = this.api.asc_GetOForm(),
                 role = new AscCommon.CRestrictionSettings();
             if (oform && this.appOptions.user.roles && this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
                 role.put_OFormRole(this.appOptions.user.roles[0]);
