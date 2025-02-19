@@ -1982,19 +1982,30 @@ define([
                 } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
                     menu_props.headerProps = {};
                     menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                } else if (Asc.c_oAscTypeSelectElement.ContentControl == elType) {
+                    menu_props.controlProps = {};
+                    menu_props.controlProps.formPr = (elValue) ? elValue.get_FormPr() : null;
                 }
             }
             if (this.textMenu && !noobject) {
                 var cancopy = this.api.can_CopyCut(),
                     disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
-                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked) || this._isDisabled;
+                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked) || this._isDisabled,
+                    canFillRole = true;
+
+                if (menu_props.controlProps && menu_props.controlProps.formPr) {
+                    var oform = this.api.asc_GetOForm();
+                    if (oform && !oform.asc_canFillRole(menu_props.controlProps.formPr.get_Role())) {
+                        canFillRole = false;
+                    }
+                }
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(disabled); // clear
-                this.textMenu.items[5].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[3].setDisabled(disabled || !canFillRole); // clear
+                this.textMenu.items[5].setDisabled(disabled || !cancopy || !canFillRole); // cut
                 this.textMenu.items[6].setDisabled(!cancopy); // copy
-                this.textMenu.items[7].setDisabled(disabled) // paste;
+                this.textMenu.items[7].setDisabled(disabled || !canFillRole) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
