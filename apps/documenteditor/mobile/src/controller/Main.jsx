@@ -443,14 +443,17 @@ class MainController extends Component {
                     }).open();
                 }
 
-                if (appOptions.isRestrictedEdit && appOptions.canFillForms) { // check filling status
-                    var oform = this.api.asc_GetOForm();
-                    if (!oform || !_userOptions.roles || _userOptions.roles.length<1 || !oform.asc_canFillRole(_userOptions.roles[0])) {
-                        let role = new AscCommon.CRestrictionSettings();
+                if (appOptions.isRestrictedEdit && appOptions.canFillForms && appOptions.isForm) { // check filling status
+                    let oform = this.api.asc_GetOForm();
+                    let role = new AscCommon.CRestrictionSettings();
+                    const _userOptions = this.props.storeAppOptions.user;
+                    if (oform && _userOptions && _userOptions.roles && _userOptions.roles.length>0 && oform.asc_canFillRole(_userOptions.roles[0])) {
+                        role.put_OFormRole(_userOptions.roles[0]);
+                    } else {
                         role.put_OFormNoRole(true);
-                        this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                         Common.Notifications.trigger('toolbar:deactivateeditcontrols');
                     }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
             };
 
@@ -600,15 +603,7 @@ class MainController extends Component {
         this.api.asc_setViewMode(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         this.appOptions.isCorePDF && this.api.asc_setPdfViewer(!appOptions.isEdit && !appOptions.isRestrictedEdit);
         appOptions.isRestrictedEdit && appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-        if (appOptions.isRestrictedEdit && appOptions.canFillForms) {
-            let role;
-            const _userOptions = this.props.storeAppOptions.user;
-            if (appOptions.isForm && _userOptions && _userOptions.roles && _userOptions.roles.length>0) {
-                role = new AscCommon.CRestrictionSettings();
-                role.put_OFormRole(_userOptions.roles[0]);
-            }
-            this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
-        }
+        appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
 
         // Set units
         let value = LocalStorage.getItem('de-mobile-settings-unit');
