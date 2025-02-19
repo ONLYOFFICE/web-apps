@@ -1948,11 +1948,8 @@ define([
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
 
-            onStartFilling: function(data) {
-                if (data && data.disconnect) {
-                    this.api.asc_DisconnectEveryone();
-                } else
-                    this.onDisconnectEveryone();
+            onStartFilling: function(disconnect) {
+                disconnect ? this.api.asc_DisconnectEveryone() : this.onDisconnectEveryone();
             },
 
             onDisconnectEveryone: function() {
