@@ -812,6 +812,15 @@ define([
                 this.btnSaveForm && this.btnSaveForm.setVisible(!state);
             },
 
+            showFillingForms: function(visible) {
+                this.btnClear.setVisible(visible);
+                this.btnPrevForm.setVisible(visible);
+                this.btnNextForm.setVisible(visible);
+                this.view.btnRedo.$el.next().hide();
+                this.btnPrevForm.cmpEl.parents('.group').hide().prev('.separator').hide();
+                this.btnSubmit && this.btnSubmit.setVisible(visible);
+            },
+
             SetDisabled: function (state) {
                 this._state.disabled = state;
                 this.paragraphControls.forEach(function(button) {
