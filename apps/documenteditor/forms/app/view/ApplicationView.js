@@ -180,7 +180,7 @@ define([
 
             this.btnFillStatus = new Common.UI.Button({
                 cls: 'btn-toolbar margin-right-small',
-                iconCls: 'svg-icon status',
+                iconCls: 'svg-icon filing-status-light',
                 hint: this.tipFillStatus,
                 scaling: false
             });
