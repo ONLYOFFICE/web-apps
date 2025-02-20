@@ -726,6 +726,7 @@ define([
                     me.api.Redo(false);
                 });
                 me.view.btnFillStatus.on('click', function(){
+                    Common.UI.TooltipManager.closeTip('showFillStatus');
                     Common.Gateway.requestFillingStatus(me.appOptions.user.roles && me.appOptions.user.roles.length>0 ? me.appOptions.user.roles[0] : undefined);
                 });
 
@@ -1515,6 +1516,9 @@ define([
                     me.showFillingForms(true);
                 } else {
                     role.put_OFormNoRole(true);
+                    me.view.btnFillStatus && me.view.btnFillStatus.isVisible() && Common.UI.TooltipManager.addTips({
+                        'showFillStatus': { name: 'de-help-tip-fill-status', text: me.helpTextFillStatus, target: '#id-btn-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300 }
+                    });
                 }
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
             }
@@ -1567,6 +1571,7 @@ define([
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
+            Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
         },
 
