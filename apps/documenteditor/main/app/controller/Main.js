@@ -1947,12 +1947,17 @@ define([
             },
 
             onStartFilling: function(disconnect) {
+                this._isFillInitiator = true;
                 disconnect ? this.api.asc_DisconnectEveryone() : this.onDisconnectEveryone();
             },
 
             onDisconnectEveryone: function() {
                 Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
                 appHeader.onStartFilling();
+                !this._isFillInitiator && Common.UI.warning({
+                                            msg  : this.warnStartFilling,
+                                            buttons: ['ok']
+                                        });
             },
 
             applyModeCommonElements: function() {
