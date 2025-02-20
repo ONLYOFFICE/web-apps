@@ -88,7 +88,8 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
-                    image: 'image url'
+                    image: 'image url',
+                    roles: ['Role1'] // used for pdf-forms, fill form with Role1
                 },
                 recent: [
                     {
@@ -263,7 +264,10 @@
                     slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                     showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
-                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    startFillingForm: {
+                        text: 'Share & collect' // caption of the start filling button, used for pdf-forms
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor

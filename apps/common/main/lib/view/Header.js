@@ -996,7 +996,7 @@ define([
                     if (config.canStartFilling) {
                         me.btnStartFill = new Common.UI.Button({
                             cls: 'btn-text-default auto yellow',
-                            caption: me.textStartFill,
+                            caption: config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text ? config.customization.startFillingForm.text : me.textStartFill,
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
