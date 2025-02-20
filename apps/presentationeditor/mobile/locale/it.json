@@ -173,15 +173,21 @@
       "txtProtected": "Una volta inserita la password e aperto il file, la password corrente del file verrà resettata",
       "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
       "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-      "warnLicenseExceeded": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
+      "warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornala e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai accesso alle funzionalità di modifica di documenti. Per favore, contatta il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifiche di documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere accesso completo.",
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
-      "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
+      "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
+  },
+  "Draw": {
+    "textColor": "Colore",
+    "textCustomColor": "Colore personalizzato",
+    "textLineSize": "Dimensione della riga",
+    "textOpacity": "Opacità"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
@@ -270,16 +276,16 @@
     "waitText": "Si prega di attendere"
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Rinomina file",
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Add": {
@@ -293,6 +299,7 @@
       "textDefault": "Testo selezionato",
       "textDisplay": "Visualizzare",
       "textDone": "Fine",
+      "textDrawing": "Disegno",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
       "textExternalLink": "Link esterno",
       "textFirstSlide": "Prima diapositiva",
@@ -322,8 +329,7 @@
       "textSlideNumber": "Numero di diapositiva",
       "textTable": "Tabella",
       "textTableSize": "Dimensione di tabella",
-      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -391,7 +397,7 @@
       "textFill": "Riempimento",
       "textFinalMessage": "La fine dell'anteprima della diapositiva. Fai clic per uscire.",
       "textFind": "Trovare",
-      "textFindAndReplace": "Trovare e sostituire",
+      "textFindAndReplace": "Trova e sostituisci",
       "textFirstColumn": "Prima colonna",
       "textFirstSlide": "Prima diapositiva",
       "textFontColor": "Colore di carattere",
@@ -446,7 +452,7 @@
       "textRemoveTable": "Eliminare la tabella",
       "textReplace": "Sostituire",
       "textReplaceAll": "Sostituire tutto",
-      "textReplaceImage": "Sostituire l'immagine",
+      "textReplaceImage": "Sostituisci l'immagine",
       "textRequired": "Richiesto",
       "textRight": "A destra",
       "textRotateTextDown": "Ruota testo verso il basso",
@@ -520,8 +526,8 @@
       "textEnableAllMacrosWithoutNotification": "Attivare tutte le macro senza notifica",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
-      "textFindAndReplace": "Trovare e sostituire",
-      "textFindAndReplaceAll": "Trovare e sostituire tutto",
+      "textFindAndReplace": "Trova e sostituisci",
+      "textFindAndReplaceAll": "Trova e sostituisci tutto",
       "textHelp": "Aiuto",
       "textHighlight": "Evidenziare risultati",
       "textInch": "Pollice",
@@ -541,7 +547,7 @@
       "textPresentationTitle": "Titolo presentazione",
       "textPrint": "Stampare",
       "textReplace": "Sostituire",
-      "textReplaceAll": "Sostituire tutto",
+      "textReplaceAll": "Sostituisci tutto",
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Trova",
@@ -558,11 +564,5 @@
       "textVersion": "Versione",
       "textVersionHistory": "Cronologia delle versioni"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

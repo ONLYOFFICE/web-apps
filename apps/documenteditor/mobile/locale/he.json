@@ -27,6 +27,7 @@
     "textCurrentPosition": "המיקום הנוכחי",
     "textDisplay": "תצוגה",
     "textDone": "בוצע",
+    "textDrawing": "ציור",
     "textEmptyImgUrl": "נדרש להגדיר את כתובת האתר URL של התמונה.",
     "textEvenPage": "עמוד זוגי",
     "textFootnote": "הערת שוליים",
@@ -65,8 +66,7 @@
     "textTableSize": "גודל הטבלה",
     "textWithBlueLinks": "עם קישורים כחולים",
     "textWithPageNumbers": "עם מספרי עמודים",
-    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "רענון מספרי עמודים בלבד",
     "textRows": "שורות",
     "txtWarnUrl": "לחיצה על קישור זה עלולה להזיק למכשיר ולנתונים שלך.<br>האם להמשיך בכל-זאת?"
+  },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
   },
   "Edit": {
     "notcriticalErrorTitle": "אזהרה",
@@ -427,6 +433,7 @@
     "errorDefaultMessage": "קוד שגיאה: %1",
     "errorDirectUrl": "נא לאמת את הקישור למסמך.<br>הקישור חייב להיות קישור ישיר לקובץ להורדה.",
     "errorEditingDownloadas": "אירעה שגיאה במהלך העבודה עם המסמך.<br> נא להוריד את המסמך לשמירת עותק הגיבוי של הקובץ מקומית.",
+    "errorEditProtectedRange": "אינך מורשה לערוך בחירה זו מכיוון שהיא מוגנת.",
     "errorEmptyTOC": "התחלת יצירת תוכן עניינים על-ידי החלת סגנון כותרת מגלריית הסגנונות על המלל שנבחר.",
     "errorFilePassProtect": "הקובץ מוגן בסיסמה ולא ניתן היה לפתוח אותו.",
     "errorFileSizeExceed": "גודל הקובץ חורג ממגבלת השרת שלך.<br> נא ליצור קשר עם מנהל המערכת שלך.",
@@ -472,8 +479,7 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -804,6 +810,7 @@
     "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "btnSend": "העברה",
     "dlgLeaveMsgText": "יש שינויים שלא נשמרו. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה האוטומטית. ניתן ללחוץ על 'יציאה מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "מתבצעת יציאה מהיישום",
@@ -815,14 +822,7 @@
     "textRenameFile": "שינוי שם הקובץ",
     "textSwitchedMobileView": "החלפה לתצוגה ניידת",
     "textSwitchedStandardView": "החלפה לתצוגה רגילה",
-    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textSwitchToDesktop": "עבור לשולחן העבודה",
+    "warnEmptyRequiredField": "יש להזין את כל שדות החובה לשליחת הטופס."
   }
 }

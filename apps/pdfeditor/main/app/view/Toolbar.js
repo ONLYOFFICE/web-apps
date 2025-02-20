@@ -95,7 +95,10 @@ define([
         inEquation: 'in-equation',
         inAnnotation: 'in-annotation',
         singlePage: 'single-page',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        pageRotate: 'page-rotate',
+        pageDeleted: 'page-deleted',
+        pageEditText: 'page-edit-text'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -144,7 +147,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     style: 'min-width: 45px;',
                     iconCls: 'toolbar__icon btn-big-magic-wand',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.pageEditText, _set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnRecognize,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -699,7 +702,7 @@ define([
                     id: 'id-toolbar-btn-shape-arrange',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-arrange-front',
-                    lock: [_set.lostConnect, _set.noDrawingObjects, _set.disableOnStart],
+                    lock: [_set.shapeLock, _set.lostConnect, _set.noDrawingObjects, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             this.mnuArrangeFront = new Common.UI.MenuItem({
@@ -790,7 +793,7 @@ define([
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-rem-comment',
-                    lock: [_set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage],
                     caption: this.capBtnDelPage,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -804,7 +807,7 @@ define([
                     caption: this.capBtnRotatePage,
                     split: true,
                     iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.pageRotate, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -856,7 +859,7 @@ define([
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-add-comment',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart],
                         caption: this.capBtnComment,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -868,7 +871,7 @@ define([
                         id: 'tlbtn-textcomment',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-text-comment',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart],
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
@@ -895,7 +898,7 @@ define([
                         caption: this.capBtnStamp,
                         split: true,
                         iconCls: 'toolbar__icon btn-stamp',
-                        lock: [_set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small',
@@ -909,7 +912,7 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -938,12 +941,13 @@ define([
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
                     this.btnsStrikeout = [this.btnStrikeout];
+                    this.toolbarControls.push(this.btnStrikeout);
 
                     this.btnUnderline = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -972,12 +976,13 @@ define([
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
                     this.btnsUnderline = [this.btnUnderline];
+                    this.toolbarControls.push(this.btnUnderline);
 
                     this.btnHighlight = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -1008,6 +1013,7 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     this.btnsHighlight = [this.btnHighlight];
+                    this.toolbarControls.push(this.btnHighlight);
 
                     if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
                         this.btnEditMode = new Common.UI.Button({

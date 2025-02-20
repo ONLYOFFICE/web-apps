@@ -335,7 +335,8 @@
                 url: 'document url',
                 fileType: 'document file type',
                 key: 'key',
-                vkey: 'vkey'
+                vkey: 'vkey',
+                isForm: 'pdf form' / false/true
             },
             editorConfig: {
                 licenseUrl: <url for license>,

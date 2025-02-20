@@ -64,12 +64,12 @@
       "txtIncorrectPwd": "Password non corretta",
       "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
       "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-      "warnLicenseExceeded": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
+      "warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornare la tua licenza e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai accesso alle funzionalità di modifica di documenti. Per favore, contatta il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai l'accesso limitato alle funzionalità di modifiche di documenti.<br>Ti preghiamo di contattare il tuo amministratore per ottenere accesso completo.",
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
-      "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
+      "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite per gli utenti con accesso agli editor %1. Contatta il team di vendita di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
@@ -94,7 +94,7 @@
     "errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizza l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprova più tardi.",
     "errorInconsistentExt": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file non corrisponde all'estensione del file.",
     "errorInconsistentExtDocx": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file corrisponde a documenti di testo (ad es. docx), ma il file ha un'estensione incompatibile: %1.",
-    "errorInconsistentExtPdf": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file corrisponde a uno dei seguenti formati: pdf/djvu/xps/oxps, ma il file ha un'estensione incompatibile: %1.",
+    "errorInconsistentExtPdf": "Si è verificato un'errore durante l'apertura del file.<br>Il contenuto del file corrisponde a uno dei seguenti formati: pdf/djvu/xps/oxps, ma il file ha un'estensione incompatibile: %1.",
     "errorInconsistentExtPptx": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file corrisponde a presentazioni (ad es. pptx), ma il file ha un'estensione incompatibile: %1.",
     "errorInconsistentExtXlsx": "Si è verificato un errore durante l'apertura del file.<br>Il contenuto del file corrisponde a fogli di calcolo (ad es. xlsx), ma il file ha un'estensione incompatibile: %1.",
     "errorKeyEncrypt": "Descrittore di chiave sconosciuto",
@@ -112,7 +112,7 @@
     "errorUsersExceed": "È stato superato il numero degli utenti consentito dalla tariffa",
     "errorViewerDisconnect": "La connessione è stata persa. È ancora possibile visualizzare il documento, <br> ma non sarà possibile scaricarlo o stamparlo fino a quando la connessione non sarà ripristinata e la pagina sarà ricaricata.",
     "notcriticalErrorTitle": "Avvertimento",
-    "openErrorText": "Si è verificato un errore all'apertura del file",
+    "openErrorText": "Si è verificato un'errore all'apertura del file",
     "saveErrorText": "Si è verificato un errore al salvataggio del file",
     "scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Ti preghiamo di ricaricare la pagina.",
     "textOk": "Ok",
@@ -153,14 +153,14 @@
     "waitText": "Per favore attendi..."
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lascia questa pagina",
     "stayButtonText": "Rimani su questa pagina",
     "textEnterNewFileName": "Immetti un nuovo nome file",
     "textRenameFile": "Rinomina file",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Edit": {
@@ -198,6 +198,7 @@
       "textOwner": "Proprietario",
       "textPoweredBy": "Tecnologia di",
       "textPrint": "Stampa",
+      "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textSameAsSystem": "Uguale al sistema",
       "textSearch": "Cerca",
       "textSettings": "Impostazioni",
@@ -209,8 +210,7 @@
       "textVersion": "Versione",
       "textVisioInfo": "Informazioni di Visio",
       "textVisioSettings": "Impostazioni di Visio",
-      "textVisioTitle": "Titolo di visualizzatore di diagrammi",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Titolo di visualizzatore di diagrammi"
     }
   }
 }

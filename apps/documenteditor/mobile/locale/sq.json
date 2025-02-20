@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Kodi gabim: %1",
     "errorDirectUrl": "Ju lutem verifikoni lidhjen me dokumentin.<br>Kjo lidhje duhet të jetë një lidhje e drejtpërdrejtë me skedarin për shkarkim.",
     "errorEditingDownloadas": "Ka ndodhur një gabim gjatë punës me dokumentin.<br>Sharkoni dokumentin për të ruajtur skedarin rezervë në vend.",
+    "errorEditProtectedRange": "Nuk ju lejohet ta modifikoni këtë përzgjedhje sepse është e mbrojtur. ",
     "errorEmptyTOC": "Fillo krijo një tabelë kontenti duke aplikuar një stil titulli nga galeria e stileve në tekstin e përzgjedhur.",
     "errorFilePassProtect": "Skedari është i mbrojtur me fjalëkalim dhe nuk mund të hapet.",
     "errorFileSizeExceed": "Madhësia e skedarit tejkalon kufirin e serverit tuaj.<br>Ju lutem, kontaktoni administratorin tuaj.",
@@ -478,8 +479,7 @@
     "uploadDocSizeMessage": "Kufiri maksimal i madhësisë së dokumentit është tejkaluar.",
     "uploadImageExtMessage": "Format i panjohur i fotos.",
     "uploadImageFileCountMessage": "Fotot nuk janë ngarkuar.",
-    "uploadImageSizeMessage": "Fotoja është shumë e madhe. Madhësia maksimale është 25MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "Fotoja është shumë e madhe. Madhësia maksimale është 25MB."
   },
   "LongActions": {
     "applyChangesTextText": "Ngarkimi i të dhënave...",

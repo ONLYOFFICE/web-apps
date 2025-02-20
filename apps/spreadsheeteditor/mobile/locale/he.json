@@ -251,8 +251,8 @@
   "Draw": {
     "textColor": "צבע",
     "textCustomColor": "צבע מותאם אישית",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
   },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
@@ -449,16 +449,16 @@
     "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?"
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "יציאה מדף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגירת היסטוריה",
     "textEnterNewFileName": "הזנת שם קובץ חדש",
+    "textOk": "אוקיי",
     "textRenameFile": "שינוי שם קובץ",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
@@ -486,6 +486,7 @@
       "textDataTableHint": "החזרת תאי הנתונים של הטבלה או עמודות הטבלה שצוינו",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFilter": "מסנן",
@@ -523,8 +524,7 @@
       "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
       "txtSorting": "מיון",
       "txtSortSelected": "מיון נבחר",
-      "txtYes": "כן",
-      "textDrawing": "Drawing"
+      "txtYes": "כן"
     },
     "Edit": {
       "notcriticalErrorTitle": "אזהרה",
