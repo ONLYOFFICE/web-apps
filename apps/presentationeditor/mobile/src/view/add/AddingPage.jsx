@@ -14,6 +14,8 @@ import IconAddOtherIos from '@common-ios-icons/icon-add-other.svg?ios';
 import IconAddOtherAndroid from '@common-android-icons/icon-add-other.svg';
 import IconAddSlideIos from '@ios-icons/icon-add-slide.svg?ios';
 import IconAddSlideAndroid from '@android-icons/icon-add-slide.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 
 const AddLayoutNavbar = ({ tabs }) => {
@@ -32,7 +34,11 @@ const AddLayoutNavbar = ({ tabs }) => {
                 </div> :
                 <NavTitle>{tabs[0].caption}</NavTitle>
             }
-            {Device.phone && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
+            {Device.phone && <NavRight><Link popupClose=".add-popup">
+            {Device.ios ? 
+                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+            }</Link></NavRight> }
         </Navbar>
     )
 };
