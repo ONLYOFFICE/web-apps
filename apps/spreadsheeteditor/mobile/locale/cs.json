@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
     }
   },
+  "Draw": {
+    "textColor": "Barva",
+    "textOpacity": "Průhlednost",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size"
+  },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
@@ -867,11 +873,5 @@
       "txtZh": "Čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }
