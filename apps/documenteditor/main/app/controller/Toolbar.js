@@ -261,9 +261,11 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            Common.UI.TooltipManager.addTips({
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+            });
+            Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},

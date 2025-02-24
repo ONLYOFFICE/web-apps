@@ -214,7 +214,8 @@
                         tabBackground: {
                             mode: 'header'/'toolbar' // init value, 'header' by default
                             change: true/false // show/hide feature
-                        } / 'header'/'toolbar' // if string - use as init value
+                        } / 'header'/'toolbar' // if string - use as init value,
+                        featuresTips: false/true // show tips about new feature
                     },
                     font: {
                         name: "Arial",
