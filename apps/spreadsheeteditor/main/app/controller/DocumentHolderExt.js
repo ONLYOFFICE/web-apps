@@ -3308,12 +3308,12 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
@@ -3345,14 +3345,18 @@ define([], function () {
                     groups[i] = [];
                 }
 
-                var importText;
+                var importText, pasteItem;
             
                 _.each(pasteItems, function(menuItem, index) {
-                    if (menuItem === Asc.c_oSpecialPasteProps.paste) {
-                        return;
-                    }
-            
-                    if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                    if (menuItem == Asc.c_oSpecialPasteProps.paste) {
+                        pasteItem = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup: 'specialPasteGroup'
+                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
+                        me._arrSpecialPaste[menuItem][2] = pasteItem;
+                    } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
                         importText = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
@@ -3372,14 +3376,11 @@ define([], function () {
                     }
                 });
                 var groupTitles = [me.txtFormula, me.txtValue, me.txtOther];
-            
-                menu.addItem(new Common.UI.MenuItem({
-                    caption: me.txtPaste + ' (P)',
-                    value: 'paste',
-                    checkable: true,
-                    toggleGroup: 'specialPasteGroup'
-                }).on('click', _.bind(me.onSpecialPasteItemClick, me)));
-            
+                
+                if (pasteItem) {
+                    menu.addItem(pasteItem);
+                }
+
                 for (var i = 0; i < 3; i++) {
                     if (groups[i].length > 0) {
                         if (menu.items.length > 0) {
