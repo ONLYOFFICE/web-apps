@@ -3348,30 +3348,22 @@ define([], function () {
                 var importText, pasteItem;
             
                 _.each(pasteItems, function(menuItem, index) {
-                    if (menuItem == Asc.c_oSpecialPasteProps.paste) {
-                        pasteItem = new Common.UI.MenuItem({
+                    if (me._arrSpecialPaste[menuItem]) {
+                        var mnu = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
                             toggleGroup: 'specialPasteGroup'
                         }).on('click', _.bind(me.onSpecialPasteItemClick, me));
-                        me._arrSpecialPaste[menuItem][2] = pasteItem;
-                    } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
-                        importText = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
-                            value: menuItem,
-                            checkable: true,
-                            toggleGroup : 'specialPasteGroup'
-                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
-                        me._arrSpecialPaste[menuItem][2] = importText;
-                    } else if (me._arrSpecialPaste[menuItem]) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
-                            value: menuItem,
-                            checkable: true,
-                            toggleGroup : 'specialPasteGroup'
-                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
-                        groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                
+                        if (menuItem == Asc.c_oSpecialPasteProps.paste) {
+                            pasteItem = mnu;
+                        } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                            importText = mnu;
+                        } else {
+                            groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                        }
+                
                         me._arrSpecialPaste[menuItem][2] = mnu;
                     }
                 });
