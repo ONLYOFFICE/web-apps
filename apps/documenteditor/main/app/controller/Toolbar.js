@@ -2980,7 +2980,7 @@ define([
 
                 if (item.options.borderId === 'none') {
                     targetBorder.forEach(side => {
-                        brd.put_Color( new Asc.asc_CTextBorder());
+                        brd.put_Color(new Asc.asc_CColor());
                         brd.put_Value(0); 
                         borders[`put_${side}`](brd);
                     });
@@ -2997,7 +2997,7 @@ define([
                         compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
                     if (outerSame) {
                         targetBorder.forEach(side => {
-                            brd.put_Color( new Asc.asc_CTextBorder());
+                            brd.put_Color(new Asc.asc_CColor());
                             brd.put_Value(0); 
                             borders[`put_${side}`](brd);  
                         });
@@ -3014,7 +3014,7 @@ define([
                         var same = toleranceError(currentBorder[side].width, bordersWidth) &&
                                    compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
                         if (same) {
-                            brd.put_Color( new Asc.asc_CTextBorder());
+                            brd.put_Color(new Asc.asc_CColor());
                             brd.put_Value(0); 
                             borders[`put_${side}`](brd);               
                         } else {
