@@ -152,6 +152,10 @@ define([
             // el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
+            Common.NotificationCenter.on('app:repaint', function() {
+                el.css('width', SCALE_MIN + 'px');
+            });
+
             el.html(this.template({scope: this}));
 
             this.btnMoreContainer = $('#slot-right-menu-more');
