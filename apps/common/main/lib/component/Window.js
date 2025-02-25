@@ -493,7 +493,11 @@ define([
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options),
-                role: 'alertdialog'
+                role: 'alertdialog',
+                repaintcallback: function() {
+                    autoSize.call(this, this);
+                    _centre.call(this);
+                }
             });
 
             var win = new Common.UI.Window(options),
@@ -538,7 +542,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon_height/2)
+                if (text.height()>0 && text.height() < icon_height/2)
                     text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
