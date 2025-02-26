@@ -1946,7 +1946,8 @@ define([
 
             onStartFilling: function(disconnect) {
                 this._isFillInitiator = true;
-                disconnect ? this.api.asc_DisconnectEveryone() : this.onDisconnectEveryone();
+                this.api.asc_CompletePreparingOForm(!!disconnect);
+                !disconnect && this.onDisconnectEveryone(); // disable editing only for current user
             },
 
             onDisconnectEveryone: function() {
