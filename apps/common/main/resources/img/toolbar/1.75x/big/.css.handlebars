@@ -6,6 +6,7 @@
     {
         .x-huge .toolbar__icon, .toolbar__icon.toolbar__icon-big {
             background-image: url(resources/{{{escaped_image}}});
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
             background-size: {{scaled width 1.75}}px auto;
         }
     }
