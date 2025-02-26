@@ -1511,15 +1511,18 @@ define([
             if (me.appOptions.canFillForms) {
                 var oform = me.api.asc_GetOForm(),
                     role = new AscCommon.CRestrictionSettings();
-                if (oform && me.appOptions.user.roles && me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
-                    role.put_OFormRole(this.appOptions.user.roles[0]);
+                if (oform && me.appOptions.user.roles) {
+                    if (me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
+                        role.put_OFormRole(this.appOptions.user.roles[0]);
+                        me.showFillingForms(true);
+                    } else {
+                        role.put_OFormNoRole(true);
+                        me.view.btnFillStatus && me.view.btnFillStatus.isVisible() && Common.UI.TooltipManager.addTips({
+                            'showFillStatus': { name: 'de-help-tip-fill-status', text: me.helpTextFillStatus, target: '#id-btn-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300 }
+                        });
+                    }
+                } else // can fill all fields
                     me.showFillingForms(true);
-                } else {
-                    role.put_OFormNoRole(true);
-                    me.view.btnFillStatus && me.view.btnFillStatus.isVisible() && Common.UI.TooltipManager.addTips({
-                        'showFillStatus': { name: 'de-help-tip-fill-status', text: me.helpTextFillStatus, target: '#id-btn-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300 }
-                    });
-                }
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
             }
 
@@ -2068,10 +2071,12 @@ define([
             }
             var oform = this.api.asc_GetOForm(),
                 role = new AscCommon.CRestrictionSettings();
-            if (oform && this.appOptions.user.roles && this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
-                role.put_OFormRole(this.appOptions.user.roles[0]);
-            } else {
-                role.put_OFormNoRole(true);
+            if (oform && this.appOptions.user.roles) {
+                if (this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
+                    role.put_OFormRole(this.appOptions.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
             }
             this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
         },

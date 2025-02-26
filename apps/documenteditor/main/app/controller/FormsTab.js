@@ -514,12 +514,15 @@ define([
                 if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm && me.api) {
                     var oform = me.api.asc_GetOForm(),
                         role = new AscCommon.CRestrictionSettings();
-                    if (oform && config.user.roles && config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
-                        role.put_OFormRole(config.user.roles[0]);
+                    if (oform && config.user.roles) {
+                        if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                            role.put_OFormRole(config.user.roles[0]);
+                            me.view && me.view.showFillingForms(true);
+                        } else {
+                            role.put_OFormNoRole(true);
+                        }
+                    } else // can fill all fields
                         me.view && me.view.showFillingForms(true);
-                    } else {
-                        role.put_OFormNoRole(true);
-                    }
                     me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
                 if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api) {
