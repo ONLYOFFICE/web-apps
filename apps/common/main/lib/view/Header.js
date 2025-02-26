@@ -89,6 +89,7 @@ define([
                                 '<div class="hedset">' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit"></div>' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-start-fill"></div>' +
+                                    '<div class="btn-slot margin-right-2 margin-left-5" id="slot-btn-fill-status"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -403,6 +404,14 @@ define([
             me.btnStartFill && me.btnStartFill.on('click', function (e) {
                 Common.NotificationCenter.trigger('forms:request-fill');
             });
+
+            if (me.btnFillStatus) {
+                me.btnFillStatus.updateHint(me.tipFillStatus);
+                me.btnFillStatus && me.btnFillStatus.on('click', function (e) {
+                    Common.UI.TooltipManager.closeTip('showFillStatus');
+                    Common.Gateway.requestFillingStatus(appConfig.user.roles && appConfig.user.roles.length>0 ? appConfig.user.roles[0] : undefined);
+                });
+            }
 
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
@@ -1006,6 +1015,14 @@ define([
                         $html.find('#slot-btn-start-fill').hide();
                     }
 
+                    if (config.isPDFForm && config.canFillForms && config.isRestrictedEdit && config.canRequestFillingStatus) {
+                        me.btnFillStatus = new Common.UI.Button({
+                            cls: 'btn-header',
+                            iconCls: 'toolbar__icon icon--inverse  btn-filling-status',
+                        });
+                        me.btnFillStatus.render($html.find('#slot-btn-fill-status'));
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
@@ -1420,7 +1437,8 @@ define([
             helpQuickAccessHeader: 'Customize Quick Access',
             ariaQuickAccessToolbar: 'Quick access toolbar',
             textAnnotateDesc: 'Fill forms or annotate',
-            textDownload: 'Download'
+            textDownload: 'Download',
+            tipFillStatus: 'Filling status'
         }
     }(), Common.Views.Header || {}))
 });

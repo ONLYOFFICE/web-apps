@@ -473,6 +473,7 @@ define([
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+                this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
@@ -1948,7 +1949,8 @@ define([
 
             onStartFilling: function(disconnect) {
                 this._isFillInitiator = true;
-                disconnect ? this.api.asc_DisconnectEveryone() : this.onDisconnectEveryone();
+                this.api.asc_CompletePreparingOForm(!!disconnect);
+                !disconnect && this.onDisconnectEveryone(); // disable editing only for current user
             },
 
             onDisconnectEveryone: function() {
