@@ -520,6 +520,9 @@ define([
                             me.view && me.view.showFillingForms(true);
                         } else {
                             role.put_OFormNoRole(true);
+                            me.view && config.canRequestFillingStatus && Common.UI.TooltipManager.showTip({
+                                step: 'showFillStatus', name: 'de-help-tip-fill-status', text: me.view.helpTextFillStatus, target: '#slot-btn-fill-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300
+                            });
                         }
                     } else // can fill all fields
                         me.view && me.view.showFillingForms(true);
