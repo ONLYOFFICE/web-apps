@@ -89,6 +89,10 @@ function checkScaling() {
     if ( window.isIEBrowser !== true ) {
         matches = {
             'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
+            'pixel-ratio__1': 'screen and (-webkit-min-device-pixel-ratio: 1) and (-webkit-max-device-pixel-ratio: 1.24), ' +
+                                    "screen and (min-resolution: 1dppx) and (max-resolution: 1.24dppx)",
+            'pixel-ratio__2': 'screen and (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.24), ' +
+                                    "screen and (min-resolution: 2dppx) and (max-resolution: 2.24dppx)",
         };
         for (let c in matches) {
             if ( window.matchMedia(matches[c]).matches ) {

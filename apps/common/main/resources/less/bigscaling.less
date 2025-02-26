@@ -1,3 +1,17 @@
+.btn-toolbar,
+.btn-header,
+.btn-category,
+.btn-options,
+.label-cmp {
+    i.icon {
+        //&:not(.scaling-off):not(.icon-custom) {
+        &:not(.scaling-off):not(.icon-custom):not(.pixel-ratio__1_5 *):not(.pixel-ratio__1_25 *):not(.pixel-ratio__1_75 *)
+        {
+            display: none;
+        }
+    }
+}
+
 .pixel-ratio__2_5 {
     .btn-toolbar,
     .btn-header,
@@ -6,7 +20,7 @@
     .label-cmp {
         i.icon {
             &:not(.scaling-off):not(.icon-custom) {
-                display: none;
+                //display: none;
             }
         }
     }
@@ -59,8 +73,11 @@
 .dataview,
 .label-cmp
 {
-    svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
-        display: none;
+    //svg.icon:not(.uni-scale):not(.pixel-ratio__2_5 *) {
+    .pixel-ratio__1_25 & {
+        svg.icon:not(.uni-scale) {
+            display: none;
+        }
     }
 }
 

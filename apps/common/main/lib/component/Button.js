@@ -989,11 +989,11 @@ define([
 
         applyScaling: function (ratio) {
             const me = this;
-            if ( me.options.scaling != ratio ) {
+            if ( me.options.scaling !== ratio ) {
                 // me.cmpEl.attr('ratio', ratio);
                 me.options.scaling = ratio;
 
-                if (ratio > 2) {
+                if (ratio == 1 || !(ratio < 2)) {
                     const $el = me.$el.is('button') ? me.$el : me.$el.find('button:first');
                     if (!$el.find('svg.icon').length) {
                         const iconCls = me.iconCls || $el.find('i.icon').attr('class');
