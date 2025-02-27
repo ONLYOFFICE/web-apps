@@ -153,14 +153,14 @@
     "waitText": "Por favor, aguarde..."
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textEnterNewFileName": "Digite um novo nome de arquivo",
     "textRenameFile": "Renomear arquivo",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Mudar para o desktop"
   },
   "View": {
     "Edit": {
@@ -198,6 +198,7 @@
       "textOwner": "Proprietário",
       "textPoweredBy": "Desenvolvido por",
       "textPrint": "Imprimir",
+      "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
@@ -209,8 +210,7 @@
       "textVersion": "Versão",
       "textVisioInfo": "Informações do Visualizador de Diagramas",
       "textVisioSettings": "Configurações do Visualizador de Diagramas",
-      "textVisioTitle": "Título do Visualizador de Diagramas",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Título do Visualizador de Diagramas"
     }
   }
 }

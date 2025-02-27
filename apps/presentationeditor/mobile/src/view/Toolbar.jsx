@@ -25,7 +25,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-              {props.isDrawMode && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-close' : null} className='back-reader-mode' onClick={() => Common.Notifications.trigger('draw:stop')}/>}
+              {props.isDrawMode && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-check' : null} className='back-reader-mode' onClick={() => Common.Notifications.trigger('draw:stop')}/>}
                 {(props.isShowBack && !props.isDrawMode && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {isVersionHistoryMode ? <a href="#" className='btn-close-history' onClick={(e) => {
                     e.preventDefault();

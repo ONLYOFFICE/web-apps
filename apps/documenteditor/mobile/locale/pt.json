@@ -27,6 +27,7 @@
     "textCurrentPosition": "Posição Atual",
     "textDisplay": "Exibir",
     "textDone": "Concluído",
+    "textDrawing": "Desenho",
     "textEmptyImgUrl": "Você precisa especificar uma URL de imagem.",
     "textEvenPage": "Página par",
     "textFootnote": "Nota de rodapé",
@@ -65,8 +66,7 @@
     "textTableSize": "Tamanho da tabela",
     "textWithBlueLinks": "Com links azuis",
     "textWithPageNumbers": "Com números de página",
-    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\""
   },
   "Common": {
     "Collaboration": {
@@ -228,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Atualizar apenas números de página",
     "textRows": "Linhas",
     "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
+  },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Cor personalizada",
+    "textLineSize": "Tamanho da linha",
+    "textOpacity": "Opacidade"
   },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
@@ -427,6 +433,7 @@
     "errorDefaultMessage": "Código do erro: %1",
     "errorDirectUrl": "Por favor, verifique o link para o documento.<br>Este link deve ser o link direto para baixar o arquivo.",
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Baixe o documento para salvar a cópia de backup do arquivo localmente.",
+    "errorEditProtectedRange": "Você não tem permissão para editar essa seleção porque ela está protegida.",
     "errorEmptyTOC": "Comece a criar um sumário aplicando um estilo de título da galeria Estilos ao texto selecionado.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor.<br>Por favor, contate seu administrador.",
@@ -472,8 +479,7 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Carregando dados...",
@@ -804,6 +810,7 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "btnSend": "Enviar",
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
@@ -815,14 +822,7 @@
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
-    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textSwitchToDesktop": "Mudar para o desktop",
+    "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
   }
 }

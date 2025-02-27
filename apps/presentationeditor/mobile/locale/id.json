@@ -157,6 +157,7 @@
       "textNo": "Tidak",
       "textNoLicenseTitle": "Batas lisensi sudah tercapai",
       "textNoMatches": "Tidak Ada yamg Cocok",
+      "textOk": "Ok",
       "textOpenFile": "Masukkan kata sandi untuk buka file",
       "textPaidFeature": "Fitur berbayar",
       "textRemember": "Ingat pilihan saya",
@@ -179,9 +180,14 @@
       "warnLicenseUsersExceeded": "Anda sudah mencapai batas user untuk %1 editor. Hubungi admin Anda untuk mempelajari lebih lanjut.",
       "warnNoLicense": "Anda sudah mencapai batas untuk koneksi bersamaan ke %1 editor. Dokumen ini akan dibuka untuk dilihat saja. Hubungi %1 tim sales untuk syarat personal upgrade.",
       "warnNoLicenseUsers": "Anda sudah mencapai batas user untuk %1 editor. Hubungi %1 tim sales untuk syarat personal upgrade.",
-      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
+  },
+  "Draw": {
+    "textColor": "Warna",
+    "textCustomColor": "Warna ubahan",
+    "textLineSize": "Ukuran garis",
+    "textOpacity": "Opacity"
   },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
@@ -210,6 +216,7 @@
     "errorKeyEncrypt": "Deskriptor kunci tidak dikenal",
     "errorKeyExpire": "Deskriptor kunci tidak berfungsi",
     "errorLoadingFont": "Font tidak bisa dimuat.<br>Silakan kontak admin Server Dokumen Anda.",
+    "errorSaveWatermark": "Berkas ini mengandung suatu gambar bertanda air yang ditaut ke domain lain.<br>Untuk membuatnya tampak dalam PDF, perbarui gambar tanda air sehingga itu menaut ke domain yang sama dengan dokumen Anda, atau unggah itu dari komputer Anda.",
     "errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
@@ -228,12 +235,11 @@
     "splitDividerErrorText": "Jumlah baris harus merupakan pembagi dari %1",
     "splitMaxColsErrorText": "Jumlah kolom harus kurang dari %1",
     "splitMaxRowsErrorText": "Jumlah baris harus kurang dari %1",
+    "textOk": "OK",
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -270,16 +276,16 @@
     "waitText": "Silahkan menunggu"
   },
   "Toolbar": {
+    "btnRestartNow": "Restart sekarang",
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama file yang baru",
-    "textRenameFile": "Ganti Nama File",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Ganti Nama File",
+    "textSwitchToDesktop": "Beralih ke Desktop"
   },
   "View": {
     "Add": {
@@ -558,11 +564,5 @@
       "textVersion": "Versi",
       "textVersionHistory": "Riwayat Versi"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

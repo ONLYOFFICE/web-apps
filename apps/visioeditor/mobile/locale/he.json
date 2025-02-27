@@ -153,14 +153,14 @@
     "waitText": "נא להמתין..."
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'להישאר בדף זה' כדי להמתין לשמירה האוטומטית. נא ללחוץ על 'יציאה מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "מתבצעת יציאה מהיישום",
     "leaveButtonText": "יציאה מדף זה",
     "stayButtonText": "להישאר בדף זה",
     "textEnterNewFileName": "נא להזין שם חדש לקובץ",
     "textRenameFile": "שינוי שם הקובץ",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Edit": {
@@ -198,6 +198,7 @@
       "textOwner": "בעלים",
       "textPoweredBy": "מופעל על-ידי",
       "textPrint": "הדפסה",
+      "textRestartApplication": "נא להפעיל מחדש את היישום כדי שהשינויים ייכנסו לתוקף",
       "textSameAsSystem": "זהה למערכת",
       "textSearch": "חיפוש",
       "textSettings": "הגדרות",
@@ -209,8 +210,7 @@
       "textVersion": "גרסה ",
       "textVisioInfo": "מידע אודות מציג התרשימים",
       "textVisioSettings": "הגדרות מציג התרשימים",
-      "textVisioTitle": "כותרת מציג התרשימים",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "כותרת מציג התרשימים"
     }
   }
 }

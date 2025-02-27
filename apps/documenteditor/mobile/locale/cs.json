@@ -229,6 +229,12 @@
     "textRows": "Řádky",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
   },
+  "Draw": {
+    "textColor": "Barva",
+    "textOpacity": "Průhlednost",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Varování",
     "textActualSize": "Skutečná velikost",
@@ -818,11 +824,5 @@
     "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

@@ -86,7 +86,7 @@
   "DE.Controllers.ApplicationController.criticalErrorTitle": "오류",
   "DE.Controllers.ApplicationController.downloadErrorText": "다운로드 실패",
   "DE.Controllers.ApplicationController.downloadTextText": "문서 다운로드 중...",
-  "DE.Controllers.ApplicationController.errorAccessDeny": "권한이없는 작업을 수행하려고합니다. <br> Document Server 관리자에게 문의하십시오.",
+  "DE.Controllers.ApplicationController.errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다.<br>관리자에게 문의하십시오.",
   "DE.Controllers.ApplicationController.errorBadImageUrl": "이미지 URL이 잘못되었습니다.",
   "DE.Controllers.ApplicationController.errorConnectToServer": "문서를 저장할 수 없습니다. 연결 설정을 확인하거나 관리자에게 문의하세요. <br>\"확인\" 버튼을 클릭하면 문서를 다운로드하라는 메시지가 표시됩니다.",
   "DE.Controllers.ApplicationController.errorDataEncrypted": "암호화 변경 사항이 수신되었으며 해독할 수 없습니다.",

@@ -183,6 +183,12 @@
       "textOk": "Ok"
     }
   },
+  "Draw": {
+    "textColor": "Barva",
+    "textOpacity": "Průhlednost",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size"
+  },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
@@ -558,11 +564,5 @@
       "textVersion": "Verze",
       "textVersionHistory": "Historie verzí"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

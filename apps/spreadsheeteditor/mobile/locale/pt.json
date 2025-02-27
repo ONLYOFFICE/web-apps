@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Personalizar cor",
+    "textLineSize": "Tamanho da linha",
+    "textOpacity": "Opacidade"
+  },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
     "criticalErrorExtText": "Pressione 'OK' para voltar para a lista de documentos.",
@@ -443,16 +449,16 @@
     "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo",
-    "btnRestartNow": "Restart now",
     "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textRenameFile": "Renomear arquivo",
+    "textSwitchToDesktop": "Mudar para o desktop"
   },
   "View": {
     "Add": {
@@ -480,6 +486,7 @@
       "textDataTableHint": "Retorna as células de dados da tabela ou colunas de tabela especificadas",
       "textDisplay": "Exibir",
       "textDone": "Concluído",
+      "textDrawing": "Desenho",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFilter": "Filtro",
@@ -517,8 +524,7 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim",
-      "textDrawing": "Drawing"
+      "txtYes": "Sim"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -867,11 +873,5 @@
       "txtZh": "Chinês",
       "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

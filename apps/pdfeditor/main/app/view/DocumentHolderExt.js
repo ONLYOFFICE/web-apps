@@ -60,9 +60,12 @@ define([], function () {
             this.viewPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
+                    var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuAddComment.setDisabled(disabled);
                     me.menuRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFViewCopy,
@@ -107,9 +110,12 @@ define([], function () {
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
+                    var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFEditCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuEditAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuEditAddComment.setDisabled(disabled);
                     me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuEditRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFEditCopy,
@@ -1037,7 +1043,6 @@ define([], function () {
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
-
                     var disabled = (value.paraProps!==undefined  && value.paraProps.locked) ||
                         (isInShape && value.shapeProps.locked);
                     var isEquation= (value.mathProps && value.mathProps.value);
@@ -1201,6 +1206,19 @@ define([], function () {
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
+                    if (me.api) {
+                        var i = -1,
+                            page_deleted = false,
+                            page_rotate = false,
+                            selectedElements = me.api.getSelectedElements();
+                        while (++i < selectedElements.length) {
+                            if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.PdfPage) {
+                                page_deleted = selectedElements[i].get_ObjectValue().asc_getDeleteLock();
+                                page_rotate = selectedElements[i].get_ObjectValue().asc_getRotateLock();
+                            }
+                        }
+                    }
+
                     me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
                     me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
                     me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
@@ -1208,7 +1226,9 @@ define([], function () {
                     menuPageNewSeparator.setVisible(value.isPageSelect===true);
                     menuPageDelSeparator.setVisible(value.isPageSelect===true);
 
-                    me.mnuDeletePage.setDisabled(me._pagesCount<2);
+                    me.mnuRotatePageRight.setDisabled(page_rotate || page_deleted);
+                    me.mnuRotatePageLeft.setDisabled(page_rotate || page_deleted);
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted);
                 },
                 items: [
                     me.mnuNewPageBefore,

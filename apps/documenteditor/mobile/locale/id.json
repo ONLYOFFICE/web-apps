@@ -229,6 +229,12 @@
     "textRows": "Baris",
     "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?"
   },
+  "Draw": {
+    "textColor": "Warna",
+    "textCustomColor": "Warna ubahan",
+    "textLineSize": "Ukuran garis",
+    "textOpacity": "Opacity"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Peringatan",
     "textActualSize": "Ukuran sebenarnya",
@@ -427,6 +433,7 @@
     "errorDefaultMessage": "Kode kesalahan: %1",
     "errorDirectUrl": "Silakan verifikasi tautan ke dokumen.<br>Tautan ini harus merupakan tautan langsung menuju file yang akan diunduh.",
     "errorEditingDownloadas": "Ada kesalahan saat bekerja dengan dokumen.<br>Download dokumen untuk menyimpan file copy backup di lokal.",
+    "errorEditProtectedRange": "Anda tidak diizinkan menyunting pilihan ini karena itu terproteksi.",
     "errorEmptyTOC": "Mulai membuat daftar isi dengan menerapkan gaya judul dari galeri Gaya kepada teks terpilih.",
     "errorFilePassProtect": "Password file diproteksi dan tidak bisa dibuka.",
     "errorFileSizeExceed": "Ukuran file melampaui limit server Anda.<br>Silakan, hubungi admin.",
@@ -443,6 +450,8 @@
     "errorMailMergeSaveFile": "Merge gagal.",
     "errorNoTOC": "Tidak ada daftar isi yang harus diperbarui. Anda dapat menyisipkan satu daftar isi dari tab Referensi.",
     "errorPasswordIsNotCorrect": "Kata sandi yang Anda berikan salah. Periksa bahwa tombol CAPS LOCK mati dan yakinkan memakai kapitalisasi yang benar.",
+    "errorPDFFormsLocked": "Aksi tidak bisa dilakukan karena itu menyebabkan perubahan dalam formulir yang dikunci.",
+    "errorSaveWatermark": "Berkas ini mengandung suatu gambar bertanda air yang ditaut ke domain lain.<br>Untuk membuatnya tampak dalam PDF, perbarui gambar tanda air sehingga itu menaut ke domain yang sama dengan dokumen Anda, atau unggah itu dari komputer Anda.",
     "errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
@@ -463,17 +472,14 @@
     "splitDividerErrorText": "Jumlah baris harus merupakan pembagi dari %1",
     "splitMaxColsErrorText": "Jumlah kolom harus kurang dari %1",
     "splitMaxRowsErrorText": "Jumlah baris harus kurang dari %1",
+    "textOk": "OK",
     "unknownErrorText": "Kesalahan tidak diketahui.",
     "uploadDocExtMessage": "Format dokumen tidak dikenal.",
     "uploadDocFileCountMessage": "Tidak ada dokumen yang diunggah.",
     "uploadDocSizeMessage": "Batas ukuran maksimum dokumen terlampaui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
-    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -503,6 +509,7 @@
     "savePreparingTitle": "Bersiap untuk menyimpan. Silahkan menunggu...",
     "saveTextText": "Menyimpan dokumen...",
     "saveTitleText": "Menyimpan Dokumen",
+    "savingText": "Menyimpan",
     "sendMergeText": "Mengirim Merge...",
     "sendMergeTitle": "Mengirim Merge",
     "textContinue": "Lanjutkan",
@@ -511,8 +518,7 @@
     "txtEditingMode": "Atur mode editing...",
     "uploadImageTextText": "Mengunggah gambar...",
     "uploadImageTitleText": "Mengunggah Gambar",
-    "waitText": "Silahkan menunggu",
-    "savingText": "Saving"
+    "waitText": "Silahkan menunggu"
   },
   "Main": {
     "criticalErrorTitle": "Kesalahan",
@@ -804,6 +810,8 @@
     "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset."
   },
   "Toolbar": {
+    "btnRestartNow": "Restart sekarang",
+    "btnSend": "Kirim",
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
@@ -814,15 +822,7 @@
     "textRenameFile": "Ganti Nama File",
     "textSwitchedMobileView": "Beralih ke Tampilan seluler",
     "textSwitchedStandardView": "Beralih ke Tampilan standar",
-    "warnEmptyRequiredField": "Isi semua ruas yang dibutuhkan untuk mengirim formulir.",
-    "btnRestartNow": "Restart now",
-    "btnSend": "Send",
-    "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textSwitchToDesktop": "Beralih ke Desktop",
+    "warnEmptyRequiredField": "Isi semua ruas yang dibutuhkan untuk mengirim formulir."
   }
 }

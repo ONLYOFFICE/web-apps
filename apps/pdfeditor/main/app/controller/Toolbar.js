@@ -178,10 +178,12 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            Common.UI.TooltipManager.addTips({
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
                 'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
-                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
+                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false}
+            });
+            Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -389,6 +391,7 @@ define([
 
             this.toolbar.setApi(this.api);
 
+            this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectAnnotate, this));
             this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
             this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
@@ -532,6 +535,22 @@ define([
             }
         },
 
+        onApiFocusObjectAnnotate: function(selectedObjects) {
+            if (!this.editMode || !this.mode.isPDFAnnotate) return;
+
+            var i = -1,
+                page_deleted = false;
+            while (++i < selectedObjects.length) {
+                if (selectedObjects[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.PdfPage) {
+                    page_deleted = selectedObjects[i].get_ObjectValue().asc_getDeleteLock();
+                }
+            }
+            if (page_deleted !== undefined && this._state.pagecontrolsdisable !== page_deleted) {
+                if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
+                this.toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
+            }
+        },
+
         onApiFocusObject: function(selectedObjects) {
             if (!this.editMode || !this.mode.isPDFEdit) return;
 
@@ -547,7 +566,10 @@ define([
                 in_smartart = false,
                 in_smartart_internal = false,
                 in_annot = false,
-                annot_lock = false;
+                annot_lock = false,
+                page_deleted = false,
+                page_rotate = false,
+                page_edit_text = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -591,68 +613,72 @@ define([
                     in_annot = true;
                     if (pr.asc_getCanEditText())
                         no_text = false;
+                } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
+                    page_deleted = pr.asc_getDeleteLock();
+                    page_rotate = pr.asc_getRotateLock();
+                    page_edit_text = pr.asc_getEditLock();
                 }
             }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
                 if (paragraph_locked!==undefined)
-                    this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked, {array: toolbar.paragraphControls});
+                    toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked, {array: toolbar.paragraphControls});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
-                this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: toolbar.paragraphControls});
-                // this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: [toolbar.btnCopyStyle]});
+                toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: toolbar.paragraphControls});
+                // toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: [toolbar.btnCopyStyle]});
             }
 
             if (this._state.no_text !== no_text) {
                 if (this._state.activated) this._state.no_text = no_text;
-                this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: toolbar.paragraphControls});
+                toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: toolbar.paragraphControls});
             }
 
             if (this._state.in_annot !== in_annot) {
                 if (this._state.activated) this._state.in_annot = in_annot;
-                this.toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
+                toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
             }
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [toolbar.btnVerticalAlign ]});
+                toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [toolbar.btnVerticalAlign ]});
             }
 
             var no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1;
             if (this._state.no_drawing_objects !== no_drawing_objects ) {
                 if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
-                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [toolbar.btnShapeAlign, toolbar.btnShapeArrange, toolbar.btnShapesMerge]});
+                toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [toolbar.btnShapeAlign, toolbar.btnShapeArrange, toolbar.btnShapesMerge]});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: toolbar.shapeControls.concat(toolbar.paragraphControls)});
+                toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: toolbar.shapeControls.concat(toolbar.paragraphControls)});
             }
 
             if (shape_locked===undefined && !this._state.no_drawing_objects) { // several tables selected
-                this.toolbar.lockToolbar(Common.enumLock.shapeLock, false, {array: toolbar.shapeControls});
+                toolbar.lockToolbar(Common.enumLock.shapeLock, false, {array: toolbar.shapeControls});
             }
 
             if (this._state.in_equation !== in_equation) {
                 if (this._state.activated) this._state.in_equation = in_equation;
-                this.toolbar.lockToolbar(Common.enumLock.inEquation, in_equation, {array: [toolbar.btnSuperscript, toolbar.btnSubscript]});
+                toolbar.lockToolbar(Common.enumLock.inEquation, in_equation, {array: [toolbar.btnSuperscript, toolbar.btnSubscript]});
             }
 
             if (this._state.no_columns !== no_columns) {
                 if (this._state.activated) this._state.no_columns = no_columns;
-                this.toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [toolbar.btnColumns]});
+                toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [toolbar.btnColumns]});
             }
 
             if (this._state.in_smartart !== in_smartart) {
-                this.toolbar.lockToolbar(Common.enumLock.inSmartart, in_smartart, {array: toolbar.paragraphControls});
+                toolbar.lockToolbar(Common.enumLock.inSmartart, in_smartart, {array: toolbar.paragraphControls});
                 this._state.in_smartart = in_smartart;
             }
 
             if (this._state.in_smartart_internal !== in_smartart_internal) {
-                this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smartart_internal, {array: toolbar.paragraphControls});
+                toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smartart_internal, {array: toolbar.paragraphControls});
                 this._state.in_smartart_internal = in_smartart_internal;
 
                 toolbar.mnuArrangeFront.setDisabled(in_smartart_internal);
@@ -660,7 +686,14 @@ define([
                 toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
                 toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
             }
-            this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
+            toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [toolbar.btnShapesMerge] });
+
+            if (page_deleted !== undefined && this._state.pagecontrolsdisable !== page_deleted) {
+                if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
+                toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
+            }
+            toolbar.lockToolbar(Common.enumLock.pageRotate, page_rotate, {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
         },
 
         onApiZoomChange: function(percent, type) {},

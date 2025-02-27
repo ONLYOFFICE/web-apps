@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
+  },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "לחץ על 'אישור' כדי לחזור לרשימת המסמכים.",
@@ -270,16 +276,16 @@
     "waitText": "בבקשה, המתן..."
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "יש לך שינויים שלא נשמרו במסמך זה. לחץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. לחץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "עזוב דף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגור היסטוריה",
     "textEnterNewFileName": "הזן שם קובץ חדש",
+    "textOk": "אוקיי",
     "textRenameFile": "שינוי שם קובץ",
-    "btnRestartNow": "Restart now",
-    "textOk": "OK",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
@@ -293,6 +299,7 @@
       "textDefault": "טקסט נבחר",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFirstSlide": "שקופית ראשונה",
@@ -322,8 +329,7 @@
       "textSlideNumber": "מספר שקופית",
       "textTable": "טבלה",
       "textTableSize": "גודל טבלה",
-      "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\"",
-      "textDrawing": "Drawing"
+      "txtNotUrl": "שדה זה אמור להיות כתובת אתר בפורמט \"http://www.example.com\""
     },
     "Edit": {
       "notcriticalErrorTitle": "אזהרה",
@@ -558,11 +564,5 @@
       "textVersion": "גרסה",
       "textVersionHistory": "היסטוריית גרסאות"
     }
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

@@ -112,6 +112,7 @@ define([
                     ],
                     lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode] :
                            (this.appPrefix === 'pe-') ? [_set.slideDeleted, _set.lostConnect, _set.noSlides] :
+                           (this.appPrefix === 'pdfe-') ? [_set.pageDeleted, _set.lostConnect] :
                                                         [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     me = this;
                 penOptions.forEach(function (props) {
