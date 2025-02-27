@@ -60,7 +60,7 @@ define([
                     '<span class="btn-slot text x-huge slot-instext"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-instextart"></span>' +
                     '<span class="btn-slot text x-huge slot-insertimg"></span>' +
-                    // '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
                     // '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
@@ -147,7 +147,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertTable);
-/*
+
                 me.btnInsertChart = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -160,7 +160,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertChart);
-
+/*
                 this.btnInsertSmartArt = new Common.UI.Button({
                     id: 'tlbtn-insertsmartart',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -315,7 +315,7 @@ define([
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
-                // _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
+                _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
                 // _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 // _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
@@ -424,7 +424,7 @@ define([
                 });
 
                 this.btnInsertTable.updateHint(this.tipInsertTable);
-                // this.btnInsertChart.updateHint(this.tipInsertChart);
+                this.btnInsertChart.updateHint(this.tipInsertChart);
                 // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
@@ -433,7 +433,7 @@ define([
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
                 // this.btnInsSlideNum.updateHint(this.tipPageNum);
-/*
+
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
                     items: [
@@ -461,6 +461,7 @@ define([
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
+/*
                 this.btnInsertSmartArt.setMenu(new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: []

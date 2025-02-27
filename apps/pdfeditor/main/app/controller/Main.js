@@ -100,7 +100,11 @@ define([
                     'Your text here': this.txtArt,
                     "Choose an item": this.txtChoose,
                     "Enter a date": this.txtEnterDate,
-                    "Click to load image": this.txtClickToLoad
+                    "Click to load image": this.txtClickToLoad,
+                    'Series': this.txtSeries,
+                    'Diagram Title': this.txtDiagramTitle,
+                    'X Axis': this.txtXAxis,
+                    'Y Axis': this.txtYAxis
                 };
             },
 

@@ -115,53 +115,6 @@ define([], function () {
                 view.menuPDFEditCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
                 view.menuEditRemoveComment.on('click', _.bind(me.removeComment, me));
-                /*
-                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-                 if (diagramEditor) {
-                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                 var command = message.data.command;
-                 var data = message.data.data;
-                 if (this.api) {
-                 ( diagramEditor.isEditMode() )
-                 ? this.api.asc_editChartDrawingObject(data)
-                 : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                 }
-                 }, this));
-                 diagramEditor.on('hide', _.bind(function(cmp, message) {
-                 if (this.api) {
-                 this.api.asc_onCloseChartFrame();
-                 this.api.asc_enableKeyEvents(true);
-                 }
-                 var me = this;
-                 setTimeout(function(){
-                 me.editComplete();
-                 }, 10);
-                 }, this));
-                 }
-
-                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                 if (oleEditor) {
-                 oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                 var command = message.data.command;
-                 var data = message.data.data;
-                 if (this.api) {
-                 oleEditor.isEditMode()
-                 ? this.api.asc_editTableOleObject(data)
-                 : this.api.asc_addTableOleObject(data);
-                 }
-                 }, this));
-                 oleEditor.on('hide', _.bind(function(cmp, message) {
-                 if (this.api) {
-                 this.api.asc_enableKeyEvents(true);
-                 this.api.asc_onCloseChartFrame();
-                 }
-                 var me = this;
-                 setTimeout(function(){
-                 me.editComplete();
-                 }, 10);
-                 }, this));
-                 }
-                 */
                 view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuParaCut.on('click', _.bind(me.onCutCopyPaste, me));
@@ -232,12 +185,14 @@ define([], function () {
 
         dh.applyEditorMode = function() {
             if (this.mode && this.mode.isPDFEdit && this._state.initEditorEvents && Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.initExternalEditors();
                 this.documentHolder.createDelayedElementsPDFEditor();
                 this._state.initEditorEvents = false;
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
                 this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_doubleClickOnChart',         _.bind(this.onDoubleClickOnChart, this));
             }
             if (this.mode)
                 this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
@@ -2572,5 +2527,59 @@ define([], function () {
             !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar') && this.onHideAnnotBar();
         };
 
+        dh.initExternalEditors = function() {
+            var me = this,
+                decontroller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
+            decontroller.setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
+            var diagramEditor = decontroller.getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        (diagramEditor.isEditMode())
+                            ? this.api.asc_editChartDrawingObject(data)
+                            : this.api.asc_addChartDrawingObject(data);
+                    }
+                }, this));
+                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+        };
+
+        dh.onDoubleClickOnChart = function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            if (this.mode && this.mode.isEdit && this.mode.isPDFEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    diagramEditor.setEditMode(true);
+                    diagramEditor.show();
+                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                }
+            }
+        };
+
+        dh.editChartClick = function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.setEditMode(true);
+                diagramEditor.show();
+
+                var chart = this.api.asc_getChartObject();
+                if (chart) {
+                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                }
+            }
+        };
     }
 });

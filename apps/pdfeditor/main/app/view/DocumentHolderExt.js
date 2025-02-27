@@ -816,7 +816,7 @@ define([], function () {
                     me.mnuArrangeForward.setDisabled(inSmartartInternal);
                     me.mnuArrangeBackward.setDisabled(inSmartartInternal);
 
-                    me.menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    me.menuImgShapeRotate.setVisible((_.isUndefined(value.chartProps) && !(value.shapeProps && value.shapeProps.isChart)) && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgShapeRotate.isVisible()) {
                         me.menuImgShapeRotate.setDisabled(disabled || (value.shapeProps && value.shapeProps.value.get_FromSmartArt()));
                         me.menuImgShapeRotate.menu.items[3].setDisabled(inSmartartInternal);
@@ -846,7 +846,7 @@ define([], function () {
                     canEditPoints && me.menuImgEditPoints.setDisabled(disabled);
 
                     me.menuImageAdvanced.setVisible(isimage);
-                    me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
+                    me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps) && (_.isUndefined(value.chartProps) && !(value.shapeProps && value.shapeProps.isChart)));
                     // me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     // me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() /*|| me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/);
@@ -1071,7 +1071,7 @@ define([], function () {
                 scrollToCheckedItem: false,
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
-                    var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
+                    var isInChart = (value.chartProps && !_.isNull(value.chartProps.value)) || value.shapeProps && value.shapeProps.isChart;
                     var disabled = (value.paraProps!==undefined  && value.paraProps.locked) ||
                         (isInShape && value.shapeProps.locked);
                     var isEquation= (value.mathProps && value.mathProps.value);

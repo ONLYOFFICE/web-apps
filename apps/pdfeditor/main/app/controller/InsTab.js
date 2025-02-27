@@ -155,10 +155,6 @@ define([
             if (this.mode && this.mode.isPDFEdit) {
                 var shapes = this.api.asc_getPropertyEditorShapes();
                 shapes && this.fillAutoShapes(shapes[0], shapes[1]);
-
-                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
         },
@@ -662,7 +658,7 @@ define([
                 this.api.asc_createSmartArt(value);
             }
         },
-
+*/
         onSelectChart: function(type) {
             var me      = this,
                 chart = false;
@@ -701,7 +697,7 @@ define([
                 }
             }
         },
-*/
+
         onTextLanguage: function(langId) {
             this._state.lang = langId;
         },
@@ -950,10 +946,10 @@ define([
                 }
             }
 
-            // if (in_chart !== this._state.in_chart) {
-            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-            //     this._state.in_chart = in_chart;
-            // }
+            if (in_chart !== this._state.in_chart) {
+                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
