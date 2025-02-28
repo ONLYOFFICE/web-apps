@@ -72,9 +72,14 @@ common.view.modals = new(function() {
                                 '<label id="password-label-error">{error}</label>' + 
                                 '{button}' + 
                             '</div>';
+    
+    var _tplbody_warning = '<div class="warning-body">' +
+                                '<span class="message">{message}</span>' +
+                           '</div>';                        
+                  
 
     return {
-        create: function(name, parent) {
+        create: function(name, parent, config) {
             !parent && (parent = 'body');
 
             var _$dlg;
@@ -121,6 +126,18 @@ common.view.modals = new(function() {
 
                 _$dlg.find('button.close').remove();
                 _$dlg.find('.modal-footer').remove();
+            } else if (name == 'warning') {
+                var footerBtns = (config && config.buttons || ['ok']).map(btn => 
+                    `<button type="button" class="btn ${config.primary === btn ? 'btn-primary' : ''}" 
+                            data-btn="${btn}">${btn}</button>`
+                ).join('');
+    
+                _$dlg = $(tplDialog
+                    .replace(/{title}/g, (config && config.title))
+                    .replace(/{body}/g, _tplbody_warning.replace(/{message}/g, (config && config.message)))
+                    .replace(/{footer}/g, footerBtns))
+                        .appendTo(parent)
+                        .attr('id', 'dlg-warning');
             }
 
             return _$dlg;

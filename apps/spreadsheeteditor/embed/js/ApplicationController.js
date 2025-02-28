@@ -654,6 +654,23 @@ SSE.ApplicationController = new(function(){
         }
     }
 
+    function onHyperlinkClick(url) {
+        var type = api.asc_getUrlType(url);
+        if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
+            window.open(url, '_blank');  
+        else {
+            common.controller.modals.showWarning({
+                    title: me.txtTitleWarning,
+                    message: me.txtOpenWarning,
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: function(btn) {
+                        (btn == 'yes') && window.open(url);                      
+                    }
+            }); 
+        }    
+    }
+
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
             $('#id-critical-error-title').text(me.criticalErrorTitle);
@@ -929,6 +946,7 @@ SSE.ApplicationController = new(function(){
             api.asc_registerCallback('asc_onAdvancedOptions',       onAdvancedOptions);
             api.asc_registerCallback('asc_onSheetsChanged',         onSheetsChanged);
             api.asc_registerCallback('asc_onActiveSheetChanged',    setActiveWorkSheet);
+            api.asc_registerCallback('asc_onHyperlinkClick',        onHyperlinkClick);
 
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
@@ -980,6 +998,8 @@ SSE.ApplicationController = new(function(){
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-        txtPressLink: 'Click the link to open it'
+        txtPressLink: 'Click the link to open it',
+        txtTitleWarning:'Warning',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?'
     }
 })();

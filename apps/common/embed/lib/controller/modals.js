@@ -35,7 +35,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed, $dlgPassword;
+        var $dlgShare, $dlgEmbed, $dlgPassword, $dlgWarning;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -138,6 +138,30 @@
             }, 500);
         };
 
+        var showWarning = function(config) {
+            $dlgWarning = common.view.modals.create('warning', 'body', {
+                title: config.title, 
+                message: config.message,
+                buttons: config.buttons || ['ok'],
+                primary: config.primary 
+            });
+            $dlgWarning.on('click', '[data-btn]', function() {
+                const btn = $(this).data('btn');
+                $dlgWarning.modal('hide');
+                 if (config.callback) {
+                    config.callback(btn);
+                }
+            });
+            if (config.buttons) {
+                const footerBtns = config.buttons.map(btn => 
+                    `<button type="button" class="btn ${config.primary === btn ? 'btn-primary' : ''}" 
+                             data-btn="${btn}">${btn}</button>`
+                ).join('');
+                $dlgWarning.find('.modal-footer').html(footerBtns);
+            }
+        $dlgWarning.modal('show');
+        };
+
         function updateEmbedCode(){
             var $txtwidth = $dlgEmbed.find('#txt-embed-width');
             var $txtheight = $dlgEmbed.find('#txt-embed-height');
@@ -181,7 +205,8 @@
         return {
             init: function(config) { appConfig = config; }, 
             attach: attachToView,
-            createDlgPassword: createDlgPassword
+            createDlgPassword: createDlgPassword,
+            showWarning: showWarning
         };
     });
 }();
