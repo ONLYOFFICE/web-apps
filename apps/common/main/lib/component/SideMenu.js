@@ -133,6 +133,17 @@ define([
                                     checkmark: false,
                                     checkable: true
                                 })
+                            } else if (btn.options.iconsSet) {
+                                arrMore.push(new Common.UI.MenuItemCustom({
+                                    caption: Common.Utils.String.htmlEncode(btn.hint),
+                                    iconsSet: btn.options.iconsSet,
+                                    baseUrl: btn.options.baseUrl,
+                                    value: index,
+                                    disabled: btn.isDisabled(),
+                                    toggleGroup: 'sideMenuItems',
+                                    checkmark: false,
+                                    checkable: true
+                                }));
                             } else {
                                 arrMore.push({
                                     caption: Common.Utils.String.htmlEncode(btn.hint),
@@ -283,9 +294,11 @@ define([
                         index = arr[1],
                         menuItem = _.findWhere(me.btnMore.menu.items, {value: index}),
                         src = item.baseUrl + item.parsedIcons['normal'];
-                    btn.options.iconImg = src;
-                    btn.cmpEl.find("img").attr("src", src);
-                    if (menuItem) {
+                    if (!btn.options.iconsSet) {// updated automatically if has iconsSet
+                        btn.options.iconImg = src;
+                        btn.cmpEl.find("img").attr("src", src);
+                    }
+                    if (menuItem && !menuItem.options.iconsSet) {// updated automatically if has iconsSet
                         menuItem.cmpEl.find("img").attr("src", src);
                     }
                 });

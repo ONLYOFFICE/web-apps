@@ -618,27 +618,27 @@ define([
             }
             var pluginGuid = plugin.get_Guid(),
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
-                name = createUniqueName(plugin.get_Name('en'));
+                name = createUniqueName(plugin.get_Name('en')),
+                icons = model.get('variations')[model.get('currentVariation')].get('icons');
             model.set({menu: menu});
-            var icon_url, icon_cls;
-            if (model.get('parsedIcons')) {
-                icon_url = model.get('baseUrl') + model.get('parsedIcons')['normal'];
-            } else {
+            var icon_cls;
+            if (!icons) {
                 icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
             }
             var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
-                button = new Common.UI.Button({
-                parentEl: $button,
+                button = new Common.UI.ButtonCustom({
                 cls: 'btn-category plugin-buttons',
                 hint: langName,
                 enableToggle: true,
                 toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
                 iconCls: icon_cls,
-                iconImg: icon_url,
+                iconsSet: this.viewPlugins.iconsStr2IconsObj(icons),
+                baseUrl: model.get('baseUrl'),
                 onlyIcon: true,
                 value: pluginGuid,
                 type: 'plugin'
             });
+            button.render($button);
             var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
@@ -1303,7 +1303,7 @@ define([
             var baseUrl = variation.baseUrl || "",
                 model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
                 icons = variation.icons,
-                icon_url, icon_cls,
+                icon_cls,
                 isActivated = variation.isActivated!==false;
 
             if (model) {
@@ -1317,9 +1317,6 @@ define([
 
             if (!icons) {
                 icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
-            } else {
-                var parsedIcons = this.viewPlugins.parseIcons(icons);
-                icon_url = baseUrl + parsedIcons['normal'];
             }
 
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
