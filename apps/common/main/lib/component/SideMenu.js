@@ -62,6 +62,7 @@ define([
                     })
                 });
                 this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
+                this.btnMore.menu.on('item:custom-click', _.bind(this.onMenuMore, this));
                 this.btnMore.menu.on('show:before', _.bind(this.onShowBeforeMoreMenu, this));
                 this.btnMore.hide();
 
