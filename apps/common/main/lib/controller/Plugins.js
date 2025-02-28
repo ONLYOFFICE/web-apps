@@ -1323,18 +1323,19 @@ define([
             }
 
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
-                button = new Common.UI.Button({
-                    parentEl: $button,
+                button = new Common.UI.ButtonCustom({
                     cls: 'btn-category plugin-buttons',
                     hint: description,
                     enableToggle: true,
                     toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
                     iconCls: icon_cls,
-                    iconImg: icon_url,
+                    iconsSet: this.viewPlugins.iconsStr2IconsObj(icons),
+                    baseUrl: baseUrl, // icons have a relative path, so need to use the base url
                     onlyIcon: true,
                     value: frameId,
                     type: 'plugin'
                 });
+            button.render($button);
             var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
