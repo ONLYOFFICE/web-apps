@@ -49,6 +49,7 @@ define([], function () {
                 '<div class="current-plugin-header">',
                     '<div class="tools">',
                         '<div class="plugin-close close"></div>',
+                        '<div class="plugin-hide"></div>',
                     '</div>',
                     '<label></label>',
                 '</div>',
@@ -81,6 +82,14 @@ define([], function () {
                 hint: this.textClosePanel
             });
 
+            if (this.sideMenuButton)
+                this.pluginHide = new Common.UI.Button({
+                    parentEl: this.$el.find('.plugin-hide'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-promote',
+                    hint: this.textHidePanel
+                });
+
             if(this.isCanDocked) {
                 this.showDockedButton();
             }
@@ -95,7 +104,7 @@ define([], function () {
                 btn = header.find('.' + btnCls);
             if (btn.length < 1) {
                 btn = $('<div class="' + btnCls + '"></div>');
-                header.append(btn);
+                this.$el.find('.plugin-close').after(btn);
                 var btnUndock = new Common.UI.Button({
                     parentEl: this.$el.find('.' + btnCls),
                     cls: 'btn-toolbar',
@@ -161,7 +170,8 @@ define([], function () {
 
         textClosePanel: 'Close plugin',
         textLoading: 'Loading',
-        textUndock: 'Unpin plugin'
+        textUndock: 'Unpin plugin',
+        textHidePanel: 'Hide plugin',
 
     }, Common.Views.PluginPanel || {}));
 });

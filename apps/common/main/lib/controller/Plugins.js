@@ -220,6 +220,7 @@ define([
             var me = this;
             isActivated && this.openUIPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
+            panel.pluginHide && panel.pluginHide.on('click', _.bind(this.onToolHide, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
@@ -644,6 +645,7 @@ define([
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + name,
                 menu: menu,
+                sideMenuButton: button,
                 isCanDocked: variation.get_IsCanDocked()
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
@@ -825,6 +827,10 @@ define([
 
         onToolClose: function(panel) {
             this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.frameId);
+        },
+
+        onToolHide: function(panel) {
+            panel && panel.sideMenuButton && panel.sideMenuButton.click();
         },
 
         onPluginsInit: function(pluginsdata, fromManager) {
@@ -1341,6 +1347,7 @@ define([
                 frameId: frameId,
                 baseUrl: baseUrl,
                 icons: icons,
+                sideMenuButton: button,
                 isCanDocked: variation.isCanDocked
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
