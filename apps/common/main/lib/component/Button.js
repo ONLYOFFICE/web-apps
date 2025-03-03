@@ -286,7 +286,9 @@ define([
                 '<% if (iconImg) { print(\'<img src=\"\' + iconImg + \'\">\'); } else { %>',
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
-                    ' if (/svgicon/.test(iconCls)) {' +
+                    'if (iconSvgCls) {' +
+                        'print(\'<svg class=\"icon \' + rtlIconCls + \'\"><use class=\"zoom-int\" xlink:href=\"#\' + iconSvgCls + \'\"></use></svg>\');' +
+                    '} else if (/svgicon/.test(iconCls)) {' +
                         'print(\'<svg class=\"icon uni-scale\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
                     '} else ' +
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
@@ -444,12 +446,17 @@ define([
                         }
                     }
 
+                    const re_icon_name = /btn-[^\s]+/.exec(me.iconCls);
+                    const icon_rtl_cls = (me.iconCls ? me.iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
+
                     me.cmpEl = $(this.template({
                         id           : me.id,
                         cls          : me.cls,
                         groupCls     : me.split && /btn-toolbar/.test(me.cls) ? 'no-borders' : '',
                         iconCls      : me.iconCls,
                         iconImg      : me.options.iconImg,
+                        iconSvgCls   : re_icon_name ? re_icon_name[0] : undefined,
+                        rtlIconCls   : icon_rtl_cls,
                         menu         : me.menu,
                         split        : me.split,
                         onlyIcon     : me.options.onlyIcon,
@@ -1004,7 +1011,8 @@ define([
                         $el.find('i.icon').after(svg_icon);
                     }
                 } else {
-                    if (!me.$el.find('i.icon')) {
+                    const $iicon = me.$el.find('i.icon');
+                    if (!$iicon || !$iicon.length) {
                         const png_icon = '<i class="icon %cls">&nbsp;</i>'.replace('%cls', me.iconCls);
                         me.$el.find('svg.icon').after(png_icon);
                     }
