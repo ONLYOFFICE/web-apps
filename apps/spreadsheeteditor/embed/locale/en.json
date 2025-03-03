@@ -47,6 +47,8 @@
   "SSE.ApplicationController.warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
   "SSE.ApplicationController.txtTitleWarning": "Warning",
   "SSE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
+  "SSE.ApplicationController.txtYes":"Yes",
+  "SSE.ApplicationController.txtNo": "No",
   "SSE.ApplicationView.txtDownload": "Download",
   "SSE.ApplicationView.txtEmbed": "Embed",
   "SSE.ApplicationView.txtFileLocation": "Open file location",

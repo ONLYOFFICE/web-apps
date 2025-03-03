@@ -152,13 +152,7 @@
                     config.callback(btn);
                 }
             });
-            if (config.buttons) {
-                const footerBtns = config.buttons.map(btn => 
-                    `<button type="button" class="btn ${config.primary === btn ? 'btn-primary' : ''}" 
-                             data-btn="${btn}">${btn}</button>`
-                ).join('');
-                $dlgWarning.find('.modal-footer').html(footerBtns);
-            }
+            
         $dlgWarning.modal('show');
         };
 
