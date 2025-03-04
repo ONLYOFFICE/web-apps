@@ -86,7 +86,8 @@ define([], function () {
                 this.pluginHide = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-hide'),
                     cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-promote',
+                    iconCls: 'caret-double-left',
+                    scaling: false,
                     hint: this.textHidePanel
                 });
 
@@ -171,7 +172,7 @@ define([], function () {
         textClosePanel: 'Close plugin',
         textLoading: 'Loading',
         textUndock: 'Unpin plugin',
-        textHidePanel: 'Hide plugin',
+        textHidePanel: 'Collapse plugin',
 
     }, Common.Views.PluginPanel || {}));
 });
