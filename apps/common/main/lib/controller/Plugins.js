@@ -646,7 +646,7 @@ define([
                 el: '#panel-plugins-' + name,
                 menu: menu,
                 sideMenuButton: button,
-                isCanDocked: variation.get_IsCanDocked()
+                isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
             this.viewPlugins.pluginPanels[pluginGuid].on('docked', _.bind(function() {
@@ -693,7 +693,7 @@ define([
                     help: !!help,
                     loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true,
-                    isCanDocked: variation.get_IsCanDocked()
+                    isCanDocked: variation.get_IsCanDocked ? variation.get_IsCanDocked() : false
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
@@ -773,7 +773,7 @@ define([
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.get_Url();
                 var langName = plugin.get_Name(lang);
-                var isCanDocked = variation.get_IsCanDocked();
+                var isCanDocked = variation.get_IsCanDocked ? variation.get_IsCanDocked() : false;
                 var dockedPosition = this.getPluginDockedPosition(plugin.get_Guid());
                 var menu = this.isPDFEditor ? 'left' : (variation.get_Type() === Asc.PluginType.PanelRight ? 'right' : 'left');
                 var isInsideMode = variation.get_InsideMode();
