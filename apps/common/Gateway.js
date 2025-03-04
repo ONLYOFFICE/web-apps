@@ -402,8 +402,18 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceSource'});
             },
 
-            requestStartFilling:  function () {
-                _postMessage({event:'onRequestStartFilling'});
+            requestStartFilling:  function (roles) {
+                _postMessage({
+                    event:'onRequestStartFilling',
+                    data: roles
+                });
+            },
+
+            requestFillingStatus:  function (role) {
+                _postMessage({
+                    event:'onRequestFillingStatus',
+                    data: role
+                });
             },
 
             switchEditorType:  function (value, restart) {

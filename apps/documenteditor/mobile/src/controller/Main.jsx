@@ -357,6 +357,7 @@ class MainController extends Component {
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
                 const customization = appOptions.customization;
+                const _userOptions = this.props.storeAppOptions.user;
 
                 f7.emit('resize');
 
@@ -437,6 +438,19 @@ class MainController extends Component {
                             }
                         ]
                     }).open();
+                }
+
+                if (appOptions.isRestrictedEdit && appOptions.canFillForms && appOptions.isForm) { // check filling status
+                    let oform = this.api.asc_GetOForm();
+                    let role = new AscCommon.CRestrictionSettings();
+                    const _userOptions = this.props.storeAppOptions.user;
+                    if (oform && _userOptions && _userOptions.roles && _userOptions.roles.length>0 && oform.asc_canFillRole(_userOptions.roles[0])) {
+                        role.put_OFormRole(_userOptions.roles[0]);
+                    } else {
+                        role.put_OFormNoRole(true);
+                        Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                    }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
             };
 
