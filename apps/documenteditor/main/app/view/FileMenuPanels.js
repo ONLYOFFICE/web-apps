@@ -3047,12 +3047,10 @@ define([], function () {
             this.setCmbSidesOptions(true);
             this.setCmbPaperSizeOptions();
             this.cmbPrinter.setValue(null);
-            this._printer = this.cmbPrinter.getValue();
         },
 
         setCmbPrinterOptions: function(printersList) {
             var list = (printersList || []);
-            list.push({ value: 'add', displayValue: this.txtAddPrinter });
             this.cmbPrinter.setData(list);
         },
 
@@ -3129,15 +3127,8 @@ define([], function () {
         },
 
         onPrinterSelected: function(combo, record) {
-            if (record.value == 'add') {
-                console.log('Add printer');
-                combo.setValue(this._printer);
-            } else {
-                this.setCmbSidesOptions(record.isDuplexSupported);
-                this.setCmbPaperSizeOptions(record.paperSupported);
-
-                this._printer = combo.getValue();
-            }
+            this.setCmbSidesOptions(record.isDuplexSupported);
+            this.setCmbPaperSizeOptions(record.paperSupported);
         },
 
         updateMetricUnit: function() {
@@ -3184,7 +3175,6 @@ define([], function () {
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
         txtPrinter: 'Printer',
-        txtAddPrinter: 'Add printer',
         txtPrinterNotSelected: 'Printer not selected',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current page',
