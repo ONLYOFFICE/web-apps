@@ -70,7 +70,7 @@ const PageWrap = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -162,7 +162,7 @@ const PageWrappingStyle = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -260,7 +260,7 @@ const PageLinkSettings = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -299,7 +299,7 @@ const PageReplace = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -341,7 +341,7 @@ const PageReorder = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

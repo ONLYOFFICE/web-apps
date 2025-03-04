@@ -30,7 +30,7 @@ const CollaborationPage = props => {
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
                                 <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

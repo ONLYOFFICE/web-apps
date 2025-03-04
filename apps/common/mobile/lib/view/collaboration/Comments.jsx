@@ -733,7 +733,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

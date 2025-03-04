@@ -35,7 +35,7 @@ const PageReview = props => {
                    <Link sheetClose=".coauth__sheet">
                         {Device.ios ?
                             <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                         }
                    </Link>
                </NavRight>
@@ -95,7 +95,7 @@ const DisplayMode = props => {
                     <Link sheetClose=".coauth__sheet">
                         {Device.ios ? 
                             <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                         }
                     </Link>
                 </NavRight>
@@ -150,7 +150,7 @@ const PageReviewChange = inject("storeAppOptions")(observer(props => {
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
