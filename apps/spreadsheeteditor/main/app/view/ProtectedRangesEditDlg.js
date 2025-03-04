@@ -428,8 +428,18 @@ define([], function () {
             if (users && users.length>0) {
                 var strlc = str.toLowerCase();
                 users = _.filter(users, function(item) {
-                    return (item.id !== undefined && item.id !== null) &&
-                            (!strlc || item.email && 0 === item.email.toLowerCase().indexOf(strlc) || item.name && 0 === item.name.toLowerCase().indexOf(strlc));
+                    if ((item.id !== undefined && item.id !== null) &&
+                        (!strlc || item.email && 0 === item.email.toLowerCase().indexOf(strlc))) return true;
+
+                    let arr = item.name ? item.name.toLowerCase().split(' ') : [],
+                        inName = false;
+                    for (let i=0; i<arr.length; i++) {
+                        if (0 === arr[i].indexOf(strlc)) {
+                            inName = true;
+                            break;
+                        }
+                    }
+                    return (item.id !== undefined && item.id !== null) && inName;
                 });
                 var divider = false;
                 _.each(users, function(item, index) {

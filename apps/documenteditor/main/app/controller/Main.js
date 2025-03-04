@@ -477,6 +477,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -956,6 +957,8 @@ define([
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
+                    appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
 
                 if (prev_options) {
@@ -1221,12 +1224,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -1234,7 +1236,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['Submit']:
                         title   = this.savingText;
@@ -2312,6 +2315,11 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.EditProtectedRange:
+                        config.maxwidth = 600;
+                        config.msg = this.errorEditProtectedRange;
+                        break;
+
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
                         config.maxwidth = 600;
                         if (errData === 'pdf')
@@ -2609,7 +2617,7 @@ define([
                                                         _.defer(function() {
                                                             Common.Gateway.updateVersion();
                                                             if (callback) callback.call(me);
-                                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                                            me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                                                         })
                                                     }});
                 this.disableEditing(true, 'not-loaded');

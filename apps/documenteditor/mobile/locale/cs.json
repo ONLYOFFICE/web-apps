@@ -65,7 +65,8 @@
     "textTableSize": "Velikost tabulky",
     "textWithBlueLinks": "s modrými odkazy",
     "textWithPageNumbers": "s číslováním stránek",
-    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+    "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -227,6 +228,12 @@
     "textRefreshPageNumbersOnly": "Aktualizovat pouze číslování stránek",
     "textRows": "Řádky",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?"
+  },
+  "Draw": {
+    "textColor": "Barva",
+    "textOpacity": "Průhlednost",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size"
   },
   "Edit": {
     "notcriticalErrorTitle": "Varování",
@@ -469,6 +476,7 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
@@ -813,6 +821,8 @@
     "textSwitchedMobileView": "Přepnout na mobilní zobrazení",
     "textSwitchedStandardView": "Přepnout na standartní zobrazení",
     "warnEmptyRequiredField": "Pro odeslání formuláře vyplňte všechna požadovaná pole.",
-    "btnSend": "Send"
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

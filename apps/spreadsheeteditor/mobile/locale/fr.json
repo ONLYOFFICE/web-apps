@@ -80,7 +80,7 @@
     "menuShow": "Afficher",
     "menuUnfreezePanes": "Libérer les volets",
     "menuUnmerge": "Annuler la fusion",
-    "menuUnwrap": "Annuler le renvoi",
+    "menuUnwrap": "Annuler le renvoi à la ligne",
     "menuViewComment": "Voir le commentaire",
     "menuWrap": "Renvoi à la ligne",
     "notcriticalErrorTitle": "Avertissement",
@@ -248,12 +248,18 @@
       "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
     }
   },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
+  },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
     "criticalErrorTitle": "Erreur",
     "downloadErrorText": "Échec du téléchargement.",
-    "errNoDuplicates": "Aucune valeur dupliquée trouvée.",
+    "errNoDuplicates": "Aucune valeur en double n'est trouvée",
     "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
     "errorArgsRange": "Il y a une erreur dans la formule : Plage d'arguments incorrecte.",
     "errorAutoFilterChange": "L'opération n'est pas autorisée car elle tente de déplacer les cellules d'un tableau de votre feuille de calcul.",
@@ -283,7 +289,7 @@
     "errorDependentsNoFormulas": "La commande Tracer les dépendances n'a trouvé aucune formule faisant référence à la cellule active.",
     "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreur s'est produite pendant le travail sur le document. Utilisez l'option \"Télécharger\" pour enregistrer une sauvegarde locale",
-    "errorEditView": "L'actuelle vue de la feuille ne peut pas être éditée et les nouvelles ne peuvent pas être créées pour le moment parce que certaines d'entre elles sont en cours d'édition.",
+    "errorEditView": "Il est impossible de modifier le mode Feuille actuel et de créer de nouveaux modes pour le moment parce que certains modes sont en cours d'édition.",
     "errorEmailClient": "Aucun client d'email ne peut être trouvé",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileRequest": "Erreur externe.<br>Erreur de demande du fichier. Contactez l'assistance technique.",
@@ -349,7 +355,7 @@
     "errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie et que la page soit rafraichit.",
     "errorWrongBracketsCount": "Il y a une erreur dans la formule : Mauvais nombre de parenthèses.",
     "errorWrongOperator": "Une erreur dans la formule entrée. Opérateur utilisé est incorrect.<br>Veuillez corriger l'erreur.",
-    "errRemDuplicates": "Valeurs dupliquées qui ont été retrouvées et supprimées : {0}, valeurs uniques restantes : {1}.",
+    "errRemDuplicates": "Valeurs en double qui ont été retrouvées et supprimées: {0}, valeurs uniques restantes: {1}.",
     "notcriticalErrorTitle": "Avertissement",
     "openErrorText": "Une erreur s’est produite lors de l’ouverture du fichier",
     "pastInMergeAreaError": "Impossible de modifier une partie d'une cellule fusionnée",
@@ -443,23 +449,27 @@
     "textWarnDeleteSheet": "La feuille de calcul peut contenir des données. Êtes-vous sûr de vouloir continuer?"
   },
   "Toolbar": {
+    "btnRestartNow": "Redémarrer maintenant",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
     "textCloseHistory": "Fermer l'historique",
     "textEnterNewFileName": "Entrez un nouveau nom de ficher",
-    "textRenameFile": "Renommer le fichier"
+    "textOk": "OK",
+    "textRenameFile": "Renommer le fichier",
+    "textSwitchToDesktop": "Passer en mode desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ERREUR! Le nombre maximal de séries de données par diagramme est 255.",
       "errorStockChart": "Ordre des lignes est incorrect. Pour créer un graphique boursier organisez vos données sur la feuille de calcul dans l'ordre suivant:<br>cours à l'ouverture, cours maximal, cours minimal, cours à la clôture.",
       "notcriticalErrorTitle": "Avertissement",
+      "sCatDatabase": "Base de données",
       "sCatDateAndTime": "Date et heure",
       "sCatEngineering": "Ingénierie",
       "sCatFinancial": "Financier",
-      "sCatInformation": "Information",
+      "sCatInformation": "Informations",
       "sCatLogical": "Logique",
       "sCatLookupAndReference": "Recherche et référence",
       "sCatMathematic": "Maths et trigonométrie",
@@ -476,6 +486,7 @@
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
       "textDisplay": "Affichage",
       "textDone": "Terminé",
+      "textDrawing": "Dessins",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
       "textFilter": "Filtre",
@@ -803,7 +814,7 @@
       "textSheet": "Feuille",
       "textShowNotification": "Afficher la notification",
       "textSpreadsheetFormats": "Formats de classeur",
-      "textSpreadsheetInfo": "Infos sur classeur",
+      "textSpreadsheetInfo": "Infos sur le classeur",
       "textSpreadsheetSettings": "Paramètres de classeur",
       "textSpreadsheetTitle": "Titre du classeur",
       "textSubject": "Sujet",

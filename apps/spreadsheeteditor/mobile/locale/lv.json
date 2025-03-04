@@ -448,8 +448,11 @@
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
     "textCloseHistory": "Aizvērt vēsturi",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -513,7 +516,9 @@
       "txtSorting": "Šķirošana",
       "txtSortSelected": "Šķirot izvēlēto",
       "txtYes": "Jā",
-      "sCustom": "Custom"
+      "sCatDatabase": "Database",
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",
@@ -862,5 +867,11 @@
       "textTheme": "Theme",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

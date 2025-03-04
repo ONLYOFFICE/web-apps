@@ -274,17 +274,18 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'fastUndo' : {name: 'sse-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
+                'calcItems' : {name: 'help-tip-calc-items', placement: 'bottom-left', text: this.helpCalcItems, header: this.helpCalcItemsHeader, target: '#slot-btn-calculated-items', automove: true, closable: false},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+            });
             Common.UI.TooltipManager.addTips({
-                // 'insPivot' : {name: 'sse-help-tip-ins-pivot', placement: 'bottom-right', text: this.helpInsPivot, header: this.helpInsPivotHeader, target: 'li.ribtab #ins', automove: true},
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
-                // 'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
                 'sessionIdle' : {text: _main.errorSessionIdle, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
                 'sessionToken' : {text: _main.errorSessionToken, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true}
             });
-
         },
 
         attachUIEvents: function(toolbar) {
@@ -615,6 +616,8 @@ define([
         },
 
         onUndo: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('fastUndo');
+
             if (this.api)
                 this.api.asc_Undo();
 
@@ -2567,6 +2570,10 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.btnUndo.setDisabled(!can);
                     this._state.can_undo = can;
+                    if (can) {
+                        var _main = this.getApplication().getController('Main');
+                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
+                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -2583,6 +2590,10 @@ define([
         },
 
         onApiEditCell: function(state) {
+            this.onEditCell(state);
+        },
+
+        onEditCell: function(state, keepState) {
             if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar;
@@ -2595,7 +2606,7 @@ define([
                     toolbar.lockToolbar(Common.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.cmbNumberFormat, toolbar.btnWrap, toolbar.btnMerge, toolbar.btnBackColor,
                                         toolbar.btnBorders, toolbar.btnTableTemplate, toolbar.btnHorizontalAlign, toolbar.btnVerticalAlign],
                                         merge: true,
-                                        clear: [Common.enumLock.editFormula, Common.enumLock.editText]});
+                                        clear: !keepState ? [Common.enumLock.editFormula, Common.enumLock.editText] : undefined});
                     (is_cell_edited) ? Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l') :
                                        Common.util.Shortcuts.resumeEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l');
                 } else {
@@ -2618,7 +2629,7 @@ define([
                             toolbar.btnNamedRange.menu.items[1]
                         ].concat(toolbar.itemsNamedRange),
                         merge: true,
-                        clear: [Common.enumLock.editFormula, Common.enumLock.editText]
+                        clear: !keepState ? [Common.enumLock.editFormula, Common.enumLock.editText] : undefined
                 });
 
                 var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h';
@@ -2985,6 +2996,8 @@ define([
                 { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
+            if (!toolbar.btnShapesMerge.isDisabled() && toolbar.isTabActive('layout'))
+                Common.UI.TooltipManager.showTip('mergeShapes');
 
             if (editOptionsDisabled) return;
 
@@ -4456,7 +4469,7 @@ define([
 
         onCellsRange: function(status) {
             this.api.isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
-            this.onApiEditCell(this.api.isRangeSelection ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd);
+            this.onEditCell(this.api.isRangeSelection || this.api.isCellEdited ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd, true);
 
             var toolbar = this.toolbar;
             toolbar.lockToolbar(Common.enumLock.selRangeEdit, this.api.isRangeSelection);
@@ -4669,12 +4682,6 @@ define([
                     Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
-
-            Common.Utils.asyncCall(function () {
-                if ( config.isEdit ) {
-                    Common.UI.TooltipManager.showTip('insPivot');
-                }
-            });
         },
 
         onFileMenu: function (opts) {
@@ -4787,8 +4794,9 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onBeforeShapesMerge: function() {               
-            this.toolbar.btnShapesMerge.menu.items.forEach(function (item) {
+        onBeforeShapesMerge: function() {
+            Common.UI.TooltipManager.closeTip('mergeShapes');
+            this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
         },
@@ -5245,8 +5253,11 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('insPivot');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            (tab === 'file') && Common.UI.TooltipManager.closeTip('fastUndo');
+            if (tab !== 'layout')
+                Common.UI.TooltipManager.closeTip('mergeShapes');
+            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+                Common.UI.TooltipManager.showTip('mergeShapes');
         },
 
         onClickTab: function(tab) {
@@ -5254,7 +5265,8 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('calcItems');
+            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

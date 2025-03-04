@@ -437,6 +437,7 @@ define([
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -839,12 +840,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -852,7 +852,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     default:
                         if (typeof action.id == 'string'){
@@ -998,6 +999,8 @@ define([
                 value = Common.localStorage.getBool("pe-settings-showgrid");
                 Common.Utils.InternalSettings.set("pe-settings-showgrid", value);
                 me.api.asc_setShowGridlines(value);
+
+                this.appOptions.customization && this.appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(this.appOptions.customization.slidePlayerBackground);
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -1218,7 +1221,8 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     header: {search: type==='not-loaded'},
-                    shortcuts: type==='not-loaded'
+                    shortcuts: type==='not-loaded',
+                    documentPreview: {draw: false}
                 }, type || 'disconnect');
             },
 
@@ -1273,8 +1277,12 @@ define([
                 if (options.header) {
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
+                    appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
-
+                if (options.documentPreview) {
+                    options.documentPreview.draw && app.getController('Viewport').setDisabledPreview(disable);
+                }
                 if (prev_options) {
                     this.onEditingDisable(prev_options.disable, prev_options.options, prev_options.type);
                 }
@@ -2081,7 +2089,7 @@ define([
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });

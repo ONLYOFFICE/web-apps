@@ -94,11 +94,14 @@ define([
                 "Enter a date": this.txtEnterDate,
                 "Click to load image": this.txtClickToLoad
             }
-            this.api = new Asc.asc_docs_api({
-                'id-view'  : 'editor_sdk',
-                'embedded' : true,
-                'translate': translationTable
-            });
+            var config = {
+                 'id-view'  : 'editor_sdk',
+                 'embedded' : true,
+                 'translate': translationTable
+            },
+                hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+            hcolor && (config['headings-color'] = '#' + hcolor[1]);
+            this.api = new Asc.asc_docs_api(config);
 
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
@@ -669,16 +672,20 @@ define([
             if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
+                    me.onEditComplete();
                 });
                 me.view.btnNext.on('click', function(){
                     me.api.asc_MoveToFillingForm(true);
+                    me.onEditComplete();
                 });
                 me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
+                    me.onEditComplete();
                 });
                 me.view.btnSubmit.on('click', function(){
                     if (!me.api.asc_IsAllRequiredFormsFilled()) {
                         me.api.asc_MoveToFillingForm(true, true, true);
+                        me.onEditComplete();
                         if (!me.requiredTooltip) {
                             me.requiredTooltip = new Common.UI.SynchronizeTip({
                                 extCls: 'colored',
@@ -721,9 +728,12 @@ define([
                 });
                 me.view.btnUndo.on('click', function(){
                     me.api.Undo(false);
+                    me.onEditComplete();
+
                 });
                 me.view.btnRedo.on('click', function(){
                     me.api.Redo(false);
+                    me.onEditComplete();
                 });
                 me.view.btnFillStatus.on('click', function(){
                     Common.UI.TooltipManager.closeTip('showFillStatus');
@@ -784,10 +794,11 @@ define([
                     _.defer(function() {
                         Common.Gateway.updateVersion();
                         if (callback) callback.call(me);
-                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                        me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     })
                 }
             });
+            Common.NotificationCenter.trigger('api:disconnect');
         },
 
         onLicenseChanged: function(params) {
@@ -1096,7 +1107,7 @@ define([
                             closable: false,
                             msg: err,
                             callback: function(btn){
-                                Common.NotificationCenter.trigger('edit:complete', me);
+                                me.onEditComplete();
                             }
                         });
                     }).on('close', function(obj){
@@ -1198,7 +1209,9 @@ define([
             var me = this;
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
-                    this.onShowDateActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActions(obj, x, y);
+                    }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
                     if (obj.pr && obj.pr.get_Lock) {
@@ -1212,11 +1225,15 @@ define([
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
                     } else
-                        this.onShowImageActions(obj, x, y);
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
-                    this.onShowListActions(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActions(obj, x, y);
+                    }, 1);
                     break;
             }
         },
@@ -2190,6 +2207,11 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onEditComplete: function() {
+            var me = this;
+            me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
         },
 
         errorDefaultMessage     : 'Error code: %1',

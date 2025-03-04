@@ -276,7 +276,10 @@
     "stayButtonText": "Остани на овој страници",
     "textCloseHistory": "Затвори Историју",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл"
+    "textRenameFile": "Преименуј фајл",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +322,8 @@
       "textSlideNumber": "Број слајда",
       "textTable": "Табела",
       "textTableSize": "Табела величина",
-      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
+      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",
@@ -554,5 +558,11 @@
       "textVersion": "Верзија",
       "textVersionHistory": "Историја верзија"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

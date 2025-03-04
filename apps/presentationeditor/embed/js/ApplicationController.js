@@ -272,6 +272,7 @@ PE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
+        config.customization && config.customization.slidePlayerBackground && api.asc_setDemoBackgroundColor(config.customization.slidePlayerBackground);
 
         if (!embedConfig.autostart || embedConfig.autostart == 'player') {
             api.SetDemonstrationModeOnly();

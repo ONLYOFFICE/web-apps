@@ -955,7 +955,7 @@ define([
 
         onApiChangePreviewSheet: function (index) {
             var item = this.printSettings.cmbSheet.store.findWhere({value: index});
-            this.printSettings.updateActiveSheet(item.get('displayValue'));
+            item && this.printSettings.updateActiveSheet(item.get('displayValue'));
 
             if (this.notUpdateSheetSettings) {
                 this.notUpdateSheetSettings = false;

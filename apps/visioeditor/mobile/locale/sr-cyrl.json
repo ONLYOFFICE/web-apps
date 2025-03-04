@@ -158,7 +158,9 @@
     "leaveButtonText": "Напусти ову страницу",
     "stayButtonText": "Остани на овој страници",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл"
+    "textRenameFile": "Преименуј фајл",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -207,7 +209,8 @@
       "textVersion": "Верзија ",
       "textVisioInfo": "Информације о прегледачу дијаграма",
       "textVisioSettings": "Подешавања прегледача дијаграма",
-      "textVisioTitle": "Наслов прегледача дијаграма"
+      "textVisioTitle": "Наслов прегледача дијаграма",
+      "textRestartApplication": "Please restart the application for the changes to take effect"
     }
   }
 }

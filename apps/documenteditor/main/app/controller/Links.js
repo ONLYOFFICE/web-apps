@@ -540,6 +540,7 @@ define([
                 msg: this.view.confirmReplaceTOF,
                 buttons: ['yes', 'no', 'cancel'],
                 primary: 'yes',
+                minwidth: 320,
                 callback: _.bind(function(btn) {
                     if (btn=='yes' || btn=='no') {
                         apiCallback && apiCallback(btn === 'yes');

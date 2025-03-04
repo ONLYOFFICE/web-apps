@@ -416,6 +416,10 @@ if (window.Common === undefined) {
                 });
             },
 
+            switchEditorType:  function (value, restart) {
+                _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },

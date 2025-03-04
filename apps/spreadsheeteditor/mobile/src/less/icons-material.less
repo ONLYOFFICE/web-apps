@@ -344,6 +344,11 @@
     // Overwrite color for toolbar
     .navbar {
         i.icon {
+            &.icon-check {
+                width: 24px;
+                height: 24px;
+                .encoded-svg-mask('<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.1719L19.5938 5.57812L21 6.98438L9 18.9844L3.42188 13.4062L4.82812 12L9 16.1719Z" fill="@{brandColor}" /></svg>');
+            }
             &.icon-logo {
                 width: 100px;
                 height: 14px;

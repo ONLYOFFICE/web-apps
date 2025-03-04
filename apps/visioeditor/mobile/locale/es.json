@@ -153,12 +153,14 @@
     "waitText": "Por favor, espere..."
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar ahora",
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textRenameFile": "Renombrar archivo",
+    "textSwitchToDesktop": "Cambiar a escritorio"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "Propietario",
       "textPoweredBy": "Impulsado por",
       "textPrint": "Imprimir",
+      "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",

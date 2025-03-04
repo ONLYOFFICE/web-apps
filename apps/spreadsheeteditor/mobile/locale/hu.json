@@ -448,14 +448,18 @@
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
     "textCloseHistory": "Előzmények bezárása",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "HIBA! Az adatsorok maximális száma diagramonként 255.",
       "errorStockChart": "Helytelen sorsorrend. Részvénydiagram felépítéséhez helyezze el az adatokat a lapon a következő sorrendben:<br> nyitóár, max. ár, min. ár, záróár.",
       "notcriticalErrorTitle": "Figyelmeztetés",
+      "sCatDatabase": "Adatbázis",
       "sCatDateAndTime": "Dátum és idő",
       "sCatEngineering": "Mérnöki",
       "sCatFinancial": "Pénzügyi",
@@ -513,7 +517,8 @@
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak rendezése",
       "txtYes": "Igen",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",
@@ -862,5 +867,11 @@
       "textClose": "Close",
       "textTheme": "Theme"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

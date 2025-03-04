@@ -163,7 +163,7 @@
       "textRemember": "זכור את הבחירה שלי",
       "textReplaceSkipped": "ההחלפה נעשתה. {0} התרחשויות נפסחו.",
       "textReplaceSuccess": "החיפוש נעשה. התרחשויות הוחלפו: {0}",
-      "textRequestMacros": "פקודת מאקרו שולחת בקשה לכתובת אתר. האם ברצונך להתיר את הבקשה ל - %1?",
+      "textRequestMacros": "מאקרו מגיש בקשה לכתובת אתר. האם ברצונך לאפשר את הבקשה ל - %1?",
       "textYes": "כן",
       "titleLicenseExp": "פג תוקפו של הרישיון",
       "titleLicenseNotActive": "רישיון לא פעיל",
@@ -182,6 +182,12 @@
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עור. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
+  },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
   },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
@@ -270,13 +276,16 @@
     "waitText": "בבקשה, המתן..."
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "יש לך שינויים שלא נשמרו במסמך זה. לחץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. לחץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "עזוב דף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגור היסטוריה",
     "textEnterNewFileName": "הזן שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textOk": "אוקיי",
+    "textRenameFile": "שינוי שם קובץ",
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "טקסט נבחר",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFirstSlide": "שקופית ראשונה",

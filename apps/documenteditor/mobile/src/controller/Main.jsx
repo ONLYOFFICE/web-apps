@@ -246,15 +246,12 @@ class MainController extends Component {
                     }
                 }
 
-                const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
-                const isPDF = fileType === 'pdf';
 
-                if(isFormType) {
+                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
                     this.changeEditorBrandColorForPdf();
                 }
 
-                if(isPDF) {
+                if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
                     }
@@ -475,6 +472,8 @@ class MainController extends Component {
                         'mobile'   : true,
                         'translate': _translate
                     };
+                    let hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+                    hcolor && (config['headings-color'] = '#' + hcolor[1]);
                     this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -1376,6 +1375,7 @@ class MainController extends Component {
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], Asc.c_oAscAsyncAction['Open']);
 
         f7.dialog.alert(
             _t.errorUpdateVersion,
@@ -1385,8 +1385,9 @@ class MainController extends Component {
                 if (callback) {
                     callback.call(this);
                 }
-                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                this.editorConfig && this.editorConfig.canUpdateVersion && Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             });
+        Common.Notifications.trigger('api:disconnect');
     }
 
     onDocumentName () {

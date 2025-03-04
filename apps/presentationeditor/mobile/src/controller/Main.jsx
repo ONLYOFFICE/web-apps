@@ -592,6 +592,7 @@ class MainController extends Component {
             mode: appOptions.isEdit ? 'edit' : 'view'
         });
 
+        appOptions.customization && appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(appOptions.customization.slidePlayerBackground);
         this.api.Resize();
         this.api.zoomFitToPage();
         this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);
@@ -765,6 +766,7 @@ class MainController extends Component {
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], Asc.c_oAscAsyncAction['Open']);
 
         f7.dialog.alert(
             _t.errorUpdateVersion,
@@ -774,8 +776,9 @@ class MainController extends Component {
                 if (callback) {
                     callback.call(this);
                 }
-                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                this.editorConfig && this.editorConfig.canUpdateVersion && Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             });
+        Common.Notifications.trigger('api:disconnect');
     }
 
     onServerVersion (buildVersion) {

@@ -108,9 +108,8 @@ define([
                 reset: this.onResetPlugins.bind(this)
             });
 
-
-            this._moveOffset = {x:0, y:0};
             this.autostart = [];
+            this.pluginsWinToShow = [];
             this.startOnPostLoad = false;
             this.customPluginsDlg = [];
 
@@ -130,7 +129,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'visio' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : !!window.VE ? 'diagram' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
@@ -193,8 +192,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
-                this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
                 this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
                 this.api.asc_registerCallback('asc_onPluginShowButton', _.bind(this.onPluginShowButton, this));
@@ -203,8 +200,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginWindowShow", _.bind(this.onPluginWindowShow, this));
                 this.api.asc_registerCallback("asc_onPluginWindowClose", _.bind(this.onPluginWindowClose, this));
                 this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
-                this.api.asc_registerCallback("asc_onPluginWindowMouseUp", _.bind(this.onPluginWindowMouseUp, this));
-                this.api.asc_registerCallback("asc_onPluginWindowMouseMove", _.bind(this.onPluginWindowMouseMove, this));
                 this.api.asc_registerCallback("asc_onPluginWindowActivate", _.bind(this.openUIPlugin, this));
 
                 this.loadPlugins();
@@ -221,21 +216,20 @@ define([
             return this;
         },
 
-        onAfterRender: function(panel, guid) {
+        onAfterRender: function(panel, guid, isActivated) {
             var me = this;
-            this.openUIPlugin(guid);
+            isActivated && this.openUIPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
-                        me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
-                                            y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
+                        panel.enablePointerEvents && panel.enablePointerEvents(false);
                         me.api.asc_pluginEnableMouseEvents(true);
                     }
                 },
                 'layout:resizestop': function(e){
                     if (panel) {
+                        panel.enablePointerEvents && panel.enablePointerEvents(true);
                         me.api.asc_pluginEnableMouseEvents(false);
                     }
                 }
@@ -651,7 +645,7 @@ define([
                 el: '#panel-plugins-' + name,
                 menu: menu
             });
-            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
+            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid, true));
         },
 
         openUIPlugin: function (id) {
@@ -723,9 +717,11 @@ define([
                             },
                             'drag': function(args){
                                 me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                                args[0].enablePointerEvents(args[1]!=='start');
                             },
                             'resize': function(args){
                                 me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                                args[0].enablePointerEvents(args[1]!=='start');
                             },
                             'help': function(){
                                 help && window.open(help, '_blank');
@@ -785,23 +781,6 @@ define([
 
         onToolClose: function(panel) {
             this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.frameId);
-        },
-
-        onPluginMouseUp: function(x, y) {
-            if (this.pluginDlg) {
-                if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
-                if (this.pluginDlg.binding.resizeStop) this.pluginDlg.binding.resizeStop();
-            } else
-                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-        
-        onPluginMouseMove: function(x, y) {
-            if (this.pluginDlg) {
-                var offset = Common.Utils.getOffset(this.pluginContainer);
-                if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-            } else
-                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
         onPluginsInit: function(pluginsdata, fromManager) {
@@ -876,7 +855,7 @@ define([
                         isDisplayedInViewer = false,
                         isBackgroundPlugin = false,
                         isSystem;
-                    item.variations.forEach(function(itemVar, itemInd){
+                    item.variations && item.variations.forEach(function(itemVar, itemInd){
                         var variationType = Asc.PluginType.getType(itemVar.type);
                         isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
@@ -1133,6 +1112,10 @@ define([
 
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.pluginsWinToShow.push({frameId: frameId, variation: variation});
+                return;
+            }
             if (variation.isVisual) {
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
@@ -1192,9 +1175,11 @@ define([
                         },
                         'drag': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                            args[0].enablePointerEvents(args[1]!=='start');
                         },
                         'resize': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                            args[0].enablePointerEvents(args[1]!=='start');
                         },
                         'help': function(){
                             help && window.open(help, '_blank');
@@ -1207,9 +1192,18 @@ define([
                     me.customPluginsDlg[frameId].show();
                 }
             }
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
         },
 
         onPluginWindowClose: function(frameId) {
+            if (this.pluginsWinToShow.length>0) {
+                this.pluginsWinToShow = _.reject(this.pluginsWinToShow, function (item) {
+                    return item.frameId === frameId;
+                });
+            }
             if (this.customPluginsDlg[frameId]) {
                 this.customPluginsDlg[frameId].close();
             } else if (this.viewPlugins.customPluginPanels[frameId]) {
@@ -1233,23 +1227,6 @@ define([
             }
         },
 
-        onPluginWindowMouseUp: function(frameId, x, y) {
-            if (this.customPluginsDlg[frameId]) {
-                if (this.customPluginsDlg[frameId].binding.dragStop) this.customPluginsDlg[frameId].binding.dragStop();
-                if (this.customPluginsDlg[frameId].binding.resizeStop) this.customPluginsDlg[frameId].binding.resizeStop();
-            } else
-                Common.NotificationCenter.trigger('frame:mouseup', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
-        onPluginWindowMouseMove: function(frameId, x, y) {
-            if (this.customPluginsDlg[frameId]) {
-                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
-                if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-                if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
-            } else
-                Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
         onPluginPanelShow: function (frameId, variation, lang) {
             var guid = variation.guid,
                 menu = this.isPDFEditor ? 'left' : (variation.type == 'panelRight' ? 'right' : 'left');
@@ -1259,10 +1236,11 @@ define([
             if (typeof variation.descriptionLocale == 'object')
                 description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
 
-            var baseUrl = variation.baseUrl || "";
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
-            var icons = variation.icons;
-            var icon_url, icon_cls;
+            var baseUrl = variation.baseUrl || "",
+                model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
+                icons = variation.icons,
+                icon_url, icon_cls,
+                isActivated = variation.isActivated!==false;
 
             if (model) {
                 if ("" === baseUrl)
@@ -1302,7 +1280,7 @@ define([
                 baseUrl: baseUrl,
                 icons: icons
             });
-            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
+            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);
@@ -1355,6 +1333,10 @@ define([
         },
 
         onPostLoadComplete: function() {
+            if (this.pluginsWinToShow.length>0) {
+                let plg = this.pluginsWinToShow.shift();
+                plg && this.onPluginWindowShow(plg.frameId, plg.variation);
+            }
             this.startOnPostLoad && this.runAutoStartPlugins();
         },
 

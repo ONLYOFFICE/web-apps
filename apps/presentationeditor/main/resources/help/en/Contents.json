@@ -3,7 +3,8 @@
 	{"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
 	{"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
     { "src": "ProgramInterface/InsertTab.htm", "name": "Insert tab" },
-    {"src": "ProgramInterface/DrawTab.htm", "name": "Drawing tab"},
+    { "src": "ProgramInterface/DrawTab.htm", "name": "Drawing tab" },
+    {"src": "ProgramInterface/DesignTab.htm", "name": "Design tab"},
     {"src": "ProgramInterface/TransitionsTab.htm", "name": "Transitions tab" },
     {"src": "ProgramInterface/AnimationTab.htm", "name": "Animation tab" },
     {"src": "ProgramInterface/CollaborationTab.htm", "name": "Collaboration tab" },
@@ -55,6 +56,7 @@
     {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
 	{"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoCorrect features" },
 	{"src": "HelpfulHints/Password.htm", "name": "Password protection"},
+	{"src": "UsageInstructions/PresentationViewer.htm", "name": "Presentation Viewer" },
 	{"src": "HelpfulHints/About.htm", "name": "About Presentation Editor", "headername": "Helpful hints"},
 	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of electronic presentations"},	
 	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}

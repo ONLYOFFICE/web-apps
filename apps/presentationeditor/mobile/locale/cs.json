@@ -183,6 +183,12 @@
       "textOk": "Ok"
     }
   },
+  "Draw": {
+    "textColor": "Barva",
+    "textOpacity": "Průhlednost",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size"
+  },
   "Error": {
     "convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
     "criticalErrorExtText": "Pro návrat na seznam dokumentů klikněte na 'OK'.",
@@ -276,7 +282,10 @@
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
     "textEnterNewFileName": "Zadejte nový název souboru",
-    "textRenameFile": "Přejmenovat soubor"
+    "textRenameFile": "Přejmenovat soubor",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +328,8 @@
       "textSlideNumber": "Číslo snímku",
       "textTable": "Tabulka",
       "textTableSize": "Velikost tabulky",
-      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\""
+      "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",

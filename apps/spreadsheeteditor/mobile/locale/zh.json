@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
+  },
   "Error": {
     "convertationTimeoutText": "转换超时",
     "criticalErrorExtText": "按“确定”返回文档列表。",
@@ -443,19 +449,23 @@
     "textWarnDeleteSheet": "工作表可能有数据。是否继续操作？"
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "您退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textOk": "确定",
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Add": {
       "errorMaxRows": "错误！每个图表的最大数据系列数为255。",
       "errorStockChart": "行的顺序有误。要想建立股票图表，请将数据按照如下顺序安放到表格中：<br> 开盘价格，最高价格，最低价格，收盘价格。",
       "notcriticalErrorTitle": "警告",
+      "sCatDatabase": "数据库",
       "sCatDateAndTime": "日期和时间",
       "sCatEngineering": "工程",
       "sCatFinancial": "金融",
@@ -476,6 +486,7 @@
       "textDataTableHint": "返回表格或指定表格列的数据单元格",
       "textDisplay": "显示",
       "textDone": "完成",
+      "textDrawing": "绘图",
       "textEmptyImgUrl": "您需要指定图片的URL。",
       "textExternalLink": "外部链接",
       "textFilter": "筛选条件",

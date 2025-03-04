@@ -47,7 +47,6 @@ define([
         events: function() {
             return {
                 'click .fm-btn': _.bind(function(event){
-                    this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
                     var $item = $(event.currentTarget);
                     if (!$item.hasClass('active')) {
                         $('.fm-btn',this.el).removeClass('active');
@@ -362,12 +361,10 @@ define([
 
             this.api.asc_enableKeyEvents(false);
 
-            this.mode.isEdit && Common.UI.TooltipManager.showTip('customInfo');
             this.fireEvent('menu:show', [this]);
         },
 
         hide: function() {
-            this.mode && this.mode.isEdit && Common.UI.TooltipManager.closeTip('customInfo');
             this.$el.hide();
             // this.api && this.api.asc_enableKeyEvents(true);
             this.fireEvent('menu:hide', [this]);
@@ -538,6 +535,21 @@ define([
                         dataHintDirection: 'left-top',
                         dataHintOffset: [-2, 22],
                         iconCls: 'menu__icon btn-close'
+                    }));
+            }
+
+            if ( this.mode.canSwitchToMobile ) {
+                $('<li id="fm-btn-switchmobile" class="fm-btn"></li>').insertBefore($('#fm-btn-settings', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-switchmobile', this.$el),
+                        action  : 'switch:mobile',
+                        caption : this.btnSwitchToMobileCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [-2, 22],
+                        iconCls: 'menu__icon btn-switch-mobile'
                     }));
             }
         },

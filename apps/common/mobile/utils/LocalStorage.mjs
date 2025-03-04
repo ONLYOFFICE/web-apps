@@ -78,6 +78,19 @@ class LocalStorage {
         else return this._store[name]===undefined ? null : this._store[name];
     };
 
+    setJson(name, value, just) {
+        this.setItem(name, JSON.stringify(value), just);
+    }
+
+    getJson(name, fallbackValue = null) {
+        try {
+            const stored = this.getItem(name);
+            return stored ? JSON.parse(stored) : fallbackValue;
+        } catch {
+            return fallbackValue;
+        }
+    }
+
     setBool(name, value, just) {
         this.setItem(name, value ? 1 : 0, just);
     }

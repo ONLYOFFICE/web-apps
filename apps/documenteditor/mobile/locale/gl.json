@@ -65,6 +65,7 @@
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
@@ -460,6 +461,7 @@
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
@@ -809,10 +811,18 @@
     "textCloseHistory": "Pechar historial",
     "textOk": "Aceptar",
     "warnEmptyRequiredField": "Encha todos os campos obrigatorios para poder enviar o formulario.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

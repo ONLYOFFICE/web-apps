@@ -246,9 +246,15 @@ define([], function () {
 
             var menu_props = {};
             selectedElements && _.each(selectedElements, function(element, index) {
-                if (Asc.c_oAscTypeSelectElement.Annot == element.get_ObjectType()) {
+                var elType  = element.get_ObjectType(),
+                    elValue = element.get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Annot == elType) {
                     menu_props.annotProps = {};
-                    menu_props.annotProps.value = element.get_ObjectValue();
+                    menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
 
@@ -314,6 +320,10 @@ define([], function () {
                     menu_to_show = documentHolder.editPDFModeMenu;
                     menu_props.annotProps = {};
                     menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
             if (menu_to_show === null) {
@@ -895,6 +905,20 @@ define([], function () {
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, me.lastAnnotSelBarOnTop ? bounds[1] - textContainer.outerHeight() - 10 : bounds[3] + 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
+
+            var popover = this.getApplication().getController('Common.Controllers.Comments').getPopover();
+            if (popover && popover.isVisible()) {
+                var bounds = {
+                        left: popover.getLeft(), right: popover.getLeft() + popover.getWidth(),
+                        top: popover.getTop(), bottom: popover.getTop() + popover.getHeight()
+                    },
+                    right = showPoint[0] + textContainer.outerWidth(),
+                    bottom = showPoint[1] + textContainer.outerHeight();
+                if ((right>bounds.left && right<bounds.right || showPoint[0]>bounds.left && showPoint[0]<bounds.right) &&
+                    (showPoint[1]>bounds.top && showPoint[1]<bounds.bottom || bottom>bounds.top && bottom<bounds.bottom)) {
+                    showPoint[0] = Common.UI.isRTL() ? bounds.right : bounds.left - textContainer.outerWidth();
+                }
+            }
             textContainer.css({left: showPoint[0], top : showPoint[1]});
 
             var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
@@ -1380,12 +1404,17 @@ define([], function () {
         };
 
         dh.onShowFormsPDFActions = function(obj, x, y) {
+            var me = this;
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
-                    this.onShowListActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowListActionsPDF(obj, x, y);
+                    }, 1);
                     break;
                 case AscPDF.FIELD_TYPES.text:
-                    this.onShowDateActionsPDF(obj, x, y);
+                    setTimeout(function() {
+                        me.onShowDateActionsPDF(obj, x, y);
+                    }, 1);
                     break;
             }
         };
@@ -2371,6 +2400,7 @@ define([], function () {
 
         dh.removeComment = function(item, e, eOpt){
             this.api && this.api.asc_remove();
+            this.editComplete();
         };
 
         dh.equationCallback = function(eqObj) {
@@ -2485,17 +2515,21 @@ define([], function () {
         };
 
         dh.onSelectStrokeColor = function(btn, picker, color) {
-            btn.currentColor = color;
-            btn.setColor(btn.currentColor);
-            picker.select(btn.currentColor, true);
             var r = color[0] + color[1],
                 g = color[2] + color[3],
                 b = color[4] + color[5];
-            this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            if (!this.api.asc_SetStrokeColor(parseInt(r, 16), parseInt(g, 16), parseInt(b, 16))) {
+                color = this.api.asc_GetStrokeColor();
+                color = Common.Utils.ThemeColor.getHexColor(color['r'], color['g'], color['b']);
+            }
+            btn.currentColor = color;
+            btn.setColor(btn.currentColor);
+            picker.select(btn.currentColor, true);
         };
 
         dh.onSetStrokeOpacity = function(sizePicker, direction) {
-            var val = this.api.asc_GetOpacity();
+            var val = this.api.asc_GetOpacity(),
+                oldval = val;
             if (direction === 'up') {
                 if (val % 10 > 0.1) {
                     val = Math.ceil(val / 10) * 10;
@@ -2511,8 +2545,9 @@ define([], function () {
                 }
                 val = Math.max(0, val);
             }
+            if (!this.api.asc_SetOpacity(val))
+                val = oldval;
             sizePicker.setValue(val + '%');
-            this.api.asc_SetOpacity(val);
         };
 
         dh.onStrokeShowAfter = function(menu) {
