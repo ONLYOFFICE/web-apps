@@ -86,8 +86,7 @@ define([], function () {
                 this.pluginHide = new Common.UI.Button({
                     parentEl: this.$el.find('.plugin-hide'),
                     cls: 'btn-toolbar',
-                    iconCls: 'caret-double-left',
-                    scaling: false,
+                    iconCls: 'toolbar__icon btn-panel-left-collapse',
                     hint: this.textHidePanel
                 });
 
