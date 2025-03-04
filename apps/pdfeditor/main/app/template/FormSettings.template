@@ -1,0 +1,298 @@
+<table cols="1" role="presentation">
+    <tr>
+        <td>
+            <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFillRoles %></label>
+            <div id="form-combo-roles" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-keyfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textKey %></label>
+            <div id="form-combo-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-connected">
+        <td class="padding-small">
+            <label style="opacity: 0.5;" class="margin-right-5" id="form-settings-connected"><%= scope.textConnected %></label>
+            <label class="link-solid" id="form-settings-disconnect"><%= scope.textDisconnect %></label>
+        </td>
+    </tr>
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textGroupKey %></label>
+            <div id="form-combo-group-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-placeholder">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textPlaceholder %></label>
+            <div id="form-txt-pholder"></div>
+        </td>
+    </tr>
+    <tr class="form-not-in-complex">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textTag %></label>
+            <div id="form-txt-tag"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textTip %></label>
+            <div id="form-txt-help"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-combo-def-value" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-txt-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDefValue %></label>
+            <div id="form-date-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFormat %></label>
+            <div id="form-combo-format" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-mask">
+        <td class="padding-small">
+            <div id="form-txt-mask" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-regexp">
+        <td class="padding-small">
+            <div id="form-txt-regexp"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFormatSymbols %></label>
+            <div id="form-txt-format-symbols"></div>
+        </td>
+    </tr>
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textRadioChoice %></label>
+            <div id="form-txt-choice"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" role="presentation">
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <label class="input-label"><%= scope.textValue %></label>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-small">
+            <div id="form-txt-new-value" style="width:164px;" class="margin-right-5"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-list-add" class="margin-left-5"></div>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-large">
+            <div id="form-list-list" style="width:164px; height: 95px;" class="margin-right-5"></div>
+        </td>
+        <td class="padding-large">
+            <div id="form-list-delete" style="margin-bottom: 5px;" class="margin-left-5"></div>
+            <div id="form-list-up" style="margin-bottom: 5px;" class="margin-left-5"></div>
+            <div id="form-list-down" class="margin-left-5"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textDateFormat %></label>
+            <div id="form-cmb-date-format" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-datetime">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textLang %></label>
+            <div id="form-cmb-date-lang" style="width: 100%;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div id="form-chb-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-fixed">
+        <td class="padding-small">
+            <div id="form-chb-fixed"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-simple">
+        <td class="padding-small">
+            <div id="form-chb-autofit"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-simple">
+        <td class="padding-small">
+            <div id="form-chb-multiline"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield-simple">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-max-chars" style="display: inline-block;margin-top: 4px;"></div>
+            <div id="form-spin-max-chars" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-comb"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" role="presentation">
+    <tr class="form-textfield">
+        <td colspan=2 class="padding-left-22">
+            <label class="input-label"><%= scope.textWidth %></label>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small padding-left-22">
+            <div id="form-combo-width-rule" style="width: 82px;"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-spin-width" class="float-right"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr class="form-image">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textScale %></label>
+            <div id="form-combo-scale" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-chb-aspect"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-cnt-position" style="width: 100%;">
+                <div class="row">
+                    <div id="form-img-position-preview">
+                        <div id="form-img-example"><%= scope.textImage %></div>
+                    </div>
+                    <div id="form-img-slider-position-y"></div>
+                </div>
+                <div class="row">
+                    <div id="form-img-slider-position-x"></div>
+                    <label id="form-img-slider-value"></label>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-button-replace" style="width:100%;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
+            <div id="form-color-btn" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
+            <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-not-in-complex">
+        <td class="padding-small">
+            <div id="form-chb-required"></div>
+        </td>
+    </tr>
+    <tr class="form-not-in-complex">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-delete"></div>
+        </td>
+    </tr>
+    <tr class="form-not-in-complex">
+        <td class="padding-small">
+            <div id="form-btn-lock"></div>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

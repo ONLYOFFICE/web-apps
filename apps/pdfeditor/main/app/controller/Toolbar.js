@@ -1423,6 +1423,19 @@ define([
                     me.toolbar.addTab(tab, $panel, 1);
                     me.toolbar.setVisible('ins', true);
                 }
+
+                if (config.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 2);
+                        me.toolbar.setVisible('forms', true);
+                        me.api.SetEditFieldsMode(true);
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                    }
+                }
             }
         },
 
@@ -1454,11 +1467,23 @@ define([
                     instab.onDocumentReady();
                 }, 50);
 
+                if (this.mode.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
+                    var forms = this.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: this.mode});
+                    toolbar.addTab(tab, forms.createToolbarPanel(), 2);
+                    Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                    forms.onAppReady(this.mode);
+                    forms.getView('FormsTab').onAppReady(this.mode);
+                }
+
                 this._state.initEditing = false;
             }
-            if (this.mode.isPDFEdit || toolbar.isTabActive('ins'))
+            this.api.SetEditFieldsMode(this.mode.isPDFEdit && this.mode.canFeatureForms);
+            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
+            toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
         },

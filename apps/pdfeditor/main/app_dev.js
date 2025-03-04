@@ -135,6 +135,7 @@ require([
             'InsTab',
             'Search',
             'Print',
+            'FormsTab',
             'Common.Controllers.Fonts'
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
@@ -169,6 +170,7 @@ require([
                 'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
+                'pdfeditor/main/app/controller/FormsTab',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments'
@@ -205,6 +207,7 @@ require([
                     'pdfeditor/main/app/controller/DocumentHolderExt',
                     'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',
+                    'pdfeditor/main/app/view/FormsTab',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
                     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
