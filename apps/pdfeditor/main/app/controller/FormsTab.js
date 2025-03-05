@@ -165,7 +165,7 @@ define([
             else if (type == 'datetime'){
                 this.api.AddDateField();
             } else if (type == 'text') {
-                this.api.AddTextField();
+                this.api.AddTextField(options.mask || options.reg);
                 // var props = new AscCommon.CContentControlPr();
                 // oPr = new AscCommon.CSdtTextFormPr();
                 // if (options) {
