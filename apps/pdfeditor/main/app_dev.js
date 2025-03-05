@@ -208,6 +208,7 @@ require([
                     'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',
                     'pdfeditor/main/app/view/FormsTab',
+                    'pdfeditor/main/app/view/FormSettings',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
                     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
