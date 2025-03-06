@@ -28,8 +28,8 @@ export const WheelColorPicker = ({ initialColor = '#ffffff', onSelectColor }) =>
         </div>
         <a href='#' id='add-new-color' className='button button-round' onClick={() => onSelectColor(color)}>
         {Device.ios ? 
-          <SvgIcon symbolId={IconPlusIos.id} className='icon icon-svg' /> :
-          <SvgIcon symbolId={IconPlusAndroid.id} className='icon icon-svg white' />
+          <SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg' /> :
+          <SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white' />
         } 
         </a>
       </div>
