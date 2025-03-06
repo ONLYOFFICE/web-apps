@@ -286,6 +286,21 @@ define([
         const normalize_icon_vars = inobj => {
             let outobj = {};
             if ( inobj ) {
+                if ( inobj['sprite-buttons-base-url'] ) {
+                    let base_url = inobj['sprite-buttons-base-url'];
+                    !base_url.endsWith('/') && (base_url += '/');
+
+                    const sp_names = ['small', 'big', 'huge'];
+                    const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
+                    sp_names.forEach(n => {
+                        for (const [key, value] of Object.entries(sp_scale))
+                            outobj[`sprite-button-small-' + key`] = `url(${base_url}icons${n}${value}.png)`;
+                    });
+
+                    window.Common.Utils.injectSvgIcons([base_url+'iconssmall@2.5x.svg',
+                            base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'], true)
+                }
+
                 for (const [key, value] of Object.entries(inobj))
                     outobj[key] = `url(${value})`;
             }
