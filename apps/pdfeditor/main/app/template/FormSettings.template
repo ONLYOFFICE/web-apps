@@ -4,10 +4,48 @@
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textName %></label>
+            <div id="form-combo-name" style="width: 100%;"></div>
+        </td>
+    </tr>
     <tr class="form-placeholder">
         <td class="padding-small">
             <label class="input-label"><%= scope.textPlaceholder %></label>
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
+    <table cols="1" role="presentation">
+        <tr>
+            <td class="padding-small">
+                <div class="separator horizontal"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-small">
+                <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
+                <div id="form-color-btn" style="display: inline-block;" class="float-right"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-small">
+                <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
+                <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
+            </td>
+        </tr>
+    </table>
+    <table cols="1" role="presentation">
+        <tr>
+            <td class="padding-small">
+                <div class="separator horizontal"></div>
+            </td>
+        </tr>
+        <tr>
+            <td class="padding-small">
+                <div id="form-chb-required"></div>
+            </td>
+        </tr>
+        <tr class="finish-cell"></tr>
+    </table>
 </table>

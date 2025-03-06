@@ -84,6 +84,7 @@ define([
             el.html(this.template({
                 scope: this
             }));
+            this.PlaceholderSettings = el.find('.form-placeholder');
         },
 
         createDelayedElements: function() {
@@ -96,6 +97,34 @@ define([
             this.labelFormName = $markup.findById('#form-settings-name');
 
             // Common props
+            this.cmbName = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-name'),
+                cls: 'input-group-nr',
+                menuCls: 'menu-absolute',
+                menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: true,
+                data: [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbName.setValue('');
+            this.lockedControls.push(this.cmbName);
+            this.cmbName.on('selected', this.onNameChanged.bind(this));
+            this.cmbName.on('changed:after', this.onNameChanged.bind(this));
+            this.cmbName.on('hide:after', this.onHideMenus.bind(this));
+
+            this.chRequired = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-required'),
+                labelText: this.textRequired,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chRequired.on('change', this.onChRequired.bind(this));
+            this.lockedControls.push(this.chRequired);
 
             //Spec props
             this.txtPlaceholder = new Common.UI.InputField({
@@ -115,6 +144,8 @@ define([
             this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
                 setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
             });
+
+            this.UpdateThemeColors();
         },
 
         setApi: function(api) {
@@ -126,10 +157,87 @@ define([
             this.mode = mode;
         },
 
+        onNameChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Name = undefined;
+                this.api.SetFieldName(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChRequired: function(field, newValue, oldValue, eOpts){
+            var checked = (field.getValue()=='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
+                props.asc_putRequired(checked);
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onColorBGSelect: function(btn, color) {
+            this.BackgroundColor = color;
+            this._state.BackgroundColor = undefined;
+
+            var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
+            if (this.api) {
+                if (color === 'transparent') {
+                    props.asc_putFill();
+                } else {
+                    props.asc_putFill(Common.Utils.ThemeColor.getRgbColor(color));
+                }
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+
+            this.fireEvent('editcomplete', this);
+        },
+
+        onNoFillClick: function(item) {
+            this.BackgroundColor = 'transparent';
+            this._state.BackgroundColor = undefined;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
+                props.asc_putFill();
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onColorPickerSelect: function(btn, color) {
+            this.BorderColor = color;
+            this._state.BorderColor = undefined;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
+                if (color == 'transparent') {
+                    props.asc_putStroke();
+                } else {
+                    props.asc_putStroke(Common.Utils.ThemeColor.getRgbColor(color));
+                }
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onNoBorderClick: function(item) {
+            this.BorderColor = 'transparent';
+            this._state.BorderColor = undefined;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
+                props.asc_putStroke();
+                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                // var props   = this._originalProps || new AscCommon.CContentControlPr();
-                // props.put_PlaceholderText(newValue || '    ');
+                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty(),
+                    specProps = this._originalSpecProps || (type===AscPDF.FIELD_TYPES.text ? new Asc.asc_CTextFieldProperty() : new Asc.asc_CComboboxFieldProperty());
+                specProps.asc_putPlaceholder(newValue);
+                props.asc_putFieldProps(specProps);
                 // this.api.asc_SetContentControlProperties(props, this.internalId);
                 // if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                 //     this.fireEvent('editcomplete', this);
@@ -150,6 +258,76 @@ define([
                 var type = props.asc_getType();
                 var specProps = props.asc_getFieldProps();
                 this._originalSpecProps = specProps;
+
+                // common props
+                var data = this.api.GetAvailableFieldsNames(type);
+                if (!this._state.arrName || this._state.arrName.length!==data.length || _.difference(this._state.arrName, data).length>0) {
+                    var arr = [];
+                    data.forEach(function(item) {
+                        arr.push({ displayValue: item,  value: item });
+                    });
+                    this.cmbName.setData(arr);
+                    this._state.arrName=data;
+                    this._state.Name = undefined;
+                }
+
+                val = props.asc_getName();
+                if (this._state.Name!==val) {
+                    this.cmbName.setValue(val ? val : '');
+                    this._state.Name=val;
+                }
+
+                val = props.asc_getRequired();
+                if ( this._state.Required!==val ) {
+                    this.chRequired.setValue(!!val, true);
+                    this._state.Required=val;
+                }
+
+                var color = props.asc_getStroke();
+                if (color) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                    } else {
+                        this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                    }
+                } else
+                    this.BorderColor = 'transparent';
+
+                var type1 = typeof(this.BorderColor),
+                    type2 = typeof(this._state.BorderColor);
+                if ( (type1 !== type2) || (type1=='object' &&
+                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
+                    (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
+
+                    this.btnColor.setColor(this.BorderColor);
+                    this.mnuColorPicker.clearSelection();
+                    this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
+                    (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                    this._state.BorderColor = this.BorderColor;
+                }
+
+                var bgColor = props.asc_getFill();
+                if (bgColor) {
+                    if (bgColor.get_type() === Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        this.BackgroundColor = {color: Common.Utils.ThemeColor.getHexColor(bgColor.get_r(), bgColor.get_g(), bgColor.get_b()), effectValue: bgColor.get_value() };
+                    } else {
+                        this.BackgroundColor = Common.Utils.ThemeColor.getHexColor(bgColor.get_r(), bgColor.get_g(), bgColor.get_b());
+                    }
+                } else
+                    this.BackgroundColor = 'transparent';
+
+                type1 = typeof(this.BackgroundColor);
+                type2 = typeof(this._state.BackgroundColor);
+                if ( (type1 !== type2) || (type1 === 'object' &&
+                        (this.BackgroundColor.effectValue!==this._state.BackgroundColor.effectValue || this._state.BackgroundColor.color.indexOf(this.BackgroundColor.color)<0)) ||
+                    (type1 !== 'object' && this._state.BackgroundColor.indexOf(this.BackgroundColor)<0 )) {
+
+                    this.btnBGColor.setColor(this.BackgroundColor);
+                    this.mnuBGColorPicker.clearSelection();
+                    this.mnuNoFill.setChecked(this.BackgroundColor == 'transparent', true);
+                    (this.BackgroundColor !== 'transparent') && this.mnuBGColorPicker.selectByRGB(typeof(this.BackgroundColor) == 'object' ? this.BackgroundColor.color : this.BackgroundColor,true);
+                    this._state.BackgroundColor = this.BackgroundColor;
+                }
 
                 if (type===AscPDF.FIELD_TYPES.text || type == AscPDF.FIELD_TYPES.combobox) {
                     if (specProps) {
@@ -177,8 +355,75 @@ define([
                 this._noApply = false;
 
                 if (this.type !== type)
+                    this.showHideControls(type, specProps);
+
+                if (this.type !== type)
                     this.fireEvent('updatescroller', this);
                 this.type = type;
+            }
+        },
+
+        UpdateThemeColors: function() {
+            if (this._initSettings) return;
+
+            var config = Common.UI.simpleColorsConfig;
+            if (!this.btnColor) {
+                this.btnColor = new Common.UI.ColorButton({
+                    parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
+                    additionalItemsBefore: [
+                        this.mnuNoBorder = new Common.UI.MenuItem({
+                            style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
+                            caption: this.textNoBorder,
+                            toggleGroup: 'form-settings-no-border',
+                            checkable: true
+                        }), {caption: '--'}],
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
+                    dataHint: '1',
+                    colorHints: false,
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.lockedControls.push(this.btnColor);
+                this.mnuNoBorder.on('click', _.bind(this.onNoBorderClick, this));
+                this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
+                // this.btnColor.setMenu();
+                this.mnuColorPicker = this.btnColor.getPicker();
+            }
+            if (!this.btnBGColor) {
+                this.btnBGColor = new Common.UI.ColorButton({
+                    parentEl: $('#form-background-color-btn'),
+                    transparent: true,
+                    color: 'transparent',
+                    // eyeDropper: true,
+                    additionalItemsBefore: [
+                        this.mnuNoFill = new Common.UI.MenuItem({
+                            style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
+                            caption: this.textNoFill,
+                            toggleGroup: 'form-settings-no-border',
+                            checkable: true
+                        }), {caption: '--'}],
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'big'
+                });
+                this.lockedControls.push(this.btnBGColor);
+                this.mnuNoFill.on('click', _.bind(this.onNoFillClick, this));
+                this.btnBGColor.on('color:select', _.bind(this.onColorBGSelect, this));
+                // this.btnBGColor.setMenu();
+                this.mnuBGColorPicker = this.btnBGColor.getPicker();
             }
         },
 
@@ -202,7 +447,10 @@ define([
             }
         },
 
-        showHideControls: function(type, textProps, specProps, isSimpleInsideComplex, isSignature) {
+        showHideControls: function(type, specProps) {
+            var isCombobox = type === AscPDF.FIELD_TYPES.combobox,
+                isText = type === AscPDF.FIELD_TYPES.text;
+            this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
         }
 
     }, PDFE.Views.FormSettings || {}));
