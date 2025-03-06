@@ -165,7 +165,7 @@ const ToolbarView = props => {
                                         <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :
                                         <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
                                     }</Link>,
-                            <Link iconOnly key='send-form-link'
+                            <Link key='send-form-link'
                                   id='btn-submit-form'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   text={t("Toolbar.btnSend")} href={false}
