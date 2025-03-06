@@ -91,6 +91,11 @@ div {
         <div id="iframeEditor">
         </div>
     </div>
+    <div id="keyData" style="display:none;" data-json="<%= key %>"></div>
+    <div id="fileInfoJsonData" style="display:none;" data-json="<%= JSON.stringify(fileInfo) %>"></div>
+    <div id="userAuthJsonData" style="display:none;" data-json="<%= JSON.stringify(userAuth) %>"></div>
+    <div id="queryParamsJsonData" style="display:none;" data-json="<%= JSON.stringify(queryParams) %>"></div>
+    <div id="docsApiConfigJsonData" style="display:none;" data-json="<%= JSON.stringify(docs_api_config) %>"></div>
     <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js<%- apiQuery %>"></script>
     <script type="text/javascript" language="javascript">
 
@@ -283,14 +288,14 @@ div {
 
         var connectEditor = function () {
 
-            fileInfo = <%- JSON.stringify(fileInfo) %>;
+            fileInfo = JSON.parse(document.getElementById('fileInfoJsonData').getAttribute('data-json'));
 
-			var key = "<%- key %>";
-            var documentType = "<%- documentType %>";
-			var userAuth = <%- JSON.stringify(userAuth) %>;
-			var token = "<%- token %>";
-			var queryParams = <%- JSON.stringify(queryParams) %>;
-			var docs_api_config = <%- JSON.stringify(docs_api_config) %>;
+            var key = document.getElementById('keyData').getAttribute('data-json');
+            var documentType = "<%= documentType %>";
+            var userAuth = JSON.parse(document.getElementById('userAuthJsonData').getAttribute('data-json'));
+            var token = "<%= token %>";
+            var queryParams = JSON.parse(document.getElementById('queryParamsJsonData').getAttribute('data-json'));
+            var docs_api_config = JSON.parse(document.getElementById('docsApiConfigJsonData').getAttribute('data-json'));
 
             if (!fileInfo.BaseFileName) {
                 showError();
