@@ -166,11 +166,8 @@ define([
         },
 
         onChRequired: function(field, newValue, oldValue, eOpts){
-            var checked = (field.getValue()=='checked');
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
-                props.asc_putRequired(checked);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.SetFieldRequired(field.getValue()==='checked');
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -179,14 +176,13 @@ define([
             this.BackgroundColor = color;
             this._state.BackgroundColor = undefined;
 
-            var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
             if (this.api) {
                 if (color === 'transparent') {
-                    props.asc_putFill();
+                    this.api.SetFieldBgColor();
                 } else {
-                    props.asc_putFill(Common.Utils.ThemeColor.getRgbColor(color));
+                    var clr = Common.Utils.ThemeColor.getRgbColor(color);
+                    this.api.SetFieldBgColor(clr.get_r(), clr.get_g(), clr.get_b());
                 }
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
             }
 
             this.fireEvent('editcomplete', this);
@@ -197,9 +193,7 @@ define([
             this._state.BackgroundColor = undefined;
 
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
-                props.asc_putFill();
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.SetFieldBgColor();
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -209,13 +203,12 @@ define([
             this._state.BorderColor = undefined;
 
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
                 if (color == 'transparent') {
-                    props.asc_putStroke();
+                    this.api.SetFieldStrokeColor();
                 } else {
-                    props.asc_putStroke(Common.Utils.ThemeColor.getRgbColor(color));
+                    var clr = Common.Utils.ThemeColor.getRgbColor(color);
+                    this.api.SetFieldStrokeColor(clr.get_r(), clr.get_g(), clr.get_b());
                 }
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -225,22 +218,16 @@ define([
             this._state.BorderColor = undefined;
 
             if (this.api && !this._noApply) {
-                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty();
-                props.asc_putStroke();
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.api.SetFieldStrokeColor();
                 this.fireEvent('editcomplete', this);
             }
         },
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                var props   = this._originalProps || new Asc.asc_CBaseFieldProperty(),
-                    specProps = this._originalSpecProps || (type===AscPDF.FIELD_TYPES.text ? new Asc.asc_CTextFieldProperty() : new Asc.asc_CComboboxFieldProperty());
-                specProps.asc_putPlaceholder(newValue);
-                props.asc_putFieldProps(specProps);
-                // this.api.asc_SetContentControlProperties(props, this.internalId);
-                // if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
-                //     this.fireEvent('editcomplete', this);
+                this.api.SetFieldPlaceholder(newValue);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
