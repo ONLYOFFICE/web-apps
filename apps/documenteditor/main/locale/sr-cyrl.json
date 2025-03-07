@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Гледање",
   "Common.Views.Header.tipDocViewForm": "Преглед обрасца",
   "Common.Views.Header.tipDownload": "Преузми фајл",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Уреди тренутни фајл",
   "Common.Views.Header.tipPrint": "Штампај фајл",
   "Common.Views.Header.tipPrintQuick": "Брзо штампање",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ.<br>Контактирајте %1 тим за продају за личне услове надоградње.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
   "DE.Controllers.Main.warnProcessRightsChange": "Ускраћено вам је право да уредите овај фајл.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Почетак документа",
   "DE.Controllers.Navigation.txtGotoBeginning": "Иди на почетак документа",
   "DE.Controllers.Print.textMarginsLast": "Последње прилагођено",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Кредитна картица",
   "DE.Views.FormsTab.capDateTime": "Датум & Време",
   "DE.Views.FormsTab.capZipCode": "ZIP код",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Било ко",
   "DE.Views.FormsTab.textClear": "Уклони поља",
   "DE.Views.FormsTab.textClearFields": "Уклони сва поља",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

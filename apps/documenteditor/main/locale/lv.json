@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Lejupielādēt failu",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Rediģēt šībrīža failu",
   "Common.Views.Header.tipPrint": "Drukāt failu",
   "Common.Views.Header.tipPrintQuick": "Ātrā drukāšana",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Jūs sasniedzāt vienlaicīgu savienojumu ierobežojumu ar %1 redaktoriem. Šis dokuments tiks atvērts tikai apskatei.<br>Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Jūs sasniedzāt %1 redaktoru lietotāju ierobežojumu. Sazinieties ar %1 pārdošanas komandu, lai uzzinātu personīgos jaunināšanas noteikumus.",
   "DE.Controllers.Main.warnProcessRightsChange": "Jums ir liegtas tiesības rediģēt failu.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Dokumenta sākums",
   "DE.Controllers.Navigation.txtGotoBeginning": "Doties uz dokumenta sākumu",
   "DE.Controllers.Print.textMarginsLast": "Pēdējais pielāgotais",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Kredītkarte",
   "DE.Views.FormsTab.capDateTime": "Datums & Laiks",
   "DE.Views.FormsTab.capZipCode": "Pasta indekss",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Jebkurš",
   "DE.Views.FormsTab.textClear": "Notīrīt lauku",
   "DE.Views.FormsTab.textClearFields": "Notīrīt visus laukus",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
 }
