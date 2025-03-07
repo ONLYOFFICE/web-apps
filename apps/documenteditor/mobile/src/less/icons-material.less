@@ -1,7 +1,13 @@
 .device-android {
   .tab-link {
     .icon-svg {
-      fill: var(--toolbar-tab-normal);
+      fill: @toolbar-tab-normal;
     }
   }
+  .icon-svg {
+    &.down {
+      fill: @fill-white;
+    }
+  }
+  
 }

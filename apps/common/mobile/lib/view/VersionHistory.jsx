@@ -56,7 +56,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                         <Link sheetClose="#version-history-sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
                             }
                         </Link>
                     </NavRight>
@@ -65,7 +65,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                             <Link popoverClose="#version-history-popover">
                                 {Device.ios ? 
                                     <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
                                 }
                             </Link>
                         </NavRight>

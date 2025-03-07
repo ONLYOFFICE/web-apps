@@ -71,7 +71,7 @@ const PageReorder = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -113,7 +113,7 @@ const PageAlign = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -169,7 +169,7 @@ const PageReplace = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -220,7 +220,7 @@ const PageLinkSettings = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
