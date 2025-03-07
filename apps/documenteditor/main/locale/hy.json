@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Դիտում",
   "Common.Views.Header.tipDocViewForm": "Ձևի դիտում",
   "Common.Views.Header.tipDownload": "Ներբեռնել ֆայլը",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Խմբագրել ընթացիկ ֆայլը",
   "Common.Views.Header.tipPrint": "Տպել ֆայլը",
   "Common.Views.Header.tipPrintQuick": "Արագ տպում",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։ Այս փաստաթուղթը կբացվի միայն ընթերցման համար։<br>Ծրագրի նորացման անհատական պայմանները քննարկելու համար գրեք վաճառքի բաժին։",
   "DE.Controllers.Main.warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
   "DE.Controllers.Main.warnProcessRightsChange": "Ձեզ թույլ չի տրվում խմբագրել այս ֆայլը։",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Փաստաթղթի սկիզբ",
   "DE.Controllers.Navigation.txtGotoBeginning": "Գնալ փաստաթղթի սկիզբ",
   "DE.Controllers.Print.textMarginsLast": "Վերջին օգտագործումը",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Վարկային քարտ",
   "DE.Views.FormsTab.capDateTime": "Ամսաթիվ/Ժամ",
   "DE.Views.FormsTab.capZipCode": "Փոստային դասիչ(կոդ)",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Յուրաքանչյուրը",
   "DE.Views.FormsTab.textClear": "Մաքրել դաշտերը",
   "DE.Views.FormsTab.textClearFields": "Մաքրել բոլոր դաշտերը",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
 }

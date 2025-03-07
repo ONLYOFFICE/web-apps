@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "파일을 다운로드",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "현재 파일 편집",
   "Common.Views.Header.tipPrint": "파일 출력",
   "Common.Views.Header.tipPrintQuick": "빠른 인쇄",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "이 버전의 %1 편집자에게는 문서 서버에 대한 동시 연결에 대한 특정 제한 사항이 있습니다.<br>더 많은 정보가 필요하면 현재 라이센스를 업그레이드하거나 상용 소프트웨어를 구입하십시오.",
   "DE.Controllers.Main.warnNoLicenseUsers": "편집자 사용자 한도인 %1명에 도달했습니다. 개인 업그레이드 조건은 %1 영업 팀에 문의하십시오.",
   "DE.Controllers.Main.warnProcessRightsChange": "파일 편집 권한이 거부되었습니다.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "문서의 시작",
   "DE.Controllers.Navigation.txtGotoBeginning": "문서의 시작점으로 이동",
   "DE.Controllers.Print.textMarginsLast": "마지막 사용자 정의",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "신용 카드",
   "DE.Views.FormsTab.capDateTime": "날짜 및 시간",
   "DE.Views.FormsTab.capZipCode": "우편 번호",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "누구나",
   "DE.Views.FormsTab.textClear": "필드 지우기",
   "DE.Views.FormsTab.textClearFields": "모든 필드 지우기",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴 이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
 }

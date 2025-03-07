@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Προβολή",
   "Common.Views.Header.tipDocViewForm": "Προβολή φόρμας",
   "Common.Views.Header.tipDownload": "Λήψη αρχείου",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Επεξεργασία τρέχοντος αρχείου",
   "Common.Views.Header.tipPrint": "Εκτύπωση αρχείου",
   "Common.Views.Header.tipPrintQuick": "Γρήγορη εκτύπωση",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Έχετε φτάσει το όριο για ταυτόχρονες συνδέσεις με συντάκτες %1. Αυτό το έγγραφο θα ανοιχτεί μόνο για προβολή.​​<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
   "DE.Controllers.Main.warnProcessRightsChange": "Σας έχει απαγορευτεί το δικαίωμα επεξεργασίας του αρχείου.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Έναρξη εγγράφου",
   "DE.Controllers.Navigation.txtGotoBeginning": "Μετάβαση στην αρχή του εγγράφου",
   "DE.Controllers.Print.textMarginsLast": "Τελευταίο προσαρμοσμένο",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Πιστωτική κάρτα",
   "DE.Views.FormsTab.capDateTime": "Ημερομηνία & Ώρα",
   "DE.Views.FormsTab.capZipCode": "Ταχ. Κώδικας",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Οποιοσδήποτε",
   "DE.Views.FormsTab.textClear": "Εκκαθάριση Πεδίων",
   "DE.Views.FormsTab.textClearFields": "Εκκαθάριση όλων των πεδίων",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

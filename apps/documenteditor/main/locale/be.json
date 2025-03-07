@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Спампаваць файл",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Рэдагаваць бягучы файл",
   "Common.Views.Header.tipPrint": "Друкаваць файл",
   "Common.Views.Header.tipPrintQuick": "Хуткае друкаванне",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Вы дасягнулі абмежавання па адначасовай колькасці падлучэнняў да рэдактараў %1. Гэты дакумент будзе адкрыты для прагляду.<br>Напішыце ў аддзел продажу %1, каб абмеркаваць асабістыя ўмовы ліцэнзіявання.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Вы дасягнулі абмежавання па адначасовай колькасці падлучэнняў да рэдактараў %1.<br>Напішыце ў аддзел продажу %1, каб абмеркаваць асабістыя ўмовы ліцэнзіявання.",
   "DE.Controllers.Main.warnProcessRightsChange": "Вам адмоўлена ў правах на рэдагаванне гэтага файла.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Пачатак дакумента",
   "DE.Controllers.Navigation.txtGotoBeginning": "Перайсці да пачатку дакумента",
   "DE.Controllers.Print.textMarginsLast": "Апошнія адвольныя",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Крэдытная картка",
   "DE.Views.FormsTab.capDateTime": "Дата і час",
   "DE.Views.FormsTab.capZipCode": "Індэкс",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Любы",
   "DE.Views.FormsTab.textClear": "Ачысціць палі",
   "DE.Views.FormsTab.textClearFields": "Ачысціць усе палі",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
 }

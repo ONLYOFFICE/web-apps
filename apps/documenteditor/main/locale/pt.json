@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Visualizando",
   "Common.Views.Header.tipDocViewForm": "Visualizando formulário",
   "Common.Views.Header.tipDownload": "Baixar arquivo",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Editar arquivo atual",
   "Common.Views.Header.tipPrint": "Imprimir arquivo",
   "Common.Views.Header.tipPrintQuick": "Impressão rápida",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
   "DE.Controllers.Main.warnProcessRightsChange": "Foi negado a você o direito de editar o arquivo.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Início do documento",
   "DE.Controllers.Navigation.txtGotoBeginning": "Ir para o início do documento",
   "DE.Controllers.Print.textMarginsLast": "Últimos personalizados",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Cartão de crédito",
   "DE.Views.FormsTab.capDateTime": "Data e Hora",
   "DE.Views.FormsTab.capZipCode": "CEP",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Alguém",
   "DE.Views.FormsTab.textClear": "Limpar campos.",
   "DE.Views.FormsTab.textClearFields": "Limpar todos os campos",
@@ -3701,8 +3704,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da Fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte",
-  "Common.Views.Header.tipFillStatus": "Filling status",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
-  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte"
 }
