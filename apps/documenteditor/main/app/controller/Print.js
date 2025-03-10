@@ -54,6 +54,8 @@ define([
 
             this._isPreviewVisible = false;
 
+            this._printersList = [];
+
             this.addListeners({
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
@@ -128,6 +130,8 @@ define([
 
                 return me.txtPrintRangeInvalid;
             };
+
+            this._printersList.length > 0 && (this.printSettings.setCmbPrinterOptions(this._printersList));            
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
@@ -396,6 +400,11 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        setPrinters: function(list) {
+            this._printersList = list;
+            this.printSettings.setCmbPrinterOptions(this._printersList);    
         },
 
         checkPageSize: function(width, height, left, right, top, bottom) {

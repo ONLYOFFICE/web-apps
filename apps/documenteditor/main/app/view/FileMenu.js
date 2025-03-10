@@ -583,7 +583,6 @@ define([
                     this.mode.canPrint = this.mode.canDownload = this.mode.canDownloadOrigin = false;
             } else {
                 this.mode = mode;
-                this.mode.canPreviewPrint = true;
             }
 
             if (!delay) {

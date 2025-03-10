@@ -2752,9 +2752,13 @@ define([], function () {
                 cls: 'input-group-nr',
                 placeHolder: this.txtPrinterNotSelected,
                 itemsTemplate:  _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "add" && items.length > 1) { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
-                    '<% }); %>'
+                    '<% if (items.length > 0) { %>',
+                        '<% _.each(items, function(item) { %>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                        '<% }); %>',
+                    '<% } else { %>',
+                        '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
+                    '<% } %>'
                 ].join('')),
                 data: [],
                 dataHint: '2',
@@ -3030,10 +3034,15 @@ define([], function () {
         },
 
         updateSettings: function() {
-            var dataFromNative = {"printers":[{"duplex_supported":true,"name":"ML-2010","paper_supported":[{"height":279,"name":"Letter","width":216},{"height":356,"name":"Legal","width":216},{"height":297,"name":"A4","width":210},{"height":267,"name":"Executive","width":184},{"height":279,"name":"Ledger","width":432},{"height":420,"name":"A3","width":297},{"height":241,"name":"Env10","width":105},{"height":191,"name":"Monarch","width":98},{"height":229,"name":"C5","width":162},{"height":220,"name":"DL","width":110},{"height":364,"name":"B4","width":257},{"height":257,"name":"B5","width":182},{"height":250,"name":"EnvISOB5","width":176},{"height":148,"name":"Postcard","width":100},{"height":200,"name":"DoublePostcardRotated","width":148},{"height":210,"name":"A5","width":148},{"height":148,"name":"A6","width":105},{"height":182,"name":"B6","width":128},{"height":162,"name":"C6","width":114},{"height":330,"name":"Folio","width":210},{"height":165,"name":"EnvPersonal","width":92},{"height":225,"name":"Env9","width":98},{"height":343,"name":"Oficio","width":216}]},{"duplex_supported":false,"name":"Samsung_M2020_Series_SEC30CDA7EF9160","paper_supported":[{"height":152,"name":"4x6","width":102},{"height":343,"name":"8.5x13.5","width":216},{"height":297,"name":"A4","width":210},{"height":210,"name":"A5","width":148},{"height":257,"name":"B5","width":182},{"height":241,"name":"Env10","width":105},{"height":229,"name":"EnvC5","width":162},{"height":220,"name":"EnvDL","width":110},{"height":191,"name":"EnvMonarch","width":98},{"height":267,"name":"Executive","width":184},{"height":330,"name":"FanFoldGermanLegal","width":216},{"height":250,"name":"ISOB5","width":176},{"height":356,"name":"Legal","width":216},{"height":279,"name":"Letter","width":216}]}]};
-            var printers = [];
-            if(dataFromNative && dataFromNative.printers) {
-                printers = dataFromNative.printers.map(function(printer) {
+            this.setCmbSidesOptions(true);
+            this.setCmbPaperSizeOptions();
+            this.cmbPrinter.setValue(null);
+        },
+
+        setCmbPrinterOptions: function(printers) {
+            var cmbPrinterOptions = [];
+            if(printers) {
+                cmbPrinterOptions = printers.map(function(printer) {
                     return {
                         value: printer.name,
                         displayValue: printer.name,
@@ -3042,16 +3051,8 @@ define([], function () {
                     }
                 });
             }
-            console.log(printers);
-            this.setCmbPrinterOptions(printers);
-            this.setCmbSidesOptions(true);
-            this.setCmbPaperSizeOptions();
-            this.cmbPrinter.setValue(null);
-        },
 
-        setCmbPrinterOptions: function(printersList) {
-            var list = (printersList || []);
-            this.cmbPrinter.setData(list);
+            this.cmbPrinter.setData(cmbPrinterOptions);
         },
 
         setCmbSidesOptions: function(isDuplexSupported) {
@@ -3091,7 +3092,6 @@ define([], function () {
             ];
             var resultList = [];
 
-            // TODO: Добавить изменение единиц измерения
             if(paperSizeList && paperSizeList.length > 0) {
                 resultList = paperSizeList.map(function(item, index) {
                     return {
@@ -3104,9 +3104,40 @@ define([], function () {
             } else {
                 resultList = defaultList;
             }
-
             resultList.push({ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []});
+
+            var prevSelectedOption = this.cmbPaperSize.store.findWhere({ 
+                value: this.cmbPaperSize.getValue()
+            });
+            var newSelectedOption = null;
+
+            function findOptionBySize(list, width, height) {
+                return _.find(list, function(option) {
+                    return Math.round(option.size[0]) === width && Math.round(option.size[1]) === height;
+                });
+            }
+
+            // If a previously selected option exists, search for a matching one in resultList
+            if (prevSelectedOption) {
+                newSelectedOption = findOptionBySize(
+                    resultList, 
+                    Math.round(prevSelectedOption.get('size')[0]), 
+                    Math.round(prevSelectedOption.get('size')[1])
+                );
+            }
+
+            // If no matching option is found, look for the default size 210x297 (A4)
+            if (!newSelectedOption) {
+                newSelectedOption = findOptionBySize(resultList, 210, 297);
+            }
+            if (!newSelectedOption && resultList[0]) {
+                newSelectedOption = resultList[0];
+            } 
+            
             this.cmbPaperSize.setData(resultList);
+            this.updatePaperSizeMetricUnit();
+            this.cmbPaperSize.setValue(newSelectedOption ? newSelectedOption.value : null);
+            this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
         },
 
         updateScroller: function() {
@@ -3132,6 +3163,11 @@ define([], function () {
         },
 
         updateMetricUnit: function() {
+            this.updatePaperSizeMetricUnit();
+            this.cmbPaperMargins.onResetItems();
+        },
+
+        updatePaperSizeMetricUnit: function() {
             if (!this.cmbPaperSize) return;
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length-1; i++) {
@@ -3146,7 +3182,6 @@ define([], function () {
                     Common.Utils.Metric.getCurrentMetricName()]);
             }
             this.cmbPaperSize.onResetItems();
-            this.cmbPaperMargins.onResetItems();
         },
 
         isVisible: function() {
@@ -3176,6 +3211,7 @@ define([], function () {
         txtPrintPdf: 'Print to PDF',
         txtPrinter: 'Printer',
         txtPrinterNotSelected: 'Printer not selected',
+        txtPrintersNotFound: 'Printers not found',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current page',
         txtAllPages: 'All pages',
