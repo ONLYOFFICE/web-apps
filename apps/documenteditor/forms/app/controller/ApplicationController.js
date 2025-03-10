@@ -97,7 +97,8 @@ define([
             var config = {
                  'id-view'  : 'editor_sdk',
                  'embedded' : true,
-                 'translate': translationTable
+                 'translate': translationTable,
+                 'isRtlInterface': Common.UI.isRTL()
             },
                 hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
             hcolor && (config['headings-color'] = '#' + hcolor[1]);

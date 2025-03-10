@@ -918,7 +918,8 @@ SSE.ApplicationController = new(function(){
         
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){

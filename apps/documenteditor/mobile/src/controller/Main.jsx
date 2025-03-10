@@ -470,7 +470,8 @@ class MainController extends Component {
                     const config = {
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     };
                     let hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
                     hcolor && (config['headings-color'] = '#' + hcolor[1]);
