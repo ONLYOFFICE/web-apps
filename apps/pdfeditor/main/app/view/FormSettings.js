@@ -85,6 +85,7 @@ define([
                 scope: this
             }));
             this.PlaceholderSettings = el.find('.form-placeholder');
+            this.ListOnlySettings = el.find('.form-list');
         },
 
         createDelayedElements: function() {
@@ -182,6 +183,88 @@ define([
             this.cmbLineStyle.setValue(AscPDF.BORDER_TYPES.solid);
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
+
+            // combobox & dropdown list
+            this.txtNewValue = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-new-value'),
+                allowBlank  : true,
+                validateOnChange: true,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            }).on ('changing', function (input, value) {
+                me.btnListAdd.setDisabled(value.length<1 || me._state.DisabledControls);
+            });
+            this.lockedControls.push(this.txtNewValue);
+            this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
+            this.txtNewValue.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtNewValue._input && me.txtNewValue._input.select();}, 1);
+            });
+
+            this.list = new Common.UI.ListView({
+                el: $markup.findById('#form-list-list'),
+                store: new Common.UI.DataViewStore(),
+                emptyText: '',
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(name) %></div>',
+                    '</div>'
+                ].join(''))
+            });
+            this.list.on('item:select', _.bind(this.onSelectItem, this));
+            this.lockedControls.push(this.list);
+
+            this.btnListAdd = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-add'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-zoomup',
+                hint: this.textTipAdd,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
+            });
+            this.btnListAdd.on('click', _.bind(this.onAddItem, this));
+
+            this.btnListDelete = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-delete'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-cc-remove',
+                hint: this.textTipDelete,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
+            });
+            this.btnListDelete.on('click', _.bind(this.onDeleteItem, this));
+            this.lockedControls.push(this.btnListDelete);
+
+            this.btnListUp = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-up'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-arrow-up',
+                hint: this.textTipUp,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
+            });
+            this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
+            this.lockedControls.push(this.btnListUp);
+
+            this.btnListDown = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-down'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-arrow-down',
+                hint: this.textTipDown,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'big'
+            });
+            this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
+            this.lockedControls.push(this.btnListDown);
 
             this.UpdateThemeColors();
         },
@@ -285,6 +368,60 @@ define([
             }
         },
 
+        onSelectItem: function(listView, itemView, record) {
+            if (!record) return;
+            this.txtNewValue.setValue(record.get('name'));
+            this._state.listValue = record.get('name');
+            this._state.listIndex = undefined;
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
+            this.disableListButtons();
+        },
+
+        onNewValueKeydown: function(event) {
+            if (this.api && !this._noApply && event.keyCode == Common.UI.Keys.RETURN) {
+                this.onAddItem();
+            }
+        },
+
+        onAddItem: function() {
+            var store = this.list.store,
+                value = this.txtNewValue.getValue();
+            if (value!=='') {
+                var rec = store.findWhere({value: value});
+                if (!rec) {
+                    this._state.listValue = value;
+                    this._state.listIndex = undefined;
+                    this.api.AddListFieldOption([value], store.length);
+                }
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onDeleteItem: function(btn, eOpts){
+            var rec = this.list.getSelectedRec();
+            if (rec) {
+                this._state.listIndex = this.list.store.indexOf(rec);
+                this._state.listValue = undefined;
+                this.api.RemoveListFieldOption(this._state.listIndex);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onMoveItem: function(up) {
+            var rec = this.list.getSelectedRec();
+            rec && this.api.MoveListFieldOption(this.list.store.indexOf(rec), up);
+            this.fireEvent('editcomplete', this);
+        },
+
+        disableListButtons: function() {
+            var rec = this.list.getSelectedRec(),
+                idx = rec ? this.list.store.indexOf(rec) : -1;
+
+            this.btnListDelete.setDisabled(idx<0 || this._state.DisabledControls);
+            this.btnListUp.setDisabled(idx<1 || this._state.DisabledControls);
+            this.btnListDown.setDisabled(idx<0 || idx>this.list.store.length-2 || this._state.DisabledControls);
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -374,14 +511,14 @@ define([
                     this.cmbLineWidth.setValue(val ? val : '');
                     this._state.StokeWidth=val;
                 }
-                this.cmbLineWidth.setDisabled(this._locked || this._state.BorderColor==='transparent');
+                this.cmbLineWidth.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
 
                 val = props.asc_getStrokeStyle();
                 if (this._state.StokeStyle!==val) {
                     this.cmbLineStyle.setValue(val ? val : '');
                     this._state.StokeStyle=val;
                 }
-                this.cmbLineStyle.setDisabled(this._locked || this._state.BorderColor==='transparent');
+                this.cmbLineStyle.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
 
                 if (type===AscPDF.FIELD_TYPES.text || type == AscPDF.FIELD_TYPES.combobox) {
                     if (specProps) {
@@ -391,11 +528,37 @@ define([
                             this._state.placeholder = val;
                         }
                     }
-
                 }
                 //for list controls
                 if (type == AscPDF.FIELD_TYPES.combobox || type == AscPDF.FIELD_TYPES.listbox) {
                     this.labelFormName.text(type == AscPDF.FIELD_TYPES.combobox ? this.textCombobox : this.textListBox);
+                    if (specProps) {
+                        var options = specProps.asc_getOptions();
+                        var arr = [];
+                        for (var i=0; i<options.length; i++) {
+                            (options[i]!=='') && arr.push({
+                                value: options[i],
+                                name: options[i]
+                            });
+                        }
+                        this.list.store.reset(arr);
+                        var rec = null;
+                        if (arr.length>0 && (this._state.listValue!==undefined || this._state.listIndex!==undefined)) {
+                            if (this._state.listIndex!==undefined) {
+                                (this._state.listIndex>=this.list.store.length) && (this._state.listIndex = this.list.store.length-1);
+                            }
+                            rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
+                        }
+                        if (rec) {
+                            this.list.selectRecord(rec, this.txtNewValue._input.is(':focus'));
+                            this.list.scrollToRecord(rec);
+                        } else if (!this.txtNewValue._input.is(':focus')) {
+                            this.txtNewValue.setValue('');
+                            this.btnListAdd.setDisabled(true);
+                            this._state.listValue = this._state.listIndex = undefined;
+                        }
+                    }
+                    this.disableListButtons();
                 }
 
                 if (type == AscPDF.FIELD_TYPES.button)
@@ -499,6 +662,7 @@ define([
                     item.setDisabled(me._state.DisabledControls);
                 });
             }
+            this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
         },
 
         showHideControls: function(type, specProps) {

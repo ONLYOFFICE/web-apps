@@ -1396,6 +1396,12 @@
   "PDFE.Views.FormSettings.textUnderline": "Underline",
   "PDFE.Views.FormSettings.textBeveled": "Beveled",
   "PDFE.Views.FormSettings.textInset": "Inset",
+  "PDFE.Views.FormSettings.textValue": "Value options",
+  "PDFE.Views.FormSettings.textTipAdd": "Add new value",
+  "PDFE.Views.FormSettings.textTipDelete": "Delete value",
+  "PDFE.Views.FormSettings.textTipDown": "Move down",
+  "PDFE.Views.FormSettings.textTipUp": "Move up",
+
   "PDFE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "PDFE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "PDFE.Views.FormsTab.capBtnDownloadForm": "Download As PDF",

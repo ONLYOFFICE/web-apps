@@ -16,13 +16,43 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
-    <tr>
-        <td class="padding-small">
+</table>
+<table cols="2" role="presentation">
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
             <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <label class="input-label"><%= scope.textValue %></label>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-small">
+            <div id="form-txt-new-value" style="width:164px;" class="margin-right-5"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-list-add" class="margin-left-5"></div>
+        </td>
+    </tr>
+    <tr class="form-list" style="vertical-align: top;">
+        <td class="padding-large">
+            <div id="form-list-list" style="width:164px; height: 95px;" class="margin-right-5"></div>
+        </td>
+        <td class="padding-large">
+            <div id="form-list-delete" style="margin-bottom: 5px;" class="margin-left-5"></div>
+            <div id="form-list-up" style="margin-bottom: 5px;" class="margin-left-5"></div>
+            <div id="form-list-down" class="margin-left-5"></div>
         </td>
     </tr>
 </table>
 <table cols="2" role="presentation">
+    <tr>
+        <td colspan=2 class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
     <tr>
         <td>
             <label class="header padding-small"><%= scope.textBorder %></label>
