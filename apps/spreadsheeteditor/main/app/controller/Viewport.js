@@ -187,7 +187,8 @@ define([
             this.api = new Asc.spreadsheet_api({
                 'id-view'  : 'editor_sdk',
                 'id-input' : 'ce-cell-content',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL()
             });
 
             this.header   = this.createView('Common.Views.Header', {

@@ -359,7 +359,8 @@ class MainController extends Component {
                         'id-view': 'editor_sdk',
                         'id-input': 'idx-cell-content',
                         'mobile': true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
