@@ -1015,7 +1015,7 @@ define([
                         $html.find('#slot-btn-start-fill').hide();
                     }
 
-                    if (config.isPDFForm && config.canFillForms && config.isRestrictedEdit && config.canRequestFillingStatus) {
+                    if (config.isPDFForm && config.canRequestFillingStatus) {
                         me.btnFillStatus = new Common.UI.Button({
                             cls: 'btn-header',
                             iconCls: 'toolbar__icon icon--inverse  btn-filling-status',

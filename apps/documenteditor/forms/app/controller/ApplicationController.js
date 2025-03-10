@@ -669,7 +669,7 @@ define([
                 me.view.btnDownload.updateHint('');
             }
             me.showFillingForms(false); // hide filling forms
-            me.view.btnFillStatus.setVisible(this.appOptions.canFillForms && this.appOptions.canRequestFillingStatus);
+            me.view.btnFillStatus.setVisible(this.appOptions.canRequestFillingStatus);
             if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
