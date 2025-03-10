@@ -667,8 +667,10 @@ define([
 
         showHideControls: function(type, specProps) {
             var isCombobox = type === AscPDF.FIELD_TYPES.combobox,
-                isText = type === AscPDF.FIELD_TYPES.text;
+                isText = type === AscPDF.FIELD_TYPES.text,
+                isListbox = type === AscPDF.FIELD_TYPES.listbox;
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
+            this.ListOnlySettings.toggleClass('hidden', !(isCombobox || isListbox));
         }
 
     }, PDFE.Views.FormSettings || {}));
