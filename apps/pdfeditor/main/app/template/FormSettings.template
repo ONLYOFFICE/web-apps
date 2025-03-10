@@ -16,36 +16,52 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
-    <table cols="1" role="presentation">
-        <tr>
-            <td class="padding-small">
-                <div class="separator horizontal"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="padding-small">
-                <label class="input-label" style="margin-top: 4px;"><%= scope.textColor %></label>
-                <div id="form-color-btn" style="display: inline-block;" class="float-right"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="padding-small">
-                <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
-                <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
-            </td>
-        </tr>
-    </table>
-    <table cols="1" role="presentation">
-        <tr>
-            <td class="padding-small">
-                <div class="separator horizontal"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="padding-small">
-                <div id="form-chb-required"></div>
-            </td>
-        </tr>
-        <tr class="finish-cell"></tr>
-    </table>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" role="presentation">
+    <tr>
+        <td>
+            <label class="header padding-small"><%= scope.textBorder %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textColor %></label>
+            <div id="form-color-btn"></div>
+        </td>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textThickness %></label>
+            <div id="form-combo-line-width"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large" width="50%"></td>
+        <td class="padding-large" width="50%">
+            <label class="input-label"><%= scope.textStyle %></label>
+            <div id="form-combo-line-style"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textBackgroundColor %></label>
+            <div id="form-background-color-btn" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-chb-required"></div>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
 </table>

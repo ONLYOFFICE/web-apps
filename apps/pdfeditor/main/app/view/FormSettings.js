@@ -145,6 +145,44 @@ define([
                 setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
             });
 
+            this.cmbLineWidth = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-line-width'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [
+                    {displayValue: this.textThin,   value: 1},
+                    {displayValue: this.textMedium, value: 2},
+                    {displayValue: this.textThick,  value: 3}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbLineWidth.setValue(1);
+            this.cmbLineWidth.on('selected', this.onLineWidthChanged.bind(this));
+            this.lockedControls.push(this.cmbLineWidth);
+
+            this.cmbLineStyle = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-line-style'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [
+                    {displayValue: this.textSolid,   value: AscPDF.BORDER_TYPES.solid},
+                    {displayValue: this.textDashed,   value: AscPDF.BORDER_TYPES.dashed},
+                    {displayValue: this.textUnderline,   value: AscPDF.BORDER_TYPES.underline},
+                    {displayValue: this.textBeveled,   value: AscPDF.BORDER_TYPES.beveled},
+                    {displayValue: this.textInset,   value: AscPDF.BORDER_TYPES.inset}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbLineStyle.setValue(AscPDF.BORDER_TYPES.solid);
+            this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
+            this.lockedControls.push(this.cmbLineStyle);
+
             this.UpdateThemeColors();
         },
 
@@ -231,6 +269,21 @@ define([
             }
         },
 
+        onLineWidthChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.StrokeWidth = undefined;
+                this.api.SetFieldStrokeWidth(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onLineStyleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.StrokeStyle = undefined;
+                this.api.SetFieldStrokeStyle(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
 
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
@@ -316,6 +369,20 @@ define([
                     this._state.BackgroundColor = this.BackgroundColor;
                 }
 
+                val = props.asc_getStrokeWidth();
+                if (this._state.StokeWidth!==val) {
+                    this.cmbLineWidth.setValue(val ? val : '');
+                    this._state.StokeWidth=val;
+                }
+                this.cmbLineWidth.setDisabled(this._locked || this._state.BorderColor==='transparent');
+
+                val = props.asc_getStrokeStyle();
+                if (this._state.StokeStyle!==val) {
+                    this.cmbLineStyle.setValue(val ? val : '');
+                    this._state.StokeStyle=val;
+                }
+                this.cmbLineStyle.setDisabled(this._locked || this._state.BorderColor==='transparent');
+
                 if (type===AscPDF.FIELD_TYPES.text || type == AscPDF.FIELD_TYPES.combobox) {
                     if (specProps) {
                         var val = specProps.asc_getPlaceholder();
@@ -392,7 +459,7 @@ define([
                         this.mnuNoFill = new Common.UI.MenuItem({
                             style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoFill,
-                            toggleGroup: 'form-settings-no-border',
+                            toggleGroup: 'form-settings-no-fill',
                             checkable: true
                         }), {caption: '--'}],
                     colors: config.colors,
