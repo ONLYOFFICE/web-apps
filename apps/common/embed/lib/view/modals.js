@@ -86,7 +86,7 @@ common.view.modals = new(function() {
             if (name == 'share') {
                 if ( window.config && window.config.btnsShare ) {
                     let _btns = [];
-                    const _keys = Object.keys(config.btnsShare);
+                    const _keys = Object.keys(window.config.btnsShare);
                     for (var i in _keys)
                         _btns.push('<span class="svg big-'+ _keys[i] + '" data-name="' + _keys[i] + '"></span>');
 
