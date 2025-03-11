@@ -245,7 +245,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.right-panel'),
+                    el: $(this.el).find('.right-panel > .content-box'),
                     suppressScrollX: true,
                     useKeyboard: false
                 });

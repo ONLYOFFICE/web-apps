@@ -1,5 +1,6 @@
 <div id="view-right-menu" class="tool-menu right">
     <div class="right-panel side-panel">
+        <div class="content-box">
             <div id="id-paragraph-settings" class="settings-panel"></div>
             <div id="id-table-settings" class="settings-panel"></div>
             <div id="id-image-settings" class="settings-panel"></div>
@@ -10,6 +11,7 @@
             <div id="id-textart-settings" class="settings-panel"></div>
             <div id="id-signature-settings" class="settings-panel"></div>
             <div id="id-form-settings" class="settings-panel"></div>
+        </div>
     </div>
     <div class="tool-menu-btns" role="menubar" aria-label="<%= scope.ariaRightMenu %>" aria-orientation="vertical">
         <div class="ct-btn-category arrow-left"></div>
