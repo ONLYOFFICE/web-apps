@@ -109,7 +109,7 @@ define([
             _options.tpl = _.template(this.template)(_options);
 
             this.arrow = {margin: 20, width: 10, height: 30};
-            this.sdkBounds = {width: 0, height: 0, padding: 10, paddingTop: 20};
+            this.sdkBounds = {width: 0, height: 0, outerWidth: 0, outerHeight: 0, padding: 10, paddingTop: 20};
 
             Common.UI.Window.prototype.initialize.call(this, _options);
 
@@ -772,8 +772,8 @@ define([
 
                     this.$window.css({maxHeight: sdkBoundsHeight + 'px'});
 
-                    this.sdkBounds.width = editorBounds.width;
-                    this.sdkBounds.height = editorBounds.height;
+                    this.sdkBounds.width = this.sdkBounds.outerWidth = editorBounds.width;
+                    this.sdkBounds.height = this.sdkBounds.outerHeight = editorBounds.height;
 
                     // LEFT CORNER
 
@@ -861,10 +861,14 @@ define([
                         topPos = Math.min(sdkBoundsTop + sdkBoundsHeight - outerHeight, this.arrowPosY + sdkBoundsTop - this.arrow.height);
                         topPos = Math.max(topPos, sdkBoundsTopPos);
 
-                        if (parseInt(arrowView.css('top')) + this.arrow.height > outerHeight) {
-                            arrowView.css({top: (outerHeight-this.arrow.height) + 'px'});
+                        var arrowPosY = 0;
+                        if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight))
+                            arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
+                        else {
+                            arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
+                            arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
                         }
-
+                        arrowView.css({top: arrowPosY + 'px'});
                         this.$window.css('top', topPos + 'px');
                     }
                 }
@@ -1262,7 +1266,17 @@ define([
                 str = str.toLowerCase();
                 if (str.length>0) {
                     users = _.filter(users, function(item) {
-                        return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
+                        if (item.email && 0 === item.email.toLowerCase().indexOf(str)) return true;
+
+                        let arr = item.name ? item.name.toLowerCase().split(' ') : [],
+                            inName = false;
+                        for (let i=0; i<arr.length; i++) {
+                            if (0 === arr[i].indexOf(str)) {
+                                inName = true;
+                                break;
+                            }
+                        }
+                        return inName;
                     });
                 }
                 var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">' +

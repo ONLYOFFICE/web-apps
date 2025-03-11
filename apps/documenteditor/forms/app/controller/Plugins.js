@@ -55,8 +55,9 @@ define([
 
         onLaunch: function() {
             this.autostart = [];
-
+            this.startOnPostLoad = false;
             Common.Gateway.on('init', this.loadConfig.bind(this));
+            Common.NotificationCenter.on('script:loaded', this.onPostLoadComplete.bind(this));
         },
 
         loadConfig: function(data) {
@@ -175,7 +176,12 @@ define([
                     },
                     help: !!help,
                     loader: plugin.get_Loader(),
-                    modal: isModal!==undefined ? isModal : true
+                    modal: isModal!==undefined ? isModal : !variation.get_InsideMode(),
+                    resizable: !!variation.get_InsideMode(),
+                    minwidth: variation.get_InsideMode() ? 300 : undefined,
+                    minheight: variation.get_InsideMode() ? 300 : undefined,
+                    maxwidth: variation.get_InsideMode() ? Common.Utils.innerWidth() : undefined,
+                    maxheight: variation.get_InsideMode() ? Common.Utils.innerHeight() : undefined
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
@@ -229,6 +235,10 @@ define([
             if (this.autostart && this.autostart.length > 0) {
                 this.api.asc_pluginRun(this.autostart.shift(), 0, '');
             }
+        },
+
+        onPostLoadComplete: function() {
+            this.startOnPostLoad && this.runAutoStartPlugins();
         },
 
         resetPluginsList: function() {
@@ -341,7 +351,8 @@ define([
 
             if (this.appOptions.canPlugins) {
                 this.refreshPluginsList();
-                this.runAutoStartPlugins();
+                this.startOnPostLoad = !Common.Controllers.LaunchController.isScriptLoaded();
+                !this.startOnPostLoad && this.runAutoStartPlugins();
             }
         },
 

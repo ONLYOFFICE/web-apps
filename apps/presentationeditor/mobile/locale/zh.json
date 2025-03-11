@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "您没有编辑文件的权限。"
     }
   },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
+  },
   "Error": {
     "convertationTimeoutText": "转换超时",
     "criticalErrorExtText": "按“确定”返回文档列表。",
@@ -270,13 +276,16 @@
     "waitText": "请稍候..."
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textOk": "确定",
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Add": {
@@ -290,6 +299,7 @@
       "textDefault": "所选文字",
       "textDisplay": "显示",
       "textDone": "完成",
+      "textDrawing": "绘图",
       "textEmptyImgUrl": "您需要指定图像的URL。",
       "textExternalLink": "外部链接",
       "textFirstSlide": "第一张幻灯片",

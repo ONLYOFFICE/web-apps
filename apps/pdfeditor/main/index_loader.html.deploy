@@ -332,14 +332,20 @@
     <script>
         function startApp() {
             var script = document.createElement("script");
+            script.src = "../../../vendor/requirejs/require.js";
 
-            isIEBrowser === true &&
+            if (isIEBrowser === true) {
                 (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
                 document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
 
-            script.setAttribute("data-main", isIEBrowser === true ? "ie/app" : "app");
-            script.src = "../../../vendor/requirejs/require.js";
-            document.body.appendChild(script);
+                setTimeout(function(){
+                    script.setAttribute("data-main", "ie/app");
+                    document.body.appendChild(script);
+                },0);
+            } else {
+                script.setAttribute("data-main", "app");
+                document.body.appendChild(script);
+            }
         }
         if (isForm===undefined) {
             listenApiMsg(function (isform) {

@@ -1022,10 +1022,12 @@ DE.ApplicationController = new(function(){
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         }) : new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){

@@ -246,15 +246,12 @@ class MainController extends Component {
                     }
                 }
 
-                const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
-                const isPDF = fileType === 'pdf';
 
-                if(isFormType) {
+                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
                     this.changeEditorBrandColorForPdf();
                 }
 
-                if(isPDF) {
+                if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
                     }
@@ -360,6 +357,7 @@ class MainController extends Component {
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
                 const customization = appOptions.customization;
+                const _userOptions = this.props.storeAppOptions.user;
 
                 f7.emit('resize');
 
@@ -441,6 +439,19 @@ class MainController extends Component {
                         ]
                     }).open();
                 }
+
+                if (appOptions.isRestrictedEdit && appOptions.canFillForms && appOptions.isForm) { // check filling status
+                    let oform = this.api.asc_GetOForm();
+                    let role = new AscCommon.CRestrictionSettings();
+                    const _userOptions = this.props.storeAppOptions.user;
+                    if (oform && _userOptions && _userOptions.roles && _userOptions.roles.length>0 && oform.asc_canFillRole(_userOptions.roles[0])) {
+                        role.put_OFormRole(_userOptions.roles[0]);
+                    } else {
+                        role.put_OFormNoRole(true);
+                        Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                    }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
             };
 
             processArrayScripts(dep_scripts, promise_get_script)
@@ -459,8 +470,11 @@ class MainController extends Component {
                     const config = {
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     };
+                    let hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+                    hcolor && (config['headings-color'] = '#' + hcolor[1]);
                     this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);

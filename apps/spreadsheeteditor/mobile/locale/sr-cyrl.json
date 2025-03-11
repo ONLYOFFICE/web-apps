@@ -449,13 +449,17 @@
     "stayButtonText": "Остани на овој страници",
     "textCloseHistory": "Затвори Историју",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл"
+    "textRenameFile": "Преименуј фајл",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ГРЕШКА! Максималан број серије података по графикону је 255.",
       "errorStockChart": "Нетачан ред редова. За израду графикона берзанске трговине, поставите податке на листу у следећем редоследу:<br> отварајућа цена, макс цена, мин цена, затварајућа цена.",
       "notcriticalErrorTitle": "Упозорење",
+      "sCatDatabase": "База података",
       "sCatDateAndTime": "Датум и време",
       "sCatEngineering": "Инжењерство",
       "sCatFinancial": "Финансијски",
@@ -513,7 +517,8 @@
       "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
       "txtSorting": "Сортирање",
       "txtSortSelected": "Сортирај одабрано",
-      "txtYes": "Да"
+      "txtYes": "Да",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",
@@ -862,5 +867,11 @@
       "txtZh": "Кинески",
       "warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

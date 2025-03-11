@@ -16,13 +16,14 @@
             parentEl = document.getElementById(placeholderId),
             iframe;
 
-        var _setValue = function(value, readonly) {
+        var _setValue = function(value, currentPos, readonly) {
             _postMessage(iframe.contentWindow, {
                 command: 'setValue',
                 referer: 'ace-editor',
                 data: {
                     value: value,
-                    readonly: readonly
+                    readonly: readonly,
+                    currentPos: currentPos
                 }
             });
         };

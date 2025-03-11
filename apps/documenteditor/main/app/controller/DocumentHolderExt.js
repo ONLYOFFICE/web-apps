@@ -278,6 +278,8 @@ define([], function () {
             view.menuParaRefreshField.on('click', _.bind(me.onRefreshField, me));
             view.menuTableEditField.on('click', _.bind(me.onEditField, me));
             view.menuParaEditField.on('click', _.bind(me.onEditField, me));
+            view.menuTableFieldCodes.on('click', _.bind(me.onFieldCodes, me));
+            view.menuParaFieldCodes.on('click', _.bind(me.onFieldCodes, me));
             view.menuParagraphBreakBefore.on('click', _.bind(me.onParagraphBreakBefore, me));
             view.menuParagraphKeepLines.on('click', _.bind(me.onParagraphKeepLines, me));
             view.menuParagraphVAlign.menu.on('item:click', _.bind(me.paragraphVAlign, me));
@@ -438,6 +440,9 @@ define([], function () {
                 } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
                     menu_props.headerProps = {};
                     menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                } else if (Asc.c_oAscTypeSelectElement.ContentControl == elType) {
+                    menu_props.controlProps = {};
+                    menu_props.controlProps.formPr = (elValue) ? elValue.get_FormPr() : null;
                 }
             }
             return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
@@ -861,7 +866,8 @@ define([], function () {
         dh.disableSpecialPaste = function() {
             var pasteContainer = this.documentHolder.cmpEl.find('#special-paste-container'),
                 docProtection = this.documentHolder._docProtection,
-                disabled = this._isDisabled || docProtection.isReadOnly || docProtection.isCommentsOnly;
+                unprotectedRegion = this.documentHolder._unprotectedRegion,
+                disabled = this._isDisabled || docProtection.isReadOnly && !unprotectedRegion.canInsObject || docProtection.isCommentsOnly && !unprotectedRegion.canInsObject;
 
             if (pasteContainer.length>0 && pasteContainer.is(':visible')) {
                 this.btnSpecialPaste.setDisabled(!!disabled);
@@ -2044,6 +2050,11 @@ define([], function () {
             this.documentHolder.fireEvent('field:edit', ['edit']);
         };
 
+        dh.onFieldCodes = function(item, e){
+            this.api && this.api.asc_ToggleComplexFieldCodes();
+            this.editComplete();
+        };
+
         dh.onParagraphBreakBefore = function(item, e){
             this.api && this.api.put_PageBreak(item.checked);
         };
@@ -2276,7 +2287,8 @@ define([], function () {
         dh.disableEquationBar = function() {
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container'),
                 docProtection = this.documentHolder._docProtection,
-                disabled = this._isDisabled || this._state.equationLocked || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly;
+                unprotectedRegion = this.documentHolder._unprotectedRegion,
+                disabled = this._isDisabled || this._state.equationLocked || docProtection.isReadOnly && !unprotectedRegion.canInsObject || docProtection.isFormsOnly || docProtection.isCommentsOnly && !unprotectedRegion.canInsObject;
 
             if (eqContainer.length>0 && eqContainer.is(':visible')) {
                 this.equationBtns.forEach(function(item){

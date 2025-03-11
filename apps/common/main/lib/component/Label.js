@@ -148,6 +148,10 @@ define([
                     }
                 }
             }
+        },
+
+        setCaption: function(text) {
+            this.$label.find('.caption').text(text);
         }
     });
 });

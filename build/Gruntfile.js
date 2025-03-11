@@ -556,11 +556,19 @@ module.exports = function(grunt) {
                     dest: packageFile.main.reporter.uglify.dest
                 },
             },
+            inline: {
+                options: {
+                    uglify: true
+                },
+                dist: {
+                    src: '<%= Object.keys(pkg.main.reporter.copy)[0] %>'
+                }
+            },
             copy: packageFile.main.reporter.copy
         });
 
 
-        grunt.task.run(['terser', 'copy']);
+        grunt.task.run(['terser', 'copy', 'inline']);
     });
 
     grunt.registerTask('mobile-app-init', function() {
@@ -669,8 +677,7 @@ module.exports = function(grunt) {
                     },
                     cmd: function() {
                         const editor = packageFile.name == 'presentationeditor' ? 'slide' :
-                                        packageFile.name == 'spreadsheeteditor' ? 'cell' :
-                                        packageFile.name == 'visioeditor' ? 'visio' : 'word';
+                                        packageFile.name == 'spreadsheeteditor' ? 'cell' : 'word';
                         return `npm run deploy-${editor}`;
 
                         // const addon_path = `${packageFile.mobile.js.reactjs && !!packageFile.mobile.js.reactjs.features ? `ADDON_ENV=${packageFile.mobile.js.reactjs.features}` : ''}`;
@@ -843,7 +850,6 @@ module.exports = function(grunt) {
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
     doRegisterInitializeAppTask('pdfeditor',            'PDFEditor',            'pdfeditor.json');
-    doRegisterInitializeAppTask('visioeditor',          'VisioEditor',          'visioeditor.json');
 
     doRegisterInitializeAppTask('testdocumenteditor',    'TestDocumentEditor',           'testdocumenteditor.json');
     doRegisterInitializeAppTask('testpresentationeditor', 'TestPresentationEditor',      'testpresentationeditor.json');
@@ -865,7 +871,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
     grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
     grunt.registerTask('deploy-pdfeditor-component',          ['init-build-pdfeditor', 'deploy-app']);
-    grunt.registerTask('deploy-visioeditor-component',        ['init-build-visioeditor', 'deploy-app']);
     // This task is called from the Makefile, don't delete it.
     grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
@@ -873,7 +878,6 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
     grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
     grunt.registerTask('deploy-pdfeditor',          ['deploy-common-component', 'deploy-pdfeditor-component']);
-    grunt.registerTask('deploy-visioeditor',        ['deploy-common-component', 'deploy-visioeditor-component']);
 
     grunt.registerTask('deploy-testdocumenteditor', ['init-build-testdocumenteditor', 'deploy-app']);
     grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
@@ -883,6 +887,5 @@ module.exports = function(grunt) {
                                    'deploy-documenteditor-component',
                                    'deploy-spreadsheeteditor-component',
                                    'deploy-presentationeditor-component',
-                                   'deploy-pdfeditor-component',
-                                   'deploy-visioeditor-component']);
+                                   'deploy-pdfeditor-component']);
 };

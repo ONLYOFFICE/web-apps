@@ -238,15 +238,21 @@
       "titleUpdateVersion": "La versione è stata cambiata",
       "warnLicenseAnonymous": "Accesso negato per utenti anonimi.<br>Questo documento verrà aperto solo per la visualizzazione.",
       "warnLicenseBefore": "Licenza non attiva.<br>Ti preghiamo di contattare il tuo amministratore.",
-      "warnLicenseExceeded": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
+      "warnLicenseExceeded": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
       "warnLicenseExp": "La tua licenza è scaduta. Ti preghiamo di aggiornare la tua licenza e ricaricare la pagina.",
       "warnLicenseLimitedNoAccess": "La licenza è scaduta. Non hai più accesso alle funzionalità di modifiche di documenti. Ti preghiamo di contattare il tuo amministratore.",
       "warnLicenseLimitedRenewed": "La licenza deve essere rinnovata. Hai accesso limitato alle funzionalità di modifica di documenti.<br>Si prega di contattare il tuo amministratore per ottenere l'accesso completo",
       "warnLicenseUsersExceeded": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il tuo amministratore per maggior informazioni.",
-      "warnNoLicense": "Hai raggiunto il limite delle connessioni simultanee agli editor %1. Questo documento sarà aperto solo in modalità di visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
+      "warnNoLicense": "Hai raggiunto il limite di connessioni simultanee a %1 editor. Questo documento sarà aperto solo in modalità visualizzazione.  Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnNoLicenseUsers": "Hai raggiunto il limite degli utenti per gli editor %1. Ti preghiamo di contattare il team di vendite di %1 per i termini di aggiornamento personali.",
       "warnProcessRightsChange": "Non hai il permesso di modificare il file."
     }
+  },
+  "Draw": {
+    "textColor": "Colore",
+    "textCustomColor": "Colore personalizzato",
+    "textLineSize": "Dimensione della riga",
+    "textOpacity": "Opacità"
   },
   "Error": {
     "convertationTimeoutText": "È stato superato il tempo massimo della conversione.",
@@ -443,13 +449,16 @@
     "textWarnDeleteSheet": "Il foglio di calcolo potrebbe contenere dati. Procedere con l'operazione?"
   },
   "Toolbar": {
+    "btnRestartNow": "Riavvia ora",
     "dlgLeaveMsgText": "Ci sono i cambiamenti non salvati in questo documento. Fai clic su \"Rimanere su questa pagina\" per attendere il salvataggio automatico. Fai clic su \"Lasciare questa pagina\" per eliminare tutti i cambiamenti non salvati.",
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
     "textCloseHistory": "Chiudi cronologia",
     "textEnterNewFileName": "Immetti un nuovo nome file",
-    "textRenameFile": "Rinomina file"
+    "textOk": "OK",
+    "textRenameFile": "Rinomina file",
+    "textSwitchToDesktop": "Passa a desktop"
   },
   "View": {
     "Add": {
@@ -476,6 +485,7 @@
       "textDataTableHint": "Restituisce le celle di dati della tabella o le colonne della tabella specificate",
       "textDisplay": "Visualizzare",
       "textDone": "Fatto",
+      "textDrawing": "Disegno",
       "textEmptyImgUrl": "Devi specificare l'URL dell'immagine.",
       "textExternalLink": "Link esterno",
       "textFilter": "Filtro",
@@ -513,7 +523,8 @@
       "txtNotUrl": "Questo campo deve essere un URL nel formato \"http://www.example.com\"",
       "txtSorting": "Ordinamento",
       "txtSortSelected": "Ordinare selezionato",
-      "txtYes": "Sì"
+      "txtYes": "Sì",
+      "sCatDatabase": "Database"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avvertimento",
@@ -662,7 +673,7 @@
       "textRemoveChart": "Eliminare il grafico",
       "textRemoveShape": "Eliminare la forma",
       "textReplace": "Sostituire",
-      "textReplaceImage": "Sostituire l'immagine",
+      "textReplaceImage": "Sostituisci l'immagine",
       "textRequired": "Richiesto",
       "textRight": "A destra",
       "textRightBorder": "Bordo destro",
@@ -756,8 +767,8 @@
       "textExample": "Esempio",
       "textFeedback": "Feedback & Supporto",
       "textFind": "Trovare",
-      "textFindAndReplace": "Trovare e sostituire",
-      "textFindAndReplaceAll": "Trovare e sostituire tutto",
+      "textFindAndReplace": "Trova e sostituisci",
+      "textFindAndReplaceAll": "Trova e sostituisci tutto",
       "textFormat": "Formato",
       "textFormulaLanguage": "Lingua di formula",
       "textFormulas": "Formule",
@@ -790,7 +801,7 @@
       "textR1C1Style": "Stile di riferimento R1C1",
       "textRegionalSettings": "Impostazioni regionali",
       "textReplace": "Sostituire",
-      "textReplaceAll": "Sostituire tutto",
+      "textReplaceAll": "Sostituisci tutto",
       "textResolvedComments": "Commenti risolti",
       "textRestartApplication": "Riavvia l'applicazione per rendere effettive le modifiche",
       "textRight": "A destra",

@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
+import {List, ListItem, Page, Navbar, Icon, ListButton, BlockTitle, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '../../../../../common/mobile//lib/component/SvgIcon'
+import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
 
 const PageNumber = props => {
     const { t } = useTranslation();
@@ -154,32 +156,17 @@ const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
-    const storeLinkSettings = props.storeLinkSettings;
-    const canAddLink = storeLinkSettings.canAddLink;
 
-    let isShape = storeFocusObjects.settings.indexOf('shape') > -1,
+    const isShape = storeFocusObjects.settings.indexOf('shape') > -1,
         isText = storeFocusObjects.settings.indexOf('text') > -1,
         isChart = storeFocusObjects.settings.indexOf('chart') > -1,
         isHyperLink = storeFocusObjects.settings.indexOf('hyperlink') > -1,
         isHeader = storeFocusObjects.settings.indexOf('header') > -1;
 
-    let disabledAddLink = false,
-        disabledAddBreak = false,
-        disabledAddFootnote = false,
-        disabledAddPageNumber = false,
-        inFootnote = props.inFootnote,
-        inControl = props.inControl, 
-        paragraphLocked = props.paragraphLocked, 
-        controlPlain = props.controlPlain,
-        richDelLock = props.richDelLock,
-        richEditLock = props.richEditLock,
-        plainDelLock = props.plainDelLock,
-        plainEditLock = props.plainEditLock;
-
-    disabledAddBreak = paragraphLocked || inFootnote || inControl || richEditLock || plainEditLock || richDelLock || plainDelLock;
-    disabledAddFootnote = paragraphLocked || controlPlain || richEditLock || plainEditLock;
-    disabledAddLink = paragraphLocked || !canAddLink;
-    disabledAddPageNumber = controlPlain;
+    const disabledAddBreak = props.paragraphLocked || props.inFootnote || props.inControl || props.richEditLock || props.plainEditLock || props.richDelLock || props.plainDelLock;
+    const disabledAddFootnote = props.paragraphLocked || props.controlPlain || props.richEditLock || props.plainEditLock;
+    const disabledAddLink = props.paragraphLocked || !props.storeLinkSettings.canAddLink;
+    const disabledAddPageNumber = props.controlPlain;
 
     return (
         <List>
@@ -213,11 +200,11 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-sectionbreak"></Icon>
                 </ListItem>
             }
-            {!isHeader && 
+            {!isHeader &&
                 <ListItem title={_t.textTableContents} link="/add-table-contents/">
                     <Icon slot="media" icon="icon-table-contents"></Icon>
                 </ListItem>
-            } 
+            }
             {(isShape || isChart) || (isText && disabledAddFootnote) ? null :
                 <ListItem key='footnote' title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
                     getFootnoteProps: props.getFootnoteProps,
@@ -229,14 +216,22 @@ const AddOther = props => {
                     <Icon slot="media" icon="icon-footnote"></Icon>
                 </ListItem>
             }
+          <ListItem key='drawing' title={_t.textDrawing} onClick={() => {
+              props.closeModal();
+              Common.Notifications.trigger('draw:start');
+          }}>
+              <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
+          </ListItem>
         </List>
     )
 };
 
 const AddOtherContainer = inject("storeComments","storeFocusObjects", "storeLinkSettings")(observer(AddOther));
 
-export {AddOtherContainer as AddOther,
-        PageNumber as PageAddNumber,
-        PageBreak as PageAddBreak,
-        PageSectionBreak as PageAddSectionBreak,
-        PageFootnote as PageAddFootnote};
+export {
+    AddOtherContainer as AddOther,
+    PageNumber as PageAddNumber,
+    PageBreak as PageAddBreak,
+    PageSectionBreak as PageAddSectionBreak,
+    PageFootnote as PageAddFootnote,
+};

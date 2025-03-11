@@ -65,7 +65,8 @@
     "textTableSize": "Табела величина",
     "textWithBlueLinks": "Са плавим линковима",
     "textWithPageNumbers": "Са бројевима страница",
-    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
+    "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -471,7 +472,8 @@
     "uploadDocSizeMessage": "Максимум лимит величине документа прекорачен.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -813,6 +815,14 @@
     "textRenameFile": "Преименуј фајл",
     "textSwitchedMobileView": "Пребачено на мобилни приказ",
     "textSwitchedStandardView": "Пребачено на стандардни приказ",
-    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца."
+    "warnEmptyRequiredField": "Попуни сва потребна поља за слање обрасца.",
+    "btnRestartNow": "Restart now",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

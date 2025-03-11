@@ -128,10 +128,14 @@ define([
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
 
-            this.api = new Asc.asc_docs_api({
-                'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
-            });
+            var config = {
+                    'id-view'  : 'editor_sdk',
+                    'translate': this.getApplication().getController('Main').translationTable,
+                    'isRtlInterface': Common.UI.isRTL()
+                },
+                hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+            hcolor && (config['headings-color'] = '#' + hcolor[1]);
+            this.api = new Asc.asc_docs_api(config);
 
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Document Editor',

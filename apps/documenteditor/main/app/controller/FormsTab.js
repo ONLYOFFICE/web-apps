@@ -87,6 +87,7 @@ define([
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
             Common.NotificationCenter.on('forms:show-help', _.bind(this.showHelpTip, this));
+            Common.NotificationCenter.on('forms:request-fill', _.bind(this.requestStartFilling, this));
             return this;
         },
 
@@ -287,7 +288,6 @@ define([
             var me = this;
             if (!this._state.formCount) { // add first form
                 this.closeHelpTip('create');
-                Common.UI.TooltipManager.showTip('signatureField');
             } else if (this._state.formCount===1) {
                 setTimeout(function() {
                     // me.showHelpTip('roles');
@@ -510,6 +510,23 @@ define([
                 // }
 
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
+                if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm && me.api) {
+                    var oform = me.api.asc_GetOForm(),
+                        role = new AscCommon.CRestrictionSettings();
+                    if (oform && config.user.roles) {
+                        if (config.user.roles.length>0 && oform.asc_canFillRole(config.user.roles[0])) {
+                            role.put_OFormRole(config.user.roles[0]);
+                            me.view && me.view.showFillingForms(true);
+                        } else {
+                            role.put_OFormNoRole(true);
+                            me.view && config.canRequestFillingStatus && Common.UI.TooltipManager.showTip({
+                                step: 'showFillStatus', name: 'de-help-tip-fill-status', text: me.view.helpTextFillStatus, target: '#slot-btn-fill-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300
+                            });
+                        }
+                    } else // can fill all fields
+                        me.view && me.view.showFillingForms(true);
+                    me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+                }
                 if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api) {
                     if (me.api.asc_IsAllRequiredFormsFilled())
                         me.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
@@ -623,6 +640,21 @@ define([
             })).show();
         },
 
+        requestStartFilling: function() {
+            var oform = this.api.asc_GetOForm(),
+                roles = oform ? oform.asc_getAllRoles() : [],
+                arr = [];
+            for (var i=0; i<roles.length; i++) {
+                var role = roles[i].asc_getSettings(),
+                    color = role.asc_getColor();
+                color && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
+                arr.push({
+                    name: role.asc_getName() || this.view.textAnyone,
+                    color: '#' + color
+                });
+            }
+            Common.Gateway.requestStartFilling(arr);
+        },
 
         onActiveTab: function(tab) {
             (tab !== 'forms') && this.onTabCollapse();
@@ -632,7 +664,6 @@ define([
             this.closeHelpTip('create');
             this.closeHelpTip('roles');
             this.closeHelpTip('save');
-            Common.UI.TooltipManager.closeTip('signatureField');
         },
 
         onChangeProtectDocument: function(props) {

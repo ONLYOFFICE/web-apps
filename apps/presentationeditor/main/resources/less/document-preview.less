@@ -68,4 +68,25 @@
               display: inline-block;
           }
     }
+
+    #btn-preview-draw {
+        button {
+            min-width: 20px;
+        }
+
+        .menu-item.checked {
+            color: @text-normal-pressed-ie;
+            color: @text-normal-pressed;
+            background-color: @highlight-button-pressed-ie;
+            background-color: @highlight-button-pressed;
+            &:before {
+                display: none;
+            }
+
+            .menu-item-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
+            }
+        }
+    }
 }

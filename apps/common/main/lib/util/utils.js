@@ -148,7 +148,7 @@ define([], function () {
                         "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                     if (window.matchMedia(str_mq_125).matches) {
-                        scale.devicePixelRatio = 1.5;
+                        scale.devicePixelRatio = 1.25;
                     } else if (window.matchMedia(str_mq_150).matches) {
                         scale.devicePixelRatio = 1.5;
                     } else if (window.matchMedia(str_mq_175).matches) {

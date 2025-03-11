@@ -2,6 +2,8 @@ import React, {Fragment, useEffect } from 'react';
 import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconSwitchToDesktop from '@common/resources/icons/switch-desktop.svg'
 
 const ToolbarView = props => {
     const { t } = useTranslation();
@@ -29,6 +31,12 @@ const ToolbarView = props => {
                 </div>
             }
             <NavRight>
+                {!Device.phone && <Link key='desktop-link' iconOnly href={false}
+                                       className={isOpenModal || props.disabledControls ? 'disabled' : ''}
+                                       onClick={() => props.forceDesktopMode()}>
+                                        <SvgIcon symbolId={IconSwitchToDesktop.id}
+                                             className={'icon icon-svg'} />
+                    </Link>}
                 <Link className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
             </NavRight>
         </Fragment>

@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
   },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
+  },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
     "criticalErrorExtText": "נא ללחוץ על 'אישור' כדי לחזור לרשימת המסמכים.",
@@ -443,19 +449,23 @@
     "textWarnDeleteSheet": "אולי קיימים נתונים בגליון העבודה. להמשיך בפעולה?"
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "קיימים שינויים שלא נשמרו במסמך זה. נא ללחוץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. נא ללחוץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "יציאה מדף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגירת היסטוריה",
     "textEnterNewFileName": "הזנת שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textOk": "אוקיי",
+    "textRenameFile": "שינוי שם קובץ",
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
       "errorMaxRows": "שגיאה! המספר המרבי של סדרות נתונים לכל תרשים הוא 255.",
       "errorStockChart": "סדר שורה שגוי. כדי לבנות תרשים עמודות יש למקם את הנתונים על הגיליון בסדר הבא:<br>מחיר פתיחה, מחיר מקסימלי, מחיר מינימלי, מחיר סגירה.",
       "notcriticalErrorTitle": "אזהרה",
+      "sCatDatabase": "מסד נתונים",
       "sCatDateAndTime": "תאריך ושעה",
       "sCatEngineering": "הנדסה",
       "sCatFinancial": "פיננסי",
@@ -476,6 +486,7 @@
       "textDataTableHint": "החזרת תאי הנתונים של הטבלה או עמודות הטבלה שצוינו",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFilter": "מסנן",

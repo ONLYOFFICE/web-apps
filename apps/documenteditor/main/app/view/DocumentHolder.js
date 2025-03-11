@@ -73,6 +73,11 @@ define([
                 isFormsOnly: false,
                 isCommentsOnly: false
             };
+            this._unprotectedRegion = {
+                canEditText: false,
+                canEditPara: false,
+                canInsObject: false
+            };
             this._langs = null;
         },
 

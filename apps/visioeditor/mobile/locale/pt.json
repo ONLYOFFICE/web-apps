@@ -153,12 +153,14 @@
     "waitText": "Por favor, aguarde..."
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textEnterNewFileName": "Digite um novo nome de arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textRenameFile": "Renomear arquivo",
+    "textSwitchToDesktop": "Mudar para o desktop"
   },
   "View": {
     "Edit": {
@@ -196,6 +198,7 @@
       "textOwner": "Proprietário",
       "textPoweredBy": "Desenvolvido por",
       "textPrint": "Imprimir",
+      "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",

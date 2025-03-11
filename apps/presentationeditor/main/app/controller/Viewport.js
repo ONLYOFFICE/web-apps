@@ -103,12 +103,17 @@ define([
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
+                    },
+                    'startover:disabled' : function (state) {
+                        if ( me.header.btnStartOver)
+                            me.header.btnStartOver.setDisabled(state);
                     }
                 }
             });
             Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
             Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
+            this._isDisabledPreview = false;
         },
 
         setApi: function(api) {
@@ -128,7 +133,8 @@ define([
 
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL()
             });
 
             this.header   = this.createView('Common.Views.Header', {
@@ -254,7 +260,12 @@ define([
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
                     slideOf: me.previewPanel.slideIndexText,
-                    finalMessage: me.previewPanel.txtFinalMessage
+                    finalMessage: me.previewPanel.txtFinalMessage,
+                    pen: me.previewPanel.txtPen,
+                    highlighter: me.previewPanel.txtHighlighter,
+                    inkColor: me.previewPanel.txtInkColor,
+                    eraser: me.previewPanel.txtEraser,
+                    eraseScreen: me.previewPanel.txtEraseScreen,
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
                 reporterObject.customization = me.viewport.mode.customization;
@@ -265,6 +276,7 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                 }, 100);
                 this.previewPanel.show();
+                this.previewPanel.btnDraw && this.previewPanel.btnDraw.setDisabled(this._isDisabledPreview);
                 var _onWindowResize = function() {
                     if (isResized) return;
                     isResized = true;
@@ -368,6 +380,10 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
+        },
+
+        setDisabledPreview: function(disable) {
+            this._isDisabledPreview = disable;
         },
 
         textFitPage: 'Fit to Page',

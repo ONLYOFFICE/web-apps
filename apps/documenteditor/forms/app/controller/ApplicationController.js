@@ -94,11 +94,15 @@ define([
                 "Enter a date": this.txtEnterDate,
                 "Click to load image": this.txtClickToLoad
             }
-            this.api = new Asc.asc_docs_api({
-                'id-view'  : 'editor_sdk',
-                'embedded' : true,
-                'translate': translationTable
-            });
+            var config = {
+                 'id-view'  : 'editor_sdk',
+                 'embedded' : true,
+                 'translate': translationTable,
+                 'isRtlInterface': Common.UI.isRTL()
+            },
+                hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+            hcolor && (config['headings-color'] = '#' + hcolor[1]);
+            this.api = new Asc.asc_docs_api(config);
 
             Common.UI.Themes.init(this.api);
             Common.Controllers.LaunchController.init(this.api);
@@ -472,6 +476,7 @@ define([
             this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
+            this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -658,32 +663,30 @@ define([
             DE.getController('Plugins').setMode(this.appOptions, this.api);
 
             var me = this;
-            me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
             me.view.btnDownload.setVisible(false && this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
                 me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
                 me.view.btnDownload.updateHint('');
             }
-            if (!this.appOptions.canFillForms) {
-                me.view.btnPrev.setVisible(false);
-                me.view.btnNext.setVisible(false);
-                me.view.btnClear.setVisible(false);
-                me.view.btnUndo.setVisible(false);
-                me.view.btnRedo.setVisible(false);
-                me.view.btnRedo.$el.next().hide();
-            } else {
+            me.showFillingForms(false); // hide filling forms
+            me.view.btnFillStatus.setVisible(this.appOptions.canRequestFillingStatus);
+            if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);
+                    me.onEditComplete();
                 });
                 me.view.btnNext.on('click', function(){
                     me.api.asc_MoveToFillingForm(true);
+                    me.onEditComplete();
                 });
                 me.view.btnClear.on('click', function(){
                     me.api.asc_ClearAllSpecialForms();
+                    me.onEditComplete();
                 });
                 me.view.btnSubmit.on('click', function(){
                     if (!me.api.asc_IsAllRequiredFormsFilled()) {
                         me.api.asc_MoveToFillingForm(true, true, true);
+                        me.onEditComplete();
                         if (!me.requiredTooltip) {
                             me.requiredTooltip = new Common.UI.SynchronizeTip({
                                 extCls: 'colored',
@@ -726,9 +729,16 @@ define([
                 });
                 me.view.btnUndo.on('click', function(){
                     me.api.Undo(false);
+                    me.onEditComplete();
+
                 });
                 me.view.btnRedo.on('click', function(){
                     me.api.Redo(false);
+                    me.onEditComplete();
+                });
+                me.view.btnFillStatus.on('click', function(){
+                    Common.UI.TooltipManager.closeTip('showFillStatus');
+                    Common.Gateway.requestFillingStatus(me.appOptions.user.roles && me.appOptions.user.roles.length>0 ? me.appOptions.user.roles[0] : undefined);
                 });
 
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
@@ -1098,7 +1108,7 @@ define([
                             closable: false,
                             msg: err,
                             callback: function(btn){
-                                Common.NotificationCenter.trigger('edit:complete', me);
+                                me.onEditComplete();
                             }
                         });
                     }).on('close', function(obj){
@@ -1515,6 +1525,25 @@ define([
 
             var me = this;
             me._isDocReady = true;
+
+            if (me.appOptions.canFillForms) {
+                var oform = me.api.asc_GetOForm(),
+                    role = new AscCommon.CRestrictionSettings();
+                if (oform && me.appOptions.user.roles) {
+                    if (me.appOptions.user.roles.length>0 && oform.asc_canFillRole(me.appOptions.user.roles[0])) {
+                        role.put_OFormRole(this.appOptions.user.roles[0]);
+                        me.showFillingForms(true);
+                    } else {
+                        role.put_OFormNoRole(true);
+                        me.view.btnFillStatus && me.view.btnFillStatus.isVisible() && Common.UI.TooltipManager.addTips({
+                            'showFillStatus': { name: 'de-help-tip-fill-status', text: me.helpTextFillStatus, target: '#id-btn-status', placement: 'bottom-left', showButton: false, automove: true, maxwidth: 300 }
+                        });
+                    }
+                } else // can fill all fields
+                    me.showFillingForms(true);
+                this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
+            }
+
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
             Common.NotificationCenter.trigger('app:face', this.appOptions); // for Desktop controller only
@@ -1563,6 +1592,7 @@ define([
             Common.Gateway.documentReady();
             Common.Analytics.trackEvent('Load', 'Complete');
             Common.NotificationCenter.trigger('document:ready');
+            Common.UI.TooltipManager.showTip('showFillStatus');
             requireUserAction = false;
         },
 
@@ -1909,7 +1939,7 @@ define([
             var me = this;
             _.delay(function(){
                 if (event.get_Type() == 0) {
-                    me.api && me.appOptions.canFillForms && me.fillMenuProps(me.api.getSelectedElements(), event);
+                    me.api && me.appOptions.canFillForms && me.isFormFillingVisible && me.fillMenuProps(me.api.getSelectedElements(), event);
                 }
             },10);
         },
@@ -1983,19 +2013,30 @@ define([
                 } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
                     menu_props.headerProps = {};
                     menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                } else if (Asc.c_oAscTypeSelectElement.ContentControl == elType) {
+                    menu_props.controlProps = {};
+                    menu_props.controlProps.formPr = (elValue) ? elValue.get_FormPr() : null;
                 }
             }
             if (this.textMenu && !noobject) {
                 var cancopy = this.api.can_CopyCut(),
                     disabled = menu_props.paraProps && menu_props.paraProps.locked || menu_props.headerProps && menu_props.headerProps.locked ||
-                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked) || this._isDisabled;
+                               menu_props.imgProps && (menu_props.imgProps.locked || menu_props.imgProps.content_locked) || this._isDisabled,
+                    canFillRole = true;
+
+                if (menu_props.controlProps && menu_props.controlProps.formPr) {
+                    var oform = this.api.asc_GetOForm();
+                    if (oform && !oform.asc_canFillRole(menu_props.controlProps.formPr.get_Role())) {
+                        canFillRole = false;
+                    }
+                }
                 this.textMenu.items[0].setDisabled(disabled || !this.api.asc_getCanUndo()); // undo
                 this.textMenu.items[1].setDisabled(disabled || !this.api.asc_getCanRedo()); // redo
 
-                this.textMenu.items[3].setDisabled(disabled); // clear
-                this.textMenu.items[5].setDisabled(disabled || !cancopy); // cut
+                this.textMenu.items[3].setDisabled(disabled || !canFillRole); // clear
+                this.textMenu.items[5].setDisabled(disabled || !cancopy || !canFillRole); // cut
                 this.textMenu.items[6].setDisabled(!cancopy); // copy
-                this.textMenu.items[7].setDisabled(disabled) // paste;
+                this.textMenu.items[7].setDisabled(disabled || !canFillRole) // paste;
 
                 this.showPopupMenu(this.textMenu, {}, event);
             }
@@ -2041,7 +2082,43 @@ define([
             this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
             this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
             this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
-            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
+            if (this.view && this.view.btnOptions && this.view.btnOptions.menu) {
+                this.view.btnOptions.menu.items[0].setDisabled(state || !this.api.asc_getCanUndo()); // undo
+                this.view.btnOptions.menu.items[1].setDisabled(state || !this.api.asc_getCanRedo()); // redo
+                this.view.btnOptions.menu.items[3].setDisabled(); // clear
+            }
+            var oform = this.api.asc_GetOForm(),
+                role = new AscCommon.CRestrictionSettings();
+            if (oform && this.appOptions.user.roles) {
+                if (this.appOptions.user.roles.length>0 && oform.asc_canFillRole(this.appOptions.user.roles[0])) {
+                    role.put_OFormRole(this.appOptions.user.roles[0]);
+                } else {
+                    role.put_OFormNoRole(true);
+                }
+            }
+            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms, role);
+        },
+
+        showFillingForms: function(visible) {
+            this.isFormFillingVisible = visible;
+            if (this.view) {
+                visible = visible && this.appOptions.canFillForms;
+                this.view.btnPrev.setVisible(visible);
+                this.view.btnNext.setVisible(visible);
+                this.view.btnClear.setVisible(visible);
+                this.view.btnUndo.setVisible(visible);
+                this.view.btnRedo.setVisible(visible);
+                this.view.btnRedo.$el.next().hide();
+                this.view.btnSubmit.setVisible(visible && this.appOptions.canSubmitForms);
+                if (this.view.btnOptions && this.view.btnOptions.menu) {
+                    var menuItems = this.view.btnOptions.menu.items;
+                    menuItems[0].setVisible(visible); // undo
+                    menuItems[1].setVisible(visible); // redo
+                    menuItems[2].setVisible(visible); // --
+                    menuItems[3].setVisible(visible); // clear
+                    menuItems[4].setVisible(visible); // --
+                }
+            }
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -2071,10 +2148,10 @@ define([
         onApiCanRevert: function(which, can) {
             if (!this.view) return;
 
-            (which=='undo') ? this.view.btnUndo.setDisabled(!can) : this.view.btnRedo.setDisabled(!can);
+            (which=='undo') ? this.view.btnUndo.setDisabled(!can || this._isDisabled) : this.view.btnRedo.setDisabled(!can || this._isDisabled);
 
             if (this.view.btnOptions && this.view.btnOptions.menu) {
-                (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can) : this.view.btnOptions.menu.items[1].setDisabled(!can);
+                (which=='undo') ? this.view.btnOptions.menu.items[0].setDisabled(!can || this._isDisabled) : this.view.btnOptions.menu.items[1].setDisabled(!can || this._isDisabled);
             }
         },
 
@@ -2131,6 +2208,11 @@ define([
                 }
                 this.api.asc_refreshFile(docInfo);
             }
+        },
+
+        onEditComplete: function() {
+            var me = this;
+            me.boxSdk && _.defer(function(){  me.boxSdk.focus(); }, 50);
         },
 
         errorDefaultMessage     : 'Error code: %1',

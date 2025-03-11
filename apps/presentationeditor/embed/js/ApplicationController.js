@@ -272,6 +272,7 @@ PE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
+        config.customization && config.customization.slidePlayerBackground && api.asc_setDemoBackgroundColor(config.customization.slidePlayerBackground);
 
         if (!embedConfig.autostart || embedConfig.autostart == 'player') {
             api.SetDemonstrationModeOnly();
@@ -824,7 +825,8 @@ PE.ApplicationController = new(function(){
         
         api = new Asc.asc_docs_api({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){

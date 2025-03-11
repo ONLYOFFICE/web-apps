@@ -255,7 +255,8 @@ class MainController extends Component {
                     this.api = new Asc.asc_docs_api({
                         'id-view': 'editor_sdk',
                         'mobile': true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -592,6 +593,7 @@ class MainController extends Component {
             mode: appOptions.isEdit ? 'edit' : 'view'
         });
 
+        appOptions.customization && appOptions.customization.slidePlayerBackground && this.api.asc_setDemoBackgroundColor(appOptions.customization.slidePlayerBackground);
         this.api.Resize();
         this.api.zoomFitToPage();
         this.api.asc_GetDefaultTableStyles && setTimeout(() => {this.api.asc_GetDefaultTableStyles()}, 1);

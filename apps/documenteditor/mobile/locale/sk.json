@@ -60,6 +60,7 @@
     "textTableSize": "Veľkosť tabuľky",
     "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textRecommended": "Recommended",
     "textRequired": "Required",
@@ -452,6 +453,7 @@
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
@@ -807,12 +809,20 @@
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
     "warnEmptyRequiredField": "Vyplňte všetky požadované polia, aby ste formulár mohli odoslať.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
     "textOk": "OK",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

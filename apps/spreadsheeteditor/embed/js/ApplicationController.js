@@ -157,6 +157,13 @@ SSE.ApplicationController = new(function(){
             enable = !config.customization || (config.customization.plugins!==false);
             docInfo.asc_putIsEnabledPlugins(!!enable);
 
+            if (config.customization) {
+                if (config.customization.showVerticalScroll!==undefined && config.customization.showVerticalScroll!==null)
+                    docInfo.asc_putShowVerticalScroll(config.customization.showVerticalScroll);
+                if (config.customization.showHorizontalScroll!==undefined && config.customization.showHorizontalScroll!==null)
+                    docInfo.asc_putShowHorizontalScroll(config.customization.showHorizontalScroll);
+            }
+
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
                 api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
@@ -911,7 +918,8 @@ SSE.ApplicationController = new(function(){
         
         api = new Asc.spreadsheet_api({
             'id-view': 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){

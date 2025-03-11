@@ -86,7 +86,8 @@ define([
                 in_equation: false,
                 in_chart: false,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
-                suppress_num: undefined
+                suppress_num: undefined,
+                rtlDir: undefined
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -259,15 +260,11 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            // this.mode.isPDFForm ? Common.UI.TooltipManager.addTips({
-            //     'signatureField' : {name: 'de-help-tip-signature-field', placement: 'bottom-right', text: this.helpSignField, header: this.helpSignFieldHeader, target: '#slot-btn-form-signature', automove: true, maxwidth: 320}
-            // }) : Common.UI.TooltipManager.addTips({
-            //     'textFromFile' : {name: 'de-help-tip-text-from-file', placement: 'bottom-left', text: this.helpTextFromFile, header: this.helpTextFromFileHeader, target: '#slot-btn-text-from-file', automove: true, maxwidth: 270},
-            //     'textDeleted' : {name: 'de-help-tip-text-deleted', placement: 'right-bottom', text: this.helpTextDeleted, header: this.helpTextDeletedHeader, target: '#history-btn-menu', automove: true, maxwidth: 320},
-            //     'customInfo' : {name: 'help-tip-custom-info', placement: 'right', text: this.helpCustomInfo, header: this.helpCustomInfoHeader, target: '#fm-btn-info', automove: true, extCls: 'inc-index'}
-            // });
+            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
+                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+            });
             Common.UI.TooltipManager.addTips({
-                // 'grayTheme' : {name: 'help-tip-gray-theme', placement: 'bottom-right', text: this.helpGrayTheme, header: this.helpGrayThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 320},
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'disconnect' : {text: _main.textConnectionLost, header: _main.textDisconnect, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
                 'updateVersion' : {text: _main.errorUpdateVersionOnDisconnect, header: _main.titleUpdateVersion, target: '#toolbar', maxwidth: 600, showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -379,6 +376,8 @@ define([
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
+            toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -431,7 +430,6 @@ define([
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
-            toolbar.btnTextFromFile.menu.on('show:after', _.bind(this.onTextFromFileShowAfter, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -492,6 +490,7 @@ define([
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_updateListPatterns', _.bind(this.onApiUpdateListPatterns, this));
+                this.api.asc_registerCallback('asc_onTextDirection', _.bind(this.onApiTextDirection, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -616,20 +615,13 @@ define([
         },
 
         onApiParagraphAlign: function(v) {
-            if (this._state.pralign !== v) {
+            if (this._state.pralign !== v || this.api.asc_isRtlTextDirection() !== this._state.rtlDir) {
                 this._state.pralign = v;
+                this._state.rtlDir = this.api.asc_isRtlTextDirection();
 
                 var index = -1,
                     align,
                     toolbar = this.toolbar;
-
-                switch (v) {
-                    case 0: index = 2; align = 'btn-align-right'; break;
-                    case 1: index = 0; align = 'btn-align-left'; break;
-                    case 2: index = 1; align = 'btn-align-center'; break;
-                    case 3: index = 3; align = 'btn-align-just'; break;
-                    default:  index = -255; align = 'btn-align-left'; break;
-                }
 
                 if (v === null || v===undefined) {
                     toolbar.btnAlignRight.toggle(false, true);
@@ -639,8 +631,8 @@ define([
                     return;
                 }
 
-                toolbar.btnAlignRight.toggle(v===0, true);
-                toolbar.btnAlignLeft.toggle(v===1, true);
+                toolbar.btnAlignRight.toggle(this._state.rtlDir ? v===1 : v===0, true);
+                toolbar.btnAlignLeft.toggle(this._state.rtlDir ? v===0 : v===1, true);
                 toolbar.btnAlignCenter.toggle(v===2, true);
                 toolbar.btnAlignJust.toggle(v===3, true);
             }
@@ -792,7 +784,14 @@ define([
                 in_image = false,
                 in_control = false,
                 in_para = false,
-                in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote();
+                in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote(),
+                protect = this._state.docProtection,
+                docLockViewText = protect ? protect.isReadOnly : false, // lock text props in protected (readonly) document
+                docLockViewPara = protect ? protect.isReadOnly : false, // lock para props in protected (readonly) document
+                docLockViewIns = protect ? protect.isReadOnly : false, // lock insert objects in protected (readonly) document
+                docLockCommentsText = protect ? protect.isCommentsOnly : false, // lock text props in protected (commenting) document
+                docLockCommentsPara = protect ? protect.isCommentsOnly : false, // lock para props in protected (commenting) document
+                docLockCommentsIns = protect ? protect.isCommentsOnly : false; // lock insert objects in protected (commenting) document
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -819,6 +818,15 @@ define([
                     in_equation = true;
                     if (Asc.c_oAscMathInterfaceType.Common === pr.get_Type())
                         btn_eq_state = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.UnProtectedRegion) { //(unprotected region)
+                    if (protect) {
+                        docLockViewText = protect.isReadOnly && !pr.get_canEditText();
+                        docLockViewPara = protect.isReadOnly && !pr.get_canEditPara();
+                        docLockViewIns = protect.isReadOnly && !pr.get_canInsObject();
+                        docLockCommentsText = protect.isCommentsOnly && !pr.get_canEditText();
+                        docLockCommentsPara = protect.isCommentsOnly && !pr.get_canEditPara();
+                        docLockCommentsIns = protect.isCommentsOnly && !pr.get_canInsObject();
+                    }
                 }
 
                 if (type === Asc.c_oAscTypeSelectElement.Table || type === Asc.c_oAscTypeSelectElement.Header || type === Asc.c_oAscTypeSelectElement.Image) {
@@ -941,6 +949,31 @@ define([
                 this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
             }
             this._state.in_equation = in_equation;
+
+            if (this._state.docLockViewText !== docLockViewText) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockViewText, docLockViewText);
+                this._state.docLockViewText = docLockViewText;
+            }
+            if (this._state.docLockViewPara !== docLockViewPara) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockViewPara, docLockViewPara);
+                this._state.docLockViewPara = docLockViewPara;
+            }
+            if (this._state.docLockViewIns !== docLockViewIns) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockViewIns, docLockViewIns);
+                this._state.docLockViewIns = docLockViewIns;
+            }
+            if (this._state.docLockCommentsText !== docLockCommentsText) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockCommentsText, docLockCommentsText);
+                this._state.docLockCommentsText = docLockCommentsText;
+            }
+            if (this._state.docLockCommentsPara !== docLockCommentsPara) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockCommentsPara, docLockCommentsPara);
+                this._state.docLockCommentsPara = docLockCommentsPara;
+            }
+            if (this._state.docLockCommentsIns !== docLockCommentsIns) {
+                this.toolbar.lockToolbar(Common.enumLock.docLockCommentsIns, docLockCommentsIns);
+                this._state.docLockCommentsIns = docLockCommentsIns;
+            }
 
             var listId = this.api.asc_GetCurrentNumberingId(),
                 numformat = (listId !== null) ? this.api.asc_GetNumberingPr(listId).get_Lvl(this.api.asc_GetCurrentNumberingLvl()).get_Format() : Asc.c_oAscNumberingFormat.None;
@@ -1330,7 +1363,10 @@ define([
             this._state.pralign = undefined;
             if (this.api) {
                 if (!btn.pressed) {
-                    type = (type==1) ? 3 : 1;
+                    if (this._state.rtlDir)
+                        type = (type==0) ? 3 : 0;
+                    else
+                        type = (type==1) ? 3 : 1;
                 }
                 this.api.put_PrAlign(type);
             }
@@ -1645,13 +1681,6 @@ define([
             }
         },
 
-        onTextFromFileShowAfter: function(menu, e) {
-            if (!(e && e.target === e.currentTarget))
-                return;
-
-            Common.UI.TooltipManager.closeTip('textFromFile');
-        },
-
         onMarkerSettingsClick: function(type) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1754,7 +1783,42 @@ define([
                 toolbar.mnuLineSpaceBefore.options.action = before ? 'remove' : 'add';
                 toolbar.mnuLineSpaceAfter.setCaption(after ? toolbar.textRemSpaceAfter : toolbar.textAddSpaceAfter);
                 toolbar.mnuLineSpaceAfter.options.action = after ? 'remove' : 'add';
+            }
+        },
 
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onApiTextDirection: function (isRtl){
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnMultilevels.changeIcon({
+                    next: newRtl ? 'btn-multilevels-rtl' : 'btn-multilevels',
+                    curr: oldRtl ? 'btn-multilevels-rtl' : 'btn-multilevels'
+                });
+                toolbar.lblIndentsLeft.setCaption(newRtl ? toolbar.textIndBefore : toolbar.textIndLeft);
+                toolbar.lblIndentsRight.setCaption(newRtl ? toolbar.textIndAfter : toolbar.textIndRight);
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
             }
         },
 
@@ -3730,6 +3794,8 @@ define([
                     me.controllers.pageLayout.onLaunch(me.toolbar)
                         .setApi(me.api)
                         .onAppReady(config);
+
+                    !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
@@ -3916,6 +3982,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
+                this.api && this.onApiFocusObject(this.api.getSelectedElements());
             }
         },
 
@@ -3961,13 +4028,17 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'ins') ? Common.UI.TooltipManager.showTip('textFromFile') : Common.UI.TooltipManager.closeTip('textFromFile');
-            (tab === 'view') ? Common.UI.TooltipManager.showTip('grayTheme') : Common.UI.TooltipManager.closeTip('grayTheme');
+            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
+            if (tab !== 'layout')
+                Common.UI.TooltipManager.closeTip('mergeShapes');
+            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+                Common.UI.TooltipManager.showTip('mergeShapes');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('textFromFile');
-            Common.UI.TooltipManager.closeTip('grayTheme');
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
 
     }, DE.Controllers.Toolbar || {}));

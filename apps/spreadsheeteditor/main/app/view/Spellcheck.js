@@ -214,6 +214,7 @@ define([], function () {
                 this.scroller.update({alwaysVisibleY: true});
             }, this));
 
+            this.rendered = true;
             return this;
         },
 

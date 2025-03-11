@@ -28,6 +28,9 @@ export class storeAppOptions {
             isViewer: observable,
             changeViewerMode: action,
 
+            isDrawMode: observable,
+            changeDrawMode: action,
+
             isMobileView: observable,
             changeMobileView: action,
 
@@ -74,6 +77,11 @@ export class storeAppOptions {
     isViewer = true;
     changeViewerMode(value) {
         this.isViewer = value;
+    }
+
+    isDrawMode = false;
+    changeDrawMode(value) {
+        this.isDrawMode = value;
     }
 
     canViewComments = false;

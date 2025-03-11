@@ -53,6 +53,10 @@
             <div class="text-only" style="padding-top: 8px;">
                 <div id="paragraphadv-checkbox-add-interval"></div>
             </div>
+            <div style="padding-top: 16px;"><label class="header padding-very-small"><%= scope.strDirection %></label></div>
+            <div>
+                <div id="paragraphadv-dir-ltr" class="margin-right-20" style="display: inline-block;"></div><div id="paragraphadv-dir-rtl" class="margin-left-20" style="display: inline-block;"></div>
+            </div>
             <div class="padding-large" style="padding-top: 16px; display: none;">
                 <div style="border: 1px solid #cbcbcb; width: 350px;">
                     <div id="paragraphadv-indent-preview" style="height: 58px; position: relative;"></div>

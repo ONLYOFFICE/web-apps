@@ -27,6 +27,7 @@
     "textCurrentPosition": "Aktuelle Position",
     "textDisplay": "Anzeigen",
     "textDone": "Fertig",
+    "textDrawing": "Zeichnen",
     "textEmptyImgUrl": "URL des Bildes erforderlich",
     "textEvenPage": "Gerade Seite",
     "textFootnote": "Fußnote",
@@ -228,6 +229,12 @@
     "textRows": "Zeilen",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
     "textActualSize": "Tatsächliche Größe",
@@ -426,6 +433,7 @@
     "errorDefaultMessage": "Fehlercode: %1",
     "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
+    "errorEditProtectedRange": "Sie dürfen diese Auswahl nicht bearbeiten, da sie geschützt ist.",
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
@@ -802,6 +810,7 @@
     "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "btnSend": "Senden",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
@@ -813,6 +822,7 @@
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
     "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
   }
 }

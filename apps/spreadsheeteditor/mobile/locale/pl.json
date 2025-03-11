@@ -444,6 +444,7 @@
   },
   "View": {
     "Add": {
+      "sCatDatabase": "Baza danych",
       "textAddLink": "Dodaj link",
       "textAddress": "Adres",
       "textBack": "Wstecz",
@@ -468,6 +469,7 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
@@ -854,13 +856,22 @@
       "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

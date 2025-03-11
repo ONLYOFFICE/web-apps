@@ -174,6 +174,8 @@ define([
         },
 
         onApiDisconnect: function() {
+            if (!this.mode) return;
+            
             this.mode.isEdit = false;
 
             var controller = this.getApplication().getController('FormulaDialog');
@@ -331,15 +333,15 @@ define([
         },
 
         SetDisabled: function(disabled) {
-            this.editor.$btnfunc[!disabled && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
-            this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
+            this.editor.$btnfunc[!disabled && this.mode && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
+            this.editor.btnNamedRanges.setVisible(!disabled && this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
-            this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
+            this.editor.$btnfunc[!mode && this.mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
+            this.editor.cellNameDisabled(mode && !(this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });
 });
