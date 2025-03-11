@@ -37,13 +37,28 @@
         </td>
     </tr>
     <tr class="form-list" style="vertical-align: top;">
-        <td class="padding-large">
+        <td class="padding-small">
             <div id="form-list-list" style="width:164px; height: 95px;" class="margin-right-5"></div>
         </td>
-        <td class="padding-large">
+        <td class="padding-small">
             <div id="form-list-delete" style="margin-bottom: 5px;" class="margin-left-5"></div>
             <div id="form-list-up" style="margin-bottom: 5px;" class="margin-left-5"></div>
             <div id="form-list-down" class="margin-left-5"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr class="form-text">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-combo">
+        <td class="padding-small"></td>
+    </tr>
+    <tr class="form-autofit">
+        <td class="padding-small">
+            <div id="form-chb-autofit"></div>
         </td>
     </tr>
 </table>

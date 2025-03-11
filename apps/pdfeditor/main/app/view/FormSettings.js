@@ -86,6 +86,9 @@ define([
             }));
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.ListOnlySettings = el.find('.form-list');
+            this.AutofitSettings = el.find('.form-autofit');
+            this.TextSettings = el.find('.form-text');
+            this.ComboSettings = el.find('.form-combo');
         },
 
         createDelayedElements: function() {
@@ -127,25 +130,6 @@ define([
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
 
-            //Spec props
-            this.txtPlaceholder = new Common.UI.InputField({
-                el          : $markup.findById('#form-txt-pholder'),
-                allowBlank  : true,
-                validateOnChange: false,
-                validateOnBlur: false,
-                style       : 'width: 100%;',
-                value       : '',
-                dataHint    : '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
-            this.lockedControls.push(this.txtPlaceholder);
-            this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
-            this.txtPlaceholder.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
-            this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
-                setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
-            });
-
             this.cmbLineWidth = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-line-width'),
                 cls: 'input-group-nr',
@@ -183,6 +167,35 @@ define([
             this.cmbLineStyle.setValue(AscPDF.BORDER_TYPES.solid);
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
+
+            //Spec props
+            // combobox & text field
+            this.txtPlaceholder = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-pholder'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtPlaceholder);
+            this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
+            this.txtPlaceholder.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtPlaceholder.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtPlaceholder._input && me.txtPlaceholder._input.select();}, 1);
+            });
+
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-autofit'),
+                labelText: this.textAutofit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chAutofit.on('change', this.onChAutofit.bind(this));
 
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
@@ -422,6 +435,13 @@ define([
             this.btnListDown.setDisabled(idx<0 || idx>this.list.store.length-2 || this._state.DisabledControls);
         },
 
+        onChAutofit: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetFieldAutoFit(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -448,7 +468,7 @@ define([
                     this._state.Name = undefined;
                 }
 
-                val = props.asc_getName();
+                var val = props.asc_getName();
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
@@ -522,11 +542,18 @@ define([
 
                 if (type===AscPDF.FIELD_TYPES.text || type == AscPDF.FIELD_TYPES.combobox) {
                     if (specProps) {
-                        var val = specProps.asc_getPlaceholder();
+                        val = specProps.asc_getPlaceholder();
                         if (this._state.placeholder !== val) {
                             this.txtPlaceholder.setValue(val ? val : '');
                             this._state.placeholder = val;
                         }
+
+                        val = specProps.asc_getAutoFit();
+                        if ( this._state.AutoFit!==val ) {
+                            this.chAutofit.setValue(!!val, true);
+                            this._state.AutoFit=val;
+                        }
+                        this.chAutofit.setDisabled(this._state.Comb || this._state.DisabledControls);
                     }
                 }
                 //for list controls
@@ -663,6 +690,7 @@ define([
                 });
             }
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
+            this.chAutofit.setDisabled(this._state.Comb || this._state.DisabledControls);
         },
 
         showHideControls: function(type, specProps) {
@@ -670,7 +698,10 @@ define([
                 isText = type === AscPDF.FIELD_TYPES.text,
                 isListbox = type === AscPDF.FIELD_TYPES.listbox;
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
+            this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListOnlySettings.toggleClass('hidden', !(isCombobox || isListbox));
+            this.TextSettings.toggleClass('hidden', !isText);
+            this.ComboSettings.toggleClass('hidden', !isCombobox);
         }
 
     }, PDFE.Views.FormSettings || {}));
