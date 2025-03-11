@@ -61,6 +61,16 @@
             <div id="form-chb-autofit"></div>
         </td>
     </tr>
+    <tr class="form-text">
+        <td class="padding-small">
+            <div id="form-chb-multiline"></div>
+        </td>
+    </tr>
+    <tr class="form-text">
+        <td class="padding-small">
+            <div id="form-chb-scroll"></div>
+        </td>
+    </tr>
 </table>
 <table cols="2" role="presentation">
     <tr>

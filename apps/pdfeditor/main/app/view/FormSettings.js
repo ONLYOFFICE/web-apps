@@ -197,6 +197,26 @@ define([
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
 
+            // text field
+
+            this.chMulti = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-multiline'),
+                labelText: this.textMulti,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chMulti.on('change', this.onChMulti.bind(this));
+
+            this.chScroll = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-scroll'),
+                labelText: this.textScroll,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chScroll.on('change', this.onChScroll.bind(this));
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
@@ -442,6 +462,20 @@ define([
             }
         },
 
+        onChMulti: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetTextFieldMultiline(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChScroll: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetTextFieldScrollLongText(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -556,6 +590,23 @@ define([
                         this.chAutofit.setDisabled(this._state.Comb || this._state.DisabledControls);
                     }
                 }
+
+                if (type===AscPDF.FIELD_TYPES.text && specProps) {
+                    val = specProps.asc_getMultiline();
+                    if ( this._state.Multi!==val ) {
+                        this.chMulti.setValue(!!val, true);
+                        this._state.Multi=val;
+                    }
+                    this.chMulti.setDisabled(this._state.Comb || this._state.DisabledControls);
+
+                    val = specProps.asc_getScrollLongText();
+                    if ( this._state.Scroll!==val ) {
+                        this.chScroll.setValue(!!val, true);
+                        this._state.Scroll=val;
+                    }
+                    this.chScroll.setDisabled(this._state.Comb || this._state.DisabledControls);
+                }
+
                 //for list controls
                 if (type == AscPDF.FIELD_TYPES.combobox || type == AscPDF.FIELD_TYPES.listbox) {
                     this.labelFormName.text(type == AscPDF.FIELD_TYPES.combobox ? this.textCombobox : this.textListBox);
