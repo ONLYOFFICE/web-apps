@@ -100,9 +100,10 @@ define([
         setMode: function(mode) {
             this.appConfig = mode;
 
-            this.view = this.createView('Common.Views.Draw', {
-                mode: mode
-            });
+            if (mode.isEdit)
+                this.view = this.createView('Common.Views.Draw', {
+                    mode: mode
+                });
 
             return this;
         },
@@ -198,7 +199,7 @@ define([
         },
 
         createToolbarPanel: function(groups) {
-            return this.view.getPanel(groups);
+            return this.view ? this.view.getPanel(groups) : null;
         },
 
         getView: function(name) {

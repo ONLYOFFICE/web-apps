@@ -177,7 +177,6 @@ define([
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
-                    this._changedProps.put_ResetCrop(true);
                     this._changedProps.put_Rot(0);
                 }
             }, this));

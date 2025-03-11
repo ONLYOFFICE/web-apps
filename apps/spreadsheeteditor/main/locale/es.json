@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger libro",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduzca una contraseña para quitarle la protección a la hoja",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
+  "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
+  "SSE.Controllers.DocumentHolder.txtValue": "Value",
+  "SSE.Controllers.DocumentHolder.txtOther": "Other"
 }

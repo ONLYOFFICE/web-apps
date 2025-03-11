@@ -1919,7 +1919,7 @@ define([], function () {
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.documentHolder.menuOriginalSize.isDisabled() && me.documentHolder.menuOriginalSize.isVisible()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
@@ -1950,12 +1950,11 @@ define([], function () {
         dh.onImgOriginalSize = function(item, e) {
             var me = this;
             if (me.api){
-                var originalImageSize = me.api.get_OriginalSizeImage();
+                var originalImageSize = me.api.asc_getCropOriginalImageSize();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(originalImageSize.get_ImageWidth());
                 properties.put_Height(originalImageSize.get_ImageHeight());
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 me.api.ImgApply(properties);
 

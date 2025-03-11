@@ -274,6 +274,8 @@ PE.ApplicationController = new(function(){
         api.asc_DeleteVerticalScroll();
         config.customization && config.customization.slidePlayerBackground && api.asc_setDemoBackgroundColor(config.customization.slidePlayerBackground);
 
+        api.asc_setViewerTargetType(config.customization && config.customization.pointerMode==='hand' ? 'hand' : 'select');
+
         if (!embedConfig.autostart || embedConfig.autostart == 'player') {
             api.SetDemonstrationModeOnly();
             onPlayStart();

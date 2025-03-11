@@ -75,6 +75,7 @@
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>
+                        <span class="btn-slot split" id="slot-btn-borders"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>

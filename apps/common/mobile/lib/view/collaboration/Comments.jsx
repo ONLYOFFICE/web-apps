@@ -3,6 +3,20 @@ import {observer, inject} from "mobx-react";
 import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconDoneCommentWhite from '@common-android-icons/icon-done-comment-white.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconResolveCommentAndroid from '@common-android-icons/icon-resolve-comment.svg';
+import IconResolveCommentIos from '@common-ios-icons/icon-resolve-comment.svg?ios';
+import IconResolveCommentCheckIos from '@common-ios-icons/icon-resolve-comment-check.svg?ios';
+import IconResolveCommentCheckAndroid from '@common-android-icons/icon-resolve-comment-check.svg';
+import IconMenuCommentIos from '@common-ios-icons/icon-menu-comment.svg?ios';
+import IconMenuCommentAndroid from '@common-android-icons/icon-menu-comment.svg';
+import IconPrevIos from '@common-ios-icons/icon-prev.svg?ios';
+import IconPrevAndroid from '@common-android-icons/icon-prev.svg';
+import IconNextIos from '@common-ios-icons/icon-next.svg?ios';
+import IconNextAndroid from '@common-android-icons/icon-next.svg';
 
 // Utils
 const sliceQuote = (text) => {
@@ -54,7 +68,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                                   props.onAddNewComment(stateText, false)
                               }, 500);
                     }}>
-                        {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -236,7 +250,7 @@ const EditCommentPopup = inject("storeComments")(observer(({storeComments, comme
                               }, 500);
                           }}
                     >
-                        {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -381,7 +395,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                                   onAddReply(comment, stateText);
                               }, 500);
                           }}>
-                        {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -522,7 +536,7 @@ const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment
                               }, 500);
                           }}
                     >
-                        {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
+                        {Device.android ? <SvgIcon symbolId={IconDoneCommentWhite.id} className={'icon icon-svg icon icon-svg__white'} /> : _t.textDone}
                     </Link>
                 </NavRight>
             </Navbar>
@@ -717,7 +731,10 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose=".coauth__sheet">
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -740,11 +757,25 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     </div>
                                     {isEdit && !viewMode &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
+                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                                    {Device.ios ? 
+                                                        comment.resolved ? 
+                                                            <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                                    :
+                                                        comment.resolved ? 
+                                                            <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
+                                                            <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                                    }
+                                                </div> 
+                                            }
                                             {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                                 <div className='comment-menu'
                                                     onClick={() => {setComment(comment); openActionComment(true);}}>
-                                                    <Icon icon='icon-menu-comment'/>
+                                                    {Device.ios ?
+                                                        <SvgIcon symbolId={IconMenuCommentIos.id} className={'icon icon-svg'} /> :
+                                                        <SvgIcon symbolId={IconMenuCommentAndroid.id} className={'icon icon-svg'} />
+                                                    }
                                                 </div>
                                             }
                                         </div>
@@ -776,7 +807,10 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-menu'
                                                                                  onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
                                                                             >
-                                                                                <Icon icon='icon-menu-comment'/>
+                                                                                {Device.ios ?
+                                                                                    <SvgIcon symbolId={IconMenuCommentIos.id} className={'icon icon-svg'} /> :
+                                                                                    <SvgIcon symbolId={IconMenuCommentAndroid.id} className={'icon icon-svg'} />
+                                                                                }
                                                                             </div>
                                                                         </div>
                                                                     }
@@ -858,8 +892,18 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                 }
                 {comments.length > 1 &&
                     <div className='comment-navigation row'>
-                        <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
-                        <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
+                        <Link href='#' onClick={onViewPrevComment}>
+                            {Device.ios ? 
+                                <SvgIcon slot='media' symbolId={IconPrevIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot='media' symbolId={IconPrevAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
+                        <Link href='#' onClick={onViewNextComment}>
+                            {Device.ios ? 
+                                <SvgIcon slot='media' symbolId={IconNextIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot='media' symbolId={IconNextAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </div>
                 }
             </Toolbar>
@@ -877,7 +921,17 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                 </div>
                                 {isEdit && !viewMode &&
                                     <div className='right'>
-                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
+                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}>
+                                            {Device.ios ? 
+                                                comment.resolved ? 
+                                                    <SvgIcon symbolId={IconResolveCommentCheckIos.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentIos.id} className={'icon icon-svg'} />
+                                            :
+                                                comment.resolved ?
+                                                    <SvgIcon symbolId={IconResolveCommentCheckAndroid.id} className={'icon icon-svg'} /> :
+                                                    <SvgIcon symbolId={IconResolveCommentAndroid.id} className={'icon icon-svg'} />
+                                            }
+                                        </div>}
                                         {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
                                             <div className='comment-menu'
                                                 onClick={() => {openActionComment(true);}}>
@@ -913,7 +967,10 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                             <div className='reply-menu'
                                                                                 onClick={() => {setReply(reply); openActionReply(true);}}
                                                                             >
-                                                                                <Icon icon='icon-menu-comment'/>
+                                                                                {Device.ios ?
+                                                                                    <SvgIcon symbolId={IconMenuCommentIos.id} className={'icon icon-svg'} /> :
+                                                                                    <SvgIcon symbolId={IconMenuCommentAndroid.id} className={'icon icon-svg'} />
+                                                                                }
                                                                             </div>
                                                                         </div>
                                                                     }

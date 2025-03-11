@@ -173,6 +173,10 @@ define([
                 me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
+
+            $('#toolbar, #app-title').on('mousewheel', function (e) {
+                e.preventDefault();
+            });
         },
 
         onAppReady: function (config) {

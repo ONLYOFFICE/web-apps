@@ -87,7 +87,9 @@ define([
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
                     'rulers:change': _.bind(this.onChangeRulers, this),
                     'darkmode:change': _.bind(this.onChangeDarkMode, this),
-                    'macros:click':  _.bind(this.onClickMacros, this)
+                    'macros:click':  _.bind(this.onClickMacros, this),
+                    'pointer:select': _.bind(this.onPointerType, this, 'select'),
+                    'pointer:hand': _.bind(this.onPointerType, this, 'hand')
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -185,6 +187,12 @@ define([
                         if (state !== me.view.btnNavigation.pressed)
                             me.view.turnNavigation(state);
                     });
+
+                    if (me.view.btnHandTool) {
+                        var hand = config && config.customization && config.customization.pointerMode==='hand';
+                        me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
+                        me.view[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
+                    }
 
                     if (Common.UI.Themes.available()) {
                         function _add_tab_styles() {
@@ -375,7 +383,14 @@ define([
 
         onComboBlur: function() {
             Common.NotificationCenter.trigger('edit:complete', this.view);
-        }
+        },
+
+        onPointerType: function (type) {
+            if (this.api) {
+                this.api.asc_setViewerTargetType(type);
+                Common.NotificationCenter.trigger('edit:complete', this.view);
+            }
+        },
 
     }, DE.Controllers.ViewTab || {}));
 });

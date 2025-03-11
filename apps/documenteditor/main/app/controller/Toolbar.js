@@ -110,7 +110,8 @@ define([
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
-                    'menu:show': this.onFileMenu.bind(this, 'show')
+                    'menu:show': this.onFileMenu.bind(this, 'show'),
+                    'settings:apply': _.bind(this.applySettings, this)
                 },
                 'Common.Views.Header': {
                     'print': function (opts) {
@@ -370,6 +371,14 @@ define([
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onEyedropperStart, this));
             toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onEyedropperEnd, this));
+            toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
+                if (toolbar.btnBorders.rendered) {
+                    toolbar.btnBorders.menu.on('item:click',            _.bind(this.onBordersMenu, this));
+                    toolbar.mnuBorderWidth.on('item:toggle',            _.bind(this.onBordersWidth, this));
+                    toolbar.mnuBorderColorPicker.on('select',           _.bind(this.onBordersColor, this));
+                    $('#id-toolbar-menu-auto-bordercolor').on('click',  _.bind(this.onAutoBorderColor, this));
+                }
+            $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));    
             this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -883,7 +892,7 @@ define([
                 toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
                 toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
                 toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
-                toolbar.btnLineSpace
+                toolbar.btnLineSpace, toolbar.btnBorders
             ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
@@ -925,7 +934,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField, toolbar.btnBorders]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -2943,6 +2952,198 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
         },
 
+        onNewBorderColor: function(picker, color) {
+            this.toolbar.btnBorders.menu.hide();
+            this.toolbar.btnBorders.toggle(false, true);
+            this.toolbar.mnuBorderColorPicker.addNewColor();
+        },
+
+        onBorders: function(btn) {
+            var menuItem;
+
+            _.each(btn.menu.getItems(true), function(item) {
+                if (btn.options.borderId == item.options.borderId) {
+                    menuItem = item;
+                    return false;
+                }
+            });
+
+            if (menuItem) {
+                this.onBordersMenu(btn.menu, menuItem);
+            }
+        },
+
+        onBordersMenu: function(menu, item) {
+            var me = this;
+            if (me.api && !_.isUndefined(item.options.borderId)) {
+                var btnBorders = me.toolbar.btnBorders,
+                    bordersWidth = btnBorders.options.borderswidth || 0.5,
+                    bordersColor = btnBorders.options.borderscolor;
+
+                if ( btnBorders.rendered ) {
+                    btnBorders.$icon.removeClass(btnBorders.options.icls).addClass(item.options.icls);
+                    btnBorders.options.icls = item.options.icls;
+                }
+
+                btnBorders.options.borderId = item.options.borderId;
+
+                var props;
+                if (me.api){
+                    var selectedElements = me.api.getSelectedElements(),
+                        selectedElementsLenght = selectedElements.length;
+    
+                    if (selectedElements && _.isArray(selectedElements)){
+                        for (var i = 0; i < selectedElementsLenght; i++) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                                props = selectedElements[i].get_ObjectValue();
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                var paragraphProps = new Asc.asc_CParagraphProperty();
+                var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
+                var borderStyle = new Asc.asc_CTextBorder();        
+                var currentBorder = {};
+
+                borderStyle.asc_putColor(bordersColor);
+                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
+
+                ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
+                    var border = borders[`get_${side}`]();
+                    if (border) {
+                        var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
+                        var sizePts = currentSize * 72 / 25.4;
+                        currentBorder[side] = {
+                            width: sizePts, 
+                            color: border.asc_getColor(),
+                            value: border.asc_getValue()
+                        };
+                    }
+                });
+        
+                var borderSide = {
+                    left: ['Left'],
+                    top: ['Top'],
+                    right: ['Right'],
+                    bottom: ['Bottom'],
+                    all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
+                    outer: ['Left', 'Top', 'Right', 'Bottom'],
+                    inner: ['Between'],
+                    none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
+                };
+
+                function toleranceError(a, b, t) {
+                    t = 0.01;
+                    return Math.abs(a - b) < t;
+                }
+
+                function compareColors(colorA, colorB) {
+                    if (!colorA || !colorB) return false;
+                    return colorA.get_r() === colorB.get_r() &&
+                           colorA.get_g() === colorB.get_g() &&
+                           colorA.get_b() === colorB.get_b();
+                }
+        
+                var targetBorder = borderSide[item.options.borderId],
+                    brd = new Asc.asc_CTextBorder();
+
+                if (item.options.borderId === 'none') {
+                    targetBorder.forEach(side => {
+                        brd.put_Color(new Asc.asc_CColor());
+                        brd.put_Value(0); 
+                        borders[`put_${side}`](brd);
+                    });
+                } else if (item.options.borderId === 'all') {
+                    targetBorder.forEach(side => {
+                        brd.put_Color(bordersColor);
+                        brd.put_Size(bordersWidth * 25.4 / 72);
+                        brd.put_Value(1); 
+                        borders[`put_${side}`](brd);
+                    });
+                } else if (item.options.borderId === 'outer') {
+                    var outerSame = targetBorder.every(side => 
+                        toleranceError(currentBorder[side].width, bordersWidth) &&
+                        compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
+                    if (outerSame) {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);  
+                        });
+                    } else {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);
+                        });
+                    }
+                } else {
+                    targetBorder.forEach(side => {
+                        var same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                   compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
+                        if (same) {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);               
+                        } else {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);        
+                        }
+                    });
+                }
+                   
+                paragraphProps.put_Borders(borders);
+               
+                if (me.api) {
+                    me.api.paraApply(paragraphProps);
+                }
+
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Borders');
+            } 
+        },
+
+        onBordersWidth: function(menu, item, state) {
+            if (state) {
+                this.toolbar.btnBorders.options.borderswidth = item.value;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Border Width');
+            }
+        },
+
+        onBordersColor: function(picker, color) {
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
+            this.toolbar.mnuBorderColor.onUnHoverItem();
+            this.toolbar.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+            this.toolbar.mnuBorderColorPicker.currentColor = color;
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
+        onAutoBorderColor: function(e) {
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#000');
+            this.toolbar.mnuBorderColor.onUnHoverItem();
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+            this.toolbar.btnBorders.options.borderscolor = color;
+            this.toolbar.mnuBorderColorPicker.clearSelection();
+            this.toolbar.mnuBorderColorPicker.currentColor = {color: color, isAuto: true};
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
         eyedropperStart: function () {
             if (this.toolbar.btnCopyStyle.pressed) {
                 this.toolbar.btnCopyStyle.toggle(false, true);
@@ -3373,6 +3574,17 @@ define([
             this._state.clrshd_asccolor = undefined;
 
             updateColors(this.toolbar.mnuPageColorPicker, 1);
+
+            if (this.toolbar.mnuBorderColorPicker) {
+                updateColors(this.toolbar.mnuBorderColorPicker, { color: Common.Utils.ThemeColor.getRgbColor('#000000'), isAuto: true });
+                var currentColor = { color: Common.Utils.ThemeColor.getRgbColor('#000000'), isAuto: true };
+                if (currentColor.isAuto) {
+                    var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                }
+                this.toolbar.btnBorders.options.borderscolor = currentColor.color;
+                $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
+            }
         },
 
         _onInitEditorStyles: function(styles) {
@@ -3750,7 +3962,7 @@ define([
             var lang = config.lang ? config.lang.toLowerCase() : 'en',
                 langPrefix = lang.split(/[\-_]/)[0];
             if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
-                me._state.type_fontsize = 'string';
+                me._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
             }
 
             this.btnsComment = [];
@@ -4000,6 +4212,18 @@ define([
             }
         },
 
+        applySettings: function() {
+            if (this.toolbar.cmbFontSize && Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined) {
+                this.toolbar.cmbFontSize.setData(Common.Utils.InternalSettings.get("de-settings-western-font-size") ? this.toolbar._fontSizeWestern.concat(this.toolbar._fontSizeChinese) :
+                                                                                                                      this.toolbar._fontSizeChinese.concat(this.toolbar._fontSizeWestern));
+                this._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
+                if (this._state.fontsize!==undefined) {
+                    var oldval = this._state.fontsize;
+                    this._state.fontsize = undefined;
+                    this.onApiFontSize(parseFloat(oldval));
+                }
+            }
+        },
         onPluginToolbarMenu: function(data) {
             var api = this.api;
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {

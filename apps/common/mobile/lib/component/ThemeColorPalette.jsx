@@ -3,6 +3,10 @@ import { ListItem, List } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { LocalStorage } from '../../utils/LocalStorage.mjs';
 import { WheelColorPicker } from "./WheelColorPicker";
+import {Device} from '../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+//import IconPlusIos from '@common-ios-icons/icon-plus.svg?ios';
+//import IconPlusAndroid from '@common-android-icons/icon-plus.svg';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor, isTypeColors, isTypeCustomColors }) => {
     return (

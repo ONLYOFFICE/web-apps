@@ -3,6 +3,11 @@ import {f7, List, Popover, Sheet, ListItem, Icon, ListButton, Page, Navbar, NavR
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconSortdown from '@icons/icon-sortdown.svg';
+import IconSortup  from '@icons/icon-sortup.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const FilterOptions = inject('storeAppOptions')(observer(props => {
     const { t } = useTranslation();
@@ -36,7 +41,10 @@ const FilterOptions = inject('storeAppOptions')(observer(props => {
                     {Device.phone &&
                         <NavRight>
                             <Link sheetClose=".picker__sheet">
-                                <Icon icon='icon-expand-down'/>
+                                {Device.ios ? 
+                                    <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                }
                             </Link>
                         </NavRight>
                     }
@@ -48,13 +56,13 @@ const FilterOptions = inject('storeAppOptions')(observer(props => {
                                 props.onSort('sortdown');
                                 onValidChecked();
                             }}>
-                                <Icon slot="media" icon="sortdown"/>
+                                <SvgIcon slot="media" symbolId={IconSortdown.id} className={'icon icon-svg'} />
                             </a>
                             <a className={'button' + (props.checkSort === 'up' ? ' active' : '')} onClick={() => {
                                 props.onSort('sortup');
                                 onValidChecked();
                             }}>
-                                <Icon slot="media" icon="sortup"/>
+                                <SvgIcon slot="media" symbolId={IconSortup.id} className={'icon icon-svg'} />
                             </a>
                         </div>
                     </ListItem>

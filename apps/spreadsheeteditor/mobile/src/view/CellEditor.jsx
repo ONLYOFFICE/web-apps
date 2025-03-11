@@ -5,6 +5,9 @@ import {observer, inject} from "mobx-react";
 // import { __interactionsRef } from 'scheduler/tracing';
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconFunction from '@icons/icon-function.svg';
+import IconInfo from '@common-icons/icon-info.svg';
 
 const viewStyle = {
     height: 30
@@ -37,7 +40,7 @@ const CellEditorView = props => {
                 <div id="box-cell-name" className="ce-group">
                     <span id="idx-cell-name">{props.cellName}</span>
                     <a href="#" id="idx-btn-function" className='link icon-only' disabled={(!isEdit && true) || props.stateFunctions || functionsDisable || wsLock} onClick={() => {props.onClickToOpenAddOptions('function', '#idx-btn-function');}}>
-                        <i className="icon icon-function" />
+                        <SvgIcon symbolId={IconFunction.id} className={'icon icon-svg icon_function'} />
                     </a>
                 </div>
                 <div className="ce-group group--content" style={contentStyle}>
@@ -45,7 +48,7 @@ const CellEditorView = props => {
                     <textarea id="idx-cell-content" spellCheck="false" />
                 </div>
                 <div className="ce-group">
-                    <Link icon="caret" onClick={expandClick} />
+                    <Link icon="caret" onClick={expandClick} /> 
                 </div>
             </View>
             {
@@ -105,7 +108,7 @@ const FunctionsList = props => {
                                              f7.views.current.router.navigate('/function-info/', {props: {functionInfo, functionObj: elem, insertFormula: props.insertFormula}});
                                          }
                                      }}>
-                                    <Icon icon='icon-info'/>
+                                    <SvgIcon symbolId={IconInfo.id} className={'icon icon-svg'} />
                                 </div>
                             }
                         </ListItem>

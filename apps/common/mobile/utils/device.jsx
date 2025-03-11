@@ -12,7 +12,11 @@ class WrapDevice {
             (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && !/Galaxy Tab S6|SCH-I800|Lenovo YT-X705X/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
             (/(BlackBerry|BB)/.test(ua) && isMobile) ||
             /(Windows Phone)/.test(ua);
-
+        
+        if (this.isPhone && window.innerWidth >= 700 && window.innerHeight >= 700) {
+            this.isPhone = false;
+        }
+        
         this.isTablet = !this.isPhone && (/iPad/.test(ua) || /Android/.test(ua) || /(RIM Tablet OS)/.test(ua) ||
             (/MSIE 10/.test(ua) && /; Touch/.test(ua)));
     }
