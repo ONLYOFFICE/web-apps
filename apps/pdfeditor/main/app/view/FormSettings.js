@@ -217,6 +217,16 @@ define([
             });
             this.chScroll.on('change', this.onChScroll.bind(this));
 
+            // combobox
+            this.chCustomText = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-custom-text'),
+                labelText: this.textCustomText,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chCustomText.on('change', this.onChCustomText.bind(this));
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
@@ -476,6 +486,13 @@ define([
             }
         },
 
+        onChCustomText: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetComboboxFieldEditable(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -605,6 +622,15 @@ define([
                         this._state.Scroll=val;
                     }
                     this.chScroll.setDisabled(this._state.Comb || this._state.DisabledControls);
+                }
+
+                if (type == AscPDF.FIELD_TYPES.combobox) {
+                    val = specProps.asc_getEditable();
+                    if ( this._state.CustomText!==val ) {
+                        this.chCustomText.setValue(!!val, true);
+                        this._state.CustomText=val;
+                    }
+                    this.chCustomText.setDisabled(this._state.DisabledControls);
                 }
 
                 //for list controls
