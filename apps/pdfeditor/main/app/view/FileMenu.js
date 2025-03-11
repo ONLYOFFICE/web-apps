@@ -389,13 +389,11 @@ define([
 
             if (!this.mode) return;
 
-            var lastSeparator,
-                separatorVisible = false;
+            var separatorVisible;
 
             var isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-close');
             this.miClose[isVisible?'show':'hide']();
             this.miClose.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miClose.$el.find('+.devider'));
 
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
@@ -408,9 +406,9 @@ define([
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
             separatorVisible = (this.mode.canDownload || this.mode.canDownloadOrigin || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
-                                !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
+              !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp);
+
             this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
-            separatorVisible && (lastSeparator = this.miProtect.$el.find('+.devider'));
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -419,27 +417,19 @@ define([
             }
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
-            separatorVisible = isVisible;
             this.miInfo[isVisible?'show':'hide']();
             isVisible = !this.mode.isOffline && this.document&&this.document.info &&
                         (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                         (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings));
-            separatorVisible = separatorVisible || isVisible;
             this.miAccess[isVisible?'show':'hide']();
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
-            this.miSettings.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miSettings.$el.find('+.devider'));
-
             isVisible = this.mode.canHelp;
             this.miHelp[isVisible ?'show':'hide']();
-            this.miHelp.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miHelp.$el.find('+.devider'));
 
             isVisible = this.mode.canBack;
             this.miBack[isVisible ?'show':'hide']();
-            lastSeparator && !isVisible && lastSeparator.hide();
 
             if (!this.customizationDone) {
                 this.customizationDone = true;
