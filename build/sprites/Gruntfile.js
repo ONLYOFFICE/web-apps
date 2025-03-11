@@ -49,16 +49,19 @@ module.exports = function (grunt, rootpathprefix) {
 
     const _prefix = rootpathprefix || '../../';
     const configTemplate = opts => {
+        const scaling_table = {'1x':'100','1.25x':'125','1.5x':'150','1.75x':'175','2x':'200'};
         let _editor_res_root = `${_prefix}apps/${opts.editor}/main/resources`,
             _common_res_root = `${_prefix}apps/common/main/resources`,
             _scaled_path = `${opts.scale}/${opts.extpath ? opts.extpath : '.'}`;
+        let hbhelpers = {...helpers};
+        hbhelpers.spritepostfix = () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`;
         return {
             src: [`${_editor_res_root}/img/toolbar/${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/${_scaled_path}/*.png`],
             dest: `${_editor_res_root}/img/${opts.scale != '1x' ? opts.spritename + '@' + opts.scale : opts.spritename}.png`,
             destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}.less`,
             cssTemplate: `${_common_res_root}/img/toolbar/${_scaled_path}/.css.handlebars`,
             algorithm: 'top-down',
-            cssHandlebarsHelpers: helpers
+            cssHandlebarsHelpers: hbhelpers
         };
     };
     

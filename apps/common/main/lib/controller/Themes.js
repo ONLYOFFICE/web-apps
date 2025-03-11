@@ -278,13 +278,39 @@ define([
             }
         }
 
-        var write_theme_css = function (css) {
+        var write_theme_css = function (id, css) {
             if ( !!css ) {
                 var style = document.createElement('style');
+                style.id = id;
                 style.type = 'text/css';
                 style.innerHTML = css;
                 document.getElementsByTagName('head')[0].appendChild(style);
             }
+        }
+
+        const normalize_icon_vars = inobj => {
+            let outobj = {};
+            if ( inobj ) {
+                if ( inobj['sprite-buttons-base-url'] ) {
+                    let base_url = inobj['sprite-buttons-base-url'];
+                    !base_url.endsWith('/') && (base_url += '/');
+
+                    const sp_names = ['small', 'big', 'huge'];
+                    const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
+                    sp_names.forEach(n => {
+                        for (const [key, value] of Object.entries(sp_scale))
+                            outobj[`sprite-button-small-' + key`] = `url(${base_url}icons${n}${value}.png)`;
+                    });
+
+                    window.Common.Utils.injectSvgIcons([base_url+'iconssmall@2.5x.svg',
+                            base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'], true)
+                }
+
+                for (const [key, value] of Object.entries(inobj))
+                    outobj[key] = `url(${value})`;
+            }
+
+            return outobj;
         }
 
         var parse_themes_object = function (obj) {
@@ -294,8 +320,8 @@ define([
                 obj.themes.forEach(function (item) {
                     if ( !!item.id ) {
                         theme_label = !item.l10n || !item.l10n[curr_lang] ? item.name : item.l10n[curr_lang];
-                        themes_map[item.id] = {text: theme_label, type: item.type};
-                        write_theme_css(create_colors_css(item.id, item.colors));
+                        themes_map[item.id] = {text: theme_label, type: item.type, src: item};
+                        // write_theme_css(item.id, create_colors_css(item.id, item.colors));
                     } else
                     if ( typeof item == 'string' ) {
                         get_themes_config(item)
@@ -304,8 +330,8 @@ define([
             } else
             if ( obj.id ) {
                 theme_label = !obj.l10n || !obj.l10n[curr_lang] ? obj.name : obj.l10n[curr_lang];
-                themes_map[obj.id] = {text: theme_label, type: obj.type};
-                write_theme_css( create_colors_css(obj.id, obj.colors) );
+                themes_map[obj.id] = {text: theme_label, type: obj.type, src: obj};
+                // write_theme_css( obj.id, create_colors_css(obj.id, obj.colors) );
             }
 
             Common.NotificationCenter.trigger('uitheme:countchanged');
@@ -410,6 +436,15 @@ define([
             window.uitheme.set_id(id);
 
             const theme_id = window.uitheme.relevant_theme_id();
+            if ( !!themes_map[theme_id].src ) {
+                let t = themes_map[theme_id];
+                // let css_vars = {...t.src.colors, ...normalize_icon_vars(t.src.icons)};
+                let css_vars = Object.assign({}, t.src.colors, normalize_icon_vars(t.src.icons));
+                write_theme_css(t.src.id, create_colors_css(t.src.id, css_vars));
+
+                delete t.src;
+            }
+
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
