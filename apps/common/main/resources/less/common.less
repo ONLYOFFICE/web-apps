@@ -61,7 +61,7 @@ label {
 
         .tool-menu-btns {
             border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-right: @scaled-one-px-value solid @border-toolbar;
+            border-right: @border-sidemenu;
 
             .rtl & {
                 border-left: @scaled-one-px-value solid @border-toolbar;
@@ -81,7 +81,7 @@ label {
         .tool-menu-btns {
             //position: absolute;
             border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-left: @scaled-one-px-value solid @border-toolbar;
+            border-left: @border-sidemenu;
             background-color: @background-pane-ie;
             background-color: @background-pane;
             right: 0;
@@ -162,6 +162,7 @@ label {
 
     .settings-panel {
         padding: 0 10px 0 15px;
+        padding: var(--layout-padding-right-panel-content);
 
         .rtl & {
             padding: 0 15px 0 10px;

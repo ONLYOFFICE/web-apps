@@ -211,6 +211,15 @@
     --header-component-active-icon-opacity: 1;
     --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
+
+    --border-radius-toolbar: 0;
+    --border-sidemenu: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
+    --shadow-side-panel: none;
+    --layout-padding-toolbar: 0;
+    --layout-padding-right-panel-content: 0 10px 0 15px;
+    --layout-margin-right-panel: 0;
+    --layout-margin-left-panel: 0 0 0 40px;
 }
 
 // Background
@@ -316,6 +325,14 @@
 @menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
 @img-border-type-filter: var(--image-border-types-filter, none);
 @img-border-type-filter-selected: var(--image-border-types-filter-selected, none);
+
+// new
+@border-sidemenu: var(--border-sidemenu);
+@shadow-toolbar: var(--shadow-toolbar, none);
+@shadow-side-panel: var(--shadow-side-panel, none);
+@border-radius-toolbar: var(--border-radius-toolbar,0);
+@layout-padding-toolbar: var(--layout-padding-toolbar, 0);
+
 
 // Canvas
 // ---------------------------
