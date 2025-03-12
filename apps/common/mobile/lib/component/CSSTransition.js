@@ -21,21 +21,16 @@ export const CSSTransition = ({
     toggle(inProp);
   }, [inProp, toggle]);
 
+  const classNameMap = {
+    'preEnter': 'fade-enter',
+    'entering': 'fade-enter fade-enter-active',
+    'entered': 'fade-enter-done',
+    'exiting': 'fade-exit fade-exit-active',
+    'exited': 'fade-exit-done',
+  };
+
   const getClassNames = (status) => {
-    switch (status) {
-      case 'preEnter':
-        return `fade-enter`;
-      case 'entering':
-        return `fade-enter fade-enter-active`;
-      case 'entered':
-        return `fade-enter-done`;
-      case 'exiting':
-        return `fade-exit fade-exit-active`;
-      case 'exited':
-        return `fade-exit-done`;
-      default:
-        return '';
-    }
+    return classNameMap[status] || '';
   };
 
   React.useEffect(() => {
