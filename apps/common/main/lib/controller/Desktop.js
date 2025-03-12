@@ -199,6 +199,7 @@ define([
                     webapp.getController('Main').onPrint();
                 } else
                 if (/printer:config/.test(cmd)) {
+                    var currentPrinter = null;
                     var printers = [];
                     var paramParse;
                     try {
@@ -207,10 +208,11 @@ define([
                         console.warn('printers info is broken');
                     }
                     
-                    if(paramParse && paramParse.printers){
-                        printers = paramParse.printers;
+                    if(paramParse){
+                        paramParse.printers && (printers = paramParse.printers);
+                        paramParse.current_printer && (currentPrinter = paramParse.current_printer);
                     }
-                    webapp.getController('Print').setPrinters(printers);
+                    webapp.getController('Print').setPrinterInfo(currentPrinter, printers);
                 } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();

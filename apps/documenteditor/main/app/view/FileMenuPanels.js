@@ -2735,6 +2735,26 @@ define([], function () {
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.menu = options.menu;
+            
+            this._defaultPaperSizeList = [
+                { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
+                { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
+                { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
+                { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
+                { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
+                { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
+                { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]}
+            ];
 
             this._initSettings = true;
         },
@@ -3036,23 +3056,34 @@ define([], function () {
         updateSettings: function() {
             this.setCmbSidesOptions(true);
             this.setCmbPaperSizeOptions();
-            this.cmbPrinter.setValue(null);
         },
 
-        setCmbPrinterOptions: function(printers) {
+        updateCmbPrinter: function(currentPrinter, printers) {
             var cmbPrinterOptions = [];
-            if(printers) {
-                cmbPrinterOptions = printers.map(function(printer) {
-                    return {
-                        value: printer.name,
-                        displayValue: printer.name,
-                        paperSupported: printer.paper_supported,
-                        isDuplexSupported: printer.duplex_supported
-                    }
+
+            printers = printers || [];
+
+            //If the current printer is not in the list of printers, add it
+            if(currentPrinter && !_.some(printers, function(printer) { return printer.name == currentPrinter })) {
+                printers.push({
+                    name: currentPrinter,
+                    duplex_supported: true,
+                    paperSupported: this._defaultPaperSizeList
                 });
             }
 
+            cmbPrinterOptions = printers.map(function(printer) {
+                return {
+                    value: printer.name,
+                    displayValue: printer.name,
+                    paperSupported: printer.paper_supported,
+                    isDuplexSupported: printer.duplex_supported
+                }
+            });
+
             this.cmbPrinter.setData(cmbPrinterOptions);
+            this.cmbPrinter.setValue(currentPrinter);
+            this.cmbPrinter.trigger('selected', this, this.cmbPrinter.getSelectedRecord());
         },
 
         setCmbSidesOptions: function(isDuplexSupported) {
@@ -3071,25 +3102,6 @@ define([], function () {
         },
 
         setCmbPaperSizeOptions(paperSizeList) {
-            var defaultList = [
-                { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
-                { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
-                { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
-                { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
-                { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
-                { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
-                { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
-                { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
-                { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
-                { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
-                { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
-                { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
-                { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
-                { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
-                { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
-                { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
-                { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]}
-            ];
             var resultList = [];
 
             if(paperSizeList && paperSizeList.length > 0) {
@@ -3102,7 +3114,7 @@ define([], function () {
                     }
                 });
             } else {
-                resultList = defaultList;
+                resultList = this._defaultPaperSizeList;
             }
             resultList.push({ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []});
 

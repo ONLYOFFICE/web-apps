@@ -43,7 +43,10 @@ define([
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this._state = {
                 lock_doc: false,
-                firstPrintPage: 0
+                firstPrintPage: 0,
+                isPrinterInfoLoad: false,
+                currentPrinter: null,
+                printersList: []
             };
 
             this._navigationPreview = {
@@ -53,8 +56,6 @@ define([
             };
 
             this._isPreviewVisible = false;
-
-            this._printersList = [];
 
             this.addListeners({
                 'PrintWithPreview': {
@@ -131,7 +132,9 @@ define([
                 return me.txtPrintRangeInvalid;
             };
 
-            this._printersList.length > 0 && (this.printSettings.setCmbPrinterOptions(this._printersList));            
+            if(this._state.isPrinterInfoLoad) {
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
@@ -402,9 +405,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete');
         },
 
-        setPrinters: function(list) {
-            this._printersList = list;
-            this.printSettings.setCmbPrinterOptions(this._printersList);    
+        setPrinterInfo: function(currentPrinter, list) {
+            this._state.isPrinterInfoLoad = true;
+            this._state.currentPrinter = currentPrinter;
+            this._state.printersList = list;
+            if(this.printSettings) {
+               this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+            }
         },
 
         checkPageSize: function(width, height, left, right, top, bottom) {
@@ -534,7 +541,9 @@ define([
                 this._state.firstPrintPage = this._navigationPreview.currentPage;
 
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);
+            var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
             this.adjPrintParams.asc_setNativeOptions({
+                printer: printerOption ? printerOption.value : null,
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: {
                     w: size ? size['W'] : undefined,
