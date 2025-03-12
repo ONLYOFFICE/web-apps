@@ -39,8 +39,8 @@ module.exports = function (grunt, rootpathprefix) {
             if (/\((\S+)\)$/.test(name)) {
                 let _match = /(.+)\((\S+)\)$/.exec(name);
                 return '[applang=' + _match[2] + '] ' + options.fn({name:_match[1]});
-            } 
-            
+            }
+
             return options.fn({name:name});
         },
         half: num => {return num/2;},
@@ -64,10 +64,32 @@ module.exports = function (grunt, rootpathprefix) {
             cssHandlebarsHelpers: hbhelpers
         };
     };
-    
+
+    const configTemplateV2 = opts => {
+        const scaling_table = {'1x':'100','1.25x':'125','1.5x':'150','1.75x':'175','2x':'200'};
+        let _editor_res_root = `${_prefix}apps/${opts.editor}/main/resources`,
+            _common_res_root = `${_prefix}apps/common/main/resources`,
+            _scaled_path = `${opts.scale}/${opts.extpath ? opts.extpath : '.'}`;
+        let hbhelpers = {...helpers};
+        hbhelpers.spritepostfix = () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`;
+        return {
+            src: [`${_editor_res_root}/img/toolbar/v2/${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/v2/${_scaled_path}/*.png`],
+            dest: `${_editor_res_root}/img/v2/${opts.scale != '1x' ? opts.spritename + '@' + opts.scale : opts.spritename}.png`,
+            destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}.less`,
+            cssTemplate: `${_common_res_root}/img/toolbar/${_scaled_path}/.css.handlebars`,
+            algorithm: 'top-down',
+            cssHandlebarsHelpers: hbhelpers
+        };
+    };
+
     grunt.initConfig({
         sprite: {
             'word-1x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name,
+                scale: '1x'
+            }),
+            'word-v2-1x': configTemplateV2({
                 editor:'documenteditor',
                 spritename: sprite_name,
                 scale: '1x'
@@ -670,7 +692,7 @@ module.exports = function (grunt, rootpathprefix) {
     grunt.loadNpmTasks('grunt-spritesmith');
     grunt.loadNpmTasks('grunt-svg-sprite');
 
-    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-big-1x', 'sprite:word-huge-1x', 'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
+    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-v2-1x', 'sprite:word-big-1x', 'sprite:word-huge-1x', 'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
                                         'sprite:word1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x',
                                         'sprite:word1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x',
                                         'sprite:word1.75x', 'sprite:word-big-1.75x', 'sprite:word-huge-1.75x']);
