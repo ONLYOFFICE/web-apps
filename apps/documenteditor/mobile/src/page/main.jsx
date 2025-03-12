@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from '../../../../common/mobile/lib/component/CSSTransition'
 import { f7, Icon, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
