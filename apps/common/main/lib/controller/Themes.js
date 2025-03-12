@@ -82,6 +82,7 @@ define([
                 text: locale.txtThemeWhite || 'White',
                 type: 'light',
                 source: 'static',
+                icons: './resources/img/v2',
             },
         }
 
@@ -293,17 +294,19 @@ define([
             if ( inobj ) {
                 if ( inobj['sprite-buttons-base-url'] ) {
                     let base_url = inobj['sprite-buttons-base-url'];
-                    !base_url.endsWith('/') && (base_url += '/');
+                    // outobj = prepare_icons_from_url(base_url);
 
-                    const sp_names = ['small', 'big', 'huge'];
-                    const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
-                    sp_names.forEach(n => {
-                        for (const [key, value] of Object.entries(sp_scale))
-                            outobj[`sprite-button-small-' + key`] = `url(${base_url}icons${n}${value}.png)`;
-                    });
-
-                    window.Common.Utils.injectSvgIcons([base_url+'iconssmall@2.5x.svg',
-                            base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'], true)
+                    // !base_url.endsWith('/') && (base_url += '/');
+                    //
+                    // const sp_names = ['small', 'big', 'huge'];
+                    // const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
+                    // sp_names.forEach(n => {
+                    //     for (const [key, value] of Object.entries(sp_scale))
+                    //         outobj[`sprite-button-small-' + key`] = `url(${base_url}icons${n}${value}.png)`;
+                    // });
+                    //
+                    // window.Common.Utils.injectSvgIcons([base_url+'iconssmall@2.5x.svg',
+                    //         base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'], true)
                 }
 
                 for (const [key, value] of Object.entries(inobj))
@@ -448,6 +451,11 @@ define([
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
+            if ( !!themes_map[theme_id].icons ) {
+                const base_url = themes_map[theme_id].icons;
+                window.uitheme.apply_icons_from_url(theme_id, base_url);
+            }
+
             if ( this.api.asc_setContentDarkMode )
                 if ( themes_map[theme_id].type == 'dark' ) {
                     this.api.asc_setContentDarkMode(this.isContentThemeDark());
@@ -469,6 +477,9 @@ define([
                         text: themes_map[id].text,
                         colors: colors_obj,
                     };
+
+                    if ( themes_map[id].icons )
+                        theme_obj.icons = themes_map[id].icons;
 
                     Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
                 // }
