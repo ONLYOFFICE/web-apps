@@ -89,6 +89,7 @@ define([
                                 '<div class="hedset">' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit"></div>' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-start-fill"></div>' +
+                                    '<div class="btn-slot margin-right-2 margin-left-5" id="slot-btn-fill-status"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -400,13 +401,15 @@ define([
                 updateDocNamePosition();
             }
 
-            if (me.btnStartFill) {
-                Common.Gateway.on('startfilling', function() {
-                    me.btnStartFill.setVisible(false);
-                    updateDocNamePosition();
-                });
-                me.btnStartFill.on('click', function (e) {
-                    Common.Gateway.requestStartFilling();
+            me.btnStartFill && me.btnStartFill.on('click', function (e) {
+                Common.NotificationCenter.trigger('forms:request-fill');
+            });
+
+            if (me.btnFillStatus) {
+                me.btnFillStatus.updateHint(me.tipFillStatus);
+                me.btnFillStatus && me.btnFillStatus.on('click', function (e) {
+                    Common.UI.TooltipManager.closeTip('showFillStatus');
+                    Common.Gateway.requestFillingStatus(appConfig.user.roles && appConfig.user.roles.length>0 ? appConfig.user.roles[0] : undefined);
                 });
             }
 
@@ -1002,7 +1005,7 @@ define([
                     if (config.canStartFilling) {
                         me.btnStartFill = new Common.UI.Button({
                             cls: 'btn-text-default auto yellow',
-                            caption: me.textStartFill,
+                            caption: config.customization && config.customization.startFillingForm && config.customization.startFillingForm.text ? config.customization.startFillingForm.text : me.textStartFill,
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -1010,6 +1013,14 @@ define([
                         me.btnStartFill.render($html.find('#slot-btn-start-fill'));
                     } else {
                         $html.find('#slot-btn-start-fill').hide();
+                    }
+
+                    if (config.isPDFForm && config.canFillForms && config.isRestrictedEdit && config.canRequestFillingStatus) {
+                        me.btnFillStatus = new Common.UI.Button({
+                            cls: 'btn-header',
+                            iconCls: 'toolbar__icon icon--inverse  btn-filling-status',
+                        });
+                        me.btnFillStatus.render($html.find('#slot-btn-fill-status'));
                     }
 
                     $userList = $html.find('.cousers-list');
@@ -1364,6 +1375,11 @@ define([
                 this.setDocumentCaption(this.documentCaption);
             },
 
+            onStartFilling: function() {
+                this.btnStartFill && this.btnStartFill.setVisible(false);
+                updateDocNamePosition();
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             txtAccessRights: 'Change access rights',
@@ -1421,7 +1437,8 @@ define([
             helpQuickAccessHeader: 'Customize Quick Access',
             ariaQuickAccessToolbar: 'Quick access toolbar',
             textAnnotateDesc: 'Fill forms or annotate',
-            textDownload: 'Download'
+            textDownload: 'Download',
+            tipFillStatus: 'Filling status'
         }
     }(), Common.Views.Header || {}))
 });

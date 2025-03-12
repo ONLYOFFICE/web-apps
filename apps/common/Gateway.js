@@ -402,12 +402,21 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceSource'});
             },
 
-            requestStartFilling:  function () {
-                _postMessage({event:'onRequestStartFilling'});
+            requestStartFilling:  function (roles) {
+                _postMessage({
+                    event:'onRequestStartFilling',
+                    data: roles
+                });
             },
 
             switchEditorType:  function (value, restart) {
                 _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
+            },
+            requestFillingStatus:  function (role) {
+                _postMessage({
+                    event:'onRequestFillingStatus',
+                    data: role
+                });
             },
 
             pluginsReady: function() {

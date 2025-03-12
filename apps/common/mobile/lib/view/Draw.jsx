@@ -10,7 +10,7 @@ import IconScroll from '../../../../common/mobile/resources/icons/scroll.svg'
 import { WheelColorPicker } from "../component/WheelColorPicker";
 import { Device } from "../../utils/device";
 
-export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor }) => {
+export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, addCustomColor, enableErasing }) => {
   const { t } = useTranslation();
   const _t = t('Draw', { returnObjects: true });
   const isDrawingTool = currentTool === 'pen' || currentTool === 'highlighter';
@@ -37,8 +37,10 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
             <div className="draw-sheet--settings-colors-list">
               {colors.map((color, index) => (
                 <div
-                  key={index} className="draw-sheet--settings-colors-list-item" style={{ backgroundColor: color }}
+                  key={index}
+                  className="draw-sheet--settings-colors-list-item" style={{ backgroundColor: color }}
                   onClick={() => setSettings({ color })}
+                  onTouchStart={() => setSettings({ color })}
                 />
               ))}
               <div
@@ -94,15 +96,15 @@ export const DrawView = ({ currentTool, setTool, settings, setSettings, colors, 
           <div className='draw-toolbar-divider'/>
         </div>
         <div className="draw-toolbar-item">
-          <Button type='button' disabled={false} fill={currentTool === 'eraser'} onClick={() => setTool('eraser')}>
+          <Button type='button' disabled={!enableErasing} fill={currentTool === 'eraser'} onClick={() => setTool('eraser')}>
             <SvgIcon symbolId={IconClearObject.id} className='icon icon-svg'/>
           </Button>
         </div>
-        {/*<div className="draw-toolbar-item">*/}
-        {/*  <Button type='button' disabled={false} onClick={() => setTool('eraseEntireScreen')}>*/}
-        {/*    <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>*/}
-        {/*  </Button>*/}
-        {/*</div>*/}
+        <div className="draw-toolbar-item">
+          <Button type='button' disabled={!enableErasing} onClick={() => setTool('eraseEntireScreen')}>
+            <SvgIcon symbolId={IconClearAll.id} className='icon icon-svg'/>
+          </Button>
+        </div>
         <div className="draw-toolbar-item">
           <div className='draw-toolbar-divider'/>
         </div>

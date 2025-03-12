@@ -229,6 +229,12 @@
     "textRows": "الصفوف",
     "txtWarnUrl": "النقر على هذا الرابط يمكن أن يكون ضارًا بجهازك وبياناتك.  هل أنت متأكد من أنك تريد المتابعة؟<br>"
   },
+  "Draw": {
+    "textColor": "اللون",
+    "textCustomColor": "لون مخصص",
+    "textOpacity": "معدل الشفافية",
+    "textLineSize": "Line size"
+  },
   "Edit": {
     "notcriticalErrorTitle": "تحذير",
     "textActualSize": "الحجم الاصلي",
@@ -818,11 +824,5 @@
     "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة.",
     "btnRestartNow": "Restart now",
     "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Абараніць працоўную кнігу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Каб зняць абарону аркуша, увядзіце пароль",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняць абарону аркуша",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Каб зняць абарону кнігі, увядзіце пароль",
+  "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
+  "SSE.Controllers.DocumentHolder.txtValue": "Value",
+  "SSE.Controllers.DocumentHolder.txtOther": "Other"
 }

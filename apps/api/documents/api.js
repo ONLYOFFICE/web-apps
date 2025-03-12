@@ -88,7 +88,8 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
-                    image: 'image url'
+                    image: 'image url',
+                    roles: ['Role1'] // used for pdf-forms, fill form with Role1
                 },
                 recent: [
                     {
@@ -213,7 +214,8 @@
                         tabBackground: {
                             mode: 'header'/'toolbar' // init value, 'header' by default
                             change: true/false // show/hide feature
-                        } / 'header'/'toolbar' // if string - use as init value
+                        } / 'header'/'toolbar' // if string - use as init value,
+                        featuresTips: false/true // show tips about new feature
                     },
                     font: {
                         name: "Arial",
@@ -263,7 +265,10 @@
                     slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                     showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
-                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    startFillingForm: {
+                        text: 'Share & collect' // caption of the start filling button, used for pdf-forms
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -319,6 +324,7 @@
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
                 'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
                 'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
+                'onRequestFillingStatus': <request filling status for current role> // used in pdf-form fill forms mode
             }
         }
 
@@ -334,7 +340,8 @@
                 url: 'document url',
                 fileType: 'document file type',
                 key: 'key',
-                vkey: 'vkey'
+                vkey: 'vkey',
+                isForm: 'pdf form' / false/true
             },
             editorConfig: {
                 licenseUrl: <url for license>,
@@ -391,6 +398,7 @@
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
+        _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 

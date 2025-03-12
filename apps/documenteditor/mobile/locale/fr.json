@@ -433,6 +433,7 @@
     "errorDefaultMessage": "Code d'erreur: %1",
     "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreure s'est produite lors du travail avec le document.<br>Téléchargez le document pour enregistrer une copie locale de sauvegarde du fichier.",
+    "errorEditProtectedRange": "Vous ne pouvez pas modifier cette sélection car elle est protégée.",
     "errorEmptyTOC": "Commencez à créer une table des matières en appliquant un style de titres de la galerie Styles au texte sélectionné.",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.  ",
@@ -478,8 +479,7 @@
     "uploadDocSizeMessage": "La taille du fichier dépasse la limite autorisée.",
     "uploadImageExtMessage": "Format d'image inconnu.",
     "uploadImageFileCountMessage": "Aucune image chargée.",
-    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "uploadImageSizeMessage": "L'image est trop grande. La taille limite est de 25 Mo."
   },
   "LongActions": {
     "applyChangesTextText": "Chargement des données en cours...",
@@ -705,7 +705,7 @@
     "textDisableAll": "Désactiver tout",
     "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
     "textDisableAllMacrosWithoutNotification": "Désactiver toutes les macros sans notification",
-    "textDocumentInfo": "Descriptif du document",
+    "textDocumentInfo": "Infos sur le document",
     "textDocumentSettings": "Paramètres du document",
     "textDocumentTitle": "Titre du document",
     "textDone": "Terminé",

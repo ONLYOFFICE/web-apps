@@ -14,6 +14,7 @@ import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
 import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
 import IconHistory from '@common-icons/icon-version-history.svg';
 import IconSearch from '@common-icons/icon-search.svg';
+import IconCheck from '@common-android-icons/icon-check.svg';
 
 
 const ToolbarView = props => {
@@ -44,8 +45,11 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {props.isDrawMode && <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-close' : null} className='back-reader-mode' onClick={() => Common.Notifications.trigger('draw:stop')}/>}
-
+                {props.isDrawMode && <Link iconOnly text={Device.ios ? t("Toolbar.textOk") : ''} className='back-reader-mode' onClick={() => Common.Notifications.trigger('draw:stop')}>
+                    {Device.android &&
+                        <SvgIcon slot="media" symbolId={IconCheck.id} className={'icon icon-svg'} />
+                    }
+                </Link>}
                 {(!props.isDrawMode && props.isShowBack && !isVersionHistoryMode) && <Link iconOnly className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} onClick={() => Common.Notifications.trigger('goback')}>
                 {Device.ios ? 
                     <SvgIcon slot="media" symbolId={IconReturnIos.id} className={'icon icon-svg'} /> : 

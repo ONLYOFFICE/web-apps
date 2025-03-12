@@ -24,6 +24,14 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
     }
     return storageColors
   })
+  const [enableErasing, setEnableErasing] = useState(true);
+
+  const onApiFocusObject = () => {
+    if (storeAppOptions.isDrawMode) {
+      const api = Common.EditorApi.get();
+      setEnableErasing(api.asc_HaveInks());
+    }
+  }
 
   useEffect(() => {
     Common.Notifications.on('draw:start', () => {
@@ -36,9 +44,14 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
       setCurrentToolAndApply('scroll');
     })
 
+    Common.Notifications.on('engineCreated', api => {
+      api.asc_registerCallback(window.editorType === 'sse' ? 'asc_onSelectionChanged' : 'asc_onFocusObject', onApiFocusObject);
+    });
+
     return () => {
       Common.Notifications.off('draw:start');
       Common.Notifications.off('draw:stop');
+      Common.Notifications.off('engineCreated');
     }
   }, []);
 
@@ -53,18 +66,23 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
   };
 
   const toolActions = {
-    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity), 0),
-    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.highlighter.color, settings.highlighter.lineSize, settings.highlighter.opacity), 1),
+    pen: (api, settings) => api.asc_StartDrawInk(createStroke(settings.pen.color, settings.pen.lineSize, settings.pen.opacity)),
+    highlighter: (api, settings) => api.asc_StartDrawInk(createStroke(settings.highlighter.color, settings.highlighter.lineSize, settings.highlighter.opacity)),
     eraser: (api) => api.asc_StartInkEraser(),
-    eraseEntireScreen: (api) => {/* fixme: method */
-    },
+    eraseEntireScreen: (api) => api.asc_RemoveAllInks(),
     scroll: (api) => api.asc_StopInkDrawer(),
   };
 
   const setCurrentToolAndApply = (tool) => {
     const api = Common.EditorApi.get();
-    toolActions[tool]?.(api, toolSettings);
-    setCurrentTool(tool);
+    if (tool === 'eraseEntireScreen') {
+      toolActions.eraseEntireScreen(api);
+      toolActions[currentTool]?.(api, toolSettings);
+      setEnableErasing(false);
+    } else {
+      setCurrentTool(tool);
+      toolActions[tool]?.(api, toolSettings);
+    }
   };
 
   const updateToolSettings = (newSettings) => {
@@ -91,5 +109,6 @@ export const DrawController = inject('storeAppOptions')(observer(({ storeAppOpti
     setSettings={updateToolSettings}
     colors={colors}
     addCustomColor={addCustomColor}
+    enableErasing={enableErasing}
   /> : null
 }));

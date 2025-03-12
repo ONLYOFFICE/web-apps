@@ -198,6 +198,7 @@
       "textOwner": "المالك",
       "textPoweredBy": "مُشَغل بواسطة",
       "textPrint": "طباعة",
+      "textRestartApplication": "برجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
       "textSameAsSystem": "استخدم سمة النظام",
       "textSearch": "إيجاد",
       "textSettings": "الإعدادات",
@@ -209,8 +210,7 @@
       "textVersion": "الإصدار",
       "textVisioInfo": "معلومات عارض المخططات",
       "textVisioSettings": "إعدادات عارض المخططات",
-      "textVisioTitle": "عنوان عارض المخططات",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "عنوان عارض المخططات"
     }
   }
 }

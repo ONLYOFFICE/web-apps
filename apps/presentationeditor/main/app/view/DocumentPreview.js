@@ -86,9 +86,9 @@ define([
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
                         '</div>',
                     '</div>',
-                    '<div id="preview-group-draw" class="preview-group" style="display:flex;height: 100%;align-items: center;">',
+                    '<div id="preview-group-draw" class="preview-group">',
                         '<div class="separator"></div>',
-                        '<div id="btn-preview-draw"></div>',
+                        '<div id="btn-preview-draw" style="display: inline-block;"></div>',
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"></div>',
@@ -103,11 +103,26 @@ define([
             this.pages.on('change', _.bind(_updatePagesCaption,this));
             this.currentDrawColor = 'E81416';
             this.drawTool = {
-                pen: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 1, opacity: 100 }),
-                highlighter: () => Common.NotificationCenter.trigger('draw-tool:pen', { index: 1, color: this.currentDrawColor, size: 6, opacity: 50 }),
-                eraser: () => Common.NotificationCenter.trigger('draw-tool:eraser'),
-                eraseAll: () => Common.NotificationCenter.trigger('draw-tool:erase-all'),
-                select: () => Common.NotificationCenter.trigger('draw-tool:select'),
+                pen: () => {
+                    Common.NotificationCenter.trigger('draw-tool:pen', { index: 0, color: this.currentDrawColor, size: 1, opacity: 100 });
+                    this.editComplete();
+                },
+                highlighter: () => {
+                    Common.NotificationCenter.trigger('draw-tool:pen', { index: 1, color: this.currentDrawColor, size: 6, opacity: 50 });
+                    this.editComplete();
+                },
+                eraser: () => {
+                    Common.NotificationCenter.trigger('draw-tool:eraser');
+                    this.editComplete();
+                },
+                eraseAll: () => {
+                    Common.NotificationCenter.trigger('draw-tool:erase-all');
+                    this.editComplete();
+                },
+                select: () => {
+                    Common.NotificationCenter.trigger('draw-tool:select');
+                    this.editComplete();
+                }
             };
         },
 
@@ -231,6 +246,7 @@ define([
             });
             this.btnPrev.on('click', _.bind(function() {
                 if (this.api) this.api.DemonstrationPrevSlide();
+                this.editComplete();
             }, this));
 
             this.btnNext = new Common.UI.Button({
@@ -241,6 +257,7 @@ define([
             });
             this.btnNext.on('click', _.bind(function() {
                 if (this.api) this.api.DemonstrationNextSlide();
+                this.editComplete();
             }, this));
 
             this.btnPlay = new Common.UI.Button({
@@ -262,6 +279,7 @@ define([
                     if (this.api)
                         this.api.DemonstrationPlay ();
                 }
+                this.editComplete();
             }, this));
 
             this.btnClose = new Common.UI.Button({
@@ -287,6 +305,7 @@ define([
             });
             this.btnFullScreen.on('click', _.bind(function(btn) {
                 this.toggleFullScreen();
+                this.editComplete();
             }, this));
 
             this.txtGoToPage = new Common.UI.InputField({
@@ -384,6 +403,7 @@ define([
                     me.btnClose.updateHint( fselem ? '' : me.txtClose);
                 } else
                     me.btnFullScreen.updateHint( fselem ? me.txtExitFullScreen: me.txtFullScreen);
+                me.editComplete();
             });
 
             if (Common.Utils.isIE) {
@@ -530,6 +550,14 @@ define([
             } else {
                 Common.Utils.cancelFullscreen();
             }
+        },
+
+        editComplete: function() {
+            var me = this;
+            setTimeout(function() {
+                $(me.el).focus();
+                me.api && me.api.asc_enableKeyEvents(true);
+            }, 10);
         },
 
         txtDraw: 'Draw',

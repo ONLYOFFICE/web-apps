@@ -107,7 +107,6 @@ define([
             this.btnOptions.menu.items[2].cmpEl.addClass('small-resolution');
             this.btnOptions.menu.items[4].cmpEl.addClass('small-resolution');
 
-
             this.btnClear = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon clear-style',
@@ -179,6 +178,14 @@ define([
             });
             this.btnClose.render($('#id-btn-close-editor'));
 
+            this.btnFillStatus = new Common.UI.Button({
+                cls: 'btn-toolbar margin-right-small',
+                iconCls: 'svg-icon filing-status',
+                hint: this.tipFillStatus,
+                scaling: false
+            });
+            this.btnFillStatus.render($('#id-btn-status'));
+
             return this;
         },
 
@@ -225,7 +232,8 @@ define([
         tipRedo: 'Redo',
         textClearField: 'Clear field',
         textClose: 'Close file',
-        tipSubmit: 'Submit form'
+        tipSubmit: 'Submit form',
+        tipFillStatus: 'Filling status'
 
     }, DE.Views.ApplicationView || {}));
 });

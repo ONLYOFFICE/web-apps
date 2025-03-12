@@ -749,6 +749,7 @@ define([
 
                 this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
                 (this.btnSubmit && !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) || this.btnSaveForm) && $host.find('.save-separator').show();
+                this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm && this.showFillingForms(false);
 
                 return this.$el;
             },
@@ -809,6 +810,15 @@ define([
                 this.btnNextForm.setVisible(state);
                 this.btnSubmit && this.btnSubmit.setVisible(!state);
                 this.btnSaveForm && this.btnSaveForm.setVisible(!state);
+            },
+
+            showFillingForms: function(visible) {
+                this.btnClear.setVisible(visible);
+                this.btnPrevForm.setVisible(visible);
+                this.btnNextForm.setVisible(visible);
+                visible ? this.btnPrevForm.$el.parents('.group').show().prev('.separator').show() :
+                          this.btnPrevForm.$el.parents('.group').hide().prev('.separator').hide();
+                this.btnSubmit && this.btnSubmit.setVisible(visible);
             },
 
             SetDisabled: function (state) {

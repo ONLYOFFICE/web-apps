@@ -246,9 +246,15 @@ define([], function () {
 
             var menu_props = {};
             selectedElements && _.each(selectedElements, function(element, index) {
-                if (Asc.c_oAscTypeSelectElement.Annot == element.get_ObjectType()) {
+                var elType  = element.get_ObjectType(),
+                    elValue = element.get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Annot == elType) {
                     menu_props.annotProps = {};
-                    menu_props.annotProps.value = element.get_ObjectValue();
+                    menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
 
@@ -314,6 +320,10 @@ define([], function () {
                     menu_to_show = documentHolder.editPDFModeMenu;
                     menu_props.annotProps = {};
                     menu_props.annotProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.PdfPage == elType) {
+                    menu_props.pageProps = {};
+                    menu_props.pageProps.value = elValue;
+                    menu_props.pageProps.locked = (elValue) ? elValue.asc_getDeleteLock() : false;
                 }
             });
             if (menu_to_show === null) {
@@ -2051,7 +2061,7 @@ define([], function () {
                             var imgsizeOriginal;
 
                             if (!me.documentHolder.menuImgOriginalSize.isDisabled()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
@@ -2081,14 +2091,13 @@ define([], function () {
         dh.onImgOriginalSize = function(item){
             var me = this;
             if (me.api){
-                var originalImageSize = me.api.get_OriginalSizeImage();
+                var originalImageSize = me.api.asc_getCropOriginalImageSize();
 
                 if (originalImageSize) {
                     var properties = new Asc.asc_CImgProperty();
 
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
-                    properties.put_ResetCrop(true);
                     properties.put_Rot(0);
                     me.api.ImgApply(properties);
                 }
