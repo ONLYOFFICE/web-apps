@@ -1220,11 +1220,12 @@ define([
                     help && window.open(help, '_blank');
                 },
                 'docked': function(frameId){
-                    me.triggerDockedEvent(frameId, isPanel ? variation.type : 'panel'); // if the initial state of plugin is 'panelRight'/'panel' - move to corresponding panel, otherwise move to left panel
-                    setTimeout(function () {
-                        me.customPluginsDlg[frameId].close();
-                        me.onPluginPanelShow(frameId, variation, lang);
-                    }, 0);
+                    me.api.asc_pluginButtonDockChanged(isPanel ? variation.type : 'panel', variation.guid, frameId, function(){
+                        setTimeout(function () {
+                            me.customPluginsDlg[frameId].close();
+                            me.onPluginPanelShow(frameId, variation, lang);
+                        }, 0);
+                    });                    
                 },
                 'header:click': function(type){
                     me.api.asc_pluginButtonClick(type, variation.guid, frameId);
@@ -1257,14 +1258,6 @@ define([
                 let plg = this.pluginsWinToShow.shift();
                 plg && this.onApiPluginWindowShow(plg.frameId, plg.variation);
             }
-        },
-
-        triggerDockedEvent: function(frameId, placement) {
-            $('#' + frameId)[0].contentWindow.postMessage(JSON.stringify({
-                type: 'plugin_docked',
-                frameId: frameId,
-                placement: placement
-            }), "*");
         },
 
         onPluginWindowClose: function(frameId) {
@@ -1352,11 +1345,13 @@ define([
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId, isActivated));
             this.viewPlugins.customPluginPanels[frameId].on('docked',  _.bind(function(frameId) {
-                this.triggerDockedEvent(frameId, 'window');
-                setTimeout( _.bind(function() {
-                    this.onPluginWindowClose(frameId);
-                    this.onPluginWindowShow(frameId, variation, lang);
-                }, this), 0);
+                var _plugins = this;
+                this.api.asc_pluginButtonDockChanged('window', variation.guid, frameId, function(){
+                    setTimeout( _.bind(function() {
+                        _plugins.onPluginWindowClose(frameId);
+                        _plugins.onPluginWindowShow(frameId, variation, lang);
+                    }, this), 0);
+                });                
             }, this));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
