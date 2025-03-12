@@ -1816,6 +1816,8 @@ define([
                     next: newRtl ? 'btn-multilevels-rtl' : 'btn-multilevels',
                     curr: oldRtl ? 'btn-multilevels-rtl' : 'btn-multilevels'
                 });
+                toolbar.btnDecLeftOffset.cmpEl && toolbar.btnDecLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnIncLeftOffset.cmpEl && toolbar.btnIncLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
                 toolbar.lblIndentsLeft.setCaption(newRtl ? toolbar.textIndBefore : toolbar.textIndLeft);
                 toolbar.lblIndentsRight.setCaption(newRtl ? toolbar.textIndAfter : toolbar.textIndRight);
                 toolbar.btnTextDir.options.dirRtl = !!isRtl;
