@@ -115,6 +115,17 @@ class SearchView extends Component {
                     searchbarEnable: (sb) => {
                         this.refSearchbarInput.focus();
 
+                        //Resolves the problem of invisible focus for the search input field(bug-53974)
+                        const prevSearchQuery = this.state.searchQuery;
+                        this.setState({
+                            searchQuery: prevSearchQuery + ' '
+                        });
+                        setTimeout(() => {
+                            this.setState({
+                                searchQuery: prevSearchQuery
+                            });
+                        }, 0);
+
                         if(this.state.searchQuery.length > 0) {
                             const searchInput = document.querySelector('.searchbar-input');
                             searchInput.classList.add('input-with-value');
