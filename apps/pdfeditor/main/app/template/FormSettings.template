@@ -18,17 +18,17 @@
     </tr>
 </table>
 <table cols="2" role="presentation">
-    <tr class="form-list">
+    <tr class="form-list-common">
         <td colspan="2" class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="form-list">
+    <tr class="form-list-common">
         <td colspan="2" class="padding-small">
             <label class="input-label"><%= scope.textValue %></label>
         </td>
     </tr>
-    <tr class="form-list" style="vertical-align: top;">
+    <tr class="form-list-common" style="vertical-align: top;">
         <td class="padding-small">
             <div id="form-txt-new-value" style="width:164px;" class="margin-right-5"></div>
         </td>
@@ -36,14 +36,29 @@
             <div id="form-list-add" class="margin-left-5"></div>
         </td>
     </tr>
-    <tr class="form-list" style="vertical-align: top;">
-        <td class="padding-small">
+    <tr class="form-list-common" style="vertical-align: top;">
+        <td class="padding-large">
             <div id="form-list-list" style="width:164px; height: 95px;" class="margin-right-5"></div>
         </td>
-        <td class="padding-small">
+        <td class="padding-large">
             <div id="form-list-delete" style="margin-bottom: 5px;" class="margin-left-5"></div>
             <div id="form-list-up" style="margin-bottom: 5px;" class="margin-left-5"></div>
             <div id="form-list-down" class="margin-left-5"></div>
+        </td>
+    </tr>
+    <tr class="form-combo">
+        <td colspan="2" class="padding-small">
+            <div id="form-chb-custom-text"></div>
+        </td>
+    </tr>
+    <tr class="form-list">
+        <td colspan="2" class="padding-small">
+            <div id="form-chb-multisel"></div>
+        </td>
+    </tr>
+    <tr class="form-list-common">
+        <td colspan="2" class="padding-small">
+            <div id="form-chb-commit"></div>
         </td>
     </tr>
 </table>
@@ -53,17 +68,9 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="form-combo">
-        <td class="padding-small"></td>
-    </tr>
     <tr class="form-autofit">
         <td class="padding-small">
             <div id="form-chb-autofit"></div>
-        </td>
-    </tr>
-    <tr class="form-combo">
-        <td class="padding-small">
-            <div id="form-chb-custom-text"></div>
         </td>
     </tr>
     <tr class="form-text">

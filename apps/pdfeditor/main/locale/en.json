@@ -1407,6 +1407,8 @@
   "PDFE.Views.FormSettings.textCustomText": "Allow custom text",
   "PDFE.Views.FormSettings.textMaxChars": "Characters limit",
   "PDFE.Views.FormSettings.textComb": "Comb of characters",
+  "PDFE.Views.FormSettings.textCommit": "Commit selected value immediately",
+  "PDFE.Views.FormSettings.textMultisel": "Multiple selection",
   "PDFE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "PDFE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "PDFE.Views.FormsTab.capBtnDownloadForm": "Download As PDF",

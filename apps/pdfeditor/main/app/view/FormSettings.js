@@ -85,7 +85,8 @@ define([
                 scope: this
             }));
             this.PlaceholderSettings = el.find('.form-placeholder');
-            this.ListOnlySettings = el.find('.form-list');
+            this.ListSettings = el.find('.form-list-common');
+            this.ListboxOnlySettings = el.find('.form-list');
             this.AutofitSettings = el.find('.form-autofit');
             this.TextSettings = el.find('.form-text');
             this.ComboSettings = el.find('.form-combo');
@@ -277,6 +278,18 @@ define([
                 dataHintOffset: 'small'
             });
             this.chCustomText.on('change', this.onChCustomText.bind(this));
+            this.lockedControls.push(this.chCustomText);
+
+            // dropdown list
+            this.chMultisel = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-multisel'),
+                labelText: this.textMultisel,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chMultisel.on('change', this.onChMultisel.bind(this));
+            this.lockedControls.push(this.chMultisel);
 
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
@@ -359,6 +372,16 @@ define([
             });
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
             this.lockedControls.push(this.btnListDown);
+
+            this.chCommit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-commit'),
+                labelText: this.textCommit,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chCommit.on('change', this.onChCommit.bind(this));
+            this.lockedControls.push(this.chCommit);
 
             this.UpdateThemeColors();
         },
@@ -543,6 +566,20 @@ define([
         onChCustomText: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 this.api.SetComboboxFieldEditable(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChMultisel: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetListboxFieldMultiSelect(field.getValue()=='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChCommit: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetListFieldCommitOnSelChange(field.getValue()=='checked');
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -735,7 +772,14 @@ define([
                         this.chCustomText.setValue(!!val, true);
                         this._state.CustomText=val;
                     }
-                    this.chCustomText.setDisabled(this._state.DisabledControls);
+                }
+
+                if (type == AscPDF.FIELD_TYPES.listbox && specProps) {
+                    val = specProps.asc_getMultipleSelection();
+                    if ( this._state.Multisel!==val ) {
+                        this.chMultisel.setValue(!!val, true);
+                        this._state.Multisel=val;
+                    }
                 }
 
                 //for list controls
@@ -765,6 +809,12 @@ define([
                             this.txtNewValue.setValue('');
                             this.btnListAdd.setDisabled(true);
                             this._state.listValue = this._state.listIndex = undefined;
+                        }
+
+                        val = specProps.asc_getCommitOnSelChange();
+                        if ( this._state.Commit!==val ) {
+                            this.chCommit.setValue(!!val, true);
+                            this._state.Commit=val;
                         }
                     }
                     this.disableListButtons();
@@ -891,9 +941,10 @@ define([
                 isListbox = type === AscPDF.FIELD_TYPES.listbox;
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
             this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
-            this.ListOnlySettings.toggleClass('hidden', !(isCombobox || isListbox));
+            this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
             this.TextSettings.toggleClass('hidden', !isText);
             this.ComboSettings.toggleClass('hidden', !isCombobox);
+            this.ListboxOnlySettings.toggleClass('hidden', !isListbox);
         }
 
     }, PDFE.Views.FormSettings || {}));
