@@ -96,6 +96,35 @@
         </td>
     </tr>
 </table>
+<table cols="1" role="presentation">
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <label class="input-label" id="form-settings-lbl-style"><%= scope.textChbStyle %></label>
+            <div id="form-combo-chb-style" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <label class="input-label" id="form-settings-lbl-export"><%= scope.textExport %></label>
+            <div id="form-txt-export"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox">
+        <td class="padding-small">
+            <div id="form-chb-def-value"></div>
+        </td>
+    </tr>
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <div id="form-chb-unison"></div>
+        </td>
+    </tr>
+</table>
 <table cols="2" role="presentation">
     <tr>
         <td colspan=2 class="padding-small">

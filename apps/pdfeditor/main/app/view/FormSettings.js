@@ -90,6 +90,8 @@ define([
             this.AutofitSettings = el.find('.form-autofit');
             this.TextSettings = el.find('.form-text');
             this.ComboSettings = el.find('.form-combo');
+            this.CheckSettings = el.find('.form-checkbox');
+            this.RadioOnlySettings = el.find('.form-radiobox');
         },
 
         createDelayedElements: function() {
@@ -100,6 +102,8 @@ define([
             var me = this;
 
             this.labelFormName = $markup.findById('#form-settings-name');
+            this.labelStyleName = $markup.findById('#form-settings-lbl-style');
+            this.labelExportName = $markup.findById('#form-settings-lbl-export');
 
             // Common props
             this.cmbName = new Common.UI.ComboBox({
@@ -383,6 +387,67 @@ define([
             this.chCommit.on('change', this.onChCommit.bind(this));
             this.lockedControls.push(this.chCommit);
 
+            // checkbox & radio
+            this.cmbCheckStyle = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-chb-style'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [
+                    {displayValue: this.textCheck,   value: AscPDF.CHECKBOX_STYLES.check},
+                    {displayValue: this.textCross,   value: AscPDF.CHECKBOX_STYLES.cross},
+                    {displayValue: this.textSquare,   value: AscPDF.CHECKBOX_STYLES.square},
+                    {displayValue: this.textDiamond,   value: AscPDF.CHECKBOX_STYLES.diamond},
+                    {displayValue: this.textCircle,   value: AscPDF.CHECKBOX_STYLES.circle},
+                    {displayValue: this.textStar,   value: AscPDF.CHECKBOX_STYLES.star}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbCheckStyle.setValue(AscPDF.BORDER_TYPES.check);
+            this.cmbCheckStyle.on('selected', this.onCheckStyleChanged.bind(this));
+            this.lockedControls.push(this.cmbCheckStyle);
+
+            this.txtExport = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-export'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtExport);
+            this.txtExport.on('changed:after', this.onExportChanged.bind(this));
+            this.txtExport.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtExport.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtExport._input && me.txtExport._input.select();}, 1);
+            });
+
+            this.chDefValue = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-def-value'),
+                labelText: this.textCheckDefault,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chDefValue.on('change', this.onChDefValue.bind(this));
+            this.lockedControls.push(this.chDefValue);
+
+            // radiobox
+            this.chUnison = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-unison'),
+                labelText: this.textUnison,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chUnison.on('change', this.onChUnison.bind(this));
+            this.lockedControls.push(this.chUnison);
+
             this.UpdateThemeColors();
         },
 
@@ -612,6 +677,39 @@ define([
             }
         },
 
+        onExportChanged: function(input, newValue, oldValue, e) {
+            this._state.Export = undefined;
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                newValue && this.api.SetCheckboxFieldExportValue(newValue);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onCheckStyleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.ChbStyle = undefined;
+                this.api.SetCheckboxFieldStyle(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChDefValue: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this._state.DefValue=undefined;
+                this.api.SetFieldDefaultValue(field.getValue()==='checked' ? this.txtExport.getValue() : undefined);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChUnison: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this._state.Unison=undefined;
+                this.api.SetRadioFieldInUnison(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -825,7 +923,38 @@ define([
                     this.labelFormName.text(this.textImage);
 
                 if (type == AscPDF.FIELD_TYPES.checkbox || type == AscPDF.FIELD_TYPES.radiobutton) {
-                    this.labelFormName.text(type == AscPDF.FIELD_TYPES.checkbox ? this.textCheckbox : this.textRadiobox);
+                    var isCheckbox = type == AscPDF.FIELD_TYPES.checkbox;
+                    this.labelFormName.text(isCheckbox ? this.textCheckbox : this.textRadiobox);
+                    this.labelStyleName.text(isCheckbox ? this.textChbStyle : this.textRadioStyle);
+                    this.labelExportName.text(isCheckbox ? this.textExport : this.textRadioChoice);
+                    if (specProps) {
+                        val = specProps.asc_getCheckboxStyle();
+                        if (this._state.ChbStyle!==val) {
+                            this.cmbCheckStyle.setValue(val, 0);
+                            this._state.ChbStyle=val;
+                        }
+
+                        val = specProps.asc_getExportValue();
+                        if (this._state.Export!==val) {
+                            this.txtExport.setValue(val ? val : '');
+                            this._state.Export=val;
+                        }
+
+                        this.chDefValue.setCaption(isCheckbox ? this.textCheckDefault : this.textRadioDefault);
+                        val = specProps.asc_getDefaultChecked();
+                        if ( this._state.DefValue!==val ) {
+                            this.chDefValue.setValue(!!val, true);
+                            this._state.DefValue=val;
+                        }
+
+                        if (type == AscPDF.FIELD_TYPES.radiobutton) {
+                            val = specProps.asc_getRadiosInUnison();
+                            if ( this._state.Unison!==val ) {
+                                this.chUnison.setValue(!!val, true);
+                                this._state.Unison=val;
+                            }
+                        }
+                    }
                 }
 
                 this._noApply = false;
@@ -938,13 +1067,17 @@ define([
         showHideControls: function(type, specProps) {
             var isCombobox = type === AscPDF.FIELD_TYPES.combobox,
                 isText = type === AscPDF.FIELD_TYPES.text,
-                isListbox = type === AscPDF.FIELD_TYPES.listbox;
+                isListbox = type === AscPDF.FIELD_TYPES.listbox,
+                isCheck = type === AscPDF.FIELD_TYPES.checkbox,
+                isRadio = type === AscPDF.FIELD_TYPES.radiobutton;
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
             this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
             this.TextSettings.toggleClass('hidden', !isText);
             this.ComboSettings.toggleClass('hidden', !isCombobox);
             this.ListboxOnlySettings.toggleClass('hidden', !isListbox);
+            this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
+            this.RadioOnlySettings.toggleClass('hidden', !isRadio);
         }
 
     }, PDFE.Views.FormSettings || {}));
