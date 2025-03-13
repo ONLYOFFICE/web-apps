@@ -634,7 +634,7 @@
   "Common.Views.OpenDialog.txtPassword": "密碼",
   "Common.Views.OpenDialog.txtPreview": "預覽",
   "Common.Views.OpenDialog.txtProtected": "當您輸入密碼並打開文件後，該文件的當前密碼將被重置。",
-  "Common.Views.OpenDialog.txtTitle": "選擇％1個選項",
+  "Common.Views.OpenDialog.txtTitle": "選擇％1選項",
   "Common.Views.OpenDialog.txtTitleProtected": "受保護的檔案",
   "Common.Views.PasswordDialog.txtDescription": "設定密碼以保護此文件。",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "確認密碼不相同",
