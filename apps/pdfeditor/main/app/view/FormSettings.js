@@ -796,14 +796,14 @@ define([
 
                 val = props.asc_getStrokeWidth();
                 if (this._state.StokeWidth!==val) {
-                    this.cmbLineWidth.setValue(val ? val : '');
+                    this.cmbLineWidth.setValue(val, '');
                     this._state.StokeWidth=val;
                 }
                 this.cmbLineWidth.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
 
                 val = props.asc_getStrokeStyle();
                 if (this._state.StokeStyle!==val) {
-                    this.cmbLineStyle.setValue(val ? val : '');
+                    this.cmbLineStyle.setValue(val, '');
                     this._state.StokeStyle=val;
                 }
                 this.cmbLineStyle.setDisabled(this._state.DisabledControls || this._state.BorderColor==='transparent');
@@ -930,7 +930,7 @@ define([
                     if (specProps) {
                         val = specProps.asc_getCheckboxStyle();
                         if (this._state.ChbStyle!==val) {
-                            this.cmbCheckStyle.setValue(val, 0);
+                            this.cmbCheckStyle.setValue(val, '');
                             this._state.ChbStyle=val;
                         }
 
