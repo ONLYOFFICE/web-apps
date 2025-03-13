@@ -53,6 +53,7 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
+            Common.Gateway.on('requestroles', _.bind(this.onRequestRoles, this));
         },
         onLaunch: function () {
             this._state = {
@@ -61,7 +62,8 @@ define([
                 formCount: 0,
                 formAdded: undefined,
                 formRadioAdded: undefined,
-                pageCount: 1
+                pageCount: 1,
+                needToStartFilling: undefined
             };
         },
 
@@ -88,6 +90,7 @@ define([
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
             Common.NotificationCenter.on('forms:show-help', _.bind(this.showHelpTip, this));
             Common.NotificationCenter.on('forms:request-fill', _.bind(this.requestStartFilling, this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             return this;
         },
 
@@ -732,6 +735,21 @@ define([
                 if (value>this._state.pageCount)
                     value = this._state.pageCount;
                 this.api && this.api.goToPage(value-1);
+            }
+        },
+
+        onRequestRoles: function(tab) {
+            if (this._isDocReady)
+                this.requestStartFilling();
+            else
+                this._state.needToStartFilling = true;
+        },
+
+        onDocumentReady: function(tab) {
+            this._isDocReady = true;
+            if (this._state.needToStartFilling) {
+                this._state.needToStartFilling = false;
+                this.requestStartFilling();
             }
         }
 

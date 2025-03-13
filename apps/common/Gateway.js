@@ -165,6 +165,10 @@ if (window.Common === undefined) {
 
             'startFilling': function(data) {
                 $me.trigger('startfilling', data);
+            },
+
+            'requestRoles': function(data) {
+                $me.trigger('requestroles', data);
             }
         };
 
