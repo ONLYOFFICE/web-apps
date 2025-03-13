@@ -245,7 +245,7 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
                         <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
                             {isAndroid ? 
                                 <SvgIcon symbolId={IconListBold.id} className={'icon icon-svg'} /> : 
-                                <SvgIcon symbolId={IconList.id} className={'icon-svg icon-list'} />}
+                                <SvgIcon symbolId={IconList.id} className={'icon icon-svg'} />}
                         </Link>
                     </div>
                 }

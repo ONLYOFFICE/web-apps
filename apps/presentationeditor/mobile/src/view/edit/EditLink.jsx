@@ -6,6 +6,7 @@ import {Device} from "../../../../../common/mobile/utils/device";
 import SvgIcon from '@common/lib/component/SvgIcon';
 import IconClose from '@common-android-icons/icon-close.svg';
 import IconDone from '@common-android-icons/icon-done.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
@@ -158,7 +159,7 @@ const PageLink = props => {
                         props.isNavigate ? f7.views.current.router.back() : props.closeModal();
                     }}>
                         {Device.android && 
-                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
                         }
                     </Link>
                 </NavLeft>
@@ -169,11 +170,11 @@ const PageLink = props => {
                             {url: link, display: stateDisplay, tip: screenTip, displayDisabled } :
                             {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled}));
                     }} text={Device.ios ? t('View.Edit.textDone') : ''}>
-                        {Device.android && 
+                        {Device.android && (
                             link.length < 1 ?
-                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg'} />
-                        }
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>

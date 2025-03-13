@@ -102,7 +102,7 @@ const AddLink = props => {
                         isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
                         {Device.android && 
-                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg'} />
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
                         }
                     </Link>
                 </NavLeft>
@@ -113,11 +113,11 @@ const AddLink = props => {
                             {type: 'ext', url: link, text: stateDisplayText} :
                             {type: 'int', url: range, sheet: curSheet.caption, text: stateDisplayText});
                         }} text={Device.ios ? t('View.Add.textDone') : ''}>
-                        {Device.android && 
+                        {Device.android && ( 
                             link.length < 1 ? 
-                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg'} />
-                        }
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>
