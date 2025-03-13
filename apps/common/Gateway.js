@@ -413,6 +413,10 @@ if (window.Common === undefined) {
                 });
             },
 
+            startFilling:  function () {
+                _postMessage({event:'onStartFilling'});
+            },
+
             requestFillingStatus:  function (role) {
                 _postMessage({
                     event:'onRequestFillingStatus',
