@@ -827,6 +827,13 @@
             });
         };
 
+        var _requestRoles = function(data) {
+            _sendCommand({
+                command: 'requestRoles',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -913,7 +920,8 @@
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
             openDocument: _openDocumentFromBinary,
-            startFilling: _startFilling
+            startFilling: _startFilling,
+            requestRoles: _requestRoles
         }
     };
 
