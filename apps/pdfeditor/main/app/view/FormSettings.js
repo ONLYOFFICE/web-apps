@@ -92,6 +92,8 @@ define([
             this.ComboSettings = el.find('.form-combo');
             this.CheckSettings = el.find('.form-checkbox');
             this.RadioOnlySettings = el.find('.form-radiobox');
+            this.ButtonSettings = el.find('.form-button');
+            this.ImageOnlySettings = el.find('.form-image');
         },
 
         createDelayedElements: function() {
@@ -448,6 +450,103 @@ define([
             this.chUnison.on('change', this.onChUnison.bind(this));
             this.lockedControls.push(this.chUnison);
 
+            // button
+            this.cmbLayout = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-btn-layout'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [
+                    {displayValue: this.textTextOnly,   value: AscPDF.Api.Types.position.textOnly},
+                    {displayValue: this.textIconOnly,   value: AscPDF.Api.Types.position.iconOnly},
+                    {displayValue: this.textIconTop,   value: AscPDF.Api.Types.position.iconTextV},
+                    {displayValue: this.textLabelTop,   value: AscPDF.Api.Types.position.textIconV},
+                    {displayValue: this.textIconLeft,   value: AscPDF.Api.Types.position.iconTextH},
+                    {displayValue: this.textLabelLeft,   value: AscPDF.Api.Types.position.textIconH},
+                    {displayValue: this.textOverlay,   value: AscPDF.Api.Types.position.overlay}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbLayout.setValue(AscPDF.Api.Types.position.textOnly);
+            this.cmbLayout.on('selected', this.onLayoutChanged.bind(this));
+            this.lockedControls.push(this.cmbLayout);
+
+            this.chFit = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-fit'),
+                labelText: this.textFitBounds,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chFit.on('change', this.onChFit.bind(this));
+            this.lockedControls.push(this.chFit);
+
+            this.cmbScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textAlways,  value: AscPDF.Api.Types.scaleWhen.always },
+                    { displayValue: this.textNever,  value: AscPDF.Api.Types.scaleWhen.never },
+                    { displayValue: this.textTooBig,  value: AscPDF.Api.Types.scaleWhen.tooBig },
+                    { displayValue: this.textTooSmall,  value: AscPDF.Api.Types.scaleWhen.tooSmall }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbScale.setValue(AscPDF.Api.Types.scaleWhen.always);
+            this.lockedControls.push(this.cmbScale);
+            this.cmbScale.on('selected', this.onScaleChanged.bind(this));
+            this.cmbScale.on('changed:after', this.onScaleChanged.bind(this));
+            this.cmbScale.on('hide:after', this.onHideMenus.bind(this));
+
+            this.cmbHowScale = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-how-scale'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textProportional,  value: AscPDF.Api.Types.scaleHow.proportional },
+                    { displayValue: this.textAnamorphic,  value: AscPDF.Api.Types.scaleHow.anamorphic }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbHowScale.setValue(AscPDF.Api.Types.scaleHow.proportional);
+            this.lockedControls.push(this.cmbHowScale);
+            this.cmbHowScale.on('selected', this.onHowScaleChanged.bind(this));
+            this.cmbHowScale.on('changed:after', this.onHowScaleChanged.bind(this));
+            this.cmbHowScale.on('hide:after', this.onHideMenus.bind(this));
+
+            this.imagePositionPreview = $markup.findById('#form-img-example');
+            this.imagePositionLabel = $markup.findById('#form-img-slider-value');
+
+            this.sldrPreviewPositionX = new Common.UI.SingleSlider({
+                el: $markup.findById('#form-img-slider-position-x'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50
+            });
+            this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
+            this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+
+            this.sldrPreviewPositionY = new Common.UI.SingleSlider({
+                el: $markup.findById('#form-img-slider-position-y'),
+                width: 116,
+                minValue: 0,
+                maxValue: 100,
+                value: 50,
+                direction: 'vertical'
+            });
+            this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
+            this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+
+            var xValue = this.sldrPreviewPositionX.getValue(),
+                yValue = this.sldrPreviewPositionY.getValue();
+            this.imagePositionLabel.text(xValue + ',' + yValue);
+
             this.UpdateThemeColors();
         },
 
@@ -710,6 +809,70 @@ define([
             }
         },
 
+        onLayoutChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Layout = undefined;
+                this.api.SetButtonLayout(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChFit: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetButtonFitBounds(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Scale = undefined;
+                this.api.SetButtonScaleWhen(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onHowScaleChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.HowScale = undefined;
+                this.api.SetButtonScaleHow(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onImagePositionChange: function (type, field, newValue, oldValue) {
+            var value = ((130 - 80) * newValue) / 100 - 1;
+            if (type === 'x') {
+                this.imagePositionPreview.css({'left': value + 'px'});
+                this._state.imgPositionX = newValue;
+            } else {
+                this.imagePositionPreview.css({'top': value + 'px'});
+                this._state.imgPositionY = newValue;
+            }
+            if (_.isUndefined(this._state.imgPositionX)) {
+                this._state.imgPositionX = 50;
+            } else if (_.isUndefined(this._state.imgPositionY)) {
+                this._state.imgPositionY = 50;
+            }
+            this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+        },
+
+        onImagePositionChangeComplete: function (type, field, newValue, oldValue) {
+            if (type === 'x') {
+                this._state.imgPositionX = newValue;
+            } else {
+                this._state.imgPositionY = newValue;
+            }
+            this.imgPositionApplyFunc(type);
+        },
+
+        imgPositionApplyFunc: function (type) {
+            if (this.api && !this._noApply) {
+                this.api.SetButtonIconPos(this._state.imgPositionX / 100, this._state.imgPositionY / 100);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -918,9 +1081,60 @@ define([
                     this.disableListButtons();
                 }
 
-                if (type == AscPDF.FIELD_TYPES.button)
+                if (type === AscPDF.FIELD_TYPES.button) {
                     // this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
-                    this.labelFormName.text(this.textImage);
+                    this.labelFormName.text(this.textButton);
+                    if (specProps) {
+                        val = specProps.asc_getLayout();
+                        if (this._state.Layout!==val) {
+                            this.cmbLayout.setValue(val, '');
+                            this._state.Layout=val;
+                        }
+
+                        if (val!==AscPDF.Api.Types.position.textOnly) {
+                            val = specProps.asc_getScaleWhen();
+                            if (this._state.Scale!==val) {
+                                this.cmbScale.setValue(val, '');
+                                this._state.Scale=val;
+                            }
+
+                            val = specProps.asc_getScaleHow();
+                            if (this._state.HowScale!==val) {
+                                this.cmbHowScale.setValue(val, '');
+                                this._state.HowScale=val;
+                            }
+
+                            val = specProps.asc_getIconPos();
+                            if (val) {
+                                var x = val.X * 100,
+                                    y = val.Y * 100;
+                                if (this._state.imgPositionX !== x) {
+                                    this.sldrPreviewPositionX.setValue(x);
+                                    this._state.imgPositionX = x;
+                                }
+                                if (this._state.imgPositionY !== y) {
+                                    this.sldrPreviewPositionY.setValue(y);
+                                    this._state.imgPositionY = y;
+                                }
+                                this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+                                val = ((130 - 80) * this._state.imgPositionX) / 100 - 1;
+                                this.imagePositionPreview.css({'left': val + 'px'});
+                                val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
+                                this.imagePositionPreview.css({'top': val + 'px'});
+                            }
+
+                            val = specProps.asc_getFitBounds();
+                            if ( this._state.Fit!==val ) {
+                                this.chFit.setValue(!!val, true);
+                                this._state.Fit=val;
+                            }
+                            this.chFit.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
+                            var disableSliders = this._state.Scale === AscPDF.Api.Types.scaleWhen.always && !this._state.Fit || this._state.DisabledControls;
+                            this.sldrPreviewPositionX.setDisabled(disableSliders);
+                            this.sldrPreviewPositionY.setDisabled(disableSliders);
+                        }
+                    }
+                }
 
                 if (type == AscPDF.FIELD_TYPES.checkbox || type == AscPDF.FIELD_TYPES.radiobutton) {
                     var isCheckbox = type == AscPDF.FIELD_TYPES.checkbox;
@@ -959,7 +1173,7 @@ define([
 
                 this._noApply = false;
 
-                if (this.type !== type)
+                if (this.type !== type || type === AscPDF.FIELD_TYPES.button)
                     this.showHideControls(type, specProps);
 
                 if (this.type !== type)
@@ -1062,6 +1276,10 @@ define([
             this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
             this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
             this.spnMaxChars.setDisabled(isComb || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
+            this.chFit.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
+            var disableSliders = this._state.Scale === AscPDF.Api.Types.scaleWhen.always && !this._state.Fit || this._state.DisabledControls;
+            this.sldrPreviewPositionX.setDisabled(disableSliders);
+            this.sldrPreviewPositionY.setDisabled(disableSliders);
         },
 
         showHideControls: function(type, specProps) {
@@ -1069,7 +1287,9 @@ define([
                 isText = type === AscPDF.FIELD_TYPES.text,
                 isListbox = type === AscPDF.FIELD_TYPES.listbox,
                 isCheck = type === AscPDF.FIELD_TYPES.checkbox,
-                isRadio = type === AscPDF.FIELD_TYPES.radiobutton;
+                isRadio = type === AscPDF.FIELD_TYPES.radiobutton,
+                isButton = type === AscPDF.FIELD_TYPES.button,
+                isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly);
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
             this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
@@ -1078,6 +1298,8 @@ define([
             this.ListboxOnlySettings.toggleClass('hidden', !isListbox);
             this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
+            this.ButtonSettings.toggleClass('hidden', !isButton);
+            this.ImageOnlySettings.toggleClass('hidden', !isImage);
         }
 
     }, PDFE.Views.FormSettings || {}));

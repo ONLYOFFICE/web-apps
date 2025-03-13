@@ -16,6 +16,12 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small form-button">
+            <label class="input-label"><%= scope.textLayout %></label>
+            <div id="form-combo-btn-layout" style="width: 100%;"></div>
+        </td>
+    </tr>
 </table>
 <table cols="2" role="presentation">
     <tr class="form-list-common">
@@ -124,6 +130,56 @@
             <div id="form-chb-unison"></div>
         </td>
     </tr>
+</table>
+<table cols="1" role="presentation">
+    <tr class="form-image">
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td>
+            <label class="header padding-small"><%= scope.textPlacement %></label>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textScale %></label>
+            <div id="form-combo-scale" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textHowScale %></label>
+            <div id="form-combo-how-scale" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-chb-fit"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-cnt-position" style="width: 100%;">
+                <div class="row">
+                    <div id="form-img-position-preview">
+                        <div id="form-img-example"><%= scope.textImage %></div>
+                    </div>
+                    <div id="form-img-slider-position-y"></div>
+                </div>
+                <div class="row">
+                    <div id="form-img-slider-position-x"></div>
+                    <label id="form-img-slider-value"></label>
+                </div>
+            </div>
+        </td>
+    </tr>
+<!--    <tr class="form-image">-->
+<!--        <td class="padding-large">-->
+<!--            <div id="form-button-replace" style="width:100%;"></div>-->
+<!--        </td>-->
+<!--    </tr>-->
 </table>
 <table cols="2" role="presentation">
     <tr>
