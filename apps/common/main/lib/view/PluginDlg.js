@@ -132,6 +132,10 @@ define([], function () {
             this.on('close', function() {
                 $(window).off('resize', onMainWindowResize);
             });
+
+            if(this.options.isCanDocked) {
+                this.showDockedButton();
+            }
         },
 
         _onLoad: function() {
@@ -202,6 +206,26 @@ define([], function () {
             }
         },
 
+        showDockedButton: function() {
+            var header = this.$window.find('.header .tools:not(.left)'),
+                // header = this.$window.find('.header .tools.left'),
+                btnId = 'id-plugindlg-docked',
+                btn = header.find('#' + btnId);
+            if (btn.length < 1) {
+                var iconCls = 'btn-pin';
+                btn = $('<div id="' + btnId + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    var tip = btn.data('bs.tooltip');
+                    if (tip) tip.dontShow = true;
+                    this.fireEvent('docked', this.frameId);
+                }, this));
+                header.append(btn);
+                btn.tooltip({title: this.textDock, placement: 'cursor', zIndex: parseInt(this.$window.css('z-index')) + 10});
+            }
+            btn.show();
+            header.removeClass('hidden');
+        },
+
         showButton: function(id, toRight) {
             var header = this.$window.find(toRight ? '.header .tools:not(.left)' : '.header .tools.left'),
                 btn = header.find('#id-plugindlg-' + id);
@@ -228,6 +252,7 @@ define([], function () {
             this.frame && (this.frame.style.pointerEvents = enable ? "" : "none");
         },
 
-        textLoading : 'Loading'
+        textLoading : 'Loading',
+        textDock: 'Pin plugin'
     }, Common.Views.PluginDlg || {}));
 });
