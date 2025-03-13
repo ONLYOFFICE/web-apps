@@ -681,7 +681,7 @@ define([
                     guid: plugin.get_Guid(),
                     cls: isCustomWindow ? 'plain' : '',
                     header: !isCustomWindow,
-                    title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
+                    title: Common.Utils.String.htmlEncode(langName),
                     width: size[0], // inner width
                     height: size[1], // inner height
                     url: url,
@@ -707,9 +707,11 @@ define([
                     },
                     'drag': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'resize': function(args){
                         me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        args[0].enablePointerEvents(args[1]!=='start');
                     },
                     'help': function(){
                         help && window.open(help, '_blank');
@@ -1212,9 +1214,11 @@ define([
                 },
                 'drag': function(args){
                     me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                    args[0].enablePointerEvents(args[1]!=='start');
                 },
                 'resize': function(args){
                     me.api.asc_pluginEnableMouseEvents(args[1]=='start', frameId);
+                    args[0].enablePointerEvents(args[1]!=='start');
                 },
                 'help': function(){
                     help && window.open(help, '_blank');
