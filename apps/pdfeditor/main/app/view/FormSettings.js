@@ -680,7 +680,7 @@ define([
         onExportChanged: function(input, newValue, oldValue, e) {
             this._state.Export = undefined;
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                newValue && this.api.SetCheckboxFieldExportValue(newValue);
+                this.api.SetCheckboxFieldExportValue(newValue);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
             }
