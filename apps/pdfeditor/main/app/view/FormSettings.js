@@ -68,7 +68,8 @@ define([
 
             this._state = {
                 DisabledControls: undefined,
-                LockDelete: undefined
+                LockDelete: undefined,
+                ButtonCaption: {}
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -94,6 +95,7 @@ define([
             this.CheckSettings = el.find('.form-checkbox');
             this.RadioOnlySettings = el.find('.form-radiobox');
             this.ButtonSettings = el.find('.form-button');
+            this.ButtonTextOnlySettings = el.find('.form-button-text');
             this.ImageOnlySettings = el.find('.form-image');
         },
 
@@ -474,6 +476,57 @@ define([
             this.cmbLayout.on('selected', this.onLayoutChanged.bind(this));
             this.lockedControls.push(this.cmbLayout);
 
+            this.cmbBehavior = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-behavior'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textNone,  value: AscPDF.BUTTON_HIGHLIGHT_TYPES.none },
+                    { displayValue: this.textPush,  value: AscPDF.BUTTON_HIGHLIGHT_TYPES.push },
+                    { displayValue: this.textOutline,  value: AscPDF.BUTTON_HIGHLIGHT_TYPES.outline },
+                    { displayValue: this.textInvert,  value: AscPDF.BUTTON_HIGHLIGHT_TYPES.invert }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbBehavior.setValue(AscPDF.BUTTON_HIGHLIGHT_TYPES.none);
+            this.cmbBehavior.on('selected', this.onBehaviorChanged.bind(this));
+            this.lockedControls.push(this.cmbBehavior);
+
+            this.cmbState = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-state'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: [{ displayValue: this.textNormal,  value: AscPDF.APPEARANCE_TYPES.normal },
+                    { displayValue: this.textDown,  value: AscPDF.APPEARANCE_TYPES.mouseDown },
+                    { displayValue: this.textHover,  value: AscPDF.APPEARANCE_TYPES.rollover }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbState.setValue(AscPDF.APPEARANCE_TYPES.normal);
+            this.cmbState.on('selected', this.onStateChanged.bind(this));
+            this.lockedControls.push(this.cmbState);
+
+            this.txtLabel = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-label'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtLabel);
+            this.txtLabel.on('changed:after', this.onLabelChanged.bind(this));
+            this.txtLabel.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtLabel.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtLabel._input && me.txtLabel._input.select();}, 1);
+            });
+
             this.chFit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-fit'),
                 labelText: this.textFitBounds,
@@ -819,6 +872,34 @@ define([
             }
         },
 
+        onBehaviorChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Behavior = undefined;
+                this.api.SetButtonFieldBehavior(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onStateChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.State = record.value;
+                if (this._originalSpecProps) {
+                    this._originalSpecProps.asc_putCurrentState(record.value);
+                    this._state.ButtonLabel = this._state.ButtonCaption[record.value];
+                    this.txtLabel.setValue(this._state.ButtonLabel || '');
+                }
+            }
+        },
+
+        onLabelChanged: function(input, newValue, oldValue, e) {
+            this._state.ButtonLabel = undefined;
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this.api.SetButtonFieldLabel(newValue, this._state.State);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         onChFit: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 this.api.SetButtonFieldFitBounds(field.getValue()==='checked');
@@ -1087,13 +1168,43 @@ define([
                     // this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
                     this.labelFormName.text(this.textButton);
                     if (specProps) {
-                        val = specProps.asc_getLayout();
-                        if (this._state.Layout!==val) {
-                            this.cmbLayout.setValue(val, '');
-                            this._state.Layout=val;
+                        var layout = specProps.asc_getLayout();
+                        if (this._state.Layout!==layout) {
+                            this.cmbLayout.setValue(layout, '');
+                            this._state.Layout=layout;
                         }
 
-                        if (val!==AscPDF.Api.Types.position.textOnly) {
+                        val = specProps.asc_getBehavior();
+                        if (this._state.Behavior!==val) {
+                            this.cmbBehavior.setValue(val, '');
+                            this._state.Behavior=val;
+                            this.cmbState.setDisabled(val!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
+                        }
+                        if (this._state.Behavior===AscPDF.BUTTON_HIGHLIGHT_TYPES.push) {
+                            val = specProps.asc_getCurrentState();
+                            if (this._state.State!==val) {
+                                this.cmbState.setValue(val, '');
+                                this._state.State=val;
+                            }
+                            this._state.ButtonCaption = {};
+                            this._state.ButtonCaption[AscPDF.APPEARANCE_TYPES.normal] = specProps.asc_getNormalCaption();
+                            this._state.ButtonCaption[AscPDF.APPEARANCE_TYPES.mouseDown] = specProps.asc_getDownCaption();
+                            this._state.ButtonCaption[AscPDF.APPEARANCE_TYPES.rollover] = specProps.asc_getHoverCaption();
+                        } else {
+                            this._state.State = AscPDF.APPEARANCE_TYPES.normal;
+                            this.cmbState.setValue(this._state.State);
+                            this._state.ButtonCaption = {};
+                            this._state.ButtonCaption[this._state.State] = specProps.asc_getNormalCaption();
+                        }
+
+                        if (layout!==AscPDF.Api.Types.position.iconOnly) {
+                            if (this._state.ButtonLabel !== this._state.ButtonCaption[this._state.State]) {
+                                this._state.ButtonLabel = this._state.ButtonCaption[this._state.State];
+                                this.txtLabel.setValue(this._state.ButtonLabel || '');
+                            }
+                        }
+
+                        if (layout!==AscPDF.Api.Types.position.textOnly) {
                             val = specProps.asc_getScaleWhen();
                             if (this._state.Scale!==val) {
                                 this.cmbScale.setValue(val, '');
@@ -1276,6 +1387,8 @@ define([
             this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
             this.spnMaxChars.setDisabled(isComb || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
+            this.cmbState.setDisabled(this._state.Behavior!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
+
         },
 
         showHideControls: function(type, specProps) {
@@ -1285,7 +1398,8 @@ define([
                 isCheck = type === AscPDF.FIELD_TYPES.checkbox,
                 isRadio = type === AscPDF.FIELD_TYPES.radiobutton,
                 isButton = type === AscPDF.FIELD_TYPES.button,
-                isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly);
+                isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly),
+                isButtonText = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.iconOnly);
             this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
             this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
@@ -1296,6 +1410,7 @@ define([
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
             this.ButtonSettings.toggleClass('hidden', !isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
+            this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
         }
 
     }, PDFE.Views.FormSettings || {}));

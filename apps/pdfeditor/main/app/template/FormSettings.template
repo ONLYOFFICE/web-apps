@@ -22,6 +22,12 @@
             <div id="form-combo-btn-layout" style="width: 100%;"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small form-button">
+            <label class="input-label"><%= scope.textBehavior %></label>
+            <div id="form-combo-behavior" style="width: 100%;"></div>
+        </td>
+    </tr>
 </table>
 <table cols="2" role="presentation">
     <tr class="form-list-common">
@@ -132,34 +138,71 @@
     </tr>
 </table>
 <table cols="1" role="presentation">
-    <tr class="form-image">
+    <tr class="form-button">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="form-image">
+    <tr>
+        <td class="padding-small form-button">
+            <label class="input-label"><%= scope.textState %></label>
+            <div id="form-combo-state" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-button-text">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textLabel %></label>
+            <div id="form-txt-label"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" class="form-image" style="width: 100%;">
+    <tr>
+        <td style="vertical-align: top">
+            <label class="input-label" style=""><%= scope.textIcon %></label>
+            <div id="form-btn-replace" style="width: 90px;"></div>
+        </td>
+        <td rowspan="2">
+            <div class="texture-img float-right" style="width: 90px; height: 80px;">
+                <div id="form-icon-img" style="width: 50px;height: 50px;"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: bottom">
+            <div id="form-btn-clear" style="width: 90px;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1" class="form-image" role="presentation">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
         <td>
             <label class="header padding-small"><%= scope.textPlacement %></label>
         </td>
     </tr>
-    <tr class="form-image">
+    <tr>
         <td class="padding-small">
             <label class="input-label"><%= scope.textScale %></label>
             <div id="form-combo-scale" style="width: 100%;"></div>
         </td>
     </tr>
-    <tr class="form-image">
+    <tr>
         <td class="padding-small">
             <label class="input-label"><%= scope.textHowScale %></label>
             <div id="form-combo-how-scale" style="width: 100%;"></div>
         </td>
     </tr>
-    <tr class="form-image">
+    <tr>
         <td class="padding-large">
             <div id="form-chb-fit"></div>
         </td>
     </tr>
-    <tr class="form-image">
+    <tr>
         <td class="padding-large">
             <div id="form-cnt-position" style="width: 100%;">
                 <div class="row">
@@ -175,11 +218,6 @@
             </div>
         </td>
     </tr>
-<!--    <tr class="form-image">-->
-<!--        <td class="padding-large">-->
-<!--            <div id="form-button-replace" style="width:100%;"></div>-->
-<!--        </td>-->
-<!--    </tr>-->
 </table>
 <table cols="2" role="presentation">
     <tr>
