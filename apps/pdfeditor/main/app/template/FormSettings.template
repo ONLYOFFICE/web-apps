@@ -162,14 +162,14 @@
             <label class="input-label" style=""><%= scope.textIcon %></label>
             <div id="form-btn-replace" style="width: 90px;"></div>
         </td>
-        <td rowspan="2">
+        <td rowspan="2" class="padding-small">
             <div class="texture-img float-right" style="width: 90px; height: 80px;">
                 <div id="form-icon-img" style="width: 50px;height: 50px;"></div>
             </div>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: bottom">
+        <td class="padding-small" style="vertical-align: bottom">
             <div id="form-btn-clear" style="width: 90px;"></div>
         </td>
     </tr>
@@ -203,7 +203,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
             <div id="form-cnt-position" style="width: 100%;">
                 <div class="row">
                     <div id="form-img-position-preview">

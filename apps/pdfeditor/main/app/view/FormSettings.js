@@ -527,6 +527,43 @@ define([
                 setTimeout(function(){me.txtLabel._input && me.txtLabel._input.select();}, 1);
             });
 
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-replace'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelect,
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 90px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                }),
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.btnSelectImage);
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            if (this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1) {
+                Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+            } else
+                this.btnSelectImage.menu.items[2].setVisible(false);
+
+            this.btnClear = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-clear'),
+                cls         : 'btn-text-default',
+                style: "width:100%;",
+                caption     : this.textClear,
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnClear.on('click', _.bind(this.onImageClear, this));
+            this.lockedControls.push(this.btnClear);
+
             this.chFit = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-fit'),
                 labelText: this.textFitBounds,
@@ -900,6 +937,42 @@ define([
             }
         },
 
+        onImageClear: function() {
+            if (this.api && !this._noApply) {
+                this._originalSpecProps && this._originalSpecProps.put_ImageUrl(null, this._state.State);
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this._originalSpecProps && this._originalSpecProps.put_ImageUrl(data._urls[0], this._state.State);
+            }
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me._originalSpecProps) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me._originalSpecProps.put_ImageUrl(checkUrl, me._state.State);
+                                }
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                this._originalSpecProps && this._originalSpecProps.showFileDialog(this._state.State);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onChFit: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
                 this.api.SetButtonFieldFitBounds(field.getValue()==='checked');
@@ -1205,6 +1278,8 @@ define([
                         }
 
                         if (layout!==AscPDF.Api.Types.position.textOnly) {
+                            specProps.put_DivId('form-icon-img');
+
                             val = specProps.asc_getScaleWhen();
                             if (this._state.Scale!==val) {
                                 this.cmbScale.setValue(val, '');
