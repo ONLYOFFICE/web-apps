@@ -1130,10 +1130,7 @@ define([
                                 this.chFit.setValue(!!val, true);
                                 this._state.Fit=val;
                             }
-                            this.chFit.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
-                            var disableSliders = this._state.Scale === AscPDF.Api.Types.scaleWhen.always && !this._state.Fit || this._state.DisabledControls;
-                            this.sldrPreviewPositionX.setDisabled(disableSliders);
-                            this.sldrPreviewPositionY.setDisabled(disableSliders);
+                            this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
                         }
                     }
                 }
@@ -1278,10 +1275,7 @@ define([
             this.spnCombChars.setDisabled(!isComb || this._state.DisabledControls);
             this.chMaxChars.setDisabled(isComb || this._state.DisabledControls);
             this.spnMaxChars.setDisabled(isComb || this.chMaxChars.getValue()!=='checked' || this._state.DisabledControls);
-            this.chFit.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
-            var disableSliders = this._state.Scale === AscPDF.Api.Types.scaleWhen.always && !this._state.Fit || this._state.DisabledControls;
-            this.sldrPreviewPositionX.setDisabled(disableSliders);
-            this.sldrPreviewPositionY.setDisabled(disableSliders);
+            this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
         },
 
         showHideControls: function(type, specProps) {
