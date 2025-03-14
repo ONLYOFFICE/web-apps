@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Заштити радни лист",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

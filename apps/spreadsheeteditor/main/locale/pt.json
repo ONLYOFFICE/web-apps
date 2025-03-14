@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger a pasta de trabalho",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Digite uma senha para desproteger a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protecció del llibre de treball",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

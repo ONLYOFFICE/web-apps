@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Chroń skoroszyt",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

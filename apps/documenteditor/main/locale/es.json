@@ -3704,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subrayado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nombre de la fuente",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño de la fuente",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "保護工作簿",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "輸入密碼以解除工作表的保護",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

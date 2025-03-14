@@ -3704,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

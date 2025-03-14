@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a la página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar al ancho",
   "PDFE.Views.ViewTab.tipHeadings": "Encabezados",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

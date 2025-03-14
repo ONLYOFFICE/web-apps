@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

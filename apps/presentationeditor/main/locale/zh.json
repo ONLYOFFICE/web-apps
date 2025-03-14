@@ -2985,5 +2985,8 @@
   "PE.Views.ViewTab.tipMacros": "宏",
   "PE.Views.ViewTab.tipNormal": "正常",
   "PE.Views.ViewTab.tipSelectTool": "选择工具",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片母版",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

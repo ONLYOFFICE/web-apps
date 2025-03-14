@@ -3704,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

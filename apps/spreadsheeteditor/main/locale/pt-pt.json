@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Proteger livro",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

@@ -3704,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Gjysmë transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Nënvizim",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Emri i fontit",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }
