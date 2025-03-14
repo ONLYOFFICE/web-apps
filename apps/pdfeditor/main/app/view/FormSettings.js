@@ -814,14 +814,14 @@ define([
         onLayoutChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.Layout = undefined;
-                this.api.SetButtonLayout(record.value);
+                this.api.SetButtonFieldLayout(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
 
         onChFit: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
-                this.api.SetButtonFitBounds(field.getValue()==='checked');
+                this.api.SetButtonFieldFitBounds(field.getValue()==='checked');
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -829,7 +829,7 @@ define([
         onScaleChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.Scale = undefined;
-                this.api.SetButtonScaleWhen(record.value);
+                this.api.SetButtonFieldScaleWhen(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -837,7 +837,7 @@ define([
         onHowScaleChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.HowScale = undefined;
-                this.api.SetButtonScaleHow(record.value);
+                this.api.SetButtonFieldScaleHow(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -870,7 +870,7 @@ define([
 
         imgPositionApplyFunc: function (type) {
             if (this.api && !this._noApply) {
-                this.api.SetButtonIconPos(this._state.imgPositionX / 100, (100 - this._state.imgPositionY) / 100);
+                this.api.SetButtonFieldIconPos(this._state.imgPositionX / 100, (100 - this._state.imgPositionY) / 100);
                 this.fireEvent('editcomplete', this);
             }
         },

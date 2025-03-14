@@ -1437,7 +1437,7 @@
   "PDFE.Views.FormSettings.textPlacement": "Icon placement",
   "PDFE.Views.FormSettings.textFitBounds": "Fit to bounds",
   "PDFE.Views.FormSettings.textProportional": "Proportionally",
-  "PDFE.Views.FormSettings.textAnamorphic": "Nonproportionally",
+  "PDFE.Views.FormSettings.textAnamorphic": "Non-proportionally",
   "PDFE.Views.FormSettings.textAlways": "Always",
   "PDFE.Views.FormSettings.textNever": "Never",
   "PDFE.Views.FormSettings.textTooBig": "Image is too big",
