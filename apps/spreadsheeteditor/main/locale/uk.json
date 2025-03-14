@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Захистити книгу",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

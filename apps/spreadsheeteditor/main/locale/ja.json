@@ -2846,7 +2846,7 @@
   "SSE.Views.FillSeriesDialog.textDate": "日付",
   "SSE.Views.FillSeriesDialog.textDateUnit": "日付単位",
   "SSE.Views.FillSeriesDialog.textDay": "日",
-  "SSE.Views.FillSeriesDialog.textGrowth": "等比",
+  "SSE.Views.FillSeriesDialog.textGrowth": "乗算",
   "SSE.Views.FillSeriesDialog.textLinear": "線形",
   "SSE.Views.FillSeriesDialog.textMonth": "月",
   "SSE.Views.FillSeriesDialog.textRows": "行",
@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "ブックを保護する",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "シートを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

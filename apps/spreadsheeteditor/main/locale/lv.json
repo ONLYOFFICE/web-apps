@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Aizsargāt darbgrāmatu",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

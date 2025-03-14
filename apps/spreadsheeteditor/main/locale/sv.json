@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Skydda arbetsbok",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ange ett lösenord för att låsa upp kalkylarkets skydd",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

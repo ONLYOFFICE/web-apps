@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Mbroni librin e punës",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Futni një fjalëkalim për të hequr mbrojtjen e fletës",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Fletë e pambrojtur",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Futni një fjalëkalim për të hequr mbrojtjen e librit të punës"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Futni një fjalëkalim për të hequr mbrojtjen e librit të punës",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

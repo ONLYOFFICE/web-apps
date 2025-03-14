@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Çalışma Kitabını Koru",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Sayfanın korumasını kaldırmak için bir şifre girin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Korumasız Sayfa",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Çalışma kitabının korumasını kaldırmak için bir parola girin",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

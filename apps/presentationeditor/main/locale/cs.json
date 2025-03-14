@@ -2985,5 +2985,8 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSelectTool": "Zvolit nástroj",
-  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek"
+  "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

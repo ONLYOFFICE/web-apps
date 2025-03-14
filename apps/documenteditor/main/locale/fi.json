@@ -3704,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }
