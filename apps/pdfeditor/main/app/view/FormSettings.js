@@ -44,7 +44,8 @@ define([
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/TextareaField',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/Slider'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -521,6 +522,7 @@ define([
 
             this.imagePositionPreview = $markup.findById('#form-img-example');
             this.imagePositionLabel = $markup.findById('#form-img-slider-value');
+            this.imagePositionPreview_offset = this.imagePositionPreview.parent().width() - this.imagePositionPreview.width();
 
             this.sldrPreviewPositionX = new Common.UI.SingleSlider({
                 el: $markup.findById('#form-img-slider-position-x'),
@@ -545,7 +547,7 @@ define([
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
-            this.imagePositionLabel.text(xValue + ',' + yValue);
+            this.imagePositionLabel.text(xValue + ',' + (100 - yValue));
 
             this.UpdateThemeColors();
         },
@@ -841,7 +843,7 @@ define([
         },
 
         onImagePositionChange: function (type, field, newValue, oldValue) {
-            var value = ((130 - 80) * newValue) / 100 - 1;
+            var value = (this.imagePositionPreview_offset * newValue) / 100 - 1;
             if (type === 'x') {
                 this.imagePositionPreview.css({'left': value + 'px'});
                 this._state.imgPositionX = newValue;
@@ -854,7 +856,7 @@ define([
             } else if (_.isUndefined(this._state.imgPositionY)) {
                 this._state.imgPositionY = 50;
             }
-            this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
+            this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(100 - this._state.imgPositionY));
         },
 
         onImagePositionChangeComplete: function (type, field, newValue, oldValue) {
@@ -868,7 +870,7 @@ define([
 
         imgPositionApplyFunc: function (type) {
             if (this.api && !this._noApply) {
-                this.api.SetButtonIconPos(this._state.imgPositionX / 100, this._state.imgPositionY / 100);
+                this.api.SetButtonIconPos(this._state.imgPositionX / 100, (100 - this._state.imgPositionY) / 100);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -1107,7 +1109,7 @@ define([
                             val = specProps.asc_getIconPos();
                             if (val) {
                                 var x = val.X * 100,
-                                    y = val.Y * 100;
+                                    y = 100 - val.Y * 100;
                                 if (this._state.imgPositionX !== x) {
                                     this.sldrPreviewPositionX.setValue(x);
                                     this._state.imgPositionX = x;
@@ -1116,10 +1118,10 @@ define([
                                     this.sldrPreviewPositionY.setValue(y);
                                     this._state.imgPositionY = y;
                                 }
-                                this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(this._state.imgPositionY));
-                                val = ((130 - 80) * this._state.imgPositionX) / 100 - 1;
+                                this.imagePositionLabel.text(Math.round(this._state.imgPositionX) + ',' + Math.round(100 - this._state.imgPositionY));
+                                val = (this.imagePositionPreview_offset * this._state.imgPositionX) / 100 - 1;
                                 this.imagePositionPreview.css({'left': val + 'px'});
-                                val = ((130 - 80) * this._state.imgPositionY) / 100 - 1;
+                                val = (this.imagePositionPreview_offset * this._state.imgPositionY) / 100 - 1;
                                 this.imagePositionPreview.css({'top': val + 'px'});
                             }
 
