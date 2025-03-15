@@ -940,6 +940,23 @@
         return '{{PRODUCT_VERSION}}';
     };
 
+    DocsAPI.DocEditor.warmUp = function(id) {
+        var target = document.getElementById(id);
+        if ( target ) {
+            var path = extendAppPath({}, getBasePath());
+            path += 'api/documents/cache-scripts.html';
+
+            var iframe = document.createElement("iframe");
+            iframe.width = 0;
+            iframe.height = 0;
+            iframe.style = 'border:0 none;';
+            iframe.onload = function() { console.log('onload cache script') };
+            iframe.src = path;
+
+            target.parentNode && target.parentNode.replaceChild(iframe, target);
+        }
+    }
+
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
             _scope  = scope || window,
