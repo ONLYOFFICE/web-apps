@@ -98,7 +98,7 @@
             }
         });
 
-        inject_style_tag('.' + objtheme.id + '{' + icons.join(';') + ';}', objtheme.id);
+        inject_style_tag('.' + themeid + '{' + icons.join(';') + ';}', themeid);
 
         const svg_icons_array = [base_url+'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
         if ( window.Common && window.Common.Utils )

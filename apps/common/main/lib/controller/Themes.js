@@ -366,6 +366,9 @@ define([
                     colors: get_current_theme_colors(),
                 };
 
+                if ( themes_map[id].icons )
+                    theme_obj.icons = themes_map[id].icons;
+
                 Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
             }
         }
@@ -531,6 +534,12 @@ define([
 
                 if ( !document.body.classList.contains('theme-type-' + obj.type) )
                     document.body.classList.add('theme-type-' + obj.type);
+
+                if (themes_map[theme_id].icons) {
+                    if (!document.querySelector('style#' + theme_id)) {
+                        window.uitheme.apply_icons_from_url(theme_id, themes_map[theme_id].icons);
+                    }
+                }
 
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) && !Common.Controllers.Desktop.isActive() )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
