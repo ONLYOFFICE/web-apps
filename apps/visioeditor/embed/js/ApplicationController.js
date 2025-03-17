@@ -44,7 +44,8 @@ VE.ApplicationController = new(function(){
         labelDocName,
         requireUserAction = true;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+          WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -357,6 +358,11 @@ VE.ApplicationController = new(function(){
     }
 
     function onDocMouseMove(data) {
+        if (WarningShown) {
+            if ($tooltip) {
+                $tooltip.tooltip('hide');
+            }
+        }
         if (data) {
             if (data.get_Type() == 1) { // hyperlink
                 me.isHideBodyTip = false;
@@ -605,7 +611,7 @@ VE.ApplicationController = new(function(){
                     buttons: []
                 });
         
-                $('#dlg-warning').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                $('#dlg-warning').css('z-index', 20002);
                 $('#dlg-warning button.close, #dlg-warning .modal-footer').remove();;
             return;
         }
@@ -656,13 +662,17 @@ VE.ApplicationController = new(function(){
         if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
             window.open(url, '_blank');  
         else {
+            WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.txtTitleWarning,
                     message: me.txtOpenWarning,
                     buttons: [me.txtYes, me.txtNo], 
                     primary: me.txtYes,
-                    callback: function(btn) {
-                        (btn == me.txtYes) && window.open(url);                      
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
                     }
             }); 
         }    

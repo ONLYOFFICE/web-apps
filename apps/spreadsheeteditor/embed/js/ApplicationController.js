@@ -47,7 +47,8 @@ SSE.ApplicationController = new(function(){
         ttOffset = [6, -15],
         labelDocName;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+        WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -663,13 +664,17 @@ SSE.ApplicationController = new(function(){
         if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
             window.open(url, '_blank');  
         else {
+            WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.txtTitleWarning,
                     message: me.txtOpenWarning,
                     buttons: [me.txtYes, me.txtNo], 
                     primary: me.txtYes,
-                    callback: function(btn) {
-                        (btn == me.txtYes) && window.open(url);                      
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
                     }
             }); 
         }    
@@ -837,6 +842,11 @@ SSE.ApplicationController = new(function(){
     }
 
     function onApiMouseMove(array) {
+        if (WarningShown) {
+            if ($tooltip) {
+                $tooltip.tooltip('hide');
+            }
+        }
         if ( array.length ) {
             var ttdata;
             for (var i = array.length; i > 0; i--) {

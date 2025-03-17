@@ -152,8 +152,16 @@
                     config.callback(btn);
                 }
             });
+
+            $dlgWarning.on('hidden.bs.modal', function() {
+                $dlgWarning.remove();
+            });
             
-        $dlgWarning.modal('show');
+            $dlgWarning.modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
         };
 
         function updateEmbedCode(){

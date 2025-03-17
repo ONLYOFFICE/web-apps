@@ -47,7 +47,8 @@ DE.ApplicationController = new(function(){
         bodyWidth = 0,
         requireUserAction = true;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+        WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -231,7 +232,7 @@ DE.ApplicationController = new(function(){
     }
 
     function onDocMouseMoveEnd() {
-        if (me.isHideBodyTip) {
+        if (me.isHideBodyTip || WarningShown) {
             if ( $tooltip ) {
                 $tooltip.tooltip('hide');
                 $tooltip = false;
@@ -666,7 +667,7 @@ DE.ApplicationController = new(function(){
                     buttons: []
                 });
         
-                $('#dlg-warning').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                $('#dlg-warning').css('z-index', 20002);
                 $('#dlg-warning button.close, #dlg-warning .modal-footer').remove();
             return;
         }
@@ -771,13 +772,17 @@ DE.ApplicationController = new(function(){
         if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
             window.open(url, '_blank');  
         else {
+            WarningShown = true; 
             common.controller.modals.showWarning({
                     title: me.txtTitleWarning,
                     message: me.txtOpenWarning,
                     buttons: [me.txtYes, me.txtNo], 
                     primary: me.txtYes,
-                    callback: function(btn) {
-                        (btn == me.txtYes) && window.open(url);                      
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
                     }
             }); 
         }    
