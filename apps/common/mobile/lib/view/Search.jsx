@@ -90,13 +90,9 @@ class SearchView extends Component {
 
     componentDidMount() {
         this.$replace = $$('#idx-replace-val');
-        const $editor = $$('#editor_sdk');
 
         this.onEditorTouchStart = this.onEditorTouchStart.bind(this);
         this.onEditorTouchEnd = this.onEditorTouchEnd.bind(this);
-
-        $editor.on('pointerdown', this.onEditorTouchStart);
-        $editor.on('pointerup',   this.onEditorTouchEnd);
 
         if(!this.searchbar) {
             this.searchbar = f7.searchbar.create({
@@ -125,6 +121,11 @@ class SearchView extends Component {
                         } else {
                             this.searchbar.el.classList.remove('replace');
                         }
+
+                        this.createPointerEvents();
+                    },
+                    searchbarDisable: () => {
+                        this.removePointerEvents();
                     }
                 }
             });
@@ -132,13 +133,21 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        $$('#editor_sdk')
-            .off('pointerdown', this.onEditorTouchStart)
-            .off('pointerup', this.onEditorTouchEnd);
+        this.removePointerEvents();
         
         if(this.searchTimer) {
             clearInterval(this.searchTimer);
         }
+    }
+
+    createPointerEvents() {
+        $$('#editor_sdk')[0].addEventListener("pointerdown", this.onEditorTouchStart, { capture: true });
+        $$('#editor_sdk')[0].addEventListener("pointerup", this.onEditorTouchEnd, { capture: true });
+    }
+
+    removePointerEvents() {
+        $$('#editor_sdk')[0].removeEventListener("pointerdown", this.onEditorTouchStart, { capture: true });
+        $$('#editor_sdk')[0].removeEventListener("pointerup", this.onEditorTouchEnd, { capture: true });
     }
 
     onSettingsClick(e) {
