@@ -939,7 +939,8 @@ define([
 
         onImageClear: function() {
             if (this.api && !this._noApply) {
-                this._originalSpecProps && this._originalSpecProps.put_ImageUrl(null, this._state.State);
+                this.api.ClearButtonFieldImage(this._state.State);
+                this.fireEvent('editcomplete', this);
             }
         },
 
