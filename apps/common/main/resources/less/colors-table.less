@@ -247,6 +247,13 @@
     --x-huge-btn-icon-size: 28px;
     --toolbar-height-controls: 66px;
     --toolbar-group-height: var(--x-huge-btn-height);
+    --form-control-size: 22px;
+
+    --border-radius-form-control: 2px;
+    --border-radius-checkbox: 2px;
+    --border-radius-button-base: 1px;
+    --border-radius-button-toolbar: 1px;
+    --border-radius-button: 2px;
 }
 
 // Background
@@ -364,11 +371,18 @@
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
 @x-huge-btn-height: var(--x-huge-btn-height, 52px);
 @x-huge-btn-icon-size: var(--x-huge-btn-icon-size, 28px);
+@form-control-size: var(--form-control-size, 22px);
 
 @toolbar-small-btn-margin-top: var(--toolbar-small-btn-margin-top, 8px);
 @toolbar-height-controls: var(--toolbar-height-controls, 66px);
 @toolbar-group-height: var(--toolbar-group-height, 52px);
 @toolbar-v-paddings: calc((@toolbar-height-controls - @toolbar-group-height)/2);
+
+@border-radius-form-control: var(--border-radius-form-control, 2px);
+@border-radius-checkbox: var(--border-radius-checkbox, 2px);
+@border-radius-button-base: var(--border-radius-button-toolbar, 1px);
+@border-radius-button-toolbar: var(--border-radius-button-toolbar, 1px);
+@border-radius-button: var(--border-radius-button, 2px);
 
 // Canvas
 // ---------------------------

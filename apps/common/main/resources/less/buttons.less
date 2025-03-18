@@ -2,7 +2,7 @@
 @x-tiny-btn-icon-size: 20px;
 
 .btn {
-    border-radius: 1px;
+    border-radius: @border-radius-button-base;
     color: @text-normal-ie;
     color: @text-normal;
     border-width: @scaled-one-px-value-ie;
@@ -421,7 +421,7 @@
     margin: 0;
     padding: 0;
     border: 0;
-    .border-radius(1px);
+    .border-radius(@border-radius-button-toolbar);
     background-color: transparent;
 
     .masked:not(.statusbar) & {
@@ -433,14 +433,14 @@
     .btn.small;
 
     &.bg-white {
-        width: 22px;
-        height: 22px;
+        width: @form-control-size;
+        height: @form-control-size;
 
         background-color: @background-normal-ie;
         background-color: @background-normal;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
-        .border-radius(@border-radius-small);
+        .border-radius(@border-radius-button);
 
         &:focus:not(.disabled) {
             border-color: @border-control-focus-ie;
@@ -664,7 +664,7 @@
 
         &:first-child:not(:last-child):not(.dropdown-toggle) {
             .rtl & {
-                .border-radius(@border-radius-small);
+                .border-radius(@border-radius-button);
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
             }
@@ -687,7 +687,7 @@
 
     > .dropdown-toggle:not(first-child) {
         .rtl & {
-            .border-radius(@border-radius-small);
+            .border-radius(@border-radius-button);
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -766,7 +766,7 @@
     }
 
     &.split {
-
+        border-radius: @border-radius-button-toolbar;
         &.over:not(.disabled),
         &.open {
             box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
@@ -827,7 +827,7 @@
     padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
     border:@scaled-one-px-value-ie solid @border-regular-control-ie;
     border:@scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     .rtl & {
         padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
@@ -1008,7 +1008,7 @@
 
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
     box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     &:hover,
     &.over {
@@ -1052,7 +1052,7 @@
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
     .font-size-normal();
 
     &.auto {
@@ -1171,7 +1171,7 @@
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     button {
         width: 100%;
@@ -1224,7 +1224,7 @@
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     &.auto {
         width: auto;
@@ -1274,7 +1274,7 @@
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     .icon {
         width: 28px;
@@ -1380,7 +1380,7 @@
     background-color: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-small);
+    .border-radius(@border-radius-button);
 
     &.template-table {
         width: 92px;
