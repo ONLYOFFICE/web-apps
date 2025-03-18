@@ -244,6 +244,8 @@ define([
             "canvas-anim-pane-timeline-scroller-opacity",
             "canvas-anim-pane-timeline-scroller-opacity-hovered",
             "canvas-anim-pane-timeline-scroller-opacity-active",
+
+            "toolbar-height-controls",
         ];
 
         var get_current_theme_colors = function (c) {

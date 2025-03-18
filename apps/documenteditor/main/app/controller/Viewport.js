@@ -78,7 +78,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
-
+                        me.toolbar = toolbar;
                         /*var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -158,6 +158,7 @@ define([
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -332,6 +333,21 @@ define([
 
         isSearchBarVisible: function () {
             return this.searchBar && this.searchBar.isVisible();
+        },
+
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                _intvars.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
         },
 
         textFitPage: 'Fit to Page',

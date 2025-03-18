@@ -1,7 +1,3 @@
-@x-huge-btn-height: 52px;
-@x-huge-btn-icon-size: 28px;
-@x-small-btn-size: 24px;
-@x-small-btn-icon-size: 24px;
 @x-tiny-btn-size: 20px;
 @x-tiny-btn-icon-size: 20px;
 
@@ -23,7 +19,9 @@
     }
 
     &.small {
-        .btnsize(@x-small-btn-size);
+        min-width: @x-small-btn-size;
+        height: @x-small-btn-size;
+        line-height: calc(@x-small-btn-size - 2px);
     }
 
     &.normal {
@@ -43,7 +41,9 @@
     }
 
     &.x-huge {
-        .btnsize(@x-huge-btn-height);
+        min-width: @x-huge-btn-height;
+        height: @x-huge-btn-height;
+        line-height: calc(@x-huge-btn-height - 2px);
     }
 
     &[disabled], &.disabled {

@@ -191,8 +191,8 @@
     //--button-huge-active-icon-offset-x: 0;
     //--button-xhuge-normal-icon-offset-x: 0;
     //--button-xhuge-active-icon-offset-x: 0;
-    --button-header-normal-icon-offset-x: -24px;
-    --button-header-active-icon-offset-x: -24px;
+    --button-header-normal-icon-offset-x: var(--x-small-btn-icon-size);
+    --button-header-active-icon-offset-x: var(--x-small-btn-icon-size);
     //--menu-icon-item-checked-offset-x: 0;
 
     --modal-window-mask-opacity: 0.2;
@@ -239,6 +239,14 @@
     --layout-padding-right-panel-content: 0 10px 0 15px;
     --layout-margin-right-panel: 0;
     --layout-margin-left-panel: 0 0 0 40px;
+
+    --x-small-btn-size: 20px;
+    --x-small-btn-icon-size: 20px;
+    --toolbar-small-btn-margin-top: 8px;
+    --x-huge-btn-height: 52px;
+    --x-huge-btn-icon-size: 28px;
+    --toolbar-height-controls: 66px;
+    --toolbar-group-height: var(--x-huge-btn-height);
 }
 
 // Background
@@ -325,8 +333,8 @@
 //@button-huge-normal-icon-offset-x: var(--button-huge-normal-icon-offset-x, 0);
 //@button-huge-active-icon-offset-x: var(--button-huge-active-icon-offset-x, 0);
 
-@button-header-normal-icon-offset-x: var(--button-header-normal-icon-offset-x, -24px);
-@button-header-active-icon-offset-x: var(--button-header-active-icon-offset-x, -24px);
+@button-header-normal-icon-offset-x: var(--button-header-normal-icon-offset-x, -20px);
+@button-header-active-icon-offset-x: var(--button-header-active-icon-offset-x, -20px);
 
 @component-normal-icon-filter: var(--component-normal-icon-filter);
 @component-normal-icon-opacity: var(--component-normal-icon-opacity, .8);
@@ -352,6 +360,15 @@
 @border-radius-toolbar: var(--border-radius-toolbar,0);
 @layout-padding-toolbar: var(--layout-padding-toolbar, 0);
 
+@x-small-btn-size: var(--x-small-btn-size, 20px);
+@x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
+@x-huge-btn-height: var(--x-huge-btn-height, 52px);
+@x-huge-btn-icon-size: var(--x-huge-btn-icon-size, 28px);
+
+@toolbar-small-btn-margin-top: var(--toolbar-small-btn-margin-top, 8px);
+@toolbar-height-controls: var(--toolbar-height-controls, 66px);
+@toolbar-group-height: var(--toolbar-group-height, 52px);
+@toolbar-v-paddings: calc((@toolbar-height-controls - @toolbar-group-height)/2);
 
 // Canvas
 // ---------------------------

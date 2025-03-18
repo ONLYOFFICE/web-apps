@@ -1,8 +1,4 @@
 @img-equition-filter: var(--image-border-types-filter);
-@toolbar-paddings: floor(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
-@toolbar-small-btn-margin-top: ceil(((@toolbar-height-controls - 2*@x-small-btn-size)/3));
-@toolbar-group-height: calc(@toolbar-height-controls - 2 * @toolbar-paddings);
-
 @toolbar-radius: @border-radius-toolbar;
 @toolbar-tab-radius: 5px;
 @tab-active-topline-color: red;
@@ -23,17 +19,19 @@
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
-        &:before {
-            //@flight-tb-shadow-color: @highlight-button-hover;
-            content: '';
-            position: absolute;
-            //box-shadow: 0 0 0 0 @flight-tb-shadow-color,
-            //                -3px 3px 5px -2px @flight-tb-shadow-color, 3px 3px 5px 0px @flight-tb-shadow-color;
-            box-shadow: @shadow-toolbar;
-            width: 100%;
-            height: 72px;
-            bottom: 0;
-            border-radius: @toolbar-radius;
+        &:not(.z-clear *) {
+            &:before {
+                //@flight-tb-shadow-color: @highlight-button-hover;
+                content: '';
+                position: absolute;
+                //box-shadow: 0 0 0 0 @flight-tb-shadow-color,
+                //                -3px 3px 5px -2px @flight-tb-shadow-color, 3px 3px 5px 0px @flight-tb-shadow-color;
+                box-shadow: @shadow-toolbar;
+                width: 100%;
+                height: @toolbar-height-controls;
+                bottom: 0;
+                border-radius: @toolbar-radius;
+            }
         }
     }
 
@@ -351,7 +349,7 @@
 
     .box-controls {
         height: @toolbar-height-controls;         // button has strange offset in IE when odd height
-        padding: @toolbar-paddings 0;
+        padding: @toolbar-v-paddings 0;
         display: flex;
         .panel {
             display: table;
