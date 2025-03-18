@@ -1,10 +1,8 @@
-<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_695_1246" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
-<rect width="60" height="60" fill="#1C1B1F"/>
-</mask>
-<g mask="url(#mask0_695_1246)">
-<path d="M16 28V26H34V28H16ZM16 20V18H44V20H16Z" fill="#1C1B1F"/>
-<path d="M28 42V36H32V34H28V32C28.8891 32 34 32 34 32V38H30V40H34V42H28Z" fill="#1C1B1F"/>
-<path d="M18 42V34H16V32H20V42H18Z" fill="#1C1B1F"/>
-</g>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="4" y="3" width="12" height="1" fill="black"/>
+<rect x="4" y="6" width="12" height="1" fill="black"/>
+<rect x="4" y="9" width="8" height="1" fill="black"/>
+<path d="M14 15H15V16H13V17H15L16 16V15L15.5 14.5L16 14V13L15 12H13V13H15V14H14V15Z" fill="black"/>
+<path d="M11 17V16H9L11 14V13L10 12H9H8V13H10V14L8 16V17H11Z" fill="black"/>
+<path d="M5 17H6V12H5H4V13H5V17Z" fill="black"/>
 </svg>

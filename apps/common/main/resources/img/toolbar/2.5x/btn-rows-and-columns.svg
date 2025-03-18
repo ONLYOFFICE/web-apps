@@ -1,13 +1,7 @@
-<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_696_1377" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
-<rect width="60" height="60" fill="#D9D9D9"/>
-</mask>
-<g mask="url(#mask0_696_1377)">
-<rect x="25" y="13" width="10" height="34" fill="#BFBFBF"/>
-<path d="M17.231 48C16.3103 48 15.5417 47.6917 14.925 47.075C14.3083 46.4583 14 45.6897 14 44.769V15.231C14 14.3103 14.3083 13.5417 14.925 12.925C15.5417 12.3083 16.3103 12 17.231 12H42.769C43.6897 12 44.4583 12.3083 45.075 12.925C45.6917 13.5417 46 14.3103 46 15.231V44.769C46 45.6897 45.6917 46.4583 45.075 47.075C44.4583 47.6917 43.6897 48 42.769 48H17.231ZM17.231 46H42.769C43.077 46 43.3592 45.8718 43.6155 45.6155C43.8718 45.3592 44 45.077 44 44.769V15.231C44 14.923 43.8718 14.6408 43.6155 14.3845C43.3592 14.1282 43.077 14 42.769 14H17.231C16.923 14 16.6408 14.1282 16.3845 14.3845C16.1282 14.6408 16 14.923 16 15.231V44.769C16 45.077 16.1282 45.3592 16.3845 45.6155C16.6408 45.8718 16.923 46 17.231 46Z" fill="#1C1B1F"/>
-<rect x="24" y="13" width="2" height="34" fill="#1C1B1F"/>
-<rect x="14" y="36" width="2" height="32" transform="rotate(-90 14 36)" fill="#1C1B1F"/>
-<rect x="34" y="13" width="2" height="34" fill="#1C1B1F"/>
-<rect x="14" y="26" width="2" height="32" transform="rotate(-90 14 26)" fill="#1C1B1F"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+  <g opacity=".8">
+    <path fill="#000" fill-rule="evenodd" d="M18 3H2v13h16V3ZM7 4H3v3h4V4Zm1 0h4v3H8V4Zm9 0h-4v3h4V4ZM3 8h4v3H3V8Zm9 0H8v3h4V8Zm1 0h4v3h-4V8Zm-6 4H3v3h4v-3Zm1 0h4v3H8v-3Zm9 0h-4v3h4v-3Z" clip-rule="evenodd"/>
+    <path fill="#000" fill-rule="evenodd" d="M8 4h4v3H8V4Zm0 4h4v3H8V8Zm4 4H8v3h4v-3Z" clip-rule="evenodd" opacity=".6"/>
+    <path fill="#000" fill-rule="evenodd" d="M7 4H3v3h4V4Zm10 0h-4v3h4V4Z" clip-rule="evenodd" opacity=".2"/>
+  </g>
 </svg>
