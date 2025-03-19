@@ -220,7 +220,7 @@ export class storeAppOptions {
         this.canSubmitForms = this.canLicense && !this.isOffline && (typeof (this.customization) == 'object') && !!this.customization.submitForm &&
                               (typeof this.customization.submitForm !== 'object' || this.customization.submitForm.visible!==false);
         this.isEditableForms = this.isForm && this.canSubmitForms;
-        this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
+        this.isRestrictedEdit = !this.isEdit && isSupportEditFeature && !(this.canComments || this.canFillForms);
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
         this.trialMode = params.asc_getLicenseMode();
