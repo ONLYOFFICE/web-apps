@@ -25,7 +25,7 @@
     }
 
     &.normal {
-        height: 22px;
+        height: @form-control-size;
     }
 
     &.large {
@@ -440,7 +440,7 @@
         background-color: @background-normal;
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
-        .border-radius(@border-radius-button);
+        .border-radius(@border-radius-button-normal);
 
         &:focus:not(.disabled) {
             border-color: @border-control-focus-ie;
@@ -664,7 +664,7 @@
 
         &:first-child:not(:last-child):not(.dropdown-toggle) {
             .rtl & {
-                .border-radius(@border-radius-button);
+                .border-radius(@border-radius-button-normal);
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
             }
@@ -687,7 +687,7 @@
 
     > .dropdown-toggle:not(first-child) {
         .rtl & {
-            .border-radius(@border-radius-button);
+            .border-radius(@border-radius-button-normal);
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -822,12 +822,12 @@
 
 .btn-color {
     width: 45px;
-    height: 22px;
+    height: @form-control-size;
     padding: @scaled-one-px-value-ie 11px @scaled-one-px-value-ie @scaled-one-px-value-ie;
     padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
     border:@scaled-one-px-value-ie solid @border-regular-control-ie;
     border:@scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     .rtl & {
         padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
@@ -1008,7 +1008,7 @@
 
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
     box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     &:hover,
     &.over {
@@ -1047,12 +1047,12 @@
 
 .btn-text-default {
     width: 75px;
-    height: 22px;
+    height: @form-control-size;
     background: @background-normal-ie;
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
     .font-size-normal();
 
     &.auto {
@@ -1166,12 +1166,12 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 22px;
+    height: @form-control-size;
     background: @background-normal-ie;
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     button {
         width: 100%;
@@ -1219,12 +1219,12 @@
 
 .btn-text-split-default {
     width: 75px;
-    height: 22px;
+    height: @form-control-size;
     background: @background-normal-ie;
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     &.auto {
         width: auto;
@@ -1269,12 +1269,12 @@
 
 .btn-icon-default {
     width: 45px;
-    height: 22px;
+    height: @form-control-size;
     background: @background-normal-ie;
     background: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     .icon {
         width: 28px;
@@ -1380,7 +1380,7 @@
     background-color: @background-normal;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
-    .border-radius(@border-radius-button);
+    .border-radius(@border-radius-button-normal);
 
     &.template-table {
         width: 92px;

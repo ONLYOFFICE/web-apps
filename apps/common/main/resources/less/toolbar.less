@@ -549,8 +549,8 @@
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
             .border-radius(@border-radius-button-toolbar);
-            width: 22px;
-            height: 22px;
+            width: @form-control-size;
+            height: @form-control-size;
         }
 
         .checkbox-indeterminate {
@@ -897,7 +897,7 @@
     }
 
     &.borders--small {
-        border-radius: @border-radius-button;
+        border-radius: @border-radius-button-normal;
 
         &:not(:active) {
             //box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;

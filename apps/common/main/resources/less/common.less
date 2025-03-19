@@ -149,6 +149,8 @@ label {
     width: 220px;
     height: 100%;
     display: none;
+    padding: var(--layout-margin-right-panel);
+
     //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
     //border-left: @scaled-one-px-value solid @border-toolbar;
     //line-height: 15px;
@@ -158,12 +160,15 @@ label {
     //    border-left: 0 none;
     //}
 
-    .settings-panel {
+    .content-box {
+        height: 100%;
+        width: 100%;
         padding: 0 10px 0 15px;
         padding: var(--layout-padding-right-panel-content);
 
         .rtl & {
             padding: 0 15px 0 10px;
+            padding: var(--layout-padding-right-panel-content);
         }
     }
 }

@@ -82,7 +82,7 @@ define([
                                         '<td class="padding-large">',
                                             '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;"></div>',
                                             '<div id="bookmarks-btn-add" style="display: inline-block; position: relative;"></div>',
-                                            '<div id="bookmarks-btn-add-copy-dropdown" style="display: inline-block; position: relative; vertical-align: top; height: 22px; width: 0px">',
+                                            '<div id="bookmarks-btn-add-copy-dropdown" class="form-control-size" style="display: inline-block; position: relative; vertical-align: top; width: 0px">',
                                                 //Invisible button, needed for boostrap dropdown logic to work    
                                                 '<button type="button" class="dropdown-toggle" data-toggle="dropdown" style="display: none"></button>',
                                             '</div>',
@@ -325,8 +325,8 @@ define([
 
             var copyBox = $(
                 '<div class="bookmark-copy-dropdown dropdown-menu" style="width: 291px; ' + cssOffset + ' padding: 10px;">' +
-                    '<div class="bookmark-copy-dropdown-input"></div>' +
-                    '<button class="bookmark-copy-dropdown-btn btn btn-text-default margin-left-5" style="width: 86px;">' + me.textCopy + '</button>' +
+                    '<div class="bookmark-copy-dropdown-input display-inline-block-middle"></div>' +
+                    '<button class="bookmark-copy-dropdown-btn btn btn-text-default margin-left-5 display-inline-block-middle" style="width: 86px;">' + me.textCopy + '</button>' +
                 '</div>'
             );
             parentEl.append(copyBox);

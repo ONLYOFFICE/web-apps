@@ -13,9 +13,9 @@
                 </td>
             </tr>
         <tr>
-            <td>
-                <div id="auto-correct-replace" class="margin-right-2" style="height:22px;width: 115px;display: inline-block;"></div>
-                <div id="auto-correct-by" style="height:22px;width: 234px;display: inline-block;"></div>
+            <td style="padding-bottom: 4px;">
+                <div id="auto-correct-replace" class="margin-right-2" style="width: 115px;display: inline-block;"></div>
+                <div id="auto-correct-by" style="width: 234px;display: inline-block;"></div>
                 </td>
             </tr>
         <tr>
@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td>
-                    <div id="auto-correct-rec-find" style="height:22px;width: 100%;margin-bottom: 4px;"></div>
+                    <div id="auto-correct-rec-find" style="width: 100%;margin-bottom: 4px;"></div>
                 </td>
             </tr>
             <tr>
@@ -119,7 +119,7 @@
             <tr>
                 <td>
                     <label><%= scope.textFLDont %></label>
-                    <div id="auto-correct-exceptions-find" style="height:22px;width: 100%;margin-bottom: 4px;"></div>
+                    <div id="auto-correct-exceptions-find" style="width: 100%;margin-bottom: 4px;"></div>
                 </td>
             </tr>
             <tr>
