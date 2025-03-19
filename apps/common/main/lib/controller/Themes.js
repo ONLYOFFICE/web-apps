@@ -82,7 +82,10 @@ define([
                 text: locale.txtThemeWhite || 'White',
                 type: 'light',
                 source: 'static',
-                icons: './resources/img/v2',
+                icons: {
+                    basepath: './resources/img/v2',
+                    cls: 'next-mod',
+                }
             },
         }
 
@@ -456,9 +459,13 @@ define([
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
-            if ( !!themes_map[theme_id].icons ) {
-                const base_url = themes_map[theme_id].icons;
+            if ( !!themes_map[theme_id].icons && themes_map[theme_id].icons.basepath ) {
+                const base_url = themes_map[theme_id].icons.basepath;
                 window.uitheme.apply_icons_from_url(theme_id, base_url);
+
+                if ( themes_map[theme_id].icons.cls ) {
+                    document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
+                }
             }
 
             if ( this.api.asc_setContentDarkMode )
@@ -538,8 +545,12 @@ define([
                     document.body.classList.add('theme-type-' + obj.type);
 
                 if (themes_map[theme_id].icons) {
-                    if (!document.querySelector('style#' + theme_id)) {
-                        window.uitheme.apply_icons_from_url(theme_id, themes_map[theme_id].icons);
+                    if (themes_map[theme_id].icons.basepath && !document.querySelector('style#' + theme_id)) {
+                        window.uitheme.apply_icons_from_url(theme_id, themes_map[theme_id].icons.basepath);
+                    }
+
+                    if ( themes_map[theme_id].icons.cls ) {
+                        document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
                     }
                 }
 
