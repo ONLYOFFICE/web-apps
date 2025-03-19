@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Stiahnuť súbor",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Editovať aktuálny súbor",
   "Common.Views.Header.tipPrint": "Vytlačiť súbor",
   "Common.Views.Header.tipPrintQuick": "Quick print",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Dosiahli ste limit súběžných pripojení %1 editora. Dokument bude otvorený len na prezeranie.<br>Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Dosiahli ste limit %1 editora. Pre rozšírenie funkcií kontaktujte %1 obchodné oddelenie.",
   "DE.Controllers.Main.warnProcessRightsChange": "Bolo vám zamietnuté právo upravovať súbor.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Začiatok dokumentu",
   "DE.Controllers.Navigation.txtGotoBeginning": "Ísť na začiatok dokumentu",
   "DE.Controllers.Print.textMarginsLast": "Last Custom",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Credit Card",
   "DE.Views.FormsTab.capDateTime": "Date & Time",
   "DE.Views.FormsTab.capZipCode": "ZIP Code",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Anyone",
   "DE.Views.FormsTab.textClear": "Vyčistiť políčka",
   "DE.Views.FormsTab.textClearFields": "Vyčistiť všetky polia",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Polopriehľadný",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podčiarknutie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Názov písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veľkosť písma",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

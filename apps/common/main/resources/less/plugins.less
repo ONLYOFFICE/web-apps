@@ -99,17 +99,24 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-    }
 
-    .close {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 12px;
-        right: 12px;
-        .rtl & {
-            right: auto;
-            left: 12px;
+        .tools {
+            display: flex;
+            flex-direction: row-reverse;
+            position: absolute;
+            right: 0;
+            .padding-right-12();
+
+            .rtl & {
+                right: auto;
+                left: 0;
+            }
+
+            & > * {
+                &:not(:first-child) {
+                    .margin-right-4();
+                }
+            }
         }
     }
 

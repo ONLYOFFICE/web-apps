@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "הצגה",
   "Common.Views.Header.tipDocViewForm": "הצגת טופס",
   "Common.Views.Header.tipDownload": "הורד קובץ",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "ערוך את הקובץ הנוכחי",
   "Common.Views.Header.tipPrint": "הדפסת קובץ ",
   "Common.Views.Header.tipPrintQuick": "הדפסה מהירה",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. <br>נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "DE.Controllers.Main.warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עורכים נא ליצור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
   "DE.Controllers.Main.warnProcessRightsChange": "נשללה ממך הזכות לערוך את הקובץ.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "תחילת המסמך",
   "DE.Controllers.Navigation.txtGotoBeginning": "מעבר לתחילת המסמך",
   "DE.Controllers.Print.textMarginsLast": "התאמה אישית אחרונה",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "כרטיס אשראי",
   "DE.Views.FormsTab.capDateTime": "תאריך ושעה",
   "DE.Views.FormsTab.capZipCode": "קוד דואר",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "מישהו",
   "DE.Views.FormsTab.textClear": "נקה שדות",
   "DE.Views.FormsTab.textClearFields": "נקה את כל השדות",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "חצי שקוף",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "קו תחתון",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "שם גופן",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "גודל גופן",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

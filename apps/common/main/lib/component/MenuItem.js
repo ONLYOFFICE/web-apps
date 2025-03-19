@@ -469,9 +469,10 @@ define([
             Common.UI.MenuItem.prototype.initialize.call(this, options);
 
             this.isCustomItem = true;
+            this.baseUrl = options.baseUrl || '';
             this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconImg = icons['normal'];
+            this.iconImg = this.baseUrl + icons['normal'];
         },
 
         render: function () {
@@ -484,7 +485,7 @@ define([
 
         updateIcons: function() {
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconImg = icons['normal'];
+            this.iconImg = this.baseUrl + icons['normal'];
             this.updateIcon();
         },
 

@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Lindung buku kerja",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan kata laluan untuk melindungi helaian",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Helaian Nyahlindung",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

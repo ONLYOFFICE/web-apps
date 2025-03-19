@@ -47,8 +47,11 @@ define([], function () {
                 '<div class="current-plugin-frame">',
                 '</div>',
                 '<div class="current-plugin-header">',
+                    '<div class="tools">',
+                        '<div class="plugin-close close"></div>',
+                        '<div class="plugin-hide"></div>',
+                    '</div>',
                     '<label></label>',
-                    '<div class="plugin-close close"></div>',
                 '</div>',
             '</div>',
             '<div id="plugins-mask" style="display: none;">'
@@ -79,8 +82,41 @@ define([], function () {
                 hint: this.textClosePanel
             });
 
+            if (this.sideMenuButton)
+                this.pluginHide = new Common.UI.Button({
+                    parentEl: this.$el.find('.plugin-hide'),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-panel-left-collapse',
+                    hint: this.textHidePanel
+                });
+
+            if(this.isCanDocked) {
+                this.showDockedButton();
+            }
+
             this.trigger('render:after', this);
             return this;
+        },
+
+        showDockedButton: function() {
+            var header = this.$el.find('.current-plugin-header .tools'),
+                btnCls = 'plugin-undock',
+                btn = header.find('.' + btnCls);
+            if (btn.length < 1) {
+                btn = $('<div class="' + btnCls + '"></div>');
+                this.$el.find('.plugin-close').after(btn);
+                var btnUndock = new Common.UI.Button({
+                    parentEl: this.$el.find('.' + btnCls),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-unpin',
+                    hint: this.textUndock
+                });
+                btnUndock.on('click', _.bind(function() {
+                    this.fireEvent('docked', this.iframePlugin.id);
+                }, this));
+            }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         openInsideMode: function(name, url, frameId, guid) {
@@ -133,7 +169,9 @@ define([], function () {
         },
 
         textClosePanel: 'Close plugin',
-        textLoading: 'Loading'
+        textLoading: 'Loading',
+        textUndock: 'Unpin plugin',
+        textHidePanel: 'Collapse plugin',
 
     }, Common.Views.PluginPanel || {}));
 });

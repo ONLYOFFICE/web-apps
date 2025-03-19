@@ -137,10 +137,12 @@ define([
             this.isXpsViewer = /[\?\&]fileType=\b(djvu|xps|oxps)\b&?/i.exec(window.location.search);
             this.api = (!!this.isXpsViewer || !window.isPDFForm) ? new Asc.PDFEditorApi({
                 'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL()
             }) : new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL()
             });
 
             this.header   = this.createView('Common.Views.Header', {

@@ -1,4 +1,4 @@
-<svg width="580" height="40" viewBox="0 0 580 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="600" height="40" viewBox="0 0 600 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="menu-dark">
         <path d="M17 6H3v1h14zm0 4H3v1h14zM3 14h14v1H3z" fill="#000"/>
     </g>
@@ -174,5 +174,13 @@
     </g>
     <g id="chevron-down-light">
         <path d="m570 33.707.354-.353 5.5-5.5-.708-.707L570 32.292l-5.146-5.146-.708.707 5.5 5.5z" fill="#fff"/>
+    </g>
+    <g id="filing-status-dark">
+        <path d="M595 6h-6V5h6zm-6 2h4V7h-4zm6 3h-6v-1h6zm-6 2h4v-1h-4z" fill="#000"/>
+        <path d="M582 3a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-14a1 1 0 0 1-1-1zm5 0v14h10V3zm-1 0h-3v14h3z" fill="#000"/>
+    </g>
+    <g id="filing-status-light">
+        <path d="M595 26h-6v-1h6zm-6 2h4v-1h-4zm6 3h-6v-1h6zm-6 2h4v-1h-4z" fill="#fff"/>
+        <path d="M582 23a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-14a1 1 0 0 1-1-1zm5 0v14h10V23zm-1 0h-3v14h3z" fill="#fff"/>
     </g>
 </svg>

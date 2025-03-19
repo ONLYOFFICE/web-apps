@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "حماية المصنف",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

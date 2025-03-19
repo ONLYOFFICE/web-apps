@@ -128,7 +128,8 @@ define([
 
             this.api = new Asc.VisioEditorApi({
                 'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL()
             });
 
             this.header   = this.createView('Common.Views.Header', {

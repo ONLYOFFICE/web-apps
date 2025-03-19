@@ -4573,5 +4573,8 @@
   "SSE.Views.WBProtection.txtProtectWB": "Protect workbook",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

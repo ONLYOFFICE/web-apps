@@ -2281,14 +2281,21 @@ define([], function () {
                 initMenu: function (value) {
                     var cancopy = me.api.can_CopyCut(),
                         disabled = value.paraProps && value.paraProps.locked || value.headerProps && value.headerProps.locked ||
-                            value.imgProps && (value.imgProps.locked || value.imgProps.content_locked) || me._isDisabled;
+                            value.imgProps && (value.imgProps.locked || value.imgProps.content_locked) || me._isDisabled,
+                        canFillRole = true;
+                    if (value.controlProps && value.controlProps.formPr) {
+                        var oform = me.api.asc_GetOForm();
+                        if (oform && !oform.asc_canFillRole(value.controlProps.formPr.get_Role())) {
+                            canFillRole = false;
+                        }
+                    }
                     me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
                     me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
 
-                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl()); // clear
-                    me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
+                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl() || !canFillRole); // clear
+                    me.menuPDFFormsCut.setDisabled(disabled || !cancopy || !canFillRole); // cut
                     me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
-                    me.menuPDFFormsPaste.setDisabled(disabled) // paste;
+                    me.menuPDFFormsPaste.setDisabled(disabled || !me.api.asc_IsContentControl() || !canFillRole) // paste;
                 },
                 items: [
                     me.menuPDFFormsUndo,

@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Descargar ficheiro",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Editar ficheiro actual",
   "Common.Views.Header.tipPrint": "Imprimir ficheiro",
   "Common.Views.Header.tipPrintQuick": "Quick print",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Alcanzou o límite de conexións simultáneas con %1 editores. Este documento abrirase só para as úa visualización.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Alcanzou o límite de usuarios para os editores de %1.<br>Contacte co equipo de vendas de %1 para coñecer os termos de actualización persoal.",
   "DE.Controllers.Main.warnProcessRightsChange": "O dereito de edición do ficheiro é denegado.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Principio do documento",
   "DE.Controllers.Navigation.txtGotoBeginning": "Ir ao inicio do documento",
   "DE.Controllers.Print.textMarginsLast": "Último personalizado",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Credit Card",
   "DE.Views.FormsTab.capDateTime": "Data e hora",
   "DE.Views.FormsTab.capZipCode": "ZIP Code",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Anyone",
   "DE.Views.FormsTab.textClear": "Limpar campos",
   "DE.Views.FormsTab.textClearFields": "Borrar todos os campos",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

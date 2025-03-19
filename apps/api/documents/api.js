@@ -88,7 +88,8 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
-                    image: 'image url'
+                    image: 'image url',
+                    roles: ['Role1'] // used for pdf-forms, fill form with Role1
                 },
                 recent: [
                     {
@@ -259,6 +260,9 @@
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     },
+                    startFillingForm: {
+                        text: 'Share & collect' // caption of the start filling button, used for pdf-forms
+                    },
                     slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                     showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
@@ -318,6 +322,8 @@
                 'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
                 'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
                 'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
+                'onRequestFillingStatus': <request filling status for current role> // used in pdf-form fill forms mode
+                'onStartFilling': <send when can start filling (form is completed and users are disconnected)> // send after startFilling method, used in pdf-form editing
             }
         }
 
@@ -390,6 +396,7 @@
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
+        _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
@@ -821,6 +828,13 @@
             });
         };
 
+        var _requestRoles = function(data) {
+            _sendCommand({
+                command: 'requestRoles',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -907,7 +921,8 @@
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
             openDocument: _openDocumentFromBinary,
-            startFilling: _startFilling
+            startFilling: _startFilling,
+            requestRoles: _requestRoles
         }
     };
 

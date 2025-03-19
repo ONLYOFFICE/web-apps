@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "İnceleniyor",
   "Common.Views.Header.tipDocViewForm": "Form inceleniyor",
   "Common.Views.Header.tipDownload": "Dosyayı indir",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Mevcut belgeyi düzenle",
   "Common.Views.Header.tipPrint": "Sayfayı yazdır",
   "Common.Views.Header.tipPrintQuick": "Hızlı yazdır",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Düzenleyiciler %1 eşzamanlı bağlantı sınırına ulaştı. Bu belge yalnızca görüntüleme için açılacaktır.<br>Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "DE.Controllers.Main.warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "DE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Belge başlangıcı",
   "DE.Controllers.Navigation.txtGotoBeginning": "Belgenin başlangıcına git",
   "DE.Controllers.Print.textMarginsLast": "Son Özel",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Kredi kartı",
   "DE.Views.FormsTab.capDateTime": "Tarih & Saat",
   "DE.Views.FormsTab.capZipCode": "Posta kodu",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Herhangi biri",
   "DE.Views.FormsTab.textClear": "Alanları Temizle",
   "DE.Views.FormsTab.textClearFields": "Tüm alanları temizle",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

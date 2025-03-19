@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Hent fil",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Rediger nuværende fil",
   "Common.Views.Header.tipPrint": "Udskriv fil",
   "Common.Views.Header.tipPrintQuick": "Quick print",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Du har nået grænsen for antal samtidige forbindelser til %1 værktøjer. Dokumentet åbnes for læsning.<br>Kontakt %1 salgsteamet for betingelser for opgradering.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Du har nået grænsen for brugere af %1 redigeringsværktøj. Kontakt %1 salgsafdeling for at høre om dine opgraderingsmuligheder.",
   "DE.Controllers.Main.warnProcessRightsChange": "Du er blevet nægtet rettighederne til at redigere denne fil.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Starten af dokumentet",
   "DE.Controllers.Navigation.txtGotoBeginning": "Gå til starten af dokumentet",
   "DE.Controllers.Print.textMarginsLast": "Last Custom",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Credit Card",
   "DE.Views.FormsTab.capDateTime": "Date & Time",
   "DE.Views.FormsTab.capZipCode": "ZIP Code",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Anyone",
   "DE.Views.FormsTab.textClear": "Ryd felter",
   "DE.Views.FormsTab.textClearFields": "Ryd alle felter",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

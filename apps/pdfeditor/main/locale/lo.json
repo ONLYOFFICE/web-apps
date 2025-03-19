@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

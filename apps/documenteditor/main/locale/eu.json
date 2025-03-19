@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Deskargatu fitxategia",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Editatu uneko fitxategia",
   "Common.Views.Header.tipPrint": "Inprimatu fitxategia",
   "Common.Views.Header.tipPrintQuick": "Inprimatze bizkorra",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau irakurtzeko soilik irekiko da.<br>Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Aldi bereko %1 editoreren konexio-mugara iritsi zara. Jarri harremanetan %1 salmenta taldearekin mailaz igotzeko baldintzak ezagutzeko.",
   "DE.Controllers.Main.warnProcessRightsChange": "Fitxategi hau editatzeko baimena ukatu zaizu.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Dokumentuaren hasiera",
   "DE.Controllers.Navigation.txtGotoBeginning": "Joan dokumentuaren hasierara",
   "DE.Controllers.Print.textMarginsLast": "Azken pertsonalizatua",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Kreditu-txartela",
   "DE.Views.FormsTab.capDateTime": "Data eta ordua",
   "DE.Views.FormsTab.capZipCode": "Posta-kodea",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Edonork",
   "DE.Views.FormsTab.textClear": "Garbitu eremuak",
   "DE.Views.FormsTab.textClearFields": "Garbitu eremu guztiak",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

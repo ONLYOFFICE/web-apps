@@ -255,7 +255,8 @@ class MainController extends Component {
                     this.api = new Asc.asc_docs_api({
                         'id-view': 'editor_sdk',
                         'mobile': true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);

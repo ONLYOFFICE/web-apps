@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Duke shikuar",
   "Common.Views.Header.tipDocViewForm": "Forma e shikimit",
   "Common.Views.Header.tipDownload": "Shkarko skedarin",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Redakto skedarin aktual",
   "Common.Views.Header.tipPrint": "Printo skedarin",
   "Common.Views.Header.tipPrintQuick": "Printim i shpejtë",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Keni arritur kufirin për lidhje të njëkohshme me redaktuesit %1. Ky dokument do të hapet vetëm për shikim.<br>Kontakto %1 ekipin e shitjeve për kushtet e përmirësimit personal.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Keni arritur kufirin e përdoruesit për redaktuesit %1. Kontakto ekipin e shitjeve %1 për kushtet e përmirësimit personal.",
   "DE.Controllers.Main.warnProcessRightsChange": "Juve ju është mohuar e drejta për të redaktuar skedarin.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Fillimi i dokumentit",
   "DE.Controllers.Navigation.txtGotoBeginning": "Shko në fillim të dokumentit",
   "DE.Controllers.Print.textMarginsLast": "Personalizimi fundit",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Kartë krediti",
   "DE.Views.FormsTab.capDateTime": "Data & Ora",
   "DE.Views.FormsTab.capZipCode": "Kodi postal",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Kushdo",
   "DE.Views.FormsTab.textClear": "Pastroni fushtat",
   "DE.Views.FormsTab.textClearFields": "Pastroni të gjithë fushat",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Gjysmë transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Nënvizim",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Emri i fontit",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Madhësia e fontit",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

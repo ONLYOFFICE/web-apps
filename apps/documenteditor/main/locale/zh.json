@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "查看",
   "Common.Views.Header.tipDocViewForm": "查看表单",
   "Common.Views.Header.tipDownload": "下载文件",
+  "Common.Views.Header.tipFillStatus": "填写状态",
   "Common.Views.Header.tipGoEdit": "编辑当前文件",
   "Common.Views.Header.tipPrint": "打印文件",
   "Common.Views.Header.tipPrintQuick": "快速打印",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看<br>有关个人升级条款，请与%1销售团队联系。",
   "DE.Controllers.Main.warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
   "DE.Controllers.Main.warnProcessRightsChange": "您被拒绝了编辑文件的权限。",
+  "DE.Controllers.Main.warnStartFilling": "表单正在填写中。<br>当前尚不能够编辑文件。",
   "DE.Controllers.Navigation.txtBeginning": "文件开头",
   "DE.Controllers.Navigation.txtGotoBeginning": "转到文档的开头",
   "DE.Controllers.Print.textMarginsLast": "最后一次自定义",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "信用卡",
   "DE.Views.FormsTab.capDateTime": "日期和时间",
   "DE.Views.FormsTab.capZipCode": "邮编",
+  "DE.Views.FormsTab.helpTextFillStatus": "现在可以根据角色填写此表单。单击状态按钮，可检查填写进度。",
   "DE.Views.FormsTab.textAnyone": "任何人",
   "DE.Views.FormsTab.textClear": "清除字段",
   "DE.Views.FormsTab.textClearFields": "清除所有字段",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "下划线",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

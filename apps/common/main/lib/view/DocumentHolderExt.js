@@ -703,6 +703,7 @@ define([], function () {
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
                         iconsSet: item.icons,
+                        baseUrl: '', // base url is included in icon path
                         disabled: !!item.disabled
                     }));
                     hasIcons = hasIcons || !!item.icons;
@@ -746,6 +747,7 @@ define([], function () {
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
                                 iconsSet: item.icons,
+                                baseUrl: '', // base url is included in icon path
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);

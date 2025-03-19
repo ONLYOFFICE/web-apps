@@ -581,6 +581,7 @@
   "Common.Views.Header.tipDocView": "Viewing",
   "Common.Views.Header.tipDocViewForm": "Viewing form",
   "Common.Views.Header.tipDownload": "Fájl letöltése",
+  "Common.Views.Header.tipFillStatus": "Filling status",
   "Common.Views.Header.tipGoEdit": "Az aktuális fájl szerkesztése",
   "Common.Views.Header.tipPrint": "Fájl nyomtatása",
   "Common.Views.Header.tipPrintQuick": "Gyorsnyomtatás",
@@ -1317,6 +1318,7 @@
   "DE.Controllers.Main.warnNoLicense": "Elérte a(z) %1 szerkesztőhöz tartozó egyidejű csatlakozás korlátját. Ez a dokumentum csak megtekintésre nyílik meg.<br>Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Elérte a(z) %1 szerkesztőhöz tartozó felhasználói korlátját. Vegye fel a kapcsolatot a(z) %1 értékesítési csapattal a személyes frissítési feltételekért.",
   "DE.Controllers.Main.warnProcessRightsChange": "Nincs joga szerkeszteni a fájl-t.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Dokumentum eleje",
   "DE.Controllers.Navigation.txtGotoBeginning": "Ugorj a dokumentum elejére",
   "DE.Controllers.Print.textMarginsLast": "Legutóbbi egyéni beállítás",
@@ -2406,6 +2408,7 @@
   "DE.Views.FormsTab.capCreditCard": "Hitelkártya",
   "DE.Views.FormsTab.capDateTime": "Dátum és idő",
   "DE.Views.FormsTab.capZipCode": "Postai irányítószám",
+  "DE.Views.FormsTab.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.FormsTab.textAnyone": "Bárki",
   "DE.Views.FormsTab.textClear": "Mezők törlése",
   "DE.Views.FormsTab.textClearFields": "Az összes mező törlése",
@@ -3701,5 +3704,8 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

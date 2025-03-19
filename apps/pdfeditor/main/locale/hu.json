@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }
