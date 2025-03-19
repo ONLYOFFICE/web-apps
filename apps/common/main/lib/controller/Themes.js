@@ -84,7 +84,7 @@ define([
                 source: 'static',
                 icons: {
                     basepath: './resources/img/v2',
-                    cls: 'next-mod',
+                    cls: 'mod2',
                 }
             },
         }
