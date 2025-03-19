@@ -44,7 +44,8 @@ module.exports = function (grunt, rootpathprefix) {
             return options.fn({name:name});
         },
         half: num => {return num/2;},
-        scaled: (num, factor) => {return num / factor;}
+        scaled: (num, factor) => {return num / factor;},
+        spritepostfix: () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`,
     };
 
     const _prefix = rootpathprefix || '../../';
@@ -72,10 +73,11 @@ module.exports = function (grunt, rootpathprefix) {
             _scaled_path = `${opts.scale}/${opts.extpath ? opts.extpath : '.'}`;
         let hbhelpers = {...helpers};
         hbhelpers.spritepostfix = () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`;
+        hbhelpers.extracls = () => '.theme-icons-cls-mod2 ';
         return {
             src: [`${_editor_res_root}/img/toolbar/v2/${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/v2/${_scaled_path}/*.png`],
             dest: `${_editor_res_root}/img/v2/${opts.scale != '1x' ? opts.spritename + '@' + opts.scale : opts.spritename}.png`,
-            destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}.less`,
+            destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}.mod2.less`,
             cssTemplate: `${_common_res_root}/img/toolbar/${_scaled_path}/.css.handlebars`,
             algorithm: 'top-down',
             cssHandlebarsHelpers: hbhelpers
@@ -89,11 +91,6 @@ module.exports = function (grunt, rootpathprefix) {
                 spritename: sprite_name,
                 scale: '1x'
             }),
-            'word-v2-1x': configTemplateV2({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
             'word-big-1x': configTemplate({
                 editor:'documenteditor',
                 spritename: sprite_name_big,
@@ -101,6 +98,23 @@ module.exports = function (grunt, rootpathprefix) {
                 extpath: 'big'
             }),
             'word-huge-1x': configTemplate({
+                editor:'documenteditor',
+                spritename: sprite_name_huge,
+                scale: '1x',
+                extpath: 'huge'
+            }),
+            'word-mod2-1x': configTemplateV2({
+                editor:'documenteditor',
+                spritename: sprite_name,
+                scale: '1x'
+            }),
+            'word-mod2-big-1x': configTemplateV2({
+                editor:'documenteditor',
+                spritename: sprite_name_big,
+                scale: '1x',
+                extpath: 'big'
+            }),
+            'word-mod2-huge-1x': configTemplateV2({
                 editor:'documenteditor',
                 spritename: sprite_name_huge,
                 scale: '1x',
@@ -692,7 +706,8 @@ module.exports = function (grunt, rootpathprefix) {
     grunt.loadNpmTasks('grunt-spritesmith');
     grunt.loadNpmTasks('grunt-svg-sprite');
 
-    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-v2-1x', 'sprite:word-big-1x', 'sprite:word-huge-1x', 'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
+    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-mod2-1x', 'sprite:word-big-1x','sprite:word-mod2-big-1x', 'sprite:word-huge-1x', 'sprite:word-mod2-huge-1x',
+                                        'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
                                         'sprite:word1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x',
                                         'sprite:word1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x',
                                         'sprite:word1.75x', 'sprite:word-big-1.75x', 'sprite:word-huge-1.75x']);
