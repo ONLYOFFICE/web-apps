@@ -3599,7 +3599,7 @@ define([
             },
 
             onGrabFocus: function() {
-                this.getApplication().getController('DocumentHolder').getView().focus();
+                this.getApplication().getController('DocumentHolder').getView('DocumentHolder').focus();
             },
 
             onLanguageLoaded: function() {
