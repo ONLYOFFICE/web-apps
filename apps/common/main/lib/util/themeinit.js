@@ -148,7 +148,7 @@
                 }
 
                 if ( objtheme.icons ) {
-                    window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons);
+                    window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons.basepath);
                 }
             }
         }
