@@ -7,7 +7,7 @@
     &.input-group-nr > .form-control,
     &.input-group-nr > .btn {
         height: @input-height-base;
-        padding:  @padding-base-vertical @padding-base-horizontal;
+        padding:  @padding-base-vertical @dd-button-x-padding;
         line-height: @line-height-base;
 
         -o-transition: none;
@@ -32,7 +32,7 @@
     }
 
     &.input-group-nr > .form-control {
-        .padding-x(3px, 7px + 2 * @padding-base-horizontal);
+        .padding-x(3px, @dd-button-size);
         .font-size-normal();
     }
 
@@ -102,11 +102,11 @@
         //border-color: @border-regular-control-ie;
         //border-color: @border-regular-control;
         border-color: @border-fill-input;
-        .padding-x(3px, 5px);
+        .padding-x(@dd-button-x-padding, @dd-button-x-padding);
     }
 
     .btn-default.disabled {
-        .padding-x(3px, 5px);
+        .padding-x(@dd-button-x-padding, @dd-button-x-padding);
         border-top-color: transparent;
         border-bottom-color: transparent;
 

@@ -651,10 +651,10 @@
 .btn-group {
     > .btn {
         + .dropdown-toggle {
-            padding: 0 4px 0 3px;
+            padding: 0 @dd-button-x-padding;
 
             .rtl & {
-                padding: 0 3px 0 4px;
+                padding: 0 @dd-button-x-padding;
             }
         }
 
@@ -677,10 +677,10 @@
 
     > .dropdown-toggle:first-child {
         .inner-box-caret {
-            padding: 0 4px 0 3px;
+            padding: 0 @dd-button-x-padding;
 
             .rtl & {
-                padding: 0 3px 0 4px;
+                padding: @dd-button-x-padding;
             }
         }
     }
