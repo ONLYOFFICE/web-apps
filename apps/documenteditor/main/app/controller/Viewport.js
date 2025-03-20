@@ -340,12 +340,16 @@ define([
                 var _intvars = Common.Utils.InternalSettings;
                 var $filemenu = $('.toolbar-fullview-panel');
 
-                _intvars.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || 84));
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
                 _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
 
                 this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
                     _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+
                 Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             }
         },
