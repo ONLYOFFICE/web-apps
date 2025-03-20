@@ -54,9 +54,16 @@
         }
 
         .rtl & {
-            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-            border: @scaled-one-px-value solid @border-regular-control;
+            //border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            //border: @scaled-one-px-value solid @border-regular-control;
+            border: @scaled-one-px-value solid @border-fill-input;
             border-left: 0;
+        }
+        &[readonly] {
+            background-color: @background-fill-input;
+        }
+        &[disabled] {
+            background-color: @background-fill-input-disabled;
         }
     }
 
@@ -64,9 +71,11 @@
         border-left: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        border-color: @border-regular-control-ie;
-        border-color: @border-regular-control;
-        background-color: transparent;
+        //border-color: @border-regular-control-ie;
+        //border-color: @border-regular-control;
+        border-color: @border-fill-input;
+        //background-color: transparent;
+        background-color: @background-fill-input;
         margin-left: -1px;
         position: absolute;
         top: 0;
@@ -87,10 +96,12 @@
 
     .btn-default:not(.disabled),
     &.open .dropdown-toggle.btn-default {
-        background-color: @background-normal-ie;
-        background-color: @background-normal;
-        border-color: @border-regular-control-ie;
-        border-color: @border-regular-control;
+        //background-color: @background-normal-ie;
+        //background-color: @background-normal;
+        background-color: @background-fill-input;
+        //border-color: @border-regular-control-ie;
+        //border-color: @border-regular-control;
+        border-color: @border-fill-input;
         .padding-x(3px, 5px);
     }
 
@@ -100,14 +111,16 @@
         border-bottom-color: transparent;
 
         .rtl & {
-            border-left-color: @border-regular-control-ie;
-            border-left-color: @border-regular-control;
+            //border-left-color: @border-regular-control-ie;
+            //border-left-color: @border-regular-control;
+            border-left-color: @border-fill-input;
         }
 
         &:hover, &:focus {
             background-color: transparent;
-            border-right-color: @border-regular-control-ie;
-            border-right-color: @border-regular-control;
+            //border-right-color: @border-regular-control-ie;
+            //border-right-color: @border-regular-control;
+            border-right-color: @border-fill-input;
         }
     }
 
@@ -121,23 +134,26 @@
 
         &:not(.no-highlighted) > .form-control,
         &:not(.no-highlighted) > .btn {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
+            //border-color: @border-control-focus-ie;
+            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused;
         }
     }
 
     &.input-group-nr:not(.no-highlighted):not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
+            //border-color: @border-control-focus-ie;
+            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused;
         }
     }
     &.input-group-nr.no-highlighted:not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
-            border-color: @border-regular-control-ie;
-            border-color: @border-regular-control;
+            //border-color: @border-regular-control-ie;
+            //border-color: @border-regular-control;
+            border-color: @border-fill-input;
         }
     }
 
@@ -297,8 +313,9 @@
     &.input-group-nr:not(.no-highlighted) {
         & > .form-control,
         & > .btn {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
+            //border-color: @border-control-focus-ie;
+            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused;
         }
     }
 
