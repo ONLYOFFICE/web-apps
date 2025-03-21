@@ -70,7 +70,7 @@ const PreviewController = props => {
     const show = () => {
         const api = Common.EditorApi.get();
 
-        api.StartDemonstration('presentation-preview', api.getCurrentPage());
+        api.StartDemonstrationFromCurrentSlide('presentation-preview');
         enterFullScreen(_view[0]);
     };
 

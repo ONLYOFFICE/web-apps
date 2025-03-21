@@ -573,7 +573,7 @@ PE.ApplicationController = new(function(){
     function onPlayStart(e) {
         if ( !isplaymode ) {
             $('#box-preview').show();
-            api.StartDemonstration('id-preview', currentPage);
+            api.StartDemonstrationFromCurrentSlide('id-preview');
         } else {
             isplaymode == 'play' ?
                 api.DemonstrationPause() : api.DemonstrationPlay();
