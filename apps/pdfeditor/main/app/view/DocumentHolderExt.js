@@ -1277,12 +1277,12 @@ define([], function () {
             });
 
             me.menuPDFFormsUndo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-undo',
+                iconCls: 'menu__icon btn-undo icon-rtl',
                 caption: me.textUndo
             });
 
             me.menuPDFFormsRedo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-redo',
+                iconCls: 'menu__icon btn-redo icon-rtl',
                 caption: me.textRedo
             });
 
