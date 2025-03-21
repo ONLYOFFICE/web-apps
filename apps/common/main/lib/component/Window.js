@@ -708,11 +708,12 @@ define([
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                     var tools = this.$window.find('.tools .tool').length;
                     (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
-                } else {
                     this.$window.find('.body').css({
-                        top:0,
-                        'border-radius': '5px'
+                        'border-top-left-radius': '0px',
+                        'border-top-right-radius': '0px'
                     });
+                } else {
+                    this.$window.find('.body').css({top:0});
                 }
 
                 if (this.initConfig.height !== 'auto') {
