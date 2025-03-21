@@ -774,7 +774,7 @@ DE.ApplicationController = new(function(){
         else {
             WarningShown = true; 
             common.controller.modals.showWarning({
-                    title: me.txtTitleWarning,
+                    title: me.notcriticalErrorTitle,
                     message: me.txtOpenWarning,
                     buttons: [me.txtYes, me.txtNo], 
                     primary: me.txtYes,
@@ -1124,7 +1124,6 @@ DE.ApplicationController = new(function(){
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
         textDownloadPdf: 'Download pdf',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-        txtTitleWarning:'Warning',
         txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
         txtYes:'Yes',
         txtNo: 'No'

@@ -666,7 +666,7 @@ SSE.ApplicationController = new(function(){
         else {
             WarningShown = true; 
             common.controller.modals.showWarning({
-                    title: me.txtTitleWarning,
+                    title: me.notcriticalErrorTitle,
                     message: me.txtOpenWarning,
                     buttons: [me.txtYes, me.txtNo], 
                     primary: me.txtYes,
@@ -1008,7 +1008,6 @@ SSE.ApplicationController = new(function(){
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
         txtPressLink: 'Click the link to open it',
-        txtTitleWarning:'Warning',
         txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
         txtYes:'Yes',
         txtNo: 'No'

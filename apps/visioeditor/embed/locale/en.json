@@ -39,7 +39,6 @@
   "VE.ApplicationController.titleLicenseExp": "License expired",
   "VE.ApplicationController.titleLicenseNotActive": "License not active",
   "VE.ApplicationController.txtClose": "Close",
-  "VE.ApplicationController.txtTitleWarning": "Warning",
   "VE.ApplicationController.txtOpenWarning": "Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?",
   "VE.ApplicationController.txtYes":"Yes",
   "VE.ApplicationController.txtNo": "No",
