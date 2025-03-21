@@ -108,7 +108,7 @@ define([], function () { 'use strict';
             var cnt_panel = $window.find('.content-panel'),
                 menu_panel = $window.find('.menu-panel');
             cnt_panel.width(this.contentWidth);
-            $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
+            $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + cnt_panel.outerWidth() + 2);
 
             if (this.options.contentHeight) {
                 $window.find('.body > .box').css('height', this.options.contentHeight);
@@ -124,7 +124,7 @@ define([], function () { 'use strict';
                 this.btnsCategory[0].toggle(true, true);
 
             var onMainWindowResize = function(){
-                $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
+                $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + cnt_panel.outerWidth() + 2);
             };
             $(window).on('resize', onMainWindowResize);
             this.on('close', function() {
