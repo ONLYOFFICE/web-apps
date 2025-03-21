@@ -583,12 +583,14 @@
 }
 
 .btn-category {
-    .btn.large;
+    min-width: @x-category-btn-size;
+    height: @x-category-btn-size;
+    line-height: calc(@x-category-btn-size - 2px);
     width: 100%;
     padding: 0;
     display: block;
     position: relative;
-    .border-radius(0);
+    .border-radius(@border-radius-button-category);
     .font-size-normal();
     .font-weight-bold();
     background-color: transparent;

@@ -239,6 +239,8 @@
     --layout-padding-right-panel-content: 0 10px 0 15px;
     --layout-margin-right-panel: 0;
     --layout-margin-left-panel: 0 0 0 40px;
+    --layout-padding-x-side-panel-small: 0;
+    --layout-padding-x-side-panel-large: 0;
 
     --x-small-btn-size: 20px;
     --x-small-btn-icon-size: 20px;
@@ -249,12 +251,16 @@
     --statusbar-height: 25px;
     --toolbar-group-height: var(--x-huge-btn-height);
     --form-control-size: 22px;
+    --x-category-btn-size: 30px;
+    --category-btn-y-margin-small: 0;
+    --category-btn-y-margin-large: 8px;
 
     --border-radius-form-control: 2px;
     --border-radius-checkbox: 2px;
     --border-radius-button-base: 1px;
     --border-radius-button-toolbar: 1px;
     --border-radius-button-normal: 2px;
+    --border-radius-button-category: 0;
 
     --input-height-base: 22px;
     --line-height-base: 1.428571429;
@@ -394,12 +400,17 @@
 @shadow-side-panel: var(--shadow-side-panel, none);
 @border-radius-toolbar: var(--border-radius-toolbar,0);
 @layout-padding-toolbar: var(--layout-padding-toolbar, 0);
+@layout-padding-x-side-panel-small: var(--layout-padding-x-side-panel-small, 0);
+@layout-padding-x-side-panel-large: var(--layout-padding-x-side-panel-large, 0);
 
 @x-small-btn-size: var(--x-small-btn-size, 20px);
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
 @x-huge-btn-height: var(--x-huge-btn-height, 52px);
 @x-huge-btn-icon-size: var(--x-huge-btn-icon-size, 28px);
 @form-control-size: var(--form-control-size, 22px);
+@x-category-btn-size: var(--x-category-btn-size, 30px);
+@category-btn-y-margin-small: var(--category-btn-y-margin-small, 0);
+@category-btn-y-margin-large: var(--category-btn-y-margin-large, 8px);
 
 @toolbar-small-btn-margin-top: var(--toolbar-small-btn-margin-top, 8px);
 @toolbar-height-controls: var(--toolbar-height-controls, 66px);
@@ -411,6 +422,7 @@
 @border-radius-button-base: var(--border-radius-button-base, 1px);
 @border-radius-button-toolbar: var(--border-radius-button-toolbar, 1px);
 @border-radius-button-normal: var(--border-radius-button-normal, 2px);
+@border-radius-button-category: var(--border-radius-button-category, 0);
 
 @input-height-base: var(--input-height-base, 22px);
 @line-height-base: var(--line-height-base, 1.5);
