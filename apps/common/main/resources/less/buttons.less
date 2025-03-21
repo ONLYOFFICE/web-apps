@@ -822,16 +822,17 @@
 
 .btn-color {
     width: 45px;
+    width: calc(31px + 3*@scaled-one-px-value + @dd-button-size);
     height: @form-control-size;
     padding: @scaled-one-px-value-ie 11px @scaled-one-px-value-ie @scaled-one-px-value-ie;
-    padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
+    padding: @scaled-one-px-value @dd-button-size @scaled-one-px-value @scaled-one-px-value;
     border:@scaled-one-px-value-ie solid @border-regular-control-ie;
     border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-button-normal);
 
     .rtl & {
         padding: @scaled-one-px-value-ie @scaled-one-px-value-ie @scaled-one-px-value-ie 11px;
-        padding: @scaled-one-px-value @scaled-one-px-value @scaled-one-px-value 11px ;
+        padding: @scaled-one-px-value @scaled-one-px-value @scaled-one-px-value @dd-button-size;
     }
 
     span:nth-child(1) {

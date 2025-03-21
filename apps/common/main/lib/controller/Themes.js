@@ -89,7 +89,6 @@ define([
             },
         }
 
-
         var id_default_light_theme = 'theme-classic-light',
             id_default_dark_theme = 'theme-dark';
 
@@ -250,6 +249,7 @@ define([
 
             "toolbar-height-controls",
         ];
+        var theme_props = {};
 
         var get_current_theme_colors = function (c) {
             const colors = c || name_colors;
@@ -496,6 +496,7 @@ define([
                     Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
                 // }
             }
+            theme_props = {};
         }
 
         const refresh_theme = function (force, caller) {
@@ -661,6 +662,18 @@ define([
                 obj.type = themes_map[theme_id].type;
                 obj.name = theme_id;
                 return obj;
+            },
+
+            getThemeProps: function(prop) {
+                if (prop==='font') {
+                    if (!theme_props[prop]) {
+                        theme_props[prop] = {
+                            size: document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || window.getComputedStyle(document.body).getPropertyValue("--font-size-base") || '11px',
+                            name: document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif'
+                        };
+                    }
+                }
+                return theme_props[prop];
             }
         }
     })(Common.UI.Themes);
