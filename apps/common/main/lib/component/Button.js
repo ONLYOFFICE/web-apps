@@ -233,9 +233,10 @@ define([
         '</div>';
 
     var getWidthOfCaption = function (txt) {
+        var props = Common.UI.Themes.getThemeProps('font');
         var el = document.createElement('span');
-        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
-        el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+        el.style.fontSize = props && props.size ? props.size : '11px';
+        el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';
         el.style.left = '-1000px';
