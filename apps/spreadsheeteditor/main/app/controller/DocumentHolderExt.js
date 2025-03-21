@@ -2159,7 +2159,8 @@ define([], function () {
                 this.currentMenu && this.currentMenu.isVisible()){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
-
+            if (this.dlgFilter && this.dlgFilter.isVisible())
+                this.dlgFilter.close();
             if (!this.mouse.isLeftButtonDown) return;
 
             if (this.permissions && this.permissions.isEdit) {
