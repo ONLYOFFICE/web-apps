@@ -111,7 +111,6 @@ define([
 
             this.textColor = new Common.UI.MaskedField({
                 el: $('#extended-text-color'),
-                width: 55,
                 maskExp: /[a-fA-F0-9]/,
                 maxLength: 6
             });

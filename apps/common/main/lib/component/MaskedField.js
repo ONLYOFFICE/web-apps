@@ -47,7 +47,7 @@ define([], function () {
             var me = this,
                 el = me.$el || $(this.el);
 
-            el.addClass('masked-field user-select');
+            el.addClass('user-select form-control');
             el.attr('maxlength', me.options.maxLength);
             el.on('keypress', function(e) {
                 var charCode = String.fromCharCode(e.which);
