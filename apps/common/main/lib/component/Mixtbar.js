@@ -56,8 +56,8 @@ define([
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
-            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
-            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+            (Common.UI.isRTL() ? $scrollR : $scrollL).toggleClass('disabled', Math.abs(Math.floor(scrollLeft)) <= (Common.UI.isRTL() ? 1 : 0));
+            (Common.UI.isRTL() ? $scrollL : $scrollR).toggleClass('disabled', Math.abs(Math.ceil(scrollLeft)) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth - (Common.UI.isRTL() ? 1 : 0));
         }
 
         var onScrollTabs = function(opts, e) {
