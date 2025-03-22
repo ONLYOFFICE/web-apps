@@ -1377,6 +1377,7 @@ define([
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
+                me.api.asc_registerCallback('asc_onCompletePreparingOForm',     _.bind(me.onCompletePreparingOForm, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
@@ -1960,6 +1961,9 @@ define([
                                             msg  : this.warnStartFilling,
                                             buttons: ['ok']
                                         });
+            },
+
+            onCompletePreparingOForm: function() {
                 Common.Gateway.startFilling();
             },
 
