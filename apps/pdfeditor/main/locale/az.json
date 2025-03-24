@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Səhifəyə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

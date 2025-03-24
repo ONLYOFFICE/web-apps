@@ -1388,7 +1388,7 @@ define([], function () {
             scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
             extension - {string} use it after symbol "." (png|jpeg|svg)
 
-            Example: "resources/%theme-type%(light|dark)/%state%(normal)/icon%scale%(default).%extension%(png)"
+            Example: "resources/%theme-type%(light|dark)/icon%state%(normal|hover)%scale%(default).%extension%(png)"
         */
         let params_array = {
             "theme-name" : { origin : "", values : [""] },

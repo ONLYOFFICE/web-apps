@@ -130,7 +130,8 @@ define([
 
             var config = {
                     'id-view'  : 'editor_sdk',
-                    'translate': this.getApplication().getController('Main').translationTable
+                    'translate': this.getApplication().getController('Main').translationTable,
+                    'isRtlInterface': Common.UI.isRTL()
                 },
                 hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
             hcolor && (config['headings-color'] = '#' + hcolor[1]);

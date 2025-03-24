@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

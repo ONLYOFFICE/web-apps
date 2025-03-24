@@ -784,7 +784,7 @@ define([], function () {
         },
 
         onHelp: function() {
-            window.open('https://api.onlyoffice.com/plugin/macros', '_blank')
+            window.open('https://api.onlyoffice.com/docs/plugin-and-macros/macros/getting-started/', '_blank')
         },
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);

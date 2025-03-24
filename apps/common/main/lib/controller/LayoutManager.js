@@ -181,6 +181,7 @@ Common.UI.LayoutManager = new(function() {
                 caption: menuItem.text || '',
                 value: menuItem.id,
                 menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, callback) : false,
+                baseUrl: '', // base url is included in icon path
                 iconsSet: menuItem.icons,
                 guid: guid
             }));
@@ -437,6 +438,7 @@ Common.UI.LayoutManager = new(function() {
                 value: item.id,
                 menu: item.items ? _getMenu(item.items, guid, callback) : false,
                 iconsSet: item.icons,
+                baseUrl: '', // base url is included in icon path
                 guid: guid,
                 disabled: !!item.disabled
             }));
@@ -533,6 +535,7 @@ Common.UI.LayoutManager = new(function() {
                             guid: plugin.guid,
                             menu: item.items && item.items.length>=0 ? _getMenu(item.items, plugin.guid, callback) : false,
                             iconsSet: item.icons,
+                            baseUrl: '', // base url is included in icon path
                             disabled: !!item.disabled
                         }).on('click', function(item, e) {
                             !me._preventCustomClick && callback && callback(item.options.guid, item.value);

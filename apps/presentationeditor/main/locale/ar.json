@@ -2985,5 +2985,8 @@
   "PE.Views.ViewTab.tipMacros": "وحدات الماكرو",
   "PE.Views.ViewTab.tipNormal": "عادي",
   "PE.Views.ViewTab.tipSelectTool": "حدد الأداة",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

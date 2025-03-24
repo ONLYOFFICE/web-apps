@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }

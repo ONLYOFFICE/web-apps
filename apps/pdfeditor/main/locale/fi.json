@@ -2040,5 +2040,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sovita sivulle",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Otsikot",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
 }
