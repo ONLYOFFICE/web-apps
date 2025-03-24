@@ -3063,8 +3063,9 @@ define([], function () {
         },
 
         updateSettings: function() {
-            this.setCmbSidesOptions(true);
-            this.setCmbPaperSizeOptions();
+            var selectedPrinter = this.cmbPrinter.getSelectedRecord();
+            this.setCmbSidesOptions(selectedPrinter ? selectedPrinter.isDuplexSupported : true);
+            this.setCmbPaperSizeOptions(selectedPrinter ? selectedPrinter.paperSupported : null);
         },
 
         updateCmbPrinter: function(currentPrinter, printers) {
