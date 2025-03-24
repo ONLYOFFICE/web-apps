@@ -2700,6 +2700,11 @@ define([], function () {
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
+                                '<tr><td class="padding-large">',
+                                    '<button id="print-btn-system-dialog" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                                        '<span><%= scope.txtPrintUsingSystemDialog %></span>',
+                                    '</button>',
+                                '</td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
                                         '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2970,8 +2975,12 @@ define([], function () {
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
+            this.btnPrintSystemDialog = new Common.UI.Button({
+                el: $markup.findById('#print-btn-system-dialog')
+            });
             this.btnPrint = new Common.UI.Button({
-                el: $markup.findById('#print-btn-print')
+                el: $markup.findById('#print-btn-print'),
+                disabled: true
             });
             this.btnPrintPdf = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print-pdf')
@@ -3114,7 +3123,7 @@ define([], function () {
                     }
                 });
             } else {
-                resultList = this._defaultPaperSizeList;
+                resultList = [].concat(this._defaultPaperSizeList);
             }
             resultList.push({ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []});
 
@@ -3170,8 +3179,9 @@ define([], function () {
         },
 
         onPrinterSelected: function(combo, record) {
-            this.setCmbSidesOptions(record.isDuplexSupported);
-            this.setCmbPaperSizeOptions(record.paperSupported);
+            this.setCmbSidesOptions(record ? record.isDuplexSupported : true);
+            this.setCmbPaperSizeOptions(record ? record.paperSupported : null);
+            this.btnPrint.setDisabled(!record);
         },
 
         updateMetricUnit: function() {
@@ -3224,6 +3234,7 @@ define([], function () {
         txtPrinter: 'Printer',
         txtPrinterNotSelected: 'Printer not selected',
         txtPrintersNotFound: 'Printers not found',
+        txtPrintUsingSystemDialog: 'Print using the system dialog',
         txtPrintRange: 'Print range',
         txtCurrentPage: 'Current page',
         txtAllPages: 'All pages',

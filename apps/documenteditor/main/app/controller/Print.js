@@ -78,7 +78,8 @@ define([
         onAfterRender: function(view) {
             var me = this;
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
-            this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true));
+            this.printSettings.btnPrintSystemDialog.on('click', _.bind(this.onBtnPrint, this, true, true));
+            this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true, false));
             this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false));
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
@@ -528,7 +529,7 @@ define([
             this.printSettings.btnNextPage.setDisabled(curPage > pageCount - 2);
         },
 
-        onBtnPrint: function(print) {
+        onBtnPrint: function(print, useSystemDialog) {
             this._isPrint = print;
             if (this.printSettings.cmbRange.getValue()===-1 && this.printSettings.inputPages.checkValidate() !== true)  {
                 this.printSettings.inputPages.focus();
@@ -543,6 +544,7 @@ define([
             var size = this.api.asc_getPageSize(this._state.firstPrintPage);
             var printerOption = this.printSettings.cmbPrinter.getSelectedRecord();
             this.adjPrintParams.asc_setNativeOptions({
+                usesystemdialog: useSystemDialog,
                 printer: printerOption ? printerOption.value : null,
                 pages: this.printSettings.cmbRange.getValue()===-1 ? this.printSettings.inputPages.getValue() : this.printSettings.cmbRange.getValue(),
                 paperSize: {
