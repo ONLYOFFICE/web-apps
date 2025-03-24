@@ -1960,6 +1960,7 @@ define([
                                             msg  : this.warnStartFilling,
                                             buttons: ['ok']
                                         });
+                Common.Gateway.startFilling();
             },
 
             applyModeCommonElements: function() {

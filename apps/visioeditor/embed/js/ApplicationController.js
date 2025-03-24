@@ -897,7 +897,8 @@ VE.ApplicationController = new(function(){
 
         api = new Asc.VisioEditorApi({
             'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'embedded' : true,
+            'isRtlInterface': window.isrtl
         });
 
         if (api){

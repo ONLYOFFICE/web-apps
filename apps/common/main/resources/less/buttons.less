@@ -233,6 +233,12 @@
                 border-color: @text-normal-pressed;
             }
         }
+        .caret-double-left, .caret-double-right {
+            &::before, &::after {
+                border-color: @text-normal-pressed-ie;
+                border-color: @text-normal-pressed;
+            }
+        }
 
         .icon {
             opacity: @component-active-icon-opacity;
@@ -240,6 +246,12 @@
 
         &:hover .icon {
             opacity: @component-active-hover-icon-opacity;
+        }
+    }
+
+    &.icon-mirrored {
+        .icon {
+            transform: scale(-1,1);
         }
     }
 }
