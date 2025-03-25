@@ -16,6 +16,12 @@
             <div id="form-txt-pholder"></div>
         </td>
     </tr>
+    <tr class="form-format">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textFormat %></label>
+            <div id="form-combo-format" style="width: 100%;"></div>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small form-button">
             <label class="input-label"><%= scope.textLayout %></label>

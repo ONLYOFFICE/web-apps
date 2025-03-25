@@ -97,6 +97,7 @@ define([
             this.ButtonSettings = el.find('.form-button');
             this.ButtonTextOnlySettings = el.find('.form-button-text');
             this.ImageOnlySettings = el.find('.form-image');
+            this.FormatSettings = el.find('.form-format');
         },
 
         createDelayedElements: function() {
@@ -207,6 +208,28 @@ define([
             });
             this.chAutofit.on('change', this.onChAutofit.bind(this));
 
+            this.cmbFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-format'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [{ displayValue: this.textNone,  value: AscPDF.FormatType.NONE },
+                    { displayValue: this.textNumber,  value: AscPDF.FormatType.NUMBER },
+                    { displayValue: this.textPercent,  value: AscPDF.FormatType.PERCENTAGE },
+                    { displayValue: this.textDate,  value: AscPDF.FormatType.DATE },
+                    { displayValue: this.textTime,  value: AscPDF.FormatType.TIME },
+                    { displayValue: this.textSpecial,  value: AscPDF.FormatType.SPECIAL },
+                    { displayValue: this.textReg,  value: AscPDF.FormatType.REGULAR }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.lockedControls.push(this.cmbFormat);
+            this.cmbFormat.setValue(AscPDF.FormatType.NONE);
+            this.cmbFormat.on('selected', this.onFormatSelect.bind(this));
+            
             // text field
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
@@ -1030,6 +1053,36 @@ define([
             }
         },
 
+        onFormatSelect: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.FormatType = undefined;
+                switch (record.value) {
+                    case AscPDF.FormatType.NONE:
+                        this.api.ClearFieldFormat();
+                        break;
+                    case AscPDF.FormatType.NUMBER:
+                        this.api.SetFieldNumberFormat(2, AscPDF.SeparatorStyle.COMMA_DOT, AscPDF.NegativeStyle.BLACK_MINUS, '', true)
+                        break;
+                    case AscPDF.FormatType.PERCENTAGE:
+                        this.api.SetFieldPercentageFormat(2, AscPDF.SeparatorStyle.COMMA_DOT)
+                        break;
+                    case AscPDF.FormatType.DATE:
+                        this.api.SetFieldDateFormat("m/d/yy")
+                        break;
+                    case AscPDF.FormatType.TIME:
+                        this.api.SetFieldTimeFormat("HH:MM")
+                        break;
+                    case AscPDF.FormatType.SPECIAL:
+                        this.api.SetFieldSpecialFormat(AscPDF.SpectialFormatType.PHONE)
+                        break;
+                    case AscPDF.FormatType.REGULAR:
+                        this.api.SetFieldRegularExp('.')
+                        break;
+                }
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -1181,6 +1234,13 @@ define([
                             this._state.AutoFit=val;
                         }
                         this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
+
+                        val = specProps.asc_getFormat();
+                        val = val ? val.asc_getType() : AscPDF.FormatType.NONE;
+                        if ( this._state.FormatType!==val ) {
+                            this.cmbFormat.setValue((val !== null && val !== undefined) ? val : AscPDF.FormatType.NONE, '');
+                            this._state.FormatType=val;
+                        }
                     }
                 }
 
@@ -1487,6 +1547,7 @@ define([
             this.ButtonSettings.toggleClass('hidden', !isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
+            this.FormatSettings.toggleClass('hidden', !(isCombobox || isText));
         }
 
     }, PDFE.Views.FormSettings || {}));
