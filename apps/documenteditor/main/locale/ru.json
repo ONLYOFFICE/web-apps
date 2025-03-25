@@ -1321,7 +1321,7 @@
   "DE.Controllers.Main.warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр.<br>Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия лицензирования.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Вы достигли лимита на одновременные подключения к редакторам %1.<br>Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия лицензирования.",
   "DE.Controllers.Main.warnProcessRightsChange": "Вам было отказано в праве на редактирование этого файла.",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
+  "DE.Controllers.Main.warnStartFilling": "Идет заполнение формы.<br>Редактирование файла в настоящее время недоступно.",
   "DE.Controllers.Navigation.txtBeginning": "Начало документа",
   "DE.Controllers.Navigation.txtGotoBeginning": "Перейти в начало документа",
   "DE.Controllers.Print.textMarginsLast": "Последние настраиваемые",

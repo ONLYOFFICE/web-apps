@@ -1321,7 +1321,7 @@
   "DE.Controllers.Main.warnNoLicense": "Dostigli ste limit za istovremene konekcije za %1 urednike. Ovaj dokument će biti otvoren samo za prikaz.<br>Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
   "DE.Controllers.Main.warnProcessRightsChange": "Uskraćeno vam je pravo da uredite ovaj fajl.",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
+  "DE.Controllers.Main.warnStartFilling": "Popunjavanje obrasca je u toku.<br>Izmena fajla trenutno nije dostupna.",
   "DE.Controllers.Navigation.txtBeginning": "Početak dokumenta ",
   "DE.Controllers.Navigation.txtGotoBeginning": "Idi na početak dokumenta",
   "DE.Controllers.Print.textMarginsLast": "Poslednje Prilagođeno",
