@@ -272,9 +272,9 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         var filter = Common.localStorage.getKeysFilter();
         _appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-        if ( !Common.Utils.ScreeenReaderHelper ) {
+        if ( !Common.Utils.ScreenReaderHelper ) {
             require(['common/main/lib/util/ScreenReaderHelper'], function () {
-                Common.Utils.ScreeenReaderHelper.setEnabled(true);
+                Common.Utils.ScreenReaderHelper.setEnabled(true);
             });
         }
 
