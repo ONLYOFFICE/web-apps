@@ -22,6 +22,16 @@
             <div id="form-combo-format" style="width: 100%;"></div>
         </td>
     </tr>
+    <tr class="form-special">
+        <td class="padding-small">
+            <div id="form-combo-special" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-special-mask">
+        <td class="padding-small">
+            <div id="form-txt-mask" style="width: 100%;"></div>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small form-button">
             <label class="input-label"><%= scope.textLayout %></label>

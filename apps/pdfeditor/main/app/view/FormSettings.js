@@ -96,6 +96,8 @@ define([
             this.ButtonSettings = el.find('.form-button');
             this.ButtonTextOnlySettings = el.find('.form-button-text');
             this.ImageOnlySettings = el.find('.form-image');
+            this.TextSpecialSettings = el.find('.form-special');
+            this.MaskSettings = el.find('.form-special-mask');
         },
 
         createDelayedElements: function() {
@@ -227,7 +229,46 @@ define([
             this.lockedControls.push(this.cmbFormat);
             this.cmbFormat.setValue(AscPDF.FormatType.NONE);
             this.cmbFormat.on('selected', this.onFormatSelect.bind(this));
-            
+
+            this.cmbSpecial = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-special'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: [
+                    { displayValue: this.textZipCode,  value: AscPDF.SpecialFormatType.ZIP_CODE },
+                    { displayValue: this.textZipCode4,  value: AscPDF.SpecialFormatType.ZIP_PLUS_4 },
+                    { displayValue: this.textPhone,  value: AscPDF.SpecialFormatType.PHONE },
+                    { displayValue: this.textSSN,  value: AscPDF.SpecialFormatType.SSN },
+                    { displayValue: this.textMask, value: -1 }],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSpecial.setValue(AscPDF.SpecialFormatType.PHONE);
+            this.lockedControls.push(this.cmbSpecial);
+            this.cmbSpecial.on('selected', this.onSpecialChanged.bind(this));
+
+            this.txtMask = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-mask'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtMask);
+            this.txtMask.on('changed:after', this.onMaskChanged.bind(this));
+            this.txtMask.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtMask.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtMask._input && me.txtMask._input.select();}, 1);
+            });
+
             // text field
             this.chMulti = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-multiline'),
@@ -1071,13 +1112,36 @@ define([
                         this.api.SetFieldTimeFormat("HH:MM")
                         break;
                     case AscPDF.FormatType.SPECIAL:
-                        this.api.SetFieldSpecialFormat(AscPDF.SpectialFormatType.PHONE)
+                        this.api.SetFieldSpecialFormat(AscPDF.SpecialFormatType.PHONE)
                         break;
                     case AscPDF.FormatType.REGULAR:
                         this.api.SetFieldRegularExp('.')
                         break;
                 }
                 this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onSpecialChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.SpecialType = undefined;
+                if (record.value===-1) {
+                    this.api.SetFieldMask('*');
+                } else
+                    this.api.SetFieldSpecialFormat(record.value);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onMaskChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this._state.MaskStr = undefined;
+                if (this._state.FormatType===AscPDF.FormatType.REGULAR)
+                    this.api.SetFieldRegularExp(newValue)
+                else if (this._state.FormatType===AscPDF.FormatType.SPECIAL)
+                    this.api.SetFieldMask(newValue);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
@@ -1091,8 +1155,9 @@ define([
 
                 this.disableControls(this._locked);
 
-                var type = props.asc_getType();
-                var specProps = props.asc_getFieldProps();
+                var forceShowHide = false,
+                    type = props.asc_getType(),
+                    specProps = props.asc_getFieldProps();
                 this._originalSpecProps = specProps;
 
                 // common props
@@ -1233,11 +1298,29 @@ define([
                         }
                         this.chAutofit.setDisabled(isComb || this._state.DisabledControls);
 
-                        val = specProps.asc_getFormat();
-                        val = val ? val.asc_getType() : AscPDF.FormatType.NONE;
+                        let format = specProps.asc_getFormat();
+                        val = format ? format.asc_getType() : AscPDF.FormatType.NONE;
                         if ( this._state.FormatType!==val ) {
                             this.cmbFormat.setValue((val !== null && val !== undefined) ? val : AscPDF.FormatType.NONE, '');
                             this._state.FormatType=val;
+                            forceShowHide = true;
+                        }
+                        if (this._state.FormatType===AscPDF.FormatType.REGULAR) {
+                            val = format.asc_getRegExp();
+                        } else if (this._state.FormatType===AscPDF.FormatType.SPECIAL) {
+                            val = format.asc_getFormat();
+                            (val===undefined) && (val = -1);
+                            if ( this._state.SpecialType!==val) {
+                                this.cmbSpecial.setValue(val, '');
+                                this._state.SpecialType=val;
+                                forceShowHide = true;
+                            }
+                            val = format.asc_getMask();
+                        }
+
+                        if (this._state.MaskStr !== val) {
+                            this.txtMask.setValue(val ? val : '');
+                            this._state.MaskStr = val;
                         }
                     }
                 }
@@ -1417,7 +1500,7 @@ define([
 
                 this._noApply = false;
 
-                if (this.type !== type || type === AscPDF.FIELD_TYPES.button)
+                if (this.type !== type || type === AscPDF.FIELD_TYPES.button || forceShowHide)
                     this.showHideControls(type, specProps);
 
                 if (this.type !== type)
@@ -1544,6 +1627,9 @@ define([
             this.ButtonSettings.toggleClass('hidden', !isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
+            this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);
+            this.MaskSettings.toggleClass('hidden', !(isCombobox || isText) || !(this._state.FormatType===AscPDF.FormatType.REGULAR ||
+                                                                                 this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
         }
 
     }, PDFE.Views.FormSettings || {}));
