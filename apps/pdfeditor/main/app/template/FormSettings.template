@@ -32,6 +32,16 @@
             <div id="form-txt-mask" style="width: 100%;"></div>
         </td>
     </tr>
+    <tr class="form-date">
+        <td class="padding-small">
+            <div id="form-cmb-date-format" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-time">
+        <td class="padding-small">
+            <div id="form-cmb-time-format" style="width: 100%;"></div>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small form-button">
             <label class="input-label"><%= scope.textLayout %></label>

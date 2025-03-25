@@ -98,6 +98,8 @@ define([
             this.ImageOnlySettings = el.find('.form-image');
             this.TextSpecialSettings = el.find('.form-special');
             this.MaskSettings = el.find('.form-special-mask');
+            this.DateSettings = el.find('.form-date');
+            this.TimeSettings = el.find('.form-time');
         },
 
         createDelayedElements: function() {
@@ -268,6 +270,54 @@ define([
             this.txtMask.cmpEl.on('focus', 'input.form-control', function() {
                 setTimeout(function(){me.txtMask._input && me.txtMask._input.select();}, 1);
             });
+
+            var arr = [];
+            this.api.asc_getFieldDateFormatOptions().forEach(function(item){
+                arr.push({
+                    value: item,
+                    displayValue: item
+                });
+            });
+            this.cmbDateFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-date-format'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: arr,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbDateFormat.setValue('');
+            this.lockedControls.push(this.cmbDateFormat);
+            this.cmbDateFormat.on('selected', this.onDateFormatChanged.bind(this));
+            this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
+
+            arr = [];
+            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
+                arr.push({
+                    value: item,
+                    displayValue: item
+                });
+            });
+            this.cmbTimeFormat = new Common.UI.ComboBox({
+                el: $markup.findById('#form-cmb-time-format'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
+                editable: false,
+                data: arr,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbTimeFormat.setValue('');
+            this.lockedControls.push(this.cmbTimeFormat);
+            this.cmbTimeFormat.on('selected', this.onTimeFormatChanged.bind(this));
+            this.cmbTimeFormat.on('hide:after', this.onHideMenus.bind(this));
 
             // text field
             this.chMulti = new Common.UI.CheckBox({
@@ -669,7 +719,6 @@ define([
             this.cmbHowScale.setValue(AscPDF.Api.Types.scaleHow.proportional);
             this.lockedControls.push(this.cmbHowScale);
             this.cmbHowScale.on('selected', this.onHowScaleChanged.bind(this));
-            this.cmbHowScale.on('changed:after', this.onHowScaleChanged.bind(this));
             this.cmbHowScale.on('hide:after', this.onHideMenus.bind(this));
 
             this.imagePositionPreview = $markup.findById('#form-img-example');
@@ -1100,22 +1149,22 @@ define([
                         this.api.ClearFieldFormat();
                         break;
                     case AscPDF.FormatType.NUMBER:
-                        this.api.SetFieldNumberFormat(2, AscPDF.SeparatorStyle.COMMA_DOT, AscPDF.NegativeStyle.BLACK_MINUS, '', true)
+                        this.api.SetFieldNumberFormat(2, AscPDF.SeparatorStyle.COMMA_DOT, AscPDF.NegativeStyle.BLACK_MINUS, '', true);
                         break;
                     case AscPDF.FormatType.PERCENTAGE:
-                        this.api.SetFieldPercentageFormat(2, AscPDF.SeparatorStyle.COMMA_DOT)
+                        this.api.SetFieldPercentageFormat(2, AscPDF.SeparatorStyle.COMMA_DOT);
                         break;
                     case AscPDF.FormatType.DATE:
-                        this.api.SetFieldDateFormat("m/d/yy")
+                        this.api.SetFieldDateFormat("m/d/yy");
                         break;
                     case AscPDF.FormatType.TIME:
-                        this.api.SetFieldTimeFormat("HH:MM")
+                        this.api.SetFieldTimeFormat("HH:MM");
                         break;
                     case AscPDF.FormatType.SPECIAL:
-                        this.api.SetFieldSpecialFormat(AscPDF.SpecialFormatType.PHONE)
+                        this.api.SetFieldSpecialFormat(AscPDF.SpecialFormatType.PHONE);
                         break;
                     case AscPDF.FormatType.REGULAR:
-                        this.api.SetFieldRegularExp('.')
+                        this.api.SetFieldRegularExp('.');
                         break;
                 }
                 this.fireEvent('editcomplete', this);
@@ -1142,6 +1191,22 @@ define([
                     this.api.SetFieldMask(newValue);
                 if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
                     this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onDateFormatChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.DateFormat = undefined;
+                this.api.SetFieldDateFormat(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onTimeFormatChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.TimeFormat = undefined;
+                this.api.SetFieldTimeFormat(record.value);
+                this.fireEvent('editcomplete', this);
             }
         },
 
@@ -1305,20 +1370,37 @@ define([
                             this._state.FormatType=val;
                             forceShowHide = true;
                         }
-                        if (this._state.FormatType===AscPDF.FormatType.REGULAR) {
-                            val = format.asc_getRegExp();
-                        } else if (this._state.FormatType===AscPDF.FormatType.SPECIAL) {
-                            val = format.asc_getFormat();
-                            (val===undefined) && (val = -1);
-                            if ( this._state.SpecialType!==val) {
-                                this.cmbSpecial.setValue(val, '');
-                                this._state.SpecialType=val;
-                                forceShowHide = true;
-                            }
-                            val = format.asc_getMask();
+                        switch (this._state.FormatType) {
+                            case AscPDF.FormatType.REGULAR:
+                                val = format.asc_getRegExp();
+                                break;
+                            case AscPDF.FormatType.SPECIAL:
+                                val = format.asc_getFormat();
+                                (val===undefined) && (val = -1);
+                                if ( this._state.SpecialType!==val) {
+                                    this.cmbSpecial.setValue(val, '');
+                                    this._state.SpecialType=val;
+                                    forceShowHide = true;
+                                }
+                                val = format.asc_getMask();
+                                break;
+                            case AscPDF.FormatType.DATE:
+                                val = format.asc_getFormat();
+                                if ( this._state.DateFormat!==val ) {
+                                    this.cmbDateFormat.setValue(val, this.txtCustom);
+                                    this._state.DateFormat=val;
+                                }
+                                break;
+                            case AscPDF.FormatType.TIME:
+                                val = format.asc_getFormat();
+                                if ( this._state.TimeFormat!==val ) {
+                                    this.cmbTimeFormat.setValue(val, this.txtCustom);
+                                    this._state.TimeFormat=val;
+                                }
+                                break;
                         }
 
-                        if (this._state.MaskStr !== val) {
+                        if ((this._state.FormatType===AscPDF.FormatType.REGULAR || this._state.FormatType===AscPDF.FormatType.SPECIAL) && this._state.MaskStr !== val) {
                             this.txtMask.setValue(val ? val : '');
                             this._state.MaskStr = val;
                         }
@@ -1630,6 +1712,8 @@ define([
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);
             this.MaskSettings.toggleClass('hidden', !(isCombobox || isText) || !(this._state.FormatType===AscPDF.FormatType.REGULAR ||
                                                                                  this._state.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
+            this.DateSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.DATE);
+            this.TimeSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.TIME);
         }
 
     }, PDFE.Views.FormSettings || {}));
