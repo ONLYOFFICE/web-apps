@@ -2988,5 +2988,14 @@
   "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова",
   "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "PE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }
