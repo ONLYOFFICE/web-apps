@@ -86,10 +86,9 @@ define([
             el.html(this.template({
                 scope: this
             }));
-            this.PlaceholderSettings = el.find('.form-placeholder');
+            this.TextComboSettings = el.find('.form-text-combo');
             this.ListSettings = el.find('.form-list-common');
             this.ListboxOnlySettings = el.find('.form-list');
-            this.AutofitSettings = el.find('.form-autofit');
             this.TextSettings = el.find('.form-text');
             this.ComboSettings = el.find('.form-combo');
             this.CheckSettings = el.find('.form-checkbox');
@@ -97,7 +96,6 @@ define([
             this.ButtonSettings = el.find('.form-button');
             this.ButtonTextOnlySettings = el.find('.form-button-text');
             this.ImageOnlySettings = el.find('.form-image');
-            this.FormatSettings = el.find('.form-format');
         },
 
         createDelayedElements: function() {
@@ -1536,8 +1534,7 @@ define([
                 isButton = type === AscPDF.FIELD_TYPES.button,
                 isImage = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.textOnly),
                 isButtonText = isButton && (specProps.asc_getLayout()!==AscPDF.Api.Types.position.iconOnly);
-            this.PlaceholderSettings.toggleClass('hidden', !(isCombobox || isText));
-            this.AutofitSettings.toggleClass('hidden', !(isCombobox || isText));
+            this.TextComboSettings.toggleClass('hidden', !(isCombobox || isText));
             this.ListSettings.toggleClass('hidden', !(isCombobox || isListbox));
             this.TextSettings.toggleClass('hidden', !isText);
             this.ComboSettings.toggleClass('hidden', !isCombobox);
@@ -1547,7 +1544,6 @@ define([
             this.ButtonSettings.toggleClass('hidden', !isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
-            this.FormatSettings.toggleClass('hidden', !(isCombobox || isText));
         }
 
     }, PDFE.Views.FormSettings || {}));
