@@ -418,5 +418,8 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
 }

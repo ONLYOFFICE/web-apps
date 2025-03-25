@@ -2043,5 +2043,14 @@
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема інтерфейсу",
   "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PDFE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PDFE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PDFE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PDFE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PDFE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PDFE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PDFE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

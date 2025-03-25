@@ -3722,5 +3722,14 @@
   "DE.Views.Toolbar.tipBorders": "Borders",
   "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin"
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "DE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "DE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "DE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "DE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "DE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "DE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "DE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "DE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "DE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

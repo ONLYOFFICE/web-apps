@@ -1321,7 +1321,7 @@
   "DE.Controllers.Main.warnNoLicense": "Sie haben das Limit für gleichzeitige Verbindungen in %1-Editoren erreicht. Dieses Dokument wird nur zum Anzeigen geöffnet.<br>Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
   "DE.Controllers.Main.warnProcessRightsChange": "Das Recht, die Datei zu bearbeiten, wurde Ihnen verweigert.",
-  "DE.Controllers.Main.warnStartFilling": "Das Formular wird ausgefüllt.<br>Die Dateibearbeitung ist derzeit nicht möglich.",
+  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Controllers.Navigation.txtBeginning": "Anfang des Dokuments",
   "DE.Controllers.Navigation.txtGotoBeginning": "Zum Anfang des Dokuments übergehnen",
   "DE.Controllers.Print.textMarginsLast": " Benutzerdefiniert als letzte",
@@ -3709,7 +3709,6 @@
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Schriftartname",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Schriftgrad",
   "DE.Views.BookmarksDialog.textAddAndGetLink": "Add & Get Link",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Views.FileMenuPanels.Settings.strFontSizeType": "Use first in the font size list",
   "DE.Views.FileMenuPanels.Settings.strChinese": "Chinese",
   "DE.Views.FileMenuPanels.Settings.strWestern": "Western",
@@ -3723,5 +3722,14 @@
   "DE.Views.Toolbar.textInsideBorders": "Inside borders",
   "DE.Views.Toolbar.textBordersColor": "Border color",
   "DE.Views.Toolbar.textBordersStyle": "Border style",
-  "DE.Views.Toolbar.tipBorders": "Borders"
+  "DE.Views.Toolbar.tipBorders": "Borders",
+  "DE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "DE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "DE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "DE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "DE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "DE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "DE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "DE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "DE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }
