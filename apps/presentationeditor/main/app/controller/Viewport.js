@@ -134,7 +134,8 @@ define([
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable,
-                'isRtlInterface': Common.UI.isRTL()
+                'isRtlInterface': Common.UI.isRTL(),
+                'thumbnails-position': Common.UI.isRTL() ? 'right' : 'left'
             });
 
             this.header   = this.createView('Common.Views.Header', {
