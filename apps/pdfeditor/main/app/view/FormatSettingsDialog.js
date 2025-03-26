@@ -135,7 +135,7 @@ define([
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._state = {DateFormatCustom: '', TimeFormatCustom: '', DateFormat: '', TimeFormat: '', NegStyle: AscPDF.NegativeStyle.BLACK_MINUS};
+            this._state = {DateFormatCustom: '', TimeFormatCustom: '', DateFormat: '', TimeFormat: '', NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
             this.FormatType = AscPDF.FormatType.NONE;
         },
 
@@ -287,13 +287,15 @@ define([
             this.txtMask = new Common.UI.InputField({
                 el          : $('#format-settings-mask'),
                 allowBlank  : true,
-                validateOnChange: false,
+                validateOnChange : true,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
+            }).on ('changing', function (input, value) {
+                me._state[me.FormatType===AscPDF.FormatType.REGULAR ? 'RegExp' : 'Mask'] = value;
             });
 
             var arr = [];
@@ -384,11 +386,14 @@ define([
                         this.chRed.setValue(val===AscPDF.NegativeStyle.RED_MINUS || val===AscPDF.NegativeStyle.PARENS_RED, true);
                     }
                 } if (this.FormatType===AscPDF.FormatType.REGULAR) {
-                    this.txtMask.setValue(format.asc_getRegExp() || '');
+                    this._state.RegExp = format.asc_getRegExp() || '';
+                    this.txtMask.setValue(this._state.RegExp);
                 } if (this.FormatType===AscPDF.FormatType.SPECIAL) {
                     this.cmbSpecial.setValue(this._state.SpecialType, '');
-                    if (this._state.SpecialType===-1)
-                        this.txtMask.setValue(format.asc_getMask() || '');
+                    if (this._state.SpecialType===-1) {
+                        this._state.Mask = format.asc_getMask() || '';
+                        this.txtMask.setValue(this._state.Mask);
+                    }
                 }
                 this.updateFormatExample();
             }
@@ -448,32 +453,9 @@ define([
             this.lblExample.text(str);
         },
 
-        onDecimalChange: function(field, newValue, oldValue, eOpts){
-            // if (this.FormatType===AscPDF.FormatType.NUMBER)
-            //     this.lblExample.text(this.api.asc_getFiledNumberFormatExample(field.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle,
-            //                                                                   this.cmbSymbols.getValue() || '', this.cmbLocation.getValue()));
-            // else if (this.FormatType===AscPDF.FormatType.PERCENTAGE)
-            //     this.lblExample.text(this.api.asc_getFiledPercentFormatExample(field.getNumberValue(), this.cmbSeparator.getValue()));
-        },
-
-        onSeparatorSelect: function(combo, record) {
-            // if (this.FormatType===AscPDF.FormatType.NUMBER)
-            //     this.lblExample.text(this.api.asc_getFiledNumberFormatExample(this.spnDecimal.getNumberValue(), record.value, this._state.NegStyle,
-            //                                                                   this.cmbSymbols.getValue() || '', this.cmbLocation.getValue()));
-            // else if (this.FormatType===AscPDF.FormatType.PERCENTAGE)
-            //     this.lblExample.text(this.api.asc_getFiledPercentFormatExample(this.spnDecimal.getNumberValue(), record.value));
-        },
-
         onSymbolsSelect: function(combo, record) {
-            // this.lblExample.text(this.api.asc_getFiledNumberFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle,
-            //                                                               record.value || '', this.cmbLocation.getValue()));
             this.cmbLocation.setDisabled(record.value===null);
             this.updateFormatExample();
-        },
-
-        onLocationSelect: function(combo, record) {
-            // this.lblExample.text(this.api.asc_getFiledNumberFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle,
-            //                                                               this.cmbSymbols.getValue() || '', record.value));
         },
 
         onNegativeChange: function(field, newValue, oldValue, eOpts){
@@ -482,8 +464,6 @@ define([
             this._state.NegStyle = isRed ? (isParens ? AscPDF.NegativeStyle.PARENS_RED : AscPDF.NegativeStyle.RED_MINUS) :
                                             isParens ? AscPDF.NegativeStyle.PARENS_BLACK : AscPDF.NegativeStyle.BLACK_MINUS;
             this.updateFormatExample();
-            // this.lblExample.text(this.api.asc_getFiledNumberFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle,
-            //                                                               this.cmbSymbols.getValue() || '', this.cmbLocation.getValue()));
         },
 
         onDateTimeListSelect: function(listView, itemView, record){
@@ -493,12 +473,13 @@ define([
             isCustom && this.inputCustomFormat.setValue(this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormatCustom' : 'TimeFormatCustom']);
             this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormat' : 'TimeFormat'] = isCustom ? this.inputCustomFormat.getValue() : record.get('value');
             this.updateFormatExample();
-            // this.lblExample.text(this.api.asc_getFieldDateTimeFormatExample(this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormat' : 'TimeFormat']));
         },
 
         onSpecialChanged: function(combo, record) {
             this._state.SpecialType = record.value;
             this._maskPanel.toggleClass('hidden', this._state.SpecialType!==-1);
+            (this._state.SpecialType===-1) && this.txtMask.setValue(this._state.Mask);
+
             this.updateFormatExample();
         },
 
@@ -515,6 +496,11 @@ define([
             this._numberPanel.toggleClass('hidden', !isNumber);
             this._specialPanel.toggleClass('hidden', this.FormatType!==AscPDF.FormatType.SPECIAL);
             this._maskPanel.toggleClass('hidden', !(this.FormatType===AscPDF.FormatType.REGULAR || this.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1));
+            if (this.FormatType===AscPDF.FormatType.REGULAR)
+                this.txtMask.setValue(this._state.RegExp);
+            if (this.FormatType===AscPDF.FormatType.SPECIAL && this._state.SpecialType===-1)
+                this.txtMask.setValue(this._state.Mask);
+
             this._datePanel.toggleClass('hidden', !(this.FormatType===AscPDF.FormatType.DATE || this.FormatType===AscPDF.FormatType.TIME));
             if (this.FormatType===AscPDF.FormatType.DATE || this.FormatType===AscPDF.FormatType.TIME) {
                 this.dateTimeList.$el[0].style.height = this.FormatType===AscPDF.FormatType.DATE ? "184px" : "116px";
