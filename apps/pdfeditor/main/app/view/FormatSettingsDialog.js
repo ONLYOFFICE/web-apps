@@ -218,13 +218,15 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textBefore,  value: true },
-                    { displayValue: this.textAfter,  value: false }
+                    { displayValue: this.textBeforeSpace,  value: 0 },
+                    { displayValue: this.textBefore,  value: 1 },
+                    { displayValue: this.textAfterSpace,  value: 2 },
+                    { displayValue: this.textAfter,  value: 3 }
                 ],
                 scrollAlwaysVisible: true,
                 takeFocusOnClose: true
             });
-            this.cmbLocation.setValue(true);
+            this.cmbLocation.setValue(0);
             this.cmbLocation.setDisabled(true);
             this.cmbLocation.on('selected', _.bind(this.updateFormatExample, this));
 
@@ -369,8 +371,12 @@ define([
                     this.cmbSeparator.setValue(format.asc_getSepStyle(), '');
                     if (this.FormatType===AscPDF.FormatType.NUMBER) {
                         val = format.asc_getCurrency();
-                        this.cmbSymbols.setValue(val ? val : null, '');
+                        this.cmbSymbols.setValue(val ? val.trim() : null, '');
                         this.cmbLocation.setDisabled(!val);
+                        if (val && val.indexOf(' ')===-1)
+                            this.cmbLocation.setValue(format.asc_getCurrencyPrepend() ? 1 : 3);
+                        else
+                            this.cmbLocation.setValue(format.asc_getCurrencyPrepend() ? 0 : 2);
                         val = format.asc_getNegStyle();
                         this._state.NegStyle = val;
                         this.chParens.setValue(val===AscPDF.NegativeStyle.PARENS_BLACK || val===AscPDF.NegativeStyle.PARENS_RED, true);
@@ -393,8 +399,13 @@ define([
         getSettings: function () {
             switch (this.FormatType) {
                 case AscPDF.FormatType.NUMBER:
+                    let location = this.cmbLocation.getValue(),
+                        symbol = this.cmbSymbols.getValue();
+                    if (symbol && (location===0 || location===2)) {
+                        symbol = location===0 ? symbol + ' ' : ' ' + symbol;
+                    }
                     return {FormatType: this.FormatType, decimal: this.spnDecimal.getNumberValue(), separator: this.cmbSeparator.getValue(), negative: this._state.NegStyle,
-                            symbol: this.cmbSymbols.getValue() || '', location: this.cmbLocation.getValue()};
+                            symbol: symbol || '', location: location<2};
                 case AscPDF.FormatType.PERCENTAGE:
                     return {FormatType: this.FormatType, decimal: this.spnDecimal.getNumberValue(), separator: this.cmbSeparator.getValue()};
                 case AscPDF.FormatType.DATE:
@@ -427,8 +438,12 @@ define([
             let str = '';
             switch (this.FormatType) {
                 case AscPDF.FormatType.NUMBER:
-                    str = this.api.asc_getFieldNumberFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle,
-                                                                   this.cmbSymbols.getValue() || '', this.cmbLocation.getValue());
+                    let location = this.cmbLocation.getValue(),
+                        symbol = this.cmbSymbols.getValue();
+                    if (symbol && (location===0 || location===2)) {
+                        symbol = location===0 ? symbol + ' ' : ' ' + symbol;
+                    }
+                    str = this.api.asc_getFieldNumberFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue(), this._state.NegStyle, symbol || '', location<2);
                     break;
                 case AscPDF.FormatType.PERCENTAGE:
                     str = this.api.asc_getFieldPercentFormatExample(this.spnDecimal.getNumberValue(), this.cmbSeparator.getValue());
@@ -528,8 +543,10 @@ define([
         textSpecial: 'Special',
         txtSample: 'Example:',
         textNone: 'None',
-        textBefore: 'Before with space',
-        textAfter: 'After with space',
+        textBeforeSpace: 'Before with space',
+        textAfterSpace: 'After with space',
+        textBefore: 'Before no space',
+        textAfter: 'After no space'
 
     }, PDFE.Views.FormatSettingsDialog || {}))
 });
