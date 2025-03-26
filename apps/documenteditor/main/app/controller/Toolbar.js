@@ -3022,6 +3022,8 @@ define([
                             color: border.asc_getColor(),
                             value: border.asc_getValue()
                         };
+                    } else {
+                        currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
                     }
                 });
         
