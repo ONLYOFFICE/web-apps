@@ -213,7 +213,8 @@ require([
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
                     'pdfeditor/main/app/view/HyperlinkSettingsDialog',
                     'pdfeditor/main/app/view/ShapeSettingsAdvanced',
-                    'pdfeditor/main/app/view/TableSettingsAdvanced'
+                    'pdfeditor/main/app/view/TableSettingsAdvanced',
+                    'pdfeditor/main/app/view/FormatSettingsDialog'
                 ];
 
                 window.compareVersions = true;
