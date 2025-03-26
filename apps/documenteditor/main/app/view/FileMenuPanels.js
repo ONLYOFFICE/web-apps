@@ -2700,11 +2700,7 @@ define([], function () {
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
                                 '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
-                                '<tr><td class="padding-large">',
-                                    '<button id="print-btn-system-dialog" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
-                                        '<span><%= scope.txtPrintUsingSystemDialog %></span>',
-                                    '</button>',
-                                '</td></tr>',
+                                '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
                                         '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
@@ -2975,9 +2971,7 @@ define([], function () {
             this.pnlTable = $(this.pnlSettings.find('table')[0]);
             this.trApply = $markup.find('.fms-btn-apply');
 
-            this.btnPrintSystemDialog = new Common.UI.Button({
-                el: $markup.findById('#print-btn-system-dialog')
-            });
+            this.btnPrintSystemDialog = $markup.findById('#print-btn-system-dialog');
             this.btnPrint = new Common.UI.Button({
                 el: $markup.findById('#print-btn-print'),
                 disabled: true
