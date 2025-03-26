@@ -192,22 +192,13 @@ define([
             this.cmbSeparator.on('selected', _.bind(this.updateFormatExample, this));
 
             let currencySymbolsData = [];
-            var symbolssarr = this.api.asc_getCurrencySymbols();
-            for (var code in symbolssarr) {
-                if (symbolssarr.hasOwnProperty(code)) {
-                    currencySymbolsData.push({value: parseInt(code), displayValue: symbolssarr[code] + ' ' + Common.util.LanguageInfo.getLocalLanguageName(code)[1]});
-                }
-            }
-            currencySymbolsData.sort(function(a, b){
-                if (a.displayValue < b.displayValue) return -1;
-                if (a.displayValue > b.displayValue) return 1;
-                return 0;
+            this.api.asc_getNumberFormatCurrencySymbols().forEach(function(item){
+                currencySymbolsData.push({
+                    value: item,
+                    displayValue: item
+                });
             });
             currencySymbolsData.unshift({value: null, displayValue: me.textNone});
-            symbolssarr = this.api.asc_getAdditionalCurrencySymbols();
-            symbolssarr.forEach(function(item) {
-                currencySymbolsData.push({value: item, displayValue: item});
-            });
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
