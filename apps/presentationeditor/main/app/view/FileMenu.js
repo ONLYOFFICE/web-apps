@@ -577,6 +577,7 @@ define([
                     this.mode.canPrint = this.mode.canDownload = false;
             } else {
                 this.mode = mode;
+                this.mode.canPreviewPrint = true;
             }
 
             if (!delay) {
