@@ -65,9 +65,6 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-                this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
-                this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
-                this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             }
             return this;
@@ -86,9 +83,7 @@ define([
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
-                    'forms:clear': this.onClearClick,
-                    'forms:submit': this.onSubmitClick,
-                    'forms:save': this.onSaveFormClick,
+                    'forms:clear': this.onClearClick
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab,
@@ -166,24 +161,7 @@ define([
                 this.api.AddDateField();
             } else if (type == 'text') {
                 this.api.AddTextField(options);
-                // var props = new AscCommon.CContentControlPr();
-                // oPr = new AscCommon.CSdtTextFormPr();
-                // if (options) {
-                //     if (options.reg)
-                //         oPr.put_RegExpFormat(options.reg);
-                //     else if (options.mask)
-                //         oPr.put_MaskFormat(options.mask);
-                //     if (options.placeholder)
-                //         props.put_PlaceholderText(options.placeholder);
-                //     if (options.fixed!==undefined)
-                //         oFormPr.put_Fixed && oFormPr.put_Fixed(options.fixed);
-                // }
-                // props.put_TextFormPr(oPr);
-                // props.put_FormPr(oFormPr);
-                // this.api.asc_AddContentControlTextForm(props);
             }
-            // else if (type === 'signature')
-            //     this.api.asc_AddContentControlSignature(oFormPr);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -193,31 +171,6 @@ define([
                 this.api.asc_ClearAllSpecialForms();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onSubmitClick: function() {
-            if (!this.api.asc_IsAllRequiredFormsFilled()) {
-                this.api.asc_MoveToFillingForm(true, true, true);
-                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                return;
-            }
-
-            this.api.asc_SendForm();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onSaveFormClick: function() {
-            var me = this,
-                callback = function() {
-                    if (me.appConfig.isOffline)
-                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
-                    else {
-                        me.isFromFormSaveAs = me.appConfig.canRequestSaveAs || !!me.appConfig.saveAsUrl;
-                        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
-                        options.asc_setIsSaveAs(me.isFromFormSaveAs);
-                        me.api.asc_DownloadAs(options);
-                    }
-                };
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -253,46 +206,6 @@ define([
                 }
             }
             this.isFromFormSaveAs = false;
-        },
-
-        onLongActionBegin: function(type, id) {
-            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                this._submitFail = false;
-                this.submitedTooltip && this.submitedTooltip.hide();
-                Common.Utils.lockControls(Common.enumLock.submit, true, {array: [this.view.btnSubmit]})
-            }
-        },
-
-        onLongActionEnd: function(type, id) {
-            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]});
-                if (!this._submitFail) {
-                    Common.Gateway.submitForm();
-                    this.view.btnSubmit.setCaption(this.view.textFilled);
-                    var text = (typeof this.appConfig.customization.submitForm==='object') ? this.appConfig.customization.submitForm.resultMessage : this.view.textSubmitOk;
-                    if (text==='') return;
-                    if (!this.submitedTooltip) {
-                        this.submitedTooltip = new Common.UI.SynchronizeTip({
-                            text: text || this.view.textSubmitOk,
-                            extCls: 'no-arrow colored',
-                            showLink: false,
-                            target: $('.toolbar'),
-                            placement: 'bottom'
-                        });
-                        this.submitedTooltip.on('closeclick', function () {
-                            this.submitedTooltip.hide();
-                        }, this);
-                    }
-                    this.submitedTooltip.show();
-                }
-            }
-        },
-
-        onError: function(id, level, errData) {
-            if (id==Asc.c_oAscError.ID.Submit) {
-                this._submitFail = true;
-                this.submitedTooltip && this.submitedTooltip.hide();
-            }
         },
 
         onAppReady: function (config) {

@@ -67,7 +67,6 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-signature"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
             '<div class="group forms-buttons" style="display: none;">' +
@@ -82,11 +81,6 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
-            '</div>' +
-            '<div class="separator long save-separator" style="display: none;"></div>' +
-            '<div class="group no-group-mask" style="">' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-form-save"></span>' +
             '</div>' +
         '</section>';
 
@@ -109,9 +103,6 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
-            });
-            this.btnSignField && this.btnSignField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['signature']);
             });
             this.btnEmailField && this.btnEmailField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['text', {reg: "\\S+@\\S+\\.\\S+", placeholder: 'user_name@email.com'}]);
@@ -227,17 +218,6 @@ define([
                 });
                 this.paragraphControls.push(this.btnImageField);
 
-                this.btnSignField = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-signature-field',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
-                    caption: this.capBtnSignature,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.paragraphControls.push(this.btnSignField);
-
                 this.btnEmailField = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-email',
@@ -329,29 +309,6 @@ define([
                 });
                 this.paragraphControls.push(this.btnNextForm);
 
-                if (this.appConfig.canSubmitForms && false) {
-                    this.btnSubmit = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-submit-form',
-                        lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
-                        caption: this.capBtnSubmit,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnSubmit);
-                } else if (this.appConfig.canDownloadForms && false) {
-                    this.btnSaveForm = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        iconCls: 'toolbar__icon btn-save-form',
-                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl ? this.capBtnSaveForm : (this.appConfig.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.paragraphControls.push(this.btnSaveForm);
-                }
                 Common.UI.LayoutManager.addControls(this.paragraphControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
@@ -376,7 +333,6 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
-                        me.btnSignField.updateHint(me.tipSignField);
                         me.btnEmailField.updateHint(me.tipEmailField);
                         me.btnPhoneField.updateHint(me.tipPhoneField);
                         me.btnZipCode.updateHint(me.tipZipCode);
@@ -386,8 +342,6 @@ define([
                     me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
-                    me.btnSubmit && me.btnSubmit.updateHint(me.tipSubmit);
-                    me.btnSaveForm && me.btnSaveForm.updateHint(config.canRequestSaveAs || !!config.saveAsUrl ? me.tipSaveForm : me.tipDownloadForm);
 
                     setEvents.call(me);
                 });
@@ -403,20 +357,15 @@ define([
                 this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                 this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                 this.btnImageField.render($host.find('#slot-btn-form-image'));
-                this.btnSignField.render($host.find('#slot-btn-form-signature'));
                 this.btnEmailField.render($host.find('#slot-btn-form-email'));
                 this.btnPhoneField.render($host.find('#slot-btn-form-phone'));
                 this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
                 this.btnCreditCard.render($host.find('#slot-btn-form-credit'));
                 this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
-                this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
                 $host.find('.forms-buttons').show();
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
-
-                this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
-                (this.btnSubmit || this.btnSaveForm) && $host.find('.save-separator').show();
 
                 return this.$el;
             },
@@ -434,8 +383,6 @@ define([
                 this.btnClear.setVisible(state);
                 this.btnPrevForm.setVisible(state);
                 this.btnNextForm.setVisible(state);
-                this.btnSubmit && this.btnSubmit.setVisible(!state);
-                this.btnSaveForm && this.btnSaveForm.setVisible(!state);
             },
 
             SetDisabled: function (state) {
@@ -463,16 +410,6 @@ define([
             textClear: 'Clear Fields',
             capBtnPrev: 'Previous Field',
             capBtnNext: 'Next Field',
-            capBtnSubmit: 'Submit',
-            tipSubmit: 'Submit form',
-            textSubmited: 'Form submitted successfully',
-            textRequired: 'Fill all required fields to send form.',
-            capBtnSaveForm: 'Save as pdf',
-            tipSaveForm: 'Save a file as a fillable PDF',
-            txtUntitled: 'Untitled',
-            textGotIt: 'Got it',
-            capBtnDownloadForm: 'Download as pdf',
-            tipDownloadForm: 'Download a file as a fillable PDF',
             capBtnEmail: 'Email Address',
             capBtnPhone: 'Phone Number',
             tipEmailField: 'Insert email address',
@@ -482,12 +419,7 @@ define([
             tipZipCode: 'Insert zip code',
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
-            tipDateTime: 'Insert date and time',
-            capBtnSaveFormDesktop: 'Save as...',
-            textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
-            textFilled: 'Filled',
-            capBtnSignature: 'Signature Field',
-            tipSignField: 'Insert signature field'
+            tipDateTime: 'Insert date and time'
         }
     }()), PDFE.Views.FormsTab || {}));
 });
