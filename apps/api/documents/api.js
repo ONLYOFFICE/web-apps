@@ -944,7 +944,7 @@
         var target = document.getElementById(id);
         if ( target ) {
             var path = extendAppPath({}, getBasePath());
-            path += 'api/documents/cache-scripts.html';
+            path += 'api/documents/preload.html';
 
             var iframe = document.createElement("iframe");
             iframe.width = 0;
