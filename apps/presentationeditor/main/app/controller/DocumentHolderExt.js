@@ -1319,7 +1319,7 @@ define([], function () {
 
         dh.onPreview = function () {
             var current = this.api.getCurrentPage();
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0, false, false, true);
         };
 
         dh.onSelectAll = function () {
