@@ -1306,7 +1306,7 @@
     (function() {
         if (document.currentScript) {
             var scriptDirectory = document.currentScript.src;
-            var cacheWarmupId = /[?&]cacheWarmupId=([^&#]*)?/.exec(scriptDirectory);
+            var cacheWarmupId = /[?&]placeholder=([^&#]*)?/.exec(scriptDirectory);
             if (cacheWarmupId && cacheWarmupId.length ) {
                 DocsAPI.DocEditor.warmUp.call(this, decodeURIComponent(cacheWarmupId[1]));
             }
