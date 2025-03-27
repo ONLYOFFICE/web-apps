@@ -30,6 +30,12 @@ const sliceQuote = (text) => {
     }
 };
 
+function svgIcon(symbolId) {
+    return `<svg class="icon icon-svg icon-svg__white">
+        <use href="#${symbolId}"></use>
+    </svg>`;
+};
+
 // Add comment
 
 const AddCommentPopup = inject("storeComments")(observer(props => {
@@ -107,7 +113,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                         </div>
                         <div class="title">${_t.textAddComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? '<i class="icon icon-done-comment-white"></i>' : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id)  : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -291,7 +297,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                         </div>
                         <div class="title">${_t.textEditComment}</div>
                         <div class="right">
-                            <a href="#" class="done" id="comment-done">${ Device.android ? '<i class="icon icon-done-comment-white"></i>' : _t.textDone}</a>
+                            <a href="#" class="done" id="comment-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -433,7 +439,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                         </div>
                         <div class="title">${_t.textAddReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? '<i class="icon icon-done-comment-white"></i>' : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
@@ -577,7 +583,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                         </div>
                         <div class="title">${_t.textEditReply}</div>
                         <div class="right">
-                            <a href="#" class="done" id="reply-done">${ Device.android ? '<i class="icon icon-done-comment-white"></i>' : _t.textDone}</a>
+                            <a href="#" class="done" id="reply-done">${ Device.android ? svgIcon(IconDoneCommentWhite.id) : _t.textDone}</a>
                         </div>
                     </div>
                 </div>
