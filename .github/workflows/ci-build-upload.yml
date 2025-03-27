@@ -3,6 +3,7 @@ name: "Build and upload helps"
 on:
     create:
     push:
+    workflow_dispatch:
 
 
 jobs:
