@@ -419,13 +419,11 @@ define([
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
             separatorVisible = (this.mode.canDownload || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
                                 !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp);
-            this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
+            this.miSave.$el.prev('.devider')[separatorVisible?'show':'hide']();
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
-            if (!this.mode.canOpenRecent && !this.mode.canCreateNew) {
-                this.miRecent.$el.find('+.devider').hide();
-            }
+            var openFileSeparatorVisible = this.mode.canOpenRecent || this.mode.canCreateNew;
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
             separatorVisible = isVisible;
@@ -438,12 +436,14 @@ define([
             isVisible = this.mode.canUseHistory && !this.mode.isDisconnected;
             separatorVisible = separatorVisible || isVisible;
             this.miHistory[isVisible?'show':'hide']();
-            this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
+            this.miInfo.$el.prev('.devider')[separatorVisible?'show':'hide']();
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
+            var settingsSeparatorVisible = isVisible;
             isVisible = this.mode.canHelp;
             this.miHelp[isVisible ?'show':'hide']();
+            settingsSeparatorVisible = settingsSeparatorVisible || isVisible;
 
             isVisible = this.mode.canBack;
             this.miBack[isVisible ?'show':'hide']();
@@ -495,6 +495,8 @@ define([
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {
+                openFileSeparatorVisible = true;
+
                 if (this.$el.find('#fm-btn-local-open').length<1) {
                     $('<li id="fm-btn-local-open" class="fm-btn"/>').insertBefore($('#fm-btn-recent', this.$el));
                     this.items.push(
@@ -542,6 +544,8 @@ define([
             }
 
             if ( this.mode.canSwitchToMobile ) {
+                settingsSeparatorVisible = true;
+
                 $('<li id="fm-btn-switchmobile" class="fm-btn"></li>').insertBefore($('#fm-btn-settings', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
@@ -555,6 +559,9 @@ define([
                         iconCls: 'menu__icon btn-switch-mobile'
                     }));
             }
+
+            this.miNew.$el.prev('.devider')[openFileSeparatorVisible?'show':'hide']();
+            this.miSettings.$el.prev('.devider')[settingsSeparatorVisible?'show':'hide']();
         },
 
         setMode: function(mode, delay) {
