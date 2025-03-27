@@ -256,7 +256,8 @@ class MainController extends Component {
                         'id-view': 'editor_sdk',
                         'mobile': true,
                         'translate': _translate,
-                        'isRtlInterface': Common.Locale.isCurrentLangRtl
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl,
+                        'thumbnails-position': 'bottom'
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
