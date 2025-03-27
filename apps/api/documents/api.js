@@ -949,6 +949,23 @@
         return '{{PRODUCT_VERSION}}';
     };
 
+    DocsAPI.DocEditor.warmUp = function(id) {
+        var target = document.getElementById(id);
+        if ( target ) {
+            var path = extendAppPath({}, getBasePath());
+            path += 'api/documents/preload.html';
+
+            var iframe = document.createElement("iframe");
+            iframe.width = 0;
+            iframe.height = 0;
+            iframe.style = 'border:0 none;';
+            iframe.onload = function() { console.log('onload cache script') };
+            iframe.src = path;
+
+            target.parentNode && target.parentNode.replaceChild(iframe, target);
+        }
+    }
+
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
             _scope  = scope || window,
@@ -1294,6 +1311,16 @@
         }
         return path;
     }
+
+    (function() {
+        if (document.currentScript) {
+            var scriptDirectory = document.currentScript.src;
+            var cacheWarmupId = /[?&]placeholder=([^&#]*)?/.exec(scriptDirectory);
+            if (cacheWarmupId && cacheWarmupId.length ) {
+                DocsAPI.DocEditor.warmUp.call(this, decodeURIComponent(cacheWarmupId[1]));
+            }
+        }
+    })();
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);
 
