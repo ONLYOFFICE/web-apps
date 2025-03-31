@@ -2470,7 +2470,11 @@ define([], function () {
                 editable: false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
-                data        : [],
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
@@ -2530,7 +2534,7 @@ define([], function () {
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,
                 itemsTemplate: paperSizeItemsTemplate,
-                data: [],
+                data: [].concat(this._defaultPaperSizeList, [{ value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}]),
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
@@ -2683,15 +2687,8 @@ define([], function () {
                 this.updateMetricUnit();
                 this._initSettings = false;
             }
-            this.updateSettings();
             this.updateScroller();
             this.fireEvent('show', this);
-        },
-
-        updateSettings: function() {
-            var selectedPrinter = this.cmbPrinter.getSelectedRecord();
-            this.setCmbSidesOptions(selectedPrinter ? selectedPrinter.isDuplexSupported : true);
-            this.setCmbPaperSizeOptions(selectedPrinter ? selectedPrinter.paperSupported : null);
         },
 
         updateCmbPrinter: function(currentPrinter, printers) {
@@ -2737,7 +2734,7 @@ define([], function () {
             this.cmbSides.setValue(cmbValue);
         },
 
-        setCmbPaperSizeOptions(paperSizeList) {
+        setCmbPaperSizeOptions: function(paperSizeList) {
             var resultList = [];
 
             if(paperSizeList && paperSizeList.length > 0) {
@@ -2774,19 +2771,39 @@ define([], function () {
                 );
             }
 
-            // If no matching option is found, look for the default size 210x297 (A4)
             if (!newSelectedOption) {
-                newSelectedOption = findOptionBySize(resultList, 210, 297);
+                if(prevSelectedOption) {
+                    newSelectedOption = {
+                        custom: true,
+                        value: [
+                            this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[0]).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(prevSelectedOption.get('size')[1]).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()
+                        ]
+                    }
+                } else {
+                    // If no matching option is found, look for the default size 210x297 (A4)
+                    if (!newSelectedOption) {
+                        newSelectedOption = findOptionBySize(resultList, 210, 297);
+                    }
+                    if (!newSelectedOption && resultList[0]) {
+                        newSelectedOption = resultList[0];
+                    } 
+                }
             }
-            if (!newSelectedOption && resultList[0]) {
-                newSelectedOption = resultList[0];
-            } 
-            
+
             this.cmbPaperSize.setData(resultList);
             this.updatePaperSizeMetricUnit();
-            this.cmbPaperSize.setValue(newSelectedOption ? newSelectedOption.value : null);
-            if(!this.cmbPaperSize.isDisabled){
-                this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
+            if (!newSelectedOption) {
+                this.cmbPaperSize.setValue(null);
+            } else if (newSelectedOption.custom) {
+                this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
+            } else {
+                this.cmbPaperSize.setValue(newSelectedOption.value);
+                if(!this.cmbPaperSize.isDisabled){
+                    this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
+                }
             }
         },
 

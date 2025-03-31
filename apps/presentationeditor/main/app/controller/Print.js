@@ -44,6 +44,7 @@ define([
 
             this._state = {
                 isLockedSlideHeaderAppyToAll: false,
+                isPrintPreviewOpenedOnce: false,
                 isPrinterInfoLoad: false,
                 currentPrinter: null,
                 printersList: []
@@ -129,10 +130,6 @@ define([
 
                 return me.txtPrintRangeInvalid;
             };
-
-            if(this._state.isPrinterInfoLoad) {
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
-            }
 
             this.printSettings.cmbPaperSize.on('selected', _.bind(this.onPaperSizeSelect, this));
             this._paperSize = this.printSettings.cmbPaperSize.getSelectedRecord().size;
@@ -220,6 +217,11 @@ define([
                 this.SetDisabled();
             }
             this._isPreviewVisible = true;
+
+            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
         },
 
         getPrintParams: function() {
@@ -292,8 +294,9 @@ define([
             this._state.isPrinterInfoLoad = true;
             this._state.currentPrinter = currentPrinter;
             this._state.printersList = list;
-            if(this.printSettings) {
-               this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
             }
         },
 

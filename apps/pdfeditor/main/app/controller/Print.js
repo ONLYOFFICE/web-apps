@@ -45,6 +45,7 @@ define([
                 lock_doc: false,
                 firstPrintPage: 0,
                 pgorient: true,
+                isPrintPreviewOpenedOnce: false,
                 isPrinterInfoLoad: false,
                 currentPrinter: null,
                 printersList: []
@@ -133,10 +134,6 @@ define([
 
                 return me.txtPrintRangeInvalid;
             };
-
-            if(this._state.isPrinterInfoLoad) {
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
-            }
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
@@ -309,6 +306,11 @@ define([
             this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             this.SetDisabled();
             this._isPreviewVisible = true;
+
+            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
         },
 
         onPaperSizeSelect: function(combo, record) {
@@ -411,8 +413,9 @@ define([
             this._state.isPrinterInfoLoad = true;
             this._state.currentPrinter = currentPrinter;
             this._state.printersList = list;
-            if(this.printSettings) {
-               this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
             }
         },
 
