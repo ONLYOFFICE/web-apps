@@ -138,6 +138,9 @@
             //border-color: @border-control-focus;
             border-color: @border-fill-input-focused;
         }
+        &:not(.no-highlighted) > .form-control {
+            .box-shadow(@shadow-fill-input);
+        }
     }
 
     &.input-group-nr:not(.no-highlighted):not(.disabled) > .form-control {
@@ -146,6 +149,9 @@
             //border-color: @border-control-focus-ie;
             //border-color: @border-control-focus;
             border-color: @border-fill-input-focused;
+        }
+        &:focus {
+            .box-shadow(@shadow-fill-input);
         }
     }
     &.input-group-nr.no-highlighted:not(.disabled) > .form-control {
@@ -316,6 +322,9 @@
             //border-color: @border-control-focus-ie;
             //border-color: @border-control-focus;
             border-color: @border-fill-input-focused;
+        }
+        & > .form-control {
+            .box-shadow(@shadow-fill-input);
         }
     }
 

@@ -217,18 +217,21 @@
         --font-family-base: "Segoe UI";
         --font-size-base: 12px;
 
-        --background-fill-input: #f3f3f3;
-        --background-fill-input-disabled: #d8d8d8;
-        --background-fill-input-readonly: #d8d8d8;
+        --background-fill-input: var(--background-normal);
+        --background-fill-input-disabled: var(--background-normal);
+        --background-fill-input-readonly: var(--background-normal);
 
-        --border-fill-input: #f3f3f3;
-        --border-fill-input-focused: #4781d1;
-        --border-fill-input-disabled: #eaeaea;
-        --border-fill-input-readonly: #eaeaea;
+        --border-fill-input: var(--border-regular-control);
+        //--border-fill-input-focused: var(--border-control-focus);
+        --border-fill-input-focused: #4A87E7;
+        --border-fill-input-disabled: var(--border-regular-control);
+        --border-fill-input-readonly: var(--border-regular-control);
 
-        --text-fill-input: #686868;
-        --text-fill-input-disabled: #f3f3f3;
-        --text-fill-input-readonly: #686868;
+        --text-fill-input: var(--text-normal);
+        --text-fill-input-disabled: var(--text-normal);
+        --text-fill-input-readonly: var(--text-normal);
+
+        --shadow-fill-input: 0 0 0 1px var(--border-fill-input-focused);
 
         // dropdown button
         --dd-button-size: 16px;

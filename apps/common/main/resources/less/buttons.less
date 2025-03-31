@@ -864,7 +864,7 @@
     &.active {
         background: @background-normal-ie !important;
         background: @background-normal !important;
-        .box-shadow(none)  !important;
+        .box-shadow(none);
     }
 
     &[disabled],
@@ -891,6 +891,7 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        .box-shadow(@shadow-fill-input) !important;
         .caret {
             border-color: @icon-normal-ie;
             border-color: @icon-normal;
@@ -899,8 +900,10 @@
 
     &:not(.disabled) {
         &:focus, .btn-group.open &, .btn-group:active & {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
+            //border-color: @border-control-focus-ie;
+            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused;
+            .box-shadow(@shadow-fill-input);
         }
     }
 }
@@ -1474,8 +1477,10 @@
 
     &:not(.disabled) {
         &:focus, .btn-group.open & {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
+            //border-color: @border-control-focus-ie;
+            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused;
+            .box-shadow(@shadow-fill-input);
         }
     }
 }
