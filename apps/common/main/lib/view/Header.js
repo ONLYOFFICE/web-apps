@@ -497,7 +497,7 @@ define([
             if (me.btnQuickAccess) {
                 me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
                 var arr = [];
-                if (me.btnSave) {
+                if (me.btnSave && Common.UI.LayoutManager.isElementVisible('header-save')) {
                     arr.push({
                         caption: appConfig.canSaveToFile || appConfig.isDesktopApp && appConfig.isOffline ? me.tipSave : me.textDownload,
                         value: 'save',
