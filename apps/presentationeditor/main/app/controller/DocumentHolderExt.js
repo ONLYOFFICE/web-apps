@@ -91,6 +91,7 @@ define([], function () {
                     me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                     me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
                     me.api.asc_SetMathInputType(Common.localStorage.getBool("pe-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
+                    me.api.asc_registerCallback('asc_onRemoveUnpreserveMasters', _.bind(me.onRemoveUnpreserveMasters, me));
                 }
                 me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(me.onShowForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onHideForeignCursorLabel, me));
@@ -242,6 +243,7 @@ define([], function () {
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
             view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
+            view.mnuPreserveMaster.on('toggle', _.bind(me.onPreserveMaster, me));
             view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
             view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
@@ -2193,6 +2195,22 @@ define([], function () {
 
         dh.onDuplicateMaster = function () {
             this.api.asc_DuplicateMaster();
+        };
+
+        dh.onPreserveMaster = function(item) {
+            this.api.asc_setPreserveSlideMaster(item.checked);
+        };
+
+        dh.onRemoveUnpreserveMasters = function(deleteMasterCallback) {
+            const me = this;
+            Common.UI.alert({
+                title: me.documentHolder.textRemoveUnpreserveMastersTitle,
+                msg: me.documentHolder.textRemoveUnpreserveMastersMsg,
+                buttons: ['yes', 'no'],
+                callback: function(btn){
+                    deleteMasterCallback(btn === 'yes');
+                }
+            });
         };
 
         dh.onDuplicateLayout = function () {
