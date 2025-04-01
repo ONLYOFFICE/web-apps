@@ -389,11 +389,8 @@ define([
 
             if (!this.mode) return;
 
-            var separatorVisible;
-
             var isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-close');
             this.miClose[isVisible?'show':'hide']();
-            this.miClose.$el.find('+.devider')[isVisible?'show':'hide']();
 
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
@@ -405,16 +402,9 @@ define([
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
-            separatorVisible = (this.mode.canDownload || this.mode.canDownloadOrigin || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
-              !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp);
-
-            this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
-            if (!this.mode.canOpenRecent && !this.mode.canCreateNew) {
-                this.miRecent.$el.find('+.devider').hide();
-            }
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
             this.miInfo[isVisible?'show':'hide']();
@@ -538,6 +528,36 @@ define([
                         iconCls: 'menu__icon btn-switch-mobile'
                     }));
             }
+
+            this.hideDividers();
+        },
+
+        hideDividers: function () {
+            const items = Array.from(this.$el.find('.panel-menu > li'));
+
+            const visibleIndices = items
+              .map((el, i) => ({ el, i }))
+              .filter(({ el }) => $(el).hasClass('fm-btn') && $(el).css('display') !== 'none');
+
+            const firstVisible = visibleIndices[0].i;
+            const lastVisible = visibleIndices[visibleIndices.length - 1].i;
+            let prevWasDivider = false;
+
+            items.forEach((el, i) => {
+                const $el = $(el);
+                if ($el.hasClass('devider')) {
+                    const shouldShow = i > firstVisible && i < lastVisible;
+
+                    if (shouldShow && !prevWasDivider) {
+                        $el.show();
+                        prevWasDivider = true;
+                    } else {
+                        $el.hide();
+                    }
+                } else if ($el.hasClass('fm-btn') && $el.css('display') !== 'none') {
+                    prevWasDivider = false;
+                }
+            });
         },
 
         setMode: function(mode, delay) {

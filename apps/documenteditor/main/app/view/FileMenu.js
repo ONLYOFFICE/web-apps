@@ -404,12 +404,9 @@ define([
 
             if (!this.mode) return;
 
-            var separatorVisible;
-
             // 1: Back button
             var isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-close');
             this.miClose[isVisible?'show':'hide']();
-            this.miClose.$el.find('+.devider')[isVisible?'show':'hide']();
 
             // 3: Download, save, print, rename
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
@@ -424,30 +421,20 @@ define([
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
-            separatorVisible = (this.mode.canDownload || this.mode.canDownloadOrigin || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
-                                canEdit || this.mode.canRename && !this.mode.isDesktopApp);
-            this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
 
             // 2: Recent, create new
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
-            if (!this.mode.canOpenRecent && !this.mode.canCreateNew) {
-                this.miRecent.$el.find('+.devider').hide();
-            }
 
             // 4: Info
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
-            separatorVisible = isVisible;
             this.miInfo[isVisible?'show':'hide']();
             isVisible = !this.mode.isOffline && this.document&&this.document.info &&
                         (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                         (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings));
-            separatorVisible = separatorVisible || isVisible;
             this.miAccess[isVisible?'show':'hide']();
             isVisible = this.mode.canUseHistory&&!this.mode.isDisconnected;
-            separatorVisible = separatorVisible || isVisible;
             this.miHistory[isVisible?'show':'hide']();
-            this.miHistory.$el.find('+.devider')[separatorVisible?'show':'hide']();
 
             // 6: Settings
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
@@ -567,6 +554,35 @@ define([
                     }));
             }
 
+            this.hideDividers();
+        },
+
+        hideDividers: function () {
+            const items = Array.from(this.$el.find('.panel-menu > li'));
+
+            const visibleIndices = items
+              .map((el, i) => ({ el, i }))
+              .filter(({ el }) => $(el).hasClass('fm-btn') && $(el).css('display') !== 'none');
+
+            const firstVisible = visibleIndices[0].i;
+            const lastVisible = visibleIndices[visibleIndices.length - 1].i;
+            let prevWasDivider = false;
+
+            items.forEach((el, i) => {
+                const $el = $(el);
+                if ($el.hasClass('devider')) {
+                    const shouldShow = i > firstVisible && i < lastVisible;
+
+                    if (shouldShow && !prevWasDivider) {
+                        $el.show();
+                        prevWasDivider = true;
+                    } else {
+                        $el.hide();
+                    }
+                } else if ($el.hasClass('fm-btn') && $el.css('display') !== 'none') {
+                    prevWasDivider = false;
+                }
+            });
         },
 
         setMode: function(mode, delay) {
