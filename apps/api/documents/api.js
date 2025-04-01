@@ -325,6 +325,7 @@
                 'onRequestRefreshFile': <request new file version> // send when file version is updated. use instead of onOutdatedVersion
                 'onUserActionRequired': <user action callback> // send if the user needs to enter a password or select encoding/delimiters when opening a file
                 'onRequestFillingStatus': <request filling status for current role> // used in pdf-form fill forms mode
+                'onStartFilling': <send when can start filling (form is completed and users are disconnected)> // send after startFilling method, used in pdf-form editing
             }
         }
 
@@ -831,6 +832,13 @@
             });
         };
 
+        var _requestRoles = function(data) {
+            _sendCommand({
+                command: 'requestRoles',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -917,7 +925,8 @@
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
             openDocument: _openDocumentFromBinary,
-            startFilling: _startFilling
+            startFilling: _startFilling,
+            requestRoles: _requestRoles
         }
     };
 

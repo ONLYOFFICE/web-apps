@@ -97,7 +97,8 @@ define([
             var config = {
                  'id-view'  : 'editor_sdk',
                  'embedded' : true,
-                 'translate': translationTable
+                 'translate': translationTable,
+                 'isRtlInterface': Common.UI.isRTL()
             },
                 hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
             hcolor && (config['headings-color'] = '#' + hcolor[1]);
@@ -668,7 +669,7 @@ define([
                 me.view.btnDownload.updateHint('');
             }
             me.showFillingForms(false); // hide filling forms
-            me.view.btnFillStatus.setVisible(this.appOptions.canFillForms && this.appOptions.canRequestFillingStatus);
+            me.view.btnFillStatus.setVisible(this.appOptions.canRequestFillingStatus);
             if (this.appOptions.canFillForms) {
                 me.view.btnPrev.on('click', function(){
                     me.api.asc_MoveToFillingForm(false);

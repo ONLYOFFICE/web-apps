@@ -1,7 +1,7 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Attention",
   "Common.Controllers.Desktop.hintBtnHome": "Afficher la fenêtre principale",
-  "Common.Controllers.Desktop.itemCreateFromTemplate": "Créer à partir du modèle",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Créer à partir d'un modèle",
   "Common.Controllers.Plugins.helpMoveMacros": "Pour commencer à travailler avec les macros, passez à l'onglet Affichage.",
   "Common.Controllers.Plugins.helpMoveMacrosHeader": "Le bouton Macros déplacé",
   "Common.Controllers.Plugins.helpUseMacros": "Le bouton Macros se trouve ici",
@@ -325,7 +325,7 @@
   "VE.Views.FileMenu.btnReturnCaption": "Retour au document",
   "VE.Views.FileMenu.btnRightsCaption": "Droits d'accès",
   "VE.Views.FileMenu.btnSaveAsCaption": "Enregistrer sous",
-  "VE.Views.FileMenu.btnSaveCopyAsCaption": "Enregistrer une copie comme",
+  "VE.Views.FileMenu.btnSaveCopyAsCaption": "Enregistrer une copie sous",
   "VE.Views.FileMenu.btnSettingsCaption": "Paramètres avancés",
   "VE.Views.FileMenu.btnSwitchToMobileCaption": "Passer en mode mobile",
   "VE.Views.FileMenu.textDownload": "Télécharger",
@@ -380,7 +380,7 @@
   "VE.Views.FileMenuPanels.Settings.txtWin": "comme Windows",
   "VE.Views.FileMenuPanels.Settings.txtWorkspace": "Espace de travail",
   "VE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Télécharger comme",
-  "VE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Enregistrer une copie comme",
+  "VE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Enregistrer une copie sous",
   "VE.Views.LeftMenu.ariaLeftMenu": "Menu de gauche",
   "VE.Views.LeftMenu.tipAbout": "À propos",
   "VE.Views.LeftMenu.tipChat": "Chat",
@@ -418,5 +418,8 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Ajuster à la page",
   "VE.Views.ViewTab.tipFitWidth": "Ajuster à la largeur",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
 }

@@ -117,6 +117,7 @@
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "DE.Controllers.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
   "DE.Controllers.ApplicationController.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download or print it until the connection is restored and page is reloaded.",
+  "DE.Controllers.ApplicationController.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "Image from file",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "Image from storage",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "Image from URL",
@@ -167,7 +168,6 @@
   "DE.Controllers.ApplicationController.warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
   "DE.Controllers.ApplicationController.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-  "DE.Controllers.ApplicationController.helpTextFillStatus": "This form is ready for role-based filling. Click on the status button to check the filling stage.",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
   "DE.Views.ApplicationView.textClose": "Close file",
@@ -182,6 +182,7 @@
   "DE.Views.ApplicationView.textSubmit": "Complete & Submit",
   "DE.Views.ApplicationView.textUndo": "Undo",
   "DE.Views.ApplicationView.textZoom": "Zoom",
+  "DE.Views.ApplicationView.tipFillStatus": "Filling status",
   "DE.Views.ApplicationView.tipRedo": "Redo",
   "DE.Views.ApplicationView.tipSubmit": "Submit form",
   "DE.Views.ApplicationView.tipUndo": "Undo",
@@ -195,6 +196,5 @@
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtSearch": "Find",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme",
-  "DE.Views.ApplicationView.tipFillStatus": "Filling status"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme"
 }
