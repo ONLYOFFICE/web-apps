@@ -131,6 +131,7 @@
 
   <body class="embed-body">
        <script src="../../../../../apps/common/embed/lib/util/htmlutils.js?__inline=true"></script>
+       <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
        <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
        <script>
