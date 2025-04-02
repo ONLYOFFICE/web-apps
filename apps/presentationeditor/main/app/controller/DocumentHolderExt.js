@@ -2203,10 +2203,10 @@ define([], function () {
 
         dh.onRemoveUnpreserveMasters = function(deleteMasterCallback) {
             const me = this;
-            Common.UI.alert({
-                title: me.documentHolder.textRemoveUnpreserveMastersTitle,
-                msg: me.documentHolder.textRemoveUnpreserveMastersMsg,
+            Common.UI.warning({
+                msg: me.documentHolder.textRemoveUnpreserveMasters,
                 buttons: ['yes', 'no'],
+                primary: 'yes',
                 callback: function(btn){
                     deleteMasterCallback(btn === 'yes');
                 }
