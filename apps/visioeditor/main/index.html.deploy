@@ -303,6 +303,7 @@
 </head>
 <body role="application">
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
             <div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>

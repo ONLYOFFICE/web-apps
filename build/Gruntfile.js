@@ -323,7 +323,7 @@ module.exports = function(grunt) {
                     src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
                 },
                 cachescripts: {
-                    src: packageFile['api'].copy.script.dest + 'documents/cache-scripts.html',
+                    src: packageFile['api'].copy.script.dest + 'documents/*.html',
                 },
             }
         }
