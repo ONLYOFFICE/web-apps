@@ -83,7 +83,6 @@ define([
                 type: 'light',
                 source: 'static',
                 icons: {
-                    basepath: './resources/img/v2',
                     cls: 'mod2',
                 }
             },
@@ -294,32 +293,17 @@ define([
             }
         }
 
-        const normalize_icon_vars = inobj => {
-            let outobj = {};
-            if ( inobj ) {
-                if ( inobj['sprite-buttons-base-url'] ) {
-                    let base_url = inobj['sprite-buttons-base-url'];
-                    // outobj = prepare_icons_from_url(base_url);
+        const normalize_theme_icons = t => {
+            if ( t.src && t.src.icons ) {
+                !t.icons && (t.icons = {});
 
-                    // !base_url.endsWith('/') && (base_url += '/');
-                    //
-                    // const sp_names = ['small', 'big', 'huge'];
-                    // const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
-                    // sp_names.forEach(n => {
-                    //     for (const [key, value] of Object.entries(sp_scale))
-                    //         outobj[`sprite-button-small-' + key`] = `url(${base_url}icons${n}${value}.png)`;
-                    // });
-                    //
-                    // window.Common.Utils.injectSvgIcons([base_url+'iconssmall@2.5x.svg',
-                    //         base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'], true)
-                }
+                if ( !!t.src.icons['sprite-buttons-base-url'] )
+                    t.icons.basepath = t.src.icons['sprite-buttons-base-url'];
 
-                for (const [key, value] of Object.entries(inobj))
-                    outobj[key] = `url(${value})`;
+                if ( !!t.src.icons['style-class-selector'] )
+                    t.icons.src = t.src.icons['style-class-selector'];
             }
-
-            return outobj;
-        }
+        };
 
         var parse_themes_object = function (obj) {
             var curr_lang = Common.Locale.getCurrentLanguage(),
@@ -449,9 +433,8 @@ define([
             const theme_id = window.uitheme.relevant_theme_id();
             if ( !!themes_map[theme_id].src ) {
                 let t = themes_map[theme_id];
-                // let css_vars = {...t.src.colors, ...normalize_icon_vars(t.src.icons)};
-                let css_vars = Object.assign({}, t.src.colors, normalize_icon_vars(t.src.icons));
-                write_theme_css(t.src.id, create_colors_css(t.src.id, css_vars));
+                write_theme_css(t.src.id, create_colors_css(t.src.id, t.src.colors));
+                normalize_theme_icons(t);
 
                 delete t.src;
             }
@@ -459,13 +442,17 @@ define([
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
-            if ( !!themes_map[theme_id].icons && themes_map[theme_id].icons.basepath ) {
-                const base_url = themes_map[theme_id].icons.basepath;
-                window.uitheme.apply_icons_from_url(theme_id, base_url);
+            let icons_base_url = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');;
+            if ( !!themes_map[theme_id].icons ) {
+                if ( !!themes_map[theme_id].icons.basepath )
+                    icons_base_url = themes_map[theme_id].icons.basepath;
 
-                if ( themes_map[theme_id].icons.cls ) {
+                if ( themes_map[theme_id].icons.cls )
                     document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
-                }
+            }
+
+            if ( icons_base_url ) {
+                window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
             }
 
             if ( this.api.asc_setContentDarkMode )
@@ -546,8 +533,12 @@ define([
                     document.body.classList.add('theme-type-' + obj.type);
 
                 if (themes_map[theme_id].icons) {
-                    if (themes_map[theme_id].icons.basepath && !document.querySelector('style#' + theme_id)) {
-                        window.uitheme.apply_icons_from_url(theme_id, themes_map[theme_id].icons.basepath);
+                    if ( !document.querySelector('style#' + theme_id) ) {
+                        const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
+                                getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
+
+                        if ( icons_base_url )
+                            window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
                     }
 
                     if ( themes_map[theme_id].icons.cls ) {
