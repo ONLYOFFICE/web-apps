@@ -564,12 +564,23 @@ define([
               .map((el, i) => ({ el, i }))
               .filter(({ el }) => $(el).hasClass('fm-btn') && $(el).css('display') !== 'none');
 
+            if (!visibleIndices.length) {
+                items.forEach(el => {
+                    const $el = $(el);
+                    if ($el.hasClass('devider')) {
+                        $el.css('display', 'none');
+                    }
+                });
+                return;
+            }
+
             const firstVisible = visibleIndices[0].i;
             const lastVisible = visibleIndices[visibleIndices.length - 1].i;
             let prevWasDivider = false;
 
-            items.forEach((el, i) => {
-                const $el = $(el);
+            for (let i = items.length - 1; i >= 0; i--) {
+                const $el = $(items[i]);
+
                 if ($el.hasClass('devider')) {
                     const shouldShow = i > firstVisible && i < lastVisible;
 
@@ -582,7 +593,7 @@ define([
                 } else if ($el.hasClass('fm-btn') && $el.css('display') !== 'none') {
                     prevWasDivider = false;
                 }
-            });
+            }
         },
 
         setMode: function(mode, delay) {
