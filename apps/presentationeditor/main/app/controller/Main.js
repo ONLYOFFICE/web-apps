@@ -2734,6 +2734,9 @@ define([
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
                     },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
+                    },
                     handler: function(result, settings) {
                         if (result == 'ok') {
                             var name = settings.input ? settings.input + ' (' + me.textGuest + ')' : me.textAnonymous;
