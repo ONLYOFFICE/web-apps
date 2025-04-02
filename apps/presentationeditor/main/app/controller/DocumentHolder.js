@@ -377,7 +377,7 @@ define([
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
                     me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Master) {
-                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true}, event);
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true, isPreserve: event.get_IsSlidePreserve() }, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Layout) {
                     me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: false}, event);
                 } else {

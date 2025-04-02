@@ -1877,6 +1877,8 @@
   "PE.Views.DocumentHolder.textDistributeRows": "Distribute rows",
   "PE.Views.DocumentHolder.textDuplicateLayout": "Duplicate Layout",
   "PE.Views.DocumentHolder.textDuplicateSlideMaster": "Duplicate Slide Master",
+  "PE.Views.DocumentHolder.textPreserveSlideMaster": "Preserve Master",
+  "PE.Views.DocumentHolder.textRemoveUnpreserveMasters": "The masters you have chosen not to preserve aren't used by any slides.<br>Do you want to delete these masters?",
   "PE.Views.DocumentHolder.textEditObject": "Edit object",
   "PE.Views.DocumentHolder.textEditPoints": "Edit points",
   "PE.Views.DocumentHolder.textFlipH": "Flip horizontally",
