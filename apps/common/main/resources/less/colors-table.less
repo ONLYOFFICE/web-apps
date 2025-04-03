@@ -284,6 +284,8 @@
     --text-fill-input-readonly: var(--text-normal);
 
     --shadow-fill-input: none;
+    --shadow-control-focus: inset 0 0 0 1px var(--border-control-focus);
+    --shadow-control-pressed-focus: inset 0 0 0 1px var(--background-normal), 0 0 0 1px var(--border-button-pressed-focus);
 
     // dropdown button
     --dd-button-size: 12px;
@@ -447,6 +449,8 @@
 @text-fill-input-readonly: var(--text-fill-input-readonly);
 
 @shadow-fill-input: var(--shadow-fill-input);
+@shadow-control-focus: var(--shadow-control-focus);
+@shadow-control-pressed-focus: var(--shadow-control-pressed-focus);
 
 @dd-button-size: var(--dd-button-size, 12px);
 @dd-button-x-padding: var(--dd-button-x-padding, 4px);
