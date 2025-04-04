@@ -1514,6 +1514,14 @@
         background-color: @highlight-button-hover;
     }
 
+    &:not(.disabled) {
+        &:focus {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
+        }
+    }
+
     &.primary {
         color: @text-inverse-ie;
         color: @text-inverse;
@@ -1522,12 +1530,28 @@
         border-color: @background-primary-dialog-button-ie;
         border-color: @background-primary-dialog-button;
 
-        &:hover:not(.disabled),
-        &.hover:not(.disabled) {
-            background-color: @highlight-primary-dialog-button-hover-ie;
-            background-color: @highlight-primary-dialog-button-hover;
-            border-color: @highlight-primary-dialog-button-hover-ie;
-            border-color: @highlight-primary-dialog-button-hover;
+        &:not(.disabled) {
+            &:hover,
+            &.hover {
+                background-color: @highlight-primary-dialog-button-hover-ie;
+                background-color: @highlight-primary-dialog-button-hover;
+                border-color: @highlight-primary-dialog-button-hover-ie;
+                border-color: @highlight-primary-dialog-button-hover;
+            }
+
+            &:active,
+            &.active {
+                background-color: @highlight-primary-dialog-button-pressed-ie;
+                background-color: @highlight-primary-dialog-button-pressed;
+                border-color: @highlight-primary-dialog-button-pressed-ie;
+                border-color: @highlight-primary-dialog-button-pressed;
+            }
+
+            &:focus {
+                border-color: @border-button-pressed-focus-ie;
+                border-color: @border-button-pressed-focus;
+                .box-shadow(@shadow-control-primary-pressed-focus);
+            }
         }
     }
 
@@ -1539,19 +1563,5 @@
     &.auto {
         width: auto;
         min-width: 86px;
-    }
-
-    &:not(.disabled) {
-        &:focus {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
-            .box-shadow(@shadow-fill-input);
-            &.primary {
-                border-color: @border-button-pressed-focus-ie;
-                border-color: @border-button-pressed-focus;
-                .box-inner-shadow(0 0 0 1px @background-normal-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
-            }
-        }
     }
 }
