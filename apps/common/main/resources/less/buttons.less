@@ -1256,6 +1256,17 @@
         }
     }
 
+    &:not(.disabled) {
+        .btn-group.open &,
+        .btn-group.active &,
+        .btn-group:active &,
+        .btn-group:focus & {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
+        }
+    }
+
     &:hover:not(.disabled),
     .over:not(.disabled) {
         background-color: @highlight-button-hover-ie !important;
@@ -1268,10 +1279,10 @@
         background-color: @highlight-button-pressed !important;
         color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
-        &:not(:focus) {
-            border-color: @highlight-button-pressed-ie;
-            border-color: @highlight-button-pressed;
-        }
+        //&:not(:focus) {
+        //    border-color: @highlight-button-pressed-ie;
+        //    border-color: @highlight-button-pressed;
+        //}
     }
 
     &[disabled],
@@ -1356,29 +1367,16 @@
             .box-shadow(none);
         }
     }
-    .btn-group.split:not(.disabled) {
-        &:focus,
-        &.open,
-        &.active,
-        &:active {
-            .btn-text-split-default {
-                border-color: @border-control-focus-ie;
-                border-color: @border-control-focus;
-            }
-        }
-    }
 
     .btn-group.split.no-borders:not(.disabled) {
         &:focus,
         &.open,
         &.active,
         &:active {
-            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
-
-            .btn-toolbar:not(.bg-white):not(.disabled):hover {
-                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            .btn-toolbar:not(.bg-white):not(.disabled) {
+                .box-shadow(@shadow-control-pressed-focus);
             }
         }
     }
