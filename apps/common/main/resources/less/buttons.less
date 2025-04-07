@@ -643,8 +643,9 @@
             &:active {
                 border-color: @border-button-pressed-focus-ie;
                 border-color: @border-button-pressed-focus;
-                .box-inner-shadow(0 0 0 1px @background-normal-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
+                //.box-inner-shadow(0 0 0 1px @background-normal-ie);
+                //.box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
+                .box-shadow(@shadow-control-primary-pressed-focus);
             }
         }
     }

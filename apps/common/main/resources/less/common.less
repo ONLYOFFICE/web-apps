@@ -156,11 +156,14 @@ label {
     //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
     //border-left: @scaled-one-px-value solid @border-toolbar;
     //line-height: 15px;
+    border-left: @border-sidemenu;
 
-    //.rtl & {
+    .rtl & {
     //    border-right: @scaled-one-px-value solid @border-toolbar;
     //    border-left: 0 none;
-    //}
+        border-right: @border-sidemenu;
+        border-left: 0 none;
+    }
 
     .content-box {
         height: 100%;
