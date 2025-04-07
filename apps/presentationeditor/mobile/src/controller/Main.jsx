@@ -608,6 +608,19 @@ class MainController extends Component {
 
         appOptions.changeDocReady(true);
         this._state.requireUserAction = false;
+        
+        const orientationMediaQuery = window.matchMedia("(orientation: portrait)");
+        this.onOrientationChange(orientationMediaQuery);
+        orientationMediaQuery.addEventListener("change", this.onOrientationChange.bind(this));
+    }
+
+    onOrientationChange (event) {
+        const isPortrait = event.matches;
+        let position = Common.Locale.isCurrentLangRtl ? AscCommon.thumbnailsPositionMap.right : AscCommon.thumbnailsPositionMap.left;
+        if(isPortrait) {
+            position = AscCommon.thumbnailsPositionMap.bottom;
+        }
+        this.api.asc_SetThumbnailsPosition(position);
     }
 
     insertImage (data) {
