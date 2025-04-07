@@ -445,6 +445,7 @@
         &:focus:not(.disabled) {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
         }
     }
 
@@ -637,6 +638,7 @@
         &:focus {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
             &.active,
             &:active {
                 border-color: @border-button-pressed-focus-ie;
@@ -1035,14 +1037,14 @@
     }
 
     &:focus:not(.disabled) {
-        .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-        .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+        //.box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+        //.box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+        .box-shadow(@shadow-control-focus);
         &.active,
         &:active {
-            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
-            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-            box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+            //.box-shadow(inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie);
+            //.box-shadow(inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal);
+            .box-shadow(@shadow-control-pressed-focus);
         }
     }
 
@@ -1075,6 +1077,7 @@
     &:focus:not(.disabled) {
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
+        .box-shadow(@shadow-fill-input);
         &.active {
             border-color: @border-button-pressed-focus-ie;
             border-color: @border-button-pressed-focus;
@@ -1091,10 +1094,12 @@
     &.active:not(.disabled) {
         background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
-        border-color: @highlight-button-pressed-ie;
-        border-color: @highlight-button-pressed;
         color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
+        &:not(:focus) {
+            border-color: @highlight-button-pressed-ie;
+            border-color: @highlight-button-pressed;
+        }
     }
 
     &[disabled],
@@ -1199,6 +1204,7 @@
         &:focus, .btn-group.open & {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
         }
     }
 
@@ -1250,6 +1256,17 @@
         }
     }
 
+    &:not(.disabled) {
+        .btn-group.open &,
+        .btn-group.active &,
+        .btn-group:active &,
+        .btn-group:focus & {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
+        }
+    }
+
     &:hover:not(.disabled),
     .over:not(.disabled) {
         background-color: @highlight-button-hover-ie !important;
@@ -1260,10 +1277,12 @@
     &.active:not(.disabled) {
         background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
-        border-color: @highlight-button-pressed-ie;
-        border-color: @highlight-button-pressed;
         color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
+        //&:not(:focus) {
+        //    border-color: @highlight-button-pressed-ie;
+        //    border-color: @highlight-button-pressed;
+        //}
     }
 
     &[disabled],
@@ -1320,14 +1339,14 @@
 .asc-window.modal {
     .btn-toolbar:not(.bg-white):not(.disabled) {
         &:focus {
-            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            .box-shadow(@shadow-control-focus);
             &.active,
             &:active {
-                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
-                box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-                box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+                //.box-shadow(inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie);
+                //.box-shadow(inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal);
+                .box-shadow(@shadow-control-pressed-focus);
             }
         }
     }
@@ -1336,8 +1355,9 @@
         &.active,
         &:active {
             .btn-toolbar:not(.bg-white):not(.disabled) {
-                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+                //.box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+                //.box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+                .box-shadow(@shadow-control-pressed-focus);
             }
         }
     }
@@ -1347,29 +1367,16 @@
             .box-shadow(none);
         }
     }
-    .btn-group.split:not(.disabled) {
-        &:focus,
-        &.open,
-        &.active,
-        &:active {
-            .btn-text-split-default {
-                border-color: @border-control-focus-ie;
-                border-color: @border-control-focus;
-            }
-        }
-    }
 
     .btn-group.split.no-borders:not(.disabled) {
         &:focus,
         &.open,
         &.active,
         &:active {
-            .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-            .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
-
-            .btn-toolbar:not(.bg-white):not(.disabled):hover {
-                .box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value-ie @border-control-focus-ie);
+            //.box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
+            .btn-toolbar:not(.bg-white):not(.disabled) {
+                .box-shadow(@shadow-control-pressed-focus);
             }
         }
     }
@@ -1505,6 +1512,14 @@
         background-color: @highlight-button-hover;
     }
 
+    &:not(.disabled) {
+        &:focus {
+            border-color: @border-control-focus-ie;
+            border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
+        }
+    }
+
     &.primary {
         color: @text-inverse-ie;
         color: @text-inverse;
@@ -1513,12 +1528,28 @@
         border-color: @background-primary-dialog-button-ie;
         border-color: @background-primary-dialog-button;
 
-        &:hover:not(.disabled),
-        &.hover:not(.disabled) {
-            background-color: @highlight-primary-dialog-button-hover-ie;
-            background-color: @highlight-primary-dialog-button-hover;
-            border-color: @highlight-primary-dialog-button-hover-ie;
-            border-color: @highlight-primary-dialog-button-hover;
+        &:not(.disabled) {
+            &:hover,
+            &.hover {
+                background-color: @highlight-primary-dialog-button-hover-ie;
+                background-color: @highlight-primary-dialog-button-hover;
+                border-color: @highlight-primary-dialog-button-hover-ie;
+                border-color: @highlight-primary-dialog-button-hover;
+            }
+
+            &:active,
+            &.active {
+                background-color: @highlight-primary-dialog-button-pressed-ie;
+                background-color: @highlight-primary-dialog-button-pressed;
+                border-color: @highlight-primary-dialog-button-pressed-ie;
+                border-color: @highlight-primary-dialog-button-pressed;
+            }
+
+            &:focus {
+                border-color: @border-button-pressed-focus-ie;
+                border-color: @border-button-pressed-focus;
+                .box-shadow(@shadow-control-primary-pressed-focus);
+            }
         }
     }
 
@@ -1530,18 +1561,5 @@
     &.auto {
         width: auto;
         min-width: 86px;
-    }
-
-    &:not(.disabled) {
-        &:focus {
-            border-color: @border-control-focus-ie;
-            border-color: @border-control-focus;
-            &.primary {
-                border-color: @border-button-pressed-focus-ie;
-                border-color: @border-button-pressed-focus;
-                .box-inner-shadow(0 0 0 1px @background-normal-ie);
-                .box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
-            }
-        }
     }
 }

@@ -141,6 +141,9 @@
     &:not(.no-focus).focused:not(.disabled){
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
+        &.bordered {
+            .box-shadow(@shadow-fill-input);
+        }
     }
 }
 

@@ -44,6 +44,7 @@
     --highlight-button-pressed: #cbcbcb;
     --highlight-button-pressed-hover: #bababa;
     --highlight-primary-dialog-button-hover: #1c1c1c;
+    --highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-hover);
     --highlight-accent-button-hover: #375478;
     --highlight-accent-button-pressed: #293f59;
     --highlight-header-button-hover: fade(#000, 15%);
@@ -284,6 +285,9 @@
     --text-fill-input-readonly: var(--text-normal);
 
     --shadow-fill-input: none;
+    --shadow-control-focus: inset 0 0 0 1px var(--border-control-focus);
+    --shadow-control-pressed-focus: inset 0 0 0 1px var(--background-normal), 0 0 0 1px var(--border-button-pressed-focus);
+    --shadow-control-primary-pressed-focus: inset 0 0 0 1px var(--background-normal);
 
     // dropdown button
     --dd-button-size: 12px;
@@ -319,6 +323,7 @@
 @highlight-button-pressed: var(--highlight-button-pressed);
 @highlight-button-pressed-hover: var(--highlight-button-pressed-hover);
 @highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
+@highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-pressed);
 @highlight-header-button-hover: var(--highlight-header-button-hover);
 @highlight-header-button-pressed: var(--highlight-header-button-pressed);
 @highlight-text-select: var(--highlight-text-select);
@@ -447,6 +452,9 @@
 @text-fill-input-readonly: var(--text-fill-input-readonly);
 
 @shadow-fill-input: var(--shadow-fill-input);
+@shadow-control-focus: var(--shadow-control-focus);
+@shadow-control-pressed-focus: var(--shadow-control-pressed-focus);
+@shadow-control-primary-pressed-focus: var(--shadow-control-primary-pressed-focus);
 
 @dd-button-size: var(--dd-button-size, 12px);
 @dd-button-x-padding: var(--dd-button-x-padding, 4px);
