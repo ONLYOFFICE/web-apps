@@ -200,6 +200,22 @@ define([
             //     this.signatureSettings = new PDFE.Views.SignatureSettings();
             // }
 
+            if (mode && mode.canFeatureForms) {
+                this.btnForm = new Common.UI.Button({
+                    hint: this.txtFormSettings,
+                    asctype: Common.Utils.documentSettingsType.Form,
+                    enableToggle: true,
+                    disabled: true,
+                    iconCls: 'btn-field',
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true
+                });
+                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
+                this.btnForm.setElement($('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
+                this.btnForm.on('click', this.onBtnMenuClick.bind(this));
+                this.formSettings = new PDFE.Views.FormSettings();
+            }
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
@@ -231,11 +247,13 @@ define([
             this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', fire).on('updatescroller', _updateScroller);
         },
 
         setMode: function(mode) {
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
+            this.formSettings && this.formSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -318,7 +336,7 @@ define([
         },
 
         setButtons: function () {
-            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt/*, this.btnChart, this.btnSignature*/];
+            var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt/*, this.btnChart, this.btnSignature*/, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
@@ -329,6 +347,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtSignatureSettings:       'Signature Settings',
-        ariaRightMenu:               'Right menu'
+        ariaRightMenu:               'Right menu',
+        txtFormSettings:            'Form Settings'
     }, PDFE.Views.RightMenu || {}));
 });
