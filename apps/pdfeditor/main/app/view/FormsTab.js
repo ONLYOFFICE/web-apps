@@ -38,9 +38,6 @@
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
 ], function () {
     'use strict';
 
