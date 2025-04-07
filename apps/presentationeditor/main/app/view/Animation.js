@@ -509,6 +509,7 @@ define([
                     var onShowBefore = function(menu) {
                         var picker = new Common.UI.DataView({
                             el: $('#id-toolbar-menu-addanimation'),
+                            cls: 'no-borders-item',
                             parentMenu: menu,
                             outerMenu:  {menu: me.btnAddAnimation.menu, index: 0},
                             showLast: false,

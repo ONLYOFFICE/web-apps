@@ -3079,6 +3079,7 @@ define([
                 ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
                     restoreHeight: 290,
