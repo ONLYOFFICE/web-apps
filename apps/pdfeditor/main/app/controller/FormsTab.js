@@ -39,7 +39,6 @@
 
 define([
     'core',
-    'pdfeditor/main/app/view/FormsTab'
 ], function () {
     'use strict';
 
