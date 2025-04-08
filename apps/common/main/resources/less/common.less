@@ -60,11 +60,12 @@ label {
         overflow: hidden;
 
         .tool-menu-btns {
-            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-right: @border-sidemenu;
 
             .rtl & {
-                border-left: @scaled-one-px-value solid @border-toolbar;
+                //border-left: @scaled-one-px-value solid @border-toolbar;
+                border-left: @border-sidemenu;
                 border-right: 0 none;
             }
 
@@ -80,7 +81,7 @@ label {
     &.right {
         .tool-menu-btns {
             //position: absolute;
-            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @border-sidemenu;
             background-color: @background-pane-ie;
             background-color: @background-pane;
@@ -91,7 +92,8 @@ label {
                 left: 0;
                 right: auto;
 
-                border-right: @scaled-one-px-value solid @border-toolbar;
+                //border-right: @scaled-one-px-value solid @border-toolbar;
+                border-right: @border-sidemenu;
                 border-left: 0 none;
             }
         }
@@ -124,25 +126,23 @@ label {
 }
 
 .left-panel {
-    .padding-left-40();
     height: 100%;
-    border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-    border-right: @scaled-one-px-value solid @border-toolbar;
+    padding: @layout-padding-left-panel;
+    //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+    //border-right: @scaled-one-px-value solid @border-toolbar;
+    border-right: @border-sidemenu;
 
     .rtl & {
-        border-left: @scaled-one-px-value solid @border-toolbar;
+        padding: @layout-padding-left-panel-rtl;
+        //border-left: @scaled-one-px-value solid @border-toolbar;
+        border-left: @border-sidemenu;
         border-right: 0 none;
     }
 
-    #left-panel-chat {
-        height: 100%;
-    }
-
-    #left-panel-comments {
-        height: 100%;
-    }
-
-    #left-panel-search {
+    #left-panel-chat,
+    #left-panel-comments,
+    #left-panel-search,
+    #left-panel-history {
         height: 100%;
     }
 }
@@ -151,7 +151,7 @@ label {
     width: 220px;
     height: 100%;
     display: none;
-    padding: var(--layout-margin-right-panel);
+    padding: @layout-padding-right-panel;
 
     //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
     //border-left: @scaled-one-px-value solid @border-toolbar;
@@ -161,6 +161,7 @@ label {
     .rtl & {
     //    border-right: @scaled-one-px-value solid @border-toolbar;
     //    border-left: 0 none;
+        padding: @layout-padding-right-panel-rtl;
         border-right: @border-sidemenu;
         border-left: 0 none;
     }
@@ -169,11 +170,11 @@ label {
         height: 100%;
         width: 100%;
         padding: 0 10px 0 15px;
-        padding: var(--layout-padding-right-panel-content);
+        padding: @layout-padding-right-panel-content;
 
         .rtl & {
             padding: 0 15px 0 10px;
-            padding: var(--layout-padding-right-panel-content);
+            padding: @layout-padding-right-panel-content-rtl;
         }
     }
 }
