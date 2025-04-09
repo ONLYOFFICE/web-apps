@@ -401,6 +401,7 @@ define([
 
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+            this.api.asc_registerCallback('asc_onStampsReady', _.bind(this.onApiStampsReady, this));
             this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
 
             if (this.mode.canPDFEdit) {
@@ -1210,8 +1211,6 @@ define([
 
         onStampShowAfter: function(menu) {
             Common.UI.TooltipManager.closeTip('addStamp');
-
-            var me      = this;
             if (menu.getItemsLength(true)<1 && this.api) {
                 var arr = this.api.asc_getPropertyEditorStamps(),
                     template = _.template([
@@ -1219,7 +1218,7 @@ define([
                             '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
                         '</a>'
                     ].join(''));
-                if (arr.length>0) {
+                if (arr && arr.length>0) {
                     arr.forEach(function(item){
                         var menuItem = new Common.UI.MenuItem({
                             value: item.Type,
@@ -1234,9 +1233,14 @@ define([
                         }
 
                     });
+                    menu.updateScroller();
                     this.toolbar.btnStamp.options.stampType = arr[0].Type;
                 }
             }
+        },
+
+        onApiStampsReady: function() {
+            this.toolbar.btnStamp.menu.isVisible() && this.onStampShowAfter(this.toolbar.btnStamp.menu);
         },
 
         onFillRequiredFields: function(isFilled) {
