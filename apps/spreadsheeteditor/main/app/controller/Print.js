@@ -50,6 +50,7 @@ define([
 
             this._state = {
                 firstPrintPage: 0,
+                isPrintPreviewOpenedOnce: false,
                 isPrinterInfoLoad: false,
                 currentPrinter: null,
                 printersList: []
@@ -132,9 +133,6 @@ define([
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
 
-            if(this._state.isPrinterInfoLoad) {
-                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
-            }
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
@@ -236,9 +234,17 @@ define([
             }
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
-            else
-                panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            else {
+                if (panel.$el.prop('id') === 'panel-print') {
+                    panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)),
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)),
+                        Common.Utils.Metric.getCurrentMetricName()]);
+                } else {
+                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                }
+            }
 
             this.fitWidth = opt.asc_getFitToWidth();
             this.fitHeight = opt.asc_getFitToHeight();
@@ -413,6 +419,11 @@ define([
             }
             this._isPreviewVisible = true;
             !!pageCount && this.updatePreview();
+
+            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
         },
 
         openPrintSettings: function(type, cmp, format, asUrl, wopiPath) {
@@ -722,8 +733,9 @@ define([
             this._state.isPrinterInfoLoad = true;
             this._state.currentPrinter = currentPrinter;
             this._state.printersList = list;
-            if(this.printSettings) {
-               this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
+            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
             }
         },
 
