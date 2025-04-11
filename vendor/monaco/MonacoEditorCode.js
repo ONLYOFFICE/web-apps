@@ -55,7 +55,6 @@ var _postMessage = function(msg) {
     var _dropDisabled = undefined;
 
     codeEditor.on('onDidChangeModelContent', function(event) {
-        console.log(codeEditor.getValue());
         if (window.isDisable) return;
         var pos = codeEditor.getPosition();
         _postMessage({

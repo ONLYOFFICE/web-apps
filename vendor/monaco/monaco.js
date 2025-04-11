@@ -52,7 +52,11 @@
             value: this.value,
             language: "javascript",
             theme: this.theme ? this.theme : "vs-light",
-            automaticLayout: true
+            automaticLayout: true,
+            suggest: {
+                preview: false,
+                showInlineDetails: true
+            }
         };
         for (let i in this.options)
             options[i] = this.options[i];
