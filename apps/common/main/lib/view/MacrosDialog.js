@@ -104,7 +104,7 @@ define([], function () {
                 functionItemMenuOpen: null,
                 currentElementMode: this.CurrentElementModeType.Macros,
                 currentValue: '',
-                currentPos: {row: 2, column: 0}
+                currentPos: {row: 3, column: 0}
             };
 
             _options.tpl = _.template(this.template)({
@@ -257,7 +257,7 @@ define([], function () {
         createCodeEditor: function() {
             var me = this;
 
-            this.codeEditor = new Common.UI.AceEditor({parentEl: '#code-editor'});
+            this.codeEditor = new Common.UI.MonacoEditor({parentEl: '#code-editor'});
             this.codeEditor.on('ready', function() {
                 me.codeEditor.updateTheme();
                 me.codeEditor.setValue(me._state.currentValue, me._state.currentPos);
@@ -316,7 +316,7 @@ define([], function () {
             if(macrosList.length > 0) {
                 macrosList.forEach(function (macros) {
                     macros.autostart = !!macros.autostart;
-                    macros.currentPos = {row: 2, column: 0};
+                    macros.currentPos = {row: 3, column: 0};
                 });
                 this.listMacros.store.reset(macrosList);
                 var selectItem = this.listMacros.store.at(data.current);
@@ -637,7 +637,7 @@ define([], function () {
                 name : (macrosTextTranslate + " " + indexMax),
                 value : "(function()\n{\n\n})();",
                 autostart: false,
-                currentPos: {row: 2, column: 0}
+                currentPos: {row: 3, column: 0}
             });
             this.listMacros.selectRecord(this.listMacros.store.at(-1));
         },
@@ -659,7 +659,7 @@ define([], function () {
         },
         onSelectListMacrosItem: function(listView, itemView, record) {
             this._state.currentElementMode = this.CurrentElementModeType.Macros;
-            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 2, column: 0});
+            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 3, column: 0});
             this._state.currentValue = record.get('value');
             this._state.currentPos = record.get('currentPos');
 
@@ -754,7 +754,7 @@ define([], function () {
                 guid: this.createGuid(),
                 name : (macrosTextTranslate + " " + indexMax),
                 value : "(function()\n{\n\t/**\n\t * Function that returns the argument\n\t * @customfunction\n\t * @param {any} arg Any data.\n     * @returns {any} The argumet of the function.\n\t*/\n\tfunction myFunction(arg) {\n\t\t\n\t    return arg;\n\t}\n\tApi.AddCustomFunction(myFunction);\n})();",
-                currentPos: {row: 9, column: 2}
+                currentPos: {row: 10, column: 2}
             });
             this.listFunctions.selectRecord(this.listFunctions.store.at(-1));
         },
@@ -776,7 +776,7 @@ define([], function () {
         },
         onSelectListFunctionItem: function(listView, itemView, record) {
             this._state.currentElementMode = this.CurrentElementModeType.CustomFunction;
-            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 2, column: 0});
+            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 3, column: 0});
 
             this.btnMacrosRun.setDisabled(true);
 
