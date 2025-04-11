@@ -993,6 +993,7 @@
   "PDFE.Controllers.Main.txtClickToLoad": "Click to load image",
   "PDFE.Controllers.Main.txtEditingMode": "Set editing mode...",
   "PDFE.Controllers.Main.txtEnterDate": "Enter a date",
+  "PDFE.Controllers.Main.txtInvalidValue": "Ivalid value for field \"{0}\"",
   "PDFE.Controllers.Main.txtInvalidGreater": "Ivalid value for field \"{0}\": must be greater than or equal to {1}.",
   "PDFE.Controllers.Main.txtInvalidGreaterLess": "Ivalid value for field \"{0}\": must be greater than or equal to {1} and less then or equal to {2}.",
   "PDFE.Controllers.Main.txtInvalidLess": "Ivalid value for field \"{0}\": must be less than or equal to {1}.",

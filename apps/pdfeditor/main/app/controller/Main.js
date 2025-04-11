@@ -1986,6 +1986,9 @@ define([
                 else if (oInfo["less"] != null) {
                     config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
                 }
+                else {
+                    config.msg = Common.Utils.String.format(this.txtInvalidValue, oInfo["target"]["api"]["name"]);
+                }
 
                 // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
