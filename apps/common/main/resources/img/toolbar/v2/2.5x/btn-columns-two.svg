@@ -1,9 +1,4 @@
-<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_695_1289" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
-<rect width="60" height="60" fill="#D9D9D9"/>
-</mask>
-<g mask="url(#mask0_695_1289)">
-<path d="M32 46V44H46V46H32ZM32 36V34H46V36H39H32ZM32 26V24H46V26H32ZM32 16V14H46V16H32Z" fill="#1C1B1F"/>
-<path d="M14 46V44H28V46H14ZM14 36V34H28V36H14ZM14 26V24H28V26H14ZM14 16V14H28V16H14Z" fill="#1C1B1F"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path fill="#383838" fill-rule="evenodd" d="M7.5 6a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-10ZM6 6.5A1.5 1.5 0 0 1 7.5 5h10A1.5 1.5 0 0 1 19 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 6 17.5v-11Z" clip-rule="evenodd"/>
+  <path fill="#446ECA" fill-rule="evenodd" d="M13 6v12h-1V6h1Z" clip-rule="evenodd"/>
 </svg>

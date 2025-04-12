@@ -18,6 +18,13 @@
         }
     }
 
+    &.no-borders-item {
+        > .item,
+        .grouped-data .group-items-container .item {
+            .box-shadow(none);
+        }
+    }
+
     > .item {
         display: inline-block;
         .float-left();
@@ -30,7 +37,11 @@
         .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
         .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
 
-        &:hover:not(.disabled),
+        &:hover:not(.disabled) {
+            .box-shadow(0 0 0 2px @border-preview-hover-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+        }
+
         &.selected:not(.disabled) {
             .box-shadow(0 0 0 2px @border-preview-select-ie);
             .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
@@ -97,7 +108,11 @@
                 .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
                 .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
 
-                &:hover:not(.disabled),
+                &:hover:not(.disabled) {
+                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+                }
+
                 &.selected:not(.disabled) {
                     .box-shadow(0 0 0 2px @border-preview-select-ie);
                     .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
@@ -119,22 +134,6 @@
         border: @scaled-one-px-value-ie solid @input-border;
         border: @scaled-one-px-value solid @input-border;
         .border-radius(@border-radius-small);
-    }
-
-    &.classic {
-        .group-items-container {
-            .item {
-                &:hover:not(.disabled) {
-                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
-                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
-                }
-
-                &.selected:not(.disabled) {
-                    .box-shadow(0 0 0 2px @border-preview-select-ie);
-                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
-                }
-            }
-        }
     }
 
     &:not(.no-focus):focus:not(.disabled),

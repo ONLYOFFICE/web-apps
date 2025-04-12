@@ -33,6 +33,7 @@
         --highlight-button-pressed: #666666;
         --highlight-button-pressed-hover: #828282;
         --highlight-primary-dialog-button-hover: #a6a6a6;
+        --highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-hover);
         --highlight-accent-button-hover: #75a2d6;
         --highlight-accent-button-pressed: #89afdc;
         --highlight-header-button-hover: fade(#fff, 20%);
@@ -198,5 +199,30 @@
         --header-component-active-hover-icon-opacity: 1;
 
         --menu-icon-item-checked-offset-x: -20px;
+
+        --border-sidemenu: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+        --background-statusbar: var(--background-pane);
+        --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
+
+        --background-fill-input: var(--background-normal);
+        --background-fill-input-disabled: var(--background-normal);
+        --background-fill-input-readonly: var(--background-normal);
+
+        --highlight-category-button-hover: var(--highlight-button-hover);
+        --highlight-category-button-pressed: var(--highlight-button-pressed);
+
+        --border-fill-input: var(--border-regular-control);
+        --border-fill-input-focused: var(--border-control-focus);
+        --border-fill-input-disabled: var(--border-regular-control);
+        --border-fill-input-readonly: var(--border-regular-control);
+
+        --text-fill-input: var(--text-normal);
+        --text-fill-input-disabled: var(--text-normal);
+        --text-fill-input-readonly: var(--text-normal);
+
+        --shadow-fill-input: none;
+        --shadow-control-focus: inset 0 0 0 1px var(--border-control-focus);
+        --shadow-control-pressed-focus: inset 0 0 0 1px var(--background-normal), 0 0 0 1px var(--border-button-pressed-focus);
+        --shadow-control-primary-pressed-focus: inset 0 0 0 1px var(--background-normal);
     }
 }

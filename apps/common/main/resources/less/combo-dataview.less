@@ -394,20 +394,6 @@
         padding: 1px;
     }
 
-    .dataview {
-        .item {
-            &:hover {
-                .box-shadow(0 0 0 2px @border-preview-hover-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover) !important;
-            }
-      
-            &.selected {
-                .box-shadow(0 0 0 2px @border-preview-select-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select) !important;
-            }
-        }
-    }
-
     .dropdown-menu {
         padding: 5px 1px 5px 1px;
 
@@ -458,16 +444,6 @@
         margin: 2px;
         margin: @combo-dataview-item-margins;
         .box-shadow(none);
-
-        &:hover:not(.disabled) {
-            .box-shadow(0 0 0 2px @border-preview-hover-ie);
-            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
-        }
-
-        &.selected:not(.disabled) {
-            .box-shadow(0 0 0 2px @border-preview-select-ie);
-            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
-        }
     }
 
     .menu-picker-container {

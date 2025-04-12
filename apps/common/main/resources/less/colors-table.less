@@ -238,8 +238,11 @@
     --shadow-side-panel: none;
     --layout-padding-toolbar: 0;
     --layout-padding-right-panel-content: 0 10px 0 15px;
-    --layout-margin-right-panel: 0;
-    --layout-margin-left-panel: 0 0 0 40px;
+    --layout-padding-right-panel-content-rtl: 0 15px 0 10px;
+    --layout-padding-right-panel: 0;
+    --layout-padding-right-panel-rtl: 0;
+    --layout-padding-left-panel: 0 0 0 40px;
+    --layout-padding-left-panel-rtl: 0 40px 0 0;
     --layout-padding-x-side-panel: 0;
     --layout-padding-y-side-panel: 2px;
 
@@ -274,6 +277,9 @@
     --background-fill-input: var(--background-normal);
     --background-fill-input-disabled: var(--background-normal);
     --background-fill-input-readonly: var(--background-normal);
+
+    --highlight-category-button-hover: var(--highlight-button-hover);
+    --highlight-category-button-pressed: var(--highlight-button-pressed);
 
     --border-fill-input: var(--border-regular-control);
     --border-fill-input-focused: var(--border-control-focus);
@@ -405,12 +411,20 @@
 
 // new
 @border-sidemenu: var(--border-sidemenu);
+@background-statusbar: var(--background-statusbar);
 @shadow-toolbar: var(--shadow-toolbar, none);
 @shadow-side-panel: var(--shadow-side-panel, none);
 @border-radius-toolbar: var(--border-radius-toolbar,0);
 @layout-padding-toolbar: var(--layout-padding-toolbar, 0);
 @layout-padding-x-side-panel: var(--layout-padding-x-side-panel, 0);
 @layout-padding-y-side-panel: var(--layout-padding-y-side-panel, 2px);
+@layout-padding-right-panel-content: var(--layout-padding-right-panel-content);
+@layout-padding-right-panel-content-rtl: var(--layout-padding-right-panel-content-rtl);
+@layout-padding-right-panel: var(--layout-padding-right-panel);
+@layout-padding-right-panel-rtl: var(--layout-padding-right-panel-rtl);
+@layout-padding-left-panel: var(--layout-padding-left-panel);
+@layout-padding-left-panel-rtl: var(--layout-padding-left-panel-rtl);
+
 
 @x-small-btn-size: var(--x-small-btn-size, 20px);
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
@@ -441,6 +455,9 @@
 @background-fill-input: var(--background-fill-input);
 @background-fill-input-disabled: var(--background-fill-input-disabled);
 @background-fill-input-readonly: var(--background-fill-input-readonly);
+
+@highlight-category-button-hover: var(--highlight-category-button-hover);
+@highlight-category-button-pressed: var(--highlight-category-button-pressed);
 
 @border-fill-input: var(--border-fill-input);
 @border-fill-input-focused: var(--border-fill-input-focused);
