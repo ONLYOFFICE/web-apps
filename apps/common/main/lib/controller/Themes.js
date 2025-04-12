@@ -442,7 +442,7 @@ define([
             document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
             document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
 
-            let icons_base_url = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');;
+            let icons_base_url = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
             if ( !!themes_map[theme_id].icons ) {
                 if ( !!themes_map[theme_id].icons.basepath )
                     icons_base_url = themes_map[theme_id].icons.basepath;
