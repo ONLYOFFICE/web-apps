@@ -147,10 +147,20 @@
                     }
 
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
+                    console.log('inject_style_tag', objtheme.id);
                 }
 
                 if ( objtheme.icons ) {
                     window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons.basepath);
+                }
+
+                if ( objtheme.skeleton ) {
+                    if ( objtheme.skeleton.css )
+                        inject_style_tag(objtheme.skeleton.css);
+
+                    if ( objtheme.skeleton.html ) {
+                        window.skhtml = objtheme.skeleton.html;
+                    }
                 }
             }
         }
