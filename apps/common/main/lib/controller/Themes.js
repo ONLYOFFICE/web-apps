@@ -88,7 +88,7 @@ define([
             },
         }
 
-        var id_default_light_theme = 'theme-classic-light',
+        var id_default_light_theme = 'theme-white',
             id_default_dark_theme = 'theme-dark';
 
         var name_colors = [
