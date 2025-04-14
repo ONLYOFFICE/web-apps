@@ -96,6 +96,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
+        align-items: center;
         padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
@@ -111,19 +112,23 @@
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
-        border-radius: 1px;
+        border-radius: @border-radius-button-base;
+        height: @header-input-height;
+        line-height: @header-input-line-height;
+        align-items: center;
         padding: 1px 8px;
         cursor: default;
-        line-height: 24px;
 
         &:hover:not(:disabled):not(:focus){
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
+            //background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover;
             cursor: text;
         }
         &:focus{
-            background-color: @highlight-header-button-pressed-ie;
-            background-color: @highlight-header-button-pressed;
+            //background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed;
+            border: @scaled-one-px-value solid @border-header-input-focused;
+            .box-shadow(@shadow-fill-input);
             cursor: text;
         }
         .rtl & {
@@ -589,6 +594,7 @@
     #id-box-doc-name {
         display: flex;
         justify-content: center;
+        align-items: center;
         overflow: hidden;
         padding: 0px 2px;
     }
@@ -599,23 +605,27 @@
         overflow: hidden;
         text-align: center;
         .font-size-medium();
-        line-height: 24px;
+        height: @header-input-height;
+        line-height: @header-input-line-height;
         padding: 1px 8px;
+        align-items: center;
         background-color: transparent;
         border: 0 none;
         cursor: default;
         .user-select(text);
 
         &:hover:not(:disabled):not(:focus){
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
-            border-radius: 1px;
+            //background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover;
+            border-radius: @border-radius-button-base;
             cursor: text;
         }
         &:focus{
-            background-color: @highlight-header-button-pressed-ie;
-            background-color: @highlight-header-button-pressed;
-            border-radius: 1px;
+            //background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed;
+            border: @scaled-one-px-value solid @border-header-input-focused;
+            border-radius: @border-radius-button-base;
+            .box-shadow(@shadow-fill-input);
             cursor: text;
         }
         .rtl & {
