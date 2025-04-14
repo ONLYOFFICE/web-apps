@@ -4,6 +4,7 @@
     font-weight: normal;
     position: relative;
     min-height: 1em;
+    //height: 24px;
 
     display: flex;
     align-items: center;
@@ -12,15 +13,23 @@
         .margin-right-8();
 
         .rb-circle {
-            fill: @background-normal-ie;
-            fill: @background-normal;
-            stroke: @border-regular-control-ie;
-            stroke: @border-regular-control;
+            margin-top: @rb-v-margin;
+            fill: @rb-default-background;
+            stroke: @rb-default-border;
         }
 
         .rb-check-mark {
-            fill: @text-normal-ie;
-            fill: @text-normal;
+            fill: @rb-check-mark-background;
+            r: @rb-check-mark-size;
+        }
+    }
+
+    &:hover:not(.disabled) {
+        svg {
+            .rb-circle {
+                fill: @rb-default-background-hover;
+                stroke: @rb-default-border-hover;
+            }
         }
     }
 
@@ -30,6 +39,20 @@
         &:not(:checked) + svg {
             .rb-check-mark {
                 display: none;
+            }
+        }
+
+        &:checked + svg {
+            .rb-circle {
+                fill: @rb-checked-background;
+                stroke: @rb-checked-border;
+            }
+        }
+
+        &:checked:hover + svg {
+            .rb-circle {
+                fill: @rb-checked-background-hover;
+                stroke: @rb-checked-border-hover;
             }
         }
     }
@@ -45,9 +68,12 @@
     &:focus:not(.disabled) {
         svg {
             .rb-circle {
-                stroke: @border-control-focus-ie;
-                stroke: @border-control-focus;
+                stroke: @rb-default-border-focus;
             }
+        }
+
+        input[type=radio]:checked + svg .rb-circle {
+            stroke: @rb-checked-border-focus;
         }
 
         span {
