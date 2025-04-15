@@ -302,6 +302,18 @@
     // checkbox
     --chb-size: 14px;
     --chb-v-margin: 0;
+    --chb-border-radius: var(--border-radius-checkbox);
+    --chb-default-background: var(--background-normal);
+    --chb-default-border: var(--border-regular-control);
+    --chb-default-background-hover: var(--background-normal);
+    --chb-default-border-hover: var(--border-regular-control);
+    --chb-default-border-focus: var(--border-control-focus);
+    --chb-checked-background: var(--background-normal);
+    --chb-checked-border: var(--border-regular-control);
+    --chb-checked-background-hover: var(--background-normal);
+    --chb-checked-border-hover: var(--border-regular-control);
+    --chb-checked-border-focus: var(--border-control-focus);
+    --chb-check-mark-background: var(--text-normal);
 
     // radio
     --rb-v-margin: 2px;
@@ -491,10 +503,22 @@
 @dd-button-size: var(--dd-button-size, 12px);
 @dd-button-x-padding: var(--dd-button-x-padding, 4px);
 
-@chb-size: var(--chb-size, 14px);
-@chb-v-margin: var(--chb-v-margin, 0);
+@chb-size: var(--chb-size);
+@chb-v-margin: var(--chb-v-margin);
+@chb-border-radius: var(--chb-border-radius);
+@chb-default-background: var(--chb-default-background);
+@chb-default-border: var(--chb-default-border);
+@chb-default-background-hover: var(--chb-default-background-hover);
+@chb-default-border-hover: var(--chb-default-border-hover);
+@chb-default-border-focus: var(--chb-default-border-focus);
+@chb-checked-background: var(--chb-checked-background);
+@chb-checked-border: var(--chb-checked-border);
+@chb-checked-background-hover: var(--chb-checked-background-hover);
+@chb-checked-border-hover: var(--chb-checked-border-hover);
+@chb-checked-border-focus: var(--chb-checked-border-focus);
+@chb-check-mark-background: var(--chb-check-mark-background);
 
-@rb-v-margin: var(--rb-v-margin, 0);
+@rb-v-margin: var(--rb-v-margin);
 @rb-default-background: var(--rb-default-background);
 @rb-default-border: var(--rb-default-border);
 @rb-default-background-hover: var(--rb-default-background-hover);

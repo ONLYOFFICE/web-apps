@@ -25,11 +25,14 @@
     }
 
     &:hover:not(.disabled) {
-        svg {
-            .rb-circle {
-                fill: @rb-default-background-hover;
-                stroke: @rb-default-border-hover;
-            }
+        svg .rb-circle {
+            fill: @rb-default-background-hover;
+            stroke: @rb-default-border-hover;
+        }
+
+        input[type=radio]:checked + svg .rb-circle {
+            fill: @rb-checked-background-hover;
+            stroke: @rb-checked-border-hover;
         }
     }
 
@@ -46,13 +49,6 @@
             .rb-circle {
                 fill: @rb-checked-background;
                 stroke: @rb-checked-border;
-            }
-        }
-
-        &:checked:hover + svg {
-            .rb-circle {
-                fill: @rb-checked-background-hover;
-                stroke: @rb-checked-border-hover;
             }
         }
     }
