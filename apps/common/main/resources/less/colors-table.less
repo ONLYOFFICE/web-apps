@@ -305,9 +305,18 @@
     --chb-size: 14px;
     --chb-v-margin: 0;
 
+    // header input
     --header-input-height:  100%;
     --header-input-line-height:  24px;
     --border-header-input-focused: transparent;
+
+    // header button
+    --header-component-height:  100%;
+    --header-component-width:  40px;
+    --header-component-padding: 1px 3px;
+    --header-component-margin: 0;
+    --header-component-line-height: var(--line-height-base, 1.5);
+    --header-component-align: stretch;
 }
 
 // Background
@@ -490,6 +499,13 @@
 @header-input-height: var(--header-input-height);
 @header-input-line-height: var(--header-input-line-height);
 @border-header-input-focused: var(--border-header-input-focused);
+
+@header-component-height: var(--header-component-height);
+@header-component-width: var(--header-component-width);
+@header-component-line-height: var(--header-component-line-height);
+@header-component-padding: var(--header-component-padding);
+@header-component-margin: var(--header-component-margin);
+@header-component-align: var(--header-component-align);
 
 // Canvas
 // ---------------------------

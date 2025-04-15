@@ -205,21 +205,30 @@
 .hedset {
     font-size: 0;
     display: flex;
+    align-items: @header-component-align;
 
     .btn-group {
-        height: 100%;
+        height: @header-component-height;
     }
-
+    .btn-slot {
+        & > .btn-group,
+        & > .btn-header {
+            margin: @header-component-margin;
+        }
+    }
 }
 
 .btn-header {
-    height: 100%;
+    height: @header-component-height;
     background-color: transparent;
-    width: 40px;
+    width: @header-component-width;
+    border: 0;
+    padding: @header-component-padding;
 
     .icon {
         width: @x-small-btn-icon-size;
         height: @x-small-btn-icon-size;
+        line-height: @header-component-line-height;
         display: inline-block;
         position: relative;
 
@@ -315,7 +324,8 @@
     align-items: center;
     cursor: pointer;
     padding: 0 8px 0 6px;
-    height: 100%;
+    height: @header-component-height;
+    border-radius: @border-radius-button-base;
 
     .inner-box-icon {
         width: 28px;
