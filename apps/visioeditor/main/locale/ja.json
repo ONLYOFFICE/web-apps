@@ -418,5 +418,8 @@
   "VE.Views.ViewTab.textZoom": "拡大図",
   "VE.Views.ViewTab.tipFitPage": "ページに合わせる",
   "VE.Views.ViewTab.tipFitWidth": "幅に合わせる",
-  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
 }

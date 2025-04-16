@@ -584,9 +584,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Kennwort wiederholen",
   "Common.Views.PasswordDialog.txtTitle": "Kennwort festlegen",
   "Common.Views.PasswordDialog.txtWarning": "Vorsicht: Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen. Bewahren Sie es an einem sicheren Ort auf.",
+  "Common.Views.PluginDlg.textDock": "Plugin anheften",
   "Common.Views.PluginDlg.textLoading": "Ladevorgang",
   "Common.Views.PluginPanel.textClosePanel": "Plugin schließen",
+  "Common.Views.PluginPanel.textHidePanel": "Plugin reduzieren",
   "Common.Views.PluginPanel.textLoading": "Ladevorgang",
+  "Common.Views.PluginPanel.textUndock": "Plugin entpinnen",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugins im Hintergrund",
@@ -4576,5 +4579,14 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
   "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
   "SSE.Controllers.DocumentHolder.txtValue": "Value",
-  "SSE.Controllers.DocumentHolder.txtOther": "Other"
+  "SSE.Controllers.DocumentHolder.txtOther": "Other",
+  "SSE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "SSE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "SSE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "SSE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "SSE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

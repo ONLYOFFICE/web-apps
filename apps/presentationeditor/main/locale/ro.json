@@ -745,9 +745,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Reintroduceți parola",
   "Common.Views.PasswordDialog.txtTitle": "Setare parolă",
   "Common.Views.PasswordDialog.txtWarning": "Atenție: Dacă pierdeți sau uitați parola, ea nu poate fi recuperată. Să o păstrați într-un loc sigur.",
+  "Common.Views.PluginDlg.textDock": "Fixare plugin",
   "Common.Views.PluginDlg.textLoading": "Încărcare",
   "Common.Views.PluginPanel.textClosePanel": "Închide plugin-ul",
+  "Common.Views.PluginPanel.textHidePanel": "Restrângere plugin",
   "Common.Views.PluginPanel.textLoading": "Încărcare",
+  "Common.Views.PluginPanel.textUndock": "Anulare fixare plugin",
   "Common.Views.Plugins.groupCaption": "Plugin-uri",
   "Common.Views.Plugins.strPlugins": "Plugin-uri",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugin-uri în fundal",
@@ -2985,5 +2988,14 @@
   "PE.Views.ViewTab.tipMacros": "Macrocomandă",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Instrumentul Selectare",
-  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive"
+  "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
+  "PE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

@@ -15,7 +15,8 @@ import IconCollaboration from '@common-icons/icon-collaboration.svg';
 import IconVersionHistory from '@common-icons/icon-version-history.svg';
 import IconEditForAndroid from '@common-android-icons/icon-edit.svg';
 import IconEditForIos from '@common-ios-icons/icon-edit.svg?ios';
-import IconSettings from '@common-icons/icon-settings.svg';
+import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
+import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
 import IconNextField from '@icons/icon-next-field.svg';
 import IconPrevField from '@icons/icon-prev-field.svg';
 import IconCheck from '@common-android-icons/icon-check.svg';
@@ -139,7 +140,11 @@ const ToolbarView = props => {
                             <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
                         </Link>  
                     : null),
-                    <Link key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' icon='icon-settings' href={false} onClick={() => props.openOptions('settings')}></Link>
+                    <Link iconOnly key='btn-settings' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings' href={false} onClick={() => props.openOptions('settings')}>        
+                        {Device.ios ? 
+                           <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :
+                           <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
+                        }</Link>
                 ] : [
                     // /!Device.phone && <Link key='desktop-link' iconOnly href={false}
                     //                        className={isOpenModal || props.disabledControls ? 'disabled' : ''}
@@ -147,16 +152,20 @@ const ToolbarView = props => {
                     //                     <SvgIcon symbolId={IconSwitchToDesktop.id}
                     //                              className={'icon icon-svg'} />
                     //                 </Link>,
-                    <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
-                    <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
+                    <Link iconOnly key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' href={false} onClick={() => props.movePrevField()}><SvgIcon symbolId={IconPrevField.id} className={'icon icon-svg'} /></Link>,
+                    <Link iconOnly key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' href={false} onClick={() => props.moveNextField()}><SvgIcon symbolId={IconNextField.id} className={'icon icon-svg'} /></Link>,
                     (props.canSubmitForms ?
                         [
                             <Link iconOnly key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   href={false}
                                   id='btn-settings'
-                                  onClick={() => props.openOptions('settings')}><SvgIcon slot="media" symbolId={IconSettings.id} className={'icon icon-svg'} /></Link>,
-                            <Link iconOnly key='send-form-link'
+                                  onClick={() => props.openOptions('settings')}>
+                                    {Device.ios ? 
+                                        <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :
+                                        <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
+                                    }</Link>,
+                            <Link key='send-form-link'
                                   id='btn-submit-form'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'}
                                   text={t("Toolbar.btnSend")} href={false}
@@ -167,7 +176,11 @@ const ToolbarView = props => {
                                    href={false} onClick={() => props.saveForm()}><SvgIcon slot="media" symbolId={IconSaveForm.id} className={'icon icon-svg'} /></Link>,
                             <Link iconOnly key='btn-settings'
                                   className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-settings'
-                                  href={false} onClick={() => {props.openOptions('settings')}}> <SvgIcon slot="media" symbolId={IconSettings.id} className={'icon icon-svg'} /></Link>
+                                  href={false} onClick={() => {props.openOptions('settings')}}> 
+                                  {Device.ios ? 
+                                        <SvgIcon symbolId={IconSettingsIos.id} className={'icon icon-svg'} /> :
+                                        <SvgIcon symbolId={IconSettingsAndroid.id} className={'icon icon-svg'} />
+                                  }</Link>
                         ]
                     )
                 ]}

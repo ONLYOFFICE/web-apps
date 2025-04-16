@@ -404,6 +404,7 @@ define([
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+                this.appOptions.canFeatureForms = true;
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
@@ -1985,6 +1986,9 @@ define([
                 else if (oInfo["less"] != null) {
                     config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
                 }
+                else {
+                    config.msg = Common.Utils.String.format(this.txtInvalidValue, oInfo["target"]["api"]["name"]);
+                }
 
                 // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
@@ -2528,6 +2532,9 @@ define([
                     check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
+                    },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
                     },
                     handler: function(result, settings) {
                         if (result == 'ok') {

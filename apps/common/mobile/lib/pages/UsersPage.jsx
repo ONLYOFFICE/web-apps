@@ -20,7 +20,7 @@ const UsersPage = inject("users")(observer(props => {
                         <Link sheetClose=".coauth__sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
                             }
                         </Link>
                     </NavRight>

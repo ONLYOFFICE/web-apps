@@ -584,9 +584,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Reintroduceți parola",
   "Common.Views.PasswordDialog.txtTitle": "Setare parolă",
   "Common.Views.PasswordDialog.txtWarning": "Atenție: Dacă pierdeți sau uitați parola, ea nu poate fi recuperată. Să o păstrați într-un loc sigur.",
+  "Common.Views.PluginDlg.textDock": "Fixare plugin",
   "Common.Views.PluginDlg.textLoading": "Încărcare",
   "Common.Views.PluginPanel.textClosePanel": "Închide plugin-ul",
+  "Common.Views.PluginPanel.textHidePanel": "Restrângere plugin",
   "Common.Views.PluginPanel.textLoading": "Încărcare",
+  "Common.Views.PluginPanel.textUndock": "Anulare fixare plugin",
   "Common.Views.Plugins.groupCaption": "Plugin-uri",
   "Common.Views.Plugins.strPlugins": "Plugin-uri",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugin-uri în fundal",
@@ -4576,5 +4579,14 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul",
   "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
   "SSE.Controllers.DocumentHolder.txtValue": "Value",
-  "SSE.Controllers.DocumentHolder.txtOther": "Other"
+  "SSE.Controllers.DocumentHolder.txtOther": "Other",
+  "SSE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "SSE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "SSE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "SSE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "SSE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

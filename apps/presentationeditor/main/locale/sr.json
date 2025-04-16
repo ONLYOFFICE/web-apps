@@ -745,8 +745,10 @@
   "Common.Views.PasswordDialog.txtRepeat": "Ponovi lozinku",
   "Common.Views.PasswordDialog.txtTitle": "Postavi lozinku",
   "Common.Views.PasswordDialog.txtWarning": "Upozorenje: Ako izgubite ili zaboravite lozinku, ne može biti oporavljena. Molim vas čuvajte je na sigurnom mestu. ",
+  "Common.Views.PluginDlg.textDock": "Prikači dodatak",
   "Common.Views.PluginDlg.textLoading": "Učitavanje ",
   "Common.Views.PluginPanel.textClosePanel": "Zatvori plagin",
+  "Common.Views.PluginPanel.textHidePanel": "Sakrij dodatak",
   "Common.Views.PluginPanel.textLoading": "Učitavanje ",
   "Common.Views.Plugins.groupCaption": "Dodaci",
   "Common.Views.Plugins.strPlugins": "Dodaci",
@@ -2985,5 +2987,15 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "PE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

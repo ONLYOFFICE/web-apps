@@ -270,9 +270,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Reintroduceți parola",
   "Common.Views.PasswordDialog.txtTitle": "Setare parolă",
   "Common.Views.PasswordDialog.txtWarning": "Atenție: Dacă pierdeți sau uitați parola, ea nu poate fi recuperată. Să o păstrați într-un loc sigur.",
+  "Common.Views.PluginDlg.textDock": "Fixare plugin",
   "Common.Views.PluginDlg.textLoading": "Încărcare",
   "Common.Views.PluginPanel.textClosePanel": "Închide plugin-ul",
+  "Common.Views.PluginPanel.textHidePanel": "Restrângere plugin",
   "Common.Views.PluginPanel.textLoading": "Încărcare",
+  "Common.Views.PluginPanel.textUndock": "Anulare fixare plugin",
   "Common.Views.Plugins.groupCaption": "Plugin-uri",
   "Common.Views.Plugins.strPlugins": "Plugin-uri",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugin-uri de fundal",
@@ -2040,5 +2043,14 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Portivire la pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Potrivire lățime",
   "PDFE.Views.ViewTab.tipHeadings": "Titluri",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interfață",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PDFE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PDFE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PDFE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PDFE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PDFE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PDFE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PDFE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

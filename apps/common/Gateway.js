@@ -165,6 +165,10 @@ if (window.Common === undefined) {
 
             'startFilling': function(data) {
                 $me.trigger('startfilling', data);
+            },
+
+            'requestRoles': function(data) {
+                $me.trigger('requestroles', data);
             }
         };
 
@@ -412,6 +416,11 @@ if (window.Common === undefined) {
             switchEditorType:  function (value, restart) {
                 _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
             },
+
+            startFilling:  function () {
+                _postMessage({event:'onStartFilling'});
+            },
+
             requestFillingStatus:  function (role) {
                 _postMessage({
                     event:'onRequestFillingStatus',

@@ -256,7 +256,8 @@ class MainController extends Component {
                         'id-view': 'editor_sdk',
                         'mobile': true,
                         'translate': _translate,
-                        'isRtlInterface': Common.Locale.isCurrentLangRtl
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl,
+                        'thumbnails-position': 'bottom'
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -607,6 +608,19 @@ class MainController extends Component {
 
         appOptions.changeDocReady(true);
         this._state.requireUserAction = false;
+        
+        const orientationMediaQuery = window.matchMedia("(orientation: portrait)");
+        this.onOrientationChange(orientationMediaQuery);
+        orientationMediaQuery.addEventListener("change", this.onOrientationChange.bind(this));
+    }
+
+    onOrientationChange (event) {
+        const isPortrait = event.matches;
+        let position = Common.Locale.isCurrentLangRtl ? AscCommon.thumbnailsPositionMap.right : AscCommon.thumbnailsPositionMap.left;
+        if(isPortrait) {
+            position = AscCommon.thumbnailsPositionMap.bottom;
+        }
+        this.api.asc_SetThumbnailsPosition(position);
     }
 
     insertImage (data) {

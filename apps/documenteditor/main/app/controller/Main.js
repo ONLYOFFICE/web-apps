@@ -1377,6 +1377,7 @@ define([
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onDisconnectEveryone',     _.bind(me.onDisconnectEveryone, me));
+                me.api.asc_registerCallback('asc_onCompletePreparingOForm',     _.bind(me.onCompletePreparingOForm, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
 
@@ -1962,6 +1963,10 @@ define([
                                             msg  : this.warnStartFilling,
                                             buttons: ['ok']
                                         });
+            },
+
+            onCompletePreparingOForm: function() {
+                Common.Gateway.startFilling();
             },
 
             applyModeCommonElements: function() {
@@ -3286,6 +3291,9 @@ define([
                     check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
+                    },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
                     },
                     handler: function(result, settings) {
                         if (result == 'ok') {

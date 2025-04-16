@@ -270,9 +270,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Ponovi lozinku",
   "Common.Views.PasswordDialog.txtTitle": "Postavi lozinku",
   "Common.Views.PasswordDialog.txtWarning": "Upozorenje: Ako izgubite ili zaboravite lozinku, ne može biti oporavljena. Molim vas čuvajte je na sigurnom mestu. ",
+  "Common.Views.PluginDlg.textDock": "Prikači dodatak",
   "Common.Views.PluginDlg.textLoading": "Učitavanje ",
   "Common.Views.PluginPanel.textClosePanel": "Zatvori plagin",
+  "Common.Views.PluginPanel.textHidePanel": "Sakrij dodatak",
   "Common.Views.PluginPanel.textLoading": "Učitavanje ",
+  "Common.Views.PluginPanel.textUndock": "Otkači dodatak",
   "Common.Views.Plugins.groupCaption": "Dodaci",
   "Common.Views.Plugins.strPlugins": "Dodaci",
   "Common.Views.Plugins.textBackgroundPlugins": "Pozadinski dodaci",
@@ -2040,5 +2043,14 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PDFE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PDFE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PDFE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PDFE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PDFE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PDFE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PDFE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

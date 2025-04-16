@@ -230,7 +230,7 @@ define([
             me.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-undo',
+                iconCls     : 'toolbar__icon btn-undo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],
@@ -242,7 +242,7 @@ define([
             me.btnRedo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-redo',
+                iconCls     : 'toolbar__icon btn-redo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],

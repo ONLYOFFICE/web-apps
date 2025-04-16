@@ -4576,5 +4576,17 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
   "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
   "SSE.Controllers.DocumentHolder.txtValue": "Value",
-  "SSE.Controllers.DocumentHolder.txtOther": "Other"
+  "SSE.Controllers.DocumentHolder.txtOther": "Other",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "SSE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "SSE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "SSE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "SSE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "SSE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

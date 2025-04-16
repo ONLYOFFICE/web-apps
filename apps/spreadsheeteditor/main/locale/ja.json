@@ -2846,7 +2846,7 @@
   "SSE.Views.FillSeriesDialog.textDate": "日付",
   "SSE.Views.FillSeriesDialog.textDateUnit": "日付単位",
   "SSE.Views.FillSeriesDialog.textDay": "日",
-  "SSE.Views.FillSeriesDialog.textGrowth": "等比",
+  "SSE.Views.FillSeriesDialog.textGrowth": "乗算",
   "SSE.Views.FillSeriesDialog.textLinear": "線形",
   "SSE.Views.FillSeriesDialog.textMonth": "月",
   "SSE.Views.FillSeriesDialog.textRows": "行",
@@ -4576,5 +4576,17 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
   "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
   "SSE.Controllers.DocumentHolder.txtValue": "Value",
-  "SSE.Controllers.DocumentHolder.txtOther": "Other"
+  "SSE.Controllers.DocumentHolder.txtOther": "Other",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "SSE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "SSE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "SSE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "SSE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "SSE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

@@ -50,7 +50,7 @@ const PageAdvancedSettings = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -99,11 +99,11 @@ const PageAdvancedSettings = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {props.onSpinFirstLine(paragraphObj, true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} /> : ' - '}
                             </Button>
                             {isAndroid && <label>{firstLine + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {props.onSpinFirstLine(paragraphObj, false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} /> : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -153,7 +153,7 @@ const PageCustomBackColor = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -192,7 +192,7 @@ const PageBackgroundColor = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -277,7 +277,7 @@ const EditParagraphStyle = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

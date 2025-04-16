@@ -321,7 +321,10 @@ module.exports = function(grunt) {
             inline: {
                 dist: {
                     src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
-                }
+                },
+                cachescripts: {
+                    src: packageFile['api'].copy.script.dest + 'documents/*.html',
+                },
             }
         }
     });

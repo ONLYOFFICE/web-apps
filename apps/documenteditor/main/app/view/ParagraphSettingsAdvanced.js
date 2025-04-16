@@ -257,6 +257,11 @@ define([
                 el: $('#paragraphadv-checkbox-add-interval'),
                 labelText: this.strSomeParagraphSpace
             });
+            this.chAddInterval.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    this._changedProps.asc_putContextualSpacing(field.getValue()=='checked');
+                }
+            }, this));
 
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-special'),
@@ -293,6 +298,11 @@ define([
                 takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
+            this.cmbTextAlignment.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    this._changedProps.asc_putJc(record.value>-1 ? record.value: null);
+                }
+            }, this));
 
             this.cmbOutlinelevel = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-outline-level'),
@@ -843,12 +853,6 @@ define([
                 this._changedProps.asc_putSpacing(this.Spacing);
             }
 
-            var spaceBetweenPrg = this.chAddInterval.getValue();
-            this._changedProps.asc_putContextualSpacing(spaceBetweenPrg == 'checked');
-
-            var horizontalAlign = this.cmbTextAlignment.getValue();
-            this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
-
             return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
@@ -893,7 +897,7 @@ define([
                     this.rbDirLtr.setValue(!value, true);
                 }
 
-                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.LEFT, true);
+                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : '');
 
                 this.chKeepLines.setValue((props.get_KeepLines() !== null && props.get_KeepLines() !== undefined) ? props.get_KeepLines() : 'indeterminate', true);
                 this.chBreakBefore.setValue((props.get_PageBreakBefore() !== null && props.get_PageBreakBefore() !== undefined) ? props.get_PageBreakBefore() : 'indeterminate', true);

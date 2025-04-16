@@ -610,7 +610,7 @@ define([], function () {
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
-                showSave: this.mode.showSaveButton,
+                showSave: this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('header-save'),
                 showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
                 showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
                 mode: this.mode,

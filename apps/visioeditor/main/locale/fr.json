@@ -418,5 +418,8 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Ajuster à la page",
   "VE.Views.ViewTab.tipFitWidth": "Ajuster à la largeur",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Thème d'interface",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
 }

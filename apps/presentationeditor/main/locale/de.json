@@ -745,9 +745,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Kennwort wiederholen",
   "Common.Views.PasswordDialog.txtTitle": "Kennwort festlegen",
   "Common.Views.PasswordDialog.txtWarning": "Vorsicht: Wenn Sie das Kennwort verlieren oder vergessen, lässt es sich nicht mehr wiederherstellen. Bewahren Sie es an einem sicheren Ort auf.",
+  "Common.Views.PluginDlg.textDock": "Plugin anheften",
   "Common.Views.PluginDlg.textLoading": "Ladevorgang",
   "Common.Views.PluginPanel.textClosePanel": "Plugin schließen",
+  "Common.Views.PluginPanel.textHidePanel": "Plugin reduzieren",
   "Common.Views.PluginPanel.textLoading": "Ladevorgang",
+  "Common.Views.PluginPanel.textUndock": "Plugin entpinnen",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugins im Hintergrund",
@@ -2985,5 +2988,14 @@
   "PE.Views.ViewTab.tipMacros": "Makros",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Auswählungstool",
-  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster"
+  "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
+  "PE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

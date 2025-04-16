@@ -292,6 +292,7 @@
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
     <script>
         isForm && document.body.classList.add('pdf-form');
     </script>

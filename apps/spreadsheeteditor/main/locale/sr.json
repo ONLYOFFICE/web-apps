@@ -584,9 +584,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Ponovi lozinku",
   "Common.Views.PasswordDialog.txtTitle": "Postavi lozinku",
   "Common.Views.PasswordDialog.txtWarning": "Upozorenje: Ako izgubite ili zaboravite lozinku, ne može biti oporavljena. Molim vas čuvajte je na sigurnom mestu. ",
+  "Common.Views.PluginDlg.textDock": "Prikači dodatak",
   "Common.Views.PluginDlg.textLoading": "Učitavanje ",
   "Common.Views.PluginPanel.textClosePanel": "Zatvori plagin",
+  "Common.Views.PluginPanel.textHidePanel": "Sakrij dodatak",
   "Common.Views.PluginPanel.textLoading": "Učitavanje ",
+  "Common.Views.PluginPanel.textUndock": "Otkači dodatak",
   "Common.Views.Plugins.groupCaption": "Dodaci",
   "Common.Views.Plugins.strPlugins": "Dodaci",
   "Common.Views.Plugins.textBackgroundPlugins": "Dodaci za pozadinu",
@@ -4576,5 +4579,14 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
   "SSE.Controllers.DocumentHolder.txtFormula": "Formula",
   "SSE.Controllers.DocumentHolder.txtValue": "Value",
-  "SSE.Controllers.DocumentHolder.txtOther": "Other"
+  "SSE.Controllers.DocumentHolder.txtOther": "Other",
+  "SSE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "SSE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "SSE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "SSE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "SSE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

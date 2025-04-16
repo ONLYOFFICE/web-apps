@@ -139,7 +139,7 @@ const PageEditStylesTableContents = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -178,7 +178,7 @@ const PageEditLeaderTableContents = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -227,7 +227,7 @@ const PageEditStructureTableContents = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

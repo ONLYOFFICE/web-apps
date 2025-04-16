@@ -20,25 +20,25 @@ const Download = props => {
             <BlockTitle>{_t.textDownloadAs}</BlockTitle>
             <List>
                 <ListItem title="XLSX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.XLSX)}>
-                    <SvgIcon symbolId={IconFormatXlsx.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatXlsx.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                    <SvgIcon symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatPdf.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
-                    <SvgIcon symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatPdfa.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="ODS" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODS)}>
-                    <SvgIcon symbolId={IconFormatOds.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatOds.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="CSV" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.CSV)}>
-                    <SvgIcon symbolId={IconFormatCsv.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatCsv.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="XLTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.XLTX)}>
-                    <SvgIcon symbolId={IconFormatXltx.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatXltx.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title="OTS" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTS)}>
-                    <SvgIcon symbolId={IconFormatOts.id} className={'icon icon-svg'} />
+                    <SvgIcon slot="media" symbolId={IconFormatOts.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>

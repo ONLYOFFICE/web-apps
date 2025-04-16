@@ -3709,7 +3709,6 @@
   "DE.Views.WatermarkSettingsDialog.tipFontName": "字体名称",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "字体大小",
   "DE.Views.BookmarksDialog.textAddAndGetLink": "Add & Get Link",
-  "DE.Controllers.Main.warnStartFilling": "Form filling is in progress.<br>File editing is not currently available.",
   "DE.Views.Toolbar.textBottomBorders": "Bottom borders",
   "DE.Views.Toolbar.textTopBorders": "Top borders",
   "DE.Views.Toolbar.textLeftBorders": "Left borders",
@@ -3720,5 +3719,17 @@
   "DE.Views.Toolbar.textInsideBorders": "Inside borders",
   "DE.Views.Toolbar.textBordersColor": "Border color",
   "DE.Views.Toolbar.textBordersStyle": "Border style",
-  "DE.Views.Toolbar.tipBorders": "Borders"
+  "DE.Views.Toolbar.tipBorders": "Borders",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "DE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "DE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "DE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "DE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "DE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "DE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "DE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "DE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "DE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }

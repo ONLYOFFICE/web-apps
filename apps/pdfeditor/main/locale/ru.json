@@ -270,9 +270,12 @@
   "Common.Views.PasswordDialog.txtRepeat": "Повторить пароль",
   "Common.Views.PasswordDialog.txtTitle": "Задать пароль",
   "Common.Views.PasswordDialog.txtWarning": "Внимание: Если пароль забыт или утерян, его нельзя восстановить. Храните его в надежном месте.",
+  "Common.Views.PluginDlg.textDock": "Закрепить плагин",
   "Common.Views.PluginDlg.textLoading": "Загрузка",
   "Common.Views.PluginPanel.textClosePanel": "Закрыть плагин",
+  "Common.Views.PluginPanel.textHidePanel": "Свернуть плагин",
   "Common.Views.PluginPanel.textLoading": "Загрузка",
+  "Common.Views.PluginPanel.textUndock": "Открепить плагин",
   "Common.Views.Plugins.groupCaption": "Плагины",
   "Common.Views.Plugins.strPlugins": "Плагины",
   "Common.Views.Plugins.textBackgroundPlugins": "Фоновые плагины",
@@ -2040,5 +2043,14 @@
   "PDFE.Views.ViewTab.tipFitToPage": "По размеру страницы",
   "PDFE.Views.ViewTab.tipFitToWidth": "По ширине",
   "PDFE.Views.ViewTab.tipHeadings": "Заголовки",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomRight": "Offset: Bottom right",
+  "PDFE.Views.ShapeSettings.txtOffsetBottom": "Offset: Bottom",
+  "PDFE.Views.ShapeSettings.txtOffsetBottomLeft": "Offset: Bottom left",
+  "PDFE.Views.ShapeSettings.txtOffsetRight": "Offset: Right",
+  "PDFE.Views.ShapeSettings.txtOffsetCenter": "Offset: Center",
+  "PDFE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
+  "PDFE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
+  "PDFE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
+  "PDFE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
 }
