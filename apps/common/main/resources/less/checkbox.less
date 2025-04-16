@@ -22,9 +22,9 @@
             }
 
             svg {
-                border: @scaled-one-px-value solid @chb-default-border;
+                border: @scaled-one-px-value solid @chb-border-normal;
                 border-radius: @chb-border-radius;
-                background-color: @chb-default-background;
+                background-color: @chb-background-normal;
             }
 
             + span {
@@ -42,8 +42,8 @@
         &:checked {
             + label {
                 svg {
-                    border-color: @chb-checked-border;
-                    background-color: @chb-checked-background;
+                    border-color: @chb-border-checked;
+                    background-color: @chb-background-checked;
                 }
             }
 
@@ -67,23 +67,23 @@
 
     &:hover:not(.disabled) {
         svg {
-            border-color: @chb-default-border-hover;
-            background-color: @chb-default-background-hover;
+            border-color: @chb-border-normal-hover;
+            background-color: @chb-background-normal-hover;
         }
 
         input[type=checkbox]:checked + label svg {
-            border-color: @chb-checked-border-hover;
-            background-color: @chb-checked-background-hover;
+            border-color: @chb-border-checked-hover;
+            background-color: @chb-background-checked-hover;
         }
     }
 
     &:focus:not(.disabled) {
         svg {
-            border-color: @chb-default-border-focus;
+            border-color: @chb-border-normal-focus;
         }
 
         input[type=checkbox]:checked + label svg {
-            border-color: @chb-checked-border-focus;
+            border-color: @chb-border-checked-focus;
         }
 
         span {
