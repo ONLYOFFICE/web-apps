@@ -85,7 +85,8 @@ define([
                 'ViewTab': {
                     'zoom:topage': _.bind(this.onBtnZoomTo, this, 'topage'),
                     'zoom:towidth': _.bind(this.onBtnZoomTo, this, 'towidth'),
-                    'darkmode:change': _.bind(this.onChangeDarkMode, this)
+                    'darkmode:change': _.bind(this.onChangeDarkMode, this),
+                    'macros:click':  _.bind(this.onClickMacros, this)
                 },
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
@@ -348,12 +349,22 @@ define([
             }
         },
 
+        onClickMacros: function() {
+            var macrosWindow = new Common.Views.MacrosDialog({
+                api: this.api,
+            });
+            macrosWindow.show();
+        },
+
         onComboBlur: function() {
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         applyEditorMode: function(config) {
-            this.view && this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
+            if (this.view) {
+                this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
+                this.view.$el && this.view.$el.find('.edit')[(config || this.mode)['isPDFEdit'] ? 'show' : 'hide']();
+            }
         }
 
     }, PDFE.Controllers.ViewTab || {}));
