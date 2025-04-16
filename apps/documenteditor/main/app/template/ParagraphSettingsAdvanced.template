@@ -168,7 +168,7 @@
         <div class="padding-very-small">
             <label class="header"><%= scope.textOpenType %></label>
         </div>
-        <div class="padding-large">
+        <div class="padding-small">
             <label class="input-label vertical-align-baseline"><%= scope.textLigatures %></label>
             <div id="paragraphadv-cmb-ligatures" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>

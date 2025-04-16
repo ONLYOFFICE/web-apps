@@ -46,7 +46,7 @@ define([
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            contentHeight: 330,
+            contentHeight: 340,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },

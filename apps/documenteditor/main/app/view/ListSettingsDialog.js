@@ -48,8 +48,7 @@ define([
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
-            width: 300,
-            height: 460,
+            width: 320,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -62,8 +61,7 @@ define([
             this.rightPanelWidth = 210;
             _.extend(this.options, {
                 title: this.txtTitle,
-                height: (this.type===2) ? 451 : (this.type===1 ? 470 : 424),
-                width: (this.type===2) ? 415 + (this.extended ? this.rightPanelWidth : 0) : 300
+                width: (this.type===2) ? 415 + (this.extended ? this.rightPanelWidth : 0) : 320
         }, options || {});
 
             this.template = [
@@ -124,7 +122,7 @@ define([
                         '<tr>',
                             '<td colspan="2">',
                                 '<label class="input-label" style="display: block;">' + this.txtSize + '</label>',
-                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 129px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 139px;display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-bold" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-numbering-italic" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
                                 '<div id="id-dlg-bullet-color" class="margin-left-4" style="display: inline-block;margin-bottom: 10px;vertical-align: middle;"></div>',
@@ -364,7 +362,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 220px;',
-                style       : this.type===2 ? "width: 100%;" : "width: 129px;",
+                style       : this.type===2 ? "width: 100%;" : "width: 139px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),

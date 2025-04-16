@@ -79,8 +79,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-large">',
-                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;"></div>',
+                                        '<td class="padding-large" style="display: flex;">',
+                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;flex-grow:1;"></div>',
                                             '<div id="bookmarks-btn-add" style="display: inline-block; position: relative;"></div>',
                                             '<div id="bookmarks-btn-add-copy-dropdown" class="form-control-size" style="display: inline-block; position: relative; vertical-align: top; width: 0px">',
                                                 //Invisible button, needed for boostrap dropdown logic to work    
@@ -136,7 +136,6 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : this.appOptions.canMakeActionLink ? 'width: 202px;' : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {

@@ -49,7 +49,7 @@ define([
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
-            contentHeight: 345,
+            contentHeight: 355,
             buttons: ['close'],
             toggleGroup: 'autocorrect-dialog-group'
         },

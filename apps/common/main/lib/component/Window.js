@@ -731,8 +731,11 @@ define([
                 this.binding.winclose = function(obj) {
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
+                this.binding.onAppRepaint = _.bind(this.onAppRepaint, this);
+                this.binding.onThemeChanged = _.bind(this.onThemeChanged, this);
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
-                Common.NotificationCenter.on('app:repaint', _.bind(this.onAppRepaint, this));
+                Common.NotificationCenter.on('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.on('uitheme:changed', this.binding.onThemeChanged);
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
@@ -855,6 +858,8 @@ define([
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
                 Common.NotificationCenter.off({'window:close': this.binding.winclose});
+                Common.NotificationCenter.off('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.off('uitheme:changed', this.binding.onThemeChanged);
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),
@@ -1065,6 +1070,12 @@ define([
                 else if (this.initConfig.repaintcallback!==false) {
                     _centre.call(this);
                 }
+            },
+
+            onThemeChanged: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
             },
 
             suspendKeyEvents: function () {
