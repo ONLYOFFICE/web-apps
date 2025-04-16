@@ -108,11 +108,11 @@ window.Common = {
         injectSvgIcons: function (svg_icons_array, force) {
             if ( window.isIEBrowser === true ) return;
 
-            let runonce;
+            window.svgiconsrunonce;
             // const el = document.querySelector('div.inlined-svg');
             // if (!el || !el.innerHTML.firstChild) {
-            if ( !runonce || force === true ) {
-                runonce = true;
+            if ( !window.svgiconsrunonce || force === true ) {
+                window.svgiconsrunonce = true;
                 function htmlToElements(html, id) {
                     var template = document.createElement('template');
                     template.innerHTML = html;
