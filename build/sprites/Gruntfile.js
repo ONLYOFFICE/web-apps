@@ -33,6 +33,7 @@ module.exports = function (grunt, rootpathprefix) {
     const sprite_name = 'iconssmall';
     const sprite_name_big = 'iconsbig';
     const sprite_name_huge = 'iconshuge';
+    var self = this;
 
     const helpers = {
         parselang: (name, options) => {
@@ -49,17 +50,20 @@ module.exports = function (grunt, rootpathprefix) {
     };
 
     const _prefix = rootpathprefix || '../../';
+    const scaling_table = {'1x':'100','1.25x':'125','1.5x':'150','1.75x':'175','2x':'200'};
     const configTemplate = opts => {
-        const scaling_table = {'1x':'100','1.25x':'125','1.5x':'150','1.75x':'175','2x':'200'};
         let _editor_res_root = `${_prefix}apps/${opts.editor}/main/resources`,
             _common_res_root = `${_prefix}apps/common/main/resources`,
             _scaled_path = `${opts.scale}/${opts.extpath ? opts.extpath : '.'}`;
+        const _mod_path = opts.mod2 ? 'v2/' : '';
         let hbhelpers = {...helpers};
         hbhelpers.spritepostfix = () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`;
+        hbhelpers.extracls = () => opts.mod2 ? '.theme-icons-cls-mod2 ' : '';
+
         return {
-            src: [`${_editor_res_root}/img/toolbar/${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/${_scaled_path}/*.png`],
-            dest: `${_editor_res_root}/img/${opts.scale != '1x' ? opts.spritename + '@' + opts.scale : opts.spritename}.png`,
-            destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}.less`,
+            src: [`${_editor_res_root}/img/toolbar/${_mod_path}${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/${_mod_path}${_scaled_path}/*.png`],
+            dest: `${_editor_res_root}/img/${_mod_path}${opts.scale != '1x' ? opts.spritename + '@' + opts.scale : opts.spritename}.png`,
+            destCss: `${_editor_res_root}/less/sprites/${opts.spritename}@${opts.scale}${opts.mod2?'.mod2':''}.less`,
             cssTemplate: `${_common_res_root}/img/toolbar/${_scaled_path}/.css.handlebars`,
             algorithm: 'top-down',
             cssHandlebarsHelpers: hbhelpers
@@ -67,7 +71,6 @@ module.exports = function (grunt, rootpathprefix) {
     };
 
     const configTemplateV2 = opts => {
-        const scaling_table = {'1x':'100','1.25x':'125','1.5x':'150','1.75x':'175','2x':'200'};
         let _editor_res_root = `${_prefix}apps/${opts.editor}/main/resources`,
             _common_res_root = `${_prefix}apps/common/main/resources`,
             _scaled_path = `${opts.scale}/${opts.extpath ? opts.extpath : '.'}`;
@@ -84,113 +87,65 @@ module.exports = function (grunt, rootpathprefix) {
         };
     };
 
+    const generate_sprite_tasks = function(editor, strscale, mod2=false) {
+        const alias = {"word": "documenteditor",
+                        "cell": "spreadsheeteditor",
+                        "slide": "presentationeditor",
+                        "pdf": "pdfeditor",
+                        "draw": "visieditor"}
+
+        const spritename = {'small': sprite_name,
+                            'big': sprite_name_big,
+                            'huge' : sprite_name_huge};
+
+        let out = {};
+        ['small', 'big', 'huge'].forEach((ext, i) => {
+            out[`${editor}${mod2?'-mod2':''}${i?'-'+ext:''}-${strscale}`] = configTemplate({
+                editor:`${alias[editor]}`,
+                spritename: spritename[ext],
+                scale: `${strscale}`,
+                extpath: i ? ext : '',
+                mod2: mod2,
+            })
+        });
+
+        return out
+    }
+
     grunt.initConfig({
         sprite: {
-            'word-1x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'word-big-1x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-            'word-huge-1x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '1x',
-                extpath: 'huge'
-            }),
-            'word-mod2-1x': configTemplateV2({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'word-mod2-big-1x': configTemplateV2({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-            'word-mod2-huge-1x': configTemplateV2({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '1x',
-                extpath: 'huge'
-            }),
-            'word-2x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '2x'
-            }),
-            'word-big-2x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '2x',
-                extpath: 'big'
-            }),
-            'word-huge-2x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '2x',
-                extpath: 'huge'
-            }),
+            // 'word-1x': configTemplate({
+            //     editor:'documenteditor',
+            //     spritename: sprite_name,
+            //     scale: '1x'
+            // }),
+            // 'word-big-1x': configTemplate({
+            //     editor:'documenteditor',
+            //     spritename: sprite_name_big,
+            //     scale: '1x',
+            //     extpath: 'big'
+            // }),
+            // 'word-huge-1x': configTemplate({
+            //     editor:'documenteditor',
+            //     spritename: sprite_name_huge,
+            //     scale: '1x',
+            //     extpath: 'huge'
+            // }),
+            ...generate_sprite_tasks('word', '1x'),
 
-            'word1.25x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1.25x'
-            }),
-            'word-big-1.25x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '1.25x',
-                extpath: 'big'
-            }),
-            'word-huge-1.25x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '1.25x',
-                extpath: 'huge'
-            }),
+            ...generate_sprite_tasks('word', '1x', true),
 
-            'word1.5x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1.5x'
-            }),
-            'word-big-1.5x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '1.5x',
-                extpath: 'big'
-            }),
-            'word-huge-1.5x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '1.5x',
-                extpath: 'huge'
-            }),
+            ...generate_sprite_tasks('word', '2x'),
+            ...generate_sprite_tasks('word', '2x', true),
 
-            'word1.75x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name,
-                scale: '1.75x'
-            }),
-            'word-big-1.75x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_big,
-                scale: '1.75x',
-                extpath: 'big'
-            }),
-            'word-huge-1.75x': configTemplate({
-                editor:'documenteditor',
-                spritename: sprite_name_huge,
-                scale: '1.75x',
-                extpath: 'huge'
-            }),
+            ...generate_sprite_tasks('word', '1.25x'),
+            ...generate_sprite_tasks('word', '1.25x', true),
+
+            ...generate_sprite_tasks('word', '1.5x'),
+            ...generate_sprite_tasks('word', '1.5x', true),
+
+            ...generate_sprite_tasks('word', '1.75x'),
+            ...generate_sprite_tasks('word', '1.75x', true),
 
             'slide-1x': configTemplate({
                 editor:'presentationeditor',
@@ -503,6 +458,20 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            deiconssmall_v2: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/v2/2.5x/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/v2/2.5x/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/v2`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconssmall@2.5x.svg`,
+                        },
+                    },
+                }
+            },
             deiconsbig: {
                 src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/big/*.svg`,
                         `${_prefix}apps/documenteditor/main/resources/img/toolbar/2.5x/big/*.svg`],
@@ -517,10 +486,38 @@ module.exports = function (grunt, rootpathprefix) {
                     },
                 }
             },
+            deiconsbig_v2: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/v2/2.5x/big/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/v2/2.5x/big/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/v2`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconsbig@2.5x.svg`,
+                        },
+                    },
+                }
+            },
             deiconshuge: {
                 src: [`${_prefix}apps/common/main/resources/img/toolbar/2.5x/huge/*.svg`,
                         `${_prefix}apps/documenteditor/main/resources/img/toolbar/2.5x/huge/*.svg`],
                 dest: `${_prefix}apps/documenteditor/main/resources/img/`,
+                options: {
+                    mode: {
+                        symbol: {
+                            inline: true,
+                            dest: './',
+                            sprite: `iconshuge@2.5x.svg`,
+                        },
+                    },
+                }
+            },
+            deiconshuge_v2: {
+                src: [`${_prefix}apps/common/main/resources/img/toolbar/v2/2.5x/huge/*.svg`,
+                        `${_prefix}apps/documenteditor/main/resources/img/toolbar/v2/2.5x/huge/*.svg`],
+                dest: `${_prefix}apps/documenteditor/main/resources/img/v2/`,
                 options: {
                     mode: {
                         symbol: {
@@ -706,11 +703,11 @@ module.exports = function (grunt, rootpathprefix) {
     grunt.loadNpmTasks('grunt-spritesmith');
     grunt.loadNpmTasks('grunt-svg-sprite');
 
-    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-mod2-1x', 'sprite:word-big-1x','sprite:word-mod2-big-1x', 'sprite:word-huge-1x', 'sprite:word-mod2-huge-1x',
-                                        'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x',
-                                        'sprite:word1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x',
-                                        'sprite:word1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x',
-                                        'sprite:word1.75x', 'sprite:word-big-1.75x', 'sprite:word-huge-1.75x']);
+    grunt.registerTask('word-icons', ['sprite:word-1x', 'sprite:word-mod2-1x', 'sprite:word-big-1x', 'sprite:word-mod2-big-1x', 'sprite:word-huge-1x', 'sprite:word-mod2-huge-1x',
+                                        'sprite:word-2x', 'sprite:word-big-2x', 'sprite:word-huge-2x', 'sprite:word-mod2-2x', 'sprite:word-mod2-big-2x', 'sprite:word-mod2-huge-2x',
+                                        'sprite:word-1.25x', 'sprite:word-big-1.25x', 'sprite:word-huge-1.25x', 'sprite:word-mod2-1.25x', 'sprite:word-mod2-big-1.25x', 'sprite:word-mod2-huge-1.25x',
+                                        'sprite:word-1.5x', 'sprite:word-big-1.5x', 'sprite:word-huge-1.5x', 'sprite:word-mod2-1.5x', 'sprite:word-mod2-big-1.5x', 'sprite:word-mod2-huge-1.5x',
+                                        'sprite:word-1.75x', 'sprite:word-big-1.75x', 'sprite:word-huge-1.75x', 'sprite:word-mod2-1.75x', 'sprite:word-mod2-big-1.75x', 'sprite:word-mod2-huge-1.75x']);
     grunt.registerTask('slide-icons', ['sprite:slide-1x', 'sprite:slide-big-1x','sprite:slide-2x', 'sprite:slide-big-2x',
                                         'sprite:slide-1.5x', 'sprite:slide-big-1.5x',
                                         'sprite:slide-1.25x', 'sprite:slide-big-1.25x',
