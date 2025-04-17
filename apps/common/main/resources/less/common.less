@@ -141,9 +141,26 @@ label {
 
     #left-panel-chat,
     #left-panel-comments,
-    #left-panel-search,
-    #left-panel-history {
+    #left-panel-search {
         height: 100%;
+    }
+}
+
+#left-panel-history {
+    left: 40px;
+    width: 300px;
+    height: 100%;
+    display: none;
+
+    padding: @layout-padding-left-panel;
+    padding-left: 0;
+    border-right: @border-sidemenu;
+
+    .rtl & {
+        padding: @layout-padding-left-panel-rtl;
+        padding-right: 0;
+        border-left: @border-sidemenu;
+        border-right: 0 none;
     }
 }
 
