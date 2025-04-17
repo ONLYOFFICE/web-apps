@@ -68,7 +68,7 @@ define([
                         return isExit;
                     }
                 },
-                contentStyle: 'padding: 0 5px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',

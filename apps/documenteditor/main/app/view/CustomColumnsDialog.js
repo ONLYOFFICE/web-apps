@@ -58,7 +58,7 @@ define([], function () { 'use strict';
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label class="input-label">' + this.textColumns + '</label><div id="custom-columns-spin-num" class="float-right"></div>',
                     '</div>',
-                    '<div id="custom-columns-list" style="width:100%; height: 113px;"></div>',
+                    '<div id="custom-columns-list" style="width:100%; height: 122px;"></div>',
                     '<div class="input-row" style="margin: 10px 0;">',
                         '<div id="custom-columns-equal-width"></div>',
                     '</div>',

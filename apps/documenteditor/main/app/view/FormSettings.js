@@ -640,7 +640,7 @@ define([
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
-                style: 'width: 194px;',
+                style: 'width: ' + $markup.width() + 'px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -831,6 +831,7 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
@@ -1984,6 +1985,10 @@ define([
                 this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        onThemeChanged: function() {
+            this.cmbRoles && this.cmbRoles.setWidth((this.$el || $(this.el)).width());
         }
 
     }, DE.Views.FormSettings || {}));

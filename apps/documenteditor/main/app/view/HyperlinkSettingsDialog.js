@@ -62,7 +62,7 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 319px;">',
+                '<div class="box" style="height: 330px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternal,'</button>',
@@ -71,7 +71,7 @@ define([], function () { 'use strict';
                         '<div class="input-row">',
                             '<label>' + this.textUrl + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 4px;"></div>',
                     '</div>',
                     '<div id="id-internal-link">',
                         '<div class="input-row">',
@@ -82,11 +82,11 @@ define([], function () { 'use strict';
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 4px;"></div>',
                     '<div class="input-row">',
                         '<label>' + this.textTooltip + '</label>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 4px;"></div>',
                 '</div>'
             ].join('');
 

@@ -854,6 +854,10 @@ define([
                 this.options.updateFormControl.call(this, this._selectedItem);
         },
 
+        setWidth: function(width) {
+            this.cmpEl && this.cmpEl.width(width);
+        },
+
         focus: function() {
             this.cmpEl && this.cmpEl.find('.form-control').focus();
         }
