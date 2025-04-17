@@ -1375,8 +1375,14 @@
         }
     }
     .btn-group.split,
-    .input-field-btn {
+    .input-field-btn,
+    .input-field-btn .btn-group {
         .btn-toolbar:not(.bg-white):not(.disabled):focus {
+            .box-shadow(none);
+        }
+    }
+    .input-field-btn .btn-group.open {
+        .btn-toolbar:not(.bg-white):not(.disabled) {
             .box-shadow(none);
         }
     }

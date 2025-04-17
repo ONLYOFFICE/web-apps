@@ -163,11 +163,24 @@ textarea.form-control:focus {
         top: 0;
         right: @scaled-one-px-value-ie;
         right: @scaled-one-px-value;
-        clip: rect(@scaled-one-px-value, @x-small-btn-size, calc(@form-control-size - @scaled-one-px-value), 0);
+
+        .btn-group {
+            display: block;
+            width: @x-small-btn-size;
+            height: @x-small-btn-size;
+        }
 
         .btn-group > .btn-toolbar,
         & > .btn-toolbar {
+            position: absolute;
+            top: 0;
+            right: 0;
             height: @form-control-size;
+            clip: rect(@scaled-one-px-value, @x-small-btn-size, calc(@form-control-size - @scaled-one-px-value), 0);
+            .rtl & {
+                right: unset;
+                left: 0;
+            }
         }
 
         .rtl & {
