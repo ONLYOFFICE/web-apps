@@ -50,6 +50,12 @@
         .options__icon {
             opacity: @component-normal-icon-opacity;
         }
+
+        &,
+        canvas,
+        img {
+            border-radius: @border-radius-dataview-item;
+        }
     }
 
     &:not(.disabled) > .item {
@@ -107,6 +113,7 @@
 
                 .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
                 .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+                border-radius: @border-radius-dataview-item;
 
                 &:hover:not(.disabled) {
                     .box-shadow(0 0 0 2px @border-preview-hover-ie);
@@ -116,6 +123,12 @@
                 &.selected:not(.disabled) {
                     .box-shadow(0 0 0 2px @border-preview-select-ie);
                     .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+                }
+
+                &,
+                canvas,
+                img {
+                    border-radius: @border-radius-dataview-item;
                 }
             }
         }

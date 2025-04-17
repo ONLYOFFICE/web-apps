@@ -1357,7 +1357,7 @@ define([
                     caption     : me.capInsertEquation,
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu(),
                     action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',

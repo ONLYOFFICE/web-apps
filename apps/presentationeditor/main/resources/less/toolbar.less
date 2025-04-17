@@ -23,11 +23,17 @@
         & > div:not(.grouped-data):not([class^=ps-scrollbar]) {
             .box-shadow(none);
 
-            &:hover,
+            &:hover {
+                .layout > div:first-child {
+                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+                }
+            }
+
             &.selected {
                 .layout > div:first-child {
-                    .box-shadow(0 0 0 2px @highlight-button-pressed-ie);
-                    .box-shadow(0 0 0 2px @highlight-button-pressed);
+                    .box-shadow(0 0 0 2px @border-preview-select-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
                 }
             }
         }
@@ -43,6 +49,7 @@
 
             & > div:first-child {
                 margin-bottom: 3px;
+                border-radius: @border-radius-dataview-item;
             }
         }
     }

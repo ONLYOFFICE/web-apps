@@ -1001,9 +1001,6 @@
 }
 
 .item-equation {
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-
     .equation-icon {
         .background-ximage-all('toolbar/math.png', 1500px, @commonimage: true);
         opacity: @component-normal-icon-opacity;
@@ -1012,6 +1009,7 @@
             -webkit-filter: @img-equition-filter;
             filter: @img-equition-filter;
         }
+        border-radius: @border-radius-dataview-item;
     }
 }
 

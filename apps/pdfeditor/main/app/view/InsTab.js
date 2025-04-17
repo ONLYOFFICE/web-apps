@@ -182,7 +182,7 @@ define([
                     caption: me.capInsertEquation,
                     lock: [_set.pageDeleted, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                     split: true,
-                    menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu: new Common.UI.Menu(),
                     action: 'insert-equation',
                     dataHint: '1',
                     dataHintDirection: 'bottom',

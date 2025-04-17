@@ -989,7 +989,7 @@ define([
                             _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsEquation,
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu(),
                         action: 'insert-equation',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
