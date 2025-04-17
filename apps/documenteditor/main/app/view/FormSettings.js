@@ -64,6 +64,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this._themeChanged = false;
 
             this._state = {
                 DisabledControls: undefined,
@@ -1286,6 +1287,9 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._themeChanged)
+                this.onThemeChanged();
+
             if (props) {
                 this._originalProps = props;
 
@@ -1988,7 +1992,9 @@ define([
         },
 
         onThemeChanged: function() {
-            this.cmbRoles && this.cmbRoles.setWidth((this.$el || $(this.el)).width());
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
         }
 
     }, DE.Views.FormSettings || {}));

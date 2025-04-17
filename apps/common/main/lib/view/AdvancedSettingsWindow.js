@@ -216,6 +216,8 @@ define([], function () { 'use strict';
         },
 
         onThemeChanged: function() {
+            if (!this.$window || !this.isVisible()) return;
+
             Common.UI.Window.prototype.onThemeChanged.call(this);
             this.fixHeight();
         },
