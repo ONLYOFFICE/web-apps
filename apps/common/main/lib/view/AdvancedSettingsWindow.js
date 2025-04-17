@@ -124,7 +124,7 @@ define([], function () { 'use strict';
                 this.btnsCategory[0].toggle(true, true);
 
             var onMainWindowResize = function(){
-                $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + this.content_panel.outerWidth() + 2);
+                $window.width(((menu_panel.length>0) ? menu_panel.outerWidth() : 0) + me.content_panel.outerWidth() + 2);
             };
             $(window).on('resize', onMainWindowResize);
             this.on('close', function() {
