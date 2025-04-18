@@ -306,6 +306,18 @@
     // checkbox
     --chb-size: 14px;
     --chb-v-margin: 0;
+    --chb-border-radius: var(--border-radius-checkbox);
+    --chb-check-mark-background: var(--text-normal);
+    --chb-background-normal: var(--background-normal);
+    --chb-background-normal-hover: var(--background-normal);
+    --chb-background-checked: var(--background-normal);
+    --chb-background-checked-hover: var(--background-normal);
+    --chb-border-normal: var(--border-regular-control);
+    --chb-border-normal-hover: var(--border-regular-control);
+    --chb-border-normal-focus: var(--border-control-focus);
+    --chb-border-checked: var(--border-regular-control);
+    --chb-border-checked-hover: var(--border-regular-control);
+    --chb-border-checked-focus: var(--border-control-focus);
 
     // header input
     --header-input-height:  100%;
@@ -319,6 +331,20 @@
     --header-component-margin: 0;
     --header-component-line-height: var(--line-height-base, 1.5);
     --header-component-align: stretch;
+
+    // radio
+    --rb-background-normal: var(--background-normal);
+    --rb-background-normal-hover: var(--background-normal);
+    --rb-background-checked: var(--background-normal);
+    --rb-background-checked-hover: var(--background-normal);
+    --rb-border-normal: var(--border-regular-control);
+    --rb-border-normal-hover: var(--border-regular-control);
+    --rb-border-normal-focus: var(--border-control-focus);
+    --rb-border-checked: var(--border-regular-control);
+    --rb-border-checked-hover: var(--border-regular-control);
+    --rb-border-checked-focus: var(--border-control-focus);
+    --rb-check-mark-size: 4px;
+    --rb-check-mark-background: var(--text-normal);
 }
 
 // Background
@@ -496,8 +522,32 @@
 @dd-button-size: var(--dd-button-size, 12px);
 @dd-button-x-padding: var(--dd-button-x-padding, 4px);
 
-@chb-size: var(--chb-size, 14px);
-@chb-v-margin: var(--chb-v-margin, 0);
+@chb-size: var(--chb-size);
+@chb-border-radius: var(--chb-border-radius);
+@chb-check-mark-background: var(--chb-check-mark-background);
+@chb-background-normal: var(--chb-background-normal);
+@chb-background-normal-hover: var(--chb-background-normal-hover);
+@chb-background-checked: var(--chb-background-checked);
+@chb-background-checked-hover: var(--chb-background-checked-hover);
+@chb-border-normal: var(--chb-border-normal);
+@chb-border-normal-hover: var(--chb-border-normal-hover);
+@chb-border-normal-focus: var(--chb-border-normal-focus);
+@chb-border-checked: var(--chb-border-checked);
+@chb-border-checked-hover: var(--chb-border-checked-hover);
+@chb-border-checked-focus: var(--chb-border-checked-focus);
+
+@rb-background-normal: var(--rb-background-normal);
+@rb-border-normal: var(--rb-border-normal);
+@rb-background-normal-hover: var(--rb-background-normal-hover);
+@rb-border-normal-hover: var(--rb-border-normal-hover);
+@rb-border-normal-focus: var(--rb-border-normal-focus);
+@rb-background-checked: var(--rb-background-checked);
+@rb-border-checked: var(--rb-border-checked);
+@rb-background-checked-hover: var(--rb-background-checked-hover);
+@rb-border-checked-hover: var(--rb-border-checked-hover);
+@rb-border-checked-focus: var(--rb-border-checked-focus);
+@rb-check-mark-size: var(--rb-check-mark-size);
+@rb-check-mark-background: var(--rb-check-mark-background);
 
 @header-input-height: var(--header-input-height);
 @header-input-line-height: var(--header-input-line-height);
