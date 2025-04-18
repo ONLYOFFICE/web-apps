@@ -82,43 +82,6 @@
     }
 }
 
-#special-paste-container,
-#autocorrect-paste-container,
-#equation-container {
-    position: absolute;
-    z-index: @zindex-dropdown - 20;
-    background-color: @background-pane-ie;
-    background-color: @background-pane;
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
-    
-    &.has-open-menu {
-        z-index: @zindex-navbar + 3;
-    }
-    .ie &,
-    .winxp & {
-        overflow: visible;
-    }
-}
-
-#equation-container {
-    .separator {
-        height: 30px;
-    }
-    .btn-toolbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 0px;
-    }
-}
-
 #slot-field-fontsize {
     width: 45px;
 }

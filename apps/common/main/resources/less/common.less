@@ -610,6 +610,60 @@ body {
     }
 }
 
+#special-paste-container,
+#autocorrect-paste-container,
+#equation-container,
+#text-bar-container,
+#annot-bar-container,
+#annot-sel-bar-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: @border-radius-form-control;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+    .ie &,
+    .winxp & {
+        overflow: visible;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 3;
+    }
+}
+
+#equation-container {
+    .separator {
+        height: 30px;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
+    }
+}
+
+#text-bar-container,
+#annot-bar-container,
+#annot-sel-bar-container {
+    padding: 4px 6px;
+    .btn-toolbar,
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .separator {
+        height: @x-small-btn-size;
+    }
+}
+
 // only for test screen reader focus manager
 .focus-mode {
     :focus {
