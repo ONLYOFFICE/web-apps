@@ -941,10 +941,13 @@
 }
 
 #slot-combo-insertshape, .slot-combo-insertshape {
-    width: 150px;
+    @combo-dataview-button-width: calc(2*@scaled-one-px-value + @dd-button-size);
+
+    width: 155px;
     height: 46px;
     .view {
         .padding-right(14px);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
     }
     .dataview.field-picker {
         height: 100%;
@@ -976,6 +979,7 @@
     }
     .button {
         width: 14px;
+        width: @combo-dataview-button-width;
         .caret {
             width: 4px !important;
             height: 4px !important;

@@ -343,7 +343,6 @@ define([
                 var button = $('button', this.openButton.cmpEl);
                 var cntButton = $('.button', this.cmpEl);
                 button && cntButton.width() > 0 && button.css({
-                    width : cntButton.width(),
                     height: cntButton.height()
                 });
 

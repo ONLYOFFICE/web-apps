@@ -289,10 +289,6 @@ define([
                 ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#chart-combo-wrap'));
-            this.cmbWrapType.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
             this.cmbWrapType.openButton.menu.on('show:after', function () {
                 me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -764,10 +760,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
-                this.cmbChartStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbChartStyle.on('click', _.bind(this.onSelectStyle, this));
                 this.cmbChartStyle.openButton.menu.on('show:after', function () {
                     me.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});

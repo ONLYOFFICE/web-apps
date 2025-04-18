@@ -148,10 +148,6 @@ define([
                 ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#image-combo-wrap'));
-            this.cmbWrapType.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
             this.cmbWrapType.openButton.menu.on('show:after', function () {
                 me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});

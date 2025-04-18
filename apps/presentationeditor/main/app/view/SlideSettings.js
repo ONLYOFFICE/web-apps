@@ -781,10 +781,6 @@ define([
                 ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#slide-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.FillItems.push(this.cmbPattern);
 
