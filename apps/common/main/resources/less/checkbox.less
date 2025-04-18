@@ -39,29 +39,21 @@
             }
         }
 
-        &:checked {
+        &:checked, &:indeterminate {
             + label {
                 svg {
                     border-color: @chb-border-checked;
                     background-color: @chb-background-checked;
                 }
             }
+        }
 
-            &:not(:indeterminate) {
-                + label {
-                    .chb-check-mark {
-                        display: block;
-                    }
-                }
-            }
+        &:checked + label .chb-check-mark {
+            display: block;
+        }
 
-            &:indeterminate {
-                + label {
-                    .chb-indeterminate {
-                        display: block;
-                    }
-                }
-            }
+        &:indeterminate + label .chb-indeterminate {
+            display: block;
         }
     }
 
@@ -71,9 +63,11 @@
             background-color: @chb-background-normal-hover;
         }
 
-        input[type=checkbox]:checked + label svg {
-            border-color: @chb-border-checked-hover;
-            background-color: @chb-background-checked-hover;
+        input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
+            + label svg {
+                border-color: @chb-border-checked-hover;
+                background-color: @chb-background-checked-hover;
+            }
         }
     }
 
@@ -82,8 +76,10 @@
             border-color: @chb-border-normal-focus;
         }
 
-        input[type=checkbox]:checked + label svg {
-            border-color: @chb-border-checked-focus;
+        input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
+            + label svg {
+                border-color: @chb-border-checked-focus;
+            }
         }
 
         span {
