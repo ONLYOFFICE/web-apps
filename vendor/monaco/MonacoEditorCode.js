@@ -68,6 +68,7 @@ var _postMessage = function(msg) {
         window.isDisable = true;
         codeEditor.setValue(data.value || '');
         codeEditor.setPosition({lineNumber: data.currentPos ? data.currentPos.row : 0, column: data.currentPos ? data.currentPos.column : 0});
+        codeEditor.setReadonly(!!data.readonly);
         codeEditor.setFocus();
         window.isDisable = false;
     };
@@ -129,7 +130,13 @@ var _postMessage = function(msg) {
                 onThemeChanged(cmd.data);
             }else if (cmd.command==='disableDrop') {
                 editorDisableDrop(cmd.data);
-            }
+            } else if(cmd.command==='revealPositionInCenter') {
+                codeEditor.revealPositionInCenter();
+            } else if(cmd.command==='undo') {
+                codeEditor.undo();
+            } else if(cmd.command==='redo') {
+                codeEditor.redo();
+            } 
         }
     };
 

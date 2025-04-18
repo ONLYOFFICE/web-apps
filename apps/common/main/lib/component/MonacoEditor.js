@@ -155,6 +155,30 @@ define([], function () {
             });
         },
 
+        revealPositionInCenter: function() {
+            this._postMessage(this.iframe.contentWindow, {
+                command: 'revealPositionInCenter',
+                referer: 'monaco-editor',
+                data: {}
+            });
+        },
+
+        undo: function() {
+            this._postMessage(this.iframe.contentWindow, {
+                command: 'undo',
+                referer: 'monaco-editor',
+                data: {}
+            });
+        },
+
+        redo: function() {
+            this._postMessage(this.iframe.contentWindow, {
+                command: 'redo',
+                referer: 'monaco-editor',
+                data: {}
+            });
+        },
+
         enablePointerEvents: function(enable) {
             this.iframe && (this.iframe.style.pointerEvents = enable ? "" : "none");
         },

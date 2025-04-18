@@ -53,6 +53,7 @@
             language: "javascript",
             theme: this.theme ? this.theme : "vs-light",
             automaticLayout: true,
+            domReadOnly: true,
             suggest: {
                 preview: false,
                 showInlineDetails: true
@@ -144,6 +145,22 @@
 
     MonacoEditor.prototype.setFocus = function() {
         this.editor && this.editor.focus();
+    };
+
+    MonacoEditor.prototype.setReadonly = function(value) {
+        this.editor && this.editor.updateOptions({readOnly: value});
+    };
+
+    MonacoEditor.prototype.revealPositionInCenter = function() {
+        this.editor && this.editor.revealPositionInCenter(this.editor.getPosition());
+    };
+
+    MonacoEditor.prototype.undo = function() {
+        this.editor && this.editor.trigger("codeEditor", "undo");
+    };
+
+    MonacoEditor.prototype.redo = function() {
+        this.editor && this.editor.trigger("codeEditor", "redo");
     };
 
     MonacoEditor.prototype._loadEvents = function() {
