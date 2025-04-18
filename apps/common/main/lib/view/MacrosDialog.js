@@ -44,29 +44,40 @@ define([], function () {
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
         template:
-            '<div class="content">' +
-                '<div class="common_menu noselect">' +
-                    '<div id="menu_macros" class="menu_macros_long" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
-                        '<div class="menu_header">' +
-                            '<label class="i18n header">Macros</label>' +
-                            '<div class="div_buttons">' +
-                                '<div id="btn-macros-run"></div>' +
-                                '<div id="btn-macros-add"></div>' +
-                            '</div>' +
+            '<div id="macros-dialog-content">' +
+                '<div id="macros-dialog-left" class="noselect">' +
+                    '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
+                        '<div class="menu-header">' +
+                            '<label>Macros</label>' +
+                            '<div id="btn-macros-add"></div>' +
                         '</div>' +
-                        '<div id="list-macros"></div>' +
+                        '<div class="separator horizontal" style="position: relative"></div>' +
+                        '<div id="macros-list"></div>' +
                     '</div>' +
                     '<div class="separator horizontal" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> ></div>' +
-                    '<div id="menu_functions" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
-                        '<div class="menu_header">' +
-                            '<label class="i18n header">Custom Functions</label>' +
+                    '<div id="functions-menu" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
+                        '<div class="menu-header">' +
+                            '<label>Custom Functions</label>' +
                             '<div id="btn-function-add"></div>' +
                         '</div>' +
-                        '<div id="list-functions"></div>' +
+                        '<div class="separator horizontal" style="position: relative"></div>' +
+                        '<div id="functions-list"></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="separator vertical" style="position: relative"></div>' +
-                '<div id="code-editor" class="invisible"></div>' +
+                '<div id="macros-dialog-right">' + 
+                    '<div class="menu-header">' +
+                        '<div id="btn-macros-undo"></div>' +
+                        '<div id="btn-macros-redo"></div>' +
+                        '<div id="btn-macros-run" class="lock-for-function"></div>' +
+                        '<div id="btn-macros-copy"></div>' +
+                        '<div id="btn-macros-rename"></div>' +
+                        '<div id="btn-macros-delete"></div>' +
+                        '<div id="ch-macros-autostart" class="lock-for-function"></div>' +
+                    '</div>' +
+                    '<div class="separator horizontal" style="position: relative"></div>' +
+                    '<div id="macros-code-editor" class="invisible"></div>' +
+                '</div>' +
             '</div>'+
             '<div class="separator horizontal" style="position: relative"></div>',
 
@@ -83,7 +94,7 @@ define([], function () {
                 help: true,
                 width: Math.min(800, innerWidth),
                 height: Math.min(512, innerHeight),
-                minwidth: 600,
+                minwidth: 650,
                 minheight: 350,
                 resizable: true,
                 cls: 'modal-dlg invisible-borders',
@@ -94,15 +105,16 @@ define([], function () {
             }, options || {});
             this.api = options.api;
 
-            this.CurrentElementModeType = {
+            this.ItemTypes = {
                 CustomFunction  : 0,
                 Macros 			: 1
             };
             this._state = {
                 isFunctionsSupport: !!window.SSE,
-                macrosItemMenuOpen: null,
-                functionItemMenuOpen: null,
-                currentElementMode: this.CurrentElementModeType.Macros,
+                selectedItem: {
+                    record: null,
+                    type: null
+                },
                 currentValue: '',
                 currentPos: {row: 3, column: 0}
             };
@@ -131,7 +143,7 @@ define([], function () {
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-            me.aceContainer = $window.find('#code-editor');
+            me.aceContainer = $window.find('#macros-code-editor');
 
             // this.loadMask = new Common.UI.LoadMask({owner: this.$window.find('.body')[0]});
             // this.loadMask.setTitle(this.textLoading);
@@ -142,23 +154,66 @@ define([], function () {
         },
 
         renderAfterAceLoaded: function() {
-            var me = this;
-            this.btnMacrosRun = new Common.UI.Button({
-                parentEl: $('#btn-macros-run'),
-                cls: 'btn-toolbar borders--small',
-                iconCls: 'icon toolbar__icon btn-run',
-                hint: this.tipMacrosRun
+            this.btnUndo = new Common.UI.Button({
+                parentEl    : $('#btn-macros-undo'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-undo icon-rtl',
+                hint        : this.tipUndo
+            }).on('click', _.bind(this.onUndo, this));
+
+            this.btnRedo = new Common.UI.Button({
+                parentEl    : $('#btn-macros-redo'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-redo icon-rtl',
+                hint        : this.tipRedo
+            }).on('click', _.bind(this.onRedo, this));
+
+            this.btnRun = new Common.UI.Button({
+                parentEl    : $('#btn-macros-run'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-run',
+                caption     : this.textRun,
+                hint        : this.tipMacrosRun
             }).on('click', _.bind(this.onRunMacros, this));
+
+            this.btnCopy = new Common.UI.Button({
+                parentEl    : $('#btn-macros-copy'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-copy',
+                caption     : this.textCopy,
+                hint        : this.tipCopy
+            }).on('click', _.bind(this.onCopyItem, this));
+
+            this.btnRename = new Common.UI.Button({
+                parentEl    : $('#btn-macros-rename'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-rename',
+                caption     : this.textRename,
+                hint        : this.tipRename
+            }).on('click', _.bind(this.onRenameItem, this));
+
+            this.btnDelete = new Common.UI.Button({
+                parentEl    : $('#btn-macros-delete'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-delete',
+                caption     : this.textDelete,
+                hint        : this.tipDelete
+            }).on('click', _.bind(this.onDeleteItem, this));
+
+            this.chAutostart = new Common.UI.CheckBox({
+                el: $('#ch-macros-autostart'),
+                labelText: this.textAutostart
+            }).on('change', _.bind(this.onChangeAutostart, this));
 
             this.btnMacrosAdd = new Common.UI.Button({
                 parentEl: $('#btn-macros-add'),
-                cls: 'btn-toolbar borders--small',
-                iconCls: 'icon toolbar__icon btn-zoomup',
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-zoomup',
                 hint: this.tipMacrosAdd
             }).on('click', _.bind(this.onCreateMacros, this));
 
             this.listMacros = new Common.UI.ListView({
-                el: $('#list-macros', this.$window),
+                el: $('#macros-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 itemTemplate: _.template([
@@ -167,88 +222,34 @@ define([], function () {
                             '<span>(A)</span>',
                         '<% } %>',
                     '</div>',
-                    '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="listitem-icon toolbar__icon btn-more"></div>'
+                    '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>'
                 ].join(''))
             });
             this.listMacros.on('item:add',  _.bind(this.onAddListItem, this));
-            this.listMacros.on('item:click', _.bind(this.onClickListMacrosItem, this));
-            this.listMacros.on('item:contextmenu', _.bind(this.onContextMenuListMacrosItem, this));
             this.listMacros.on('item:select', _.bind(this.onSelectListMacrosItem, this));
             this.setListMacros();
-
-            this.ctxMenuMacros = new Common.UI.Menu({
-                cls: 'shifted-right',
-                additionalAlign: this.menuAddAlign,
-                items: [
-                    new Common.UI.MenuItem({
-                        caption     : this.textRun
-                    }).on('click', _.bind(this.onRunMacros, this)),
-                    new Common.UI.MenuItem({
-                        caption     : this.textMakeAutostart
-                    }).on('click', _.bind(this.onMakeAutostartMacros, this)),
-                    new Common.UI.MenuItem({
-                        caption     : this.textUnMakeAutostart
-                    }).on('click', _.bind(this.onUnMakeAutostartMacros, this)),
-                    new Common.UI.MenuItem({
-                        caption     : this.textRename
-                    }).on('click', _.bind(this.onRenameMacros, this)),
-                    new Common.UI.MenuItem({
-                        caption     : this.textDelete
-                    }).on('click', _.bind(this.onDeleteMacros, this)),
-                    new Common.UI.MenuItem({
-                        caption     : this.textCopy
-                    }).on('click', _.bind(this.onCopyMacros, this)),
-                ]
-            });
-            this.ctxMenuMacros.on('hide:after', function() {
-                me.listMacros.$el.find('.listitem-icon').removeClass('active');
-            });
 
             if(this._state.isFunctionsSupport) {
                 this.btnFunctionAdd = new Common.UI.Button({
                     parentEl: $('#btn-function-add'),
-                    cls: 'btn-toolbar borders--small',
-                    iconCls: 'icon toolbar__icon btn-zoomup',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-zoomup',
                     hint: this.tipFunctionAdd
                 }).on('click', _.bind(this.onCreateFunction, this));
 
                 this.listFunctions = new Common.UI.ListView({
-                    el: $('#list-functions', this.$window),
+                    el: $('#functions-list', this.$window),
                     store: new Common.UI.DataViewStore(),
                     tabindex: 1,
                     cls: 'dbl-clickable',
                     itemTemplate: _.template([
                         '<div class="listitem-autostart"></div>',
-                        '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                        '<div class="listitem-icon toolbar__icon btn-more"></div>'
+                        '<div id="<%= id %>" class="list-item" role="listitem"><%= Common.Utils.String.htmlEncode(name) %></div>'
                     ].join(''))
                 });
                 this.listFunctions.on('item:add',  _.bind(this.onAddListItem, this));
-                this.listFunctions.on('item:click', _.bind(this.onClickListFunctionItem, this));
-                this.listFunctions.on('item:contextmenu', _.bind(this.onContextMenuListFunctionItem, this));
                 this.listFunctions.on('item:select', _.bind(this.onSelectListFunctionItem, this));
-                this.setListFunctions();
-
-                this.ctxMenuFunction = new Common.UI.Menu({
-                    cls: 'shifted-right',
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        new Common.UI.MenuItem({
-                            caption     : this.textRename
-                        }).on('click', _.bind(this.onRenameFunction, this)),
-                        new Common.UI.MenuItem({
-                            caption     : this.textDelete
-                        }).on('click', _.bind(this.onDeleteFunction, this)),
-                        new Common.UI.MenuItem({
-                            caption     : this.textCopy
-                        }).on('click', _.bind(this.onCopyFunction, this)),
-                    ]
-                });
-                this.ctxMenuFunction.on('hide:after', function() {
-                    me.listFunctions.$el.find('.listitem-icon').removeClass('active');
-                });
-    
+                this.setListFunctions();    
             }
 
             this.makeDragable();
@@ -257,7 +258,7 @@ define([], function () {
         createCodeEditor: function() {
             var me = this;
 
-            this.codeEditor = new Common.UI.MonacoEditor({parentEl: '#code-editor'});
+            this.codeEditor = new Common.UI.MonacoEditor({parentEl: '#macros-code-editor'});
             this.codeEditor.on('ready', function() {
                 me.codeEditor.updateTheme();
                 me.codeEditor.setValue(me._state.currentValue, me._state.currentPos);
@@ -267,14 +268,11 @@ define([], function () {
                 // me.loadMask.hide();
             });
             this.codeEditor.on('change', function(value, pos) {
-                var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
-                    ? me.listMacros.getSelectedRec()
-                    : me.listFunctions.getSelectedRec();
-                if(selectedItem) {
+                if(me._state.selectedItem.record) {
                     me._state.currentValue = value;
                     me._state.currentPos = pos;
-                    selectedItem.set('value', value);
-                    selectedItem.set('currentPos', pos);
+                    me._state.selectedItem.record.set('value', value);
+                    me._state.selectedItem.record.set('currentPos', pos);
                 }
             });
         },
@@ -330,113 +328,14 @@ define([], function () {
             var macrosList = data.macrosArray;
             this.listFunctions.store.reset(macrosList);
         },
-        openContextMenu:  function(elementMode, item, event) {
-            var itemMenuOpen, ctxMenu, modeName;
-            if(elementMode === this.CurrentElementModeType.Macros) {
-                itemMenuOpen = this._state.macrosItemMenuOpen;
-                ctxMenu = this.ctxMenuMacros;
-                modeName = 'macros';
-            } else if(elementMode === this.CurrentElementModeType.CustomFunction){
-                itemMenuOpen = this._state.functionItemMenuOpen;
-                ctxMenu = this.ctxMenuFunction;
-                modeName = 'functions';
-            } else {
-                return false;
-            }
-
-            if (itemMenuOpen === item && ctxMenu.isVisible()) {
-                ctxMenu.hide();
-                return false;
-            }
-
-            var currentTarget = $(event.currentTarget),
-                parent = elementMode === this.CurrentElementModeType.Macros ? $('#menu_macros') : $('#menu_functions'),
-                containerId = 'macros-dialog-ctx-' + modeName + '-container',
-                menuContainer = parent.find('#' + containerId);
-
-            if (!ctxMenu.rendered) {
-                if (menuContainer.length < 1) {
-                    menuContainer = $('<div id="'+ containerId+ '" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', ctxMenu.id);
-                    parent.append(menuContainer);
-                }
-                ctxMenu.render(menuContainer);
-                ctxMenu.cmpEl.attr({tabindex: "-1"});
-
-                ctxMenu.on('show:after', function(cmp) {
-                    if (cmp && cmp.menuAlignEl)
-                        cmp.menuAlignEl.toggleClass('over', true);
-                }).on('hide:after', function(cmp) {
-                    if (cmp && cmp.menuAlignEl)
-                        cmp.menuAlignEl.toggleClass('over', false);
-                });
-            }
-
-            var menuContainerRect = Common.Utils.getBoundingClientRect(menuContainer[0]);
-
-            ctxMenu.menuAlignEl = currentTarget;
-            ctxMenu.setOffset(event.clientX - menuContainerRect.x, -currentTarget.height()/2 - 3);
-            ctxMenu.show();
-            _.delay(function() {
-                ctxMenu.cmpEl.focus();
-            }, 10);
-            event.stopPropagation();
-            event.preventDefault();
-
-            return true;
-        },
-        openContextMenuMacros: function(macrosItem, event) {
-            var isOpen = this.openContextMenu(this.CurrentElementModeType.Macros, macrosItem, event);
-            if(isOpen) {
-                this._state.macrosItemMenuOpen = macrosItem;
-                this.ctxMenuMacros.items[1].setVisible(!macrosItem.get('autostart'));
-                this.ctxMenuMacros.items[2].setVisible(macrosItem.get('autostart'));
-            }
-        },
-        openContextMenuFunction: function(functionItem, event) {
-            var isOpen = this.openContextMenu(this.CurrentElementModeType.CustomFunction, functionItem, event);
-            if(isOpen) {
-                this._state.functionItemMenuOpen = functionItem;
-            }
-        },
-        openWindowRename: function() {
-            var me = this;
-            var windowSize = {
-                width: 300,
-                height: 90
-            };
-            var macrosWindowRect = Common.Utils.getBoundingClientRect(this.$window[0]);
-            var selectedItem = me._state.currentElementMode === me.CurrentElementModeType.Macros
-                ? me.listMacros.getSelectedRec()
-                : me.listFunctions.getSelectedRec();
-
-            (new Common.Views.TextInputDialog({
-                value: selectedItem.get('name'),
-                width: windowSize.width,
-                height: windowSize.height,
-                inputConfig: {
-                    allowBlank  : false,
-                    validation: function(value) {
-                        return value.trim().length > 0 ? true : '';
-                    }
-                },
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        selectedItem.set('name', value.trim());
-                    }
-                }
-            })).show(
-                macrosWindowRect.left + (macrosWindowRect.width - windowSize.width) / 2,
-                macrosWindowRect.top + (macrosWindowRect.height - windowSize.height) / 2
-            );
-        },
 
         makeDragable: function() {
             var me = this;
             var currentElement;
             var currentIndex = 0;
             var insertIndex;
-            var macrosList = document.getElementById("list-macros");
-            var functionList = document.getElementById("menu_functions");
+            var macrosList = document.getElementById("macros-list");
+            var functionList = document.getElementById("functions-list");
 
             function getInsertIndex(cursorPosition, currentElement, elements) {
                 // cursorPosition = cursorPosition * ((1 + (1 - zoom)).toFixed(1));
@@ -480,10 +379,10 @@ define([], function () {
                 currentIndex = 0;
             }
 
-            function handleDragover(list, elementModeType, e) {
+            function handleDragover(list, type, e) {
                 e.preventDefault();
                 currentElement = e.target;
-                let bDragAllowed = me._state.currentElementMode === elementModeType;
+                let bDragAllowed = me._state.selectedItem.type === type;
                 e.dataTransfer.dropEffect = bDragAllowed ? "move" : "none";
                 const isMoveable = currentElement.classList.contains('draggable');
                 if (!isMoveable || !bDragAllowed)
@@ -527,10 +426,10 @@ define([], function () {
             });
 
             macrosList.addEventListener('dragover', function(e) {
-                handleDragover(macrosList, me.CurrentElementModeType.Macros, e)
+                handleDragover(macrosList, me.ItemTypes.Macros, e)
             });
             functionList.addEventListener('dragover', function(e) {
-                handleDragover(functionList, me.CurrentElementModeType.CustomFunction, e)
+                handleDragover(functionList, me.ItemTypes.CustomFunction, e)
             });
 
             macrosList.addEventListener('dragleave', function(e) {
@@ -539,6 +438,36 @@ define([], function () {
             functionList.addEventListener('dragleave', function(e) {
                 handleDragleave(e);
             });
+        },
+
+        selectItem: function(record, type) {
+            this._state.selectedItem.record = record;
+            this._state.selectedItem.type = type;
+            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 3, column: 0});
+            this.codeEditor.revealPositionInCenter();
+            this._state.currentValue = record.get('value');
+            this._state.currentPos = record.get('currentPos');
+            
+            this.chAutostart.setValue(record.get('autostart'));
+            this.getChild().find('.lock-for-function').toggleClass('hidden', type == this.ItemTypes.CustomFunction);
+
+            if(type == this.ItemTypes.Macros && this.listFunctions) {
+                this.listFunctions.deselectAll();
+            } 
+            if(type == this.ItemTypes.CustomFunction && this.listMacros) {
+                this.listMacros.deselectAll();
+            }
+            this.setDisableButtons(false); 
+        },
+
+        setDisableButtons: function(value) {
+            this.btnUndo.setDisabled(value);
+            this.btnRedo.setDisabled(value);
+            this.btnRun.setDisabled(value);
+            this.btnCopy.setDisabled(value);
+            this.btnRename.setDisabled(value);
+            this.btnDelete.setDisabled(value);
+            this.chAutostart.setDisabled(value);
         },
 
         parseDataFromApi: function(data) {
@@ -612,6 +541,54 @@ define([], function () {
             itemView.$el.attr('draggable', true);
             itemView.$el.addClass('draggable');
         },
+
+        onCopyItem: function() {
+            if(!this._state.selectedItem.record) return;
+            let list = (this._state.selectedItem.type == this.ItemTypes.Macros 
+                ? this.listMacros 
+                : this.listFunctions);
+            let item = this._state.selectedItem.record;
+
+            list.store.add({
+                guid: this.createGuid(),
+                name: item.get('name') + '_copy',
+                value: item.get('value'),
+                autostart: item.get('autostart')
+            });
+            list.selectRecord(list.store.at(-1));
+        },
+
+        onRenameItem: function() {
+            if(!this._state.selectedItem.record) return;
+
+            var me = this;
+            var windowSize = {
+                width: 300,
+                height: 90
+            };
+            var macrosWindowRect = Common.Utils.getBoundingClientRect(this.$window[0]);
+
+            (new Common.Views.TextInputDialog({
+                value: me._state.selectedItem.record.get('name'),
+                width: windowSize.width,
+                height: windowSize.height,
+                inputConfig: {
+                    allowBlank  : false,
+                    validation: function(value) {
+                        return value.trim().length > 0 ? true : '';
+                    }
+                },
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        me._state.selectedItem.record.set('name', value.trim());
+                    }
+                }
+            })).show(
+                macrosWindowRect.left + (macrosWindowRect.width - windowSize.width) / 2,
+                macrosWindowRect.top + (macrosWindowRect.height - windowSize.height) / 2
+            );
+        },
+
         onCreateMacros: function() {
             var indexMax = 0;
             var macrosTextEn = 'Macros';
@@ -641,58 +618,35 @@ define([], function () {
             });
             this.listMacros.selectRecord(this.listMacros.store.at(-1));
         },
-        onClickListMacrosItem: function(listView, itemView, record, event) {
-            if(!event) return;
 
-            var btn = $(event.target);
-            if (btn && btn.hasClass('listitem-icon')) {
-                itemView.$el.find('.listitem-icon').addClass('active');
-                this.openContextMenuMacros(record, event);
-            }
-        },
-        onContextMenuListMacrosItem: function(listView, itemView, record, event) {
-            var me = this;
-            this.listMacros.selectRecord(record);
-            _.delay(function() {
-                me.openContextMenuMacros(record, event);
-            }, 10);
-        },
         onSelectListMacrosItem: function(listView, itemView, record) {
-            this._state.currentElementMode = this.CurrentElementModeType.Macros;
-            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 3, column: 0});
-            this._state.currentValue = record.get('value');
-            this._state.currentPos = record.get('currentPos');
-
-            this.btnMacrosRun.setDisabled(false);
-            this.listFunctions && this.listFunctions.deselectAll();
+            this.selectItem(record, this.ItemTypes.Macros);
         },
+
+        onUndo: function() {
+            this.codeEditor.undo();
+        },
+
+        onRedo: function() {
+            this.codeEditor.redo();
+        },
+
         onRunMacros: function() {
             this.api.callCommand(this._state.currentValue);
         },
-        onMakeAutostartMacros: function() {
-            if(!this._state.macrosItemMenuOpen) return;
 
-            this._state.macrosItemMenuOpen.set('autostart', true);
-        },
-        onUnMakeAutostartMacros: function() {
-            if(!this._state.macrosItemMenuOpen) return;
+        onChangeAutostart: function(field, newValue) {
+            if(!this._state.selectedItem.record) return;
 
-            this._state.macrosItemMenuOpen.set('autostart', false);
+            this._state.selectedItem.record.set('autostart', newValue == 'checked');
         },
 
-        onRenameMacros: function() {
-            if(!this._state.macrosItemMenuOpen) return;
-
-            this.openWindowRename();
-        },
-        onRenameFunction: function() {
-            if(!this._state.functionItemMenuOpen) return;
-
-            this.openWindowRename();
-        },
-
-        onDeleteItem: function(list, item) {
-            if(!item) return;
+        onDeleteItem: function() {
+            if(!this._state.selectedItem.record) return;
+            let list = (this._state.selectedItem.type == this.ItemTypes.Macros 
+                ? this.listMacros 
+                : this.listFunctions);
+            let item = this._state.selectedItem.record;
 
             var deletedIndex = list.store.indexOf(item);
             list.store.remove(item);
@@ -702,33 +656,10 @@ define([], function () {
                     : list.store.length - 1;
                 list.selectByIndex(selectedIndex);
             } else {
-                this.codeEditor.setValue('');
-                this.btnMacrosRun.setDisabled(true);
+                this.codeEditor.setValue('', {row: 0, column: 0}, true);
+                this.setDisableButtons(true);
             }
         },
-        onDeleteMacros: function() {
-            this.onDeleteItem(this.listMacros, this._state.macrosItemMenuOpen);
-        },
-        onDeleteFunction: function() {
-            this.onDeleteItem(this.listFunctions, this._state.functionItemMenuOpen);
-        },
-
-        onCopyItem: function(list, item) {
-            list.store.add({
-                guid: this.createGuid(),
-                name: item.get('name') + '_copy',
-                value: item.get('value'),
-                autostart: item.get('autostart')
-            });
-            list.selectRecord(list.store.at(-1));
-        },
-        onCopyMacros: function() {
-            this.onCopyItem(this.listMacros, this._state.macrosItemMenuOpen);
-        },
-        onCopyFunction: function() {
-            this.onCopyItem(this.listFunctions, this._state.functionItemMenuOpen);
-        },
-
 
         onCreateFunction: function() {
             var indexMax = 0;
@@ -758,29 +689,9 @@ define([], function () {
             });
             this.listFunctions.selectRecord(this.listFunctions.store.at(-1));
         },
-        onClickListFunctionItem: function(listView, itemView, record, event) {
-            if(!event) return;
 
-            var btn = $(event.target);
-            if (btn && btn.hasClass('listitem-icon')) {
-                itemView.$el.find('.listitem-icon').addClass('active');
-                this.openContextMenuFunction(record, event);
-            }
-        },
-        onContextMenuListFunctionItem: function(listView, itemView, record, event) {
-            var me = this;
-            this.listFunctions.selectRecord(record);
-            _.delay(function() {
-                me.openContextMenuFunction(record, event);
-            }, 10);
-        },
         onSelectListFunctionItem: function(listView, itemView, record) {
-            this._state.currentElementMode = this.CurrentElementModeType.CustomFunction;
-            this.codeEditor.setValue(record.get('value'), record.get('currentPos')!==undefined ? record.get('currentPos') : {row: 3, column: 0});
-
-            this.btnMacrosRun.setDisabled(true);
-
-            this.listMacros && this.listMacros.deselectAll();
+            this.selectItem(record, this.ItemTypes.CustomFunction);
         },
 
         onHelp: function() {
@@ -799,13 +710,17 @@ define([], function () {
         textSave            : 'Save',
         textMacros          : 'Macros',
         textRun             : 'Run',
-        textUnMakeAutostart : 'Unmake autostart',
-        textMakeAutostart   : 'Make autostart',
+        textAutostart       : 'Autostart',
         textRename          : 'Rename',
         textDelete          : 'Delete',
         textCopy            : 'Copy',
         textCustomFunction  : 'Custom function',
         textLoading         : 'Loading...',
+        tipUndo             : 'Undo',
+        tipRedo             : 'Redo',
+        tipRename           : 'Rename',
+        tipDelete           : 'Delete',
+        tipCopy             : 'Copy',
         tipMacrosRun        : 'Run',
         tipMacrosAdd        : 'Add macros',
         tipFunctionAdd      : 'Add custom function',
