@@ -7,13 +7,13 @@
         .x-huge .toolbar__icon, .toolbar__icon.toolbar__icon-big {
             background-image: url(resources/{{{escaped_image}}});
             background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
-            background-size: {{scaled width 1.5}}px auto;
+            background-size: var(--sprite-button-big-width, 56px) auto;
         }
     }
 }
 
 .toolbar__icon.toolbar__icon-big {
-    background-size: 56px auto;
-    background-size: var(--big-icon-background-image-width) auto;
+    {{!-- background-size: 56px auto; --}}
+    {{!-- background-size: var(--big-icon-background-image-width) auto; --}}
 }
 {{/spritesheet}}

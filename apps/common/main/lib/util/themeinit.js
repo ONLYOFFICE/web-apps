@@ -72,7 +72,7 @@
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-    localstorage.setItem('ui-theme-id', 'theme-white');
+    // localstorage.setItem('ui-theme-id', 'theme-white');
     !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
@@ -90,7 +90,7 @@
     window.uitheme.apply_icons_from_url = function (themeid, url) {
         // if ( !url ) return;
 
-        const base_url = !url.endsWith('/') ? url + '/' : url;
+        let base_url = !url.endsWith('/') ? url + '/' : url;
         const sp_names = ['small', 'big', 'huge'];
         const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
         let icons = [];
@@ -101,6 +101,10 @@
         });
 
         inject_style_tag('.' + themeid + '{' + icons.join(';') + ';}', themeid);
+
+        // workaroud for svg sptites relative path that different from png sprites
+        if ( base_url.lastIndexOf('../img/v2', 0) === 0 )
+            base_url = base_url.replace('..','./resources/');
 
         const svg_icons_array = [base_url+'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
         if ( window.Common && window.Common.Utils )
