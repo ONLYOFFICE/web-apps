@@ -173,7 +173,7 @@ define([
 
                 this.btnDropDown = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-dropdown',
+                    iconCls: 'toolbar__icon btn-listbox',
                     lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                     caption: this.capBtnDropDown,
                     dataHint: '1',
