@@ -195,7 +195,7 @@ define([], function () {
             this.btnDelete = new Common.UI.Button({
                 parentEl    : $('#btn-macros-delete'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'menu__icon btn-cc-remove',
+                iconCls     : 'toolbar__icon btn-cc-remove',
                 caption     : this.textDelete,
                 hint        : this.tipMacrosDelete
             }).on('click', _.bind(this.onDeleteItem, this));
