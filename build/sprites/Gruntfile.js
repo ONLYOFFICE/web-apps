@@ -86,8 +86,9 @@ module.exports = function (grunt, rootpathprefix) {
             cssHandlebarsHelpers: hbhelpers
         };
     };
+    const generate_sprite_tasks = function(editor, mod2=false) {
+        const scalings = ['1x','1.25x','1.5x','1.75x','2x'];
 
-    const generate_sprite_tasks = function(editor, strscale, mod2=false) {
         const alias = {"word": "documenteditor",
                         "cell": "spreadsheeteditor",
                         "slide": "presentationeditor",
@@ -99,14 +100,17 @@ module.exports = function (grunt, rootpathprefix) {
                             'huge' : sprite_name_huge};
 
         let out = {};
-        ['small', 'big', 'huge'].forEach((ext, i) => {
-            out[`${editor}${mod2?'-mod2':''}${i?'-'+ext:''}-${strscale}`] = configTemplate({
-                editor:`${alias[editor]}`,
-                spritename: spritename[ext],
-                scale: `${strscale}`,
-                extpath: i ? ext : '',
-                mod2: mod2,
-            })
+
+        scalings.forEach((_scaling_) => {
+            ['small', 'big', 'huge'].forEach((ext, i) => {
+                out[`${editor}${mod2?'-mod2':''}${i?'-'+ext:''}-${_scaling_}`] = configTemplate({
+                    editor:`${alias[editor]}`,
+                    spritename: spritename[ext],
+                    scale: `${_scaling_}`,
+                    extpath: i ? ext : '',
+                    mod2: mod2,
+                })
+            });
         });
 
         return out
@@ -131,288 +135,20 @@ module.exports = function (grunt, rootpathprefix) {
             //     scale: '1x',
             //     extpath: 'huge'
             // }),
-            ...generate_sprite_tasks('word', '1x'),
+            ...generate_sprite_tasks('word'),
+            ...generate_sprite_tasks('word', mod2=true),
 
-            ...generate_sprite_tasks('word', '1x', true),
+            ...generate_sprite_tasks('slide'),
+            ...generate_sprite_tasks('slide', mod2=true),
 
-            ...generate_sprite_tasks('word', '2x'),
-            ...generate_sprite_tasks('word', '2x', true),
+            ...generate_sprite_tasks('cell'),
+            ...generate_sprite_tasks('cell', true),
 
-            ...generate_sprite_tasks('word', '1.25x'),
-            ...generate_sprite_tasks('word', '1.25x', true),
+            ...generate_sprite_tasks('pdf'),
+            ...generate_sprite_tasks('pdf', true),
 
-            ...generate_sprite_tasks('word', '1.5x'),
-            ...generate_sprite_tasks('word', '1.5x', true),
-
-            ...generate_sprite_tasks('word', '1.75x'),
-            ...generate_sprite_tasks('word', '1.75x', true),
-
-            'slide-1x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'slide-big-1x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-
-            'slide-2x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name,
-                scale: '2x'
-            }),
-            'slide-big-2x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name_big,
-                scale: '2x',
-                extpath: 'big'
-            }),
-
-            'slide-1.5x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name,
-                scale: '1.5x'
-            }),
-            'slide-big-1.5x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name_big,
-                scale: '1.5x',
-                extpath: 'big'
-            }),
-
-            'slide-1.25x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name,
-                scale: '1.25x'
-            }),
-            'slide-big-1.25x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name_big,
-                scale: '1.25x',
-                extpath: 'big'
-            }),
-
-            'slide-1.75x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name,
-                scale: '1.75x'
-            }),
-            'slide-big-1.75x': configTemplate({
-                editor:'presentationeditor',
-                spritename: sprite_name_big,
-                scale: '1.75x',
-                extpath: 'big'
-            }),
-
-            'cell-1x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'cell-big-1x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-
-            'cell-2x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name,
-                scale: '2x'
-            }),
-            'cell-big-2x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name_big,
-                scale: '2x',
-                extpath: 'big'
-            }),
-
-            'cell-1.5x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name,
-                scale: '1.5x'
-            }),
-            'cell-big-1.5x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name_big,
-                scale: '1.5x',
-                extpath: 'big'
-            }),
-
-            'cell-1.25x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name,
-                scale: '1.25x'
-            }),
-            'cell-big-1.25x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name_big,
-                scale: '1.25x',
-                extpath: 'big'
-            }),
-
-            'cell-1.75x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name,
-                scale: '1.75x'
-            }),
-            'cell-big-1.75x': configTemplate({
-                editor:'spreadsheeteditor',
-                spritename: sprite_name_big,
-                scale: '1.75x',
-                extpath: 'big'
-            }),
-
-            'pdf-1x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'pdf-big-1x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-            'pdf-huge-1x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_huge,
-                scale: '1x',
-                extpath: 'huge'
-            }),
-            'pdf-2x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name,
-                scale: '2x'
-            }),
-            'pdf-big-2x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_big,
-                scale: '2x',
-                extpath: 'big'
-            }),
-            'pdf-huge-2x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_huge,
-                scale: '2x',
-                extpath: 'huge'
-            }),
-
-            'pdf1.25x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name,
-                scale: '1.25x'
-            }),
-            'pdf-big-1.25x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_big,
-                scale: '1.25x',
-                extpath: 'big'
-            }),
-            'pdf-huge-1.25x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_huge,
-                scale: '1.25x',
-                extpath: 'huge'
-            }),
-
-            'pdf1.5x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name,
-                scale: '1.5x'
-            }),
-            'pdf-big-1.5x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_big,
-                scale: '1.5x',
-                extpath: 'big'
-            }),
-            'pdf-huge-1.5x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_huge,
-                scale: '1.5x',
-                extpath: 'huge'
-            }),
-
-            'pdf1.75x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name,
-                scale: '1.75x'
-            }),
-            'pdf-big-1.75x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_big,
-                scale: '1.75x',
-                extpath: 'big'
-            }),
-            'pdf-huge-1.75x': configTemplate({
-                editor:'pdfeditor',
-                spritename: sprite_name_huge,
-                scale: '1.75x',
-                extpath: 'huge'
-            }),
-
-            'draw-1x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name,
-                scale: '1x'
-            }),
-            'draw-big-1x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name_big,
-                scale: '1x',
-                extpath: 'big'
-            }),
-            'draw-2x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name,
-                scale: '2x'
-            }),
-            'draw-big-2x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name_big,
-                scale: '2x',
-                extpath: 'big'
-            }),
-            'draw-1.5x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name,
-                scale: '1.5x'
-            }),
-            'draw-big-1.5x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name_big,
-                scale: '1.5x',
-                extpath: 'big'
-            }),
-
-            'draw-1.25x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name,
-                scale: '1.25x'
-            }),
-            'draw-big-1.25x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name_big,
-                scale: '1.25x',
-                extpath: 'big'
-            }),
-
-            'draw-1.75x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name,
-                scale: '1.75x'
-            }),
-            'draw-big-1.75x': configTemplate({
-                editor:'visioeditor',
-                spritename: sprite_name_big,
-                scale: '1.75x',
-                extpath: 'big'
-            }),
+            ...generate_sprite_tasks('draw'),
+            ...generate_sprite_tasks('draw', true),
         },
         svg_sprite: {
             options: {
@@ -420,6 +156,7 @@ module.exports = function (grunt, rootpathprefix) {
                     rootAttributes: {
                         //xmlns:'http://www.w3.org/2000/svg',
                     },
+                    namespaceClassnames: false,
                 },
                 shape: {
                     id: {
@@ -717,9 +454,9 @@ module.exports = function (grunt, rootpathprefix) {
                                         'sprite:cell-1.25x', 'sprite:cell-big-1.25x',
                                         'sprite:cell-1.75x', 'sprite:cell-big-1.75x']);
     grunt.registerTask('pdf-icons', ['sprite:pdf-1x', 'sprite:pdf-big-1x', 'sprite:pdf-huge-1x', 'sprite:pdf-2x', 'sprite:pdf-big-2x', 'sprite:pdf-huge-2x',
-                                        'sprite:pdf1.25x', 'sprite:pdf-big-1.25x', 'sprite:pdf-huge-1.25x',
-                                        'sprite:pdf1.5x', 'sprite:pdf-big-1.5x', 'sprite:pdf-huge-1.5x',
-                                        'sprite:pdf1.75x', 'sprite:pdf-big-1.75x', 'sprite:pdf-huge-1.75x']);
+                                        'sprite:pdf-1.25x', 'sprite:pdf-big-1.25x', 'sprite:pdf-huge-1.25x',
+                                        'sprite:pdf-1.5x', 'sprite:pdf-big-1.5x', 'sprite:pdf-huge-1.5x',
+                                        'sprite:pdf-1.75x', 'sprite:pdf-big-1.75x', 'sprite:pdf-huge-1.75x']);
 
     grunt.registerTask('draw-icons', ['sprite:draw-1x', 'sprite:draw-big-1x', 'sprite:draw-2x', 'sprite:draw-big-2x',
                                         'sprite:draw-1.25x', 'sprite:draw-big-1.25x',
