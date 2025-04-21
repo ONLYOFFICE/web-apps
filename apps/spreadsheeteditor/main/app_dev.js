@@ -220,7 +220,7 @@ require([
                 'common/main/lib/view/SignSettingsDialog',
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
-                'common/main/lib/component/AceEditor',
+                'common/main/lib/component/MonacoEditor',
 
                 'spreadsheeteditor/main/app/controller/DocumentHolderExt',
                 'spreadsheeteditor/main/app/view/FileMenuPanels',
