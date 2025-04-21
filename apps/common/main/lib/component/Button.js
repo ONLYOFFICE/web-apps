@@ -812,6 +812,12 @@ define([
         setVisible: function(visible) {
             if (this.cmpEl) this.cmpEl.toggleClass('hidden', !visible);
             this.visible = visible;
+
+            if ( !!this.options.signals ) {
+                if ( !(this.options.signals.indexOf('visible') < 0) ) {
+                    this.trigger('visible', this, visible);
+                }
+            }
         },
 
         isVisible: function() {
@@ -1095,5 +1101,46 @@ define([
             }
         }
     }, Common.UI.ButtonCustom || {}));
+
+    Common.UI.GroupedButtons = function (buttons, opts) {
+        let _buttons = buttons,
+            _parent = buttons && buttons.length>0 && buttons[0].cmpEl ? buttons[0].cmpEl.parent() : null;
+
+        _parent.addClass('grouped-buttons');
+
+        if (opts) {
+            opts.underline && _parent.addClass('underline');
+            opts.flat && _parent.addClass('flat');
+        }
+
+        let _update = function() {
+            let first, last;
+            _buttons && _buttons.forEach(function(item) {
+                if (!first && item.isVisible()) {
+                    first = true;
+                    item.cmpEl.addClass('first');
+                } else
+                    item.cmpEl.removeClass('first');
+                item.cmpEl.removeClass('last');
+                item.isVisible() && (last = item);
+            });
+            last && last.cmpEl.addClass('last');
+        };
+
+        let _init = function() {
+            _buttons && _buttons.forEach(function(item) {
+                item.options.signals = item.options.signals || [];
+                item.options.signals.push('visible');
+                item.on('visible', _update);
+            });
+        };
+
+        _init();
+        _update();
+
+        return {
+            update: _update
+        }
+    };
 });
 

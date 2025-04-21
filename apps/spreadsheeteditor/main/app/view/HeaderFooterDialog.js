@@ -94,11 +94,11 @@ define([], function () { 'use strict';
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row input-row-tabs" style="margin-bottom: 15px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
-                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
-                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0;">', this.textEven,'</button>',
-                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-first" style="border-radius: 0;">', this.textFirst,'</button>',
+                    '<div style="margin-bottom: 15px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all">', this.textAll,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd">', this.textOdd,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even">', this.textEven,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-first">', this.textFirst,'</button>',
                     '</div>',
                     '<label style="display: block; margin-bottom: 3px;">' + this.textHeader + '</label>',
                     '<div id="id-dlg-h-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
@@ -263,6 +263,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             this.btnFirst.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.first));
+
+            Common.UI.GroupedButtons([this.btnAll, this.btnOdd, this.btnEven, this.btnFirst], {underline: true});
 
             this.btnPresetsH = new Common.UI.Button({
                 parentEl: $('#id-dlg-h-presets'),

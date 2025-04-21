@@ -183,43 +183,12 @@
 }
 
 #window-header-footer {
-    #id-dlg-hf-btn-even,
-    #id-dlg-hf-btn-first {
-        .margin-left(-1px)
-    }
-
     .preview-container {
         .margin-right(-1px);
     }
 }
 
 #window-hyperlink {
-    #id-dlg-hyperlink-external {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-
-        .rtl & {
-            .border-radius(@border-radius-small);
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-    }
-
-    #id-dlg-hyperlink-internal {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-left-width: 0;
-        .margin-left(-1px);
-
-        .rtl & {
-            border: @scaled-one-px-value solid @border-regular-control;
-            .border-radius(@border-radius-small);
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            border-right-width: 0;
-        }
-    }
-
     .get-link {
         display: inline-block;
         position: relative;

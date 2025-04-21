@@ -119,6 +119,8 @@ define([
             this.btnNotes.setDisabled(this.isLockedApplyToAll);
             this.btnNotes.on('click', _.bind(this.onHFTypeClick, this, 1));
 
+            Common.UI.GroupedButtons([this.btnSlide, this.btnNotes], {underline: true});
+
             this.chDateTime = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-datetime'),
                 labelText: this.textDateTime

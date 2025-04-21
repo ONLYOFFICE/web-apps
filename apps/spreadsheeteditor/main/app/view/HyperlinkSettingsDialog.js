@@ -58,7 +58,7 @@ define([], function () { 'use strict';
 
             this.template = [
                 '<div class="box" style="height: 313px;">',
-                    '<div class="input-row margin-bottom-big">',
+                    '<div class="margin-bottom-big">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
@@ -127,6 +127,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
+
+            Common.UI.GroupedButtons([me.btnExternal, me.btnInternal]);
 
             var config = {
                 el          : $('#id-dlg-hyperlink-url'),
