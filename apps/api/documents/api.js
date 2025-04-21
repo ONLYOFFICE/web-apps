@@ -168,7 +168,13 @@
                             home:  {
                                 mailmerge: false/true // mail merge button // deprecated, button is moved to collaboration tab. use toolbar->collaboration->mailmerge instead
                             },
-                            layout:  false / true, // layout tab
+                            insert: {
+                                file: false/true // text from file button in de
+                                field: false/true // field button in de
+                            }, false / true, // insert tab
+                            layout: {
+                                pagecolor: false/true // page color button in de
+                            }, false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  {
                                 mailmerge: false/true // mail merge button in de

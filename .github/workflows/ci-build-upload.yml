@@ -1,6 +1,7 @@
 name: "Build and upload helps"
 
-on:
+on: 
+    workflow_dispatch:
     create:
     push:
 
