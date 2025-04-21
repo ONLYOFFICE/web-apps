@@ -94,7 +94,7 @@ define([], function () {
                 help: true,
                 width: Math.min(800, innerWidth),
                 height: Math.min(512, innerHeight),
-                minwidth: 650,
+                minwidth: 700,
                 minheight: 350,
                 resizable: true,
                 cls: 'modal-dlg invisible-borders',
@@ -181,7 +181,7 @@ define([], function () {
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-copy',
                 caption     : this.textCopy,
-                hint        : this.tipCopy
+                hint        : this.tipMacrosCopy
             }).on('click', _.bind(this.onCopyItem, this));
 
             this.btnRename = new Common.UI.Button({
@@ -189,15 +189,15 @@ define([], function () {
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-rename',
                 caption     : this.textRename,
-                hint        : this.tipRename
+                hint        : this.tipMacrosRename
             }).on('click', _.bind(this.onRenameItem, this));
 
             this.btnDelete = new Common.UI.Button({
                 parentEl    : $('#btn-macros-delete'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-delete',
+                iconCls     : 'menu__icon btn-cc-remove',
                 caption     : this.textDelete,
-                hint        : this.tipDelete
+                hint        : this.tipMacrosDelete
             }).on('click', _.bind(this.onDeleteItem, this));
 
             this.chAutostart = new Common.UI.CheckBox({
@@ -457,7 +457,15 @@ define([], function () {
             if(type == this.ItemTypes.CustomFunction && this.listMacros) {
                 this.listMacros.deselectAll();
             }
+            this.updateHintButtons();
             this.setDisableButtons(false); 
+        },
+
+        updateHintButtons: function() {
+            var typeString = (this._state.selectedItem.type == this.ItemTypes.Macros ? 'Macros' : 'Function');
+            this.btnCopy.updateHint(this['tip' + typeString + 'Copy']);
+            this.btnRename.updateHint(this['tip' + typeString + 'Rename']);
+            this.btnDelete.updateHint(this['tip' + typeString + 'Delete']);
         },
 
         setDisableButtons: function(value) {
@@ -718,11 +726,14 @@ define([], function () {
         textLoading         : 'Loading...',
         tipUndo             : 'Undo',
         tipRedo             : 'Redo',
-        tipRename           : 'Rename',
-        tipDelete           : 'Delete',
-        tipCopy             : 'Copy',
-        tipMacrosRun        : 'Run',
+        tipMacrosRename     : 'Rename macros',
+        tipMacrosDelete     : 'Delete macros',
+        tipMacrosCopy       : 'Copy macros',
+        tipMacrosRun        : 'Run macros',
         tipMacrosAdd        : 'Add macros',
+        tipFunctionRename   : 'Rename custom function',
+        tipFunctionDelete   : 'Delete custom function',
+        tipFunctionCopy     : 'Copy custom function',
         tipFunctionAdd      : 'Add custom function',
     }, Common.Views.MacrosDialog || {}))
 });
