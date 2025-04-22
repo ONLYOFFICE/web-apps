@@ -2997,5 +2997,14 @@
   "PE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
   "PE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
   "PE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
-  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
+  "PE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left",
+  "Common.Views.MacrosDialog.tipUndo": "Undo",
+  "Common.Views.MacrosDialog.tipRedo": "Redo",
+  "Common.Views.MacrosDialog.tipFunctionRename": "Rename custom function",
+  "Common.Views.MacrosDialog.tipFunctionDelete": "Delete custom function",
+  "Common.Views.MacrosDialog.tipFunctionCopy": "Copy custom function",
+  "Common.Views.MacrosDialog.tipMacrosRename": "Rename macros",
+  "Common.Views.MacrosDialog.tipMacrosCopy": "Copy macros",
+  "PE.Views.DocumentHolder.textPreserveSlideMaster": "Preserve Master",
+  "PE.Views.DocumentHolder.textRemoveUnpreserveMasters": "The masters you have chosen not to preserve aren't used by any slides.<br>Do you want to delete these masters?"
 }

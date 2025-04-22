@@ -4588,5 +4588,12 @@
   "SSE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
   "SSE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
   "SSE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
-  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
+  "SSE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left",
+  "Common.Views.MacrosDialog.tipUndo": "Undo",
+  "Common.Views.MacrosDialog.tipRedo": "Redo",
+  "Common.Views.MacrosDialog.tipFunctionRename": "Rename custom function",
+  "Common.Views.MacrosDialog.tipFunctionDelete": "Delete custom function",
+  "Common.Views.MacrosDialog.tipFunctionCopy": "Copy custom function",
+  "Common.Views.MacrosDialog.tipMacrosRename": "Rename macros",
+  "Common.Views.MacrosDialog.tipMacrosCopy": "Copy macros"
 }
