@@ -257,16 +257,16 @@
             }
         }
     },
-    "ace": {
+    "monaco": {
         "clean": [
-            "../deploy/web-apps/vendor/ace"
+            "../deploy/web-apps/vendor/monaco"
         ],
         "copy": {
             "script": {
                 "expand": true,
-                "cwd": "../vendor/ace",
+                "cwd": "../vendor/monaco",
                 "src": "**",
-                "dest": "../deploy/web-apps/vendor/ace"
+                "dest": "../deploy/web-apps/vendor/monaco"
             }
         }
     },
@@ -286,7 +286,7 @@
             "deploy-fetch",
             "deploy-es6-promise",
             "deploy-common-embed",
-            "deploy-ace"
+            "deploy-monaco"
         ]
     }
 }
