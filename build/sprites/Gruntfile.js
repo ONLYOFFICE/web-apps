@@ -93,7 +93,7 @@ module.exports = function (grunt, rootpathprefix) {
                         "cell": "spreadsheeteditor",
                         "slide": "presentationeditor",
                         "pdf": "pdfeditor",
-                        "draw": "visieditor"}
+                        "draw": "visioeditor"}
 
         const spritename = {'small': sprite_name,
                             'big': sprite_name_big,
@@ -121,7 +121,7 @@ module.exports = function (grunt, rootpathprefix) {
                         "cell": "spreadsheeteditor",
                         "slide": "presentationeditor",
                         "pdf": "pdfeditor",
-                        "draw": "visieditor"};
+                        "draw": "visioeditor"};
         const mod_path = mod2 ? 'v2' : '.';
         const mod_task_name_ext = mod2 ? '-v2' : '';
 
