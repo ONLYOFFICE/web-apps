@@ -3731,5 +3731,12 @@
   "DE.Views.ShapeSettings.txtOffsetLeft": "Offset: Left",
   "DE.Views.ShapeSettings.txtOffsetTopRight": "Offset: Top right",
   "DE.Views.ShapeSettings.txtOffsetTop": "Offset: Top",
-  "DE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left"
+  "DE.Views.ShapeSettings.txtOffsetTopLeft": "Offset: Top left",
+  "Common.Views.MacrosDialog.tipUndo": "Undo",
+  "Common.Views.MacrosDialog.tipRedo": "Redo",
+  "Common.Views.MacrosDialog.tipFunctionRename": "Rename custom function",
+  "Common.Views.MacrosDialog.tipFunctionDelete": "Delete custom function",
+  "Common.Views.MacrosDialog.tipFunctionCopy": "Copy custom function",
+  "Common.Views.MacrosDialog.tipMacrosRename": "Rename macros",
+  "Common.Views.MacrosDialog.tipMacrosCopy": "Copy macros"
 }
