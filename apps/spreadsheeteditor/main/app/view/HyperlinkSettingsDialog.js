@@ -57,7 +57,7 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 313px;">',
+                '<div class="box" style="height: 330px;">',
                     '<div class="margin-bottom-big">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
