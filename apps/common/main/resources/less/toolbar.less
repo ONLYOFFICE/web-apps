@@ -606,6 +606,27 @@
     #slot-btn-header-form-submit {
         padding: 2px 0;
     }
+
+    &.masked {
+        .group:not(.no-mask) {
+            opacity: 0.4;
+        }
+    }
+
+    .font-attr {
+        > .btn-slot:not(:last-child):not(.split) {
+            .margin-right-4();
+        }
+
+        > .btn-slot:not(:last-child).split {
+            .margin-right-2();
+        }
+    }
+
+    #slot-field-fontname {
+        min-width: 60px;
+        flex-grow: 1;
+    }
 }
 
 .style-off-tabs {
