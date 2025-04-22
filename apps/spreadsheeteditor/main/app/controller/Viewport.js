@@ -120,6 +120,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
             Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function(api) {
@@ -353,6 +354,25 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
+        },
+
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
         },
 
         textHideFBar: 'Hide Formula Bar',
