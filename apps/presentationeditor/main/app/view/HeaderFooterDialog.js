@@ -44,7 +44,7 @@ define([
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            contentHeight: 330,
+            contentHeight: 340,
             id: 'window-header-footer'
         },
 
