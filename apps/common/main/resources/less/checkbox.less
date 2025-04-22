@@ -25,6 +25,7 @@
                 border: @scaled-one-px-value solid @chb-border-normal;
                 border-radius: @chb-border-radius;
                 background-color: @chb-background-normal;
+                pointer-events: none;
             }
 
             + span {
@@ -85,6 +86,15 @@
         span {
             outline-color: @border-control-focus-ie;
             outline-color: @border-control-focus;
+        }
+    }
+
+    .treeview &,
+    .listview & {
+        position:absolute;
+
+        input[type=checkbox] + label {
+            margin-top: 0;
         }
     }
 }

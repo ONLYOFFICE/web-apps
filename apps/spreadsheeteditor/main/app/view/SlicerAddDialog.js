@@ -78,10 +78,7 @@ define([], function () {
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div>',
-                    '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                    '</label>',
+                    Common.UI.CheckBoxTemplate,
                     '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '</div>',
