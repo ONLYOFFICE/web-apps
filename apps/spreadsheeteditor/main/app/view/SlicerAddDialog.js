@@ -77,7 +77,7 @@ define([], function () {
                 scrollAlwaysVisible: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div>',
+                    '<div class="has-checkbox">',
                     Common.UI.CheckBoxTemplate,
                     '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',

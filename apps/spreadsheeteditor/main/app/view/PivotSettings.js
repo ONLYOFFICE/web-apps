@@ -98,7 +98,7 @@ define([
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div>',
+                    '<div class="has-checkbox">',
                     Common.UI.CheckBoxTemplate,
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><span style="background-color: transparent;"><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                     '<div class="listitem-icon img-commonctrl"></div>',
