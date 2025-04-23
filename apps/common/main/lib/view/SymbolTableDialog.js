@@ -637,6 +637,8 @@ define([
             });
             this.btnSpecial.on('click', _.bind(this.onModeClick, this, true));
 
+            Common.UI.GroupedButtons([this.btnSymbols, this.btnSpecial]);
+
             // symbols
 
             this.cmbFonts = new Common.UI.ComboBox({
