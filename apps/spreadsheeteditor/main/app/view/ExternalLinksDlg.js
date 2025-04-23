@@ -57,7 +57,7 @@ define([
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 10px 0 0;',
                 contentTemplate: _.template([
                         '<div class="settings-panel active">',
                             '<div class="inner-content">',
