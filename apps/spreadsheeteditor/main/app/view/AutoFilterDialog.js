@@ -1085,7 +1085,7 @@ define([], function () {
                 '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
                     '<div class="content-panel">',
                         '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 37px);">',
-                            '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;flex-shrink: 0;"></div>',
+                            '<div id="id-sd-cell-search" style="margin-bottom:10px;flex-shrink: 0;"></div>',
                             '<div class="border-values" style="overflow: hidden; flex-grow: 1;display: flex;">',
                                 '<div id="id-dlg-filter-values" class="combo-values" style=""></div>',
                             '</div>',

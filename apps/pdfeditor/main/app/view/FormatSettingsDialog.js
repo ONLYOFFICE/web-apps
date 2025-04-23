@@ -119,7 +119,7 @@ define([
                             '<td colspan="2" class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
                                 '<div id="format-settings-list-format" style="height: 116px;margin-bottom: 8px;"></div>',
-                                '<div id="format-settings-txt-custom" class="input-group-nr" style="height:22px;"></div>',
+                                '<div id="format-settings-txt-custom" class="input-group-nr"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
