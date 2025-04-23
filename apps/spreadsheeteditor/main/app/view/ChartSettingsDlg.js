@@ -47,7 +47,7 @@ define([
     SSE.Views.ChartSettingsDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 327,
-            contentHeight: 450,
+            contentHeight: 460,
             toggleGroup: 'chart-settings-dlg-group',
             storageName: 'sse-chart-settings-adv-category'
         },
