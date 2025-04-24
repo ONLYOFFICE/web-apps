@@ -278,9 +278,7 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         const properties = new Asc.CTableProp();
         
-
         properties.put_CellsTextDirection(direction);
-        console.log("OrientationTextTable properties: ", properties)
         api.tblApply(properties);
     }
 

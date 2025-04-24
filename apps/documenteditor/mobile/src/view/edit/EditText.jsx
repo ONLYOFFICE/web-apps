@@ -605,29 +605,29 @@ const PageOrientationTextTable = props => {
             </Navbar>
             <List>
                 <ListItem title={t('Edit.textHorizontalText')} radio 
-                    checked={directionTextTable === Asc.c_oAscVertDrawingText.normal}
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.LRTB}
                     radioIcon="end"
                     onChange={() => {
-                        setDirectionTextTable(Asc.c_oAscVertDrawingText.normal);
-                        props.setOrientationTextTable(Asc.c_oAscVertDrawingText.normal);
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.LRTB);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.LRTB);
                 }}>
                     <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextDown')} radio
-                    checked={directionTextTable === Asc.c_oAscVertDrawingText.vert}
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.TBRL}
                     radioIcon="end"
                     onChange={() => {
-                        setDirectionTextTable(Asc.c_oAscVertDrawingText.vert);
-                        props.setOrientationTextTable(Asc.c_oAscVertDrawingText.vert);
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.TBRL);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.TBRL);
                 }}>
                     <SvgIcon slot="media" symbolId={IconTextOrientationRotateDown.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextUp')} radio
-                    checked={directionTextTable === Asc.c_oAscVertDrawingText.vert270}
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.BTLR}
                     radioIcon="end"
                     onChange={() => {
-                        setDirectionTextTable(Asc.c_oAscVertDrawingText.vert270);
-                        props.setOrientationTextTable(Asc.c_oAscVertDrawingText.vert270);
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.BTLR);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.BTLR);
                 }}>
                     <SvgIcon slot="media" symbolId={IconTextOrientationRotateUp.id} className={'icon icon-svg'} />
                 </ListItem>
