@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
-  <path fill="#383838" fill-rule="evenodd" d="M7.5 4.996a.5.5 0 0 0-.5.5V22.5a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 1 0v3a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 6 22.5V5.496a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V8.5a.5.5 0 0 1-1 0V5.496a.5.5 0 0 0-.5-.5h-12Z" clip-rule="evenodd"/>
-  <path fill="#446ECA" fill-rule="evenodd" d="M9.5 8a.5.5 0 0 0 0 1h8a.5.5 0 0 0 0-1h-8Zm0 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6Zm0 4a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2Zm12.06-4.146a1.5 1.5 0 0 0-2.12 0l-6.294 6.292A.5.5 0 0 0 13 18.5v2a.5.5 0 0 0 .5.5l2 .001a.5.5 0 0 0 .354-.146l6.293-6.293a1.5 1.5 0 0 0 0-2.122l-.586-.586Zm-1.414.707a.5.5 0 0 1 .707 0l.587.586a.5.5 0 0 1 0 .707l-6.147 6.147H14v-1.294l6.146-6.146Z" clip-rule="evenodd"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M20.5 19.5v3a1 1 0 0 1-1 1h-12a1 1 0 0 1-1-1V5.496a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1V8.5" class="icon-gray-primary"/>
+    <path d="M13.5 18.5v2l2 .001 6.293-6.293a1 1 0 0 0 0-1.414l-.586-.587a1 1 0 0 0-1.414 0L13.5 18.5Zm-4-10h8m-8 4h6m-6 4h2" class="icon-blue-primary"/>
 </svg>

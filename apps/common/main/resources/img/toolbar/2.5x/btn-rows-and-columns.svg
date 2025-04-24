@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M18.496 6.504H5.504a1 1 0 0 0-1 1v9.993a1 1 0 0 0 1 1h12.992a1 1 0 0 0 1-1V7.504a1 1 0 0 0-1-1Z" class="icon-gray-primary"/>
-    <path d="M19 14.5h-4.5m0 0h-5m5 0V18m0-3.5v-4m-5 4H5m4.5 0V18m0-3.5v-4m-4.5 0h4.5m0 0h5m-5 0V7m5 3.5H19m-4.5 0V7" class="icon-blue-primary"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+  <g opacity=".8">
+    <path fill="#000" fill-rule="evenodd" d="M18 3H2v13h16V3ZM7 4H3v3h4V4Zm1 0h4v3H8V4Zm9 0h-4v3h4V4ZM3 8h4v3H3V8Zm9 0H8v3h4V8Zm1 0h4v3h-4V8Zm-6 4H3v3h4v-3Zm1 0h4v3H8v-3Zm9 0h-4v3h4v-3Z" clip-rule="evenodd"/>
+    <path fill="#000" fill-rule="evenodd" d="M8 4h4v3H8V4Zm0 4h4v3H8V8Zm4 4H8v3h4v-3Z" clip-rule="evenodd" opacity=".6"/>
+    <path fill="#000" fill-rule="evenodd" d="M7 4H3v3h4V4Zm10 0h-4v3h4V4Z" clip-rule="evenodd" opacity=".2"/>
+  </g>
 </svg>
