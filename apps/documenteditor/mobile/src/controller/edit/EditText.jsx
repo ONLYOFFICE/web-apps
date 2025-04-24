@@ -270,9 +270,6 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         const properties = new Asc.asc_CImgProperty();
 
-
-        console.log(api.ImgApply)
-
         properties.put_Vert(direction);
         api.ImgApply(properties);
     }
@@ -283,7 +280,7 @@ class EditTextController extends Component {
         
 
         properties.put_CellsTextDirection(direction);
-        console.log("123", properties)
+        console.log("OrientationTextTable properties: ", properties)
         api.tblApply(properties);
     }
 

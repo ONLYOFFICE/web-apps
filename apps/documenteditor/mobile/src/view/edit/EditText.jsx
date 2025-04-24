@@ -588,7 +588,6 @@ const PageOrientationTextTable = props => {
     const _t = t('Edit', {returnObjects: true});
     const tableObject = props.tableObject;
     const [directionTextTable, setDirectionTextTable] = useState(tableObject.get_CellsTextDirection());
-    console.log(props)
 
     return (
         <Page>
@@ -657,8 +656,6 @@ const EditText = props => {
     const isUnderline = storeTextSettings.isUnderline;
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
-
-    console.log(tableObject);
 
     useEffect(() => {
         props.updateListType();
