@@ -662,29 +662,30 @@ define([], function () {
 
             var me = this;
             var title = '';
-            var promptTemplate = '';
+            var instruction = '';
+            var instructionOutput = 'Generate JavaScript code as an Immediately Invoked Function Expression (IIFE), in the format (function(){ ... })();, that [describe what the code should do]. The code should be self-contained and execute immediately. ';
             if(item.value == 'create') {
                 title = this.textCreateMacrosFromDesc;
-                promptTemplate = '' + 
-                    'Create a macro for OnlyOffice.\n' + 
-                    'Return only code with comments, as plain text without markdown.\n' + 
-                    'The format of the code is JavaScript.\n' + 
-                    'Write comments in the same language as the query below.\n' + 
-                    'The macro should perform the following actions:\n';
+                instruction = '' + 
+                    'Create a macro for OnlyOffice. ' + 
+                    'Return only code with comments, as plain text without markdown. ' + 
+                    'The format of the code is JavaScript. ' + 
+                    'Write comments in the same language as the user prompt. ' + 
+                    'The description of what the macro should do is also described in the user message. ' + instructionOutput;
             } else if(item.value == 'convert') {
                 title = this.textConvertMacrosFromVBA;
-                promptTemplate = '' + 
-                    'Convert macro for OnlyOffice from VBA.\n'+
-                    'Return only code with comments, as plain text without markdown\n'+
-                    'The code format is JavaScript.\n'+
-                    'Write comments in the same language as the query below.\n'+
-                    'Here is the code of the macro in VBA:\n';
+                instruction = '' + 
+                    'Convert macro for OnlyOffice from VBA. ' +
+                    'Return only code with comments, as plain text without markdown. ' +
+                    'The code format is JavaScript. ' +
+                    'Write comments in the same language as the query below. ' +
+                    'The code of the macro in VBA should be presented in the user message. ' + instructionOutput;;
             }
             if(item.value == 'create' || item.value == 'convert') {
                 var macrosWindow = new Common.Views.MacrosAiDialog({
                     title: title,
                     api: this.api,
-                    promptTemplate: promptTemplate,
+                    instruction: instruction,
                     handler: function(btnValue, value) {
                         if(btnValue == 'ok') {
                             me.onCreateMacros(value);

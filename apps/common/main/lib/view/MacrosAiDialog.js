@@ -54,7 +54,7 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.api = options.api;
-            this.promptTemplate = options.promptTemplate;
+            this.instruction = options.instruction;
 
             this.template = [
                 '<div class="box">',
@@ -100,10 +100,29 @@ define([], function () { 'use strict';
             if (this.options.handler) {
                 if(state == 'ok') {
                     var me = this;
-                    var resultPrompt = this.promptTemplate + this.textareaPrompt.getValue();
-                    me.api.AI({ type : "text", data : [{role: "system", content: ""}, {role:"user", content: resultPrompt}] }, function(data){
+                    me.api.AI({ type : "text", data : [{role: "system", content: this.instruction}, {role:"user", content: this.textareaPrompt.getValue()}] }, function(data){
                         if (!data.error) {
+                            function trimResult(data, posStart, isSpaces) {
+                                let pos = posStart || 0;
+                                if (-1 != pos) {
+                                    let trimC = ["\"", "'", "\n", "\r"];
+                                    if (true === isSpaces)
+                                        trimC.push(" ");
+                                    while (pos < data.length && trimC.includes(data[pos]))
+                                        pos++;
+                        
+                                    let posEnd = data.length - 1;
+                                    while (posEnd > 0 && trimC.includes(data[posEnd]))
+                                        posEnd--;
+                        
+                                    if (posEnd > pos)
+                                        return data.substring(pos, posEnd + 1);				
+                                }
+                                return data;
+                            }
+
                             var cleanResult = data.text.replace(/```javascript|```/g, "");
+                            cleanResult = trimResult(cleanResult, 0, true);
                             me.close();
                             me.options.handler.call(me, state, cleanResult);
                         } else {
