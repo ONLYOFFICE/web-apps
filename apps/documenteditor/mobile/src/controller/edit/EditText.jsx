@@ -270,8 +270,21 @@ class EditTextController extends Component {
         const api = Common.EditorApi.get();
         const properties = new Asc.asc_CImgProperty();
 
+
+        console.log(api.ImgApply)
+
         properties.put_Vert(direction);
         api.ImgApply(properties);
+    }
+
+    setOrientationTextTable(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        
+
+        properties.put_CellsTextDirection(direction);
+        console.log("123", properties)
+        api.tblApply(properties);
     }
 
     render() {
@@ -300,6 +313,7 @@ class EditTextController extends Component {
                 onMultiLevelList={this.onMultiLevelList}
                 onLineSpacing={this.onLineSpacing}
                 setOrientationTextShape={this.setOrientationTextShape}
+                setOrientationTextTable={this.setOrientationTextTable}
             />
         )
     }
