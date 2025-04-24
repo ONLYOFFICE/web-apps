@@ -1416,6 +1416,7 @@
   "PDFE.Views.FormSettings.textColor": "Color",
   "PDFE.Views.FormSettings.textBackgroundColor": "Background color",
   "PDFE.Views.FormSettings.textRequired": "Required",
+  "PDFE.Views.FormSettings.textReadonly": "Read only",
   "PDFE.Views.FormSettings.textNoBorder": "No border",
   "PDFE.Views.FormSettings.textNoFill": "No fill",
   "PDFE.Views.FormSettings.textThin": "Thin",
