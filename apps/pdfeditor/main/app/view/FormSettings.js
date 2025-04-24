@@ -92,6 +92,7 @@ define([
             this.DateSettings = el.find('.form-date');
             this.TimeSettings = el.find('.form-time');
             this.linkAdvanced = el.find('#form-advanced-link');
+            this.RequiredSettings = el.find('#form-chb-required').closest('tr');
         },
 
         createDelayedElements: function() {
@@ -1742,6 +1743,7 @@ define([
             this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
             this.ButtonSettings.toggleClass('hidden', !isButton);
+            this.RequiredSettings.toggleClass('hidden', isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);
