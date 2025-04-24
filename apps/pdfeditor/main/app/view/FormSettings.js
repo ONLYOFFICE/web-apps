@@ -136,6 +136,16 @@ define([
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
 
+            this.chReadonly = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-readonly'),
+                labelText: this.textReadonly,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chReadonly.on('change', this.onChReadonly.bind(this));
+            this.lockedControls.push(this.chReadonly);
+
             this.cmbLineWidth = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-line-width'),
                 cls: 'input-group-nr',
@@ -770,6 +780,13 @@ define([
             }
         },
 
+        onChReadonly: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetFieldReadOnly(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onColorBGSelect: function(btn, color) {
             this.BackgroundColor = color;
             this._state.BackgroundColor = undefined;
@@ -1245,6 +1262,12 @@ define([
                 if ( this._state.Required!==val ) {
                     this.chRequired.setValue(!!val, true);
                     this._state.Required=val;
+                }
+
+                val = props.asc_getReadOnly();
+                if ( this._state.Readonly!==val ) {
+                    this.chReadonly.setValue(!!val, true);
+                    this._state.Readonly=val;
                 }
 
                 var color = props.asc_getStroke();
