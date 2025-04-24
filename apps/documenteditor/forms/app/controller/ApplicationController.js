@@ -114,8 +114,11 @@ define([
                 if (e.target.localName == 'canvas') {
                     if (me._preventClick)
                         me._preventClick = false;
-                    else
+                    else {
+                        if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                            return;
                         me.boxSdk.focus();
+                    }
                 }
             });
             this.boxSdk.on('mousedown', function(e){
