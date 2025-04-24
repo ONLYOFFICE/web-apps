@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M4.5 35.5h31m-31-30h31m-31 24h5m21 0h5m-31-6h5m21 0h5m-31-6h5m21 0h5m-31-6h8m15 0h8m-20 12h9m-9 6h9" class="icon-gray-primary"/>
-    <path d="M12.5 29.5V18a7.5 7.5 0 0 1 15 0v11.5" class="icon-blue-primary"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 40 40">
+  <path fill="#383838" d="M35.5 35a.5.5 0 0 1 0 1h-31a.5.5 0 0 1 0-1h31Zm-26-6a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm15 0a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1h9Zm11 0a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm-26-6a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm15 0a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1h9Zm11 0a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm-26-6a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm26 0a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5Zm-23-6a.5.5 0 0 1 0 1h-8a.5.5 0 0 1 0-1h8Zm23 0a.5.5 0 0 1 0 1h-8a.5.5 0 0 1 0-1h8Zm0-6a.5.5 0 0 1 0 1h-31a.5.5 0 0 1 0-1h31Z"/>
+  <path fill="#446ECA" d="M20 10a8 8 0 0 1 8 8v11.5a.5.5 0 0 1-1 0V18a7 7 0 1 0-14 0v11.5a.5.5 0 0 1-1 0V18a8 8 0 0 1 8-8Z"/>
 </svg>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M12.5 14.5h4m3 0h2m-14 0h2" class="icon-gray-secondary"/>
-    <path d="M22.5 23.5h-16a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1Z" class="icon-blue-primary"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 28 28">
+  <path fill="#969696" d="M19.5 15a.5.5 0 0 1 0-1h2a.5.5 0 0 1 0 1h-2Zm-7 0a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4Zm-5 0a.5.5 0 0 1 0-1h2a.5.5 0 0 1 0 1h-2Z"/>
+  <path fill="#446ECA" d="M5 6.5A1.5 1.5 0 0 1 6.5 5h16A1.5 1.5 0 0 1 24 6.5v16a1.5 1.5 0 0 1-1.5 1.5h-16A1.5 1.5 0 0 1 5 22.5v-16Zm1 16a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-16a.5.5 0 0 0-.5-.5h-16l-.1.01a.5.5 0 0 0-.4.49v16Z"/>
 </svg>
