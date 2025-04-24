@@ -255,7 +255,8 @@ module.exports = function (grunt, rootpathprefix) {
                                         'sprite:draw-1.25x', 'sprite:draw-big-1.25x',
                                         'sprite:draw-1.5x', 'sprite:draw-big-1.5x',
                                         'sprite:draw-1.75x', 'sprite:draw-big-1.75x']);
+    grunt.registerTask('png_sprite', ['sprite']);
 
-    grunt.registerTask('all-icons-sprite', ['word-icons','slide-icons','cell-icons','pdf-icons','draw-icons','svg_sprite']);
+    grunt.registerTask('all-icons-sprite', ['png_sprite','svg_sprite']);
     grunt.registerTask('default', ['all-icons-sprite']);
 };
