@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "Pasi të futni fjalëkalimin dhe të hapni skedarin, fjalëkaimi aktual i skedarit do te rivendoset.",
   "Common.Views.OpenDialog.txtTitle": "Zgjidh opsionet %1 ",
   "Common.Views.OpenDialog.txtTitleProtected": "Skedar i mbrojtur",
+  "Common.Views.PluginDlg.textDock": "Shtojcë e ngjitur",
   "Common.Views.PluginDlg.textLoading": "Po ngarkohet",
   "Common.Views.PluginPanel.textClosePanel": "Mbyll shtojcën",
+  "Common.Views.PluginPanel.textHidePanel": "Kolapsi i shtojcës",
   "Common.Views.PluginPanel.textLoading": "Po ngarkohet",
+  "Common.Views.PluginPanel.textUndock": "Shtojcë jo e ngjitur",
   "Common.Views.Plugins.groupCaption": "Shtojcat",
   "Common.Views.Plugins.strPlugins": "Shtojcat",
   "Common.Views.Plugins.textBackgroundPlugins": "Shtojcat e sfondit",
@@ -418,8 +421,5 @@
   "VE.Views.ViewTab.textZoom": "Zmadhoj",
   "VE.Views.ViewTab.tipFitPage": "Përshtatet me faqen",
   "VE.Views.ViewTab.tipFitWidth": "Përshtatet me gjerësinë",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

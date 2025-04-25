@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "Sobald Sie das Passwort eingegeben und die Datei geöffnet haben, wird das aktuelle Passwort für die Datei zurückgesetzt.",
   "Common.Views.OpenDialog.txtTitle": "%1-Optionen wählen",
   "Common.Views.OpenDialog.txtTitleProtected": "Geschützte Datei",
+  "Common.Views.PluginDlg.textDock": "Plugin anheften",
   "Common.Views.PluginDlg.textLoading": "Ladevorgang",
   "Common.Views.PluginPanel.textClosePanel": "Plugin schließen",
+  "Common.Views.PluginPanel.textHidePanel": "Plugin reduzieren",
   "Common.Views.PluginPanel.textLoading": "Ladevorgang",
+  "Common.Views.PluginPanel.textUndock": "Plugin entpinnen",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textBackgroundPlugins": "Plugins im Hintergrund",
@@ -418,8 +421,5 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Seite anpassen",
   "VE.Views.ViewTab.tipFitWidth": "Breite anpassen",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche"
 }
