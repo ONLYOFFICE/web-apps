@@ -598,6 +598,44 @@ define([], function () {
                 })
             });
 
+            me.menuTableDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-text-orient-hor',
+                caption     : me.directionText,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        me.menuTableDirectH = new Common.UI.MenuItem({
+                            caption     : me.directHText,
+                            iconCls     : 'menu__icon btn-text-orient-hor',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.LRTB
+                        }),
+                        me.menuTableDirect90 = new Common.UI.MenuItem({
+                            caption     : me.direct90Text,
+                            iconCls     : 'menu__icon btn-text-orient-rdown',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.TBRL
+                        }),
+                        me.menuTableDirect270 = new Common.UI.MenuItem({
+                            caption     : me.direct270Text,
+                            iconCls     : 'menu__icon btn-text-orient-rup',
+                            checkable   : true,
+                            checkmark   : false,
+                            checked     : false,
+                            toggleGroup : 'popuptabledirect',
+                            direction      : Asc.c_oAscCellTextDirection.BTLR
+                        })
+                    ]
+                })
+            });
+
             me.menuTableSaveAsPicture = new Common.UI.MenuItem({
                 caption     : me.textSaveAsPicture
             });
@@ -1532,6 +1570,24 @@ define([], function () {
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
+                    var dir = value.tableProps.value.get_CellsTextDirection();
+                    cls = '';
+                    switch (dir) {
+                        case Asc.c_oAscCellTextDirection.LRTB:
+                            cls = 'menu__icon btn-text-orient-hor';
+                            break;
+                        case Asc.c_oAscCellTextDirection.TBRL:
+                            cls = 'menu__icon btn-text-orient-rdown';
+                            break;
+                        case Asc.c_oAscCellTextDirection.BTLR:
+                            cls = 'menu__icon btn-text-orient-rup';
+                            break;
+                    }
+                    me.menuTableDirection.setIconCls(cls);
+                    me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
+                    me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
+                    me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
+
                     if (me.api) {
                         me.mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
                         me.mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
@@ -1543,6 +1599,7 @@ define([], function () {
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
+                    me.menuTableDirection.setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableSaveAsPicture.setVisible(!isEquation);
                     menuTableSaveAsPictureSeparator.setVisible(!isEquation);
@@ -1641,6 +1698,7 @@ define([], function () {
                     me.menuTableDistCols,           //14
                     { caption: '--' },              //15
                     me.menuTableCellAlign,          //16
+                    me.menuTableDirection,
                     { caption: '--'},               //17
                     menuTableEquationSeparator,     //18
                     me.menuTableSaveAsPicture,      //19
