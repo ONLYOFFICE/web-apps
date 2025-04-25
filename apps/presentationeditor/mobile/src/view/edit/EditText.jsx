@@ -42,6 +42,7 @@ const EditText = props => {
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
+    const tableObject = storeFocusObjects.tableObject;
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
@@ -180,6 +181,16 @@ const EditText = props => {
                                 }
                             </ListItem>
                         }
+                        {tableObject &&
+                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-table-orientation/' routeProps={{
+                                setOrientationTextTable: props.setOrientationTextTable,
+                                tableObject
+                            }}>
+                                {!isAndroid && 
+                                    <SvgIcon slot="media" symbolId={IconTextOrientationAnglecount.id} className={'icon icon-svg'} />
+                                }
+                            </ListItem>
+                        }
                         <ListItem title={_t.textBulletsAndNumbers} link='/edit-bullets-and-numbers/' routeProps={{
                             onBullet: props.onBullet,
                             onNumber: props.onNumber,
@@ -293,6 +304,59 @@ const PageOrientationTextShape = props => {
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
                 }}>
                     <SvgIcon slot="media" symbolId={IconTextOrientationRotateup.id} className='icon icon-svg' />
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageOrientationTextTable = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const tableObject = props.tableObject;
+    const [directionTextTable, setDirectionTextTable] = useState(tableObject.get_CellsTextDirection());
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textHorizontalText')} radio 
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.LRTB}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.LRTB);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.LRTB);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className={'icon icon-svg'} />
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextDown')} radio
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.TBRL}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.TBRL);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.TBRL);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotatedown.id} className={'icon icon-svg'} />
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextUp')} radio
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.BTLR}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.BTLR);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.BTLR);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotateup.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -894,5 +958,6 @@ export {
     PageTextBulletsAndNumbers,
     PageTextLineSpacing,
     PageTextBulletsLinkSettings,
-    PageOrientationTextShape
+    PageOrientationTextShape,
+    PageOrientationTextTable
 };
