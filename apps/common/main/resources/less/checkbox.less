@@ -14,7 +14,7 @@
             height: @chb-size;
             position: absolute;
             left: 0;
-            margin-top: 2px;
+            margin-top: @chb-v-margin;
 
             .rtl & {
                 left: auto;
@@ -91,7 +91,9 @@
 
     .has-checkbox & {
         position:absolute;
+    }
 
+    .listview &, .has-checkbox & {
         input[type=checkbox] + label {
             margin-top: 0;
         }
