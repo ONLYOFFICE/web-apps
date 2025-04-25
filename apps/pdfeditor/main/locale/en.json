@@ -1181,6 +1181,8 @@
   "PDFE.Views.DocumentHolder.txtDeleteCharsAndSeparators": "Delete enclosing characters and separators",
   "PDFE.Views.DocumentHolder.txtDeleteEq": "Delete equation",
   "PDFE.Views.DocumentHolder.txtDeleteGroupChar": "Delete char",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtDeletePage": "Delete page",
   "PDFE.Views.DocumentHolder.txtDeleteRadical": "Delete radical",
   "PDFE.Views.DocumentHolder.txtDistribHor": "Distribute horizontally",
