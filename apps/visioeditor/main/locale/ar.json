@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "بمجرد إدخال كلمة المرور وفتح الملف، سيتم إعادة تعيين كلمة المرور الحالية للملف",
   "Common.Views.OpenDialog.txtTitle": "أختر 1% من الخيارات",
   "Common.Views.OpenDialog.txtTitleProtected": "ملف محمي",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginDlg.textLoading": "يتم التحميل",
   "Common.Views.PluginPanel.textClosePanel": "إغلاق الإضافة",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
   "Common.Views.PluginPanel.textLoading": "يتم التحميل",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
   "Common.Views.Plugins.groupCaption": "الإضافات",
   "Common.Views.Plugins.strPlugins": "الإضافات",
   "Common.Views.Plugins.textBackgroundPlugins": "إضافات الخلفية",
@@ -418,8 +421,5 @@
   "VE.Views.ViewTab.textZoom": "تكبير",
   "VE.Views.ViewTab.tipFitPage": "ملائم للصفحة",
   "VE.Views.ViewTab.tipFitWidth": "ملائم للعرض",
-  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "VE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة"
 }
