@@ -71,6 +71,7 @@ define([], function () {
                         '<div id="btn-macros-undo"></div>' +
                         '<div id="btn-macros-redo"></div>' +
                         '<div id="btn-macros-run" class="lock-for-function"></div>' +
+                        '<div id="btn-macros-debug" class="lock-for-function"></div>' +
                         '<div id="btn-macros-copy"></div>' +
                         '<div id="btn-macros-rename"></div>' +
                         '<div id="btn-macros-delete"></div>' +
@@ -95,7 +96,7 @@ define([], function () {
                 help: true,
                 width: Math.min(800, innerWidth),
                 height: Math.min(512, innerHeight),
-                minwidth: 700,
+                minwidth: 750,
                 minheight: 350,
                 resizable: true,
                 cls: 'modal-dlg invisible-borders',
@@ -175,7 +176,15 @@ define([], function () {
                 iconCls     : 'toolbar__icon btn-run',
                 caption     : this.textRun,
                 hint        : this.tipMacrosRun
-            }).on('click', _.bind(this.onRunMacros, this));
+            }).on('click', _.bind(this.onRunMacros, this, false));
+
+            this.btnDebug = new Common.UI.Button({
+                parentEl    : $('#btn-macros-debug'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-debug',
+                caption     : this.textDebug,
+                hint        : this.tipMacrosDebug
+            }).on('click', _.bind(this.onRunMacros, this, true));
 
             this.btnCopy = new Common.UI.Button({
                 parentEl    : $('#btn-macros-copy'),
@@ -696,8 +705,8 @@ define([], function () {
             }
         },
 
-        onRunMacros: function() {
-            this.api.callCommand(this._state.currentValue);
+        onRunMacros: function(isDebug) {
+            this.api.callCommand(isDebug ? "debugger;\n" + this._state.currentValue : this._state.currentValue);
         },
 
         onChangeAutostart: function(field, newValue) {
@@ -775,6 +784,7 @@ define([], function () {
         textSave            : 'Save',
         textMacros          : 'Macros',
         textRun             : 'Run',
+        textDebug           : 'Debug',
         textAutostart       : 'Autostart',
         textRename          : 'Rename',
         textDelete          : 'Delete',
@@ -792,6 +802,7 @@ define([], function () {
         tipMacrosDelete     : 'Delete macros',
         tipMacrosCopy       : 'Copy macros',
         tipMacrosRun        : 'Run macros',
+        tipMacrosDebug      : 'Debug macros',
         tipMacrosAdd        : 'Add macros',
         tipFunctionRename   : 'Rename custom function',
         tipFunctionDelete   : 'Delete custom function',
