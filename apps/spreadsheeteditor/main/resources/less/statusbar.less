@@ -1,4 +1,4 @@
-@statusbar-height: 25px;
+@statusbar-height: var(--statusbar-height, 25px);
 @status-scroll-padding-left: 12px;
 @statusb-scroll-padding-right: 10px;
 @status-scroll-width: calc(2*@x-small-btn-size + @status-scroll-padding-left + @statusb-scroll-padding-right);
@@ -49,7 +49,7 @@
 
     #status-tabs-scroll {
         width: @status-scroll-width;
-        padding: calc(@statusbar-height - @x-small-btn-size) @status-scroll-padding-left 0 @statusb-scroll-padding-right;
+        padding: 0 @status-scroll-padding-left 0 @statusb-scroll-padding-right;
         height: @statusbar-height;
         float: left;
 
@@ -60,8 +60,6 @@
     }
 
     #status-zoom-box {
-        padding-top: calc(@statusbar-height - @x-small-btn-size);
-
         position: absolute;
         height: @statusbar-height;
 
@@ -162,7 +160,7 @@
     }
 
     #status-addtabs-box {
-        padding: calc(@statusbar-height - @x-small-btn-size) 8px 0;
+        padding: 0 8px;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
@@ -431,7 +429,6 @@
         justify-content: flex-start;
         .status-label {
             color: @text-normal;
-            margin-top: 6px;
             width: 100%;
             text-align: center;
         }
@@ -452,7 +449,7 @@
 
     &.no-compact {
         #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
-            height: 26px;
+            height: @statusbar-height;
             border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
         }
@@ -522,7 +519,6 @@
     .cnt-zoom {
         display: inline-block;
         position: relative;
-        top: 1px;
 
         .dropdown-menu {
             min-width: 80px;

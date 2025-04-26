@@ -73,7 +73,8 @@ define([
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
-                        me.viewport.vlayout.getItem('statusbar').height = state ? 25 : 50;
+                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height'));
+                        me.viewport.vlayout.getItem('statusbar').height = state ? height : height * 2;
                     }
                 },
                 'Toolbar': {
@@ -369,8 +370,10 @@ define([
                 this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
                     _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
 
-                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
-
+                var height = parseInt(computed_style.getPropertyValue('--statusbar-height'));
+                var NoCompact = $('.statusbar').hasClass('no-compact');
+                this.viewport.vlayout.getItem('statusbar').height = NoCompact ? height * 2 : height;
+                
                 Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             }
         },

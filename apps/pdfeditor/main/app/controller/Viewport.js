@@ -376,10 +376,7 @@ define([
                 this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
                     _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
 
-                const height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
-                if (this.viewport?.vlayout?.getItem('statusbar')) {
-                    this.viewport.vlayout.getItem('statusbar').height = height;
-                }
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
 
                 Common.NotificationCenter.trigger('layout:changed', 'toolbar');
             }
