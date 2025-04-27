@@ -1,7 +1,5 @@
-@statusbar-height: 25px;
+@statusbar-height: var(--statusbar-height, 25px);
 .statusbar {
-    display: table;
-    padding: 2px;
 
     .status-label {
         position: relative;
@@ -20,9 +18,7 @@
     }
 
     .status-group {
-        display: table-cell;
         white-space: nowrap;
-        vertical-align: top;
         &.dropup {
             position: static;
         }
@@ -58,7 +54,6 @@
     .cnt-zoom {
         display: inline-block;
         vertical-align: middle;
-        margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
             .margin-left(-4px);
@@ -89,9 +84,5 @@
             width: 50px;
             display: inline-block;
         }
-    }
-
-    #slot-status-btn-preview {
-        width: 32px;
     }
 }

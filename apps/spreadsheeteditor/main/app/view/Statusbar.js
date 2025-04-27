@@ -67,6 +67,7 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
+                Common.NotificationCenter.on('uitheme:changed', this.setMode.bind(this));
             },
 
             render: function () {

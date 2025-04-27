@@ -98,7 +98,10 @@ define([
                 }, {
                     el: items[3],
                     alias: 'statusbar',
-                    height: Common.localStorage.getBool('sse-compact-statusbar', true) ? 25 : 50
+                    height: (function () {
+                        var h = parseInt(getComputedStyle(document.body).getPropertyValue('--statusbar-height'));
+                        return Common.localStorage.getBool('sse-compact-statusbar', true) ? h : h * 2;
+                    })()
                 }]
             });
 
