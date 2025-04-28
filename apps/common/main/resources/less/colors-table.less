@@ -322,6 +322,21 @@
     --chb-border-checked-hover: var(--border-regular-control);
     --chb-border-checked-focus: var(--border-control-focus);
 
+    // slider
+    --slider-height: 18px;
+    --slider-track-height: 4px;
+    --slider-border-radius: calc(var(--slider-track-height) / 2);
+    --slider-track-background-normal: var(--border-regular-control);
+    --slider-track-background-filled: var(--border-regular-control);
+    --slider-thumb-size: 12px;
+    --slider-thumb-border-size: 1px; // @scaled-one-pixel
+    --slider-thumb-border-radius: calc(var(--slider-thumb-size) / 2);
+    --slider-thumb-background-normal: var(--background-normal);
+    --slider-thumb-border-normal: var(--icon-normal);
+    --slider-thumb-background-hover: var(--background-normal);
+    --slider-thumb-background-active: var(--background-normal);
+    --slider-thumb-shadow: 0;
+
     // header input
     --header-input-height:  100%;
     --header-input-line-height:  24px;
@@ -553,6 +568,20 @@
 @rb-border-checked-focus: var(--rb-border-checked-focus);
 @rb-check-mark-size: var(--rb-check-mark-size);
 @rb-check-mark-background: var(--rb-check-mark-background);
+
+@slider-height: var(--slider-height);
+@slider-track-height: var(--slider-track-height);
+@slider-border-radius: var(--slider-border-radius);
+@slider-track-background-normal: var(--slider-track-background-normal);
+@slider-track-background-filled: var(--slider-track-background-filled);
+@slider-thumb-size: var(--slider-thumb-size);
+@slider-thumb-border-size: var(--slider-thumb-border-size);
+@slider-thumb-border-radius: var(--slider-thumb-border-radius);
+@slider-thumb-background-normal: var(--slider-thumb-background-normal);
+@slider-thumb-border-normal: var(--slider-thumb-border-normal);
+@slider-thumb-background-hover: var(--slider-thumb-background-hover);
+@slider-thumb-background-active: var(--slider-thumb-background-active);
+@slider-thumb-shadow: var(--slider-thumb-shadow);
 
 @header-input-height: var(--header-input-height);
 @header-input-line-height: var(--header-input-line-height);

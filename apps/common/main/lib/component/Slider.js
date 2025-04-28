@@ -86,7 +86,7 @@ define([
 
         disabled: false,
 
-        template    : _.template([
+        template: _.template([
             '<div class="slider single-slider <% if (this.options.direction === \'vertical\') { %>vertical<% } %>" style="">',
                 '<div class="track"></div>',
                 '<div class="thumb" style=""></div>',
@@ -135,6 +135,7 @@ define([
             this.cmpEl.find('.track-center').width(me.options.width - 14);
             this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width);
 
+            this.track = this.cmpEl.find('.track');
             this.thumb = this.cmpEl.find('.thumb');
 
             var onMouseUp = function (e) {
@@ -246,17 +247,21 @@ define([
                 }
             }
 
+            const thumbWidth = this.thumb.width() / 2;
+            const start = thumbWidth;
+            const end   =  -thumbWidth;
+            this.thumbRange = Array.from({ length: 100 }, (_, i) => start + (end - start) * i / 99);
+
             me.rendered = true;
 
             return this;
         },
 
         setThumbPosition: function(pos) {
-            if (this.direction === 'vertical') {
-                this.thumb.css({top: pos + '%'});
-            } else {
-                this.thumb.css({left: pos + '%'});
-            }
+            this.track.css({ '--slider-unfill-percent': 100 - pos + '%' });
+            this.thumb.css({
+                [this.direction === 'vertical' ? 'top' : 'left']: `calc(${pos}% + ${this.thumbRange[pos]}px)`
+            });
         },
 
         setValue: function(value) {
