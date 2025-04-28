@@ -99,11 +99,12 @@
                 <div class="group small slot-combo-insertshape"></div>
                 <div class="group small">
                     <div class="elset">
+                        <span class="btn-slot split" id="slot-btn-align-distribute"></span>
                         <span class="btn-slot split" id="slot-btn-arrange-shape"></span>
-                        <span class="btn-slot split" id="slot-btn-shapes-merge"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-align-shape"></span>
+                        <span class="btn-slot split" id="slot-btn-shapes-merge"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

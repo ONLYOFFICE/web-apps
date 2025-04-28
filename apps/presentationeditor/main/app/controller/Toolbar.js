@@ -396,7 +396,9 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
-            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
+            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));            
+            toolbar.btnShapeDistribute.menu.on('item:click',            _.bind(this.onShapeDistribute, this));
+            toolbar.btnShapeDistribute.menu.on('show:before',           _.bind(this.onBeforeShapeDistribute, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnShapesMerge.menu.on('item:click',                _.bind(this.onClickMenuShapesMerge, this));
             toolbar.btnShapesMerge.menu.on('show:before',               _.bind(this.onBeforeShapesMerge, this));
@@ -822,7 +824,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.cmbsInsertShape.concat([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
-                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.btnShapesMerge,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.btnShapeDistribute, this.toolbar.btnShapesMerge,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ])});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
@@ -944,7 +946,7 @@ define([
 
             if (this._state.no_drawing_objects !== no_drawing_objects ) {
                 if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
-                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnShapesMerge]});
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeDistribute, me.toolbar.btnShapeArrange, me.toolbar.btnShapesMerge]});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
@@ -1720,8 +1722,6 @@ define([
             this.toolbar.mniAlignObjects.setDisabled(value<2);
             this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
             this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
-            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
-            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
         },
 
         onShapeAlign: function(menu, item) {
@@ -1730,7 +1730,21 @@ define([
                 if (item.value>-1 && item.value < 6) {
                     this.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
-                } else if (item.value == 6) {
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onBeforeShapeDistribute: function() {
+            var value = this.api.asc_getSelectedDrawingObjectsCount();
+            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+        },
+
+        onShapeDistribute: function(menu, item) {
+            if (this.api) {
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value == 6) {
                     this.api.DistributeHorizontally(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 } else if (item.value == 7){

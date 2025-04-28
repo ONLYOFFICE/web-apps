@@ -106,6 +106,7 @@ define([
         slideMasterMode: 'slide-master-mode',
         cantMergeShape: 'merge-shape-lock'
     };
+
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
             Common.enumLock[key] = enumLock[key];
@@ -148,7 +149,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel: false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit', dataHintTitle: 'I'},
                                 {caption: me.textTabDesign, action: 'design', extcls: 'canedit', dataHintTitle: 'D'},
@@ -1083,6 +1084,39 @@ define([
                     me.slideOnlyControls.push(me.btnColorSchemas);
                     me.lockControls.push(me.btnColorSchemas);
 
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'menu__icon btn-shape-distribute-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'menu__icon btn-shape-distribute-vert',
+                        value: 7
+                    });
+
+                    me.btnShapeDistribute = new Common.UI.Button({
+                        id: 'id-toolbar-btn-shape-distribute',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-shape-distribute-hor',
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
+                        menu: new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            items: [
+                                me.mniDistribHor,
+                                me.mniDistribVert
+                            ]
+                        }),
+                        action: 'object-distibute',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
+                    });
+                    console.log(me.btnShapeDistribute);
+                    me.shapeControls.push(me.btnShapeDistribute);
+                    me.slideOnlyControls.push(me.btnShapeDistribute);
+                    me.lockControls.push(me.btnShapeDistribute);
+
                     me.mniAlignToSlide = new Common.UI.MenuItem({
                         caption: me.txtSlideAlign,
                         checkable: true,
@@ -1098,17 +1132,6 @@ define([
                         value: -1
                     }).on('click', function (mnu) {
                         Common.Utils.InternalSettings.set("pe-align-to-slide", false);
-                    });
-
-                    me.mniDistribHor = new Common.UI.MenuItem({
-                        caption: me.txtDistribHor,
-                        iconCls: 'menu__icon btn-shape-distribute-hor',
-                        value: 6
-                    });
-                    me.mniDistribVert = new Common.UI.MenuItem({
-                        caption: me.txtDistribVert,
-                        iconCls: 'menu__icon btn-shape-distribute-vert',
-                        value: 7
                     });
 
                     me.btnShapeAlign = new Common.UI.Button({
@@ -1150,9 +1173,6 @@ define([
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
-                                me.mniDistribHor,
-                                me.mniDistribVert,
-                                {caption: '--'},
                                 me.mniAlignToSlide,
                                 me.mniAlignObjects
                             ]
@@ -1162,6 +1182,7 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
+                    console.log(me.btnShapeAlign);
                     me.shapeControls.push(me.btnShapeAlign);
                     me.slideOnlyControls.push(me.btnShapeAlign);
                     me.lockControls.push(me.btnShapeAlign);
@@ -1492,6 +1513,7 @@ define([
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
+                _injectComponent('#slot-btn-align-distribute', this.btnShapeDistribute);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
@@ -1724,6 +1746,7 @@ define([
                 this.btnInsVideo && this.btnInsVideo.updateHint(this.tipInsertVideo);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
+                //this.btnShapeDistribute.updateHint(this.tipShapeDistribute);
                 this.btnShapesMerge.updateHint(this.tipShapesMerge);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
