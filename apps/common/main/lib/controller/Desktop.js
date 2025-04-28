@@ -212,7 +212,9 @@ define([
                         paramParse.printers && (printers = paramParse.printers);
                         paramParse.current_printer && (currentPrinter = paramParse.current_printer);
                     }
-                    webapp.getController('Print').setPrinterInfo(currentPrinter, printers);
+                    const ctrl_print = webapp.getController('Print');
+                    if ( ctrl_print )
+                        ctrl_print.setPrinterInfo(currentPrinter, printers);
                 } else
                 if (/file:saveas/.test(cmd)) {
                     webapp.getController('Main').api.asc_DownloadAs();
