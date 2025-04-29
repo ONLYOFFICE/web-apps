@@ -186,7 +186,7 @@
             background: #fff;
             background: var(--sk-canvas-content-background, #fff);
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--sk--canvas-page-border, var(--canvas-page-border, #bbbec2));
+            border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, var(--canvas-page-border, #bbbec2));
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
