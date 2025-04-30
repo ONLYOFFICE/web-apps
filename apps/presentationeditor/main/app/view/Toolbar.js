@@ -104,7 +104,8 @@ define([
         noParagraphObject:  'no-paragraph-obj',
         inSlideMaster: 'in-slide-master',
         slideMasterMode: 'slide-master-mode',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantDistributeShape: 'distribute-shape-lock'
     };
 
     for (var key in enumLock) {
@@ -1083,7 +1084,7 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
                     me.lockControls.push(me.btnColorSchemas);
-
+                    
                     me.mniDistribHor = new Common.UI.MenuItem({
                         caption: me.txtDistribHor,
                         iconCls: 'menu__icon btn-shape-distribute-hor',
@@ -1093,13 +1094,13 @@ define([
                         caption: me.txtDistribVert,
                         iconCls: 'menu__icon btn-shape-distribute-vert',
                         value: 7
-                    });
-
+                    });         
+                    
                     me.btnShapeDistribute = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-distribute',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-shape-distribute-hor',
-                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart, _set.cantDistributeShape],
                         menu: new Common.UI.Menu({
                             cls: 'shifted-right',
                             items: [
@@ -1112,7 +1113,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
-                    console.log(me.btnShapeDistribute);
                     me.shapeControls.push(me.btnShapeDistribute);
                     me.slideOnlyControls.push(me.btnShapeDistribute);
                     me.lockControls.push(me.btnShapeDistribute);
@@ -1182,10 +1182,9 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
-                    console.log(me.btnShapeAlign);
                     me.shapeControls.push(me.btnShapeAlign);
                     me.slideOnlyControls.push(me.btnShapeAlign);
-                    me.lockControls.push(me.btnShapeAlign);
+                    me.lockControls.push(me.btnShapeAlign);                    
 
                     me.btnShapeArrange = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-arrange',
@@ -1746,7 +1745,7 @@ define([
                 this.btnInsVideo && this.btnInsVideo.updateHint(this.tipInsertVideo);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
-                //this.btnShapeDistribute.updateHint(this.tipShapeDistribute);
+                this.btnShapeDistribute.updateHint(this.tipShapeDistribute);
                 this.btnShapesMerge.updateHint(this.tipShapesMerge);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);

@@ -919,7 +919,8 @@ define([
             }
 
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
-            this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
+            this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });  
+            this.toolbar.lockToolbar(Common.enumLock.cantDistributeShape, this.api.asc_getSelectedDrawingObjectsCount() < 1, { array: [this.toolbar.btnShapeDistribute] });  
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
@@ -1004,7 +1005,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.inSlideMaster, in_slide_master, {array: [me.toolbar.btnInsertPlaceholder, me.toolbar.chTitle, me.toolbar.chFooters]});
                 this._state.in_slide_master = in_slide_master;
             }
-
+ 
             if (!this.toolbar.btnShapesMerge.isDisabled() && this.toolbar.isTabActive('home'))
                 Common.UI.TooltipManager.showTip('mergeShapes');
         },
@@ -1733,12 +1734,6 @@ define([
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
-        },
-
-        onBeforeShapeDistribute: function() {
-            var value = this.api.asc_getSelectedDrawingObjectsCount();
-            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
-            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
         },
 
         onShapeDistribute: function(menu, item) {
