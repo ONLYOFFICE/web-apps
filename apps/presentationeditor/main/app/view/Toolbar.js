@@ -1110,7 +1110,7 @@ define([
                         }),
                         action: 'object-distibute',
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
                     });
                     me.shapeControls.push(me.btnShapeDistribute);
@@ -1271,7 +1271,7 @@ define([
                         }),
                         action: 'object-merge',
                         dataHint: '1',
-                        dataHintDirection: 'top',
+                        dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
                     me.shapeControls.push(me.btnShapesMerge);
