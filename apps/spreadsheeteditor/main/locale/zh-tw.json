@@ -583,7 +583,7 @@
   "Common.Views.OpenDialog.txtSemicolon": "分號",
   "Common.Views.OpenDialog.txtSpace": "空格",
   "Common.Views.OpenDialog.txtTab": "標籤",
-  "Common.Views.OpenDialog.txtTitle": "選擇%1個選項",
+  "Common.Views.OpenDialog.txtTitle": "選擇%1選項",
   "Common.Views.OpenDialog.txtTitleProtected": "受保護的檔案",
   "Common.Views.PasswordDialog.txtDescription": "設定密碼以保護此文件。",
   "Common.Views.PasswordDialog.txtIncorrectPwd": "確認密碼不相同",
