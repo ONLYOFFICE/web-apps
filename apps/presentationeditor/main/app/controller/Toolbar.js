@@ -398,7 +398,6 @@ define([
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));            
             toolbar.btnShapeDistribute.menu.on('item:click',            _.bind(this.onShapeDistribute, this));
-            toolbar.btnShapeDistribute.menu.on('show:before',           _.bind(this.onBeforeShapeDistribute, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnShapesMerge.menu.on('item:click',                _.bind(this.onClickMenuShapesMerge, this));
             toolbar.btnShapesMerge.menu.on('show:before',               _.bind(this.onBeforeShapesMerge, this));
