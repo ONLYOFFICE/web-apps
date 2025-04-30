@@ -163,6 +163,10 @@ define([
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             this.$el.show();
 
+            Common.NotificationCenter.on('app:repaint', _.bind(function() {
+                this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            }, this));
+
             var $markup = $(this.template({scope: this}));
             this.$el.html($markup);
 

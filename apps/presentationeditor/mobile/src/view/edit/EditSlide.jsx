@@ -58,7 +58,7 @@ const PageTheme = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -100,7 +100,7 @@ const PageLayout = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -251,7 +251,7 @@ const PageTransition = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -347,7 +347,7 @@ const PageEffect = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -385,7 +385,7 @@ const PageType= props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -443,7 +443,7 @@ const PageFillColor = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>
@@ -484,7 +484,7 @@ const PageCustomFillColor = props => {
                         <Link sheetClose='#edit-sheet'>
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
                             }
                         </Link>
                     </NavRight>

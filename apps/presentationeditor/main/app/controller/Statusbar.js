@@ -149,25 +149,25 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        onPreview: function(slidenum, presenter) {
+        onPreview: function(slidenum, presenter, isCurrent) {
             var slideNum = this._state.slideMasterMode ? 0 : (_.isNumber(slidenum) ? slidenum : 0);
-            Common.NotificationCenter.trigger('preview:start', slideNum, presenter);
+            Common.NotificationCenter.trigger('preview:start', slideNum, presenter, false, isCurrent);
         },
 
         onPreviewBtnClick: function(btn, e) {
-            this.onPreview(this.api.getCurrentPage());
+            this.onPreview(this.api.getCurrentPage(), false, true);
         },
 
         onPreviewItemClick: function(menu, item) {
             switch (item.value) {
                 case 0:
-                    this.onPreview(0);
+                    this.onPreview(0, false, false);
                     break;
                 case 1:
-                    this.onPreview(this.api.getCurrentPage());
+                    this.onPreview(this.api.getCurrentPage(), false, true);
                     break;
                 case 2:
-                    this.onPreview(0, true);
+                    this.onPreview(0, true, false);
                     break;
             }
         },

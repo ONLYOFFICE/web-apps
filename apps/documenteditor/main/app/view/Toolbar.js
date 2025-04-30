@@ -215,7 +215,7 @@ define([
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-undo',
+                        iconCls: 'toolbar__icon btn-undo icon-rtl',
                         lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -227,7 +227,7 @@ define([
                     this.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-redo',
+                        iconCls: 'toolbar__icon btn-redo icon-rtl',
                         lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -1891,7 +1891,7 @@ define([
                         this.btnUndo = new Common.UI.Button({
                             id: 'id-toolbar-btn-undo',
                             cls: 'btn-toolbar',
-                            iconCls: 'toolbar__icon btn-undo',
+                            iconCls: 'toolbar__icon btn-undo icon-rtl',
                             lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
@@ -1901,7 +1901,7 @@ define([
                         this.toolbarControls.push(this.btnUndo);
 
                         this.btnRedo = new Common.UI.Button({
-                            id: 'id-toolbar-btn-redo',
+                            id: 'id-toolbar-btn-redo icon-rtl',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon btn-redo',
                             lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],

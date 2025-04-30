@@ -493,7 +493,11 @@ define([
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options),
-                role: 'alertdialog'
+                role: 'alertdialog',
+                repaintcallback: function() {
+                    autoSize.call(this, this);
+                    _centre.call(this);
+                }
             });
 
             var win = new Common.UI.Window(options),
@@ -538,7 +542,7 @@ define([
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon_height/2)
+                if (text.height()>0 && text.height() < icon_height/2)
                     text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
@@ -727,6 +731,7 @@ define([
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
+                Common.NotificationCenter.on('app:repaint', _.bind(this.onAppRepaint, this));
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
@@ -994,6 +999,16 @@ define([
                 return parseInt(this.$window.css('top'));
             },
 
+            setPosition: function(x, y) {
+                if (this.$window) {
+                    if (_.isNumber(x) && _.isNumber(y)) {
+                        this.$window.css('left',Math.floor(x));
+                        this.$window.css('top',Math.floor(y));
+                    } else
+                        _centre.call(this);
+                }
+            },
+
             isVisible: function() {
                 return this.$window && this.$window.is(':visible');
             },
@@ -1036,6 +1051,18 @@ define([
                         (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
                         (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
                     }
+                }
+            },
+
+            onAppRepaint: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
+
+                if (this.initConfig.repaintcallback)
+                    this.initConfig.repaintcallback.call(this)
+                else if (this.initConfig.repaintcallback!==false) {
+                    _centre.call(this);
                 }
             },
 

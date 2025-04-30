@@ -47,7 +47,8 @@ SSE.ApplicationController = new(function(){
         ttOffset = [6, -15],
         labelDocName;
 
-    var LoadingDocument = -256;
+    var LoadingDocument = -256,
+        WarningShown = false;
 
     // Initialize analytics
     // -------------------------
@@ -434,7 +435,7 @@ SSE.ApplicationController = new(function(){
         });
 
         api.asc_registerCallback('asc_onMouseMove',             onApiMouseMove);
-        api.asc_registerCallback('asc_onHyperlinkClick',        common.utils.openLink);
+        api.asc_registerCallback('asc_onHyperlinkClick',       onHyperlinkClick);
         api.asc_registerCallback('asc_onDownloadUrl',           onDownloadUrl);
         api.asc_registerCallback('asc_onPrint',                 onPrint);
         api.asc_registerCallback('asc_onPrintUrl',              onPrintUrl);
@@ -552,6 +553,8 @@ SSE.ApplicationController = new(function(){
 
         $('#editor_sdk').on('click', function(e) {
             if ( e.target.localName == 'canvas' ) {
+                if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                    return;
                 e.currentTarget.focus();
             }
         });
@@ -574,10 +577,14 @@ SSE.ApplicationController = new(function(){
         var licType = params.asc_getLicenseType();
         if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
             Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
-            $('#id-critical-error-title').text(Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp);
-            $('#id-critical-error-message').html(Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp);
-            $('#id-critical-error-close').parent().remove();
-            $('#id-critical-error-dialog').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                common.controller.modals.showWarning({
+                    title: Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp,
+                    message: Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp,
+                    buttons: []
+                });
+        
+                $('#dlg-warning').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
+                $('#dlg-warning button.close, #dlg-warning .modal-footer').remove();
             return;
         }
 
@@ -654,14 +661,37 @@ SSE.ApplicationController = new(function(){
         }
     }
 
+    function onHyperlinkClick(url) {
+        var type = api.asc_getUrlType(url);
+        if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email) 
+            window.open(url, '_blank');  
+        else {
+            WarningShown = true; 
+            common.controller.modals.showWarning({
+                    title: me.notcriticalErrorTitle,
+                    message: me.txtOpenWarning,
+                    buttons: [me.txtYes, me.txtNo], 
+                    primary: me.txtYes,
+                    callback: function (btn) {
+                        WarningShown = false; 
+                        if (btn === me.txtYes) {
+                            window.open(url);
+                        }
+                    }
+            }); 
+        }    
+    }
+
     function onError(id, level, errData) {
         if (id == Asc.c_oAscError.ID.LoadingScriptError) {
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(me.scriptLoadError);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
+            common.controller.modals.showWarning({
+                title: me.criticalErrorTitle,
+                message: me.scriptLoadError,
+                buttons: [me.txtClose],
+                callback: function(btn) {
+                    window.location.reload();
+                }
             });
-            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
 
@@ -754,29 +784,23 @@ SSE.ApplicationController = new(function(){
                 // break;
                 return;
         }
+    
+        common.controller.modals.showWarning({
+            title: (level == Asc.c_oAscError.Level.Critical) ? me.criticalErrorTitle : me.notcriticalErrorTitle,
+            message: message,
+            buttons: [me.txtClose],
+            callback: function(btn) {
+                if (level == Asc.c_oAscError.Level.Critical) {
+                    window.location.reload();
+                } 
+            }
+        });
 
         if (level == Asc.c_oAscError.Level.Critical) {
-
-            // report only critical errors
             Common.Gateway.reportError(id, message);
-
-            $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                window.location.reload();
-            });
-        }
-        else {
+        } else {
             Common.Gateway.reportWarning(id, message);
-
-            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').html(message);
-            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
-                $('#id-critical-error-dialog').modal('hide');
-            });
         }
-
-        $('#id-critical-error-dialog').modal('show');
 
         Common.Analytics.trackEvent('Internal Error', id.toString());
     }
@@ -820,6 +844,11 @@ SSE.ApplicationController = new(function(){
     }
 
     function onApiMouseMove(array) {
+        if (WarningShown) {
+            if ($tooltip) {
+                $tooltip.tooltip('hide');
+            }
+        }
         if ( array.length ) {
             var ttdata;
             for (var i = array.length; i > 0; i--) {
@@ -981,6 +1010,9 @@ SSE.ApplicationController = new(function(){
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
         errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-        txtPressLink: 'Click the link to open it'
+        txtPressLink: 'Click the link to open it',
+        txtOpenWarning: 'Clicking this link can be harmful to your device and data.<br> Are you sure you want to continue?',
+        txtYes:'Yes',
+        txtNo: 'No'
     }
 })();

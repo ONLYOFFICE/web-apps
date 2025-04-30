@@ -1072,10 +1072,10 @@ define([
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse ' + save_icon, $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
                     }
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo icon-rtl', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo icon-rtl', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
                     if (isPEEditor) {

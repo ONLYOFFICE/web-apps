@@ -321,7 +321,10 @@ module.exports = function(grunt) {
             inline: {
                 dist: {
                     src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
-                }
+                },
+                cachescripts: {
+                    src: packageFile['api'].copy.script.dest + 'documents/*.html',
+                },
             }
         }
     });
@@ -336,7 +339,7 @@ module.exports = function(grunt) {
     doRegisterTask('fetch');
     doRegisterTask('es6-promise');
     doRegisterTask('common-embed');
-    doRegisterTask('ace');
+    doRegisterTask('monaco');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
         return {
             terser: {
@@ -830,7 +833,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'terser']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
-    grunt.registerTask('deploy-ace',                    ['ace-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-monaco',                 ['monaco-init', 'clean', 'copy']);
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',

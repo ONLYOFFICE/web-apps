@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
 import { Device } from '../../utils/device';
 import SvgIcon from '@common/lib/component/SvgIcon';
-import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
 import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props => {
@@ -56,7 +56,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                         <Link sheetClose="#version-history-sheet">
                             {Device.ios ? 
                                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
                             }
                         </Link>
                     </NavRight>
@@ -65,7 +65,7 @@ const VersionHistoryView = inject('storeVersionHistory', 'users')(observer(props
                             <Link popoverClose="#version-history-popover">
                                 {Device.ios ? 
                                     <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
                                 }
                             </Link>
                         </NavRight>

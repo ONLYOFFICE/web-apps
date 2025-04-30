@@ -90,7 +90,7 @@
 }
 
 .embed-body.rtl-font {
-    &[applang=ar] {
+    &[applang=ar], &[applang=ur] {
         font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }
@@ -751,6 +751,22 @@
     }
 }
 
+#dlg-warning {
+    .modal-dialog {
+        margin-left: auto;
+        margin-right: auto;
+        width: 350px;
+    }
+    .modal-footer {
+        padding: 10px;
+        .btn-primary {
+            color: #fff;
+            background-color: #7d858c;
+            border-color: #7d858c;
+        }
+    }  
+}
+
 .dropdown-menu {
     > li > a {
         padding: 8px 20px 8px 28px;
@@ -836,7 +852,8 @@
     .tooltip-arrow {
         display: none;
     }
-    .embed-body.rtl-font[applang=ar] & {
+    .embed-body.rtl-font[applang=ar] &,
+    .embed-body.rtl-font[applang=ur] & {
         font-family: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }

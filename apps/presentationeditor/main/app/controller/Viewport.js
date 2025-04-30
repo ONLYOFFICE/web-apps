@@ -134,7 +134,8 @@ define([
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable,
-                'isRtlInterface': Common.UI.isRTL()
+                'isRtlInterface': Common.UI.isRTL(),
+                'thumbnails-position': Common.UI.isRTL() ? 'right' : 'left'
             });
 
             this.header   = this.createView('Common.Views.Header', {
@@ -249,7 +250,7 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum, presenter, fromApiEvent) {
+        onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
@@ -281,7 +282,7 @@ define([
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', _onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, reporterObject);
+                    isCurrent ? me.api.StartDemonstrationFromCurrentSlide('presentation-preview', reporterObject) : me.api.StartDemonstrationFromBeginning('presentation-preview', reporterObject);
                     Common.component.Analytics.trackEvent('Viewport', 'Preview');
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {

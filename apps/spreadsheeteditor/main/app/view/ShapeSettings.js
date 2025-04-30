@@ -1770,17 +1770,17 @@ define([
                 allowScrollbar: false,
                 delayRenderTips: true,
                 store: new Common.UI.DataViewStore([
-                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0},
-                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0},
-                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0},
+                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottomRight },
+                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottom},
+                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0, tip: this.txtOffsetBottomLeft},
 
-                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0},
-                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3},
-                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0},
+                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0, tip: this.txtOffsetRight},
+                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3, tip: this.txtOffsetCenter},
+                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0, tip: this.txtOffsetLeft},
 
-                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0},
-                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0},
-                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0},
+                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0, tip: this.txtOffsetTopRight},
+                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0, tip: this.txtOffsetTop},
+                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0, tip: this.txtOffsetTopLeft}
                 ]),
                 itemTemplate: _.template(
                     '<div class="item-shadow">' +

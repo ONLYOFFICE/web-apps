@@ -43,7 +43,7 @@ const EditLayoutNavbar = ({ editors }) => {
             {Device.phone && <NavRight><Link sheetClose>
             {Device.ios ? 
                 <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
-                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
             }</Link></NavRight> }
         </Navbar>
     )

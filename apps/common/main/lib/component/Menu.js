@@ -411,15 +411,10 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller && e && e.target===e.currentTarget) {
-                    var menuRoot = this.menuRoot;
-                    if (this.wheelSpeed===undefined) {
-                        var item = menuRoot.find('> li:first'),
-                            itemHeight = (item.length) ? item.outerHeight() : 1;
-                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
-                    }
-                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                    this.updateScroller();
 
-                    var $selected = menuRoot.find('> li .checked');
+                    var menuRoot = this.menuRoot,
+                        $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = Common.Utils.getPosition($selected).top,
                             itemHeight = $selected.outerHeight(),
@@ -433,6 +428,18 @@ define([
                     }
                 }
                 this._search = {};
+            },
+
+            updateScroller: function() {
+                if (this.scroller && this.menuRoot) {
+                    var menuRoot = this.menuRoot;
+                    if (this.wheelSpeed===undefined || this.wheelSpeed===0) {
+                        var item = menuRoot.find('> li:first'),
+                            itemHeight = (item.length) ? item.outerHeight() : 1;
+                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
+                    }
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+                }
             },
 
             onBeforeHideMenu: function(e) {

@@ -11,6 +11,9 @@ import EditTableController from "../../controller/edit/EditTable";
 import EditChartController from "../../controller/edit/EditChart";
 import EditHeaderController from "../../controller/edit/EditHeader";
 import EditTableContentsController from "../../controller/edit/EditTableContents";
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
@@ -41,7 +44,11 @@ const EditLayoutNavbar = ({ editors }) => {
                 </div> :
                 <NavTitle>{editors[0].caption}</NavTitle>
             }
-            {Device.phone && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight>}
+            {Device.phone && <NavRight><Link sheetClose>
+                {Device.ios ? 
+                    <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                }</Link></NavRight>}
         </Navbar>
     )
 };

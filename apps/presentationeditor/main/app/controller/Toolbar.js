@@ -489,6 +489,7 @@ define([
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
@@ -1128,24 +1129,24 @@ define([
             }
         },
 
-        onPreview: function(slidenum, presenter) {
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+        onPreview: function(slidenum, presenter, isCurrent) {
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter, false, isCurrent);
         },
 
         onPreviewBtnClick: function(btn, e) {
-            this.onPreview(this.api.getCurrentPage());
+            this.onPreview(this.api.getCurrentPage(), false, true);
         },
 
         onPreviewItemClick: function(menu, item) {
             switch (item.value) {
                 case 0:
-                    this.onPreview(0);
+                    this.onPreview(0, false, false);
                 break;
                 case 1:
-                    this.onPreview(this.api.getCurrentPage());
+                    this.onPreview(this.api.getCurrentPage(), false, true);
                 break;
                 case 2:
-                    this.onPreview(0, true);
+                    this.onPreview(0, true, false);
                 break;
                 case 3:
                     var win,
@@ -3005,6 +3006,13 @@ define([
             this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
+        },
+
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
         },
 
         onDocumentReady: function() {

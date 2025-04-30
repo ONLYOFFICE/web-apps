@@ -126,6 +126,11 @@ define([
                 takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
+            this.cmbTextAlignment.on('selected', _.bind(function(combo, record) {
+                if (this._changedProps) {
+                    this._changedProps.asc_putJc(record.value>-1 ? record.value: null);
+                }
+            }, this));
 
             this.numIndentsLeft = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-indent-left'),
@@ -444,9 +449,6 @@ define([
                 }, this);
             }
 
-            var horizontalAlign = this.cmbTextAlignment.getValue();
-            this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
-
             if (this.Spacing !== null) {
                 this._changedProps.asc_putSpacing(this.Spacing);
             }
@@ -462,7 +464,7 @@ define([
                 this.numIndentsLeft.setValue((props.get_Ind() !== null && props.get_Ind().get_Left() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Left()) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
 
-                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.CENTERED, true);
+                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : '');
 
                 if(this.CurSpecial === undefined) {
                     this.CurSpecial = (props.get_Ind().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.get_Ind().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);

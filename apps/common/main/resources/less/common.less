@@ -266,7 +266,10 @@ label {
             }
 
             &.devider {
-                .dropdown-menu .divider;
+                height: @scaled-one-px-value-ie;
+                height: @scaled-one-px-value;
+                background-color: @border-divider-ie;
+                background-color: @border-divider;
                 margin-top: 10px;
                 margin-bottom: 14px;
             }
@@ -381,6 +384,9 @@ label {
         padding-bottom: 8px;
     }
 
+    .padding-medium {
+        padding-bottom: 12px;
+    }
     .padding-large {
         padding-bottom: 16px;
     }

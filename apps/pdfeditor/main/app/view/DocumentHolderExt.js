@@ -1192,6 +1192,16 @@ define([], function () {
                 iconCls: 'menu__icon btn-rotate-270',
                 caption     : me.txtRotateLeft
             });
+            me.mnuCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption     : me.txtCopyPage,
+                value : 'copy'
+            });
+            me.mnuPastePage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption     : me.txtPastePage,
+                value : 'paste'
+            });
 
             var menuPageDelSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1223,6 +1233,7 @@ define([], function () {
                     me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
                     me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
                     me.mnuDeletePage.setVisible(value.isPageSelect===true);
+                    me.mnuCopyPage.setVisible(value.isPageSelect===true);
                     menuPageNewSeparator.setVisible(value.isPageSelect===true);
                     menuPageDelSeparator.setVisible(value.isPageSelect===true);
 
@@ -1236,6 +1247,9 @@ define([], function () {
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
+                    { caption     : '--' },
+                    me.mnuCopyPage,
+                    me.mnuPastePage,
                     menuPageDelSeparator,
                     me.mnuDeletePage
                 ]
@@ -1277,12 +1291,12 @@ define([], function () {
             });
 
             me.menuPDFFormsUndo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-undo',
+                iconCls: 'menu__icon btn-undo icon-rtl',
                 caption: me.textUndo
             });
 
             me.menuPDFFormsRedo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-redo',
+                iconCls: 'menu__icon btn-redo icon-rtl',
                 caption: me.textRedo
             });
 

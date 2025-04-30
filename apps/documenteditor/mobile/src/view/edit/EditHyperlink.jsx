@@ -41,11 +41,11 @@ const EditHyperlink = props => {
                     <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
                         props.onEditLink(stateLink, stateDisplay, stateTip);
                     }} text={Device.ios ? t('Add.textDone') : ''}>
-                        {Device.android && 
+                        {Device.android && ( 
                             stateLink.length < 1 ?
-                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg'} /> :
-                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg'} />
-                        }
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>
