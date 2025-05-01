@@ -394,8 +394,8 @@ define([
 
             var isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-close');
             this.miClose[isVisible?'show':'hide']();
-            this.miClose.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miClose.$el.find('+.devider'));
+            this.miClose.$el.find('+.divider')[isVisible?'show':'hide']();
+            isVisible && (lastSeparator = this.miClose.$el.find('+.divider'));
 
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
@@ -409,13 +409,13 @@ define([
             this.miProtect[(this.mode.isSignatureSupport || this.mode.isPasswordSupport) ?'show':'hide']();
             separatorVisible = (this.mode.canDownload || this.mode.canDownloadOrigin || this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') || this.mode.canPrint || (this.mode.isSignatureSupport || this.mode.isPasswordSupport) ||
                                 !this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights || this.mode.canRename && !this.mode.isDesktopApp) && !this.mode.isDisconnected;
-            this.miProtect.$el.find('+.devider')[separatorVisible?'show':'hide']();
-            separatorVisible && (lastSeparator = this.miProtect.$el.find('+.devider'));
+            this.miProtect.$el.find('+.divider')[separatorVisible?'show':'hide']();
+            separatorVisible && (lastSeparator = this.miProtect.$el.find('+.divider'));
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
             if (!this.mode.canOpenRecent && !this.mode.canCreateNew) {
-                this.miRecent.$el.find('+.devider').hide();
+                this.miRecent.$el.find('+.divider').hide();
             }
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
@@ -429,13 +429,13 @@ define([
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-settings');
             this.miSettings[isVisible?'show':'hide']();
-            this.miSettings.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miSettings.$el.find('+.devider'));
+            this.miSettings.$el.find('+.divider')[isVisible?'show':'hide']();
+            isVisible && (lastSeparator = this.miSettings.$el.find('+.divider'));
 
             isVisible = this.mode.canHelp;
             this.miHelp[isVisible ?'show':'hide']();
-            this.miHelp.$el.find('+.devider')[isVisible?'show':'hide']();
-            isVisible && (lastSeparator = this.miHelp.$el.find('+.devider'));
+            this.miHelp.$el.find('+.divider')[isVisible?'show':'hide']();
+            isVisible && (lastSeparator = this.miHelp.$el.find('+.divider'));
 
             isVisible = this.mode.canBack;
             this.miBack[isVisible ?'show':'hide']();
@@ -504,7 +504,7 @@ define([
                 }
 
                 if (this.$el.find('#fm-btn-exit').length<1) {
-                    $('<li class="devider" />' +
+                    $('<li class="divider" />' +
                         '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                     this.items.push(
                         new Common.UI.MenuItem({
@@ -519,7 +519,7 @@ define([
                         }));
                 }
             } else if (this.mode.canCloseEditor && this.$el.find('#fm-btn-close').length<1) {
-                $('<li class="devider" />' +
+                $('<li class="divider" />' +
                     '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
