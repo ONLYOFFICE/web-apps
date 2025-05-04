@@ -44,6 +44,7 @@
             background-color: @slider-thumb-background-normal;
             border-radius: @slider-thumb-border-radius;
             box-shadow: @slider-thumb-shadow;
+            will-change: left;
 
             &:hover {
                 background-color: @slider-thumb-background-hover;
@@ -80,6 +81,7 @@
                 top: auto;
                 left: calc((@slider-height - @slider-thumb-size) / 2);
                 transform: translateY(-50%);
+                will-change: top;
             }
         }
     }

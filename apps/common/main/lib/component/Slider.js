@@ -226,7 +226,7 @@ define([
 
             var onKeyUp = function (e) {
                 if ( me.disabled ) return;
-
+x
                 if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN || Common.UI.Keys.LEFT || Common.UI.Keys.RIGHT) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -248,20 +248,27 @@ define([
             }
 
             const thumbWidth = this.thumb.width() / 2;
-            const start = thumbWidth;
-            const end   =  -thumbWidth;
-            this.thumbRange = Array.from({ length: 100 }, (_, i) => start + (end - start) * i / 99);
+            const delta = -thumbWidth * 2;
+            this.thumbRange = new Float32Array(101);
+            for (let i = 0; i < 101; i++) {
+                this.thumbRange[i] = thumbWidth + delta * (i / 100);
+            }
+
+            this.setThumbPosition(me.options.value);
 
             me.rendered = true;
 
             return this;
         },
 
-        setThumbPosition: function(pos) {
-            this.track.css({ '--slider-unfill-percent': 100 - pos + '%' });
-            this.thumb.css({
-                [this.direction === 'vertical' ? 'top' : 'left']: `calc(${pos}% + ${this.thumbRange[pos]}px)`
-            });
+        setThumbPosition: function (pos) {
+            const isVertical = this.direction === 'vertical';
+
+            const trackSize = isVertical ? this.track.height() : this.track.width();
+            const offset = pos / 100 * trackSize + this.thumbRange[pos];
+
+            this.track.css('--slider-unfill-percent', 100 - pos + '%');
+            this.thumb.css(isVertical ? 'top' : 'left', offset + 'px');
         },
 
         setValue: function(value) {
