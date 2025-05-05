@@ -571,6 +571,8 @@
   "Common.Views.MacrosDialog.tipMacrosAdd": "Add macros",
   "Common.Views.MacrosDialog.tipMacrosRun": "Run macros",
   "Common.Views.MacrosDialog.tipMacrosDebug": "Debug macros",
+  "Common.Views.MacrosAiDialog.textCreate": "Create",
+  "Common.Views.MacrosAiDialog.textAreaPlaceholder": "Input a prompt for the query",
   "Common.Views.OpenDialog.closeButtonText": "Close file",
   "Common.Views.OpenDialog.textInvalidRange": "Invalid cells range",
   "Common.Views.OpenDialog.textSelectData": "Select data",
