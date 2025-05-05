@@ -2620,6 +2620,7 @@
   "SSE.Views.DocumentHolder.unicodeText": "Unicode",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
   "SSE.Views.DocumentHolder.textAxes": "Axes",
+  "SSE.Views.DocumentHolder.DepthAxis": "Depth axis",
   "SSE.Views.DocumentHolder.textAxisTitles": "Axis Titles",
   "SSE.Views.DocumentHolder.textChartTitle": "Chart Title",
   "SSE.Views.DocumentHolder.textDataTable": "Data Table",

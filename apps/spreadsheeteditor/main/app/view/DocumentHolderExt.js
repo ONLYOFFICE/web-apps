@@ -1133,9 +1133,14 @@ define([], function () {
                                     },
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxisSec, 
-                                        value: 'bShowVertAxisSec', 
+                                        value: 'bShowVertAxSec', 
                                         checkable: true
-                                    }
+                                    },
+                                    // { 
+                                    //     caption: me.DepthAxis, 
+                                    //     value: 'bShowDepthAxes', 
+                                    //     checkable: true
+                                    // }
                                 ]
                             })
                         },
@@ -1245,29 +1250,29 @@ define([], function () {
                                 ]
                             })
                         },
-                        { 
-                            caption: me.textDataTable, 
-                            value: 'dataTable', 
-                            disabled: false,
-                            menu: new Common.UI.Menu({
-                                cls: 'shifted-right',  
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    { 
-                                        caption: me.textNone, 
-                                        value: 'bShowDataNone'
-                                    },
-                                    { 
-                                        caption: me.textShowDataTable, 
-                                        value: 'bShowDataTable'
-                                    },
-                                    { 
-                                        caption: me.textShowLegendKeys, 
-                                        value: 'bShowLegendKeys' 
-                                    }
-                                ]
-                            })
-                        },
+                        // { 
+                        //     caption: me.textDataTable, 
+                        //     value: 'dataTable', 
+                        //     disabled: false,
+                        //     menu: new Common.UI.Menu({
+                        //         cls: 'shifted-right',  
+                        //         menuAlign: 'tl-tr',
+                        //         items: [
+                        //             { 
+                        //                 caption: me.textNone, 
+                        //                 value: 'bShowDataNone'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowDataTable, 
+                        //                 value: 'bShowDataTable'
+                        //             },
+                        //             { 
+                        //                 caption: me.textShowLegendKeys, 
+                        //                 value: 'bShowLegendKeys' 
+                        //             }
+                        //         ]
+                        //     })
+                        // },
                         {
                             caption: me.textErrorBars,
                             value: 'errorBars',
@@ -1360,6 +1365,10 @@ define([], function () {
                                 cls: 'shifted-right',  
                                 menuAlign: 'tl-tr',
                                 items: [
+                                    {
+                                        caption: me.textNone, 
+                                        value: 'trendLineNone'
+                                    },
                                     {
                                         caption: me.textLinear,
                                         value: 'trendLineLinear'
