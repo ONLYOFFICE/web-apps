@@ -220,10 +220,13 @@ define([], function () {
                 parentEl    : $('#btn-ai-macros-add'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-general-ai',
-                menu        : new Common.UI.Menu({items:[
-                    {caption: this.textCreateFromDesc,  value: 'create',    disabled: !isPresentAI},
-                    {caption: this.textConvertFromVBA,  value: 'convert',   disabled: !isPresentAI}
-                ]}),
+                menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
+                    items:[
+                        {caption: this.textCreateFromDesc,  value: 'create',    disabled: !isPresentAI},
+                        {caption: this.textConvertFromVBA,  value: 'convert',   disabled: !isPresentAI}
+                    ]
+                }),
                 hint        : this.tipAi
             });
             this.btnAiMacrosAdd.menu.on('item:click', _.bind(this.onAiMenu, this));
@@ -667,6 +670,14 @@ define([], function () {
             var title = '';
             var instruction = '';
             var instructionOutput = 'Generate JavaScript code as an Immediately Invoked Function Expression (IIFE), in the format (function(){ ... })();, that [describe what the code should do]. The code should be self-contained and execute immediately. ';
+            var langCode = Common.Locale.getCurrentLanguage()
+            var langName = Common.util.LanguageInfo.getLocalLanguageName(Common.util.LanguageInfo.getLocalLanguageCode(langCode));
+            if(langName && typeof langName[1] == "string") {
+                langName = langName[1];
+            } else {
+                langName = null;
+            }
+
             if(item.value == 'create') {
                 title = this.textCreateMacrosFromDesc;
                 instruction = '' + 
@@ -681,8 +692,8 @@ define([], function () {
                     'Convert macro for OnlyOffice from VBA. ' +
                     'Return only code with comments, as plain text without markdown. ' +
                     'The code format is JavaScript. ' +
-                    'Write comments in the same language as the query below. ' +
-                    'The code of the macro in VBA should be presented in the user message. ' + instructionOutput;;
+                    'Write comments in ' + langCode + (langName ? '(' + langName + ')' : '') + ' language. ' + 
+                    'The code of the macro in VBA should be presented in the user message. ' + instructionOutput;
             }
             if(item.value == 'create' || item.value == 'convert') {
                 var macrosWindow = new Common.Views.MacrosAiDialog({
