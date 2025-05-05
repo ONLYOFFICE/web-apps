@@ -43,10 +43,31 @@ define([], function () { 'use strict';
         initialize : function(options) {
             var _options = {};
 
+            var windowSize = {
+                width: { init: 400, min: 400, max: 800 },
+                height: { init: 200, min: 200, max: 400 }
+            };
+            var windowClasses = 'modal-dlg invisible-borders';
+
+            if(options.inputType == 'codeEditor') {
+                windowSize = {
+                    width: { init: 600, min: 600, max: 1000 },
+                    height: { init: 400, min: 400, max: 600 }
+                }
+                windowClasses += ' padding-none';
+            }
+
             _.extend(_options, {
+                id: 'macros-ai-dialog',
                 title: options.title,
-                width: 350,
-                cls: 'modal-dlg',
+                width: windowSize.width.init,
+                height: windowSize.height.init,
+                minwidth: windowSize.width.min,
+                minheight: windowSize.height.min,
+                maxwidth: windowSize.width.max,
+                maxheight: windowSize.height.max,
+                resizable: true,
+                cls: windowClasses,
                 buttons: [
                     {caption: this.textCreate, value: 'ok', primary: true},
                     'cancel'
@@ -55,12 +76,24 @@ define([], function () { 'use strict';
 
             this.api = options.api;
             this.instruction = options.instruction;
+            this.inputType = options.inputType || 'textarea';       //'textarea' or 'codeEditor'
 
-            this.template = [
-                '<div class="box">',
-                    '<div id="macros-ai-dialog-textarea"></div>',
-                '</div>'
-            ].join('');
+            this._state = {
+                codeEditorValue: ''
+            };
+
+            if(this.inputType == 'textarea') {
+                this.template = [
+                    '<div class="box">',
+                        '<div id="macros-ai-dialog-textarea"></div>',
+                    '</div>'
+                ].join('');
+            } else {
+                this.template = [
+                    '<div id="macros-ai-dialog-code-editor"></div>',
+                    '<div class="separator horizontal" style="position: relative"></div>'
+                ].join('');
+            }
 
             _options.tpl = _.template(this.template)(_options);
             Common.UI.Window.prototype.initialize.call(this, _options);
@@ -70,13 +103,32 @@ define([], function () { 'use strict';
             Common.UI.Window.prototype.render.call(this);
             var $window = this.getChild();
 
-            this.textareaPrompt = new Common.UI.TextareaField({
-                el          : $window.find('#macros-ai-dialog-textarea'),
-                placeHolder : this.textAreaPlaceholder,
-                style       : 'width: 100%; height: 70px; display: flex',
-            });
+            if(this.inputType == 'textarea') {
+                this.textareaPrompt = new Common.UI.TextareaField({
+                    el          : $window.find('#macros-ai-dialog-textarea'),
+                    placeHolder : this.textAreaPlaceholder
+                });
+            } else {
+                this.createCodeEditor();
+            }            
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
+        },
+
+        createCodeEditor: function() {
+            var me = this;
+
+            this.codeEditor = new Common.UI.MonacoEditor({
+                parentEl: '#macros-ai-dialog-code-editor',
+                language: 'vba'
+            });
+            this.codeEditor.on('ready', function() {
+                me.codeEditor.updateTheme();
+                me.codeEditor.setValue('', {row: 0, column: 0});
+            });
+            this.codeEditor.on('change', function(value, pos) {
+                me._state.codeEditorValue = value;
+            });
         },
 
         getFocusedComponents: function() {
@@ -85,6 +137,13 @@ define([], function () { 'use strict';
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
+
+            if(this.textareaPrompt) {
+                var me = this;
+                _.delay(function(){
+                    me.textareaPrompt.focus();
+                },50);
+            }
         },
 
         onPrimary: function(event) {
@@ -96,11 +155,19 @@ define([], function () { 'use strict';
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
+        close: function(suppressevent) {
+            if(this.codeEditor) {
+                this.codeEditor.destroyEditor();
+            }
+            Common.UI.Window.prototype.close.call(this, arguments);
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 if(state == 'ok') {
                     var me = this;
-                    me.api.AI({ type : "text", data : [{role: "system", content: this.instruction}, {role:"user", content: this.textareaPrompt.getValue()}] }, function(data){
+                    var content = this.inputType == 'textarea' ? this.textareaPrompt.getValue() : this._state.codeEditorValue;
+                    me.api.AI({ type : "text", data : [{role: "system", content: this.instruction}, {role:"user", content: content}] }, function(data){
                         if (!data.error) {
                             function trimResult(data, posStart, isSpaces) {
                                 let pos = posStart || 0;
