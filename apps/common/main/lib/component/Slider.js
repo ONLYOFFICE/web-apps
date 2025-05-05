@@ -86,7 +86,7 @@ define([
 
         disabled: false,
 
-        template    : _.template([
+        template: _.template([
             '<div class="slider single-slider <% if (this.options.direction === \'vertical\') { %>vertical<% } %>" style="">',
                 '<div class="track"></div>',
                 '<div class="thumb" style=""></div>',
@@ -135,6 +135,7 @@ define([
             this.cmpEl.find('.track-center').width(me.options.width - 14);
             this.cmpEl[me.direction === 'vertical' ? 'height' : 'width'](me.options.width);
 
+            this.track = this.cmpEl.find('.track');
             this.thumb = this.cmpEl.find('.thumb');
 
             var onMouseUp = function (e) {
@@ -225,7 +226,7 @@ define([
 
             var onKeyUp = function (e) {
                 if ( me.disabled ) return;
-
+x
                 if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN || Common.UI.Keys.LEFT || Common.UI.Keys.RIGHT) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -246,17 +247,28 @@ define([
                 }
             }
 
+            const thumbWidth = this.thumb.width() / 2;
+            const delta = -thumbWidth * 2;
+            this.thumbRange = new Float32Array(101);
+            for (let i = 0; i < 101; i++) {
+                this.thumbRange[i] = thumbWidth + delta * (i / 100);
+            }
+
+            this.setThumbPosition(me.options.value);
+
             me.rendered = true;
 
             return this;
         },
 
-        setThumbPosition: function(pos) {
-            if (this.direction === 'vertical') {
-                this.thumb.css({top: pos + '%'});
-            } else {
-                this.thumb.css({left: pos + '%'});
-            }
+        setThumbPosition: function (pos) {
+            const isVertical = this.direction === 'vertical';
+
+            const trackSize = isVertical ? this.track.height() : this.track.width();
+            const offset = pos / 100 * trackSize + this.thumbRange[pos];
+
+            this.track.css('--slider-unfill-percent', 100 - pos + '%');
+            this.thumb.css(isVertical ? 'top' : 'left', offset + 'px');
         },
 
         setValue: function(value) {
