@@ -218,7 +218,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.right-panel'),
+                    el: $(this.el).find('.right-panel > .content-box'),
                     suppressScrollX: true,
                     useKeyboard: false
                 });
@@ -272,7 +272,7 @@ define([
                     Common.localStorage.setItem("pdfe-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("pdfe-hide-right-settings", false);
                 }
-                target_pane_parent.find('> .active').removeClass('active');
+                target_pane_parent.find('.settings-panel.active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
@@ -298,7 +298,7 @@ define([
             } else {
                 var target_pane = $("#" + this._settings[type].panel );
                 if ( !target_pane.hasClass('active') ) {
-                    target_pane.parent().find('> .active').removeClass('active');
+                    target_pane.parent().find('.settings-panel.active').removeClass('active');
                     target_pane.addClass("active");
                     if (this.scroller) {
                         this.scroller.update();
@@ -317,7 +317,7 @@ define([
 
         clearSelection: function() {
             var target_pane = $(".right-panel");
-            target_pane.find('> .active').removeClass('active');
+            target_pane.find('.settings-panel.active').removeClass('active');
             this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
