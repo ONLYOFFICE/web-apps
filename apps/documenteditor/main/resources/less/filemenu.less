@@ -917,6 +917,19 @@
             .padding-x(20px, 5px);
           }
         }
+        #print-combo-printer,
+        #print-combo-pages {
+          .form-control {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+          }
+          .dropdown-menu li > a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
       }
     }
     #print-navigation {
