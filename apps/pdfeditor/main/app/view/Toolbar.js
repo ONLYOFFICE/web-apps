@@ -98,7 +98,9 @@ define([
         cantMergeShape: 'merge-shape-lock',
         pageRotate: 'page-rotate',
         pageDeleted: 'page-deleted',
-        pageEditText: 'page-edit-text'
+        pageEditText: 'page-edit-text',
+        inForm: 'in-form',
+        cantAlign: 'cant-align'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -225,7 +227,7 @@ define([
                     id: 'id-toolbar-btn-bold',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-bold',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -237,7 +239,7 @@ define([
                     id: 'id-toolbar-btn-italic',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-italic',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -249,7 +251,7 @@ define([
                     id: 'id-toolbar-btn-underline',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-underline',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -261,7 +263,7 @@ define([
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -273,7 +275,7 @@ define([
                     id: 'id-toolbar-btn-superscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-superscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -286,7 +288,7 @@ define([
                     id: 'id-toolbar-btn-subscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-subscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -302,7 +304,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split: true,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16',
@@ -349,7 +351,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
                     action: 'change-case',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -371,7 +373,7 @@ define([
                     id: 'id-toolbar-btn-clearstyle',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-clearstyle',
-                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.disableOnStart],
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -430,7 +432,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {
