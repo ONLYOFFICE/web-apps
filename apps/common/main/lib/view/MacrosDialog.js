@@ -219,11 +219,10 @@ define([], function () {
             this.btnAiMacrosAdd = new Common.UI.Button({
                 parentEl    : $('#btn-ai-macros-add'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-favorite',
+                iconCls     : 'toolbar__icon btn-general-ai',
                 menu        : new Common.UI.Menu({items:[
                     {caption: this.textCreateFromDesc,  value: 'create',    disabled: !isPresentAI},
-                    {caption: this.textConvertFromVBA,  value: 'convert',   disabled: !isPresentAI},
-                    {caption: this.textAbout,           value: 'about'}
+                    {caption: this.textConvertFromVBA,  value: 'convert',   disabled: !isPresentAI}
                 ]}),
                 hint        : this.tipAi
             });
@@ -664,11 +663,6 @@ define([], function () {
         },
 
         onAiMenu: function(menu, item) {
-            if(item.value == 'about') {
-                console.log('about');
-                return;
-            }
-
             var me = this;
             var title = '';
             var instruction = '';
@@ -695,6 +689,7 @@ define([], function () {
                     title: title,
                     api: this.api,
                     instruction: instruction,
+                    inputType: item.value == 'create' ? 'textarea' : 'codeEditor',
                     handler: function(btnValue, value) {
                         if(btnValue == 'ok') {
                             me.onCreateMacros(value);
@@ -795,7 +790,6 @@ define([], function () {
         textCreateMacrosFromDesc  : 'Create macros from description',
         textConvertFromVBA  : 'Convert from VBA',
         textConvertMacrosFromVBA  : 'Convert macros from VBA',
-        textAbout           : 'About',
         tipUndo             : 'Undo',
         tipRedo             : 'Redo',
         tipMacrosRename     : 'Rename macros',
