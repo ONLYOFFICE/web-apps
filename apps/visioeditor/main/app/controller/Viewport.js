@@ -110,6 +110,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         getApi: function() {
@@ -325,6 +326,28 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
-        }
+        },
+        
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                const height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+                if (this.viewport?.vlayout?.getItem('statusbar')) {
+                    this.viewport.vlayout.getItem('statusbar').height = height;
+                }
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
+        },
     }, VE.Controllers.Viewport));
 });

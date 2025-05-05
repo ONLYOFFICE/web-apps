@@ -62,7 +62,8 @@ define([
                                     --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
                                     --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f7f7f7;
                                     --sk-background-toolbar-header-word: #446995; --sk-background-toolbar-header-pdf: #aa5252;
-                                    --sk-background-toolbar-header-slide: #BE664F; --sk-background-toolbar-header-cell: #40865c;
+                                    --sk-background-toolbar-header-slide: #BE664F; --sk-background-toolbar-header-cell: #40865c; 
+                                    --sk-background-toolbar-header-visio: #444796; 
                                     --sk-background-toolbar-tab: rgba(0,0,0,.15); --sk-background-toolbar-button: #d8dadc;
                                     --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
                                     --sk-canvas-background: #eee; --sk-canvas-content-background: #fff;
@@ -79,6 +80,7 @@ define([
                                     --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
                                     --sk-background-toolbar-header-word: #446995; --sk-background-toolbar-header-pdf: #aa5252;
                                     --sk-background-toolbar-header-slide: #BE664F;; --sk-background-toolbar-header-cell: #40865c;
+                                    --sk-background-toolbar-header-visio: #444796; 
                                     --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f1f1f1;
                                     --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #555;
                                     --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
@@ -97,6 +99,7 @@ define([
                                 --sk-shadow-toolbar: inset 0 -1px #616161; --sk-border-radius-toolbar: 0;
                                 --sk-background-toolbar-header-word: #2a2a2a; --sk-background-toolbar-header-pdf: #2a2a2a;
                                 --sk-background-toolbar-header-slide: #2a2a2a;--sk-background-toolbar-header-cell: #2a2a2a;
+                                --sk-background-toolbar-header-visio: #2a2a2a; 
                                 --sk-background-toolbar: #404040; --sk-background-toolbar-controls: #404040;
                                 --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #555;
                                 --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
@@ -119,6 +122,7 @@ define([
                                 --sk-shadow-toolbar: inset 0 -1px #616161; --sk-border-radius-toolbar: 0;
                                 --sk-background-toolbar-header-word: #2a2a2a; --sk-background-toolbar-header-pdf: #2a2a2a;
                                 --sk-background-toolbar-header-slide: #2a2a2a;--sk-background-toolbar-header-cell: #2a2a2a;
+                                --sk-background-toolbar-header-visio: #2a2a2a; 
                                 --sk-background-toolbar: #404040; --sk-background-toolbar-controls: #404040;
                                 --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #555;
                                 --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
@@ -140,6 +144,7 @@ define([
                                     --sk-shadow-toolbar: inset 0 -1px #cbcbcb; --sk-border-radius-toolbar: 0;
                                     --sk-background-toolbar-header-word: #f7f7f7; --sk-background-toolbar-header-pdf: #f7f7f7;
                                     --sk-background-toolbar-header-slide: #f7f7f7;--sk-background-toolbar-header-cell: #f7f7f7;
+                                    --sk-background-toolbar-header-visio: #f7f7f7; 
                                     --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f1f1f1;
                                     --sk-background-toolbar-tab: #e0e0e0; --sk-background-toolbar-button: #e0e0e0;
                                     --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
