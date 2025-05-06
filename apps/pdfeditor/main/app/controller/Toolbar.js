@@ -622,9 +622,10 @@ define([
                     page_rotate = pr.asc_getRotateLock();
                     page_edit_text = pr.asc_getEditLock();
                 } else if (type == Asc.c_oAscTypeSelectElement.Field) {
-                    no_text = false;
-                    in_form = true;
                     let ft = pr.asc_getType();
+                    in_form = true;
+                    if (ft !== AscPDF.FIELD_TYPES.checkbox && ft !== AscPDF.FIELD_TYPES.radiobutton)
+                        no_text = false;
                     text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
                 }
             }
