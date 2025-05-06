@@ -100,6 +100,7 @@ define([
         pageDeleted: 'page-deleted',
         pageEditText: 'page-edit-text',
         inForm: 'in-form',
+        inCheckForm: 'in-check-form',
         cantAlign: 'cant-align'
     };
     for (var key in enumLock) {
@@ -163,7 +164,7 @@ define([
                     menuCls: 'scrollable-menu',
                     menuStyle: 'min-width: 325px;',
                     hint: this.tipFontName,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     store: new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -175,7 +176,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     hint: this.tipFontSize,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     data: [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
@@ -205,7 +206,7 @@ define([
                     id: 'id-toolbar-btn-incfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -216,7 +217,7 @@ define([
                     id: 'id-toolbar-btn-decfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
