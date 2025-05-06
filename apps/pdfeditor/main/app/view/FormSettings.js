@@ -92,6 +92,7 @@ define([
             this.DateSettings = el.find('.form-date');
             this.TimeSettings = el.find('.form-time');
             this.linkAdvanced = el.find('#form-advanced-link');
+            this.RequiredSettings = el.find('#form-chb-required').closest('tr');
         },
 
         createDelayedElements: function() {
@@ -135,6 +136,16 @@ define([
             });
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
+
+            this.chReadonly = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-readonly'),
+                labelText: this.textReadonly,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chReadonly.on('change', this.onChReadonly.bind(this));
+            this.lockedControls.push(this.chReadonly);
 
             this.cmbLineWidth = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-line-width'),
@@ -770,6 +781,13 @@ define([
             }
         },
 
+        onChReadonly: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetFieldReadOnly(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onColorBGSelect: function(btn, color) {
             this.BackgroundColor = color;
             this._state.BackgroundColor = undefined;
@@ -1247,6 +1265,12 @@ define([
                     this._state.Required=val;
                 }
 
+                val = props.asc_getReadOnly();
+                if ( this._state.Readonly!==val ) {
+                    this.chReadonly.setValue(!!val, true);
+                    this._state.Readonly=val;
+                }
+
                 var color = props.asc_getStroke();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -1719,6 +1743,7 @@ define([
             this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
             this.ButtonSettings.toggleClass('hidden', !isButton);
+            this.RequiredSettings.toggleClass('hidden', isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);

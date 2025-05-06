@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEditor": "Editor de documente text",
@@ -35,7 +35,7 @@
     "textImage": "Imagine",
     "textImageURL": "URL-ul imaginii",
     "textInsert": "Inserare",
-    "textInsertFootnote": "Inserarea notei de subsol",
+    "textInsertFootnote": "Inserare notă de subsol",
     "textInsertImage": "Inserare imagine",
     "textLeftBottom": "Stânga jos",
     "textLeftTop": "Stânga sus",
@@ -675,7 +675,7 @@
     "advTxtOptions": "Selectează opțiunile TXT",
     "closeButtonText": "Închide fișierul",
     "notcriticalErrorTitle": "Avertisment",
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddToFavorites": "Adăugare la Preferințe",
     "textApplication": "Aplicația",
     "textApplicationSettings": "Setări Aplicație",

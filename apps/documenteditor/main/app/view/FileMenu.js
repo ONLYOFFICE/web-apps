@@ -102,7 +102,7 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [-2, 22],
-                iconCls: 'menu__icon btn-previtem'
+                iconCls: 'menu__icon btn-previtem icon-rtl'
             });
 
             this.miSave = new Common.UI.MenuItem({
