@@ -169,6 +169,10 @@ define([], function () { 'use strict';
                     var content = this.inputType == 'textarea' ? this.textareaPrompt.getValue() : this._state.codeEditorValue;
                     me.api.AI({ type : "text", data : [{role: "system", content: this.instruction}, {role:"user", content: content}] }, function(data){
                         if (!data.error) {
+                            if(!data || !data.text) {
+                                return me._handleInput("cancel");
+                            }
+                            
                             function trimResult(data, posStart, isSpaces) {
                                 let pos = posStart || 0;
                                 if (-1 != pos) {
