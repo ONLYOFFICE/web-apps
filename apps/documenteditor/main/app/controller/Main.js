@@ -1056,15 +1056,21 @@ define([
                 }
                 application.getController('DocumentHolder').getView().focus();
 
-                if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
-                    var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
-                        isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
-                        toolbarView.btnSave.setDisabled(isDisabled);
+                if (this.api && this.appOptions.isEdit) {
+                    this.disableSaveButton(this.api.asc_isDocumentCanSave());
                 }
 
                 Common.UI.HintManager.clearHints(true);
+            },
+
+            disableSaveButton: function (isCanSave) {
+                var toolbarView = this.getApplication().getController('Toolbar').getView();
+                if (!toolbarView || toolbarView._state.previewmode || !toolbarView.btnSave || !this.api) return;
+
+                var forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
+                    isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                    isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
+                toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled, {array: [toolbarView.btnSave]});
             },
 
             onLongActionBegin: function(type, id) {
@@ -2491,14 +2497,7 @@ define([
                 }
 
                 this.updateWindowTitle();
-
-                var toolbarView = this.getApplication().getController('Toolbar').getView();
-                if (toolbarView && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
-                        toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isModified);
 
                 /** coauthoring begin **/
                 if (this.contComments.isDummyComment && !this.dontCloseDummyComment && !this.beforeShowDummyComment) {
@@ -2508,14 +2507,7 @@ define([
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                var toolbarView = this.getApplication().getController('Toolbar').getView();
-
-                if (toolbarView && this.api && !toolbarView._state.previewmode) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
-                        toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isCanSave);
             },
 
             onContextMenu: function(event){

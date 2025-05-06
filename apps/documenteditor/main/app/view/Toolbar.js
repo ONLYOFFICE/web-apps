@@ -121,7 +121,8 @@ define([
         fileMenuOpened: 'file-menu-opened',
         changeModeLock: 'change-mode-lock',
         noStyles: 'no-styles',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -203,7 +204,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantSave, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -1879,7 +1880,7 @@ define([
                             id: 'id-toolbar-btn-save',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                            lock: [_set.lostConnect, _set.disableOnStart],
+                            lock: [_set.cantSave, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
                             dataHintDirection: 'top',
@@ -3521,7 +3522,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(false);
+                this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -3553,7 +3554,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton);
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton, {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

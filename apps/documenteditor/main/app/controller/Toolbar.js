@@ -1215,7 +1215,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
+            toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton, {array: [toolbar.btnSave]});
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -3731,8 +3731,6 @@ define([
 
             toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
             if (reviewmode || viewDocMode) {
-                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
-
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
                     toolbar.onCollaborativeChanges();

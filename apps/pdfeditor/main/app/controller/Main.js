@@ -820,7 +820,7 @@ define([
                     forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                     isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                     isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton, {array: [toolbarView.btnSave]});
+                toolbarView.btnSave && toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton, {array: [toolbarView.btnSave]});
             },
 
             onLongActionBegin: function(type, id) {
