@@ -193,6 +193,9 @@ define([], function () { 'use strict';
                             me.close();
                             me.options.handler.call(me, state, cleanResult);
                         } else {
+                            if ("no-engine" === data.type)
+                                return me._handleInput("cancel");
+
                             console.log(data.error);
                         }
                     });
