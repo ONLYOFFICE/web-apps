@@ -236,7 +236,7 @@ define([], function () {
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-zoomup',
                 hint: this.tipMacrosAdd
-            }).on('click', _.bind(this.onCreateMacros, this));
+            }).on('click', _.bind(this.onCreateMacros, this, ''));
 
             this.listMacros = new Common.UI.ListView({
                 el: $('#macros-list', this.$window),
