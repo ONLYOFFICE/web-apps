@@ -62,6 +62,7 @@
         for (let i in this.options)
             options[i] = this.options[i];
 
+        this._registerLanguage(options.language);
         this.editor = monaco.editor.create(document.getElementById(this.parent), options);
         this._loadLibraries();
         this._loadEvents();
@@ -117,6 +118,23 @@
 
         for (let i = 0, len = libraries.length; i < len; i++) {
             monaco.languages.typescript.javascriptDefaults.addExtraLib(libraries[i].code, libraries[i].name);
+        }
+    };
+
+    MonacoEditor.prototype._registerLanguage = function(language) {
+        if(language == 'vba') {
+            monaco.languages.register({ id: 'vba' });
+            monaco.languages.setMonarchTokensProvider('vba', {
+                tokenizer: {
+                    root: [
+                        [/\b(?:Sub|End Sub|Function|End Function|If|Then|Else|End If|Dim|As|Set|New|For|Each|Next|Do|Loop|While|Wend|Select Case|Case|End Select|Exit|With|End With|Call|Private|Public|Const|GoTo|On Error)\b/, 'keyword'],
+                        [/"([^"]*)"/, 'string'],
+                        [/\b[A-Za-z_][A-Za-z0-9_]*\b/, 'identifier'],
+                        [/\d+/, 'number'],
+                        [/'.*$/, 'comment']
+                    ]
+                }
+            });
         }
     };
     

@@ -1,7 +1,8 @@
 (function(window, document) {
     /*
     * config = {
-    *   editorType: 'cell'/'slide'/'word'
+    *   editorType: 'cell'/'slide'/'word',
+    *   language: 'javascript'/'vba'
     *   events: {
     *       onChangeValue // text in editor is changed
     *       onEditorReady // editor is ready for use
@@ -132,7 +133,8 @@
         iframe.frameBorder  = 0;
         iframe.scrolling    = "no";
         iframe.src = getBasePath() + 'MonacoEditor.html' + (config.editorType ? '?editorType=' + config.editorType : '')
-                                                         + (config.theme ? '&editorTheme=' + config.theme : '');
+                                                         + (config.theme ? '&editorTheme=' + config.theme : '')
+                                                         + (config.language ? '&language=' + config.language : '');
 
         return iframe;
     }
