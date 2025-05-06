@@ -802,7 +802,8 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton);
+                toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton,
+                                                        {array: [toolbar.btnSave]});
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.NotificationCenter.trigger('edit:complete', toolbar);
@@ -1316,7 +1317,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton);
+            this.api && this.toolbar.btnSave && this.toolbar.lockToolbar(Common.enumLock.cantSave, this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton, {array: [this.toolbar.btnSave]});
             this._state.activated = true;
         },
 
@@ -1458,6 +1459,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.getApplication().getController('Main').disableSaveButton(me.api.asc_isDocumentCanSave());
                     me.onCountPages(me._state.pageCount);
                     me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
