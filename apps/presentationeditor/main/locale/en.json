@@ -745,6 +745,7 @@
   "Common.Views.MacrosDialog.tipRedo": "Redo",
   "Common.Views.MacrosDialog.tipUndo": "Undo",
   "Common.Views.MacrosDialog.tipMacrosDebug": "Debug macros",
+  "Common.Views.MacrosDialog.tipAI": "AI",
   "Common.Views.MacrosAiDialog.textCreate": "Create",
   "Common.Views.MacrosAiDialog.textAreaPlaceholder": "Input a prompt for the query",
   "Common.Views.OpenDialog.closeButtonText": "Close file",
