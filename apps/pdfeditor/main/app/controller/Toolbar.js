@@ -571,7 +571,10 @@ define([
                 annot_lock = false,
                 page_deleted = false,
                 page_rotate = false,
-                page_edit_text = false;
+                page_edit_text = false,
+                in_form = false,
+                in_check_form = false,
+                in_text_form = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -619,6 +622,12 @@ define([
                     page_deleted = pr.asc_getDeleteLock();
                     page_rotate = pr.asc_getRotateLock();
                     page_edit_text = pr.asc_getEditLock();
+                } else if (type == Asc.c_oAscTypeSelectElement.Field) {
+                    let ft = pr.asc_getType();
+                    in_form = true;
+                    no_text = false;
+                    in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
+                    in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
                 }
             }
 
@@ -643,6 +652,20 @@ define([
                 if (this._state.activated) this._state.in_annot = in_annot;
                 toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
             }
+
+            if (this._state.in_form !== in_form) {
+                if (this._state.activated) this._state.in_form = in_form;
+                toolbar.lockToolbar(Common.enumLock.inForm, in_form, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.in_check_form !== in_check_form) {
+                if (this._state.activated) this._state.in_check_form = in_check_form;
+                toolbar.lockToolbar(Common.enumLock.inCheckForm, in_check_form, {array: toolbar.paragraphControls});
+            }
+
+            let cant_align = no_paragraph && !in_text_form;
+            toolbar.lockToolbar(Common.enumLock.cantAlign, cant_align, {array: [toolbar.btnHorizontalAlign]});
+            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form);
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
