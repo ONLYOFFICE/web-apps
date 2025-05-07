@@ -48,6 +48,7 @@
     "textScreenTip": "Näyttövinkki",
     "textSectionBreak": "Osion katkaisu",
     "textShape": "Muoto",
+    "textStartAt": "Aloita:",
     "textTable": "Taulukko",
     "textTableContents": "Sisällysluettelo",
     "textTableSize": "Taulukon koko",
@@ -63,7 +64,6 @@
     "textPosition": "Position",
     "textRecommended": "Recommended",
     "textRequired": "Required",
-    "textStartAt": "Start At",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers",
     "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
@@ -172,9 +172,9 @@
       "textNoFill": "Ei täyttöä"
     },
     "ThemeColorPalette": {
+      "textStandartColors": "Vakiovärit",
       "textThemeColors": "Teeman värit",
-      "textCustomColors": "Custom Colors",
-      "textStandartColors": "Standard Colors"
+      "textCustomColors": "Custom Colors"
     },
     "Themes": {
       "light": "Vaalea",
@@ -232,8 +232,8 @@
   "Draw": {
     "textColor": "Väri",
     "textCustomColor": "Mukautettu väri",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
+    "textOpacity": "Läpikuultamattomuus",
+    "textLineSize": "Line size"
   },
   "Edit": {
     "notcriticalErrorTitle": "Varoitus",
@@ -313,6 +313,7 @@
     "textNovember": "Marraskuu",
     "textNumbers": "Numerot",
     "textOctober": "Lokakuu",
+    "textOpacity": "Läpikuultamattomuus",
     "textOptions": "Vaihtoehdot",
     "textOrphanControl": "Orporivien hallinta",
     "textPageBreakBefore": "Sivun katko ennen",
@@ -344,6 +345,7 @@
     "textSpaceBetweenParagraphs": "Kappaleväli",
     "textSquare": "Neliö",
     "textStandard": "Standardi",
+    "textStartAt": "Aloita:",
     "textStyle": "Tyyli",
     "textStyleOptions": "Tyylin vaihtoehdot",
     "textStyles": "Tyylit",
@@ -393,7 +395,6 @@
     "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
     "textOk": "Ok",
     "textOnline": "Online",
-    "textOpacity": "Opacity",
     "textPageNumbers": "Page Numbers",
     "textParagraphStyle": "Paragraph Style",
     "textPt": "pt",
@@ -405,7 +406,6 @@
     "textRightAlign": "Right Align",
     "textSave": "Save",
     "textSelectObjectToEdit": "Select object to edit",
-    "textStartAt": "Start at",
     "textStrikethrough": "Strikethrough",
     "textStructure": "Structure",
     "textSu": "Su",
@@ -573,6 +573,7 @@
       "No List": "Ei luetteloa",
       "No Spacing": "Ei välejä",
       "No table of contents entries found": "Asiakirjassa ei ole yhtään otsikkoa. Käytä otsikkotyylejä saadaksesi otsikot näkymään sisällysluettelossa.",
+      "No table of figures entries found": "Yhtään kuvioluettelon merkintää ei löytynyt.",
       "Normal": "Normaali",
       "Number Too Large To Format": "Numero on liian suuri",
       "Odd Page ": "Pariton sivu",
@@ -611,7 +612,6 @@
       "Grayscale": "Grayscale",
       "Header": "Header",
       "Hyperlink": "Hyperlink",
-      "No table of figures entries found": "No table of figures entries found.",
       "None": "None",
       "Office": "Office",
       "Office 2007 - 2010": "Office 2007 - 2010",

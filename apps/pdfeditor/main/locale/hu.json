@@ -1474,6 +1474,7 @@
   "PDFE.Views.FormSettings.textRadioChoice": "Radio button choice",
   "PDFE.Views.FormSettings.textRadioDefault": "Button is checked by default",
   "PDFE.Views.FormSettings.textRadioStyle": "Button style",
+  "PDFE.Views.FormSettings.textReadonly": "Read only",
   "PDFE.Views.FormSettings.textReg": "Regular expression",
   "PDFE.Views.FormSettings.textRequired": "Required",
   "PDFE.Views.FormSettings.textScale": "When to scale",
@@ -1776,9 +1777,13 @@
   "PDFE.Views.PrintWithPreview.txtPageSize": "Lap méret",
   "PDFE.Views.PrintWithPreview.txtPortrait": "Álló",
   "PDFE.Views.PrintWithPreview.txtPrint": "Nyomtatás",
+  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
+  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
+  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
   "PDFE.Views.PrintWithPreview.txtPrintPdf": "Nyomtatás PDF-be",
   "PDFE.Views.PrintWithPreview.txtPrintRange": "Nyomtatási tartomány",
   "PDFE.Views.PrintWithPreview.txtPrintSides": "Oldalak nyomtatása",
+  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog",
   "PDFE.Views.PrintWithPreview.txtRight": "Jobb",
   "PDFE.Views.PrintWithPreview.txtSelection": "Választás",
   "PDFE.Views.PrintWithPreview.txtTop": "Felső",
@@ -2213,9 +2218,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.FormSettings.textReadonly": "Read only",
-  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
-  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
-  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
-  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog"
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
 }
