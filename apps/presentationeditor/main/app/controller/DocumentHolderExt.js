@@ -202,6 +202,7 @@ define([], function () {
             view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
             view.menuTableDistRows.on('click', _.bind(me.onTableDistRows, me));
             view.menuTableDistCols.on('click', _.bind(me.onTableDistCols, me));
+            view.menuTableDirection.menu.on('item:click', _.bind(me.tableDirection, me));
             view.menuIgnoreSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
             view.menuIgnoreSpellPara.on('click', _.bind(me.onIgnoreSpell, me));
             view.menuIgnoreAllSpellTable.on('click', _.bind(me.onIgnoreSpell, me));
@@ -1472,6 +1473,15 @@ define([], function () {
         dh.onTableDistCols = function () {
             this.api && this.api.asc_DistributeTableCells(true);
             this.editComplete();
+        };
+
+        dh.tableDirection = function(menu, item, e) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CellsTextDirection(item.options.direction);
+                me.api.tblApply(properties);
+            }
         };
 
         dh.onIgnoreSpell = function(item, e){
