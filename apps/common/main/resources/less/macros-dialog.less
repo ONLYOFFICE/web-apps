@@ -38,6 +38,15 @@
 				#macros-menu, #functions-menu {
 					height: 50%;
 				}
+
+				#btn-ai-macros-add {
+					margin-left: auto;
+					margin-right: 6px;
+					.rtl & {
+						margin-left: 6px;
+						margin-right: auto;
+					}
+				}
 			}
 			#macros-list, #functions-list {
 				height: calc(100% - 34px);
@@ -147,6 +156,32 @@
 					flex: 1;
 				}
 			}
+		}
+	}
+}
+
+#macros-ai-dialog {
+	&.padding-none .body {
+		padding-top: 0;
+	}
+
+	.body {
+		width: 100%;
+		bottom: 0;
+		display: flex;
+		flex-direction: column;
+
+		.box {
+			flex: 1;
+		}
+		#macros-ai-dialog-textarea {
+			height: 100%;
+			& * {
+				height: 100%;
+			}
+		}
+		#macros-ai-dialog-code-editor {
+			height: 100%;
 		}
 	}
 }

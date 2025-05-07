@@ -41,6 +41,7 @@ define([], function () {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.parentEl = options.parentEl;
+            this.language = options.language || 'javascript';
             this.parentEl && this.render(this.parentEl);
         },
 
@@ -59,7 +60,11 @@ define([], function () {
             this.loadMask = new Common.UI.LoadMask({owner: this.parentEl});
             this.loadMask.show();
 
-            this.iframe.src = '../../../vendor/monaco/MonacoEditor.html?editorType=' + (window.SSE ? 'cell' : window.PE ? 'slide' : 'word');
+            var src = '../../../vendor/monaco/MonacoEditor.html';
+            src += '?editorType=' + (window.SSE ? 'cell' : window.PE ? 'slide' : 'word');
+            src += '&language=' + this.language;
+
+            this.iframe.src = src;
 
             var me = this;
             this._eventfunc = function(msg) {
