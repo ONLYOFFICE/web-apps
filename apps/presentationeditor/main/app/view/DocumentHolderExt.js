@@ -1598,6 +1598,7 @@ define([], function () {
 
                     me.tableMenu.items[7].setDisabled(value.tableProps.locked || disabled);
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
+                    me.tableMenu.items[17].setDisabled(value.tableProps.locked || disabled);
 
                     me.menuTableCellAlign.setDisabled(value.tableProps.locked || disabled);
 
