@@ -1474,6 +1474,7 @@
   "PDFE.Views.FormSettings.textRadioChoice": "Radio button choice",
   "PDFE.Views.FormSettings.textRadioDefault": "Button is checked by default",
   "PDFE.Views.FormSettings.textRadioStyle": "Button style",
+  "PDFE.Views.FormSettings.textReadonly": "Read only",
   "PDFE.Views.FormSettings.textReg": "Regular expression",
   "PDFE.Views.FormSettings.textRequired": "Required",
   "PDFE.Views.FormSettings.textScale": "When to scale",
@@ -1776,9 +1777,13 @@
   "PDFE.Views.PrintWithPreview.txtPageSize": "页面大小",
   "PDFE.Views.PrintWithPreview.txtPortrait": "直向方向",
   "PDFE.Views.PrintWithPreview.txtPrint": "打印",
+  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
+  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
+  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
   "PDFE.Views.PrintWithPreview.txtPrintPdf": "打印为 PDF",
   "PDFE.Views.PrintWithPreview.txtPrintRange": "打印范围",
   "PDFE.Views.PrintWithPreview.txtPrintSides": "打印面",
+  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog",
   "PDFE.Views.PrintWithPreview.txtRight": "右",
   "PDFE.Views.PrintWithPreview.txtSelection": "选择",
   "PDFE.Views.PrintWithPreview.txtTop": "顶部",
@@ -2213,9 +2218,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "适应宽度",
   "PDFE.Views.ViewTab.tipHeadings": "标题",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "界面主题",
-  "PDFE.Views.FormSettings.textReadonly": "Read only",
-  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
-  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
-  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
-  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog"
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
 }

@@ -1474,6 +1474,7 @@
   "PDFE.Views.FormSettings.textRadioChoice": "Izbor radio dugmeta",
   "PDFE.Views.FormSettings.textRadioDefault": "Dugme je podrazumevano provereno",
   "PDFE.Views.FormSettings.textRadioStyle": "Stil dugmeta",
+  "PDFE.Views.FormSettings.textReadonly": "Read only",
   "PDFE.Views.FormSettings.textReg": "Redovni izraz",
   "PDFE.Views.FormSettings.textRequired": "Potrebno",
   "PDFE.Views.FormSettings.textScale": "Kada skalirati",
@@ -1776,9 +1777,13 @@
   "PDFE.Views.PrintWithPreview.txtPageSize": "Veličina stranice",
   "PDFE.Views.PrintWithPreview.txtPortrait": "Portret",
   "PDFE.Views.PrintWithPreview.txtPrint": "Štampaj",
+  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
+  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
+  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
   "PDFE.Views.PrintWithPreview.txtPrintPdf": "Štampaj kao PDF",
   "PDFE.Views.PrintWithPreview.txtPrintRange": "Opseg štampe",
   "PDFE.Views.PrintWithPreview.txtPrintSides": "Štampaj sa strane",
+  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog",
   "PDFE.Views.PrintWithPreview.txtRight": "Desno",
   "PDFE.Views.PrintWithPreview.txtSelection": "Selekcija",
   "PDFE.Views.PrintWithPreview.txtTop": "Vrh",
@@ -2213,9 +2218,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.FormSettings.textReadonly": "Read only",
-  "PDFE.Views.PrintWithPreview.txtPrinter": "Printer",
-  "PDFE.Views.PrintWithPreview.txtPrinterNotSelected": "Printer not selected",
-  "PDFE.Views.PrintWithPreview.txtPrintersNotFound": "Printers not found",
-  "PDFE.Views.PrintWithPreview.txtPrintUsingSystemDialog": "Print using the system dialog"
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
 }
