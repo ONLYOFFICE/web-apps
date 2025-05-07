@@ -1419,7 +1419,7 @@ define([], function () {
                 LabelGroup5 = [14, 15].includes(type);
 
                 if (ComboChart) {
-                    const comboType = chartProps.getSeries()?.[1]?.asc_getChartType(),
+                    const comboType = chartProps.getSeries()?.[0]?.asc_getChartType(),
                         isInGroup1 = [0, 1, 2, 16, 17, 18].includes(comboType),
                         isInGroup2 = [0, 1, 2, 14, 15, 16, 17, 18].includes(comboType),
                         isInGroup3 = [0, 14, 15, 16].includes(comboType),
@@ -3732,16 +3732,41 @@ define([], function () {
                 var x = asc_CRect.asc_getX();
                 var y = asc_CRect.asc_getY();
                 var width = asc_CRect.asc_getWidth();
-                chartContainer.css({
-                    left: (x + width + 10) + 'px', 
-                    top: y + 'px' 
-                }).show();
+                var height = asc_CRect.asc_getHeight();
+                var canvas = documentHolderView.cmpEl.find('#ws-canvas')[0];
+
+                if (canvas) {
+                    var canvasRect = canvas.getBoundingClientRect();
+                    var btnLeft = x + width + 10;
+                    var btnTop = y;
+
+                    if (btnLeft + 50 > canvasRect.width) {
+                        btnLeft = x - 40;
+            
+                        if (btnLeft < 20) {
+                            chartContainer.hide();
+                            return;
+                        }
+                    }
+
+                    if (btnTop + 30 > canvasRect.height) {
+                        btnTop = canvasRect.height - 30; 
+                    }
+
+                    if (btnTop < 18) 
+                        btnTop = 18;
+
+                    chartContainer.css({
+                        left: btnLeft + 'px',
+                        top: btnTop + 'px'
+                    }).show();
+                }
         
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
                         parentEl: $('#id-document-holder-btn-chart-element'),
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-menu-chart',
+                        iconCls: 'toolbar__icon btn-chart-elements',
                         menu: this.documentHolder.menuChartElement.menu
                     });
         
