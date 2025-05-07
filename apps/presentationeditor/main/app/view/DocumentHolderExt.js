@@ -1546,7 +1546,7 @@ define([], function () {
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 6; i < 18; i++) {
+                    for (var i = 6; i < 19; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -1592,12 +1592,6 @@ define([], function () {
                         me.mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
                         me.mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
                     }
-
-                    me.menuTableDistRows.setDisabled(disabled);
-                    me.menuTableDistCols.setDisabled(disabled);
-                    me.menuTableCellAlign.setDisabled(disabled);
-                    me.menuTableDirection.setDisabled(disabled);
-                    me.menuTableAdvanced.setDisabled(disabled);
                     
                     me.menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
                     me.menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
