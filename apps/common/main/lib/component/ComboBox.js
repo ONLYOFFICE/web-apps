@@ -121,6 +121,7 @@ define([
                 this.menuStyle      = me.options.menuStyle;
                 this.template       = me.options.template || me.template;
                 this.itemsTemplate  = me.options.itemsTemplate;
+                this.itemTemplate   = me.options.itemTemplate;
                 this.hint           = me.options.hint;
                 this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
@@ -170,6 +171,17 @@ define([
                                 items       : items,
                                 scope       : me
                             })));
+                    else if (this.itemTemplate) {
+                        this.cmpEl.find('ul').html($(_.template([
+                            '<% _.each(items, function(item) { %>',
+                            '<%= itemTemplate(item) %>',
+                            '<% }); %>'
+                        ].join(''))({
+                            items: items,
+                            itemTemplate: this.itemTemplate,
+                            scope: this
+                        })));
+                    }
 
                     if (parentEl) {
                         this.setElement(parentEl, false);
@@ -805,6 +817,16 @@ define([
                         items: this.store.toJSON(),
                         scope: this
                     })));
+                } else if (this.itemTemplate) {
+                    $(this.el).find('ul').html($(_.template([
+                        '<% _.each(items, function(item) { %>',
+                        '<%= itemTemplate(item) %>',
+                        '<% }); %>'
+                    ].join(''))({
+                        items: this.store.toJSON(),
+                        itemTemplate: this.itemTemplate,
+                        scope: this
+                    })));
                 } else {
                     $(this.el).find('ul').html(_.template([
                         '<% _.each(items, function(item) { %>',
@@ -858,4 +880,115 @@ define([
             this.cmpEl && this.cmpEl.find('.form-control').focus();
         }
     }, Common.UI.ComboBoxCustom || {}));
+
+    Common.UI.ComboBoxRecent = Common.UI.ComboBox.extend(_.extend({
+        initialize: function (options) {
+            this.recent = options.recent ? (_.isNumber(options.recent) ? options.recent : 5) : false;
+            this.recentKey = options.recentKey;
+            Common.UI.ComboBox.prototype.initialize.call(this, options);
+        },
+
+        render : function(parentEl) {
+            Common.UI.ComboBox.prototype.render.call(this, parentEl);
+
+            $(this.el).find('ul').prepend( $('<li class="divider">'));
+            this.loadRecent();
+            return this;
+        },
+
+        setData: function(data) {
+            Common.UI.ComboBox.prototype.setData.call(this, data);
+            $(this.el).find('ul').prepend( $('<li class="divider">'));
+            this.loadRecent();
+        },
+
+        itemClicked: function (e) {
+            Common.UI.ComboBox.prototype.itemClicked.call(this, e);
+            this._selectedItem && this.addItemToRecent(this._selectedItem);
+        },
+
+        onAfterShowMenu: function(e) {
+            if (this.recent > 0) {
+                this.alignMenuPosition();
+
+                $(this.el).find('ul').scrollTop(0);
+                if (this.scroller)
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
+
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
+                this._search = {};
+            } else {
+                Common.UI.ComboBox.prototype.onAfterShowMenu.apply(this, arguments);
+            }
+        },
+
+        loadRecent: function() {
+            if (this.recent > 0) {
+                if (!this.recentLoaded) {
+                    this.recentLoaded = true;
+                    this.store.on('add', this.onInsertItem, this);
+                    this.store.on('remove', this.onRemoveItem, this);
+                    if (!this.recentKey) {
+                        var filter = Common.localStorage.getKeysFilter();
+                        this.recentKey = (filter && filter.length ? filter.split(',')[0] : '') + this.id;
+                    }
+                }
+
+                var me = this,
+                    arr = Common.localStorage.getItem(this.recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr.reverse().forEach(function(item) {
+                    let obj;
+                    item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.valueField]=item, obj)), true);
+                });
+            }
+        },
+
+        addItemToRecent: function(record, silent) {
+            if (!record || this.recent<1) return;
+
+            let obj,
+                me = this,
+                item = this.store.findWhere((obj={isRecent: true}, obj[this.valueField]=record.get(this.valueField), obj));
+            item && this.store.remove(item);
+
+            var recents = this.store.where({isRecent: true});
+            if (!(recents.length < this.recent)) {
+                this.store.remove(recents[this.recent - 1]);
+            }
+
+            var new_record = record.clone();
+            new_record.set({'isRecent': true, 'id': Common.UI.getId(), cloneid: record.id});
+            this.store.add(new_record, {at:0});
+
+            if (!silent) {
+                var arr = [];
+                this.store.where({isRecent: true}).forEach(function(item){
+                    arr.push(item.get(me.valueField));
+                });
+                arr = arr.join(';');
+                Common.localStorage.setItem(this.recentKey, arr);
+            }
+        },
+
+        onInsertItem: function(item) {
+            if (this.itemTemplate) {
+                $(this.el).find('ul').prepend( $(this.itemTemplate(item.attributes)));
+            } else {
+                $(this.el).find('ul').prepend(_.template([
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
+                ].join(''))({
+                    item: item.attributes,
+                    scope: this
+                }));
+            }
+        },
+
+        onRemoveItem: function(item, store, opts) {
+            $(this.el).find('ul > li#'+item.id).remove();
+        }
+
+    }, Common.UI.ComboBoxRecent || {}));
 });
