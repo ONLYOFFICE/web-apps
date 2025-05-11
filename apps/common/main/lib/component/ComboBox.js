@@ -915,6 +915,9 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
+                var me = this;
+                setTimeout(function(){me.cmpEl.find('ul li:not(.divider) a').get(0).focus();}, 1);
+
                 this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
 
                 this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
@@ -928,8 +931,8 @@ define([
             if (this.recent > 0) {
                 if (!this.recentLoaded) {
                     this.recentLoaded = true;
-                    this.store.on('add', this.onInsertItem, this);
-                    this.store.on('remove', this.onRemoveItem, this);
+                    this.store.on('add', this.onInsertRecentItem, this);
+                    this.store.on('remove', this.onRemoveRecentItem, this);
                     if (!this.recentKey) {
                         var filter = Common.localStorage.getKeysFilter();
                         this.recentKey = (filter && filter.length ? filter.split(',')[0] : '') + this.id;
@@ -973,7 +976,7 @@ define([
             }
         },
 
-        onInsertItem: function(item) {
+        onInsertRecentItem: function(item) {
             if (this.itemTemplate) {
                 $(this.el).find('ul').prepend( $(this.itemTemplate(item.attributes)));
             } else {
@@ -986,7 +989,7 @@ define([
             }
         },
 
-        onRemoveItem: function(item, store, opts) {
+        onRemoveRecentItem: function(item, store, opts) {
             $(this.el).find('ul > li#'+item.id).remove();
         }
 
