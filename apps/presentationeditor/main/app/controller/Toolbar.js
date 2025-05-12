@@ -397,6 +397,8 @@ define([
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
+            toolbar.btnShapeDistribute.menu.on('item:click',            _.bind(this.onShapeAlign, this));
+            toolbar.btnShapeDistribute.menu.on('show:before',           _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnShapesMerge.menu.on('item:click',                _.bind(this.onClickMenuShapesMerge, this));
             toolbar.btnShapesMerge.menu.on('show:before',               _.bind(this.onBeforeShapesMerge, this));
@@ -823,7 +825,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.cmbsInsertShape.concat([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
-                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.btnShapesMerge,
+                    this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.btnShapeDistribute, this.toolbar.btnShapesMerge,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ])});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
@@ -945,7 +947,7 @@ define([
 
             if (this._state.no_drawing_objects !== no_drawing_objects ) {
                 if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
-                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnShapesMerge]});
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeDistribute, me.toolbar.btnShapeArrange, me.toolbar.btnShapesMerge]});
             }
 
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {

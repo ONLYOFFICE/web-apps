@@ -1150,9 +1150,6 @@ define([
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
-                                me.mniDistribHor,
-                                me.mniDistribVert,
-                                {caption: '--'},
                                 me.mniAlignToSlide,
                                 me.mniAlignObjects
                             ]
@@ -1165,6 +1162,27 @@ define([
                     me.shapeControls.push(me.btnShapeAlign);
                     me.slideOnlyControls.push(me.btnShapeAlign);
                     me.lockControls.push(me.btnShapeAlign);
+
+                    me.btnShapeDistribute = new Common.UI.Button({
+                        id: 'id-toolbar-btn-shape-distribute',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-shape-align-middle',
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
+                        menu: new Common.UI.Menu({
+                            cls: 'shifted-right',
+                            items: [
+                                me.mniDistribHor,
+                                me.mniDistribVert,
+                            ]
+                        }),
+                        action: 'object-align',
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
+                    });
+                    me.shapeControls.push(me.btnShapeDistribute);
+                    me.slideOnlyControls.push(me.btnShapeDistribute);
+                    me.lockControls.push(me.btnShapeDistribute);
 
                     me.btnShapeArrange = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-arrange',
@@ -1492,6 +1510,7 @@ define([
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
+                _injectComponent('#slot-btn-distribute-shape', this.btnShapeDistribute);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
@@ -1724,6 +1743,7 @@ define([
                 this.btnInsVideo && this.btnInsVideo.updateHint(this.tipInsertVideo);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
+                this.btnShapeDistribute.updateHint(this.tipShapeDistribute);
                 this.btnShapesMerge.updateHint(this.tipShapesMerge);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
