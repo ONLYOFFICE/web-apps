@@ -60,9 +60,9 @@ define([
         }
 
         function _clickLanguage(menu, item) {
-            this.langMenu.prevTip = item.value.value;
+            this.langMenu.prevTip = item.value;
             this.btnLanguage.setCaption(item.caption);
-            this.fireEvent('langchanged', [this, item.value.code, item.caption]);
+            this.fireEvent('langchanged', [this, item.code, item.caption]);
         }
 
         function _onAppReady(config) {
@@ -243,7 +243,7 @@ define([
                     style: 'margin-top:-5px;',
                     restoreHeight: 285,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                             '<div>',
                                 '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
@@ -254,6 +254,9 @@ define([
                     menuAlign: 'bl-tl',
                     search: true,
                     searchFields: ['caption', 'captionEn'],
+                    recent: 5,
+                    valueField: 'value',
+                    recentKey: 'de-settings-recent-langs',
                     focusToCheckedItem: true
                 });
 
@@ -406,7 +409,8 @@ define([
                     arr.push({
                         caption     : item['displayValue'],
                         captionEn   : item['displayValueEn'],
-                        value       : {value: item['value'], code: item['code']},
+                        value       : item['value'],
+                        code        : item['code'],
                         checkable   : true,
                         checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
@@ -424,9 +428,9 @@ define([
                     this.btnLanguage.setCaption(info.displayValue);
                     this.langMenu.prevTip = info.value;
 
-                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
-                    if (lang) {
-                        this.langMenu.setChecked(this.langMenu.items.indexOf(lang), true);
+                    var index = _.findLastIndex(this.langMenu.items, {caption: info.displayValue});
+                    if (index>-1) {
+                        this.langMenu.setChecked(index, true);
                     } else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();

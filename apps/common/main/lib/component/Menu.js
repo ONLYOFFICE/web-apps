@@ -847,6 +847,9 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
+            this.recent         = this.options.recent ? (_.isNumber(this.options.recent) ? this.options.recent : 5) : false;
+            this.recentKey      = this.options.recentKey;
+            this.valueField     = this.options.valueField || 'caption'; // used for recent items
 
             if (Common.UI.isRTL()) {
                 if (this.menuAlign === 'tl-tr') {
@@ -942,6 +945,9 @@ define([
 
             this.trigger('render:after', this);
 
+            this.recent && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
+
             return this;
         },
 
@@ -960,6 +966,8 @@ define([
                 itemTemplate: this.itemTemplate,
                 options : this.options
             }));
+            this.recent && this.menuRoot && this.menuRoot.find('> li:first').addClass('border-top');
+            this.loadRecent();
         },
 
         isVisible: function() {
@@ -1004,6 +1012,7 @@ define([
                 }, 10);
                 return;
             }
+            this.addItemToRecent(item);
             this.trigger('item:click', this, item, e);
         },
 
@@ -1057,6 +1066,7 @@ define([
         },
 
         onBeforeShowMenu: function(e) {
+            this.loadRecent();
             Common.NotificationCenter.trigger('menu:show');
             this.trigger('show:before', this, e);
             (e && e.target===e.currentTarget) && this.alignPosition();
@@ -1066,18 +1076,23 @@ define([
             this.trigger('show:after', this, e);
             if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                var menuRoot = this.menuRoot,
-                    $selected = menuRoot.find('> li .checked');
-                if ($selected.length) {
-                    var itemTop = Common.Utils.getPosition($selected).top,
-                        itemHeight = $selected.outerHeight(),
-                        listHeight = menuRoot.outerHeight();
-                    if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
-                        var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
-                        height = (Math.floor(height/itemHeight) * itemHeight);
-                        menuRoot.scrollTop(height);
+                var menuRoot = this.menuRoot;
+                if (this.recent > 0 && this.recentArr && this.recentArr.length) {
+                    menuRoot.scrollTop(0);
+                    setTimeout(function(){menuRoot.find('> li:first a').focus();}, 1);
+                } else {
+                    var $selected = menuRoot.find('> li .checked');
+                    if ($selected.length) {
+                        var itemTop = Common.Utils.getPosition($selected).top,
+                            itemHeight = $selected.outerHeight(),
+                            listHeight = menuRoot.outerHeight();
+                        if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
+                            var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            menuRoot.scrollTop(height);
+                        }
+                        !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                     }
-                    !!this.options.focusToCheckedItem && setTimeout(function(){$selected.focus();}, 1);
                 }
             }
             this._search = {};
@@ -1276,6 +1291,83 @@ define([
             _.each(this.items, function(item){
                 item.checked = false;
             });
+        },
+
+        loadRecent: function() {
+            if (this.recent > 0 && this.rendered) {
+                if (!this.recentArr) {
+                    this.recentArr = [];
+                    if (!this.recentKey) {
+                        var filter = Common.localStorage.getKeysFilter();
+                        this.recentKey = (filter && filter.length ? filter.split(',')[0] : '') + this.id;
+                    }
+                }
+
+                var me = this,
+                    arr = Common.localStorage.getItem(this.recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr.reverse().forEach(function(recent) {
+                    let mnu = _.find(me.items, function(item) {
+                        return item[me.valueField] === recent;
+                    });
+
+                    mnu && me.addItemToRecent(mnu, true);
+                });
+                this.recentArr = arr;
+            }
+        },
+
+        addItemToRecent: function(mnu, silent) {
+            if (!mnu || this.recent<1) return;
+
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                if (this.items[i][this.valueField] === mnu[this.valueField]) {
+                    this.onRemoveRecentItem(this.items[i]);
+                    this.items.splice(i, 1);
+                    break;
+                }
+            }
+
+            let recentLen = 0;
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                recentLen++;
+            }
+
+            if (!(recentLen<this.recent)) {
+                this.onRemoveRecentItem(this.items[this.recent - 1]);
+                this.items.splice(this.recent - 1, 1);
+            }
+
+            var new_record = Object.assign({}, mnu);
+            new_record.isRecent = true;
+            new_record.id = Common.UI.getId();
+            new_record.checked = false;
+            this.items.unshift(new_record);
+            this.onInsertRecentItem(new_record);
+
+            if (!silent) {
+                var arr = [];
+                for (let i=0; i<this.items.length; i++) {
+                    if (!this.items[i].isRecent) break;
+                    arr.push(this.items[i][this.valueField]);
+                }
+                this.recentArr = arr;
+                Common.localStorage.setItem(this.recentKey, arr.join(';'));
+            }
+            this.$items = null;
+        },
+
+        onInsertRecentItem: function(item) {
+            this.cmpEl && this.cmpEl.prepend(_.template('<li><%= itemTemplate(item) %></li>')({
+                itemTemplate: this.itemTemplate,
+                item: item
+            }));
+        },
+
+        onRemoveRecentItem: function(item) {
+            this.cmpEl && this.cmpEl.find('> li a#'+item.id).closest('li').remove();
         }
     });
 
