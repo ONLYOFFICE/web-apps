@@ -927,6 +927,18 @@ define([
             }
         },
 
+        onBeforeShowMenu: function(e) {
+            Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
+
+            if (this._selectedItem && this._selectedItem.get('isRecent')) {
+                let obj,
+                    record = this.store.where((obj={}, obj[this.valueField]=this._selectedItem.get(this.valueField), obj));
+                if (record && record.length) {
+                    this.selectRecord(record[record.length - 1]);
+                }
+            }
+        },
+
         loadRecent: function() {
             if (this.recent > 0) {
                 if (!this.recentArr) {
