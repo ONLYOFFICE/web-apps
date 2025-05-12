@@ -148,7 +148,7 @@ define([], function () {
                 takeFocusOnClose: true,
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
                     '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= Common.Utils.String.htmlEncode(item.value) %></label></a></li>',
                     '<% }); %>'
                 ].join(''))
