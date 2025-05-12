@@ -1170,7 +1170,7 @@ define([
                         id: 'id-toolbar-btn-shape-arrange',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-arrange-front',
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart, _set.shapeLock],
                         menu: new Common.UI.Menu({
                             items: [
                                 me.mnuArrangeFront = new Common.UI.MenuItem({
@@ -1211,6 +1211,7 @@ define([
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
                     });
+                    me.shapeControls.push(me.btnShapeArrange);
                     me.slideOnlyControls.push(me.btnShapeArrange);
                     me.lockControls.push(me.btnShapeArrange);
 
