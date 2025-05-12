@@ -908,7 +908,7 @@ define([
         },
 
         onAfterShowMenu: function(e) {
-            if (this.recent > 0) {
+            if (this.recent > 0 && this.recentArr && this.recentArr.length) {
                 this.alignMenuPosition();
 
                 $(this.el).find('ul').scrollTop(0);
@@ -929,8 +929,8 @@ define([
 
         loadRecent: function() {
             if (this.recent > 0) {
-                if (!this.recentLoaded) {
-                    this.recentLoaded = true;
+                if (!this.recentArr) {
+                    this.recentArr = [];
                     this.store.on('add', this.onInsertRecentItem, this);
                     this.store.on('remove', this.onRemoveRecentItem, this);
                     if (!this.recentKey) {
@@ -946,6 +946,7 @@ define([
                     let obj;
                     item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.valueField]=item, obj)), true);
                 });
+                this.recentArr = arr;
             }
         },
 
@@ -971,8 +972,8 @@ define([
                 this.store.where({isRecent: true}).forEach(function(item){
                     arr.push(item.get(me.valueField));
                 });
-                arr = arr.join(';');
-                Common.localStorage.setItem(this.recentKey, arr);
+                this.recentArr = arr;
+                Common.localStorage.setItem(this.recentKey, arr.join(';'));
             }
         },
 
