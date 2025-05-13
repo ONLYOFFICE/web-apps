@@ -918,7 +918,9 @@ define([
                 this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
-
+            
+            this.onBeforeShapeAlign();
+            this.toolbar.lockToolbar(Common.enumLock.cantDistributeShape, (this.api.asc_getSelectedDrawingObjectsCount() < 3 && this.toolbar.mniAlignObjects.isChecked()), { array: [this.toolbar.btnShapeDistribute] });
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
             this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
 
@@ -1723,8 +1725,6 @@ define([
             this.toolbar.mniAlignObjects.setDisabled(value<2);
             this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
             this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
-            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
-            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
         },
 
         onShapeAlign: function(menu, item) {
@@ -1742,6 +1742,8 @@ define([
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+            const shouldLockDistribute = this.api.asc_getSelectedDrawingObjectsCount() < 3 && this.toolbar.mniAlignObjects.isChecked();
+            this.toolbar.lockToolbar(Common.enumLock.cantDistributeShape, shouldLockDistribute, { array: [this.toolbar.btnShapeDistribute] });
         },
 
         onShapeArrange: function(menu, item) {

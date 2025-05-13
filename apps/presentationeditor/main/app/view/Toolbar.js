@@ -72,6 +72,7 @@ define([
         incIndentLock:   'can-inc-indent',
         decIndentLock:   'can-dec-indent',
         hyperlinkLock:   'can-hyperlink',
+        cantDistributeShape: 'distribute-shape-lock',
         undoLock:        'can-undo',
         redoLock:        'can-redo',
         docPropsLock:   'doc-props-lock',
@@ -1167,7 +1168,7 @@ define([
                         id: 'id-toolbar-btn-shape-distribute',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-shape-align-middle',
-                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noDrawingObjects, _set.disableOnStart, _set.cantDistributeShape],
                         menu: new Common.UI.Menu({
                             cls: 'shifted-right',
                             items: [
