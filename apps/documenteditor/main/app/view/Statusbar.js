@@ -254,12 +254,9 @@ define([
                     menuAlign: 'bl-tl',
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    recent: 5,
                     valueField: 'value',
-                    recentKey: 'de-settings-recent-langs',
                     focusToCheckedItem: true
                 });
-
                 this.zoomMenu = new Common.UI.Menu({
                     style: 'margin-top:-5px;',
                     menuAlign: 'bl-tl',
@@ -415,6 +412,11 @@ define([
                         checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
                     });
+                });
+                this.langMenu.setRecent({
+                    count: Common.Utils.InternalSettings.get("de-settings-recent-langs-count") || 5,
+                    offset: Common.Utils.InternalSettings.get("de-settings-recent-langs-offset") || 0,
+                    key: 'de-settings-recent-langs'
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {

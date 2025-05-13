@@ -273,9 +273,7 @@ define([
                     menuAlign: 'bl-tl',
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    recent: 5,
                     valueField: 'value',
-                    recentKey: 'pe-settings-recent-langs',
                     focusToCheckedItem: true
                 });
 
@@ -363,6 +361,11 @@ define([
                         checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
                     });
+                });
+                this.langMenu.setRecent({
+                    count: Common.Utils.InternalSettings.get("pe-settings-recent-langs-count") || 5,
+                    offset: Common.Utils.InternalSettings.get("pe-settings-recent-langs-offset") || 0,
+                    key: 'pe-settings-recent-langs'
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {

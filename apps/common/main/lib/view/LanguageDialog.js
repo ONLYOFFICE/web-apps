@@ -74,15 +74,19 @@ define([], function () { 'use strict';
         var $window = this.getChild();
         $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-        var filter = Common.localStorage.getKeysFilter();
+        var filter = Common.localStorage.getKeysFilter(),
+            lckey = ((filter && filter.length) ? filter.split(',')[0] : '') + "settings-recent-langs";
 
         this.cmbLanguage = new Common.UI.ComboBoxRecent({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
             menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
-            recent: 5,
-            recentKey: (filter && filter.length ? filter.split(',')[0] : '') + 'settings-recent-langs',
+            recent: {
+                count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                key: lckey
+            },
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control">',

@@ -727,9 +727,7 @@ define([], function () {
                     itemTemplate: langTemplate,
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    recent: 5,
                     valueField: 'value',
-                    recentKey: 'pe-settings-recent-langs',
                     focusToCheckedItem: true
                 })
             });
@@ -801,9 +799,7 @@ define([], function () {
                     itemTemplate: langTemplate,
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    recent: 5,
                     valueField: 'value',
-                    recentKey: 'pe-settings-recent-langs',
                     focusToCheckedItem: true
                 })
             });

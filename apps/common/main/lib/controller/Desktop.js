@@ -772,6 +772,10 @@ define([
             uiRtlSupported: function () {
                 return nativevars && nativevars.rtl != undefined;
             },
+
+            getSystemLangs: function() {
+                return;
+            }
         };
     };
 

@@ -883,8 +883,13 @@ define([
 
     Common.UI.ComboBoxRecent = Common.UI.ComboBox.extend(_.extend({
         initialize: function (options) {
-            this.recent = options.recent ? (_.isNumber(options.recent) ? options.recent : 5) : false;
-            this.recentKey = options.recentKey;
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !options.recent ? false : {
+                count: options.recent.count || 5,
+                key: options.recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: options.recent.offset || 0
+            };
+
             Common.UI.ComboBox.prototype.initialize.call(this, options);
         },
 
@@ -908,15 +913,12 @@ define([
         },
 
         onAfterShowMenu: function(e) {
-            if (this.recent > 0 && this.recentArr && this.recentArr.length) {
+            if (this.recent && this.recentArr && this.recentArr.length) {
                 this.alignMenuPosition();
 
                 $(this.el).find('ul').scrollTop(0);
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-
-                var me = this;
-                setTimeout(function(){me.cmpEl.find('ul li:not(.divider) a').get(0).focus();}, 1);
 
                 this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
 
@@ -940,44 +942,44 @@ define([
         },
 
         loadRecent: function() {
-            if (this.recent > 0) {
+            if (this.recent) {
                 if (!this.recentArr) {
                     this.recentArr = [];
                     this.store.on('add', this.onInsertRecentItem, this);
                     this.store.on('remove', this.onRemoveRecentItem, this);
-                    if (!this.recentKey) {
-                        var filter = Common.localStorage.getKeysFilter();
-                        this.recentKey = (filter && filter.length ? filter.split(',')[0] : '') + this.id;
-                    }
                 }
 
+                this.store.remove(this.store.where({isRecent: true}));
+
                 var me = this,
-                    arr = Common.localStorage.getItem(this.recentKey);
+                    arr = Common.localStorage.getItem(this.recent.key);
                 arr = arr ? arr.split(';') : [];
                 arr.reverse().forEach(function(item) {
                     let obj;
-                    item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.valueField]=item, obj)), true);
+                    item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.valueField]=item, obj)), true, 0);
                 });
                 this.recentArr = arr;
             }
         },
 
-        addItemToRecent: function(record, silent) {
-            if (!record || this.recent<1) return;
+        addItemToRecent: function(record, silent, index) {
+            if (!record || !this.recent) return;
 
             let obj,
                 me = this,
                 item = this.store.findWhere((obj={isRecent: true}, obj[this.valueField]=record.get(this.valueField), obj));
+            if (item && this.store.indexOf(item)<this.recent.offset) return;
+
             item && this.store.remove(item);
 
             var recents = this.store.where({isRecent: true});
-            if (!(recents.length < this.recent)) {
-                this.store.remove(recents[this.recent - 1]);
+            if (!(recents.length < this.recent.count)) {
+                this.store.remove(recents[this.recent.count - 1]);
             }
 
             var new_record = record.clone();
             new_record.set({'isRecent': true, 'id': Common.UI.getId(), cloneid: record.id});
-            this.store.add(new_record, {at:0});
+            this.store.add(new_record, {at: index!==undefined ? index : this.recent.offset});
 
             if (!silent) {
                 var arr = [];
@@ -985,15 +987,16 @@ define([
                     arr.push(item.get(me.valueField));
                 });
                 this.recentArr = arr;
-                Common.localStorage.setItem(this.recentKey, arr.join(';'));
+                Common.localStorage.setItem(this.recent.key, arr.join(';'));
             }
         },
 
-        onInsertRecentItem: function(item) {
+        onInsertRecentItem: function(item, store, options) {
+            var el = $(this.el).find('ul > li').eq(options ? options.at || 0 : 0);
             if (this.itemTemplate) {
-                $(this.el).find('ul').prepend( $(this.itemTemplate(item.attributes)));
+                el.before( $(this.itemTemplate(item.attributes)));
             } else {
-                $(this.el).find('ul').prepend(_.template([
+                el.before(_.template([
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                 ].join(''))({
                     item: item.attributes,

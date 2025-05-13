@@ -847,9 +847,14 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
-            this.recent         = this.options.recent ? (_.isNumber(this.options.recent) ? this.options.recent : 5) : false;
-            this.recentKey      = this.options.recentKey;
             this.valueField     = this.options.valueField || 'caption'; // used for recent items
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !options.recent ? false : {
+                count: options.recent.count || 5,
+                key: options.recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: options.recent.offset || 0
+            };
 
             if (Common.UI.isRTL()) {
                 if (this.menuAlign === 'tl-tr') {
@@ -1077,9 +1082,8 @@ define([
             if (this.scroller && e && e.target===e.currentTarget) {
                 this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                 var menuRoot = this.menuRoot;
-                if (this.recent > 0 && this.recentArr && this.recentArr.length) {
+                if (this.recent && this.recentArr && this.recentArr.length) {
                     menuRoot.scrollTop(0);
-                    setTimeout(function(){menuRoot.find('> li:first a').focus();}, 1);
                 } else {
                     var $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
@@ -1293,36 +1297,53 @@ define([
             });
         },
 
+        setRecent: function(recent) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !recent ? false : {
+                count: recent.count || 5,
+                key: recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: recent.offset || 0
+            };
+        },
+
         loadRecent: function() {
-            if (this.recent > 0 && this.rendered) {
+            if (this.recent && this.rendered) {
                 if (!this.recentArr) {
                     this.recentArr = [];
-                    if (!this.recentKey) {
-                        var filter = Common.localStorage.getKeysFilter();
-                        this.recentKey = (filter && filter.length ? filter.split(',')[0] : '') + this.id;
-                    }
                 }
+                this.clearRecent();
 
                 var me = this,
-                    arr = Common.localStorage.getItem(this.recentKey);
+                    arr = Common.localStorage.getItem(this.recent.key);
                 arr = arr ? arr.split(';') : [];
                 arr.reverse().forEach(function(recent) {
                     let mnu = _.find(me.items, function(item) {
                         return item[me.valueField] === recent;
                     });
 
-                    mnu && me.addItemToRecent(mnu, true);
+                    mnu && me.addItemToRecent(mnu, true, 0);
                 });
                 this.recentArr = arr;
             }
         },
 
-        addItemToRecent: function(mnu, silent) {
-            if (!mnu || this.recent<1) return;
+        clearRecent: function() {
+            for (let i=0; i<this.items.length; i++) {
+                if (!this.items[i].isRecent) break;
+                this.onRemoveRecentItem(this.items[i]);
+                this.items.splice(i, 1);
+                i--;
+            }
+        },
+
+        addItemToRecent: function(mnu, silent, index) {
+            if (!mnu || !this.recent) return;
 
             for (let i=0; i<this.items.length; i++) {
                 if (!this.items[i].isRecent) break;
                 if (this.items[i][this.valueField] === mnu[this.valueField]) {
+                    if (i<this.recent.offset) return;
+
                     this.onRemoveRecentItem(this.items[i]);
                     this.items.splice(i, 1);
                     break;
@@ -1335,17 +1356,17 @@ define([
                 recentLen++;
             }
 
-            if (!(recentLen<this.recent)) {
-                this.onRemoveRecentItem(this.items[this.recent - 1]);
-                this.items.splice(this.recent - 1, 1);
+            if (!(recentLen<this.recent.count)) {
+                this.onRemoveRecentItem(this.items[this.recent.count - 1]);
+                this.items.splice(this.recent.count - 1, 1);
             }
 
             var new_record = Object.assign({}, mnu);
             new_record.isRecent = true;
             new_record.id = Common.UI.getId();
             new_record.checked = false;
-            this.items.unshift(new_record);
-            this.onInsertRecentItem(new_record);
+            this.items.splice(index!==undefined ? index : this.recent.offset, 0, new_record);
+            this.onInsertRecentItem(new_record, index!==undefined ? index : this.recent.offset);
 
             if (!silent) {
                 var arr = [];
@@ -1354,13 +1375,15 @@ define([
                     arr.push(this.items[i][this.valueField]);
                 }
                 this.recentArr = arr;
-                Common.localStorage.setItem(this.recentKey, arr.join(';'));
+                Common.localStorage.setItem(this.recent.key, arr.join(';'));
             }
             this.$items = null;
         },
 
-        onInsertRecentItem: function(item) {
-            this.cmpEl && this.cmpEl.prepend(_.template('<li><%= itemTemplate(item) %></li>')({
+        onInsertRecentItem: function(item, index) {
+            if (!this.cmpEl) return;
+            var el = this.cmpEl.find('> li').eq(index || 0);
+            el.before(_.template('<li><%= itemTemplate(item) %></li>')({
                 itemTemplate: this.itemTemplate,
                 item: item
             }));
