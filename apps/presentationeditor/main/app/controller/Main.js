@@ -2361,13 +2361,19 @@ define([
                     this.loadLanguages([]);
                 }
 
-                let sLangs = Common.Controllers.Desktop.systemLangs() || [],
-                    recentKey = 'pe-settings-recent-langs',
-                    arr = Common.localStorage.getItem(recentKey),
+                let sLangs = Common.Controllers.Desktop.systemLangs() || {},
+                    arr = [];
+                for (let name in sLangs) {
+                    sLangs.hasOwnProperty(name) && arr.push(name);
+                }
+                sLangs = arr;
+
+                let recentKey = 'pe-settings-recent-langs',
                     recentCount = Math.max(5, sLangs.length + 3);
                 Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
                 Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
 
+                arr = Common.localStorage.getItem(recentKey);
                 arr = arr ? arr.split(';') : [];
                 arr = _.union(sLangs, arr);
                 arr.splice(recentCount);
