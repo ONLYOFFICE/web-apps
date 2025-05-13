@@ -2811,7 +2811,7 @@ define([
                     this.loadLanguages([]);
                 }
 
-                let sLangs = Common.Controllers.Desktop.getSystemLangs() || [],
+                let sLangs = Common.Controllers.Desktop.systemLangs() || [],
                     recentKey = 'de-settings-recent-langs',
                     arr = Common.localStorage.getItem(recentKey),
                     recentCount = Math.max(5, sLangs.length + 3);

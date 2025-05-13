@@ -68,7 +68,7 @@ define([
             this._originalSpecProps = null;
             this._originalProps = null;
             this.defFormat = {FormatType: AscPDF.FormatType.NONE, decimal: 2, separator: AscPDF.SeparatorStyle.COMMA_DOT, negative: AscPDF.NegativeStyle.BLACK_MINUS,
-                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 'HH:MM', special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
+                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 0, special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
             this.render();
         },
 
@@ -300,12 +300,15 @@ define([
             this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
+            var timearr = this.api.asc_getFieldTimeFormatOptions();
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                }
+            }
             this.cmbTimeFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-time-format'),
                 cls: 'input-group-nr',
