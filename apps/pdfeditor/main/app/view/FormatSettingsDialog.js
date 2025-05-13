@@ -135,7 +135,7 @@ define([
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._state = {DateFormatCustom: '', TimeFormatCustom: '', DateFormat: '', TimeFormat: '', NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
+            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
             this.FormatType = AscPDF.FormatType.NONE;
         },
 
@@ -301,13 +301,19 @@ define([
             this.dateFormats = arr.concat({value: '', displayValue: this.txtCustom, isCustom: true});
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
-            this.timeFormats = arr.concat({value: '', displayValue: this.txtCustom, isCustom: true});
+            var timearr = this.api.asc_getFieldTimeFormatOptions(),
+                valarr = [];
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                    valarr[timearr[str]] = str;
+                }
+            }
+            this.timeFormats = arr;
+            this.timeVal2Str = valarr;
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._numberPanel     = this.$window.find('.format-number');
@@ -354,12 +360,12 @@ define([
                 if (this.FormatType===AscPDF.FormatType.DATE || this.FormatType===AscPDF.FormatType.TIME) {
                     val = format.asc_getFormat();
                     var selectedItem = this.dateTimeList.store.findWhere({value: val});
-                    this.inputCustomFormat.setVisible(!selectedItem);
-                    if(!selectedItem) {
+                    this.inputCustomFormat.setVisible(this.FormatType===AscPDF.FormatType.DATE && !selectedItem);
+                    if(this.FormatType===AscPDF.FormatType.DATE && !selectedItem) {
                         selectedItem = this.dateTimeList.store.findWhere({isCustom: true});
                         selectedItem && selectedItem.set({value: val});
                         this.inputCustomFormat.setValue(val);
-                        this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormatCustom' : 'TimeFormatCustom'] = val;
+                        this._state.DateFormatCustom = val;
                     }
                     if(selectedItem) {
                         this.dateTimeList.selectRecord(selectedItem);
@@ -452,7 +458,7 @@ define([
                     str = this.api.asc_getFieldDateTimeFormatExample(this._state.DateFormat);
                     break;
                 case AscPDF.FormatType.TIME:
-                    str = this.api.asc_getFieldDateTimeFormatExample(this._state.TimeFormat);
+                    str = this.api.asc_getFieldDateTimeFormatExample(this.timeVal2Str[this._state.TimeFormat]);
                     break;
             }
             this.lblExample.toggleClass('red-color', this.FormatType===AscPDF.FormatType.NUMBER && (this._state.NegStyle===AscPDF.NegativeStyle.PARENS_RED || this._state.NegStyle===AscPDF.NegativeStyle.RED_MINUS));
@@ -474,9 +480,9 @@ define([
 
         onDateTimeListSelect: function(listView, itemView, record){
             if (!record) return;
-            var isCustom = !!record.get('isCustom');
+            var isCustom = this.FormatType===AscPDF.FormatType.DATE && !!record.get('isCustom');
             this.inputCustomFormat.setVisible(isCustom);
-            isCustom && this.inputCustomFormat.setValue(this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormatCustom' : 'TimeFormatCustom']);
+            isCustom && this.inputCustomFormat.setValue(this._state.DateFormatCustom);
             this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormat' : 'TimeFormat'] = isCustom ? this.inputCustomFormat.getValue() : record.get('value');
             this.updateFormatExample();
         },
