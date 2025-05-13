@@ -920,8 +920,8 @@ define([
                 this._state.in_chart = in_chart;
             }
             
-            this.updateShapeDistriburion(drawing_objects);
-            this.toolbar.lockToolbar(Common.enumLock.cantDistributeShape, (drawing_objects < 3 && this.toolbar.mniAlignObjects.isChecked()), { array: [this.toolbar.btnShapeDistribute] });
+            var slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+            this.toolbar.lockToolbar(Common.enumLock.cantDistributeShape, drawing_objects < 3 && drawing_objects>1 && !slide_checked, { array: [this.toolbar.btnShapeDistribute] });
             this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
             this.toolbar.lockToolbar(Common.enumLock.cantMergeShape, !this.api.asc_canMergeSelectedShapes(), { array: [this.toolbar.btnShapesMerge] });
 
@@ -1726,11 +1726,6 @@ define([
             this.toolbar.mniAlignObjects.setDisabled(value<2);
             this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
             this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
-        },
-
-        updateShapeDistriburion: function(value) {
-            var slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
-            this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
         },
 
         onShapeAlign: function(menu, item) {
