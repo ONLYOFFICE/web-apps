@@ -1253,7 +1253,7 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
 
-                var val = props.asc_getLocked();
+                var val = props.asc_getPropLocked();
                 if (this._state.LockDelete !== val) {
                     this._state.LockDelete = val;
                     this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
