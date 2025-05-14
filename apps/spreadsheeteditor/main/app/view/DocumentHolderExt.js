@@ -1136,11 +1136,11 @@ define([], function () {
                                         value: 'bShowVertAxSec', 
                                         checkable: true
                                     },
-                                    // { 
-                                    //     caption: me.DepthAxis, 
-                                    //     value: 'bShowDepthAxes', 
-                                    //     checkable: true
-                                    // }
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxes', 
+                                        checkable: true
+                                    }
                                 ]
                             })
                         },
@@ -1170,6 +1170,11 @@ define([], function () {
                                     { 
                                         caption: _СhartSettingsDlg_view.textVertAxisSec, 
                                         value: 'bShowVertAxisTitleSec', 
+                                        checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxisTitle', 
                                         checkable: true
                                     }
                                 ]

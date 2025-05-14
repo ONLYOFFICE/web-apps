@@ -1206,67 +1206,70 @@ define([], function () {
             switch (value) {
                 case 'bShowHorAxis':
                     if (hBarChart) {
-                        chartProps.setDisplayAxes(VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), item.checked, VertAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), item.checked, VertAxis?.getShow(), DepthAxis?.getShow());
                     } else if (type === 38) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
                     } else {
-                        chartProps.setDisplayAxes(item.checked, SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(item.checked, SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
                     }
                     break;                
                 case 'bShowVertAxis':
                     if (hBarChart) {
-                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), HorAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(item.checked, SecVertAxis?.getShow(), HorAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), HorAxis?.getShow(), item.checked, DepthAxis);
+                        chartProps.setDisplayAxes(SecVertAxis?.getShow(), SecHorAxis?.getShow(), HorAxis?.getShow(), item.checked, DepthAxis?.getShow());
                     } else if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), item.checked, SecHorAxis?.getShow(), DepthAxis?.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), item.checked, SecVertAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), item.checked, SecVertAxis?.getShow(), DepthAxis?.getShow());
                     }
                     break;
                 case 'bShowHorAxSec':
                     if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecVertAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecVertAxis?.getShow(), DepthAxis?.getShow());
                     }
                     break;          
                 case 'bShowVertAxSec':
                     if (type === 38) {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), item.checked, VertAxis?.getShow(), SecHorAxis?.getShow(), DepthAxis?.getShow());
                     } else {
-                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis);
+                        chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), item.checked, DepthAxis?.getShow());
                     }
                     break; 
+                case 'bShowDepthAxes':
+                    chartProps.setDisplayAxes(HorAxis?.getShow(), SecHorAxis?.getShow(), VertAxis?.getShow(), SecVertAxis?.getShow(), item.checked);
+                    break;
                 case 'bShowHorAxTitle':
                     if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked,  SecHorAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked,  SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     } else {
-                        chartProps.setDisplayAxisTitles(item.checked, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(item.checked, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     }
                     break;
                 case 'bShowVertAxTitle':
                     if (hBarChart) {
-                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(item.checked, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     } else if (scatterChart) {
-                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, item.checked, DepthAxis);
+                        chartProps.setDisplayAxisTitles(SecHorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, HorAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
                     } else if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, SecHorAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked, SecHorAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, item.checked, SecVertAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, item.checked, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     }
                     break;
                 case 'bShowHorAxTitleSec':
                     if (type === 38) {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis);
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
                     } else {
-                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis);
+                        chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, item.checked, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, DepthAxis?.getLabel() === 1);
                     }
                     break;
                 case 'bShowVertAxisTitleSec':
@@ -1275,6 +1278,9 @@ define([], function () {
                     } else { 
                         chartProps.setDisplayAxisTitles(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, item.checked, DepthAxis?.getLabel() === 1);
                     }
+                case 'bShowDepthAxisTitle':
+                    chartProps.setDisplayAxes(HorAxis?.getLabel() === 1, SecHorAxis?.getLabel() === 1, VertAxis?.getLabel() === 1, SecVertAxis?.getLabel() === 1, item.checked);
+                    break;
                 case 'bShowChartTitleNone':
                     chartProps.setDisplayChartTitle(false, false); 
                     break;
@@ -1437,6 +1443,8 @@ define([], function () {
             axesMenu.items[0].setVisible(!RadarChart);
             axesMenu.items[0].setChecked(!RadarChart && chartProps.getHorAxesProps()?.[0]?.getShow());
             axesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getShow());
+            axesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
+            axesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getShow());
             if (ComboChart) {
                 axesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
                 axesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getShow());
@@ -1450,6 +1458,8 @@ define([], function () {
             const titlesMenu = menu.items[1].menu;
             titlesMenu.items[0].setChecked(chartProps.getHorAxesProps()?.[0]?.getLabel() === 1); 
             titlesMenu.items[1].setChecked(chartProps.getVertAxesProps()?.[0]?.getLabel() === 1);
+            titlesMenu.items[4].setVisible(chartProps.getDepthAxesProps()?.[0]);
+            titlesMenu.items[4].setChecked(chartProps.getDepthAxesProps()?.[0]?.getLabel() === 1);
             if (ComboChart) {
                 titlesMenu.items[2].setVisible(chartProps.getHorAxesProps()?.[1]);
                 titlesMenu.items[2].setChecked(chartProps.getHorAxesProps()?.[1]?.getLabel() === 1);
@@ -3727,40 +3737,43 @@ define([], function () {
                 chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
                 documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
             }
-        
+            this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+
             if (me.chartProps) {
-                var x = asc_CRect.asc_getX();
-                var y = asc_CRect.asc_getY();
-                var width = asc_CRect.asc_getWidth();
-                var height = asc_CRect.asc_getHeight();
-                var canvas = documentHolderView.cmpEl.find('#ws-canvas')[0];
+                var x = asc_CRect.asc_getX(),
+                    y = asc_CRect.asc_getY(),
+                    width = asc_CRect.asc_getWidth(),
+                    sheetWidth = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
+                    sheetHeight = me.tooltips.coauth.apiHeight - 15,
+                    btnLeft = this.isRtlSheet ? x - 95 : x + width + 10,
+                    btnTop = y;
 
-                if (canvas) {
-                    var canvasRect = canvas.getBoundingClientRect();
-                    var btnLeft = x + width + 10;
-                    var btnTop = y;
-
-                    if (btnLeft + 50 > canvasRect.width) {
-                        btnLeft = x - 40;
-            
-                        if (btnLeft < 20) {
-                            chartContainer.hide();
-                            return;
-                        }
-                    }
-
-                    if (btnTop + 30 > canvasRect.height) {
-                        btnTop = canvasRect.height - 30; 
-                    }
-
-                    if (btnTop < 18) 
-                        btnTop = 18;
-
-                    chartContainer.css({
-                        left: btnLeft + 'px',
-                        top: btnTop + 'px'
-                    }).show();
+                if (btnLeft + 50 > sheetWidth) {
+                    btnLeft = x - 40;
                 }
+
+                if (btnLeft < 25) {
+                    if (this.isRtlSheet){
+                        btnLeft = x + width - 40; 
+                    } else {
+                        chartContainer.hide();
+                        return;
+                    }
+                }
+
+                if (btnTop + 30 > sheetHeight) {
+                    chartContainer.hide();
+                    return;
+                }
+
+                if (btnTop < 20) {
+                    btnTop = 20;
+                }
+
+                chartContainer.css({
+                    left: btnLeft + 'px',
+                    top: btnTop + 'px'
+                }).show();
         
                 if (!me.btnChartElement) {
                     me.btnChartElement = new Common.UI.Button({
