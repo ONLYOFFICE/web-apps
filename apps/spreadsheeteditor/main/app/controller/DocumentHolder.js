@@ -330,7 +330,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if (this._isCtrlPressed && this._isWheelStarted && !e.altKey) {
+                if (e.ctrlKey && this._isWheelStarted && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
@@ -357,14 +357,14 @@ define([
 
         onDocumentKeyUp: function(event) {
             if (event.key === "Control") {
-                this._isCtrlPressed = false;
+                event.ctrlKey = false;
                 this._isWheelStarted = false;
             }
         },
 
         onDocumentKeyDown: function(event){
             if (event.ctrlKey) {
-                this._isCtrlPressed = true;
+                event.ctrlKey = true;
             }
             if (this.api){
                 var key = event.keyCode;
