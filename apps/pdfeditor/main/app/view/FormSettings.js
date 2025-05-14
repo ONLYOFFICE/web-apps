@@ -185,6 +185,22 @@ define([
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
 
+            this.btnLockForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-lock'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-lock',
+                caption     : this.textLock,
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnLockForm.on('click', _.bind(function(btn){
+                if (this.api && !this._noApply) {
+                    this.api.SetFieldLocked(!this._state.LockDelete);
+                    this.fireEvent('editcomplete', this);
+                }
+            }, this));
+
             //Spec props
             // combobox & text field
             this.txtPlaceholder = new Common.UI.InputField({
@@ -1237,6 +1253,12 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
 
+                var val = props.asc_getLocked();
+                if (this._state.LockDelete !== val) {
+                    this._state.LockDelete = val;
+                    this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
+                }
+
                 this.disableControls(this._locked);
 
                 var forceShowHide = false,
@@ -1256,7 +1278,7 @@ define([
                     this._state.Name = undefined;
                 }
 
-                var val = props.asc_getName();
+                val = props.asc_getName();
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
@@ -1727,6 +1749,7 @@ define([
             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
             this.cmbState.setDisabled(this._state.Behavior!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
             this.linkAdvanced.toggleClass('disabled', disable);
+            this.btnLockForm.setDisabled(disable);
         },
 
         showHideControls: function(type, specProps) {
