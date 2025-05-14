@@ -1,4 +1,3 @@
-@statusbar-height: var(--statusbar-height, 25px);
 .statusbar {
     padding: 0 2px 0;
     z-index: 500;
@@ -190,7 +189,7 @@
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
-                    line-height: 24px;
+                    line-height: @statusbar-height;
                     background-color: @background-pane-additional-ie;
                     background-color: @background-pane-additional;
                     outline: none;
@@ -381,5 +380,5 @@
 }
 #statusbar {
     background-color: @background-pane-ie;
-    background-color: @background-pane;
+    background-color: @background-statusbar;
 }
