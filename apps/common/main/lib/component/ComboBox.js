@@ -883,13 +883,7 @@ define([
 
     Common.UI.ComboBoxRecent = Common.UI.ComboBox.extend(_.extend({
         initialize: function (options) {
-            var filter = Common.localStorage.getKeysFilter();
-            this.recent = !options.recent ? false : {
-                count: options.recent.count || 5,
-                key: options.recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
-                offset: options.recent.offset || 0
-            };
-
+            this.setRecent(options.recent);
             Common.UI.ComboBox.prototype.initialize.call(this, options);
         },
 
@@ -930,6 +924,7 @@ define([
         },
 
         onBeforeShowMenu: function(e) {
+            this.loadRecent();
             Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
 
             if (this._selectedItem && this._selectedItem.get('isRecent')) {
@@ -939,6 +934,16 @@ define([
                     this.selectRecord(record[record.length - 1]);
                 }
             }
+        },
+
+        setRecent: function(recent) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.recent = !recent ? false : {
+                count: recent.count || 5,
+                key: recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
+                offset: recent.offset || 0,
+                valueField: recent.valueField || 'value'
+            };
         },
 
         loadRecent: function() {
@@ -956,7 +961,7 @@ define([
                 arr = arr ? arr.split(';') : [];
                 arr.reverse().forEach(function(item) {
                     let obj;
-                    item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.valueField]=item, obj)), true, 0);
+                    item && me.addItemToRecent(me.store.findWhere((obj={}, obj[me.recent.valueField]=item, obj)), true, 0);
                 });
                 this.recentArr = arr;
             }
@@ -967,7 +972,7 @@ define([
 
             let obj,
                 me = this,
-                item = this.store.findWhere((obj={isRecent: true}, obj[this.valueField]=record.get(this.valueField), obj));
+                item = this.store.findWhere((obj={isRecent: true}, obj[this.recent.valueField]=record.get(this.recent.valueField), obj));
             if (item && this.store.indexOf(item)<this.recent.offset) return;
 
             item && this.store.remove(item);
@@ -984,7 +989,7 @@ define([
             if (!silent) {
                 var arr = [];
                 this.store.where({isRecent: true}).forEach(function(item){
-                    arr.push(item.get(me.valueField));
+                    arr.push(item.get(me.recent.valueField));
                 });
                 this.recentArr = arr;
                 Common.localStorage.setItem(this.recent.key, arr.join(';'));

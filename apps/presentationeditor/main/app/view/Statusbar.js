@@ -273,7 +273,6 @@ define([
                     menuAlign: 'bl-tl',
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    valueField: 'value',
                     focusToCheckedItem: true
                 });
 
@@ -365,7 +364,8 @@ define([
                 this.langMenu.setRecent({
                     count: Common.Utils.InternalSettings.get("app-settings-recent-langs-count") || 5,
                     offset: Common.Utils.InternalSettings.get("app-settings-recent-langs-offset") || 0,
-                    key: 'app-settings-recent-langs'
+                    key: 'app-settings-recent-langs',
+                    valueField: 'value'
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {

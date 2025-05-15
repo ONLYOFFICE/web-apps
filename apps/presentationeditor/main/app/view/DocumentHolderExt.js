@@ -727,7 +727,6 @@ define([], function () {
                     itemTemplate: langTemplate,
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    valueField: 'value',
                     focusToCheckedItem: true
                 })
             });
@@ -799,7 +798,6 @@ define([], function () {
                     itemTemplate: langTemplate,
                     search: true,
                     searchFields: ['caption', 'captionEn'],
-                    valueField: 'value',
                     focusToCheckedItem: true
                 })
             });

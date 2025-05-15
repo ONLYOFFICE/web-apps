@@ -83,7 +83,8 @@ define([], function () { 'use strict';
             recent: {
                 count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
                 offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
-                key: lckey
+                key: lckey,
+                valueField: 'value'
             },
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',

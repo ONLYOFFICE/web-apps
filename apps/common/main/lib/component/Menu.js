@@ -847,14 +847,8 @@ define([
             this.menuAlignEl    = this.options.menuAlignEl;
             this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
             this.search = this.options.search;
-            this.valueField     = this.options.valueField || 'caption'; // used for recent items
 
-            var filter = Common.localStorage.getKeysFilter();
-            this.recent = !options.recent ? false : {
-                count: options.recent.count || 5,
-                key: options.recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
-                offset: options.recent.offset || 0
-            };
+            this.setRecent(options.recent);
 
             if (Common.UI.isRTL()) {
                 if (this.menuAlign === 'tl-tr') {
@@ -1302,7 +1296,8 @@ define([
             this.recent = !recent ? false : {
                 count: recent.count || 5,
                 key: recent.key || (filter && filter.length ? filter.split(',')[0] : '') + this.id,
-                offset: recent.offset || 0
+                offset: recent.offset || 0,
+                valueField: recent.valueField || 'caption'
             };
         },
 
@@ -1318,7 +1313,7 @@ define([
                 arr = arr ? arr.split(';') : [];
                 arr.reverse().forEach(function(recent) {
                     let mnu = _.find(me.items, function(item) {
-                        return item[me.valueField] === recent;
+                        return item[me.recent.valueField] === recent;
                     });
 
                     mnu && me.addItemToRecent(mnu, true, 0);
@@ -1341,7 +1336,7 @@ define([
 
             for (let i=0; i<this.items.length; i++) {
                 if (!this.items[i].isRecent) break;
-                if (this.items[i][this.valueField] === mnu[this.valueField]) {
+                if (this.items[i][this.recent.valueField] === mnu[this.recent.valueField]) {
                     if (i<this.recent.offset) return;
 
                     this.onRemoveRecentItem(this.items[i]);
@@ -1372,7 +1367,7 @@ define([
                 var arr = [];
                 for (let i=0; i<this.items.length; i++) {
                     if (!this.items[i].isRecent) break;
-                    arr.push(this.items[i][this.valueField]);
+                    arr.push(this.items[i][this.recent.valueField]);
                 }
                 this.recentArr = arr;
                 Common.localStorage.setItem(this.recent.key, arr.join(';'));
