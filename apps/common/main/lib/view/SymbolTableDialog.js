@@ -1501,6 +1501,14 @@ define([
 
         },
 
+        onThemeChanged: function() {
+            if (!this.$window || !this.isVisible()) return;
+
+            Common.UI.Window.prototype.onThemeChanged.call(this);
+            this.calcControlsHeight();
+            this.applyInnerSize(this.getSize()[1]);
+        },
+
         textTitle: 'Symbol',
         textFont: 'Font',
         textRange: 'Range',
