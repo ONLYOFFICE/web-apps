@@ -288,10 +288,8 @@ define([
             if (me._ctrlPressedAtScrollStart && !event.altKey) {
                 if (delta < 0) {
                     me.api.zoomOut();
-                    me._handleZoomWheel = true;
                 } else if (delta > 0) {
                     me.api.zoomIn();
-                    me._handleZoomWheel = true;
                 }
 
                 event.preventDefault();
