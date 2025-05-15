@@ -1108,12 +1108,12 @@ define([
         },
 
         getColsCount: function(){
-            var nMaxWidth = this.boxPanel.innerWidth()-13;
+            var nMaxWidth = this.boxPanel.width()-13;
             return ((nMaxWidth/CELL_WIDTH) >> 0);
         },
 
         getMaxHeight: function(){
-            return this.symbolTablePanel.innerHeight()-2;
+            return this.symbolTablePanel.height()-2;
         },
 
         getRowsCount: function() {
