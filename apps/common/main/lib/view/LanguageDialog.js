@@ -74,9 +74,7 @@ define([], function () { 'use strict';
         var $window = this.getChild();
         $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-        var filter = Common.localStorage.getKeysFilter(),
-            lckey = ((filter && filter.length) ? filter.split(',')[0] : '') + "settings-recent-langs";
-
+        var lckey = "app-settings-recent-langs";
         this.cmbLanguage = new Common.UI.ComboBoxRecent({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',

@@ -414,9 +414,9 @@ define([
                     });
                 });
                 this.langMenu.setRecent({
-                    count: Common.Utils.InternalSettings.get("de-settings-recent-langs-count") || 5,
-                    offset: Common.Utils.InternalSettings.get("de-settings-recent-langs-offset") || 0,
-                    key: 'de-settings-recent-langs'
+                    count: Common.Utils.InternalSettings.get("app-settings-recent-langs-count") || 5,
+                    offset: Common.Utils.InternalSettings.get("app-settings-recent-langs-offset") || 0,
+                    key: 'app-settings-recent-langs'
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {

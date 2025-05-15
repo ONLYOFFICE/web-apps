@@ -239,7 +239,7 @@ define([
                     arrPara.push(item);
                     arrTable.push(_.clone(item));
                 });
-                var lckey = 'pe-settings-recent-langs';
+                var lckey = 'app-settings-recent-langs';
                 me.langParaMenu.menu.setRecent({
                     count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
                     offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,

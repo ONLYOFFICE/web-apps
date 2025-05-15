@@ -2368,7 +2368,7 @@ define([
                 }
                 sLangs = arr;
 
-                let recentKey = 'pe-settings-recent-langs',
+                let recentKey = 'app-settings-recent-langs',
                     recentCount = Math.max(5, sLangs.length + 3);
                 Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
                 Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
