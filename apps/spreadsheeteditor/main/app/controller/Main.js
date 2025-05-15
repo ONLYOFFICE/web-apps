@@ -2929,6 +2929,23 @@ define([
             },
 
             setLanguages: function() {
+                let sLangs = Common.Controllers.Desktop.systemLangs() || {},
+                    arr = [];
+                for (let name in sLangs) {
+                    sLangs.hasOwnProperty(name) && arr.push(name);
+                }
+                sLangs = arr;
+
+                let recentKey = 'app-settings-recent-langs',
+                    recentCount = Math.max(5, sLangs.length + 3);
+                Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
+                Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
+
+                arr = Common.localStorage.getItem(recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr = _.union(sLangs, arr);
+                arr.splice(recentCount);
+                Common.localStorage.setItem(recentKey, arr.join(';'));
                 this.getApplication().getController('Spellcheck').setLanguages(this.languages);
             },
 
