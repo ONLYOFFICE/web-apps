@@ -395,7 +395,7 @@
   "Common.Views.AutoCorrectDialog.textReplaceText": "Remplacer pendant la frappe",
   "Common.Views.AutoCorrectDialog.textReplaceType": "Remplacer le texte au cours de la frappe",
   "Common.Views.AutoCorrectDialog.textReset": "Réinitialiser",
-  "Common.Views.AutoCorrectDialog.textResetAll": "Rétablir paramètres par défaut",
+  "Common.Views.AutoCorrectDialog.textResetAll": "Réinitialiser les paramètres par défaut",
   "Common.Views.AutoCorrectDialog.textRestore": "Restaurer",
   "Common.Views.AutoCorrectDialog.textTitle": "Correction automatique",
   "Common.Views.AutoCorrectDialog.textWarnAddRec": "Fonctions reconnues doivent contenir seulement des lettres de A à Z, majuscules et minuscules.",

@@ -463,7 +463,7 @@
   "Common.Views.AutoCorrectDialog.textReplaceText": "Remplacer pendant la frappe",
   "Common.Views.AutoCorrectDialog.textReplaceType": "Remplacer le texte au cours de la frappe",
   "Common.Views.AutoCorrectDialog.textReset": "Réinitialiser",
-  "Common.Views.AutoCorrectDialog.textResetAll": "Rétablir paramètres par défaut",
+  "Common.Views.AutoCorrectDialog.textResetAll": "Réinitialiser les paramètres par défaut",
   "Common.Views.AutoCorrectDialog.textRestore": "Restaurer",
   "Common.Views.AutoCorrectDialog.textTitle": "Correction automatique",
   "Common.Views.AutoCorrectDialog.textWarnAddFL": "Les exceptions doivent contenir uniquement les lettres, majuscules ou minuscules.",
@@ -640,6 +640,7 @@
   "Common.Views.MacrosDialog.tipFunctionRename": "Renommer une fonction personnalisée",
   "Common.Views.MacrosDialog.tipMacrosAdd": "Ajouter des macros",
   "Common.Views.MacrosDialog.tipMacrosCopy": "Copier les macros",
+  "Common.Views.MacrosDialog.tipMacrosDebug": "Débogage des macros",
   "Common.Views.MacrosDialog.tipMacrosRename": "Renommer les macros",
   "Common.Views.MacrosDialog.tipMacrosRun": "Exécuter les macros",
   "Common.Views.MacrosDialog.tipRedo": "Répéter",
@@ -3751,6 +3752,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Souligné",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la police",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police",
-  "Common.Views.MacrosDialog.tipMacrosDebug": "Debug macros"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police"
 }

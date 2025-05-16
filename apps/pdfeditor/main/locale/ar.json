@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "خصائص الحدود",
   "PDFE.Views.DocumentHolder.txtBottom": "أسفل",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "محاذاة الأعمدة",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "تقليل حجم الوسيط",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "حذف الوسيط",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "حذف الفاصل اليدوي",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "إدراج صفحة فارغة قبل",
   "PDFE.Views.DocumentHolder.txtOpacity": "معدل الشفافية",
   "PDFE.Views.DocumentHolder.txtOverbar": "شريط فوق النص",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "إضغط على {0} و إضغط على الرابط",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "تحديد الطباعة",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "إزالة سطر الكسر",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "ملائم للعرض",
   "PDFE.Views.ViewTab.tipHeadings": "العناوين",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

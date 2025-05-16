@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "罫線の​​プロパティ",
   "PDFE.Views.DocumentHolder.txtBottom": "下",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "列の配置",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "引数のサイズの縮小",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "引数の削除",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "任意指定の改行を削除",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "前に空白ページを挿入",
   "PDFE.Views.DocumentHolder.txtOpacity": "不透明度",
   "PDFE.Views.DocumentHolder.txtOverbar": "テキストの上にバー",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "{0}キーを押しながらリンクをクリックしてください",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "選択範囲の印刷",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "分数線の削除",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "幅に合わせる",
   "PDFE.Views.ViewTab.tipHeadings": "見出し",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "インターフェイスのテーマ",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

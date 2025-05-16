@@ -2291,7 +2291,7 @@
   "DE.Views.FileMenuPanels.Settings.text5Minutes": "Каждые 5 минут",
   "DE.Views.FileMenuPanels.Settings.text60Minutes": "Каждый час",
   "DE.Views.FileMenuPanels.Settings.textAlignGuides": "Направляющие выравнивания",
-  "DE.Views.FileMenuPanels.Settings.textAutoRecover": "Автовосстановление",
+  "DE.Views.FileMenuPanels.Settings.textAutoRecover": "Автосохранение",
   "DE.Views.FileMenuPanels.Settings.textAutoSave": "Автосохранение",
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Отключено",
   "DE.Views.FileMenuPanels.Settings.textFill": "Заливка",

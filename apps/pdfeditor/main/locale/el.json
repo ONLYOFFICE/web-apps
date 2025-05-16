@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Ιδιότητες περιγράμματος",
   "PDFE.Views.DocumentHolder.txtBottom": "Κάτω μέρος",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Στοίχιση στήλης",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Αντιγραφή σελίδας",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Μείωση μεγέθους ορίσματος",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Διαγραφή ορίσματος",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Διαγραφή χειροκίνητης αλλαγής",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Εισαγωγή κενής σελίδας πριν",
   "PDFE.Views.DocumentHolder.txtOpacity": "Αδιαφάνεια",
   "PDFE.Views.DocumentHolder.txtOverbar": "Μπάρα πάνω από κείμενο",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Επικόλληση σελίδας",
   "PDFE.Views.DocumentHolder.txtPressLink": "Πατήστε {0} και κάντε κλικ στο σύνδεσμο",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Εκτύπωση επιλογής",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Αφαίρεση γραμμής κλάσματος",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

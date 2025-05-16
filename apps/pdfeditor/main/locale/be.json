@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Уласцівасці межаў",
   "PDFE.Views.DocumentHolder.txtBottom": "Bottom",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Выраўноўванне слупка",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Паменшыць памер аргумента",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Выдаліць аргумент",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Выдаліць уласнаручны разрыў",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insert blank page before",
   "PDFE.Views.DocumentHolder.txtOpacity": "Непразрыстасць",
   "PDFE.Views.DocumentHolder.txtOverbar": "Лінія па-над тэкстам",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Націсніце {0} і пстрыкніце па спасылцы",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Print selection",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Выдаліць рыску дробу",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

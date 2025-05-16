@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Својства границе",
   "PDFE.Views.DocumentHolder.txtBottom": "Дно",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Колона поравнање",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Смањи величину аргумента",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Избриши аргумент",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Избриши ручни прелазак",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Уметни празну страницу пре",
   "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Трака преко текста",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Притисните {0} и кликните на линк",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Штампај селекцију",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Одстрани линију разломка",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }
