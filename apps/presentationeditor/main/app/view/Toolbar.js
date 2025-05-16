@@ -826,6 +826,26 @@ define([
                     me.paragraphControls.push(me.btnColumns);
                     me.lockControls.push(me.btnColumns);
 
+                    this.btnTextDir = new Common.UI.Button({
+                        id: 'id-toolbar-btn-direction',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-ltr',
+                        action: 'text-direction',
+                        dirRtl: false,
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noParagraphObject],
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: me.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
+                                {caption: me.textDirRtl, value: true, iconCls: 'menu__icon btn-rtl'},
+                            ]
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: '0, -6'
+                    });
+                    me.paragraphControls.push(me.btnTextDir);
+                    me.lockControls.push(me.btnLineSpace);
+
                     me.btnInsertPlaceholder = new Common.UI.Button({
                         id: 'tlbtn-insertplaceholder',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1491,6 +1511,7 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
@@ -1713,6 +1734,7 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnTextDir.updateHint(this.tipTextDir);
                 this.btnInsertPlaceholder.updateHint(this.tipInsertContentPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);

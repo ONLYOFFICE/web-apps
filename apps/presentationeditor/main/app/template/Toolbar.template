@@ -81,6 +81,7 @@
                         <span class="btn-slot split" id="slot-btn-numbering"></span>
                         <span class="btn-slot split" id="slot-btn-decoffset"></span>
                         <span class="btn-slot split" id="slot-btn-incoffset"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-halign"></span>
