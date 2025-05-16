@@ -157,11 +157,8 @@ define([
                 items: [{
                     el: items[0],
                     rely: true,
-                    resize: {
-                        min: 19,
-                        max: -100,
-                        multiply: { koeff: 18, offset: 2}
-                    }
+                    alias: 'celleditor',
+                    resize: this.getCelleditorResizeOptions()
                 }, {
                     el: items[1],
                     stretch: true
@@ -169,6 +166,18 @@ define([
             });
 
             return this;
+        },
+
+        getCelleditorResizeOptions: function() {
+            var computedStyle = window.getComputedStyle(document.body);
+            var resizeOptions = {
+                min: (parseFloat(computedStyle.getPropertyValue("--celleditor-height")) || 20) - 1,
+                max: -100,
+                multiply: {}
+            }; 
+            resizeOptions.multiply.koeff = parseFloat(computedStyle.getPropertyValue("--celleditor-line-height")) || 18;
+            resizeOptions.multiply.offset = (parseInt(computedStyle.getPropertyValue("--celleditor-height")) || 20) - resizeOptions.multiply.koeff;
+            return resizeOptions;
         },
 
         applyEditorMode: function() {
