@@ -1,4 +1,3 @@
-@statusbar-height: var(--statusbar-height, 25px);
 @status-scroll-padding-left: 12px;
 @statusb-scroll-padding-right: 10px;
 @status-scroll-width: calc(2*@x-small-btn-size + @status-scroll-padding-left + @statusb-scroll-padding-right);
@@ -46,7 +45,6 @@
         }
     }
 
-
     #status-tabs-scroll {
         width: @status-scroll-width;
         padding: 0 @status-scroll-padding-left 0 @statusb-scroll-padding-right;
@@ -54,7 +52,7 @@
         float: left;
 
         .rtl-sheet& {
-            padding: calc(@statusbar-height - @x-small-btn-size) @statusb-scroll-padding-right 0 @status-scroll-padding-left;
+            padding: 0 @statusb-scroll-padding-right 0 @status-scroll-padding-left;
             float: right;
         }
     }
@@ -62,10 +60,6 @@
     #status-zoom-box {
         position: absolute;
         height: @statusbar-height;
-
-        .separator {
-            margin-top: calc(-1*(@statusbar-height - @x-small-btn-size));
-        }
 
         #status-label-zoom {
             cursor: pointer;
@@ -174,12 +168,10 @@
 
     #status-math-box,
     #status-filtered-box {
-        padding-top: 6px;
         position: absolute;
         height: @statusbar-height;
         .separator {
             position: relative;
-            margin-top: -6px;
         }
     }
 
@@ -241,7 +233,7 @@
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
-                    line-height: 24px;
+                    line-height: @statusbar-height;
                     background-color: @background-pane-additional-ie;
                     background-color: @background-pane-additional;
                     outline: none;
@@ -418,6 +410,7 @@
         .color-tab {
             .border-radius(4px);
           margin-top: -25px;
+          margin-top: calc(-1 * @statusbar-height);
         }
     }
 
@@ -583,4 +576,8 @@
 
 .rtl-sheet .nav {
     padding-right: 0;
+}
+#statusbar {
+    background-color: @background-pane-ie;
+    background-color: @background-statusbar;
 }
