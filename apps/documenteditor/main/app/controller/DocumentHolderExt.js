@@ -812,6 +812,65 @@ define([], function () {
                 me.initSpecialPasteEvents();
             }
 
+            me.btnSpecialPaste.cmpEl.off('click');
+            me.btnSpecialPaste.cmpEl.off('mousedown');
+            me.btnSpecialPaste.cmpEl.off('mouseup');
+
+            let isSpecialPasteMouseDown = false;
+
+            me.btnSpecialPaste.cmpEl.on('mousedown', function(e) {
+                if (e.button === 0) {
+                    isSpecialPasteMouseDown = true;
+                }
+            });
+
+            me.btnSpecialPaste.cmpEl.on('mouseup', function(e) {
+                if (e.button === 0 && isSpecialPasteMouseDown && window.getSelection().isCollapsed) {
+                    if (me.btnSpecialPaste.menu.isVisible()) {
+                        me.btnSpecialPaste.menu.hide();
+                    } else {
+                        me.btnSpecialPaste.menu.show();
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                isSpecialPasteMouseDown = false;
+            });
+
+            me.btnSpecialPaste.cmpEl.on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
+
+            let ctrlOnlyDown = false;
+
+            $(document).on('keydown', function(e) {
+                if (
+                    (e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight') &&
+                    !e.altKey && !e.shiftKey && !e.metaKey &&
+                    !e.repeat
+                ) {
+                    ctrlOnlyDown = true;
+                } else {
+                    ctrlOnlyDown = false;
+                }
+            });
+
+            $(document).on('keyup', function(e) {
+                if (
+                    (e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight') &&
+                    ctrlOnlyDown
+                ) {
+                    if (!me.btnSpecialPaste.menu.isVisible()) {
+                        me.btnSpecialPaste.menu.show();
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                ctrlOnlyDown = false;
+            });
+
             if (pasteItems.length>0) {
                 var menu = me.btnSpecialPaste.menu;
                 for (var i = 0; i < menu.items.length; i++) {
