@@ -167,7 +167,11 @@ if ( !window.uitheme.id && !!params.uitheme ) {
 }
 
 if ( !window.uitheme.id ) {
-    window.uitheme.adapt_to_system_theme();
+    // TODO: because there are no new dark theme, default theme is "theme-white"
+    //       for all system color scheme
+    // window.uitheme.adapt_to_system_theme();
+    window.uitheme.id = "theme-white";
+    window.uitheme.type = "light";
 } else {
     !window.uitheme.type && params.uitheme && (window.uitheme.type = params.uithemetype);
 }
