@@ -12,10 +12,10 @@
         <div id="slot-left-menu-more"></div>
     </div>
     <div class="left-panel side-panel" style="">
-        <div id="left-panel-search" class="" style="display: none;"></div>
+        <div id="left-panel-search" class="content-box" style="display: none;"></div>
         <!-- /** coauthoring begin **/ -->
-        <div id="left-panel-comments" class="" style="display: none;"></div>
-        <div id="left-panel-chat" class="" style="display: none;"></div>
+        <div id="left-panel-comments" class="content-box" style="display: none;"></div>
+        <div id="left-panel-chat" class="content-box" style="display: none;"></div>
         <!-- /** coauthoring end **/ -->
     </div>
 </div>

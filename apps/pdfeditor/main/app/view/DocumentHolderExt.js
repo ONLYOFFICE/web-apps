@@ -1624,11 +1624,11 @@ define([], function () {
 
         dh.createAnnotSelectBar = function(annotSelectBarBtns) {
             var container = $('<div id="annot-sel-bar-container" style="position: absolute;">' +
-                    '<div id="annot-sel-bar-stroke" style="display:inline-block;" class=""></div>' +
-                    '<div id="annot-sel-bar-highlight" style="display:inline-block;" class=""></div>' +
-                    '<div id="annot-sel-bar-add-comment" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-sel-bar-stroke"></div>' +
+                    '<div id="annot-sel-bar-highlight"></div>' +
+                    '<div id="annot-sel-bar-add-comment" class="margin-left-4"></div>' +
                     '<div class="separator margin-left-6"></div>' +
-                    '<div id="annot-sel-bar-remove" class="margin-left-13" style="display:inline-block;"></div>' +
+                    '<div id="annot-sel-bar-remove" class="margin-left-13"></div>' +
                     '</div>'),
                 toolbarController = PDFE.getController('Toolbar'),
                 toolbar = toolbarController.getView('Toolbar');

@@ -100,37 +100,47 @@ function checkScaling() {
     }
 }
 
-let svg_icons = ['./resources/img/iconssmall@2.5x.svg',
-    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
+let svg_icons = window.uitheme.svg_icons || ['./resources/img/iconssmall@2.5x.svg',
+                    './resources/img/iconsbig@2.5x.svg', './resources/img/iconshuge@2.5x.svg'];
 
 window.Common = {
     Utils: {
-        injectSvgIcons: function () {
+        injectSvgIcons: function (svg_icons_array, force) {
             if ( window.isIEBrowser === true ) return;
 
-            let runonce;
+            window.svgiconsrunonce;
             // const el = document.querySelector('div.inlined-svg');
             // if (!el || !el.innerHTML.firstChild) {
-            if ( !runonce ) {
-                runonce = true;
-                function htmlToElements(html) {
+            if ( !window.svgiconsrunonce || force === true ) {
+                window.svgiconsrunonce = true;
+                function htmlToElements(html, id) {
                     var template = document.createElement('template');
                     template.innerHTML = html;
                     // return template.content.childNodes;
+                    if ( !!id ) template.content.firstChild.id = id;
                     return template.content.firstChild;
                 }
 
-                svg_icons.map(function (url) {
+                !svg_icons_array && (svg_icons_array = svg_icons);
+                svg_icons_array.map(function (url) {
+                            console.log('map url', url)
                             fetch(url)
                                 .then(function (r) {
                                     if (r.ok) return r.text();
                                     else {/* error */}
                                 }).then(function (text) {
-                                    const el = document.querySelector('div.inlined-svg')
-                                    el.appendChild(htmlToElements(text));
+                                    const type = /icons(\w+)(?:@2\.5x)\.svg$/.exec(url)[1];
+                                    let el_id;
+                                    if ( type ) {
+                                        const el = document.getElementById((el_id = 'idx-sprite-btns-' + type));
+                                        if (el) el.remove();
+                                    }
 
-                                    const i = svg_icons.findIndex(function (item) {return item == url});
-                                    if ( !(i < 0) ) svg_icons.splice(i, 1)
+                                    const el = document.querySelector('div.inlined-svg')
+                                    el.appendChild(htmlToElements(text, el_id));
+
+                                    const i = svg_icons_array.findIndex(function (item) {return item == url});
+                                    if ( !(i < 0) ) svg_icons_array.splice(i, 1)
                                 }).catch(console.error.bind(console))
                         })
             }
@@ -157,7 +167,11 @@ if ( !window.uitheme.id && !!params.uitheme ) {
 }
 
 if ( !window.uitheme.id ) {
-    window.uitheme.adapt_to_system_theme();
+    // TODO: because there are no new dark theme, default theme is "theme-white"
+    //       for all system color scheme
+    // window.uitheme.adapt_to_system_theme();
+    window.uitheme.id = "theme-white";
+    window.uitheme.type = "light";
 } else {
     !window.uitheme.type && params.uitheme && (window.uitheme.type = params.uithemetype);
 }

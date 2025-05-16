@@ -132,7 +132,7 @@ define([
                 el          : $('#mmerge-field-num', me.$el),
                 allowBlank  : true,
                 validateOnChange: false,
-                style       : 'width: 80px; vertical-align: middle;',
+                style       : 'vertical-align: middle;',
                 maskExp     : /[0-9]/,
                 value       : 1,
                 validation  : function(value) {

@@ -108,6 +108,7 @@
             &:focus {
                 border-color: @border-control-focus-ie;
                 border-color: @border-control-focus;
+                .box-shadow(@shadow-fill-input);
             }
         }
     }
@@ -129,8 +130,8 @@
     line-height: normal;
     position: relative;
     overflow: hidden;
-    color: @border-preview-select-ie;
-    color: @border-preview-select;
+    color: @text-secondary-ie;
+    color: @text-secondary;
 
     textarea {
         width: 100%;
@@ -146,6 +147,7 @@
         &:focus {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input);
         }
     }
 
@@ -586,8 +588,8 @@
         -webkit-transform: rotate(45deg);
         -o-transform: rotate(45deg);
         transform: rotate(45deg);
-        border: solid @scaled-one-px-value-ie @border-toolbar-ie;
-        border: solid @scaled-one-px-value @border-toolbar;
+        border: solid @scaled-one-px-value-ie @border-divider-ie;
+        border: solid @scaled-one-px-value @border-divider;
 
         .rtl & {
             left: auto;

@@ -92,7 +92,7 @@
                 </div>
                 <% } else { %>
                 <div class="group small pdfedit">
-                    <div class="elset" style="width:230px;">
+                    <div class="elset display-flex-row-center">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>

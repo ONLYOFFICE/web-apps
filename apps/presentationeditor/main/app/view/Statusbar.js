@@ -258,7 +258,7 @@ define([
                 });
 
                 this.langMenu = new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     style: 'margin-top:-5px;',
                     restoreHeight: 285,
                     itemTemplate: _.template([

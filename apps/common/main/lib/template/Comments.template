@@ -40,7 +40,7 @@
                 <% if (add_arrow) { add_arrow = false; %>
                     <div class="reply-arrow img-commonctrl"></div>
                 <% } %>
-                <div class="reply-item-ct" <% if (scope.viewmode && index==replys.length-1) { %>style="padding-bottom: 0;" <% } %>;>
+                <div class="reply-item-ct" <% if (scope.viewmode && index==replys.length-1) { %>style="padding-bottom: 0;" <% } %>>
                     <div class="user-info">
                         <div class="color"
                             <% if (item.get("avatar")) { %>

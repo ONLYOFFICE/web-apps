@@ -162,6 +162,8 @@ define([], function () { 'use strict';
             });
             me.btnNumbering.on('click', _.bind(me.onListTypeClick, me, 1));
 
+            Common.UI.GroupedButtons([me.btnBullet, me.btnNumbering]);
+
             this.cmbNumFormat = new Common.UI.ComboBox({
                 el          : $('#id-dlg-list-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',

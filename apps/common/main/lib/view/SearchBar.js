@@ -45,7 +45,6 @@ define([
     Common.UI.SearchBar = Common.UI.Window.extend(_.extend({
         options: {
             modal: false,
-            width: 328,
             height: 54,
             header: false,
             cls: 'search-bar',
@@ -146,11 +145,12 @@ define([
         },
 
         show: function(text) {
-            var top = ($('#app-title').length > 0 ? $('#app-title').height() : 0) + $('#toolbar').height() + 2,
-                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32 :
-                    ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
-            Common.UI.Window.prototype.show.call(this, left, top);
+            Common.UI.Window.prototype.show.call(this);
 
+            var top = ($('#app-title').length > 0 ? $('#app-title').height() : 0) + $('#toolbar').height() + 2,
+                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.$window.width() - 32 :
+                    ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
+            this.setPosition(left, top);
             this.disableNavButtons();
             if (text) {
                 this.inputSearch.val(text);
@@ -184,7 +184,7 @@ define([
 
         onLayoutChanged: function () {
             var top = $('#app-title').height() + $('#toolbar').height() + 2,
-                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.options.width - 32 :
+                left = !Common.UI.isRTL() ? Common.Utils.innerWidth() - ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) - this.$window.width() - 32 :
                     ($('#right-menu').is(':visible') ? $('#right-menu').width() : 0) + 32;
             this.$window.css({left: left, top: top});
         },

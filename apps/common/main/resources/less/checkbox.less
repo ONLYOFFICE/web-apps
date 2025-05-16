@@ -10,20 +10,22 @@
         display: none;
 
         + label {
-            width: 14px;
-            height: 14px;
-            background: @background-normal-ie;
-            background: @background-normal;
-            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-            border: @scaled-one-px-value solid @border-regular-control;
-            border-radius: 2px;
+            width: @chb-size;
+            height: @chb-size;
             position: absolute;
             left: 0;
-            margin-top: auto;
+            margin-top: @chb-v-margin;
 
             .rtl & {
                 left: auto;
                 right: 0;
+            }
+
+            svg {
+                border: @scaled-one-px-value solid @chb-border-normal;
+                border-radius: @chb-border-radius;
+                background-color: @chb-background-normal;
+                pointer-events: none;
             }
 
             + span {
@@ -31,63 +33,69 @@
                 outline: @scaled-one-px-value dotted transparent;
                 display: inline-block;
             }
+
+            .chb-check-mark, .chb-indeterminate {
+                display: none;
+                fill: @chb-check-mark-background;
+            }
         }
 
-        &:checked:not(:indeterminate) {
+        &:checked, &:indeterminate {
             + label {
-                &::before {
-                    content: '';
-                    position: absolute;
-                    border: 2px solid @text-normal-ie;
-                    border: @scaled-two-px-value solid @text-normal;
-                    border-top: 0 none;
-                    border-left: 0 none;
-                    transform: rotate(45deg);
-                    width: 5px;
-                    height: 9px;
-                    left: 4px;
+                svg {
+                    border-color: @chb-border-checked;
+                    background-color: @chb-background-checked;
                 }
             }
         }
 
-        &:indeterminate {
-            + label {
-                &::before {
-                    content: '';
-                    position: absolute;
-                    border: @scaled-one-px-value-ie solid @text-normal-ie;
-                    border: @scaled-one-px-value solid @text-normal;
-                    background: @icon-normal-ie;
-                    background: @icon-normal;
-                    width: 8px;
-                    height: 8px;
-                    left: 2px;
-                    top: 2px;
-                }
-            }
+        &:checked + label .chb-check-mark {
+            display: block;
         }
 
-        &.disabled,
-        &:disabled {
+        &:indeterminate + label .chb-indeterminate {
+            display: block;
+        }
+    }
 
-            + label {
-                &::before {
-                }
+    &:hover:not(.disabled) {
+        svg {
+            border-color: @chb-border-normal-hover;
+            background-color: @chb-background-normal-hover;
+        }
+
+        input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
+            + label svg {
+                border-color: @chb-border-checked-hover;
+                background-color: @chb-background-checked-hover;
             }
         }
     }
 
     &:focus:not(.disabled) {
-        input[type=checkbox] {
-            + label {
-                border-color: @border-control-focus-ie;
-                border-color: @border-control-focus;
+        svg {
+            border-color: @chb-border-normal-focus;
+        }
 
-                + span {
-                    outline-color: @border-control-focus-ie;
-                    outline-color: @border-control-focus;
-                }
+        input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
+            + label svg {
+                border-color: @chb-border-checked-focus;
             }
+        }
+
+        span {
+            outline-color: @border-control-focus-ie;
+            outline-color: @border-control-focus;
+        }
+    }
+
+    .has-checkbox & {
+        position:absolute;
+    }
+
+    .listview &, .has-checkbox & {
+        input[type=checkbox] + label {
+            margin-top: 0;
         }
     }
 }

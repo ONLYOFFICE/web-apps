@@ -38,8 +38,6 @@
     }
 
     .font-attr-top {
-        width: 218px;
-
         > .btn-slot {
             &:not(:first-child) {
                 .margin-left-2();
@@ -82,43 +80,6 @@
     }
 }
 
-#special-paste-container,
-#autocorrect-paste-container,
-#equation-container {
-    position: absolute;
-    z-index: @zindex-dropdown - 20;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
-    
-    &.has-open-menu {
-        z-index: @zindex-navbar + 3;
-    }
-    .ie &,
-    .winxp & {
-        overflow: visible;
-    }
-}
-
-#equation-container {
-    .separator {
-        height: 30px;
-    }
-    .btn-toolbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 0px;
-    }
-}
-
 #slot-field-fontsize {
     width: 45px;
 }
@@ -135,12 +96,7 @@
     width: 158px;
     .padding-left(3px);
     .item {
-        .box-shadow(none);
         .margin-x(6px, 4px);
-        &:hover, &.selected{
-            .box-shadow( 0 0 0 2px @border-preview-select-ie);
-            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
-        }
     }
     .item-symbol {
         font-family: @font-family-base;
@@ -236,13 +192,13 @@
         margin: 0px calc(-1 * @scaled-one-px-value) calc(-1 * @scaled-one-px-value) 0px;
         box-shadow: none;
         &:hover {
-            .box-shadow(inset 0 0 0 2px @border-preview-hover-ie) !important;
-            .box-shadow(inset 0 0 0 @scaled-two-px-value @border-preview-hover) !important;
+            .box-inner-shadow(0 0 0 2px @border-preview-hover-ie) !important;
+            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-preview-hover) !important;
         }
   
           &.selected {
-            .box-shadow(inset 0 0 0 2px @border-preview-select-ie) !important;
-            .box-shadow(inset 0 0 0 @scaled-two-px-value @border-preview-select) !important;
+            .box-inner-shadow(0 0 0 2px @border-preview-select-ie) !important;
+            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-preview-select) !important;
         }
     }
 }

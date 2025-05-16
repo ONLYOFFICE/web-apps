@@ -84,6 +84,9 @@
 
 .search-bar {
     z-index: 950;
+    .body {
+        position: relative;
+    }
     .box {
         padding: 15px;
         display: flex;
@@ -101,7 +104,7 @@
                 position: absolute;
                 right: 0;
                 height: 100%;
-                line-height: 22px;
+                line-height: @form-control-size;
                 padding: 0 4px;
                 color: @text-secondary-ie;
                 color: @text-secondary;

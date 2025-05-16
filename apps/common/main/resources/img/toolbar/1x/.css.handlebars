@@ -3,7 +3,7 @@
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .toolbar__icon {
-                @btn-active-icon-offset: -20px;
+                @btn-active-icon-offset: -24px;
                 background-position-x: @btn-active-icon-offset;
 
                 background-position-x: var(--button-small-active-icon-offset-x, 0);
@@ -13,10 +13,11 @@
 }
 .toolbar__icon, .menu__icon {
     background-image: url(resources/{{{escaped_image}}});
+    background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
 }
 {{/spritesheet}}
 {{#sprites}}
-{{#parselang name}}.{{name}}{{/parselang}} {
+{{#extracls}}{{/extracls}}{{#parselang name}}.{{name}}{{/parselang}} {
     @btn-icon-offset: 0;
     background-position: @btn-icon-offset {{px.offset_y}};
 

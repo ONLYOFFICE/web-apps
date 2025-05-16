@@ -1,45 +1,50 @@
 #cell-editing-box {
-    border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
-    border-bottom: solid @scaled-one-px-value @border-toolbar;
-    border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
-    border-left: solid @scaled-one-px-value @border-toolbar;
-    min-height: 20px;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    border-bottom: solid @celleditor-border-width @border-toolbar-ie;
+    border-bottom: solid @celleditor-border-width @border-toolbar;
+    border-left: solid @celleditor-border-width @border-toolbar-ie;
+    border-left: solid @celleditor-border-width @border-toolbar;
+    min-height: @celleditor-height;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
 
     .ce-group-name {
-        height: 20px;
+        height: @celleditor-height;
         //border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         //border-bottom: @scaled-one-px-value solid @border-toolbar;
-        background-color: @background-toolbar-ie;
-        background-color: @background-toolbar;
+        background-color: @background-pane-ie;
+        background-color: @background-pane;
 
         #ce-cell-name {
             width: 100px;
-            height: 19px;
-            height: calc(19px + (1px - 1px/var(--pixel-ratio-factor,1)));
+            height: calc(@celleditor-height - @celleditor-border-width);
+            height: calc(@celleditor-height - @celleditor-border-width + (1px - 1px/var(--pixel-ratio-factor,1)));
             padding: 0px 19px 0 4px;
             vertical-align: top;
             display: inline-block;
-            border: 0 none;
-            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-right: @scaled-one-px-value solid @border-toolbar;
             transition: none;
             -webkit-transition: none;
-            box-shadow: 0 @scaled-one-px-value-ie 0 0 @border-toolbar-ie;
-            box-shadow: 0 @scaled-one-px-value 0 0 @border-toolbar;
+
+            body:not(.theme-white) & {
+                border: 0 none;
+                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                border-right: @scaled-one-px-value solid @border-toolbar;
+                box-shadow: 0 @scaled-one-px-value-ie 0 0 @border-toolbar-ie;
+                box-shadow: 0 @scaled-one-px-value 0 0 @border-toolbar;
+            }
 
             .rtl & {
                 padding: 0px 4px 0 19px;
-                border: 0 none;
-                border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-                border-left: @scaled-one-px-value solid @border-toolbar;
                 direction: rtl;
+                body:not(.theme-white) & {
+                    border: 0 none;
+                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                    border-left: @scaled-one-px-value solid @border-toolbar;
+                }
             }
 
             &[disabled] {
-                color: @border-preview-select-ie;
-                color: @border-preview-select;
+                color: @text-secondary-ie;
+                color: @text-secondary;
                 opacity: 0.5;
             }
         }
@@ -47,19 +52,23 @@
         #ce-cell-name-menu {
             display: inline-block;
             position: absolute;
-            left: 80px;
-            background-color: @background-toolbar-ie;
-            background-color: @background-toolbar;
+            left: 83px;
+            background-color: transparent;
 
             .rtl & {
                 left: auto;
-                right: 80px;
+                right: 83px;
             }
 
             button {
                 background-color: @background-normal-ie;
-                background-color: @background-normal;
-                height: 19px;
+                background-color: transparent;
+                width: 16px;
+                height: @celleditor-height;
+
+                .inner-box-caret {
+                    padding: 0;
+                }
 
                 &.disabled {
                     opacity: 0.5;
@@ -81,8 +90,14 @@
         }
 
         #ce-func-label {
-            height: 20px;
+            height: @x-small-btn-size;
+            width: @x-small-btn-size;
             .margin-left(-3px);
+
+            body.theme-white & {
+                .margin-left(1px);
+            }
+
             .border-radius(0);
 
             &.disabled {
@@ -93,8 +108,8 @@
 
     &:not(.expanded) {
         #ce-func-label {
-            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-bottom: @scaled-one-px-value solid @border-toolbar;
+            border-bottom: @celleditor-border-width solid @border-toolbar-ie;
+            border-bottom: @celleditor-border-width solid @border-toolbar;
         }
     }
 
@@ -108,19 +123,20 @@
             left: 0;
         }
         height: 100%;
-        background-color: @background-normal-ie;
-        background-color: @background-normal;
+        // background-color: @background-normal-ie;
+        // background-color: @background-normal;
     }
 
     .ce-group-content {
         margin: 0 0px 0 120px;
         height: 100%;
-        border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-        border-left: @scaled-one-px-value solid @border-toolbar;
+        display: flex;
+        border-left: @celleditor-border-width solid @border-toolbar-ie;
+        border-left: @celleditor-border-width solid @border-toolbar;
         .rtl & {
             border-left: none;
-            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-right: @scaled-one-px-value solid @border-toolbar;
+            border-right: @celleditor-border-width solid @border-toolbar-ie;
+            border-right: @celleditor-border-width solid @border-toolbar;
             margin: 0 120px 0 0px;
         }
 
@@ -128,10 +144,12 @@
             height: 100%;
             resize: none;
             min-height: 19px;
-            border: 0 none;
+            body:not(.theme-white) & {
+                border: 0 none;
+            }
             .padding-x(3px, 19px);
             .font-size-medium();
-            line-height: 18px;
+            line-height: @celleditor-line-height;
             padding-bottom: 0;
             &::-webkit-scrollbar-button:single-button{
                 height: 9px;
@@ -147,15 +165,17 @@
             }
 
             &[disabled] {
-                color: @border-preview-select-ie;
-                color: @border-preview-select;
+                color: @text-secondary-ie;
+                color: @text-secondary;
                 opacity: 0.5;
             }
         }
     }
 
     #ce-cell-name, #ce-cell-content {
-        border-radius: 0;
+        body:not(.theme-white) & {
+            border-radius: 0
+        }
     }
 
     &+.layout-resizer {
@@ -174,7 +194,7 @@
 
 #ce-btn-expand {
     width: 16px;
-    height: 18px;
+    height: @celleditor-height;
     .border-radius(0);
     background: transparent;
     padding: 0 2px 0;

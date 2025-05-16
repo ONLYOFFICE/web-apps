@@ -62,8 +62,8 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 319px;">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
+                '<div class="box" style="height: 330px;">',
+                    '<div style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
@@ -121,6 +121,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
+
+            Common.UI.GroupedButtons([me.btnExternal, me.btnInternal]);
 
             var config = {
                 el          : $('#id-dlg-hyperlink-url'),

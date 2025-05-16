@@ -706,10 +706,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
-                this.btnSlicerStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.btnSlicerStyle.on('click', _.bind(this.onSelectSlicerStyle, this));
                 this.btnSlicerStyle.openButton.menu.on('show:after', function () {
                     self.btnSlicerStyle.menuPicker.scroller.update({alwaysVisibleY: true});

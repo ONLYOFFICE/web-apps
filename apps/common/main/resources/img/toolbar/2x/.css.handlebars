@@ -5,7 +5,8 @@
     {
         .toolbar__icon, .menu__icon {
             background-image: url(resources/{{{escaped_image}}});
-            background-size: {{half width}}px auto;
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+            background-size: var(--sprite-button-small-width, 40px) auto;
         }
     }
 }

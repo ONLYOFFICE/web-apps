@@ -712,11 +712,12 @@ define([
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                     var tools = this.$window.find('.tools .tool').length;
                     (tools>0) && this.$window.find('> .header > .title').css({'padding-right': tools * 20 + 'px', 'padding-left': tools * 20 + 'px'});
-                } else {
                     this.$window.find('.body').css({
-                        top:0,
-                        'border-radius': '5px'
+                        'border-top-left-radius': '0px',
+                        'border-top-right-radius': '0px'
                     });
+                } else {
+                    this.$window.find('.body').css({top:0});
                 }
 
                 if (this.initConfig.height !== 'auto') {
@@ -730,8 +731,11 @@ define([
                 this.binding.winclose = function(obj) {
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
+                this.binding.onAppRepaint = _.bind(this.onAppRepaint, this);
+                this.binding.onThemeChanged = _.bind(this.onThemeChanged, this);
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
-                Common.NotificationCenter.on('app:repaint', _.bind(this.onAppRepaint, this));
+                Common.NotificationCenter.on('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.on('uitheme:changed', this.binding.onThemeChanged);
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
@@ -854,6 +858,8 @@ define([
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
                 Common.NotificationCenter.off({'window:close': this.binding.winclose});
+                Common.NotificationCenter.off('app:repaint', this.binding.onAppRepaint);
+                Common.NotificationCenter.off('uitheme:changed', this.binding.onThemeChanged);
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),
@@ -1064,6 +1070,12 @@ define([
                 else if (this.initConfig.repaintcallback!==false) {
                     _centre.call(this);
                 }
+            },
+
+            onThemeChanged: function() {
+                if (!this.$window || !this.isVisible()) return;
+
+                _autoSize.call(this);
             },
 
             suspendKeyEvents: function () {

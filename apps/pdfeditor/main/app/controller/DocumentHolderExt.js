@@ -1027,7 +1027,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +

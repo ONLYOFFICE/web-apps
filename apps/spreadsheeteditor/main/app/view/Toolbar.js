@@ -1358,7 +1358,7 @@ define([
                     caption     : me.capInsertEquation,
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu(),
                     action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -2968,6 +2968,7 @@ define([
             if(!!this.btnInsertSymbol) {
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index: 0},
                     restoreHeight: 290,

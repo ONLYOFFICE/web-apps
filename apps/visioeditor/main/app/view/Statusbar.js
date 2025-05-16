@@ -102,6 +102,7 @@ define([
                 Common.NotificationCenter.on('app:ready', function(mode) {
                     promise.then( _onAppReady.bind(this, mode) );
                 }.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.setMode.bind(this));
             },
 
             render: function(config) {
@@ -247,8 +248,9 @@ define([
 
             setMode: function(mode) {
                 this.mode = mode;
+                this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
+                this.tabBarDefPosition += parseInt($('#status-addtabs-box').css('width'));
                 this.updateTabbarBorders();
-
             },
 
             setVisible: function(visible) {

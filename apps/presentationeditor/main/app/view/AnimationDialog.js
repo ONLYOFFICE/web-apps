@@ -93,7 +93,7 @@ define([], function () { 'use strict';
 
             this.pickerEffectList = new Common.UI.DataView({
                 el: $('#animation-picker'),
-                cls: 'bordered',
+                cls: 'bordered no-borders-item',
                 store : new Common.UI.DataViewStore(),
                 groups: new Common.UI.DataViewGroupStore(),
                 style: 'max-height: 380px;',

@@ -936,7 +936,7 @@ define([
                         caption: me.capInsertEquation,
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu(),
                         action: 'insert-equation',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1521,7 +1521,7 @@ define([
                         itemHeight: 20,
                         menuMaxHeight: 652,
                         menuWidth: 362,
-                        style: 'width: 140px;',
+                        style: 'width: 145px;',
                         enableKeyEvents: true,
                         lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
                         dataHint: '1',
@@ -1916,6 +1916,7 @@ define([
                 ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
                     restoreHeight: 290,

@@ -286,6 +286,24 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    const svgmin_opts = {
+            plugins: [{
+                name: 'preset-default',
+                params: {
+                    overrides: {
+                        cleanupIds: false,
+                        removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
+                    }
+                },
+            }, {
+                name: 'convertPathData',
+                params: {
+                    floatPrecision: 4
+                }
+            }]
+    };
+
     doRegisterTask('apps-common', (defaultConfig, packageFile) => {
         return {
             imagemin: {
@@ -297,23 +315,7 @@ module.exports = function(grunt) {
                 }
             },
             svgmin: {
-                options: {
-                    plugins: [{
-                        name: 'preset-default',
-                        params: {
-                            overrides: {
-                                cleanupIds: false,
-                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
-                            }
-                        },
-                    },
-                    {
-                        name: 'convertPathData',
-                        params: {
-                            floatPrecision: 4
-                        }
-                    }]
-                },
+                options: {...svgmin_opts},
                 dist: {
                     files: packageFile['apps-common'].svgicons.common
                 }
@@ -476,23 +478,7 @@ module.exports = function(grunt) {
             },
 
             svgmin: {
-                options: {
-                    plugins: [{
-                        name: 'preset-default',
-                        params: {
-                            overrides: {
-                                cleanupIds: false,
-                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
-                            }
-                        },
-                    },
-                    {
-                        name: 'convertPathData',
-                        params: {
-                            floatPrecision: 4
-                        }
-                    }]
-                },
+                options: {...svgmin_opts},
                 dist: {
                     files: packageFile.main.svgicons.common
                 }
