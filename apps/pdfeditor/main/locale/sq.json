@@ -2219,5 +2219,7 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

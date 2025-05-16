@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Եզրագծի հատկություններ",
   "PDFE.Views.DocumentHolder.txtBottom": "Ներքև",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Սյունակի հավասարեցում",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Նվազեցնել արգումենտի չափը",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Ջնջել արգումենտը",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Ջնջել ձեռնադիր ընդհատումը",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Տեղադրեք դատարկ էջ առաջ՝",
   "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Տեքստի վրա գիծ",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Սեղմել {0} և անցնել հղումը",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Տպել ընտրվածքը",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Հեռացնել կոտորակի գիծը",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

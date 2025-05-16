@@ -2770,7 +2770,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Каждые 30 минут",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "Каждые 5 минут",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text60Minutes": "Каждый час",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Автовосстановление",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Автосохранение",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoSave": "Автосохранение",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textDisabled": "Отключено",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Заливка",

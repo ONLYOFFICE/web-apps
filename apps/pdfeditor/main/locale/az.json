@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Border properties",
   "PDFE.Views.DocumentHolder.txtBottom": "Bottom",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Column alignment",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Decrease argument size",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Delete argument",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Delete manual break",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insert blank page before",
   "PDFE.Views.DocumentHolder.txtOpacity": "Opacity",
   "PDFE.Views.DocumentHolder.txtOverbar": "Bar over text",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Print selection",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Remove fraction bar",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Enə uyğun tənzimlə",
   "PDFE.Views.ViewTab.tipHeadings": "Başlıqlar",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "İnterfeys mövzusu",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

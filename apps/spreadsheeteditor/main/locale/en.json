@@ -2770,7 +2770,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Every 30 minutes",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "Every 5 minutes",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text60Minutes": "Every hour",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Autorecover",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Save AutoRecover information",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoSave": "Autosave",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textDisabled": "Disabled",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

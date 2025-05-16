@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Vlastnosti ohraničení",
   "PDFE.Views.DocumentHolder.txtBottom": "Dole",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Zarovnání sloupce",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Snížit velikost argumentu",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Smazat argument",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Smazat ruční zalomení",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Vložit prázdnou stránku před",
   "PDFE.Views.DocumentHolder.txtOpacity": "Průhlednost",
   "PDFE.Views.DocumentHolder.txtOverbar": "Čárka nad textem",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Stiskněte {0} a klikněte na odkaz",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Vytisknout výběr",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Odstranit zlomkovou čáru",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Přizpůsobit šířce",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }

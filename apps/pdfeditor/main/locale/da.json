@@ -1174,6 +1174,7 @@
   "PDFE.Views.DocumentHolder.txtBorderProps": "Ramme indstillinger",
   "PDFE.Views.DocumentHolder.txtBottom": "Bund",
   "PDFE.Views.DocumentHolder.txtColumnAlign": "Kolonne tilpasning",
+  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
   "PDFE.Views.DocumentHolder.txtDecreaseArg": "Formindsk argumentstørrelse",
   "PDFE.Views.DocumentHolder.txtDeleteArg": "Delete argument",
   "PDFE.Views.DocumentHolder.txtDeleteBreak": "Slet manuelt linieskift",
@@ -1221,6 +1222,7 @@
   "PDFE.Views.DocumentHolder.txtNewPageBefore": "Insert blank page before",
   "PDFE.Views.DocumentHolder.txtOpacity": "Gennemsigtighed",
   "PDFE.Views.DocumentHolder.txtOverbar": "Bar over text",
+  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page",
   "PDFE.Views.DocumentHolder.txtPressLink": "Press {0} and click link",
   "PDFE.Views.DocumentHolder.txtPrintSelection": "Print selection",
   "PDFE.Views.DocumentHolder.txtRemFractionBar": "Fjern fraktionsbar",
@@ -2218,6 +2220,6 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Tilpas til bredde",
   "PDFE.Views.ViewTab.tipHeadings": "Overskrifter",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface tema",
-  "PDFE.Views.DocumentHolder.txtCopyPage": "Copy page",
-  "PDFE.Views.DocumentHolder.txtPastePage": "Paste page"
+  "PDFE.Views.FormSettings.textLock": "Lock",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock"
 }
