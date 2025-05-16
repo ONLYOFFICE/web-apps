@@ -229,6 +229,12 @@
     "textRows": "Linhas",
     "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Cor personalizada",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
     "textActualSize": "Tamanho real",
@@ -532,6 +538,7 @@
       "Blue Green": "Verde azulado",
       "Blue II": "Azul II",
       "Blue Warm": "Azul quente",
+      "Book Title": "Título do livro",
       "Caption": "Legenda",
       "Choose an item": "Escolha um item",
       "Click to load image": "Clique para carregar a imagem",
@@ -606,7 +613,6 @@
       "Yellow Orange": "Amarelo alaranjado",
       "Your text here": "O seu texto aqui",
       "Zero Divide": "Divisão por zero",
-      "Book Title": "Book title",
       "Default Paragraph Font": "Default paragraph font",
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
@@ -818,11 +824,5 @@
     "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
     "btnRestartNow": "Restart now",
     "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

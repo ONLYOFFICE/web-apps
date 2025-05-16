@@ -226,8 +226,11 @@ define([], function () {
                             if (e.target.localName == 'canvas' && (!me.isEditFormula || me.rangeSelectionMode)) {
                                 if (me._preventClick)
                                     me._preventClick = false;
-                                else
+                                else {
+                                    if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                        return;
                                     documentHolderEl.focus();
+                                }
                             }
                         }
                     },

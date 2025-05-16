@@ -104,7 +104,8 @@ define([
         noParagraphObject:  'no-paragraph-obj',
         inSlideMaster: 'in-slide-master',
         slideMasterMode: 'slide-master-mode',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -187,7 +188,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + me.btnSaveCls,
-                        lock: [_set.lostConnect],
+                        lock: [_set.cantSave, _set.lostConnect],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -2242,8 +2243,7 @@ define([
                 } else {
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
-
-                this.btnSave.setDisabled(false);
+                this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -2274,8 +2274,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
-
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary, {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

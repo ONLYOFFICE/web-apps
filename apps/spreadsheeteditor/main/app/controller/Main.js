@@ -2422,22 +2422,20 @@ define([
                     this._isDocReady && Common.Gateway.setDocumentModified(change);
                 }
                 
-                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        cansave = this.api.asc_isDocumentCanSave(),
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                        this.toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.api && this.disableSaveButton(this.api.asc_isDocumentCanSave());
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    this.toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isCanSave)
+            },
+
+            disableSaveButton: function (isCanSave) {
+                if (!this.toolbarView || !this.toolbarView.btnCollabChanges) return;
+
+                var forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
+                    isSyncButton = (this.toolbarView.btnCollabChanges.rendered) ? this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                    isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                this.toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled, {array: [this.toolbarView.btnSave]});
             },
 
             onBeforeUnload: function() {
@@ -2931,6 +2929,23 @@ define([
             },
 
             setLanguages: function() {
+                let sLangs = Common.Controllers.Desktop.systemLangs() || {},
+                    arr = [];
+                for (let name in sLangs) {
+                    sLangs.hasOwnProperty(name) && arr.push(name);
+                }
+                sLangs = arr;
+
+                let recentKey = 'app-settings-recent-langs',
+                    recentCount = Math.max(5, sLangs.length + 3);
+                Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
+                Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
+
+                arr = Common.localStorage.getItem(recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr = _.union(sLangs, arr);
+                arr.splice(recentCount);
+                Common.localStorage.setItem(recentKey, arr.join(';'));
                 this.getApplication().getController('Spellcheck').setLanguages(this.languages);
             },
 

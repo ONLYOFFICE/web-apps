@@ -142,6 +142,18 @@ Common.UI.LayoutManager = new(function() {
         }
     }
 
+    var _findAndRemoveCustomControl = function(toolbar, action, guid, id) {
+        if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
+            for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
+                var btn = toolbar.customButtonsArr[guid][i];
+                if (btn.options.tabid === action && btn.options.guid === guid && btn.options.value === id) {
+                    toolbar.customButtonsArr[guid].splice(i, 1);
+                    return btn;
+                }
+            }
+        }
+    }
+
     var _findRemovedControls = function(toolbar, action, guid, items) {
         var arr = [];
         if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
@@ -191,7 +203,7 @@ Common.UI.LayoutManager = new(function() {
         return toMenu;
     }
 
-    var _addCustomControls = function (toolbar, data, callback) {
+    var _addCustomControls = function (toolbar, data, callback, preventRemove) {
         if (!data) return;
 
         _toolbar = toolbar;
@@ -239,7 +251,7 @@ Common.UI.LayoutManager = new(function() {
             plugin.tabs && plugin.tabs.forEach(function(tab) {
                 if (tab) {
                     var added = [],
-                        removed = _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
+                        removed = preventRemove ? [] : _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
 
                     if (!_arrPlugins[plugin.guid])
                         _arrPlugins[plugin.guid] = {actions: [], tabs: []};
@@ -248,7 +260,13 @@ Common.UI.LayoutManager = new(function() {
                         _arrPlugins[plugin.guid].tabs.push(tab.id);
 
                     tab.items && tab.items.forEach(function(item, index) {
-                        var btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id),
+                        if (item.removed) { // need to remove button from the toolbar
+                            let btn = _findAndRemoveCustomControl(toolbar, tab.id, plugin.guid, item.id);
+                            btn && removed.push(btn);
+                            return;
+                        }
+
+                        let btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id),
                             _set = Common.enumLock;
                         if (btn) { // change caption, hint, disable state, menu items
                             if (btn instanceof Common.UI.Button) {

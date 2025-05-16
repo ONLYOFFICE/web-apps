@@ -114,8 +114,11 @@ define([
                 if (e.target.localName == 'canvas') {
                     if (me._preventClick)
                         me._preventClick = false;
-                    else
+                    else {
+                        if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                            return;
                         me.boxSdk.focus();
+                    }
                 }
             });
             this.boxSdk.on('mousedown', function(e){
@@ -1369,7 +1372,7 @@ define([
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 menu = this.listControlMenu,
                 menuContainer = menu ? this.boxSdk.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -1406,21 +1409,23 @@ define([
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) { // for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1430,7 +1435,7 @@ define([
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.txtEmpty,
                         value       : -1

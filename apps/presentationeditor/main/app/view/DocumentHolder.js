@@ -96,7 +96,7 @@ define([
             if (me._currLang.id===null || me._currLang.id===undefined) {
                 menu.clearAll();
             } else {
-                var index = _.findIndex(menu.items, {langid: me._currLang.id});
+                var index = _.findLastIndex(menu.items, {langid: me._currLang.id});
                 (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
             }
         },
@@ -238,6 +238,19 @@ define([
                     };
                     arrPara.push(item);
                     arrTable.push(_.clone(item));
+                });
+                var lckey = 'app-settings-recent-langs';
+                me.langParaMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
+                });
+                me.langTableMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
                 });
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);

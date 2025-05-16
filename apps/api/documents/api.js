@@ -512,7 +512,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");

@@ -166,7 +166,7 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+            this.cmbDictionaryLanguage = new Common.UI.ComboBoxRecent({
                 el          : $('#spellcheck-dictionary-language'),
                 style       : 'width: 100%',
                 menuStyle   : 'width: 100%;max-height: 163px;',
@@ -175,17 +175,15 @@ define([], function () {
                 scroller    : {
                     suppressScrollX: true
                 },
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                itemTemplate: _.template([
+                        '<li id="<%= id %>" data-value="<%= value %>">',
                             '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
                                 '<div>',
-                                    '<%= item.displayValue %>',
+                                    '<%= displayValue %>',
                                 '</div>',
-                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                                '<label style="opacity: 0.6"><%= displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],

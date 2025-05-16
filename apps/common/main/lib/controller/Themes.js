@@ -730,7 +730,7 @@ define([
             getThemeColors: function() {
                 const theme_id = window.uitheme.relevant_theme_id();
                 const obj = get_current_theme_colors();
-                obj.type = themes_map[theme_id].type;
+                obj.type = themes_map[theme_id] ? themes_map[theme_id].type : 'light';
                 obj.name = theme_id;
                 return obj;
             },

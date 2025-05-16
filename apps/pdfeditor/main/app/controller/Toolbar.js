@@ -367,6 +367,7 @@ define([
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
@@ -570,7 +571,10 @@ define([
                 annot_lock = false,
                 page_deleted = false,
                 page_rotate = false,
-                page_edit_text = false;
+                page_edit_text = false,
+                in_form = false,
+                in_check_form = false,
+                in_text_form = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -618,6 +622,12 @@ define([
                     page_deleted = pr.asc_getDeleteLock();
                     page_rotate = pr.asc_getRotateLock();
                     page_edit_text = pr.asc_getEditLock();
+                } else if (type == Asc.c_oAscTypeSelectElement.Field) {
+                    let ft = pr.asc_getType();
+                    in_form = true;
+                    no_text = false;
+                    in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
+                    in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
                 }
             }
 
@@ -642,6 +652,20 @@ define([
                 if (this._state.activated) this._state.in_annot = in_annot;
                 toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
             }
+
+            if (this._state.in_form !== in_form) {
+                if (this._state.activated) this._state.in_form = in_form;
+                toolbar.lockToolbar(Common.enumLock.inForm, in_form, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.in_check_form !== in_check_form) {
+                if (this._state.activated) this._state.in_check_form = in_check_form;
+                toolbar.lockToolbar(Common.enumLock.inCheckForm, in_check_form, {array: toolbar.paragraphControls});
+            }
+
+            let cant_align = no_paragraph && !in_text_form;
+            toolbar.lockToolbar(Common.enumLock.cantAlign, cant_align, {array: [toolbar.btnHorizontalAlign]});
+            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form);
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -801,7 +825,8 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton);
+                toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton,
+                                                        {array: [toolbar.btnSave]});
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.NotificationCenter.trigger('edit:complete', toolbar);
@@ -1315,7 +1340,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton);
+            this.api && this.toolbar.btnSave && this.toolbar.lockToolbar(Common.enumLock.cantSave, this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton, {array: [this.toolbar.btnSave]});
             this._state.activated = true;
         },
 
@@ -1457,6 +1482,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.getApplication().getController('Main').disableSaveButton(me.api.asc_isDocumentCanSave());
                     me.onCountPages(me._state.pageCount);
                     me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
@@ -2547,6 +2573,13 @@ define([
             this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
+        },
+
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
         },
 
         onDocumentReady: function() {

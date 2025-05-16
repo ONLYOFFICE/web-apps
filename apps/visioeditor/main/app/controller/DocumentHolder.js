@@ -344,8 +344,11 @@ define([
                     if (e.target.localName == 'canvas') {
                         if (me._preventClick)
                             me._preventClick = false;
-                        else
+                        else {
+                            if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                return;
                             meEl.focus();
+                        }
                     }
                 });
                 meEl.on('mousedown', function(e){

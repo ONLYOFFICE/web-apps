@@ -514,6 +514,7 @@ define([
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -1214,7 +1215,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
+            toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton, {array: [toolbar.btnSave]});
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -3730,8 +3731,6 @@ define([
 
             toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
             if (reviewmode || viewDocMode) {
-                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
-
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
                     toolbar.onCollaborativeChanges();
@@ -4244,6 +4243,13 @@ define([
             this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
+        },
+
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
         },
 
         onDocumentReady: function() {

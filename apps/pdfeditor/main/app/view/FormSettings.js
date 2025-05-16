@@ -68,7 +68,7 @@ define([
             this._originalSpecProps = null;
             this._originalProps = null;
             this.defFormat = {FormatType: AscPDF.FormatType.NONE, decimal: 2, separator: AscPDF.SeparatorStyle.COMMA_DOT, negative: AscPDF.NegativeStyle.BLACK_MINUS,
-                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 'HH:MM', special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
+                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 0, special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
             this.render();
         },
 
@@ -92,6 +92,7 @@ define([
             this.DateSettings = el.find('.form-date');
             this.TimeSettings = el.find('.form-time');
             this.linkAdvanced = el.find('#form-advanced-link');
+            this.RequiredSettings = el.find('#form-chb-required').closest('tr');
         },
 
         createDelayedElements: function() {
@@ -136,6 +137,16 @@ define([
             this.chRequired.on('change', this.onChRequired.bind(this));
             this.lockedControls.push(this.chRequired);
 
+            this.chReadonly = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-readonly'),
+                labelText: this.textReadonly,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chReadonly.on('change', this.onChReadonly.bind(this));
+            this.lockedControls.push(this.chReadonly);
+
             this.cmbLineWidth = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-line-width'),
                 cls: 'input-group-nr',
@@ -173,6 +184,22 @@ define([
             this.cmbLineStyle.setValue(AscPDF.BORDER_TYPES.solid);
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
+
+            this.btnLockForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-lock'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-lock',
+                caption     : this.textLock,
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnLockForm.on('click', _.bind(function(btn){
+                if (this.api && !this._noApply) {
+                    this.api.SetFieldLocked(!this._state.LockDelete);
+                    this.fireEvent('editcomplete', this);
+                }
+            }, this));
 
             //Spec props
             // combobox & text field
@@ -289,12 +316,15 @@ define([
             this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
+            var timearr = this.api.asc_getFieldTimeFormatOptions();
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                }
+            }
             this.cmbTimeFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-time-format'),
                 cls: 'input-group-nr',
@@ -770,6 +800,13 @@ define([
             }
         },
 
+        onChReadonly: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                this.api.SetFieldReadOnly(field.getValue()==='checked');
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onColorBGSelect: function(btn, color) {
             this.BackgroundColor = color;
             this._state.BackgroundColor = undefined;
@@ -1216,6 +1253,12 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
 
+                var val = props.asc_getPropLocked();
+                if (this._state.LockDelete !== val) {
+                    this._state.LockDelete = val;
+                    this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
+                }
+
                 this.disableControls(this._locked);
 
                 var forceShowHide = false,
@@ -1235,7 +1278,7 @@ define([
                     this._state.Name = undefined;
                 }
 
-                var val = props.asc_getName();
+                val = props.asc_getName();
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
@@ -1245,6 +1288,12 @@ define([
                 if ( this._state.Required!==val ) {
                     this.chRequired.setValue(!!val, true);
                     this._state.Required=val;
+                }
+
+                val = props.asc_getReadOnly();
+                if ( this._state.Readonly!==val ) {
+                    this.chReadonly.setValue(!!val, true);
+                    this._state.Readonly=val;
                 }
 
                 var color = props.asc_getStroke();
@@ -1700,6 +1749,7 @@ define([
             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
             this.cmbState.setDisabled(this._state.Behavior!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
             this.linkAdvanced.toggleClass('disabled', disable);
+            this.btnLockForm.setDisabled(disable);
         },
 
         showHideControls: function(type, specProps) {
@@ -1719,6 +1769,7 @@ define([
             this.CheckSettings.toggleClass('hidden', !(isCheck || isRadio));
             this.RadioOnlySettings.toggleClass('hidden', !isRadio);
             this.ButtonSettings.toggleClass('hidden', !isButton);
+            this.RequiredSettings.toggleClass('hidden', isButton);
             this.ImageOnlySettings.toggleClass('hidden', !isImage);
             this.ButtonTextOnlySettings.toggleClass('hidden', !isButtonText);
             this.TextSpecialSettings.toggleClass('hidden', !(isCombobox || isText) || this._state.FormatType!==AscPDF.FormatType.SPECIAL);

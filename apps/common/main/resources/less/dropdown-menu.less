@@ -119,9 +119,11 @@
             }
         }
 
-        &.border-top {
+        &:not(:first-child).border-top {
             border-top: @scaled-one-px-value-ie solid @border-divider-ie;
             border-top: @scaled-one-px-value solid @border-divider;
+            margin-top: 5px;
+            padding-top: 5px;
         }
     }
 
