@@ -2197,28 +2197,7 @@ define([], function () {
 
             this.cmbPrinter = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-printer'),
-                menuStyle: 'min-width: 248px;max-height: 280px;',
-                editable: false,
-                takeFocusOnClose: true,
-                cls: 'input-group-nr',
-                placeHolder: this.txtPrinterNotSelected,
-                itemsTemplate:  _.template([
-                    '<% if (items.length > 0) { %>',
-                        '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
-                        '<% }); %>',
-                    '<% } else { %>',
-                        '<li><a style="background:none; cursor: default;" onclick="event.stopPropagation();">' + this.txtPrintersNotFound + '</a></li>',
-                    '<% } %>'
-                ].join('')),
-                data: [],
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.cmbPrinter.on('selected', _.bind(this.onPrinterSelected, this));this.cmbPrinter = new Common.UI.ComboBox({
-                el: $markup.findById('#print-combo-printer'),
-                menuStyle: 'min-width: 248px;max-height: 280px;',
+                menuStyle: 'width: 248px;max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
@@ -2339,7 +2318,7 @@ define([], function () {
 
             this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
-                menuStyle: 'max-height: 280px; min-width: 248px;',
+                menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,

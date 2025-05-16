@@ -81,7 +81,7 @@ define([
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.btnPrintSystemDialog.on('click', _.bind(this.onBtnPrint, this, true, true));
             this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true, false));
-            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false));
+            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false, false));
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({
@@ -189,7 +189,12 @@ define([
                     height = this._state.pgorient ? h : w;
                 var panel = this.printSettings;
                 var store = panel.cmbPaperSize.store,
+                    cmbPaperSizeRecord = panel.cmbPaperSize.getSelectedRecord(),
                     item = null;
+                
+                if (cmbPaperSizeRecord && Math.abs(w - cmbPaperSizeRecord.size[0]) < 0.1 && Math.abs(h - cmbPaperSizeRecord.size[1]) < 0.1) {
+                    return;
+                }
                 for (var i=0; i<store.length-1; i++) {
                     var rec = store.at(i),
                         size = rec.get('size'),
