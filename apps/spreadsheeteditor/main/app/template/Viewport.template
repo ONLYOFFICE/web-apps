@@ -9,8 +9,8 @@
             <div id="viewport-hbox-layout" class="layout-ct hbox">
                 <div id="left-menu" class="layout-item hint-section" data-layout-name="leftMenu" style="width: 40px;"></div>
                 <div id="about-menu-panel" class="left-menu-full-ct" style="display:none;"></div>
-                <div id="document-layout-item" class="layout-item">
-                    <div id="document-layout" class="layout-ct vbox">
+                <div class="layout-item">
+                    <div class="layout-ct vbox">
                         <div id="cell-editing-box" class="layout-item" style="height:18px;"></div>
                         <div id="editor_sdk" class="layout-item" style="min-height: 100px;"></div>
                     </div>
