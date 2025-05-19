@@ -21,8 +21,17 @@
                 right: 0;
             }
 
+            &::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: @chb-border-radius;
+                box-shadow: 0 0 0 @scaled-one-px-value @chb-border-normal inset;
+                pointer-events: none;
+                z-index: 1;
+            }
+
             svg {
-                border: @scaled-one-px-value solid @chb-border-normal;
                 border-radius: @chb-border-radius;
                 background-color: @chb-background-normal;
                 pointer-events: none;
@@ -42,8 +51,11 @@
 
         &:checked, &:indeterminate {
             + label {
+                &:before {
+                    box-shadow: 0 0 0 @scaled-one-px-value @chb-border-checked inset;
+                }
+
                 svg {
-                    border-color: @chb-border-checked;
                     background-color: @chb-background-checked;
                 }
             }
@@ -59,27 +71,35 @@
     }
 
     &:hover:not(.disabled) {
+        + label:before {
+            box-shadow: 0 0 0 @scaled-one-px-value @chb-border-normal-hover inset;
+        }
+
         svg {
-            border-color: @chb-border-normal-hover;
             background-color: @chb-background-normal-hover;
         }
 
         input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
-            + label svg {
-                border-color: @chb-border-checked-hover;
-                background-color: @chb-background-checked-hover;
+            + label {
+                &:before {
+                    box-shadow: 0 0 0 @scaled-one-px-value @chb-border-checked-hover inset;
+                }
+
+                svg {
+                    background-color: @chb-background-checked-hover;
+                }
             }
         }
     }
 
     &:focus:not(.disabled) {
-        svg {
-            border-color: @chb-border-normal-focus;
+        + label:before {
+            box-shadow: 0 0 0 @scaled-one-px-value @chb-border-normal-focus inset;
         }
 
         input[type=checkbox]:checked, input[type=checkbox]:indeterminate {
-            + label svg {
-                border-color: @chb-border-checked-focus;
+            + label:before {
+                box-shadow: 0 0 0 @scaled-one-px-value @chb-border-checked-focus inset;
             }
         }
 
