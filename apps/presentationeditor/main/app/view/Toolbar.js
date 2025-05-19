@@ -840,7 +840,7 @@ define([
                             ]
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'top',
+                        dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnTextDir);

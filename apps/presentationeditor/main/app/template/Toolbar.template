@@ -81,13 +81,13 @@
                         <span class="btn-slot split" id="slot-btn-numbering"></span>
                         <span class="btn-slot split" id="slot-btn-decoffset"></span>
                         <span class="btn-slot split" id="slot-btn-incoffset"></span>
-                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-halign"></span>
                         <span class="btn-slot split" id="slot-btn-valign"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                         <span class="btn-slot split" id="slot-btn-columns"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
