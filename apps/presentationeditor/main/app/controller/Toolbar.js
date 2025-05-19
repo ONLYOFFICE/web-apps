@@ -395,6 +395,8 @@ define([
             toolbar.btnLineSpace.menu.on('item:click',                  _.bind(this.onLineSpaceClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+            toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
@@ -484,6 +486,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onLayoutTitle',          _.bind(this.onApiLayoutTitle, this));
                 this.api.asc_registerCallback('asc_onLayoutFooter',         _.bind(this.onApiLayoutFooter, this));
+                this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -1713,6 +1716,38 @@ define([
             else
                 this.toolbar.btnColumns.menu.items[index].setChecked(true);
             this._state.columns = index;
+        },
+
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onApiTextDirection: function (isRtl){
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnDecLeftOffset.cmpEl && toolbar.btnDecLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnIncLeftOffset.cmpEl && toolbar.btnIncLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
+            }
         },
 
         onBeforeShapeAlign: function() {
