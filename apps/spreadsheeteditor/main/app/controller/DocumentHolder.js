@@ -144,6 +144,7 @@ define([
             $(document).on('mousedown',     _.bind(me.onDocumentRightDown, me));
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
+            $(document).on('keyup',         _.bind(me.onDocumentKeyUp, me));
             $(document).on('mousemove',     _.bind(me.onDocumentMouseMove, me));
             $(window).on('resize',          _.bind(me.onDocumentResize, me));
             var viewport = SSE.getController('Viewport').getView('Viewport');
@@ -329,7 +330,7 @@ define([
                     delta = e.deltaY;
                 }
 
-                if (e.ctrlKey && !e.altKey) {
+                if (e.ctrlKey && this._isWheelStarted && !e.altKey) {
                     var factor = this.api.asc_getZoom();
                     if (delta < 0) {
                         factor = Math.ceil(factor * 10)/10;
@@ -350,10 +351,21 @@ define([
                     e.preventDefault();
                     e.stopPropagation();
                 }
+                this._isWheelStarted = true;
+            }
+        },
+
+        onDocumentKeyUp: function(event) {
+            if (event.key === "Control") {
+                event.ctrlKey = false;
+                this._isWheelStarted = false;
             }
         },
 
         onDocumentKeyDown: function(event){
+            if (event.ctrlKey) {
+                event.ctrlKey = true;
+            }
             if (this.api){
                 var key = event.keyCode;
                 if (this.hkSpecPaste) {
