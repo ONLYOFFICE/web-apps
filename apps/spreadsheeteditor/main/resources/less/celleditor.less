@@ -16,30 +16,24 @@
 
         #ce-cell-name {
             width: 100px;
-            height: calc(@celleditor-height - @celleditor-border-width);
-            height: calc(@celleditor-height - @celleditor-border-width + (1px - 1px/var(--pixel-ratio-factor,1)));
+            height: calc(@celleditor-height - var(--celleditor-border-width));
+            height: calc(@celleditor-height - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
             padding: 0px 19px 0 4px;
             vertical-align: top;
             display: inline-block;
             transition: none;
             -webkit-transition: none;
 
-            body:not(.theme-white) & {
-                border: 0 none;
-                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-                border-right: @scaled-one-px-value solid @border-toolbar;
-                box-shadow: 0 @scaled-one-px-value-ie 0 0 @border-toolbar-ie;
-                box-shadow: 0 @scaled-one-px-value 0 0 @border-toolbar;
-            }
+            border: @celleditor-input-border;
+            border-right: @celleditor-cell-name-border-right;
+            box-shadow: 0 @celleditor-border-width 0 0 @border-toolbar-ie;
+            box-shadow: 0 @celleditor-border-width 0 0 @border-toolbar;
 
             .rtl & {
                 padding: 0px 4px 0 19px;
                 direction: rtl;
-                body:not(.theme-white) & {
-                    border: 0 none;
-                    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-                    border-left: @scaled-one-px-value solid @border-toolbar;
-                }
+                border: @celleditor-input-border;
+                border-left: @celleditor-cell-name-border-right;
             }
 
             &[disabled] {
@@ -92,11 +86,7 @@
         #ce-func-label {
             height: @x-small-btn-size;
             width: @x-small-btn-size;
-            .margin-left(-3px);
-
-            body.theme-white & {
-                .margin-left(1px);
-            }
+            .margin-left(@celleditor-func-label-margin-left);
 
             .border-radius(0);
 
@@ -128,7 +118,7 @@
     }
 
     .ce-group-content {
-        margin: 0 0px 0 120px;
+        margin: 0 0px 0 calc(100px + 3px + @celleditor-func-label-margin-left + @x-small-btn-size);
         height: 100%;
         display: flex;
         border-left: @celleditor-border-width solid @border-toolbar-ie;
@@ -137,16 +127,14 @@
             border-left: none;
             border-right: @celleditor-border-width solid @border-toolbar-ie;
             border-right: @celleditor-border-width solid @border-toolbar;
-            margin: 0 120px 0 0px;
+            margin: 0 calc(100px + 3px + @celleditor-func-label-margin-left + @x-small-btn-size) 0 0px;
         }
 
         #ce-cell-content {
             height: 100%;
             resize: none;
             min-height: 19px;
-            body:not(.theme-white) & {
-                border: 0 none;
-            }
+            border: @celleditor-input-border;
             .padding-x(3px, 19px);
             .font-size-medium();
             line-height: @celleditor-line-height;
@@ -173,9 +161,7 @@
     }
 
     #ce-cell-name, #ce-cell-content {
-        body:not(.theme-white) & {
-            border-radius: 0
-        }
+        border-radius: @celleditor-input-border-radius;
     }
 
     &+.layout-resizer {
