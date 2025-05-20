@@ -63,10 +63,10 @@ define([], function () { 'use strict';
             this.template = [
                 '<div class="box">',
                     '<label style="display: block; margin-bottom: 10px;">' + this.textBefore + '</label>',
-                    '<div class="input-row" style="margin-bottom: 15px;">',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-upload" style="border-radius: 0;">' + this.txtUpload + '</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-draw" style="border-radius: 0;">' + this.txtDraw + '</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-type" style="border-radius: 0;">' + this.txtType + '</button>',
+                    '<div style="margin-bottom: 15px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-upload">' + this.txtUpload + '</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-draw">' + this.txtDraw + '</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-pdf-btn-type">' + this.txtType + '</button>',
                     '</div>',
                     '<label style="display: block; margin-bottom: 3px;">' + this.textLooksAs + '</label>',
                     '<div style="outline: 1px solid #cbcbcb;width: 500px; height: 150px;">',
@@ -127,6 +127,7 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             this.btnType.on('click', _.bind(this.onImgModeClick, this, 2));
+            Common.UI.GroupedButtons([me.btnUpload, me.btnDraw, me.btnType]);
 
             this.btnSelectImage = new Common.UI.Button({
                 parentEl: $window.find('#id-dlg-pdf-select-image'),
