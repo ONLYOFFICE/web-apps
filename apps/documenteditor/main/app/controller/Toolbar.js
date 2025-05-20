@@ -294,6 +294,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
             Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
         },
 
@@ -442,7 +443,8 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
-            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         setApi: function(api) {
