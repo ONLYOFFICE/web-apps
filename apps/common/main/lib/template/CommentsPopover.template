@@ -58,7 +58,7 @@
                     <% if ((fullInfoInHint || !hint) && !scope.viewmode) { %>
                         <div class="btns-reply-ct">
                             <% if (item.get("editable")) { %>
-                                <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
+                                <div class="btn-edit-common img-commonctrl" data-value="<%=item.get("id")%>"></div>
                             <%}%>
                             <% if (item.get("removable")) { %>
                                <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
@@ -93,7 +93,7 @@
         <div class="edit-ct">
             <% if ((fullInfoInHint || !hint) && !scope.viewmode) { %>
                 <% if (editable) { %>
-                    <div class="btn-edit img-commonctrl"></div>
+                    <div class="btn-edit-common img-commonctrl"></div>
                 <% } %>
                 <% if (removable) { %>
                     <div class="btn-delete img-commonctrl"></div>

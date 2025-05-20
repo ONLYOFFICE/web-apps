@@ -293,7 +293,7 @@ define([
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
                         });
-                        btns = $(view.el).find('.btn-edit');
+                        btns = $(view.el).find('.btn-edit-common');
                         btns.tooltip({title: me.txtEditTip, placement: 'cursor'});
                         btns.each(function (idx, item) {
                             arr.push($(item).data('bs.tooltip').tip());
@@ -345,7 +345,7 @@ define([
                                     return;
                             }
 
-                            if (btn.hasClass('btn-edit')) {
+                            if (btn.hasClass('btn-edit-common')) {
                                 var tip = btn.data('bs.tooltip');
                                 if (tip) tip.dontShow = true;
 
