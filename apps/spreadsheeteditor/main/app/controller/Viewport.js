@@ -150,6 +150,7 @@ define([
             } else
             if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
                 me.viewport.vlayout.getItem('toolbar').height = 41;
+                document.body.classList.add('inner-simple-editor');
             }
 
             if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {

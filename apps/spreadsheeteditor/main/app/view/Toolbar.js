@@ -253,6 +253,7 @@ define([
             });
 
             if (config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+                me.$el.addClass('type-simple');
                 me.$layout = $(_.template(simple)(config));
                 if ( config.isEditDiagram || config.isEditOle ) {
                     me.btnInsertFormula = new Common.UI.Button({
