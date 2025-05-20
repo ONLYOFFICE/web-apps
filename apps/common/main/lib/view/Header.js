@@ -1261,6 +1261,7 @@ define([
             },
 
             setDocTitle: function(name){
+                if (!$labelDocName) return;
                 var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
                 name && (width>=0) && $labelDocName.val(name);

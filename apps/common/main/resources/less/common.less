@@ -273,8 +273,8 @@ label {
 
                 &.disabled > a {
                     cursor: default;
-                    color: @border-regular-control-ie;
-                    color: @border-regular-control;
+                    opacity: @component-disabled-opacity-ie;
+                    opacity: @component-disabled-opacity;
                 }
             }
 
@@ -305,12 +305,6 @@ label {
                 &:not(:disabled) {
                     opacity: 0.8;
                     opacity: @component-normal-icon-opacity;
-                }
-            }
-
-            &.disabled {
-                .menu-item-icon {
-                    opacity: 0.4;
                 }
             }
 

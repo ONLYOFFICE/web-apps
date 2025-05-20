@@ -1,8 +1,4 @@
 @img-equition-filter: var(--image-border-types-filter);
-@toolbar-radius: @border-radius-toolbar;
-@toolbar-tab-radius: 5px;
-@tab-active-topline-color: red;
-@tab-active-topline-height: 3px;
 #toolbar {
     padding: @layout-padding-toolbar;
 
@@ -15,7 +11,7 @@
 }
 .toolbar {
     .box-controls {
-        border-radius: @toolbar-radius;
+        border-radius: @border-radius-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
@@ -30,33 +26,19 @@
                 width: 100%;
                 height: @toolbar-height-controls;
                 bottom: 0;
-                border-radius: @toolbar-radius;
+                border-radius: @border-radius-toolbar;
             }
         }
     }
 
     .box-tabs {
-        padding-left: @toolbar-radius;
-        padding-right: @toolbar-radius;
+        padding-left: @border-radius-toolbar;
+        padding-right: @border-radius-toolbar;
     }
 
     .ribtab {
         border-top-left-radius: @toolbar-tab-radius;
         border-top-right-radius: @toolbar-tab-radius;
-
-        &.active {
-            &:before {
-                //content: '';
-                //position: absolute;
-                //background-color: @tab-active-topline-color;
-                //top: 0;
-                //left: 0;
-                //height: @tab-active-topline-height;
-                //width: 100%;
-                //border-top-left-radius: @toolbar-tab-radius;
-                //border-top-right-radius: @toolbar-tab-radius;
-            }
-        }
     }
 }
 
