@@ -179,9 +179,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        if ( !!params.uitheme ) {
-            document.documentElement.classList.add(params.uitheme);
-        }
 
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
