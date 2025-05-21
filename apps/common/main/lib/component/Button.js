@@ -474,6 +474,7 @@ define([
             }
 
             if (!me.rendered) {
+                var isFirefox = Common.Utils.firefoxVersion>0
                 var el = me.cmpEl,
                     isGroup = el.hasClass('btn-group'),
                     isSplit = el.hasClass('split');
@@ -482,7 +483,15 @@ define([
                     me.enableToggle = true;
                 }
 
+                var mouseDownTarget = null;
+
+                var setMouseDownTarget = function(e) {
+                    mouseDownTarget = e.currentTarget;
+                };
+
                 var buttonHandler = function(e) {
+                    if (preventMismatchedClickInFirefox(e) === false) return false;
+
                     if (!me.disabled && (e.which === 1 || e.which===undefined)) {
                         me.doToggle();
                         if (me.options.hint) {
@@ -494,8 +503,13 @@ define([
                                 tip.hide();
                             }
                         }
+
                         me.split && me.options.takeFocusOnClose && me.focus();
                         me.trigger('click', me, e);
+                    }
+
+                    if (isFirefox) {
+                        mouseDownTarget = null;
                     }
                 };
 
@@ -534,6 +548,8 @@ define([
                 };
 
                 var menuHandler = function(e) {
+                    if (preventMismatchedClickInFirefox(e) === false) return false;
+
                     if (!me.disabled && e.which == 1) {
                         if (isSplit) {
                             if (me.options.hint) {
@@ -548,7 +564,19 @@ define([
                             doSplitSelect(!me.isMenuOpen(), 'arrow', e);
                         }
                     }
+
+                    if (isFirefox) {
+                        mouseDownTarget = null
+                    }
                 };
+
+                var preventMismatchedClickInFirefox = function (e) {
+                    if (isFirefox && mouseDownTarget !== e.currentTarget) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                }
 
                 var doSetActiveState = function(e, state) {
                     if (isSplit) {
@@ -582,7 +610,16 @@ define([
                     if (isSplit) {
                         $('[data-toggle^=dropdown]', el).on('mousedown', _.bind(menuHandler, this));
                         $('button', el).on('mousedown', _.bind(onMouseDown, this));
+                        if (isFirefox) {
+                            $('[data-toggle^=dropdown]', el).on('mousedown', setMouseDownTarget);
+                            $('[data-toggle^=dropdown]', el).on('click', _.bind(menuHandler, this));
+                        }
+
                         (me.options.width>0) && $('button:first', el).css('width', me.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
+                    }
+                    if (isFirefox) {
+                        $('[role="tab"]').on('mousedown', setMouseDownTarget);
+                        $('[role="tab"]').on('click', preventMismatchedClickInFirefox);
                     }
 
                     el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
@@ -590,8 +627,14 @@ define([
                     el.on('hidden.bs.dropdown', _.bind(onAfterHideMenu, me));
 
                     $('button:first', el).on('click', buttonHandler);
+                    if (isFirefox) {
+                        $('button:first', el).on('mousedown', setMouseDownTarget);
+                    }
                 } else {
                     el.on('click', buttonHandler);
+                    if (isFirefox) {
+                        el.on('mousedown', setMouseDownTarget)
+                    }
                 }
 
                 el.on('button.internal.active', _.bind(doSetActiveState, me));
