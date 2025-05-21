@@ -43,6 +43,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
+    'common/main/lib/controller/Fonts',
     'documenteditor/forms/app/view/ApplicationView',
     'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
@@ -480,6 +481,7 @@ define([
             this.appOptions.lang            = this.editorConfig.lang;
             this.appOptions.canPlugins      = false;
             this.appOptions.canRequestFillingStatus = this.editorConfig.canRequestFillingStatus;
+            this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
 
             Common.Controllers.Desktop.init(this.appOptions);
 
@@ -748,6 +750,8 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+
+                DE.getController('Common.Controllers.Fonts').setApi(this.api);
             }
 
             this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
@@ -1224,10 +1228,29 @@ define([
                             return;
                     }
                     if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
-                        me.api.asc_addImage(obj.pr);
-                        setTimeout(function(){
-                            me.api.asc_UncheckContentControlButtons();
-                        }, 500);
+                        var win = (new Common.Views.PdfSignDialog({
+                            props: obj,
+                            api: me.api,
+                            disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                            storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                            fontStore: this.getCollection('Common.Collections.Fonts'),
+                            iconType: 'svg',
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    me.api.asc_SetSignatureProps(value);
+                                }
+                            }
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                        win.show();
+
+                        // me.api.asc_addImage(obj.pr);
+                        // setTimeout(function(){
+                        //     me.api.asc_UncheckContentControlButtons();
+                        // }, 500);
                     } else
                         setTimeout(function() {
                             me.onShowImageActions(obj, x, y);

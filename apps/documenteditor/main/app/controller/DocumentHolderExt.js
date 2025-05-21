@@ -1218,7 +1218,7 @@ define([], function () {
                             });
                             me.fontStore.add(arr);
                         }
-                        (new Common.Views.PdfSignDialog({
+                        var win = (new Common.Views.PdfSignDialog({
                             props: obj,
                             api: me.api,
                             disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
@@ -1230,7 +1230,12 @@ define([], function () {
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
-                        })).show();
+                        })).on('close', function(obj){
+                            setTimeout(function(){
+                                me.api.asc_UncheckContentControlButtons();
+                            }, 100);
+                        });
+                        win.show();
                     } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){

@@ -59,6 +59,7 @@ define([], function () { 'use strict';
             this.storage    = !!this.options.storage;
             this.fontName = 'Arial';
             this.isImageLoaded = false;
+            this.iconType = this.options.iconType;
 
             this.template = [
                 '<div class="box">',
@@ -102,7 +103,8 @@ define([], function () { 'use strict';
             Common.UI.Window.prototype.render.call(this);
 
             var me = this,
-                $window = this.getChild();
+                $window = this.getChild(),
+                is_svg_icon = this.iconType === 'svg';
 
             this.btnUpload = new Common.UI.Button({
                 el: $window.find('#id-dlg-pdf-btn-upload'),
@@ -206,15 +208,15 @@ define([], function () { 'use strict';
             this.btnUndo = new Common.UI.Button({
                 parentEl    : $window.find('#btn-sign-undo'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-undo icon-rtl',
+                iconCls     : is_svg_icon ? 'svg-icon undo icon-rtl scaling-off' : 'toolbar__icon btn-undo icon-rtl',
                 hint        : this.tipUndo
             }).on('click', _.bind(this.onUndo, this));
 
             this.btnRedo = new Common.UI.Button({
-                    parentEl    : $window.find('#btn-sign-redo'),
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-redo icon-rtl',
-                    hint        : this.tipRedo
+                parentEl    : $window.find('#btn-sign-redo'),
+                cls         : 'btn-toolbar',
+                iconCls     : is_svg_icon ? 'svg-icon redo icon-rtl scaling-off' : 'toolbar__icon btn-redo icon-rtl',
+                hint        : this.tipRedo
             }).on('click', _.bind(this.onRedo, this));
 
             this.btnClear = new Common.UI.Button({
