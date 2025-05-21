@@ -83,12 +83,13 @@ define([], function () { 'use strict';
                         '<div id="pdf-sign-img-draw-preview" class="img-draw hidden" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>',
                         '<div id="pdf-sign-img-type-preview" class="img-type hidden" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>',
                     '</div>',
-                    '<div class="input-row" style="margin: 10px 0;">',
-                        '<div id="pdf-sign-ch-back" class="input-row img-upload" style="display: inline-block; vertical-align: middle;"></div>',
-                        '<div id="pdf-sign-fonts" class="input-row img-type hidden" style="display: inline-block; vertical-align: middle;"></div>',
-                        '<div id="pdf-sign-line-size" class="input-row img-draw margin-right-8 hidden" style="display: inline-block; vertical-align: middle;"></div>',
-                        '<div id="pdf-sign-line-color" class="input-row img-draw hidden" style="display: inline-block;"></div>',
-                        '<button type="button" class="input-row btn btn-text-default auto float-right" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
+                    '<div class="input-row display-flex-row-center" style="margin: 10px 0;">',
+                        '<div id="pdf-sign-ch-back" class="img-upload"></div>',
+                        '<div id="pdf-sign-fonts" class="img-type hidden"></div>',
+                        '<div id="pdf-sign-line-size" class="img-draw margin-right-8 hidden"></div>',
+                        '<div id="pdf-sign-line-color" class="img-draw hidden"></div>',
+                        '<div style="flex-grow: 1;display: flex; justify-content: center;"><div id="btn-sign-undo" class="img-draw margin-right-5 hidden"></div><div id="btn-sign-redo" class="img-draw hidden"></div></div>',
+                        '<button type="button" class="btn btn-text-default auto" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
                     '</div>',
                 '</div>',
             ].join('');
@@ -202,6 +203,20 @@ define([], function () { 'use strict';
                 me.props && me.props.put_LineSize(record.value);
             });
 
+            this.btnUndo = new Common.UI.Button({
+                parentEl    : $window.find('#btn-sign-undo'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-undo icon-rtl',
+                hint        : this.tipUndo
+            }).on('click', _.bind(this.onUndo, this));
+
+            this.btnRedo = new Common.UI.Button({
+                    parentEl    : $window.find('#btn-sign-redo'),
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-redo icon-rtl',
+                    hint        : this.tipRedo
+            }).on('click', _.bind(this.onRedo, this));
+
             this.btnClear = new Common.UI.Button({
                 el: $window.find('#pdf-sign-btn-clear')
             });
@@ -223,7 +238,8 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor, this.cmbFonts, this.btnClear].concat(this.getFooterButtons());
+            return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor,
+                    this.cmbFonts, this.btnUndo, this.btnRedo,this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -359,6 +375,14 @@ define([], function () { 'use strict';
             }
         },
 
+        onUndo: function () {
+            this.props.undo();
+        },
+
+        onRedo: function () {
+            this.props.undo();
+        },
+
         txtTitle: 'Signature',
         txtUpload: 'Upload',
         txtDraw: 'Draw',
@@ -371,7 +395,9 @@ define([], function () { 'use strict';
         txtRemBack: 'Remove white background',
         textFromUrl: 'From URL',
         textFromFile: 'From File',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        tipUndo: 'Undo',
+        tipRedo: 'Redo'
 
     }, Common.Views.PdfSignDialog || {}))
 });
