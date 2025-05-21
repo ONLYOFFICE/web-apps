@@ -2814,11 +2814,27 @@ define([
                 }
 
                 let sLangs = Common.Controllers.Desktop.systemLangs() || {},
-                    arr = [];
+                    arr = [],
+                    me = this;
                 for (let name in sLangs) {
                     sLangs.hasOwnProperty(name) && arr.push(name);
                 }
                 sLangs = arr;
+
+                arr = []; // system languages can be 'en'... (MacOs)
+                sLangs.forEach(function(lang) {
+                    let rec = _.findWhere(me.languages, {value: lang});
+                    if (!rec)
+                        rec = _.find(me.languages, function(item) {
+                        return item.spellcheck && (item.value.indexOf(lang.toLowerCase())===0);
+                    });
+                    if (!rec)
+                        rec = _.find(me.languages, function(item) {
+                            return (item.value.indexOf(lang.toLowerCase())===0);
+                        });
+                    rec && arr.push(rec.value);
+                });
+                sLangs = _.uniq(arr);
 
                 let recentKey = 'app-settings-recent-langs',
                     recentCount = Math.max(5, sLangs.length + 3);
