@@ -260,7 +260,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
             Common.NotificationCenter.on('draw:stop', _.bind(this.onDrawStop, this));
-
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         onCreateAnnotBar: function(btnStrikeout, btnUnderline, btnHighlight) {
