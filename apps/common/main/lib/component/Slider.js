@@ -226,7 +226,7 @@ define([
 
             var onKeyUp = function (e) {
                 if ( me.disabled ) return;
-x
+
                 if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN || Common.UI.Keys.LEFT || Common.UI.Keys.RIGHT) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -242,6 +242,7 @@ x
                 el.on('mousedown', '.thumb', onMouseDown);
                 el.on('mousedown', '.track', onTrackMouseDown);
                 if (this.options.enableKeyEvents) {
+                    me.input = el.find('input');
                     el.on('keydown', 'input', onKeyDown);
                     el.on('keyup',   'input', onKeyUp);
                 }
@@ -262,8 +263,11 @@ x
         },
 
         setThumbPosition: function (pos) {
-            const isVertical = this.direction === 'vertical';
+            if (typeof pos !== 'number' || Number.isNaN(pos)) {
+                pos = 0;
+            }
 
+            const isVertical = this.direction === 'vertical';
             const trackSize = isVertical ? this.track.height() : this.track.width();
             const offset = pos / 100 * trackSize + this.thumbRange[pos];
 
