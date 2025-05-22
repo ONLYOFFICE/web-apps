@@ -474,6 +474,8 @@ define([
             }
 
             if (!me.rendered) {
+                var isFirefox = Common.Utils.firefoxVersion>0
+                var lastMouseDownTarget = null
                 var el = me.cmpEl,
                     isGroup = el.hasClass('btn-group'),
                     isSplit = el.hasClass('split');
@@ -577,6 +579,19 @@ define([
                     if (me.cmpEl.hasClass('active') !== me.pressed) 
                         me.cmpEl.trigger('button.internal.active', [me.pressed]);
                 };
+
+                if (isFirefox) {
+                    document.addEventListener('mousedown', function(e) {
+                        lastMouseDownTarget = e.target;
+                    }, true)
+
+                    document.addEventListener('click', function(e) {
+                        if (e.target !== lastMouseDownTarget) {
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                        }
+                    }, true)
+                }
 
                 if (isGroup) {
                     if (isSplit) {
