@@ -83,6 +83,31 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuViewCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            this.viewPageMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                },
+                items: [
+                    me.menuViewCopyPage
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
             this.fireEvent('createdelayedelements', [this, 'pdf']);
         };
 

@@ -100,6 +100,7 @@ define([], function () {
                 view = me.documentHolder;
 
             if (type==='pdf') {
+                view.menuViewCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuAddComment.on('click', _.bind(me.addComment, me));
                 view.menuRemoveComment.on('click', _.bind(me.removeComment, me));
