@@ -583,6 +583,58 @@ const PageOrientationTextShape = props => {
     )
 }
 
+const PageOrientationTextTable = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const tableObject = props.tableObject;
+    const [directionTextTable, setDirectionTextTable] = useState(tableObject.get_CellsTextDirection());
+  
+    return (
+        <Page>
+            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack} />
+            {Device.phone && (
+                <NavRight>
+                    <Link sheetClose="#edit-sheet">
+                        {Device.ios ? 
+                            <SvgIcon symbolId={IconExpandDownIos.id} className="icon icon-svg" /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className="icon icon-svg white" />
+                        }
+                    </Link>
+                </NavRight>
+            )}
+            <List>
+                <ListItem title={t('Edit.textHorizontalText')} radio
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.LRTB}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.LRTB);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.LRTB);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationHorizontal.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextDown')} radio
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.TBRL}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.TBRL);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.TBRL);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotateDown.id} className="icon icon-svg" />
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextUp')} radio
+                    checked={directionTextTable === Asc.c_oAscCellTextDirection.BTLR}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextTable(Asc.c_oAscCellTextDirection.BTLR);
+                        props.setOrientationTextTable(Asc.c_oAscCellTextDirection.BTLR);
+                }}>
+                    <SvgIcon slot="media" symbolId={IconTextOrientationRotateUp.id} className="icon icon-svg" />
+                </ListItem>
+            </List>
+        </Page>
+    );
+};
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -590,8 +642,13 @@ const EditText = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const shapeObject = storeFocusObjects.shapeObject;
     const shapePr = shapeObject && shapeObject.get_ShapeProperties();
+    const shapeTextOrientationIconMap = {[Asc.c_oAscVertDrawingText.normal]: IconTextOrientationHorizontal.id, [Asc.c_oAscVertDrawingText.vert]: IconTextOrientationRotateDown.id, [Asc.c_oAscVertDrawingText.vert270]: IconTextOrientationRotateUp.id,};
+    const getShapeTextOrientationIcon = dir => shapeTextOrientationIconMap[dir] || IconTextOrientationHorizontal.id;
     const inSmartArt = shapePr && shapePr.asc_getFromSmartArt();
     const inSmartArtInternal = shapePr && shapePr.asc_getFromSmartArtInternal();
+    const tableObject = storeFocusObjects.tableObject
+    const tableTextOrientationIconMap = {[Asc.c_oAscCellTextDirection.LRTB]: IconTextOrientationHorizontal.id, [Asc.c_oAscCellTextDirection.TBRL]: IconTextOrientationRotateDown.id,[Asc.c_oAscCellTextDirection.BTLR]: IconTextOrientationRotateUp.id,};
+    const getTableTextOrientationIcon = dir => tableTextOrientationIconMap[dir] || IconTextOrientationHorizontal.id;
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
@@ -709,10 +766,20 @@ const EditText = props => {
                         shapePr
                     }}>
                         {!isAndroid && 
-                            <SvgIcon slot="media" symbolId={IconTextOrientationAngleCount.id} className={'icon icon-svg'} />
+                            <SvgIcon slot="media" symbolId={getShapeTextOrientationIcon(shapeObject.get_Vert())} className={'icon icon-svg'} />
                         }
                     </ListItem>
                 }
+                {tableObject && 
+                            <ListItem title={t('Edit.textTextOrientation')} link='/edit-text-table-orientation/' routeProps={{
+                                setOrientationTextTable: props.setOrientationTextTable,
+                                tableObject
+                            }}>
+                                {!isAndroid &&
+                                    <SvgIcon slot="media" symbolId={getTableTextOrientationIcon(tableObject.get_CellsTextDirection())} className='icon icon-svg' />
+                                }
+                            </ListItem>
+                        }
                 {!inSmartArt && !inSmartArtInternal &&
                     <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
                         onBullet: props.onBullet,
@@ -759,6 +826,7 @@ export {
     PageTextCustomFontColor,
     PageTextHighlightColor,
     // PageTextOrientation,
-    PageOrientationTextShape
+    PageOrientationTextShape,
+    PageOrientationTextTable
     // PageTextCustomBackColor
 };

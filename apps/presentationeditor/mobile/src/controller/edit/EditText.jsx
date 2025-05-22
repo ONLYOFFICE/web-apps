@@ -314,6 +314,14 @@ class EditTextController extends Component {
         api.ShapeApply(properties);
     }
 
+    setOrientationTextTable(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+
+        properties.put_CellsTextDirection(direction);
+        api.tblApply(properties);
+    }
+
     render () {
         return (
             <EditText
@@ -341,6 +349,7 @@ class EditTextController extends Component {
                 onInsertByUrl={this.onInsertByUrl}
                 onLineSpacing={this.onLineSpacing}
                 setOrientationTextShape={this.setOrientationTextShape}
+                setOrientationTextTable={this.setOrientationTextTable}
             />
         )
     }
