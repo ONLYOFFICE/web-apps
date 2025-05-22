@@ -761,8 +761,6 @@
             padding: 4px 0;
         }
 
-        @underscore_height: 2px;
-
         .tabs {
             ul {
                 padding: 0;
@@ -773,17 +771,18 @@
 
                 &:after {
                     border-top-style: solid;
-                    border-top-width: @underscore_height;
+                    border-top-width: @toolbar-tab-line-height;
                     content: '';
                     position: absolute;
                     .margin-left-6();
                     width: calc(100% - 12px);
-                    bottom: -@underscore_height;
+                    bottom: calc(-1 * @toolbar-tab-line-height);
                     opacity: 0;
                     .tab-header-color();
                     .style-off-tabs& {
                         .tab-toolbar-color();
                     }
+                    border-radius: @toolbar-tab-line-radius;
                 }
 
                 &.active,
@@ -795,14 +794,14 @@
                 &.active {
                     &:after {
                         opacity: 1;
-                        bottom: 4px;
+                        bottom: @toolbar-tab-line-bottom;
                     }
                 }
 
                 &:hover:not(.active) {
                     &:after {
                         opacity: 0.4;
-                        bottom: 4px;
+                        bottom: @toolbar-tab-line-bottom;
                     }
                 }
 
@@ -820,7 +819,7 @@
                 &.short {
                     li {
                         &:after {
-                            bottom: 4px;
+                            bottom: @toolbar-tab-line-bottom;
                         }
                     }
                 }
