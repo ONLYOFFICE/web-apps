@@ -263,7 +263,10 @@ define([
             var me = this;
             _.delay(function(){
                 if (event.get_Type() == Asc.c_oAscPdfContextMenuTypes.Thumbnails) {
-                    me.mode && me.mode.isEdit && me.mode.isPDFEdit && me.showPopupMenu.call(me, me.documentHolder.pageMenu, {isPageSelect: event.get_IsPageSelect(), pageNum: event.get_PageNum()}, event);
+                    if (me.mode && me.mode.isEdit) {
+                        !me.mode.isPDFEdit && !me.documentHolder.viewPDFModeMenu && me.documentHolder.createDelayedElementsPDFViewer();
+                        me.showPopupMenu.call(me, me.mode.isPDFEdit ? me.documentHolder.pageMenu : me.documentHolder.viewPageMenu, {isPageSelect: event.get_IsPageSelect(), pageNum: event.get_PageNum()}, event);
+                    }
                 } else
                     me.showObjectMenu.call(me, event);
             },10);

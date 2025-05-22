@@ -83,6 +83,31 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuViewCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            this.viewPageMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                },
+                items: [
+                    me.menuViewCopyPage
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
             this.fireEvent('createdelayedelements', [this, 'pdf']);
         };
 
@@ -1219,12 +1244,12 @@ define([], function () {
                     if (me.api) {
                         var i = -1,
                             page_deleted = false,
-                            page_rotate = false,
+                            page_rotate_lock = false,
                             selectedElements = me.api.getSelectedElements();
                         while (++i < selectedElements.length) {
                             if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.PdfPage) {
                                 page_deleted = selectedElements[i].get_ObjectValue().asc_getDeleteLock();
-                                page_rotate = selectedElements[i].get_ObjectValue().asc_getRotateLock();
+                                page_rotate_lock = selectedElements[i].get_ObjectValue().asc_getRotateLock();
                             }
                         }
                     }
@@ -1237,9 +1262,10 @@ define([], function () {
                     menuPageNewSeparator.setVisible(value.isPageSelect===true);
                     menuPageDelSeparator.setVisible(value.isPageSelect===true);
 
-                    me.mnuRotatePageRight.setDisabled(page_rotate || page_deleted);
-                    me.mnuRotatePageLeft.setDisabled(page_rotate || page_deleted);
-                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted);
+                    var canRotate = me.api.asc_CanRotatePages();
+                    me.mnuRotatePageRight.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    me.mnuRotatePageLeft.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !me.api.asc_CanRemovePages());
                 },
                 items: [
                     me.mnuNewPageBefore,
