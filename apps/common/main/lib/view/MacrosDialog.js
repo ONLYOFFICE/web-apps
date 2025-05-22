@@ -43,47 +43,6 @@ if (Common === undefined)
 define([], function () {
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
-        template:
-            '<div id="macros-dialog-content">' +
-                '<div id="macros-dialog-left" class="noselect">' +
-                    '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
-                        '<div class="menu-header">' +
-                            '<label>Macros</label>' +
-                            '<div id="btn-ai-macros-add"></div>' +
-                            '<div id="btn-macros-add"></div>' +
-                        '</div>' +
-                        '<div class="separator horizontal" style="position: relative"></div>' +
-                        '<div id="macros-list"></div>' +
-                    '</div>' +
-                    '<div class="separator horizontal" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> ></div>' +
-                    '<div id="functions-menu" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
-                        '<div class="menu-header">' +
-                            '<label>Custom Functions</label>' +
-                            '<div id="btn-function-add"></div>' +
-                        '</div>' +
-                        '<div class="separator horizontal" style="position: relative"></div>' +
-                        '<div id="functions-list"></div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="separator vertical" style="position: relative"></div>' +
-                '<div id="macros-dialog-right">' + 
-                    '<div class="menu-header">' +
-                        '<div id="btn-macros-undo"></div>' +
-                        '<div id="btn-macros-redo"></div>' +
-                        '<div id="btn-macros-run" class="lock-for-function"></div>' +
-                        '<div id="btn-macros-debug" class="lock-for-function"></div>' +
-                        '<div id="btn-macros-copy"></div>' +
-                        '<div id="btn-macros-rename"></div>' +
-                        '<div id="btn-macros-delete"></div>' +
-                        '<div id="ch-macros-autostart" class="lock-for-function"></div>' +
-                    '</div>' +
-                    '<div class="separator horizontal" style="position: relative"></div>' +
-                    '<div id="macros-code-editor" class="invisible"></div>' +
-                '</div>' +
-            '</div>'+
-            '<div class="separator horizontal" style="position: relative"></div>',
-
-
         initialize : function(options) {
             var _options = {},
                 innerHeight = Math.max(Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top'), 350),
@@ -121,6 +80,47 @@ define([], function () {
                 currentPos: {row: 3, column: 0}
             };
 
+            this.template = [
+                '<div id="macros-dialog-content">' +
+                    '<div id="macros-dialog-left" class="noselect">' +
+                        '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
+                            '<div class="menu-header">' +
+                                '<label>' + this.textMacros + '</label>' +
+                                '<div id="btn-ai-macros-add"></div>' +
+                                '<div id="btn-macros-add"></div>' +
+                            '</div>' +
+                            '<div class="separator horizontal" style="position: relative"></div>' +
+                            '<div id="macros-list"></div>' +
+                        '</div>' +
+                        '<div class="separator horizontal" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> ></div>' +
+                        '<div id="functions-menu" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
+                            '<div class="menu-header">' +
+                                '<label id="macros-dialog-functions-label">' + this.textCustomFunctions + '</label>' +
+                                '<div id="btn-function-add"></div>' +
+                            '</div>' +
+                            '<div class="separator horizontal" style="position: relative"></div>' +
+                            '<div id="functions-list"></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="separator vertical" style="position: relative"></div>' +
+                    '<div id="macros-dialog-right">' + 
+                        '<div class="menu-header">' +
+                            '<div id="btn-macros-undo"></div>' +
+                            '<div id="btn-macros-redo"></div>' +
+                            '<div id="btn-macros-run" class="lock-for-function"></div>' +
+                            '<div id="btn-macros-debug" class="lock-for-function"></div>' +
+                            '<div id="btn-macros-copy"></div>' +
+                            '<div id="btn-macros-rename"></div>' +
+                            '<div id="btn-macros-delete"></div>' +
+                            '<div id="ch-macros-autostart" class="lock-for-function"></div>' +
+                        '</div>' +
+                        '<div class="separator horizontal" style="position: relative"></div>' +
+                        '<div id="macros-code-editor" class="invisible"></div>' +
+                    '</div>' +
+                '</div>'+
+                '<div class="separator horizontal" style="position: relative"></div>',
+            ].join('');
+
             _options.tpl = _.template(this.template)({
                 isFunctionsSupport: this._state.isFunctionsSupport,
             });
@@ -155,6 +155,7 @@ define([], function () {
             me.renderAfterAceLoaded();
             me.calcHeaderBreakpoints();
             me.collapseHeaderItems();
+            me.updateCustomFunctionLabel();
 
             var throttleResizing = _.throttle(_.bind(this.collapseHeaderItems, this), 100);
 
@@ -370,6 +371,25 @@ define([], function () {
                 var shouldCollapse = currentBreakpoint && currentBreakpoint.collapseItems.indexOf(item) !== -1;
                 item.btn.setCaption(shouldCollapse ? '' : item.caption);
             });
+        },
+
+        updateCustomFunctionLabel: function() {
+            var $window = this.getChild();
+
+            var $macrosDialogLeft = $window.find('#macros-dialog-left');
+            var $menuHeader = $window.find('#functions-menu .menu-header');
+            var $btnFunctionAdd = $window.find('#btn-function-add');
+            var $functionLabel = $window.find('#macros-dialog-functions-label');
+
+            var minWidth = parseFloat($macrosDialogLeft.css('min-width')) || 0;
+            var menuHeaderPadding = (parseFloat($menuHeader.css('padding-left')) || 0) + (parseFloat($menuHeader.css('padding-right')) || 0);
+            var btnWidth = $btnFunctionAdd.outerWidth(true) || 0;
+           
+            var allowedWidth = minWidth - menuHeaderPadding - btnWidth;
+
+            if ($functionLabel.width() > allowedWidth) {
+                $functionLabel.text(this.textFunctions);
+            }
         },
 
         setListMacros: function() {
@@ -695,8 +715,8 @@ define([], function () {
 
         onCreateMacros: function(value) {
             var indexMax = 0;
-            var macrosTextEn = 'Macros';
-            var macrosTextTranslate = this.textMacros;
+            var macrosTextEn = 'Macro';
+            var macrosTextTranslate = this.textMacro;
             this.listMacros.store.each(function(macros, index) {
                 var macrosName = macros.get('name');
                 if (0 == macrosName.indexOf(macrosTextEn))
@@ -858,6 +878,7 @@ define([], function () {
 
         textTitle           : 'Macros',
         textSave            : 'Save',
+        textMacro           : 'Macro',
         textMacros          : 'Macros',
         textRun             : 'Run',
         textDebug           : 'Debug',
@@ -866,6 +887,8 @@ define([], function () {
         textDelete          : 'Delete',
         textCopy            : 'Copy',
         textCustomFunction  : 'Custom function',
+        textCustomFunctions : 'Custom functions',
+        textFunctions       : 'Functions',
         textLoading         : 'Loading...',
         textCreateFromDesc  : 'Create from description',
         textCreateMacrosFromDesc  : 'Create macros from description',
