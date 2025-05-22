@@ -94,7 +94,7 @@ define([], function () {
                 title: this.textTitle,
                 header: true,
                 help: true,
-                width: Math.min(800, innerWidth),
+                width: Math.min(810, innerWidth),
                 height: Math.min(512, innerHeight),
                 minwidth: 750,
                 minheight: 350,
@@ -153,6 +153,14 @@ define([], function () {
 
             me.createCodeEditor();
             me.renderAfterAceLoaded();
+            me.calcHeaderBreakpoints();
+            me.collapseHeaderItems();
+
+            var throttleResizing = _.throttle(_.bind(this.collapseHeaderItems, this), 100);
+
+            this.on('resizing', function(){
+                throttleResizing();
+            });
         },
 
         renderAfterAceLoaded: function() {
@@ -300,6 +308,67 @@ define([], function () {
                     me._state.selectedItem.record.set('value', value);
                     me._state.selectedItem.record.set('currentPos', pos);
                 }
+            });
+        },
+
+        calcHeaderBreakpoints: function() {
+            this.breakpoints = [];
+
+            var me = this;
+            var maxHeaderWidth = 10;    //10px - gap between chAutostart and btnDelete
+            var headerItems = [
+                { btn: this.btnUndo, collapsible: false },
+                { btn: this.btnRedo, collapsible: false },
+                { btn: this.btnRun, collapsible: true },
+                { btn: this.btnDebug, collapsible: true },
+                { btn: this.btnCopy, collapsible: true },
+                { btn: this.btnRename, collapsible: true },
+                { btn: this.btnDelete, collapsible: true },
+                { btn: this.chAutostart, collapsible: false, withoutMargin: true }
+            ];
+            this.collapsibleHeaderItems = headerItems.filter(function(item) { return item.collapsible });
+
+            headerItems.forEach(function(item) {
+                item.expandedWidth = item.btn.$el.outerWidth(!item.withoutMargin);
+                item.collapsedWidth = item.collapsible ? 
+                    item.expandedWidth - item.btn.$el.find('.caption').outerWidth(true) :
+                    item.expandedWidth;
+                item.caption = item.btn.options.caption;
+                maxHeaderWidth += item.expandedWidth;
+            });
+
+            this.collapsibleHeaderItems.forEach(function(item, index) {
+                if(index == 0) {
+                    me.breakpoints.push({
+                        width: maxHeaderWidth,
+                        collapseItems: [item]
+                    });
+                } else {
+                    var prevBreakpoint = me.breakpoints[index - 1];
+                    var prevItem = me.collapsibleHeaderItems[index - 1];
+
+                    me.breakpoints.push({
+                        width: prevBreakpoint.width - (prevItem.expandedWidth - prevItem.collapsedWidth),
+                        collapseItems: [item].concat(prevBreakpoint.collapseItems)
+                    });
+                }
+            });
+        },
+
+        collapseHeaderItems: function() {
+            var width = this.getChild().find('#macros-dialog-right .menu-header').width();
+            var currentBreakpoint = null;
+            
+            for (let i = this.breakpoints.length - 1; i >= 0; i--) {
+                if(width < this.breakpoints[i].width) {
+                    currentBreakpoint = this.breakpoints[i];
+                    break;
+                }
+            }
+
+            this.collapsibleHeaderItems.forEach(function(item) {
+                var shouldCollapse = currentBreakpoint && currentBreakpoint.collapseItems.indexOf(item) !== -1;
+                item.btn.setCaption(shouldCollapse ? '' : item.caption);
             });
         },
 
@@ -498,6 +567,7 @@ define([], function () {
             this.btnUndo.setDisabled(value);
             this.btnRedo.setDisabled(value);
             this.btnRun.setDisabled(value);
+            this.btnDebug.setDisabled(value);
             this.btnCopy.setDisabled(value);
             this.btnRename.setDisabled(value);
             this.btnDelete.setDisabled(value);
