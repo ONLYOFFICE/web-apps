@@ -267,12 +267,10 @@ define([
                 pos = 0;
             }
 
-            const isVertical = this.direction === 'vertical';
-            const trackSize = isVertical ? this.track.height() : this.track.width();
-            const offset = pos / 100 * trackSize + this.thumbRange[pos];
+            const offset = pos / 100 * this.width + this.thumbRange[pos];
 
             this.track.css('--slider-unfill-percent', 100 - pos + '%');
-            this.thumb.css(isVertical ? 'top' : 'left', offset + 'px');
+            this.thumb.css(this.direction === 'vertical' ? 'top' : 'left', offset + 'px');
         },
 
         setValue: function(value) {
