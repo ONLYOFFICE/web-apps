@@ -1211,7 +1211,7 @@ define([], function () {
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
             
             me.getCurrentChartProps = function() {
-                var selectedObjects = me.api.asc_getGraphicObjectProps();
+                var selectedObjects = this.api.getSelectedElements();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
                         var elValue = selectedObjects[i].asc_getObjectValue();
@@ -1227,20 +1227,18 @@ define([], function () {
         
             if (chartContainer.length < 1) {
                 chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
-                documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
+                documentHolderView.cmpEl.find('#id_main_view').append(chartContainer);
             }
-            this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+            this.isRtlSheet = this.api ? Common.UI.isRTL() : false;
 
             if (me.chartProps) {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    sheetWidth = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
-                    sheetHeight = me.tooltips.coauth.apiHeight - 15,
                     btnLeft = this.isRtlSheet ? x - 95 : x + width + 10,
                     btnTop = y;
 
-                if (btnLeft + 50 > sheetWidth) {
+                if (btnLeft + 50 > me._Width) {
                     btnLeft = x - 40;
                 }
 
@@ -1253,7 +1251,7 @@ define([], function () {
                     }
                 }
 
-                if (btnTop + 30 > sheetHeight) {
+                if (btnTop + 30 > me._Height) {
                     chartContainer.hide();
                     return;
                 }
@@ -1264,7 +1262,7 @@ define([], function () {
 
                 chartContainer.css({
                     left: btnLeft + 'px',
-                    top: btnTop + 'px'
+                    top: btnTop - 30 + 'px'
                 }).show();
         
                 if (!me.btnChartElement) {

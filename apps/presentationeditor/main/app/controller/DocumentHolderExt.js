@@ -56,6 +56,7 @@ define([], function () {
             });
 
             if (me.api) {
+                me.api.asc_registerCallback('asc_onSingleChartSelectionChanged',  _.bind(this.onSingleChartSelectionChanged, this));
                 me.api.asc_registerCallback('asc_onContextMenu',        _.bind(me.onContextMenu, me));
                 me.api.asc_registerCallback('asc_onMouseMoveStart',     _.bind(me.onMouseMoveStart, me));
                 me.api.asc_registerCallback('asc_onMouseMoveEnd',       _.bind(me.onMouseMoveEnd, me));
@@ -247,6 +248,12 @@ define([], function () {
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
             view.mnuRenameMaster.on('click', _.bind(me.onRename, me));
             view.mnuRenameLayout.on('click', _.bind(me.onRename, me));
+            view.menuChartElement.on('item:click',               _.bind(me.onChartElement, me));
+            view.menuChartElement.menu.items.forEach(item => {
+                if (item.menu) {
+                    item.menu.on('item:click',                   _.bind(me.onChartElement, me));
+                }
+            });
         };
 
         dh.fillMenuProps = function(selectedElements) {
@@ -1163,13 +1170,16 @@ define([], function () {
                 documentHolderView = me.documentHolder,
                 chartContainer = documentHolderView.cmpEl.find('#chart-element-container');
             
-            me.getCurrentChartProps = function() {
-                var selectedObjects = me.api.asc_getGraphicObjectProps();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                        var elValue = selectedObjects[i].asc_getObjectValue();
-                        if (elValue.asc_getChartProperties()) {
-                            return elValue.asc_getChartProperties();
+            me.getCurrentChartProps = function () {
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length > 0) {
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (elType === Asc.c_oAscTypeSelectElement.Chart) {
+                            return elValue.get_ChartProperties(); 
                         }
                     }
                 }
@@ -1180,20 +1190,18 @@ define([], function () {
         
             if (chartContainer.length < 1) {
                 chartContainer = $('<div id="chart-element-container" style="position: absolute; z-index: 1000;"><div id="id-document-holder-btn-chart-element"></div></div>');
-                documentHolderView.cmpEl.find('#ws-canvas-outer').append(chartContainer);
+                documentHolderView.cmpEl.append(chartContainer);
             }
-            this.isRtlSheet = this.api ? !!this.api.asc_getSheetViewSettings().asc_getRightToLeft() : false;
+            this.isRtlSheet = this.api ? Common.UI.isRTL() : false;
 
-            if (me.chartProps) {
+           if (me.chartProps) {
                 var x = asc_CRect.asc_getX(),
                     y = asc_CRect.asc_getY(),
                     width = asc_CRect.asc_getWidth(),
-                    sheetWidth = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
-                    sheetHeight = me.tooltips.coauth.apiHeight - 15,
                     btnLeft = this.isRtlSheet ? x - 95 : x + width + 10,
                     btnTop = y;
 
-                if (btnLeft + 50 > sheetWidth) {
+                if (btnLeft + 50 > me._Width) {
                     btnLeft = x - 40;
                 }
 
@@ -1206,7 +1214,7 @@ define([], function () {
                     }
                 }
 
-                if (btnTop + 30 > sheetHeight) {
+                if (btnTop + 30 > me._Height) {
                     chartContainer.hide();
                     return;
                 }

@@ -1107,6 +1107,11 @@ define([], function () {
                                         caption: me.textVertAxisSec, 
                                         value: 'bShowVertAxisTitleSec', 
                                         checkable: true
+                                    },
+                                    { 
+                                        caption: me.DepthAxis, 
+                                        value: 'bShowDepthAxesTitle', 
+                                        checkable: true
                                     }
                                 ]
                             })
