@@ -26,10 +26,17 @@ class PresentationInfoController extends Component {
     getAppProps() {
         const api = Common.EditorApi.get();
         const appProps = api.asc_getAppProps();
+        let appName = "";
 
         if (appProps) {
-            return `${!appProps.asc_getApplication() ? '' : appProps.asc_getApplication() + ' ' + appProps.asc_getAppVersion()}`;
+            appName = appProps.asc_getApplication();
+
+            if (appName && appProps.asc_getAppVersion()) {
+                appName += ` ${appProps.asc_getAppVersion()}`;
+            }           
         }
+
+        return appName;
     }
 
     getModified() {
