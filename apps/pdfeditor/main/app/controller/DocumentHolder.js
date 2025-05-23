@@ -277,9 +277,12 @@ define([
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
                 var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
-                if (obj) {
-                    if (obj.menu_to_show===currentMenu) {
-                        currentMenu.options.initMenu(obj.menu_props);
+                if (obj && obj.menu_to_show===currentMenu) {
+                    currentMenu.options.initMenu(obj.menu_props);
+                    currentMenu.alignPosition();
+                } else {
+                    if (currentMenu===(me.mode.isPDFEdit ? me.documentHolder.pageMenu : me.documentHolder.viewPageMenu)){
+                        currentMenu.options.initMenu();
                         currentMenu.alignPosition();
                     }
                 }
