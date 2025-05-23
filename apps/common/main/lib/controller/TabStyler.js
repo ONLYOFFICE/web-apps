@@ -54,8 +54,8 @@ define([
             var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
             if ( _canChangeStyle && Common.localStorage.itemExists("settings-tab-style")) { // get from local storage
                 value = Common.localStorage.getItem("settings-tab-style");
-            } else if (value === undefined && _customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) {
-                value = 'line';
+            } else if (value === undefined) {
+                value = (_customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) ? 'line' : Common.UI.Themes.getThemeProps('tab-style');
             }
             Common.Utils.InternalSettings.set("settings-tab-style", value || 'fill');
 
@@ -75,7 +75,8 @@ define([
                 } else if ( e.key === 'settings-tab-background' && _canChangeBackground) {
                     _refreshBackground(e.originalEvent.newValue);
                 }
-            })
+            });
+            Common.NotificationCenter.on('uitheme:changed', _onThemeChanged);
         };
 
         var _refreshStyle = function() {
@@ -99,8 +100,18 @@ define([
         };
 
         var _setStyle = function(style) {
-            Common.localStorage.setItem('settings-tab-style', style);
-            Common.Utils.InternalSettings.set('settings-tab-style', style);
+            if (style) {
+                Common.localStorage.setItem('settings-tab-style', style);
+                Common.Utils.InternalSettings.set('settings-tab-style', style);
+            } else {
+                style = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
+                if ( _canChangeStyle && Common.localStorage.itemExists("settings-tab-style")) { // get from local storage
+                    style = Common.localStorage.getItem("settings-tab-style");
+                } else if (style === undefined) {
+                    style = (_customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) ? 'line' : Common.UI.Themes.getThemeProps('tab-style');
+                }
+                Common.Utils.InternalSettings.set("settings-tab-style", style || 'fill');
+            }
             Common.NotificationCenter.trigger('tabstyle:changed', style);
         };
 
@@ -108,6 +119,10 @@ define([
             Common.localStorage.setItem('settings-tab-background', background);
             Common.Utils.InternalSettings.set('settings-tab-background', background);
             Common.NotificationCenter.trigger('tabbackground:changed', background);
+        };
+
+        var _onThemeChanged = function() {
+            _setStyle();
         };
 
         return {

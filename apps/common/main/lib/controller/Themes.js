@@ -743,6 +743,8 @@ define([
                             name: document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif'
                         };
                     }
+                } else if (prop==='tab-style') {
+                    return window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
                 }
                 return theme_props[prop];
             }
