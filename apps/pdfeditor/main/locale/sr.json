@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Oznaka gore, ikona dole",
   "PDFE.Views.FormSettings.textLayout": "Raspored",
   "PDFE.Views.FormSettings.textListBox": "Lista",
+  "PDFE.Views.FormSettings.textLock": "Zaključano ",
   "PDFE.Views.FormSettings.textMask": "Proizvoljna maska",
   "PDFE.Views.FormSettings.textMaxChars": "Karakter limit",
   "PDFE.Views.FormSettings.textMedium": "Srednje",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Nijedno",
   "PDFE.Views.FormSettings.textNormal": "Gore",
   "PDFE.Views.FormSettings.textNumber": "Broj",
+  "PDFE.Views.FormSettings.textOrientation": "Orijentacija ",
   "PDFE.Views.FormSettings.textOutline": "Kontura",
   "PDFE.Views.FormSettings.textOverlay": "Oznaka preko ikone",
   "PDFE.Views.FormSettings.textPercent": "Procenat",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Slika je premala",
   "PDFE.Views.FormSettings.textUnderline": "Podvuci",
   "PDFE.Views.FormSettings.textUnison": "Dugmad sa istim imenom i izborom su odabrana zajedno",
+  "PDFE.Views.FormSettings.textUnlock": "Otključaj",
   "PDFE.Views.FormSettings.textValue": "Opcije vrednosti ",
   "PDFE.Views.FormSettings.textZipCode": "Poštanski broj",
   "PDFE.Views.FormSettings.textZipCode4": "Poštanski broj + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi strani",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa"
 }

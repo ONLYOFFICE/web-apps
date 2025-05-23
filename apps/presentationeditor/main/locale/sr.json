@@ -2334,6 +2334,8 @@
   "PE.Views.ParagraphSettingsAdvanced.textAuto": "Višestruko",
   "PE.Views.ParagraphSettingsAdvanced.textCharacterSpacing": "Razmak izmedju karaktera",
   "PE.Views.ParagraphSettingsAdvanced.textDefault": "Podrazumevana kartica",
+  "PE.Views.ParagraphSettingsAdvanced.textDirLtr": "S leva na desno",
+  "PE.Views.ParagraphSettingsAdvanced.textDirRtl": "S desna na levo",
   "PE.Views.ParagraphSettingsAdvanced.textEffects": "Efekti",
   "PE.Views.ParagraphSettingsAdvanced.textExact": "Tačno tako",
   "PE.Views.ParagraphSettingsAdvanced.textFirstLine": "Prva linija",
@@ -2795,6 +2797,8 @@
   "PE.Views.Toolbar.textCopyright": "Kopirajt znak",
   "PE.Views.Toolbar.textDegree": "Stepen znak",
   "PE.Views.Toolbar.textDelta": "Grčko malo slovo Delta",
+  "PE.Views.Toolbar.textDirLtr": "S leva na desno",
+  "PE.Views.Toolbar.textDirRtl": "S desna na levo",
   "PE.Views.Toolbar.textDivision": "Znak Deljenja",
   "PE.Views.Toolbar.textDollar": "Dolar znak",
   "PE.Views.Toolbar.textEuro": "Euro znak",
@@ -3020,5 +3024,7 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "PE.Views.Toolbar.tipTextDir": "Text direction"
 }

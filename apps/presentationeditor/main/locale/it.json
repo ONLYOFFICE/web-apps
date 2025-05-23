@@ -2224,7 +2224,7 @@
   "PE.Views.HyperlinkSettingsDialog.textEmptyLink": "Inserisci collegamento qui",
   "PE.Views.HyperlinkSettingsDialog.textEmptyTooltip": "Inserisci descrizione comando qui",
   "PE.Views.HyperlinkSettingsDialog.textExternalLink": "Collegamento esterno",
-  "PE.Views.HyperlinkSettingsDialog.textInternalLink": "Diapositiva in questa presentazione",
+  "PE.Views.HyperlinkSettingsDialog.textInternalLink": "Diapositiva in presentazione",
   "PE.Views.HyperlinkSettingsDialog.textSelectFile": "Seleziona file",
   "PE.Views.HyperlinkSettingsDialog.textSlides": "Diapositive",
   "PE.Views.HyperlinkSettingsDialog.textTipText": "Testo del suggerimento",
@@ -3020,5 +3020,11 @@
   "PE.Views.ViewTab.tipMacros": "Macro",
   "PE.Views.ViewTab.tipNormal": "Normale",
   "PE.Views.ViewTab.tipSelectTool": "Seleziona strumento",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "PE.Views.ParagraphSettingsAdvanced.textDirLtr": "Left-to-right",
+  "PE.Views.ParagraphSettingsAdvanced.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.textDirLtr": "Left-to-right",
+  "PE.Views.Toolbar.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.tipTextDir": "Text direction"
 }

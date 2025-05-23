@@ -3020,5 +3020,11 @@
   "PE.Views.ViewTab.tipMacros": "Makrók",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSelectTool": "Select tool",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "PE.Views.ParagraphSettingsAdvanced.textDirLtr": "Left-to-right",
+  "PE.Views.ParagraphSettingsAdvanced.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.textDirLtr": "Left-to-right",
+  "PE.Views.Toolbar.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.tipTextDir": "Text direction"
 }

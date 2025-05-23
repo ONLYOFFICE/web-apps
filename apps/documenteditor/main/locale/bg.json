@@ -3752,5 +3752,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Име на шрифта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Размер на шрифта",
+  "Common.UI.Themes.txtThemeWhite": "White"
 }
