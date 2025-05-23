@@ -127,6 +127,26 @@ define([
             this.cmbName.on('changed:after', this.onNameChanged.bind(this));
             this.cmbName.on('hide:after', this.onHideMenus.bind(this));
 
+            this.cmbOrient = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-orient'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                style: 'width: 48px;',
+                editable: false,
+                data: [
+                    {displayValue: '0°',   value: 0},
+                    {displayValue: '90°', value: 90},
+                    {displayValue: '180°', value: 180},
+                    {displayValue: '270°',  value: 270}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbOrient.setValue(0);
+            this.cmbOrient.on('selected', this.onOrientChanged.bind(this));
+            this.lockedControls.push(this.cmbOrient);
+
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
                 labelText: this.textRequired,
@@ -874,6 +894,14 @@ define([
             }
         },
 
+        onOrientChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Orient = undefined;
+                this.api.SetFieldRotate(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         onLineStyleChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 this._state.StrokeStyle = undefined;
@@ -1294,6 +1322,12 @@ define([
                 if ( this._state.Readonly!==val ) {
                     this.chReadonly.setValue(!!val, true);
                     this._state.Readonly=val;
+                }
+
+                val = props.asc_getRot();
+                if ( this._state.Orient!==val ) {
+                    this.cmbOrient.setValue(val!==undefined ? val : 0);
+                    this._state.Orient=val;
                 }
 
                 var color = props.asc_getStroke();

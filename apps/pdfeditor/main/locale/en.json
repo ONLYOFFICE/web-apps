@@ -1508,6 +1508,7 @@
   "PDFE.Views.FormSettings.textZipCode": "ZIP Code",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
   "PDFE.Views.FormSettings.txtCustom": "Custom",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormsTab.capBtnCheckBox": "Checkbox",
   "PDFE.Views.FormsTab.capBtnComboBox": "Combo Box",
   "PDFE.Views.FormsTab.capBtnDropDown": "List Box",
