@@ -81,7 +81,7 @@
             .header-background-color();
             box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
             .folded.z-clear& {
-                box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+                box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
             }
         }
 
@@ -109,7 +109,7 @@
 
         box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
         .folded.z-clear& {
-            box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+            box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
         }
 
         > ul {
@@ -132,7 +132,7 @@
                 box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
                 &:not(.x-lone.active) {
                     .folded.z-clear& {
-                        box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+                        box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
                     }
                 }
             }
@@ -259,14 +259,14 @@
                     box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px transparent, 5px 0 20px 5px @background-toolbar;
                 }
                 .folded.z-clear& {
-                    box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @header-background-color;
+                    box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @header-background-color;
                     .pdf-form & {
                         box-shadow: 5px 0 20px 5px @header-background-color-pdf-ie;
-                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @header-background-color-pdf;
+                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @header-background-color-pdf;
                     }
                     .style-off-tabs & {
                         box-shadow: 5px 0 20px 5px @background-toolbar-ie;
-                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @background-toolbar;
+                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @background-toolbar;
                     }
                 }
 
@@ -292,14 +292,14 @@
                     box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px transparent, -5px 0 20px 5px @background-toolbar;
                 }
                 .folded.z-clear& {
-                    box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @header-background-color;
+                    box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @header-background-color;
                     .pdf-form & {
                         box-shadow: -5px 0 20px 5px @header-background-color-pdf-ie;
-                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @header-background-color-pdf;
+                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @header-background-color-pdf;
                     }
                     .style-off-tabs & {
                         box-shadow: -5px 0 20px 5px @background-toolbar-ie;
-                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @background-toolbar;
+                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @background-toolbar;
                     }
                 }
 
