@@ -430,8 +430,8 @@ define([
                     colors: get_current_theme_colors(),
                 };
 
-                if ( themes_map[id].icons )
-                    theme_obj.icons = themes_map[id].icons;
+                if ( themes_map[theme_id].icons )
+                    theme_obj.icons = themes_map[theme_id].icons;
 
                 Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
             }
