@@ -92,7 +92,11 @@ define([], function () {
             this.viewPageMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
-                    me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
+                    value && me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
                 },
                 items: [
                     me.menuViewCopyPage
@@ -1241,6 +1245,11 @@ define([], function () {
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
+
                     if (me.api) {
                         var i = -1,
                             page_deleted = false,
@@ -1254,13 +1263,15 @@ define([], function () {
                         }
                     }
 
-                    me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
-                    me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
-                    me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
-                    me.mnuDeletePage.setVisible(value.isPageSelect===true);
-                    me.mnuCopyPage.setVisible(value.isPageSelect===true);
-                    menuPageNewSeparator.setVisible(value.isPageSelect===true);
-                    menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    if (value) {
+                        me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
+                        me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
+                        me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
+                        me.mnuDeletePage.setVisible(value.isPageSelect===true);
+                        me.mnuCopyPage.setVisible(value.isPageSelect===true);
+                        menuPageNewSeparator.setVisible(value.isPageSelect===true);
+                        menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    }
 
                     var canRotate = me.api.asc_CanRotatePages();
                     me.mnuRotatePageRight.setDisabled(page_rotate_lock || page_deleted || !canRotate);
