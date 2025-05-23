@@ -3020,5 +3020,11 @@
   "PE.Views.ViewTab.tipMacros": "Макрои",
   "PE.Views.ViewTab.tipNormal": "Нормалан",
   "PE.Views.ViewTab.tipSelectTool": "Одабери алатку",
-  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова"
+  "PE.Views.ViewTab.tipSlideMaster": "Главни управљаш слајдова",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "PE.Views.ParagraphSettingsAdvanced.textDirLtr": "Left-to-right",
+  "PE.Views.ParagraphSettingsAdvanced.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.textDirLtr": "Left-to-right",
+  "PE.Views.Toolbar.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.tipTextDir": "Text direction"
 }

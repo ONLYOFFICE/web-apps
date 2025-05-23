@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "None",
   "PDFE.Views.FormSettings.textNormal": "Up",
   "PDFE.Views.FormSettings.textNumber": "Numero",
+  "PDFE.Views.FormSettings.textOrientation": "Orientamento",
   "PDFE.Views.FormSettings.textOutline": "Contorno",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -1503,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "L'immagine è troppo piccola",
   "PDFE.Views.FormSettings.textUnderline": "Underline",
   "PDFE.Views.FormSettings.textUnison": "Buttons with the same name and choice are selected in unison",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock",
   "PDFE.Views.FormSettings.textValue": "Opzioni di valore",
   "PDFE.Views.FormSettings.textZipCode": "Codice postale",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
@@ -2220,6 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Adatta alla pagina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Adatta alla larghezza",
   "PDFE.Views.ViewTab.tipHeadings": "Intestazioni",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia"
 }

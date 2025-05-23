@@ -153,14 +153,14 @@
     "waitText": "الرجاء الانتظار..."
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Edit": {

@@ -3752,5 +3752,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
+  "Common.UI.Themes.txtThemeWhite": "White"
 }

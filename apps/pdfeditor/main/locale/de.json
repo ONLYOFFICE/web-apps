@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Kein(e)",
   "PDFE.Views.FormSettings.textNormal": "Nach oben",
   "PDFE.Views.FormSettings.textNumber": "Nummer",
+  "PDFE.Views.FormSettings.textOrientation": "Orientierung",
   "PDFE.Views.FormSettings.textOutline": "Gliederung",
   "PDFE.Views.FormSettings.textOverlay": "Beschriftung über Symbol",
   "PDFE.Views.FormSettings.textPercent": "Prozentsatz",
