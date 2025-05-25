@@ -2941,6 +2941,11 @@ define([
                 sLangs.forEach(function(lang) {
                     let rec = me.languages.indexOf(Common.util.LanguageInfo.getLocalLanguageCode(lang).toString())<0 ? null : lang;
                     if (!rec) {
+                        rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
+                        rec = rec && me.languages.indexOf(rec.toString())>-1 ? rec : null;
+                        rec && (rec = Common.util.LanguageInfo.getLocalLanguageName(parseInt(rec))[0]);
+                    }
+                    if (!rec) {
                         rec = _.find(me.languages, function(code) {
                             return (Common.util.LanguageInfo.getLocalLanguageName(parseInt(code))[0].indexOf(lang.toLowerCase())===0);
                         });

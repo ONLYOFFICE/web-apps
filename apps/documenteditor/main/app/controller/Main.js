@@ -2824,10 +2824,14 @@ define([
                 arr = []; // system languages can be 'en'... (MacOs)
                 sLangs.forEach(function(lang) {
                     let rec = _.findWhere(me.languages, {value: lang});
+                    if (!rec) {
+                        rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
+                        rec && (rec = _.findWhere(me.languages, {value: Common.util.LanguageInfo.getLocalLanguageName(rec)[0]}));
+                    }
                     if (!rec)
                         rec = _.find(me.languages, function(item) {
-                        return item.spellcheck && (item.value.indexOf(lang.toLowerCase())===0);
-                    });
+                            return item.spellcheck && (item.value.indexOf(lang.toLowerCase())===0);
+                        });
                     if (!rec)
                         rec = _.find(me.languages, function(item) {
                             return (item.value.indexOf(lang.toLowerCase())===0);
