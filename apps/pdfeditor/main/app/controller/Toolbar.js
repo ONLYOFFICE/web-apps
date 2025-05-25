@@ -2453,6 +2453,7 @@ define([
 
         onEditTextClick: function() {
             this.api && this.api.asc_EditPage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onApiTextColor: function(color) {
