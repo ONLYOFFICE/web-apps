@@ -1,8 +1,4 @@
 @img-equition-filter: var(--image-border-types-filter);
-@toolbar-radius: @border-radius-toolbar;
-@toolbar-tab-radius: 5px;
-@tab-active-topline-color: red;
-@tab-active-topline-height: 3px;
 #toolbar {
     padding: @layout-padding-toolbar;
 
@@ -15,7 +11,7 @@
 }
 .toolbar {
     .box-controls {
-        border-radius: @toolbar-radius;
+        border-radius: @border-radius-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
@@ -30,33 +26,19 @@
                 width: 100%;
                 height: @toolbar-height-controls;
                 bottom: 0;
-                border-radius: @toolbar-radius;
+                border-radius: @border-radius-toolbar;
             }
         }
     }
 
     .box-tabs {
-        padding-left: @toolbar-radius;
-        padding-right: @toolbar-radius;
+        padding-left: @border-radius-toolbar;
+        padding-right: @border-radius-toolbar;
     }
 
     .ribtab {
         border-top-left-radius: @toolbar-tab-radius;
         border-top-right-radius: @toolbar-tab-radius;
-
-        &.active {
-            &:before {
-                //content: '';
-                //position: absolute;
-                //background-color: @tab-active-topline-color;
-                //top: 0;
-                //left: 0;
-                //height: @tab-active-topline-height;
-                //width: 100%;
-                //border-top-left-radius: @toolbar-tab-radius;
-                //border-top-right-radius: @toolbar-tab-radius;
-            }
-        }
     }
 }
 
@@ -99,7 +81,7 @@
             .header-background-color();
             box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
             .folded.z-clear& {
-                box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+                box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
             }
         }
 
@@ -127,7 +109,7 @@
 
         box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
         .folded.z-clear& {
-            box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+            box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
         }
 
         > ul {
@@ -150,7 +132,7 @@
                 box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
                 &:not(.x-lone.active) {
                     .folded.z-clear& {
-                        box-shadow: inset 0 @minus-px 0 0 @border-toolbar;
+                        box-shadow: inset 0 @minus-px 0 0 @border-toolbar-z-clear;
                     }
                 }
             }
@@ -277,14 +259,14 @@
                     box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px transparent, 5px 0 20px 5px @background-toolbar;
                 }
                 .folded.z-clear& {
-                    box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @header-background-color;
+                    box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @header-background-color;
                     .pdf-form & {
                         box-shadow: 5px 0 20px 5px @header-background-color-pdf-ie;
-                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @header-background-color-pdf;
+                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @header-background-color-pdf;
                     }
                     .style-off-tabs & {
                         box-shadow: 5px 0 20px 5px @background-toolbar-ie;
-                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, 5px 0 20px 5px @background-toolbar;
+                        box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, 5px 0 20px 5px @background-toolbar;
                     }
                 }
 
@@ -310,14 +292,14 @@
                     box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px transparent, -5px 0 20px 5px @background-toolbar;
                 }
                 .folded.z-clear& {
-                    box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @header-background-color;
+                    box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @header-background-color;
                     .pdf-form & {
                         box-shadow: -5px 0 20px 5px @header-background-color-pdf-ie;
-                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @header-background-color-pdf;
+                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @header-background-color-pdf;
                     }
                     .style-off-tabs & {
                         box-shadow: -5px 0 20px 5px @background-toolbar-ie;
-                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar, -5px 0 20px 5px @background-toolbar;
+                        box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-z-clear, -5px 0 20px 5px @background-toolbar;
                     }
                 }
 
@@ -779,8 +761,6 @@
             padding: 4px 0;
         }
 
-        @underscore_height: 2px;
-
         .tabs {
             ul {
                 padding: 0;
@@ -791,17 +771,19 @@
 
                 &:after {
                     border-top-style: solid;
-                    border-top-width: @underscore_height;
+                    border-top-width: @toolbar-tab-line-height;
                     content: '';
                     position: absolute;
-                    .margin-left-6();
-                    width: calc(100% - 12px);
-                    bottom: -@underscore_height;
+                    .margin-left-7();
+                    width: calc(100% - 14px);
+                    bottom: calc(-1 * @toolbar-tab-line-height);
                     opacity: 0;
                     .tab-header-color();
                     .style-off-tabs& {
                         .tab-toolbar-color();
                     }
+                    border-radius: @toolbar-tab-line-radius;
+                    transition: margin-left .05s ease-in-out, width .05s ease-in-out, opacity .1s ease-in-out;
                 }
 
                 &.active,
@@ -813,14 +795,21 @@
                 &.active {
                     &:after {
                         opacity: 1;
-                        bottom: 4px;
+                        bottom: @toolbar-tab-line-bottom;
                     }
                 }
 
                 &:hover:not(.active) {
                     &:after {
                         opacity: 0.4;
-                        bottom: 4px;
+                        bottom: @toolbar-tab-line-bottom;
+                    }
+                }
+
+                &:hover.active {
+                    &:after {
+                        .margin-left-2();
+                        width: calc(100% - 4px);
                     }
                 }
 
@@ -838,7 +827,7 @@
                 &.short {
                     li {
                         &:after {
-                            bottom: 4px;
+                            bottom: @toolbar-tab-line-bottom;
                         }
                     }
                 }
@@ -1213,7 +1202,7 @@
 #slot-field-zoom,
 .slot-field-zoom {
     float: left;
-    min-width: 46px;
+    min-width: 50px;
 }
 
 section .field-styles {

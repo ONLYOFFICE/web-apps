@@ -11,8 +11,22 @@
     }
 
     .simple-bar {
-        display: table;
-        width: 100%;
+        display: flex;
+        align-items: center;
+        border-radius: var(--border-radius-toolbar, 0);
+        position: relative;
+        height: 32px;
+        background-color: @background-toolbar;
+
+        &:before {
+            content: '';
+            position: absolute;
+            box-shadow: var(--toolbar-simple-shadow, none);
+            width: 100%;
+            height: 32px;
+            bottom: 0;
+            border-radius: var(--border-radius-toolbar, 0);
+        }
 
         .separator.short {
             margin-top: 1px;
@@ -44,6 +58,53 @@
             }
         }
 
+    }
+}
+
+#toolbar {
+    .inner-simple-editor & {
+        padding-left: var(--layout-padding-hor-toolbar-simple);
+        padding-right: var(--layout-padding-hor-toolbar-simple);
+        border-bottom: var(--toolbar-simple-border-bottom);
+        overflow: hidden;
+
+        .toolbar {
+            height: 41px;
+            //padding: 10px 0;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            //position: relative;
+            //--toolbar-tabs-scroller-height: 38px;
+            background-color: #f1f1f1;
+            background-color: @background-pane;
+            //-webkit-box-shadow: inset 0 -1px #cbcbcb;
+            //box-shadow: inset 0 -1px #cbcbcb;
+            //-webkit-box-shadow: inset 0 calc(-1 * var(--scaled-one-pixel, 1px)) var(--border-toolbar);
+            //box-shadow: inset 0 calc(-1 * var(--scaled-one-pixel, 1px)) var(--border-toolbar);
+        }
+    }
+}
+
+#cell-editing-box {
+    .inner-simple-editor & {
+        padding-left: 0;
+        padding-right: 0;
+        padding-left: var(--layout-padding-hor-toolbar-simple);
+        padding-right: var(--layout-padding-hor-toolbar-simple);
+
+        .ce-group-expand {
+            right: 3px;
+            right: var(--simple-editor-layout-collapse-button-rigth, 0px);
+        }
+    }
+}
+
+.inner-simple-editor {
+    .layout-item.middle {
+        padding-top: var(--toolbar-simple-content-padding-top, 0);
     }
 }
 

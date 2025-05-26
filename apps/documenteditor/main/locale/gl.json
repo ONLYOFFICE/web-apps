@@ -3752,5 +3752,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
+  "Common.UI.Themes.txtThemeWhite": "White"
 }

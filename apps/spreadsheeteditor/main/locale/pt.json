@@ -571,7 +571,7 @@
   "Common.Views.MacrosDialog.tipMacrosCopy": "Copiar macros",
   "Common.Views.MacrosDialog.tipMacrosDebug": "Macros de depuração",
   "Common.Views.MacrosDialog.tipMacrosRename": "Renomear macros",
-  "Common.Views.MacrosDialog.tipMacrosRun": "Executar",
+  "Common.Views.MacrosDialog.tipMacrosRun": "Executar macros",
   "Common.Views.MacrosDialog.tipRedo": "Refazer",
   "Common.Views.MacrosDialog.tipUndo": "Desfazer",
   "Common.Views.OpenDialog.closeButtonText": "Fechar arquivo",

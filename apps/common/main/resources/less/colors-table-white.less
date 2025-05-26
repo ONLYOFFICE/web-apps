@@ -166,21 +166,26 @@
         --image-border-types-filter-selected: none;
         --component-normal-icon-filter: none;
 
-        --component-normal-icon-opacity: .8;
-        --component-hover-icon-opacity: .8;
+        --component-normal-icon-opacity: 1;
+        --component-hover-icon-opacity: 1;
         --component-active-icon-opacity: 1;
         --component-active-hover-icon-opacity: 1;
         --component-disabled-opacity: .4;
 
-        --header-component-normal-icon-opacity: .8;
-        --header-component-hover-icon-opacity: .8;
+        --header-component-normal-icon-opacity: 1;
+        --header-component-hover-icon-opacity: 1;
         --header-component-active-icon-opacity: 1;
         --header-component-active-hover-icon-opacity: 1;
 
         //--menu-icon-item-checked-offset-x: -20px;
         --border-sidemenu: 0 none;
         --border-radius-toolbar: 8px;
+        --toolbar-tab-radius: 5px;
+        --toolbar-tab-line-radius: 2px;
+        --toolbar-tab-line-height: 3px;
+        --toolbar-tab-line-bottom: 2px;
         --background-statusbar: var(--background-toolbar);
+        --border-toolbar-z-clear: transparent;
         --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
         --shadow-side-panel: 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
         --layout-padding-toolbar: 0 10px;
@@ -304,9 +309,9 @@
         --slider-thumb-background-active: #3D59AF;
         --slider-thumb-shadow: 0 1px 2px 0 #0000000F, 0 1px 3px 0 #0000001A;
 
-        --sprite-button-small-width: 24px;
-        --sprite-button-big-width: 28px;
-        --sprite-button-huge-width: 40px;
+        --sprite-button-small-width: 48px;
+        --sprite-button-big-width: 56px;
+        --sprite-button-huge-width: 80px;
         --sprite-button-icons-base-url: ~"@{app-image-const-path}/v2";
 
         --header-input-height:  var(--input-height-base);
@@ -319,6 +324,13 @@
         --header-component-padding: 0;
         --header-component-margin: 0 6px;
         --header-component-align: center;
+
+        --toolbar-simple-border-bottom: 0 none;
+        --toolbar-simple-shadow: var(--shadow-toolbar, none);
+        --toolbar-simple-content-padding-top: 3px;
+        --layout-padding-hor-toolbar-simple: 5px;
+        --simple-editor-layout-collapse-button-rigth: 8px;
+        --toolbar-preferred-tab-style: line;
 
         --content-padding-top: 8px;
     }

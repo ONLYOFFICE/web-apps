@@ -253,6 +253,7 @@ define([
             });
 
             if (config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+                me.$el.addClass('type-simple');
                 me.$layout = $(_.template(simple)(config));
                 if ( config.isEditDiagram || config.isEditOle ) {
                     me.btnInsertFormula = new Common.UI.Button({
@@ -296,6 +297,7 @@ define([
                     me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
+                        menuCls     : 'menu-absolute',
                         hint        : me.tipNumFormat,
                         lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         itemsTemplate: formatTemplate,
@@ -415,6 +417,7 @@ define([
                     me.cmbFontSize = new Common.UI.ComboBox({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 55px;',
+                        menuCls: 'menu-absolute',
                         hint        : me.tipFontSize,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],
                         data        : [
@@ -442,7 +445,7 @@ define([
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls         : 'input-group-nr',
-                        menuCls     : 'scrollable-menu',
+                        menuCls     : 'scrollable-menu menu-absolute',
                         menuStyle   : 'min-width: 325px;',
                         hint        : me.tipFontName,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],

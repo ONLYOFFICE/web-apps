@@ -445,8 +445,8 @@ define([
                     colors: get_current_theme_colors(),
                 };
 
-                if ( themes_map[id].icons )
-                    theme_obj.icons = themes_map[id].icons;
+                if ( themes_map[theme_id].icons )
+                    theme_obj.icons = themes_map[theme_id].icons;
 
                 Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
             }
@@ -758,6 +758,8 @@ define([
                             name: document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif'
                         };
                     }
+                } else if (prop==='tab-style') {
+                    return window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
                 }
                 return theme_props[prop];
             }

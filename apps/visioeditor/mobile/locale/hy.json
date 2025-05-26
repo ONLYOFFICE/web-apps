@@ -198,6 +198,7 @@
       "textOwner": "Սեփականատեր",
       "textPoweredBy": "Մշակող՝",
       "textPrint": "Տպել",
+      "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Գտնել",
       "textSettings": "Կարգավորումներ",
@@ -209,8 +210,7 @@
       "textVersion": "Տարբերակ",
       "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
       "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
-      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր"
     }
   }
 }

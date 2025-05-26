@@ -354,24 +354,34 @@ define([
 
         handleDocumentWheel: function(event) {
             var me = this;
-            if (me.api) {
-                var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
-                if (_.isUndefined(delta)) {
-                    delta = event.deltaY;
+            if (!me.api) return;
+
+            if (!me._isScrolling) {
+                me._isScrolling = true;
+                me._ctrlPressedAtScrollStart = event.ctrlKey;
+            }
+
+            clearTimeout(me._scrollEndTimeout);
+            me._scrollEndTimeout = setTimeout(function () {
+                me._isScrolling = false;
+            }, 100);
+
+            var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
+            if (_.isUndefined(delta)) {
+                delta = event.deltaY;
+            }
+
+            if (me._ctrlPressedAtScrollStart && !event.altKey) {
+                if (delta < 0) {
+                    me.api.zoomOut();
+                    me._handleZoomWheel = true;
+                } else if (delta > 0) {
+                    me.api.zoomIn();
+                    me._handleZoomWheel = true;
                 }
 
-                if (event.ctrlKey && !event.altKey) {
-                    if (delta < 0) {
-                        me.api.zoomOut();
-                        me._handleZoomWheel = true;
-                    } else if (delta > 0) {
-                        me.api.zoomIn();
-                        me._handleZoomWheel = true;
-                    }
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                event.preventDefault();
+                event.stopPropagation();
             }
         },
 

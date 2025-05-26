@@ -2150,7 +2150,7 @@
   "PE.Views.FileMenuPanels.Settings.text5Minutes": "Κάθε 5 λεπτά",
   "PE.Views.FileMenuPanels.Settings.text60Minutes": "Κάθε ώρα",
   "PE.Views.FileMenuPanels.Settings.textAlignGuides": "Οδηγοί στοίχισης",
-  "PE.Views.FileMenuPanels.Settings.textAutoRecover": "Αυτόματη ανάκτηση",
+  "PE.Views.FileMenuPanels.Settings.textAutoRecover": "Αποθήκευση πληροφοριών αυτόματης ανάκτησης",
   "PE.Views.FileMenuPanels.Settings.textAutoSave": "Αυτόματη αποθήκευση",
   "PE.Views.FileMenuPanels.Settings.textDisabled": "Απενεργοποιημένο",
   "PE.Views.FileMenuPanels.Settings.textFill": "Γέμισμα",
@@ -2979,7 +2979,7 @@
   "PE.Views.Transitions.textZoomOut": "Σμίκρυνση",
   "PE.Views.Transitions.textZoomRotate": "Εστίαση και Περιστροφή",
   "PE.Views.Transitions.txtApplyToAll": "Εφαρμογή σε όλες τις διαφάνειες",
-  "PE.Views.Transitions.txtParameters": "Παράμετροι",
+  "PE.Views.Transitions.txtParameters": "Επιλογές",
   "PE.Views.Transitions.txtPreview": "Προεπισκόπηση",
   "PE.Views.Transitions.txtSec": "S",
   "PE.Views.ViewTab.capBtnHand": "Χέρι",
@@ -3020,5 +3020,11 @@
   "PE.Views.ViewTab.tipMacros": "Μακροεντολές",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
   "PE.Views.ViewTab.tipSelectTool": "Εργαλείο επιλογής",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
+  "PE.Views.ParagraphSettingsAdvanced.textDirLtr": "Left-to-right",
+  "PE.Views.ParagraphSettingsAdvanced.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.textDirLtr": "Left-to-right",
+  "PE.Views.Toolbar.textDirRtl": "Right-to-left",
+  "PE.Views.Toolbar.tipTextDir": "Text direction"
 }

@@ -87,6 +87,7 @@
                         <span class="btn-slot split" id="slot-btn-valign"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                         <span class="btn-slot split" id="slot-btn-columns"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -178,7 +179,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 120px;" data-group-width="854px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 127px;" data-group-width="854px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
@@ -214,7 +215,7 @@
                 </div>
             </section>
             <section id="animation-panel" class="panel" data-tab="animate" role="tabpanel" aria-labelledby="animate">
-                <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 220px;" data-group-width="670px"></div>
+                <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 230px;" data-group-width="670px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>

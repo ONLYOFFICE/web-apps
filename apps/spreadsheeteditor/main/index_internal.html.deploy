@@ -176,10 +176,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
         window.uitype = "cell";
-
-        if ( !!params.uitheme ) {
-            document.documentElement.classList.add(params.uitheme);
-        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>

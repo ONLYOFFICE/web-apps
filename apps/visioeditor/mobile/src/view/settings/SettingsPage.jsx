@@ -5,6 +5,15 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import { observer, inject } from "mobx-react";
 import { MainContext } from '../../page/main';
 import { SettingsContext } from '../../controller/settings/Settings';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconAppSettings from '@common-icons/icon-app-settings.svg';
+import IconDownload from '@common-icons/icon-download.svg';
+import IconPrint from '@common-icons/icon-print.svg';
+import IconInfo from '@common-icons/icon-info.svg';
+import IconHelp from '@common-icons/icon-help.svg';
+import IconAbout from '@common-icons/icon-about.svg';
+import IconFeedbackIos from '@common-ios-icons/icon-feedback.svg?ios';
+import IconFeedbackAndroid from '@common-android-icons/icon-feedback.svg';
 
 const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props => {
     const { t } = useTranslation();
@@ -59,41 +68,44 @@ const SettingsPage = inject('storeAppOptions', 'storeVisioInfo')(observer(props 
             {navbar}
             <List>
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
-                    <Icon slot="media" icon="icon-app-settings"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAppSettings.id} className={'icon icon-svg'} />
                 </ListItem>
                 {_canDownload &&
                     <ListItem title={_t.textDownload} link="/download/">
-                        <Icon slot="media" icon="icon-download"></Icon>
+                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
                     <ListItem title={_t.textDownload} link="#" onClick={settingsContext.onDownloadOrigin} className='no-indicator'>
-                        <Icon slot="media" icon="icon-download"></Icon>
+                        <SvgIcon slot="media" symbolId={IconDownload.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canPrint &&
                     <ListItem title={_t.textPrint} onClick={settingsContext.onPrint}>
-                        <Icon slot="media" icon="icon-print"></Icon>
+                        <SvgIcon slot="media" symbolId={IconPrint.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {!(!_canDisplayInfo && isBranding) &&
                     <ListItem title={_t.textVisioInfo} link="/visio-info/">
-                        <Icon slot="media" icon="icon-info"></Icon>
+                        <SvgIcon slot="media" symbolId={IconInfo .id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
-                        <Icon slot="media" icon="icon-help"></Icon>
+                        <SvgIcon slot="media" symbolId={IconHelp.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canAbout &&
                     <ListItem title={_t.textAbout} link="/about/">
-                        <Icon slot="media" icon="icon-about"></Icon>
+                        <SvgIcon slot="media" symbolId={IconAbout.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
                 {_canFeedback &&
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                        <Icon slot="media" icon="icon-feedback"></Icon>
+                        {Device.ios ? 
+                            <SvgIcon slot="media" symbolId={IconFeedbackIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon slot="media" symbolId={IconFeedbackAndroid.id} className={'icon icon-svg'} />
+                        }
                     </ListItem>
                 }
                 {canCloseEditor &&

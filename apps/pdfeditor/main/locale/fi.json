@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Label top, icon bottom",
   "PDFE.Views.FormSettings.textLayout": "Layout",
   "PDFE.Views.FormSettings.textListBox": "List box",
+  "PDFE.Views.FormSettings.textLock": "Lock",
   "PDFE.Views.FormSettings.textMask": "Arbitrary Mask",
   "PDFE.Views.FormSettings.textMaxChars": "Characters limit",
   "PDFE.Views.FormSettings.textMedium": "Medium",
@@ -1502,6 +1503,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Kuva on liian pieni",
   "PDFE.Views.FormSettings.textUnderline": "Alleviivaus",
   "PDFE.Views.FormSettings.textUnison": "Buttons with the same name and choice are selected in unison",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock",
   "PDFE.Views.FormSettings.textValue": "Arvon asetukset",
   "PDFE.Views.FormSettings.textZipCode": "Postinumero",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
@@ -2220,6 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Otsikot",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.FormSettings.textOrientation": "Orientation"
 }

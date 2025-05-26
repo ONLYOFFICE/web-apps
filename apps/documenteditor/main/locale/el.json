@@ -2291,7 +2291,7 @@
   "DE.Views.FileMenuPanels.Settings.text5Minutes": "Κάθε 5 Λεπτά",
   "DE.Views.FileMenuPanels.Settings.text60Minutes": "κάθε ώρα",
   "DE.Views.FileMenuPanels.Settings.textAlignGuides": "Οδηγοί στοίχισης",
-  "DE.Views.FileMenuPanels.Settings.textAutoRecover": "Αυτόματη ανάκτηση",
+  "DE.Views.FileMenuPanels.Settings.textAutoRecover": "Αποθήκευση πληροφοριών αυτόματης ανάκτησης",
   "DE.Views.FileMenuPanels.Settings.textAutoSave": "Αυτόματη αποθήκευση",
   "DE.Views.FileMenuPanels.Settings.textDisabled": "Απενεργοποιημένο",
   "DE.Views.FileMenuPanels.Settings.textFill": "Γέμισμα",
@@ -3752,5 +3752,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
+  "Common.UI.Themes.txtThemeWhite": "White"
 }
