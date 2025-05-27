@@ -2985,6 +2985,9 @@ define([
                         }
                         this.isAppDisabled = data.data;
                         break;
+                    case 'reshow': 
+                        Common.NotificationCenter.trigger('external:reshow');
+                        break;
                     case 'queryClose':
                         if (!Common.Utils.ModalWindow.isVisible()) {
                             this.isFrameClosed = true;
