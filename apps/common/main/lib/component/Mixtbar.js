@@ -333,6 +333,8 @@ define([
                 }
 
                 if ( tab ) {
+                    this.fireEvent('tab:active:before', [tab]);
+
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
                     me.hideMoreBtns();
