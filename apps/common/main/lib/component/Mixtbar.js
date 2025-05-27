@@ -157,6 +157,10 @@ define([
                 Common.NotificationCenter.on('app:repaint', _.bind(function() {
                     this.repaintMoreBtns();
                 }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.clearActiveData();
+                    this.processPanelVisible();
+                }, this));
             },
 
             afterRender: function() {
