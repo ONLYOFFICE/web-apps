@@ -777,6 +777,7 @@ define([
             });
             this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
             this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $markup.findById('#form-img-slider-position-y'),
@@ -788,6 +789,7 @@ define([
             });
             this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
             this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+            this.lockedControls.push(this.sldrPreviewPositionY);
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
