@@ -2836,6 +2836,16 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
+            tab = {caption: 'Slide Master', action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slide-master', dataHintTitle: 'W'};
+            var slideMasterTab = me.getApplication().getController('SlideMasterTab');
+            slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
+            $panel = slideMasterTab.createToolbarPanel();
+            if ($panel) {
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slide-master');
+                me.toolbar.addTab(tab, $panel, 6);
+                me.toolbar.setVisible('slideMaster', !visible);
+                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+            }
         },
 
         onAppReady: function (config) {
@@ -3031,9 +3041,14 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             this._state.viewMode = mode;
-
-            if(isMaster) this.toolbar.setTab('ins');
-            else this.showStaticElements();
+            if (isMaster) {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', true);
+                this.toolbar.setTab('slideMaster');
+            } else {
+                Common.NotificationCenter.trigger('tab:visible', 'slideMaster', false);
+                this.toolbar.setTab('view');
+                this.showStaticElements();
+            }
 
             Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
             Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
