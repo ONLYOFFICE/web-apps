@@ -643,6 +643,8 @@ define([
                     var ariaLabel = me.options.ariaLabel ? me.options.ariaLabel : ((typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
                     $btn.attr('aria-label', ariaLabel);
                 }
+
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             }
 
             me.rendered = true;
@@ -1034,6 +1036,13 @@ define([
             this.tabindex = tabindex.toString();
             if (!this.disabled) {
                 this.split ? this.cmpEl.attr('tabindex', this.tabindex) : this.$el && this.$el.find('button').addBack().filter('button').attr('tabindex', this.tabindex);
+            }
+        },
+
+        onThemeChanged: function() {
+            if (this.options.width>0 && this.rendered) {
+                var el = this.cmpEl;
+                el && el.hasClass('btn-group') && el.hasClass('split') && $('button:first', el).css('width', this.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
             }
         }
     });
