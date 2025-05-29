@@ -176,8 +176,8 @@ define([
                     cls: 'mod2',
                 }
             },
-            'theme-white-dark': {
-                text: locale.txtThemeWhiteDark || 'White Dark',
+            'theme-night': {
+                text: locale.txtThemeWhiteDark || 'Night',
                 type: 'dark',
                 source: 'static',
                 icons: {
