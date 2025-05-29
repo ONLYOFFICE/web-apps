@@ -31,9 +31,9 @@
  */
 
 /**
- *  ViewTab.js
+ *  SlideMasterTab.js
  *
- *  Created on 07.12.2021
+ *  Created on 01.06.2025
  *
  */
 
@@ -56,30 +56,13 @@ define([
             var me = this;
 
             this.checkInsertAutoshape = function(e) {
-                console.log('check inster autoshape')
                 var cmp = $(e.target),
-                    cmp_sdk = cmp.closest('#editor_sdk'),
-                    btn_id = cmp.closest('button').attr('id');
-                if (btn_id===undefined)
-                    btn_id = cmp.closest('.btn-group').attr('id');
-                if (btn_id===undefined)
-                    btn_id = cmp.closest('.combo-dataview').attr('id');
-
-                if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
-                    if ( me.toolbar.btnsInsertText && me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
-                        me.toolbar.cmbsInsertShape && me.toolbar.cmbsInsertShape.some(function(cmb) {
-                            return cmb.isComboViewRecActive() && cmb.id !== btn_id;
-                        }) ||
-                        me.toolbar.btnInsertPlaceholder && me.toolbar.btnInsertPlaceholder.pressed && me.toolbar.btnInsertPlaceholder.id !== btn_id)
-                    {
+                cmp_sdk = cmp.closest('#editor_sdk');
+                if (cmp.attr('id') !== 'editor_sdk' && cmp_sdk.length <= 0) {
+                    if (me.view.btnInsertPlaceholder && me.view.btnInsertPlaceholder.pressed) {
                         me._isAddingShape = false;
-
-                        me.toolbar.btnsInsertText && me.toolbar.btnsInsertText.toggle(false, true);
-                        me.toolbar.cmbsInsertShape && me.toolbar.cmbsInsertShape.forEach(function(cmb) {
-                            cmb.deactivateRecords();
-                        });
-                        me.toolbar.btnInsertPlaceholder && me.toolbar.btnInsertPlaceholder.toggle(false, true);
-                        Common.NotificationCenter.trigger('edit:complete', this.view);
+                        me.view.btnInsertPlaceholder.toggle(false, true);
+                        Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
                 }
             };
@@ -136,7 +119,7 @@ define([
                     in_slide_master = pr.get_IsMasterSelected();
                 }
             }
-            this.toolbar.toolbar.lockToolbar(Common.enumLock.inSlideMaster, in_slide_master, {
+            Common.Utils.lockControls(Common.enumLock.inSlideMaster, in_slide_master, {
                 array: [
                     this.view.btnInsertPlaceholder,
                     this.view.chTitle,
@@ -272,7 +255,7 @@ define([
 
             this._addPlaceHolder(btn.pressed, value, isVertical);
 
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
             Common.component.Analytics.trackEvent('SlideMasterTab', 'Add Placeholder');
         },
 

@@ -30,9 +30,9 @@
  *
  */
 /**
- *  ViewTab.js
+ *  SlideMasterTab.js
  *
- *  Created on 07.12.2021
+ *  Created on 01.06.2025
  *
  */
 
@@ -46,7 +46,7 @@ define([
     PE.Views.SlideMasterTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="slideMaster" role="tabpanel" aria-labelledby="view">' +
-            '<div class="group small">' +
+            '<div class="group">' +
             '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-slide-master"></span>' +
             '<span class="btn-slot text x-huge" id="id-toolbar-btn-add-layout"></span>' +
             '</div>' +
@@ -65,7 +65,6 @@ define([
             '<div class="group master-slide-mode">' +
             '<span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>' +
             '</div>' +
-            '<div class="separator long"></div>' +
             '</section>';
         return {
             options: {},
@@ -122,7 +121,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     }).on('click', function (btn, e) {
-                        console.log(_set)
                         this.fireEvent('insert:slide-master', [btn, e]);
                     }.bind(this));
                     this.slideOnlyControls.push(this.btnAddSlideMaster);
@@ -315,33 +313,32 @@ define([
                 }, 10);
             },
 
-            capAddSlideMaster: 'Add Slide Master',
-            tipAddSlideMaster: 'Add slide master',
-            capAddLayout: 'Add Layout',
-            tipAddLayout: 'Add layout',
-            textTitle: 'Title',
-            textFooters: 'Footers',
-            textContent: 'Content',
-            textContentVertical: 'Content (Vertical)',
-            textText: 'Text',
-            textTextVertical: 'Text (Vertical)',
-            textPicture: 'Picture',
-            textChart: 'Chart',
-            textTable: 'Table',
-            textSmartArt: 'SmartArt',
-            capCloseMaster: 'Close Master',
-            tipCloseMaster: 'Close master',
-            capInsertPlaceholder: 'Insert Placeholder',
-            tipInsertPlaceholder: 'Insert placeholder',
-            tipInsertContentPlaceholder: 'Insert content placeholder',
-            tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
-            tipInsertTextPlaceholder: 'Insert text placeholder',
-            tipInsertTextVerticalPlaceholder: 'Insert text (vertical) placeholder',
-            tipInsertPicturePlaceholder: 'Insert picture placeholder',
-            tipInsertChartPlaceholder: 'Insert chart placeholder',
-            tipInsertTablePlaceholder: 'Insert table placeholder',
-            tipInsertSmartArtPlaceholder: 'Insert SmartArt placeholder',
-            textTabStyle: 'Tab style',
+            // capAddSlideMaster: 'Add Slide Master',
+            // tipAddSlideMaster: 'Add slide master',
+            // capAddLayout: 'Add Layout',
+            // tipAddLayout: 'Add layout',
+            // textTitle: 'Title',
+            // textFooters: 'Footers',
+            // textContent: 'Content',
+            // textContentVertical: 'Content (Vertical)',
+            // textText: 'Text',
+            // textTextVertical: 'Text (Vertical)',
+            // textPicture: 'Picture',
+            // textChart: 'Chart',
+            // textTable: 'Table',
+            // textSmartArt: 'SmartArt',
+            // capCloseMaster: 'Close Master',
+            // tipCloseMaster: 'Close master',
+            // capInsertPlaceholder: 'Insert Placeholder',
+            // tipInsertPlaceholder: 'Insert placeholder',
+            // tipInsertContentPlaceholder: 'Insert content placeholder',
+            // tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
+            // tipInsertTextPlaceholder: 'Insert text placeholder',
+            // tipInsertTextVerticalPlaceholder: 'Insert text (vertical) placeholder',
+            // tipInsertPicturePlaceholder: 'Insert picture placeholder',
+            // tipInsertChartPlaceholder: 'Insert chart placeholder',
+            // tipInsertTablePlaceholder: 'Insert table placeholder',
+            // tipInsertSmartArtPlaceholder: 'Insert SmartArt placeholder',
         }
     }()), PE.Views.SlideMasterTab || {}));
 });
