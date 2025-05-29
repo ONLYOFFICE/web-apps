@@ -186,9 +186,6 @@ define([
             },
         }
 
-        var id_default_light_theme = 'theme-white',
-            id_default_dark_theme = 'theme-dark';
-
         var name_colors = [
             "toolbar-header-document",
             "toolbar-header-spreadsheet",
@@ -514,7 +511,7 @@ define([
         }
         const get_system_default_theme = function () {
             const id = get_system_theme_type() == THEME_TYPE_DARK ?
-                id_default_dark_theme : id_default_light_theme;
+                window.uitheme.DEFAULT_DARK_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
 
             return {id: id, info: themes_map[id]};
         };
@@ -677,7 +674,7 @@ define([
             },
 
             currentThemeId: function () {
-                return !!themes_map[window.uitheme.id] ? window.uitheme.id : id_default_light_theme;
+                return !!themes_map[window.uitheme.id] ? window.uitheme.id : window.uitheme.DEFAULT_LIGHT_THEME_ID;
             },
 
             currentThemeColor: function (token) {
@@ -685,7 +682,7 @@ define([
             },
 
             defaultThemeId: function (type) {
-                return type == 'dark' ? id_default_dark_theme : id_default_light_theme;
+                return type == 'dark' ? window.uitheme.DEFAULT_LIGHT_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
             },
 
             defaultTheme: function (type) {
@@ -747,7 +744,7 @@ define([
             },
 
             toggleTheme: function () {
-                this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
+                // this.setTheme( this.isDarkTheme() ? id_default_light_theme : id_default_dark_theme );
             },
 
             getThemeColors: function() {

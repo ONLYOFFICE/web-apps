@@ -46,6 +46,9 @@
 
     !window.uitheme && (window.uitheme = {});
 
+    window.uitheme.DEFAULT_LIGHT_THEME_ID = 'theme-white';
+    window.uitheme.DEFAULT_DARK_THEME_ID = 'theme-night';
+
     window.uitheme.set_id = function (id) {
         if ( id == 'theme-system' )
             this.adapt_to_system_theme();
@@ -63,7 +66,7 @@
 
     window.uitheme.relevant_theme_id = function () {
         if ( this.is_theme_system() )
-            return this.is_system_theme_dark() ? 'theme-night' : 'theme-white';
+            return this.is_system_theme_dark() ? window.uitheme.DEFAULT_DARK_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
         return this.id;
     }
 
