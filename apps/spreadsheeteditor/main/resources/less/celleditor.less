@@ -1,13 +1,15 @@
 #cell-editing-box {
-    border-bottom: solid @celleditor-border-width @border-toolbar-ie;
+    border-bottom: solid @celleditor-border-width-ie @border-toolbar-ie;
     border-bottom: solid @celleditor-border-width @border-toolbar;
-    border-left: solid @celleditor-border-width @border-toolbar-ie;
+    border-left: solid @celleditor-border-width-ie @border-toolbar-ie;
     border-left: solid @celleditor-border-width @border-toolbar;
+    min-height: @celleditor-height-ie;
     min-height: @celleditor-height;
     background-color: @background-pane-ie;
     background-color: @background-pane;
 
     .ce-group-name {
+        height: @celleditor-height-ie;
         height: @celleditor-height;
         //border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         //border-bottom: @scaled-one-px-value solid @border-toolbar;
@@ -16,7 +18,7 @@
 
         #ce-cell-name {
             width: 100px;
-            height: calc(@celleditor-height - var(--celleditor-border-width));
+            height: calc(@celleditor-height-ie - @celleditor-border-width-ie);
             height: calc(@celleditor-height - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
             padding: 0px 19px 0 4px;
             vertical-align: top;
@@ -24,15 +26,19 @@
             transition: none;
             -webkit-transition: none;
 
+            border: @celleditor-input-border-ie;
             border: @celleditor-input-border;
+            border-right: @celleditor-cell-name-border-right-ie;
             border-right: @celleditor-cell-name-border-right;
-            box-shadow: 0 @celleditor-border-width 0 0 @border-toolbar-ie;
+            box-shadow: 0 @celleditor-border-width-ie 0 0 @border-toolbar-ie;
             box-shadow: 0 @celleditor-border-width 0 0 @border-toolbar;
 
             .rtl & {
                 padding: 0px 4px 0 19px;
                 direction: rtl;
+                border: @celleditor-input-border-ie;
                 border: @celleditor-input-border;
+                border-left: @celleditor-cell-name-border-right-ie;
                 border-left: @celleditor-cell-name-border-right;
             }
 
@@ -58,6 +64,7 @@
                 background-color: @background-normal-ie;
                 background-color: transparent;
                 width: 16px;
+                height: @celleditor-height-ie;
                 height: @celleditor-height;
 
                 .inner-box-caret {
@@ -86,6 +93,7 @@
         #ce-func-label {
             height: @x-small-btn-size;
             width: @x-small-btn-size;
+            .margin-left(@celleditor-func-label-margin-left-ie);
             .margin-left(@celleditor-func-label-margin-left);
 
             .border-radius(0);
@@ -98,7 +106,7 @@
 
     &:not(.expanded) {
         #ce-func-label {
-            border-bottom: @celleditor-border-width solid @border-toolbar-ie;
+            border-bottom: @celleditor-border-width-ie solid @border-toolbar-ie;
             border-bottom: @celleditor-border-width solid @border-toolbar;
         }
     }
@@ -118,15 +126,17 @@
     }
 
     .ce-group-content {
+        margin: 0 0px 0 calc(100px + 3px + @celleditor-func-label-margin-left-ie + @x-small-btn-size-ie);
         margin: 0 0px 0 calc(100px + 3px + @celleditor-func-label-margin-left + @x-small-btn-size);
         height: 100%;
         display: flex;
-        border-left: @celleditor-border-width solid @border-toolbar-ie;
+        border-left: @celleditor-border-width-ie solid @border-toolbar-ie;
         border-left: @celleditor-border-width solid @border-toolbar;
         .rtl & {
             border-left: none;
-            border-right: @celleditor-border-width solid @border-toolbar-ie;
+            border-right: @celleditor-border-width-ie solid @border-toolbar-ie;
             border-right: @celleditor-border-width solid @border-toolbar;
+            margin: 0 calc(100px + 3px + @celleditor-func-label-margin-left-ie + @x-small-btn-size-ie) 0 0px;
             margin: 0 calc(100px + 3px + @celleditor-func-label-margin-left + @x-small-btn-size) 0 0px;
         }
 
@@ -134,9 +144,12 @@
             height: 100%;
             resize: none;
             min-height: 19px;
+            border: @celleditor-input-border-ie;
             border: @celleditor-input-border;
+            box-shadow: none;
             .padding-x(3px, 19px);
             .font-size-medium();
+            line-height: @celleditor-line-height-ie;
             line-height: @celleditor-line-height;
             padding-bottom: 0;
             &::-webkit-scrollbar-button:single-button{
@@ -161,6 +174,7 @@
     }
 
     #ce-cell-name, #ce-cell-content {
+        border-radius: @celleditor-input-border-radius-ie;
         border-radius: @celleditor-input-border-radius;
     }
 
@@ -180,6 +194,7 @@
 
 #ce-btn-expand {
     width: 16px;
+    height: @celleditor-height-ie;
     height: @celleditor-height;
     .border-radius(0);
     background: transparent;
