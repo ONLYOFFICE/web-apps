@@ -63,7 +63,7 @@
 
     window.uitheme.relevant_theme_id = function () {
         if ( this.is_theme_system() )
-            return this.is_system_theme_dark() ? 'theme-dark' : 'theme-classic-light';
+            return this.is_system_theme_dark() ? 'theme-night' : 'theme-white';
         return this.id;
     }
 
@@ -95,7 +95,8 @@
         const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
         let icons = [];
         sp_names.forEach(function (n) {
-            for (const [key, value] of Object.entries(sp_scale)) {
+            for (let key in sp_scale) {
+                const value = sp_scale[key];
                 icons.push('--sprite-button-'+n+'-'+key+':url('+ base_url +'icons' + n + value + '.png)');
             }
         });
