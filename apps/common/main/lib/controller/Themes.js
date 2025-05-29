@@ -176,6 +176,14 @@ define([
                     cls: 'mod2',
                 }
             },
+            'theme-white-dark': {
+                text: locale.txtThemeWhiteDark || 'White Dark',
+                type: 'dark',
+                source: 'static',
+                icons: {
+                    cls: 'mod2',
+                }
+            },
         }
 
         var id_default_light_theme = 'theme-white',
