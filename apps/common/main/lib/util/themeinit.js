@@ -88,7 +88,7 @@
     }
 
     window.uitheme.apply_icons_from_url = function (themeid, url) {
-        // if ( !url ) return;
+        if ( !url ) return;
 
         let base_url = !url.endsWith('/') ? url + '/' : url;
         const sp_names = ['small', 'big', 'huge'];

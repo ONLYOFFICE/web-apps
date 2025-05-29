@@ -85,7 +85,7 @@ define([
                                     --sk-background-toolbar-header-slide: #BE664F;; --sk-background-toolbar-header-cell: #40865c;
                                     --sk-background-toolbar-header-visio: #444796; 
                                     --sk-background-toolbar: #f7f7f7; --sk-background-toolbar-controls: #f1f1f1;
-                                    --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #e0e0e0;
+                                    --sk-background-toolbar-tab: rgba(255,255,255,.15); --sk-background-toolbar-button: #d8dadc;
                                     --sk-layout-padding-toolbar-controls: 0 7px; --sk-layout-padding-header: 0 8px;
                                     --sk-canvas-background: #eee; --sk-canvas-content-background: #fff;
                                     --sk-canvas-page-border: #dde0e5; --sk-canvas-line: rgba(0,0,0,.05);

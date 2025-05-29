@@ -337,6 +337,7 @@
             height: @x-small-btn-icon-size;
             top: 50%;
             margin-top: -10px;
+            margin-top: calc(-1 * @font-size-base-app + 1px);
             fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
         }
@@ -346,6 +347,8 @@
         cursor: pointer;
         .font-size-tiny();
         margin-left: -18px;
+        margin-top: @scaled-one-px-value-ie;
+        margin-top: @scaled-one-px-value;
         width: 16px;
         text-align: center;
         overflow: hidden;
