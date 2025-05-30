@@ -47,7 +47,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2 class="padding-small">
+        <td colspan=2>
             <label class="header"><%= scope.textBorders %></label>
         </td>
     </tr>
@@ -55,7 +55,7 @@
         <td class="padding-small" colspan=2>
             <div id="table-combo-border-size"></div>
             <div class="table-color color-btn-wrap float-right">
-                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
+                <label class="margin-right-5"><%= scope.textBorderColor %></label>
                 <div id="table-border-color-btn"></div>
             </div>
         </td>
@@ -86,7 +86,7 @@
     <tr>
         <td class="padding-small" colspan=2 align="right">
             <div class="color-btn-wrap">
-                <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
+                <label class="margin-right-5"><%= scope.textBackColor %></label>
                 <div id="table-back-color-btn" style="display: inline-block;"></div>
             </div>
         </td>

@@ -69,7 +69,7 @@
                     </tr>
                     <tr valign="bottom">
                         <td>
-                            <label class="input-label angle-label"><%= scope.textAngle %></label>
+                            <label class="angle-label"><%= scope.textAngle %></label>
                         </td>
                         <td>
                             <div id="shape-spin-gradient-angle" style="display: inline-block; width: 60px;"></div>

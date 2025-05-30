@@ -16,7 +16,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td>
             <label class="header"><%= scope.textOptions %></label>
         </td>
     </tr>
@@ -41,13 +41,13 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td>
             <label class="header"><%= scope.textPageNum %></label>
         </td>
     </tr>
     <tr>
         <td>
-            <label><%= scope.textTopPage %></label>
+            <label class="input-label"><%= scope.textTopPage %></label>
         </td>
     </tr>
     <tr>
@@ -59,7 +59,7 @@
     </tr>
     <tr>
         <td>
-            <label><%= scope.textBottomPage %></label>
+            <label class="input-label"><%= scope.textBottomPage %></label>
         </td>
     </tr>
     <tr>
@@ -80,7 +80,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td>
             <label class="header"><%= scope.textPageNumbering %></label>
         </td>
     </tr>

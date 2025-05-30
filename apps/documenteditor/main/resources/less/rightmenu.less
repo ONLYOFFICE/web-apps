@@ -9,8 +9,20 @@
     }
 }
 .right-panel .settings-panel {
+
+    > table {
+        > tbody > tr:first-child > td {
+            padding-top: 8px;
+        }
+
+        label.header {
+            padding-bottom: 8px;
+        }
+    }
+
     label.input-label {
         vertical-align: baseline;
+        padding-bottom: 4px;
     }
 
     .btn.align-left {
@@ -21,7 +33,7 @@
     }
 
     &#id-paragraph-settings {
-        .input-label.margin {
+        label.margin {
             .margin-left-5();
         }
     }
