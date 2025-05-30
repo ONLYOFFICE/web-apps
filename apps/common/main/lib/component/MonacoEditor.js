@@ -40,6 +40,7 @@ define([], function () {
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
+            this.id = _.uniqueId();
             this.parentEl = options.parentEl;
             this.language = options.language || 'javascript';
             this.parentEl && this.render(this.parentEl);
@@ -63,6 +64,7 @@ define([], function () {
             var src = '../../../vendor/monaco/MonacoEditor.html';
             src += '?editorType=' + (window.SSE ? 'cell' : window.PE ? 'slide' : 'word');
             src += '&language=' + this.language;
+            src += '&id=' + this.id;
 
             this.iframe.src = src;
 
@@ -96,6 +98,7 @@ define([], function () {
 
         _postMessage: function(wnd, msg) {
             if (wnd && wnd.postMessage && window.JSON) {
+                msg.referer = 'monaco-editor-' + this.id;
                 wnd.postMessage(window.JSON.stringify(msg), "*");
             }
         },
@@ -113,7 +116,7 @@ define([], function () {
                 cmd = '';
             }
 
-            if (cmd && cmd.referer == "monaco-editor") {
+            if (cmd && cmd.referer == 'monaco-editor-' + this.id) {
                 switch (cmd.command) {
                     case 'changeValue':
                         data = cmd.data || {};
@@ -135,7 +138,6 @@ define([], function () {
         setValue: function(value, currentPos, readonly) {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'setValue',
-                referer: 'monaco-editor',
                 data: {
                     value: value,
                     readonly: readonly,
@@ -147,7 +149,6 @@ define([], function () {
         updateTheme: function() {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'setTheme',
-                referer: 'monaco-editor',
                 data: Common.UI.Themes.getThemeColors()
             });
         },
@@ -155,7 +156,6 @@ define([], function () {
         disableDrop: function(disable) {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'disableDrop',
-                referer: 'monaco-editor',
                 data: disable
             });
         },
@@ -163,7 +163,6 @@ define([], function () {
         revealPositionInCenter: function() {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'revealPositionInCenter',
-                referer: 'monaco-editor',
                 data: {}
             });
         },
@@ -171,7 +170,6 @@ define([], function () {
         undo: function() {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'undo',
-                referer: 'monaco-editor',
                 data: {}
             });
         },
@@ -179,7 +177,6 @@ define([], function () {
         redo: function() {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'redo',
-                referer: 'monaco-editor',
                 data: {}
             });
         },
