@@ -768,10 +768,15 @@ define([], function () {
                 langName = null;
             }
 
+            var editorName = 'Document Editor';
+            if(window.PE) editorName = 'Presentation Editor';
+            if(window.SSE) editorName = 'Spreadsheet Editor';
+            
             if(item.value == 'create') {
                 title = this.textCreateMacrosFromDesc;
                 instruction = '' + 
                     'Create a macro for OnlyOffice. ' + 
+                    'The macro should be written specifically for the OnlyOffice ' + editorName + '. ' +
                     'Return only code with comments, as plain text without markdown. ' + 
                     'The format of the code is JavaScript. ' + 
                     'Write comments in the same language as the user prompt. ' + 
@@ -780,6 +785,7 @@ define([], function () {
                 title = this.textConvertMacrosFromVBA;
                 instruction = '' + 
                     'Convert macro for OnlyOffice from VBA. ' +
+                    'The macro should be written specifically for the OnlyOffice ' + editorName + '. ' +
                     'Return only code with comments, as plain text without markdown. ' +
                     'The code format is JavaScript. ' +
                     'Write comments in ' + langCode + (langName ? '(' + langName + ')' : '') + ' language. ' + 
