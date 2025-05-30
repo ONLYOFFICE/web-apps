@@ -120,14 +120,15 @@
         cursor: default;
 
         &:hover:not(:disabled):not(:focus){
-            //background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover-ie;
             background-color: @highlight-header-input-hover;
             cursor: text;
         }
         &:focus{
-            //background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed-ie;
             background-color: @highlight-header-input-pressed;
             border: @scaled-one-px-value solid @border-header-input-focused;
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
             cursor: text;
         }
@@ -226,7 +227,9 @@
     padding: @header-component-padding;
 
     .icon {
+        width: @x-small-btn-icon-size-ie;
         width: @x-small-btn-icon-size;
+        height: @x-small-btn-icon-size-ie;
         height: @x-small-btn-icon-size;
         line-height: @header-component-line-height;
         display: inline-block;
@@ -334,6 +337,7 @@
         > svg {
             position: absolute;
             width: 28px;
+            height: @x-small-btn-icon-size-ie;
             height: @x-small-btn-icon-size;
             top: 50%;
             margin-top: -10px;
@@ -628,16 +632,17 @@
         .user-select(text);
 
         &:hover:not(:disabled):not(:focus){
-            //background-color: @highlight-header-input-hover-ie;
+            background-color: @highlight-header-input-hover-ie;
             background-color: @highlight-header-input-hover;
             border-radius: @border-radius-button-base;
             cursor: text;
         }
         &:focus{
-            //background-color: @highlight-header-input-pressed-ie;
+            background-color: @highlight-header-input-pressed-ie;
             background-color: @highlight-header-input-pressed;
             border: @scaled-one-px-value solid @border-header-input-focused;
             border-radius: @border-radius-button-base;
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
             cursor: text;
         }

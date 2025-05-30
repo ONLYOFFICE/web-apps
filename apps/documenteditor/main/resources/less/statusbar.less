@@ -37,6 +37,7 @@
         button.margin-top-small,
         .margin-top-small > button,
         .margin-top-small > .btn-group {
+            margin-top: calc(@statusbar-height-ie - @x-small-btn-size-ie);
             margin-top: calc(@statusbar-height - @x-small-btn-size);
         }
     }
@@ -45,6 +46,7 @@
         margin: 0px 6px;
 
         &.short {
+            height: @statusbar-height-ie;
             height: @statusbar-height;
         }
 

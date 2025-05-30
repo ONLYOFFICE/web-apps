@@ -27,6 +27,7 @@
                 line-height: normal;
                 height: auto;
                 white-space: normal;
+                margin-bottom: @category-btn-y-margin-small-ie;
                 margin-bottom: @category-btn-y-margin-small;
 
                 .rtl & {
@@ -56,13 +57,13 @@
 
                 &:hover:not(.disabled),
                 .over:not(.disabled) {
-                    //background-color: @highlight-category-button-hover-ie;
+                    background-color: @highlight-category-button-hover-ie;
                     background-color: @highlight-category-button-hover;
                 }
 
                 &:active:not(.disabled),
                 &.active:not(.disabled) {
-                    //background-color: @highlight-category-button-pressed-ie;
+                    background-color: @highlight-category-button-pressed-ie;
                     background-color: @highlight-category-button-pressed;
                     color: @text-normal-pressed-ie;
                     color: @text-normal-pressed;
@@ -145,6 +146,7 @@
 }
 
 .grouped-buttons {
+    height: @input-height-base-ie;
     height: @input-height-base;
 
     &.flat {
@@ -190,6 +192,7 @@
     }
 
     .btn-text-default:focus:not(.disabled) {
+        .box-inner-shadow(@shadow-fill-input-ie);
         .box-inner-shadow(@shadow-fill-input);
     }
 }

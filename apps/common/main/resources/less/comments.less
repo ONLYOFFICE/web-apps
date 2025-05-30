@@ -108,6 +108,7 @@
             &:focus {
                 border-color: @border-control-focus-ie;
                 border-color: @border-control-focus;
+                .box-shadow(@shadow-fill-input-ie);
                 .box-shadow(@shadow-fill-input);
             }
         }
@@ -147,6 +148,7 @@
         &:focus {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
         }
     }
@@ -522,6 +524,7 @@
         top: 0;
         max-width: 150px;
         height: 20px;
+        line-height: @line-height-base-ie;
         line-height: @line-height-base;
         background-color: #EE3525;
         margin: 10px 18px;
