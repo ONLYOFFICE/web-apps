@@ -14,24 +14,32 @@
 
         .rb-circle {
             margin-top: 2px;
+            fill: @rb-background-normal-ie;
             fill: @rb-background-normal;
+            stroke: @rb-border-normal-ie;
             stroke: @rb-border-normal;
         }
 
         .rb-check-mark {
+            fill: @rb-check-mark-background-ie;
             fill: @rb-check-mark-background;
+            r: @rb-check-mark-size-ie;
             r: @rb-check-mark-size;
         }
     }
 
     &:hover:not(.disabled) {
         svg .rb-circle {
+            fill: @rb-background-normal-hover-ie;
             fill: @rb-background-normal-hover;
+            stroke: @rb-border-normal-hover-ie;
             stroke: @rb-border-normal-hover;
         }
 
         input[type=radio]:checked + svg .rb-circle {
+            fill: @rb-background-checked-hover-ie;
             fill: @rb-background-checked-hover;
+            stroke: @rb-border-checked-hover-ie;
             stroke: @rb-border-checked-hover;
         }
     }
@@ -47,7 +55,9 @@
 
         &:checked + svg {
             .rb-circle {
+                fill: @rb-background-checked-ie;
                 fill: @rb-background-checked;
+                stroke: @rb-border-checked-ie;
                 stroke: @rb-border-checked;
             }
         }
@@ -64,11 +74,13 @@
     &:focus:not(.disabled) {
         svg {
             .rb-circle {
+                stroke: @rb-border-normal-focus-ie;
                 stroke: @rb-border-normal-focus;
             }
         }
 
         input[type=radio]:checked + svg .rb-circle {
+            stroke: @rb-border-checked-focus-ie;
             stroke: @rb-border-checked-focus;
         }
 
