@@ -1,43 +1,50 @@
 @img-equition-filter: var(--image-border-types-filter);
 #toolbar {
+    padding: @layout-padding-toolbar-ie;
     padding: @layout-padding-toolbar;
 
     &:not(.style-off-tabs) {
+        background: @header-background-color-ie;
         background: @header-background-color;
         .toolbar {
+            background-color: @header-background-color-ie;
             background-color: @header-background-color;
         }
     }
 }
 .toolbar {
     .box-controls {
+        border-radius: @border-radius-toolbar-ie;
         border-radius: @border-radius-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         &:not(.z-clear *) {
             &:before {
-                //@flight-tb-shadow-color: @highlight-button-hover;
                 content: '';
                 position: absolute;
-                //box-shadow: 0 0 0 0 @flight-tb-shadow-color,
-                //                -3px 3px 5px -2px @flight-tb-shadow-color, 3px 3px 5px 0px @flight-tb-shadow-color;
+                box-shadow: @shadow-toolbar-ie;
                 box-shadow: @shadow-toolbar;
                 width: 100%;
                 height: @toolbar-height-controls;
                 bottom: 0;
+                border-radius: @border-radius-toolbar-ie;
                 border-radius: @border-radius-toolbar;
             }
         }
     }
 
     .box-tabs {
+        padding-left: @border-radius-toolbar-ie;
         padding-left: @border-radius-toolbar;
+        padding-right: @border-radius-toolbar-ie;
         padding-right: @border-radius-toolbar;
     }
 
     .ribtab {
+        border-top-left-radius: @toolbar-tab-radius-ie;
         border-top-left-radius: @toolbar-tab-radius;
+        border-top-right-radius: @toolbar-tab-radius-ie;
         border-top-right-radius: @toolbar-tab-radius;
     }
 }
@@ -147,6 +154,7 @@
             > a {
                 display: inline-block;
                 padding: 0 12px;
+                margin-bottom: @toolbar-tab-text-margin-ie;
                 margin-bottom: @toolbar-tab-text-margin;
                 text-decoration: none;
                 cursor: default;
@@ -772,17 +780,20 @@
 
                 &:after {
                     border-top-style: solid;
+                    border-top-width: @toolbar-tab-line-height-ie;
                     border-top-width: @toolbar-tab-line-height;
                     content: '';
                     position: absolute;
                     .margin-left-7();
                     width: calc(100% - 14px);
+                    bottom: calc(-1 * @toolbar-tab-line-height-ie);
                     bottom: calc(-1 * @toolbar-tab-line-height);
                     opacity: 0;
                     .tab-header-color();
                     .style-off-tabs& {
                         .tab-toolbar-color();
                     }
+                    border-radius: @toolbar-tab-line-radius-ie;
                     border-radius: @toolbar-tab-line-radius;
                     transition: margin-left .05s ease-in-out, width .05s ease-in-out, opacity .1s ease-in-out;
                 }
@@ -796,6 +807,7 @@
                 &.active {
                     &:after {
                         opacity: 1;
+                        bottom: @toolbar-tab-line-bottom-ie;
                         bottom: @toolbar-tab-line-bottom;
                     }
                 }
@@ -803,6 +815,7 @@
                 &:hover:not(.active) {
                     &:after {
                         opacity: 0.4;
+                        bottom: @toolbar-tab-line-bottom-ie;
                         bottom: @toolbar-tab-line-bottom;
                     }
                 }
@@ -828,6 +841,7 @@
                 &.short {
                     li {
                         &:after {
+                            bottom: @toolbar-tab-line-bottom-ie;
                             bottom: @toolbar-tab-line-bottom;
                         }
                     }

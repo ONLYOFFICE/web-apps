@@ -60,11 +60,11 @@ label {
         overflow: hidden;
 
         .tool-menu-btns {
-            //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-right: @border-sidemenu-ie;
             border-right: @border-sidemenu;
 
             .rtl & {
-                //border-left: @scaled-one-px-value solid @border-toolbar;
+                border-left: @border-sidemenu-ie;
                 border-left: @border-sidemenu;
                 border-right: 0 none;
             }
@@ -81,7 +81,7 @@ label {
     &.right {
         .tool-menu-btns {
             //position: absolute;
-            //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-left: @border-sidemenu-ie;
             border-left: @border-sidemenu;
             background-color: @background-pane-ie;
             background-color: @background-pane;
@@ -92,7 +92,7 @@ label {
                 left: 0;
                 right: auto;
 
-                //border-right: @scaled-one-px-value solid @border-toolbar;
+                border-right: @border-sidemenu-ie;
                 border-right: @border-sidemenu;
                 border-left: 0 none;
             }
@@ -106,11 +106,14 @@ label {
     display: inline-block;
     position: absolute;
     padding-top: 15px;
+    padding-right: @layout-padding-x-side-panel-ie;
     padding-right: @layout-padding-x-side-panel;
+    padding-left: @layout-padding-x-side-panel-ie;
     padding-left: @layout-padding-x-side-panel;
 
     button {
         margin-bottom: @category-btn-y-margin-large;
+        margin-bottom: @category-btn-y-margin-large-ie;
     }
 }
 
@@ -127,14 +130,15 @@ label {
 
 .left-panel {
     height: 100%;
+    padding: @layout-padding-left-panel-ie;
     padding: @layout-padding-left-panel;
-    //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-    //border-right: @scaled-one-px-value solid @border-toolbar;
+    border-right: @border-sidemenu-ie;
     border-right: @border-sidemenu;
 
     .rtl & {
+        padding: @layout-padding-left-panel-rtl-ie;
         padding: @layout-padding-left-panel-rtl;
-        //border-left: @scaled-one-px-value solid @border-toolbar;
+        border-left: @border-sidemenu-ie;
         border-left: @border-sidemenu;
         border-right: 0 none;
     }
@@ -152,13 +156,17 @@ label {
     height: 100%;
     display: none;
 
+    padding: @layout-padding-left-panel-ie;
     padding: @layout-padding-left-panel;
     padding-left: 0;
+    border-right: @border-sidemenu-ie;
     border-right: @border-sidemenu;
 
     .rtl & {
+        padding: @layout-padding-left-panel-rtl-ie;
         padding: @layout-padding-left-panel-rtl;
         padding-right: 0;
+        border-left: @border-sidemenu-ie;
         border-left: @border-sidemenu;
         border-right: 0 none;
     }
@@ -168,17 +176,16 @@ label {
     width: 220px;
     height: 100%;
     display: none;
+    padding: @layout-padding-right-panel-ie;
     padding: @layout-padding-right-panel;
 
-    //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-    //border-left: @scaled-one-px-value solid @border-toolbar;
-    //line-height: 15px;
+    border-left: @border-sidemenu-ie;
     border-left: @border-sidemenu;
 
     .rtl & {
-    //    border-right: @scaled-one-px-value solid @border-toolbar;
-    //    border-left: 0 none;
+        padding: @layout-padding-right-panel-rtl-ie;
         padding: @layout-padding-right-panel-rtl;
+        border-right: @border-sidemenu-ie;
         border-right: @border-sidemenu;
         border-left: 0 none;
     }
@@ -186,11 +193,11 @@ label {
     .content-box {
         height: 100%;
         width: 100%;
-        padding: 0 10px 0 15px;
+        padding: @layout-padding-right-panel-content-ie;
         padding: @layout-padding-right-panel-content;
 
         .rtl & {
-            padding: 0 15px 0 10px;
+            padding: @layout-padding-right-panel-content-rtl-ie;
             padding: @layout-padding-right-panel-content-rtl;
         }
     }
