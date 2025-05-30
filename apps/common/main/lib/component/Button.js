@@ -574,8 +574,10 @@ define([
                     if (isFirefox && mouseDownTarget !== e.currentTarget) {
                         e.preventDefault();
                         e.stopPropagation();
+                        mouseDownTarget = null
                         return false;
                     }
+                    mouseDownTarget = null
                 }
 
                 var doSetActiveState = function(e, state) {
@@ -620,6 +622,8 @@ define([
                     if (isFirefox) {
                         $('[role="tab"]').on('mousedown', setMouseDownTarget);
                         $('[role="tab"]').on('click', preventMismatchedClickInFirefox);
+                        $('[type="menuitem"]').on('mousedown', setMouseDownTarget);
+                        $('[type="menuitem"]').on('click', preventMismatchedClickInFirefox);
                     }
 
                     el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
