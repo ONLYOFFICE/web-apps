@@ -1315,7 +1315,10 @@ define([
 
             updateAvatarEl: function(){
                 if(this.options.userAvatar){
-                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.css({
+                        'background-image': 'url('+ this.options.userAvatar +')',
+                        'background-color': 'transparent'
+                    });
                     $btnUserName.text('');
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));

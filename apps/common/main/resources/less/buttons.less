@@ -301,6 +301,7 @@
             //align-items: center;
             align-items: start;
             height: 24px;
+            height: calc((@font-size-base-app + 2px) * 2);
 
             .caption {
                 max-width: 160px;//85px;
@@ -308,7 +309,7 @@
                 text-overflow: ellipsis;
 
                 white-space: pre;
-                line-height: 11px;
+                line-height: 1;
                 padding: 0 2px;
 
                 .caret {
@@ -679,14 +680,6 @@
             float: right;
         }
 
-        &:first-child:not(:last-child):not(.dropdown-toggle) {
-            .rtl & {
-                .border-radius(@border-radius-button-normal);
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-        }
-
         &.btn-toolbar {
             float: none;
         }
@@ -702,11 +695,35 @@
         }
     }
 
-    > .dropdown-toggle:not(first-child) {
-        .rtl & {
-            .border-radius(@border-radius-button-normal);
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+    &:not(.x-huge) {
+        > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+            .rtl & {
+                &.btn-toolbar {
+                    .border-radius(@border-radius-button-toolbar);
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+                &:not(.btn-toolbar) {
+                    .border-radius(@border-radius-button-normal);
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+
+        > .dropdown-toggle:not(:first-child) {
+            .rtl & {
+                &.btn-toolbar {
+                    .border-radius(@border-radius-button-toolbar);
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+                &:not(.btn-toolbar) {
+                    .border-radius(@border-radius-button-normal);
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
         }
     }
 

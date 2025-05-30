@@ -2939,7 +2939,8 @@ define([
 
                 arr = []; // system languages can be 'en'... (MacOs)
                 sLangs.forEach(function(lang) {
-                    let rec = me.languages.indexOf(Common.util.LanguageInfo.getLocalLanguageCode(lang).toString())<0 ? null : lang;
+                    let rec = Common.util.LanguageInfo.getLocalLanguageCode(lang);
+                    rec && (rec = me.languages.indexOf(rec.toString())<0 ? null : lang);
                     if (!rec) {
                         rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
                         rec = rec && me.languages.indexOf(rec.toString())>-1 ? rec : null;
@@ -2984,6 +2985,9 @@ define([
                             this.loadMask && this.loadMask.isVisible() && this.loadMask.updatePosition();
                         }
                         this.isAppDisabled = data.data;
+                        break;
+                    case 'reshow': 
+                        Common.NotificationCenter.trigger('external:reshow');
                         break;
                     case 'queryClose':
                         if (!Common.Utils.ModalWindow.isVisible()) {

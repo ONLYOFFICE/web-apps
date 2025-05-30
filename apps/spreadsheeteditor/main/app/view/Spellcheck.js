@@ -49,7 +49,7 @@ define([], function () {
                         '</div>',
                         '<div id="spellcheck-suggestions-list"></div>',
                         '<div id="spellcheck-change" style=""></div>',
-                        '<div id="spellcheck-ignore" class="padding-large margin-left-9"></div>',
+                        '<div id="spellcheck-ignore" class="padding-large margin-left-6"></div>',
                         '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtAddToDictionary %></button>',
                         '<label class="header" style="display: block;"><%= scope.txtDictionaryLanguage %></label>',
                         '<div id="spellcheck-dictionary-language"></div>',

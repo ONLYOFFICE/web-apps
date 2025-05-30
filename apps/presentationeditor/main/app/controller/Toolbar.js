@@ -142,6 +142,7 @@ define([
                     'title:hide'         : this.onTitleHide.bind(this),
                     'footers:hide'       : this.onFootersHide.bind(this),
                     'tab:active'         : this.onActiveTab.bind(this),
+                    'tab:active:before'  : this.onBeforeActiveTab.bind(this),
                     'tab:collapse'       : this.onTabCollapse.bind(this)
                 },
                 'DocumentHolder': {
@@ -3173,6 +3174,9 @@ define([
                 setTimeout(function() {
                     Common.UI.TooltipManager.showTip('mergeShapes');
                 }, 10);
+        },
+
+        onBeforeActiveTab: function(tab) {
             this._state.activeTab = tab;
             this.showStaticElements();
         },

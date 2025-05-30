@@ -38,6 +38,7 @@
 
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
+var MENU_BASE_WIDTH = 220;
 
 define([
     'text!pdfeditor/main/app/template/RightMenu.template',
@@ -148,15 +149,20 @@ define([
             this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("pdfe-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("pdfe-hide-right-settings", !open);
-            el.css('width', SCALE_MIN + 'px');
-            // el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
-            el.show();
 
             Common.NotificationCenter.on('app:repaint', function() {
                 el.css('width', SCALE_MIN + 'px');
             });
 
+            Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                this.updateWidth();
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            }, this));
+
             el.html(this.template({scope: this}));
+
+            this.updateWidth();
+            el.show();
 
             this.btnMoreContainer = $('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -338,6 +344,14 @@ define([
         setButtons: function () {
             var allButtons = [this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnTextArt/*, this.btnChart, this.btnSignature*/, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
+        updateWidth: function() {
+            var pane = $(this.el).find('.right-panel'),
+                paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
+            pane.css('width', MENU_BASE_WIDTH + paddings + 'px');
+            MENU_SCALE_PART = SCALE_MIN + MENU_BASE_WIDTH + paddings;
+            this.$el.css('width', (this.GetActivePane() ? MENU_SCALE_PART : SCALE_MIN) + 'px');
         },
 
         txtParagraphSettings:       'Text Settings',
