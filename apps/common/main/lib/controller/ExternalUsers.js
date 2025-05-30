@@ -51,7 +51,7 @@ Common.UI.ExternalUsers = new( function() {
         api,
         userColors = [];
 
-    var _get = function(type, ids) {
+    var _get = function(type, ids, from, count, search) {
         if (type==='info') {
             (typeof ids !== 'object') && (ids = [ids]);
             ids && (ids = _.uniq(ids));
@@ -67,7 +67,7 @@ Common.UI.ExternalUsers = new( function() {
             type = type || 'mention';
             if (externalUsers[type]===undefined) {
                 isUsersLoading = true;
-                Common.Gateway.requestUsers(type || 'mention');
+                Common.Gateway.requestUsers(type || 'mention', undefined, from || 0, count || 100, search || '');
             } else {
                 Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
             }
@@ -125,10 +125,12 @@ Common.UI.ExternalUsers = new( function() {
                 externalUsers = [];
                 return;
             }
-            var type = data.c || 'mention';
-            externalUsers[type] = data.users || [];
+            var type = data.c || 'mention',
+                users = data.users || [];
+            if (data.total===undefined) // use old scheme
+                externalUsers[type] = users;
             isUsersLoading = false;
-            Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
+            Common.NotificationCenter.trigger('mentions:setusers', type, users, data.total);
         });
 
         Common.NotificationCenter.on('mentions:clearusers',   function(type) {
