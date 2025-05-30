@@ -1248,6 +1248,7 @@ define([], function () {
 
                     me.mnuRotatePageRight.setDisabled(page_rotate || page_deleted);
                     me.mnuRotatePageLeft.setDisabled(page_rotate || page_deleted);
+                    me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted);
                     me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted);
                 },
                 items: [
