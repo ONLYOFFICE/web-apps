@@ -33,6 +33,9 @@
                 border-radius: @border-radius-toolbar;
             }
         }
+        .ie & {
+            box-shadow: @shadow-toolbar-ie;
+        }
     }
 
     .box-tabs {
@@ -133,6 +136,7 @@
 
         li {
             display: inline-flex;
+            align-items: center;
             align-items: end;
             height: 100%;
             position: relative;
@@ -553,6 +557,7 @@
         &.border {
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
+            .border-radius(@border-radius-button-toolbar-ie);
             .border-radius(@border-radius-button-toolbar);
             width: @form-control-size-ie;
             width: @form-control-size;
@@ -695,6 +700,7 @@
             &:active, &.active {
                 &:not(.disabled) .icon.toolbar__icon {
                     &.icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x-ie !important;
                         background-position-x: @button-small-active-icon-offset-x !important;
                     }
                 }
@@ -940,6 +946,7 @@
     }
 
     &.borders--small {
+        border-radius: @border-radius-button-normal-ie;
         border-radius: @border-radius-button-normal;
 
         &:not(:active) {
@@ -1065,6 +1072,7 @@
             -webkit-filter: @img-equition-filter;
             filter: @img-equition-filter;
         }
+        border-radius: @border-radius-dataview-item-ie;
         border-radius: @border-radius-dataview-item;
     }
 }
@@ -1161,7 +1169,7 @@
                 }
             }
             .menu-item-icon {
-                background-position-x: -24px;
+                background-position-x: @button-small-active-icon-offset-x-ie;
                 background-position-x: @button-small-active-icon-offset-x;
             }
 

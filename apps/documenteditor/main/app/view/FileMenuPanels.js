@@ -934,7 +934,7 @@ define([], function () {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
-            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -1096,7 +1096,7 @@ define([], function () {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
 
-            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true)) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
             }
 

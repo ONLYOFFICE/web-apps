@@ -270,7 +270,7 @@ label {
                     }
 
                     .menu-item-icon {
-                        background-position-x: -24px;
+                        background-position-x: @button-small-active-icon-offset-x-ie;
                         background-position-x: @button-small-active-icon-offset-x;
                     }
 
@@ -629,6 +629,7 @@ body {
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: @border-radius-form-control-ie;
     border-radius: @border-radius-form-control;
     overflow: hidden;
     box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);

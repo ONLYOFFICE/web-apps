@@ -46,8 +46,8 @@
 
     !window.uitheme && (window.uitheme = {});
 
-    window.uitheme.DEFAULT_LIGHT_THEME_ID = 'theme-white';
-    window.uitheme.DEFAULT_DARK_THEME_ID = 'theme-night';
+    window.uitheme.DEFAULT_LIGHT_THEME_ID = !window.isIEBrowser ? 'theme-white' : 'theme-classic-light';
+    window.uitheme.DEFAULT_DARK_THEME_ID = !window.isIEBrowser ? 'theme-night' : 'theme-dark';
 
     window.uitheme.set_id = function (id) {
         if ( id == 'theme-system' )
