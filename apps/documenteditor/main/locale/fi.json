@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Harmaa",
   "Common.UI.Themes.txtThemeLight": "Vaalea",
   "Common.UI.Themes.txtThemeSystem": "Sama kuin järjetelmässä",
+  "Common.UI.Themes.txtThemeWhite": "Valkoinen",
   "Common.UI.Window.cancelButtonText": "Peruuta",
   "Common.UI.Window.closeButtonText": "Sulje",
   "Common.UI.Window.noButtonText": "Ei",
@@ -615,7 +616,7 @@
   "Common.Views.InsertTableDialog.txtTitleSplit": "Jaa solu",
   "Common.Views.LanguageDialog.labelSelect": "Valitse asiakirjan kieli",
   "Common.Views.MacrosAiDialog.textAreaPlaceholder": "Input a prompt for the query",
-  "Common.Views.MacrosAiDialog.textCreate": "Create",
+  "Common.Views.MacrosAiDialog.textCreate": "Luo",
   "Common.Views.MacrosDialog.textAutostart": "Autostart",
   "Common.Views.MacrosDialog.textConvertFromVBA": "Convert from VBA",
   "Common.Views.MacrosDialog.textConvertMacrosFromVBA": "Convert macros from VBA",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
 }

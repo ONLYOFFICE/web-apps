@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Grijs",
   "Common.UI.Themes.txtThemeLight": "Licht",
   "Common.UI.Themes.txtThemeSystem": "Zelfde als systeem",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Annuleren",
   "Common.UI.Window.closeButtonText": "Sluiten",
   "Common.UI.Window.noButtonText": "Nee",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "semi-transparant",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Onderstreept",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Lettertype",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tekengrootte"
 }
