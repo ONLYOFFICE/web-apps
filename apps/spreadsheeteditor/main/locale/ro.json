@@ -2770,7 +2770,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "La fiecare 30 minute",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "La fiecare 5 minute",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text60Minutes": "La fiecare oră",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Recuperare automată",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Salvare informații de recuperare automată",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoSave": "Salvare automată",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textDisabled": "Dezactivat",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Umplere",

@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Gri",
   "Common.UI.Themes.txtThemeLight": "Aydınlık",
   "Common.UI.Themes.txtThemeSystem": "Sistemle aynı",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "İptal Et",
   "Common.UI.Window.closeButtonText": "Kapat",
   "Common.UI.Window.noButtonText": "Hayır",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarı saydam",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altı çizili",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Yazı Tipi",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Yazıtipi boyutu"
 }

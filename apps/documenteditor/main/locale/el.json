@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Γκρι",
   "Common.UI.Themes.txtThemeLight": "Ανοιχτόχρωμο",
   "Common.UI.Themes.txtThemeSystem": "Ίδιο με το σύστημα",
+  "Common.UI.Themes.txtThemeWhite": "Λευκό",
   "Common.UI.Window.cancelButtonText": "Ακύρωση",
   "Common.UI.Window.closeButtonText": "Κλείσιμο",
   "Common.UI.Window.noButtonText": "Όχι",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
 }

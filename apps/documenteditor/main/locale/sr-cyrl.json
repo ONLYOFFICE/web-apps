@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Сива",
   "Common.UI.Themes.txtThemeLight": "Светло",
   "Common.UI.Themes.txtThemeSystem": "Исто као систем",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Откажи",
   "Common.UI.Window.closeButtonText": "Затвори",
   "Common.UI.Window.noButtonText": "Не",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Полупровидно",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Подвуци",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назив фонта",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Величина фонта"
 }

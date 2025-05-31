@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Gråt",
   "Common.UI.Themes.txtThemeLight": "Lys",
   "Common.UI.Themes.txtThemeSystem": "Samme som system",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Annuller",
   "Common.UI.Window.closeButtonText": "Luk",
   "Common.UI.Window.noButtonText": "Nej",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Halvgennemsigtig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understreg",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Skrifttypenavn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Skriftstørrelse"
 }
