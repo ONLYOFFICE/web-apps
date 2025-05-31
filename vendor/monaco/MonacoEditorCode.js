@@ -34,7 +34,8 @@ var codeEditor = new window.MonacoEditor();
 codeEditor.create("editor", window.editorTheme === "dark" ? "vs-dark" : "vs-light", "", {
     minimap: {
         enabled: false
-    }
+    },
+    language: window.language
 }, function() {
     _postMessage({
         command: 'monacoEditorReady',
@@ -42,10 +43,12 @@ codeEditor.create("editor", window.editorTheme === "dark" ? "vs-dark" : "vs-ligh
     });
 });
 
-codeEditor.addLibrary({
-    url: "./libs/" + window.editorType + "/api.js",
-    name : "onlyoffice"
-});
+if(window.language == 'javascript') {
+    codeEditor.addLibrary({
+        url: "./libs/" + window.editorType + "/api.js",
+        name : "onlyoffice"
+    });
+}
 
 var _postMessage = function(msg) {
     window.parent && window.JSON && window.parent.postMessage(window.JSON.stringify(msg), "*");

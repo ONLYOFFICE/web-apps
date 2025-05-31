@@ -96,9 +96,15 @@ define([
         inAnnotation: 'in-annotation',
         singlePage: 'single-page',
         cantMergeShape: 'merge-shape-lock',
-        pageRotate: 'page-rotate',
+        pageRotateLock: 'page-rotate-lock',
         pageDeleted: 'page-deleted',
-        pageEditText: 'page-edit-text'
+        pageEditText: 'page-edit-text',
+        inForm: 'in-form',
+        inCheckForm: 'in-check-form',
+        cantAlign: 'cant-align',
+        cantSave: 'cant-save',
+        cantRotatePage: 'cant-rotate-page',
+        cantDelPage: 'cant-del-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -161,7 +167,7 @@ define([
                     menuCls: 'scrollable-menu',
                     menuStyle: 'min-width: 325px;',
                     hint: this.tipFontName,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     store: new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -173,7 +179,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     hint: this.tipFontSize,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     data: [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
@@ -203,7 +209,7 @@ define([
                     id: 'id-toolbar-btn-incfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -214,7 +220,7 @@ define([
                     id: 'id-toolbar-btn-decfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inCheckForm, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -225,7 +231,7 @@ define([
                     id: 'id-toolbar-btn-bold',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-bold',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -237,7 +243,7 @@ define([
                     id: 'id-toolbar-btn-italic',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-italic',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -249,7 +255,7 @@ define([
                     id: 'id-toolbar-btn-underline',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-underline',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -261,7 +267,7 @@ define([
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -273,7 +279,7 @@ define([
                     id: 'id-toolbar-btn-superscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-superscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -286,7 +292,7 @@ define([
                     id: 'id-toolbar-btn-subscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-subscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -302,7 +308,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split: true,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16',
@@ -349,7 +355,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
                     action: 'change-case',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -371,7 +377,7 @@ define([
                     id: 'id-toolbar-btn-clearstyle',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-clearstyle',
-                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.disableOnStart],
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.inForm, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -430,7 +436,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.cantAlign, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -793,7 +799,7 @@ define([
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-rem-comment',
-                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage, _set.cantDelPage],
                     caption: this.capBtnDelPage,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -807,7 +813,7 @@ define([
                     caption: this.capBtnRotatePage,
                     split: true,
                     iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.pageDeleted, _set.pageRotate, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
@@ -846,7 +852,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantSave, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -1057,7 +1063,7 @@ define([
                     this.btnPrevForm = new Common.UI.Button({
                         id: 'id-toolbar-btn-prev',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-previous-field',
+                        iconCls: 'toolbar__icon btn-previous-field icon-rtl',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnPrev,
                         dataHint: '1',
@@ -1069,7 +1075,7 @@ define([
                     this.btnNextForm = new Common.UI.Button({
                         id: 'id-toolbar-btn-next',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-next-field',
+                        iconCls: 'toolbar__icon btn-next-field icon-rtl',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnNext,
                         dataHint: '1',
@@ -1244,7 +1250,7 @@ define([
                     this.btnFirstPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-first-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-firstitem',
+                        iconCls     : 'toolbar__icon btn-firstitem icon-rtl',
                         lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1254,7 +1260,7 @@ define([
                     this.btnLastPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-last-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-lastitem',
+                        iconCls     : 'toolbar__icon btn-lastitem icon-rtl',
                         lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1264,7 +1270,7 @@ define([
                     this.btnPrevPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-prev-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-previtem',
+                        iconCls     : 'toolbar__icon btn-previtem icon-rtl',
                         lock: [_set.disableOnStart, _set.firstPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1274,7 +1280,7 @@ define([
                     this.btnNextPage = new Common.UI.Button({
                         id          : 'id-toolbar-btn-next-page',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-nextitem',
+                        iconCls     : 'toolbar__icon btn-nextitem icon-rtl',
                         lock: [_set.disableOnStart, _set.lastPage],
                         dataHint    : '1',
                         dataHintDirection: 'bottom'
@@ -1865,7 +1871,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
+                this.lockToolbar(Common.enumLock.cantSave, !this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1897,8 +1903,8 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
-
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton);
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile || !me.mode.showSaveButton,
+                                    {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

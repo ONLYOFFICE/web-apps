@@ -57,8 +57,8 @@ define([], function () { 'use strict';
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 313px;">',
-                    '<div class="input-row margin-bottom-big">',
+                '<div class="box" style="height: 330px;">',
+                    '<div class="margin-bottom-big">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternalLink,'</button>',
                     '</div>',
@@ -74,8 +74,8 @@ define([], function () { 'use strict';
                             '<div class="get-link float-right">',
                                 '<label class="link dropdown-toggle float-right" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
                                 '<div id="id-clip-copy-box" class="dropdown-menu">',
-                                    '<div id="id-dlg-clip-copy"></div>',
-                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5">' + this.textCopy + '</button>',
+                                    '<div id="id-dlg-clip-copy" class="display-inline-block-middle"></div>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5 display-inline-block-middle">' + this.textCopy + '</button>',
                                 '</div>',
                             '</div>',
                         '</div>',
@@ -127,6 +127,8 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
+
+            Common.UI.GroupedButtons([me.btnExternal, me.btnInternal]);
 
             var config = {
                 el          : $('#id-dlg-hyperlink-url'),

@@ -288,12 +288,28 @@
     </tr>
     <tr>
         <td class="padding-small">
+            <label class="input-label" style="margin-top: 4px;"><%= scope.textOrientation %></label>
+            <div id="form-combo-orient" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
             <div id="form-chb-required"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
             <div id="form-chb-readonly"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-lock"></div>
         </td>
     </tr>
     <tr class="form-text-combo">

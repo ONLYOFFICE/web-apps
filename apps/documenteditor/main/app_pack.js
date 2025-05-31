@@ -30,6 +30,7 @@ require([
     'common/main/lib/view/PdfSignDialog',
     'common/main/lib/view/DocumentPropertyDialog',
     'common/main/lib/view/MacrosDialog',
+    'common/main/lib/view/MacrosAiDialog',
     'common/main/lib/component/MonacoEditor',
 
     'documenteditor/main/app/controller/DocumentHolderExt',

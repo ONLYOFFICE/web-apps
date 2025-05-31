@@ -143,7 +143,7 @@
                     "cwd": "../apps/pdfeditor/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif,ico}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img/"
                 }
@@ -154,7 +154,7 @@
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img/"
                 }
@@ -201,7 +201,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/pdfeditor/main/resources/img",
-                    "src": "**/*.svg",
+                    "src": [
+                        "**/*.svg",
+                        "!toolbar/**/*x/**/*"
+                    ],
                     "dest": "../deploy/web-apps/apps/pdfeditor/main/resources/img"
                 }
             ],

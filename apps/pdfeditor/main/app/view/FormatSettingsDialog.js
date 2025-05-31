@@ -43,8 +43,8 @@ define([
 
     PDFE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 284,
-            contentHeight: 355
+            contentWidth: 300,
+            contentHeight: 345
         },
 
         initialize : function(options) {
@@ -56,76 +56,74 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentHeight: 355,
-                contentStyle: 'padding: 0 10px; position:relative;',
+                contentHeight: 345,
+                contentStyle: 'padding: 5px; position:relative;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                     '<div class="inner-content">',
-                    '<table cols="1" style="width: 100%;">',
+                    '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td style="width:170px;" class="padding-large">',
+                            '<td colspan="2" style="width:170px;" class="padding-large">',
                                 '<label class="header">', me.textCategory,'</label>',
-                                '<div id="format-settings-combo-format" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-combo-format" class="input-group-nr"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-decimal">',
-                            '<td class="padding-medium" style="vertical-align: bottom;">',
+                            '<td colspan="2" class="padding-medium" style="vertical-align: bottom;">',
                                 '<label class="header">', me.textDecimal,'</label>',
                                 '<div id="format-settings-spin-decimal"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-separator">',
-                            '<td class="padding-medium">',
+                            '<td colspan="2" class="padding-medium">',
                                 '<label class="header">', me.textSeparator,'</label>',
-                                '<div id="format-settings-combo-separator" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-combo-separator" class="input-group-nr"</div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-number">',
-                            '<td class="padding-medium">',
+                            '<td class="padding-medium padding-right-5" style="width:50%;">',
                                 '<label class="header">', me.textSymbol,'</label>',
-                                '<div id="format-settings-combo-symbols" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-combo-symbols" class="input-group-nr" ></div>',
                             '</td>',
-                        '</tr>',
-                        '<tr class="format-number">',
-                            '<td class="padding-medium">',
+                            '<td class="padding-medium padding-left-5">',
                                 '<label class="header">', me.textLocation,'</label>',
-                                '<div id="format-settings-combo-location" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-combo-location" class="input-group-nr" ></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-number">',
-                            '<td class="padding-very-small">',
+                            '<td colspan="2" class="padding-very-small">',
                                 '<label class="header">', me.textNegative,'</label>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-number">',
-                            '<td class="padding-very-small">',
+                            '<td colspan="2" class="padding-very-small">',
                                 '<div id="format-settings-chk-parens"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-number">',
-                            '<td>',
+                            '<td colspan="2" >',
                                 '<div id="format-settings-chk-red"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="form-special">',
-                            '<td class="padding-small">',
+                            '<td colspan="2" class="padding-small">',
                                 '<div id="format-settings-special" style="width: 100%;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="form-special-mask">',
-                            '<td class="padding-small">',
+                            '<td colspan="2" class="padding-small">',
                                 '<div id="format-settings-mask" style="width: 100%;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-date-time">',
-                            '<td colspan="1" class="padding-large">',
+                            '<td colspan="2" class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
-                                '<div id="format-settings-list-format" style="width:264px; height: 116px;margin-bottom: 8px;"></div>',
-                                '<div id="format-settings-txt-custom" class="input-group-nr" style="height:22px;width:264px;"></div>',
+                                '<div id="format-settings-list-format" style="height: 116px;margin-bottom: 8px;"></div>',
+                                '<div id="format-settings-txt-custom" class="input-group-nr"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="format-example" style="white-space: nowrap;position:absolute; bottom: 4px;width:264px;">',
+                    '<div class="format-example" style="white-space: nowrap;position:absolute; bottom: 4px;width:280px;">',
                         '<label class="format-sample margin-right-4" style="vertical-align: middle;">' + me.txtSample + '</label>',
                         '<label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                     '</div>',
@@ -135,7 +133,7 @@ define([
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._state = {DateFormatCustom: '', TimeFormatCustom: '', DateFormat: '', TimeFormat: '', NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
+            this._state = {DateFormatCustom: '', DateFormat: '', TimeFormat: 0, NegStyle: AscPDF.NegativeStyle.BLACK_MINUS, Mask: '*', RegExp: '.'};
             this.FormatType = AscPDF.FormatType.NONE;
         },
 
@@ -146,7 +144,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-format'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: [{ displayValue: this.textNone,  value: AscPDF.FormatType.NONE },
                     { displayValue: this.textNumber,  value: AscPDF.FormatType.NUMBER },
@@ -175,7 +173,7 @@ define([
             this.cmbSeparator = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-separator'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:235px;',
                 editable: false,
                 data: [
                     { displayValue: "1,234.56",  value: AscPDF.SeparatorStyle.COMMA_DOT },
@@ -202,7 +200,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:235px;',
                 editable: false,
                 data: currencySymbolsData,
                 scrollAlwaysVisible: true,
@@ -215,7 +213,7 @@ define([
             this.cmbLocation = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-location'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:235px;',
                 editable: false,
                 data: [
                     { displayValue: this.textBeforeSpace,  value: 0 },
@@ -263,7 +261,7 @@ define([
             this.cmbSpecial = new Common.UI.ComboBox({
                 el: $('#format-settings-special'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:235px;',
                 editable: false,
                 data: [
                     { displayValue: this.textZipCode,  value: AscPDF.SpecialFormatType.ZIP_CODE },
@@ -301,13 +299,19 @@ define([
             this.dateFormats = arr.concat({value: '', displayValue: this.txtCustom, isCustom: true});
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
-            this.timeFormats = arr.concat({value: '', displayValue: this.txtCustom, isCustom: true});
+            var timearr = this.api.asc_getFieldTimeFormatOptions(),
+                valarr = [];
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                    valarr[timearr[str]] = str;
+                }
+            }
+            this.timeFormats = arr;
+            this.timeVal2Str = valarr;
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._numberPanel     = this.$window.find('.format-number');
@@ -354,12 +358,12 @@ define([
                 if (this.FormatType===AscPDF.FormatType.DATE || this.FormatType===AscPDF.FormatType.TIME) {
                     val = format.asc_getFormat();
                     var selectedItem = this.dateTimeList.store.findWhere({value: val});
-                    this.inputCustomFormat.setVisible(!selectedItem);
-                    if(!selectedItem) {
+                    this.inputCustomFormat.setVisible(this.FormatType===AscPDF.FormatType.DATE && !selectedItem);
+                    if(this.FormatType===AscPDF.FormatType.DATE && !selectedItem) {
                         selectedItem = this.dateTimeList.store.findWhere({isCustom: true});
                         selectedItem && selectedItem.set({value: val});
                         this.inputCustomFormat.setValue(val);
-                        this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormatCustom' : 'TimeFormatCustom'] = val;
+                        this._state.DateFormatCustom = val;
                     }
                     if(selectedItem) {
                         this.dateTimeList.selectRecord(selectedItem);
@@ -452,7 +456,7 @@ define([
                     str = this.api.asc_getFieldDateTimeFormatExample(this._state.DateFormat);
                     break;
                 case AscPDF.FormatType.TIME:
-                    str = this.api.asc_getFieldDateTimeFormatExample(this._state.TimeFormat);
+                    str = this.api.asc_getFieldDateTimeFormatExample(this.timeVal2Str[this._state.TimeFormat]);
                     break;
             }
             this.lblExample.toggleClass('red-color', this.FormatType===AscPDF.FormatType.NUMBER && (this._state.NegStyle===AscPDF.NegativeStyle.PARENS_RED || this._state.NegStyle===AscPDF.NegativeStyle.RED_MINUS));
@@ -474,9 +478,9 @@ define([
 
         onDateTimeListSelect: function(listView, itemView, record){
             if (!record) return;
-            var isCustom = !!record.get('isCustom');
+            var isCustom = this.FormatType===AscPDF.FormatType.DATE && !!record.get('isCustom');
             this.inputCustomFormat.setVisible(isCustom);
-            isCustom && this.inputCustomFormat.setValue(this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormatCustom' : 'TimeFormatCustom']);
+            isCustom && this.inputCustomFormat.setValue(this._state.DateFormatCustom);
             this._state[this.FormatType===AscPDF.FormatType.DATE ? 'DateFormat' : 'TimeFormat'] = isCustom ? this.inputCustomFormat.getValue() : record.get('value');
             this.updateFormatExample();
         },

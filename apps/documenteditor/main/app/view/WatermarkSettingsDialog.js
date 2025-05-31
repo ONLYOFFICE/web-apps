@@ -72,7 +72,7 @@ define([
 
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 400,
+            contentWidth: 405,
             separator: false,
             id: 'window-watermark'
         },
@@ -188,6 +188,7 @@ define([
             this.cmbScale = new Common.UI.ComboBox({
                 el          : $('#watermark-combo-scale'),
                 cls         : 'input-group-nr',
+                style       : 'width: 142px;',
                 menuStyle   : 'min-width: 142px;',
                 data        : this._arrScale,
                 takeFocusOnClose: true
@@ -200,6 +201,7 @@ define([
             this.cmbLang = new Common.UI.ComboBox({
                 el          : $('#watermark-combo-lang'),
                 cls         : 'input-group-nr',
+                style       : 'width: 142px;',
                 editable    : false,
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,

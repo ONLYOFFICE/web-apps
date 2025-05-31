@@ -204,7 +204,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:200px;',
+                    style: 'min-width:210px;',
                     autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
@@ -509,6 +509,7 @@ define([
                     var onShowBefore = function(menu) {
                         var picker = new Common.UI.DataView({
                             el: $('#id-toolbar-menu-addanimation'),
+                            cls: 'no-borders-item',
                             parentMenu: menu,
                             outerMenu:  {menu: me.btnAddAnimation.menu, index: 0},
                             showLast: false,

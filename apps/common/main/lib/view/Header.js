@@ -836,11 +836,10 @@ define([
                     'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
-                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
                 Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
-
             },
 
             render: function (el, role) {
@@ -1262,6 +1261,7 @@ define([
             },
 
             setDocTitle: function(name){
+                if (!$labelDocName) return;
                 var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
                 name && (width>=0) && $labelDocName.val(name);
@@ -1315,7 +1315,10 @@ define([
 
             updateAvatarEl: function(){
                 if(this.options.userAvatar){
-                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.css({
+                        'background-image': 'url('+ this.options.userAvatar +')',
+                        'background-color': 'transparent'
+                    });
                     $btnUserName.text('');
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
@@ -1378,6 +1381,13 @@ define([
             onStartFilling: function() {
                 this.btnStartFill && this.btnStartFill.setVisible(false);
                 updateDocNamePosition();
+            },
+
+            onThemeChanged: function() {
+                this.changeLogo();
+                if (this._testCanvas)
+                    this._testCanvas = undefined;
+                this.setDocTitle();
             },
 
             textBack: 'Go to Documents',

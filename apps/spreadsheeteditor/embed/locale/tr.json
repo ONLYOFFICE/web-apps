@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "Dosya açılırken bir hata oluştu.<br>Dosya içeriği sunumlara karşılık geliyor (ör. pptx), ancak dosyanın uzantısı tutarsız: %1.",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "Dosya açılırken bir hata oluştu.<br>Dosya içeriği e-tablolara (örn. xlsx) karşılık geliyor, ancak dosyanın uzantısı tutarsız: %1.",
   "SSE.ApplicationController.errorLoadingFont": "Yazı tipleri yüklenmedi.<br>Lütfen Doküman Sunucusu yöneticinize başvurun.",
+  "SSE.ApplicationController.errorToken": "Belge güvenlik belirteci doğru şekilde oluşturulmamış.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "SSE.ApplicationController.errorTokenExpire": "Belge güvenlik belirtecinin süresi doldu.<br>Lütfen Belge Sunucusu yöneticinize başvurun.",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "İnternet bağlantısı tekrar sağlandı, ve dosya versiyon değişti.<br>Çalışmanıza devam etmeden önce, veri kaybını önlemeniz için dosyasının bir kopyasını indirmeniz ya da dosya içeriğini kopyalamanız ve sonrasında sayfayı yenilemeniz gerekmektedir.",
   "SSE.ApplicationController.errorUserDrop": "Belgeye şu an erişilemiyor.",

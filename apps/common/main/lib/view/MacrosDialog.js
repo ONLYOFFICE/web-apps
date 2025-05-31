@@ -49,6 +49,7 @@ define([], function () {
                     '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
                         '<div class="menu-header">' +
                             '<label>Macros</label>' +
+                            '<div id="btn-ai-macros-add"></div>' +
                             '<div id="btn-macros-add"></div>' +
                         '</div>' +
                         '<div class="separator horizontal" style="position: relative"></div>' +
@@ -70,6 +71,7 @@ define([], function () {
                         '<div id="btn-macros-undo"></div>' +
                         '<div id="btn-macros-redo"></div>' +
                         '<div id="btn-macros-run" class="lock-for-function"></div>' +
+                        '<div id="btn-macros-debug" class="lock-for-function"></div>' +
                         '<div id="btn-macros-copy"></div>' +
                         '<div id="btn-macros-rename"></div>' +
                         '<div id="btn-macros-delete"></div>' +
@@ -94,7 +96,7 @@ define([], function () {
                 help: true,
                 width: Math.min(800, innerWidth),
                 height: Math.min(512, innerHeight),
-                minwidth: 700,
+                minwidth: 750,
                 minheight: 350,
                 resizable: true,
                 cls: 'modal-dlg invisible-borders',
@@ -174,7 +176,15 @@ define([], function () {
                 iconCls     : 'toolbar__icon btn-run',
                 caption     : this.textRun,
                 hint        : this.tipMacrosRun
-            }).on('click', _.bind(this.onRunMacros, this));
+            }).on('click', _.bind(this.onRunMacros, this, false));
+
+            this.btnDebug = new Common.UI.Button({
+                parentEl    : $('#btn-macros-debug'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-debug',
+                caption     : this.textDebug,
+                hint        : this.tipMacrosDebug
+            }).on('click', _.bind(this.onRunMacros, this, true));
 
             this.btnCopy = new Common.UI.Button({
                 parentEl    : $('#btn-macros-copy'),
@@ -205,12 +215,28 @@ define([], function () {
                 labelText: this.textAutostart
             }).on('change', _.bind(this.onChangeAutostart, this));
 
+            var isPresentAI = this.api.checkAI();
+            this.btnAiMacrosAdd = new Common.UI.Button({
+                parentEl    : $('#btn-ai-macros-add'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-general-ai',
+                menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
+                    items:[
+                        {caption: this.textCreateFromDesc,  value: 'create',    disabled: !isPresentAI},
+                        {caption: this.textConvertFromVBA,  value: 'convert',   disabled: !isPresentAI}
+                    ]
+                }),
+                hint        : this.tipAi
+            });
+            this.btnAiMacrosAdd.menu.on('item:click', _.bind(this.onAiMenu, this));
+
             this.btnMacrosAdd = new Common.UI.Button({
                 parentEl: $('#btn-macros-add'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-zoomup',
                 hint: this.tipMacrosAdd
-            }).on('click', _.bind(this.onCreateMacros, this));
+            }).on('click', _.bind(this.onCreateMacros, this, ''));
 
             this.listMacros = new Common.UI.ListView({
                 el: $('#macros-list', this.$window),
@@ -597,7 +623,7 @@ define([], function () {
             );
         },
 
-        onCreateMacros: function() {
+        onCreateMacros: function(value) {
             var indexMax = 0;
             var macrosTextEn = 'Macros';
             var macrosTextTranslate = this.textMacros;
@@ -620,7 +646,7 @@ define([], function () {
             this.listMacros.store.add({
                 guid: this.createGuid(),
                 name : (macrosTextTranslate + " " + indexMax),
-                value : "(function()\n{\n\n})();",
+                value : value || "(function()\n{\n\n})();",
                 autostart: false,
                 currentPos: {row: 3, column: 0}
             });
@@ -639,8 +665,54 @@ define([], function () {
             this.codeEditor.redo();
         },
 
-        onRunMacros: function() {
-            this.api.callCommand(this._state.currentValue);
+        onAiMenu: function(menu, item) {
+            var me = this;
+            var title = '';
+            var instruction = '';
+            var instructionOutput = 'Generate JavaScript code as an Immediately Invoked Function Expression (IIFE), in the format (function(){ ... })();, that [describe what the code should do]. The code should be self-contained and execute immediately. ';
+            var langCode = Common.Locale.getCurrentLanguage()
+            var langName = Common.util.LanguageInfo.getLocalLanguageName(Common.util.LanguageInfo.getLocalLanguageCode(langCode));
+            if(langName && typeof langName[1] == "string") {
+                langName = langName[1];
+            } else {
+                langName = null;
+            }
+
+            if(item.value == 'create') {
+                title = this.textCreateMacrosFromDesc;
+                instruction = '' + 
+                    'Create a macro for OnlyOffice. ' + 
+                    'Return only code with comments, as plain text without markdown. ' + 
+                    'The format of the code is JavaScript. ' + 
+                    'Write comments in the same language as the user prompt. ' + 
+                    'The description of what the macro should do is also described in the user message. ' + instructionOutput;
+            } else if(item.value == 'convert') {
+                title = this.textConvertMacrosFromVBA;
+                instruction = '' + 
+                    'Convert macro for OnlyOffice from VBA. ' +
+                    'Return only code with comments, as plain text without markdown. ' +
+                    'The code format is JavaScript. ' +
+                    'Write comments in ' + langCode + (langName ? '(' + langName + ')' : '') + ' language. ' + 
+                    'The code of the macro in VBA should be presented in the user message. ' + instructionOutput;
+            }
+            if(item.value == 'create' || item.value == 'convert') {
+                var macrosWindow = new Common.Views.MacrosAiDialog({
+                    title: title,
+                    api: this.api,
+                    instruction: instruction,
+                    inputType: item.value == 'create' ? 'textarea' : 'codeEditor',
+                    handler: function(btnValue, value) {
+                        if(btnValue == 'ok') {
+                            me.onCreateMacros(value);
+                        }
+                    }
+                });
+                macrosWindow.show();
+            }
+        },
+
+        onRunMacros: function(isDebug) {
+            this.api.callCommand(isDebug ? "debugger;\n" + this._state.currentValue : this._state.currentValue);
         },
 
         onChangeAutostart: function(field, newValue) {
@@ -718,22 +790,29 @@ define([], function () {
         textSave            : 'Save',
         textMacros          : 'Macros',
         textRun             : 'Run',
+        textDebug           : 'Debug',
         textAutostart       : 'Autostart',
         textRename          : 'Rename',
         textDelete          : 'Delete',
         textCopy            : 'Copy',
         textCustomFunction  : 'Custom function',
         textLoading         : 'Loading...',
+        textCreateFromDesc  : 'Create from description',
+        textCreateMacrosFromDesc  : 'Create macros from description',
+        textConvertFromVBA  : 'Convert from VBA',
+        textConvertMacrosFromVBA  : 'Convert macros from VBA',
         tipUndo             : 'Undo',
         tipRedo             : 'Redo',
         tipMacrosRename     : 'Rename macros',
         tipMacrosDelete     : 'Delete macros',
         tipMacrosCopy       : 'Copy macros',
         tipMacrosRun        : 'Run macros',
+        tipMacrosDebug      : 'Debug macros',
         tipMacrosAdd        : 'Add macros',
         tipFunctionRename   : 'Rename custom function',
         tipFunctionDelete   : 'Delete custom function',
         tipFunctionCopy     : 'Copy custom function',
         tipFunctionAdd      : 'Add custom function',
+        tipAi               : 'AI'
     }, Common.Views.MacrosDialog || {}))
 });

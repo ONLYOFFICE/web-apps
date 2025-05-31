@@ -64,6 +64,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this._themeChanged = false;
 
             this._state = {
                 DisabledControls: undefined,
@@ -640,7 +641,7 @@ define([
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
-                style: 'width: 194px;',
+                style: 'width: ' + $markup.width() + 'px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -831,6 +832,7 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
@@ -1284,6 +1286,9 @@ define([
         ChangeSettings: function(props, isShape) {
             if (this._initSettings)
                 this.createDelayedElements();
+
+            if (this._themeChanged)
+                this.onThemeChanged();
 
             if (props) {
                 this._originalProps = props;
@@ -1984,6 +1989,12 @@ define([
                 this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
         }
 
     }, DE.Views.FormSettings || {}));

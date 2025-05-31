@@ -251,8 +251,8 @@
   "Draw": {
     "textColor": "اللون",
     "textCustomColor": "لون مخصص",
-    "textOpacity": "معدل الشفافية",
-    "textLineSize": "Line size"
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",
@@ -449,6 +449,7 @@
     "textWarnDeleteSheet": "ربما تحتوي ورقة العمل على بيانات. هل تريد متابعة العملية؟"
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
@@ -457,8 +458,7 @@
     "textEnterNewFileName": "ادخل اسم جديد للملف",
     "textOk": "موافق",
     "textRenameFile": "إعادة تسمية الملف",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب"
   },
   "View": {
     "Add": {
@@ -486,6 +486,7 @@
       "textDataTableHint": "ترجع خلايا بيانات الجدول أو أعمدة الجدول المحدد",
       "textDisplay": "عرض",
       "textDone": "تم",
+      "textDrawing": "الرسم",
       "textEmptyImgUrl": "يجب تحديد رابط الصورة",
       "textExternalLink": "رابط خارجي",
       "textFilter": "تصفية",
@@ -523,8 +524,7 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم",
-      "textDrawing": "Drawing"
+      "txtYes": "نعم"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",

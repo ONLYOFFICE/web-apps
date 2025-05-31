@@ -47,7 +47,7 @@ define([
     SSE.Views.ChartSettingsDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 327,
-            contentHeight: 450,
+            contentHeight: 460,
             toggleGroup: 'chart-settings-dlg-group',
             storageName: 'sse-chart-settings-adv-category'
         },
@@ -331,10 +331,6 @@ define([
                 minWidth: 190
             });
             this.cmbSparkStyle.render($('#spark-dlg-combo-style'));
-            this.cmbSparkStyle.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
             this.cmbSparkStyle.openButton.menu.on('show:after', function () {
                 me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});

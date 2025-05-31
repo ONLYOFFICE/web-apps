@@ -361,9 +361,9 @@ define([
         options: {
             resizable       : true,
             minwidth        : 448,
-            minheight       : 434,
+            minheight       : 420,
             width: 448,
-            height: 434,
+            height: 420,
             cls: 'modal-dlg invisible-borders',
             buttons: ['ok', 'cancel']
         },
@@ -372,9 +372,9 @@ define([
             var config = {
                 resizable       : true,
                 minwidth        : 448,
-                minheight       : 434,
+                minheight       : 420,
                 width: 448,
-                height: 434,
+                height: 420,
                 cls: 'modal-dlg invisible-borders',
                 buttons: ['ok', 'cancel']
             };
@@ -393,19 +393,19 @@ define([
             this.options = _.extend(config, {
                 title: this.textTitle,
                 width           : size[0] || 448,
-                height          : size[1] || 434
+                height          : size[1] || 420
             }, options || {});
 
             this.api = this.options.api;
             this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
             this.special = this.options.special || false; // true - show special tab
             this.showShortcutKey = this.options.showShortcutKey || false;
-            !this.special && (this.options.height -= 38);
-            !this.special && (this.options.minheight -= 38);
+            this.special && (this.options.height += 38);
+            this.special && (this.options.minheight += 38);
 
             this.template = [
                 '<div class="box">',
-                    '<div style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
+                    '<div id="symbol-table-switcher" style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
                         '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols">', this.textSymbols,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="symbol-table-special">', this.textSpecial,'</button>',
                     '</div>',
@@ -424,8 +424,8 @@ define([
                         '</table>',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td style="padding-bottom: 16px;">',
-                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-304 + 38*(this.special ? 0 : 1)) + 'px;">',
+                                '<td>',
+                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-304 - 38*(this.special ? 1 : 0)) + 'px;">',
                                         '<div style="width: 100%;">',
                                             '<div id="id-preview">',
                                                 '<div>',
@@ -436,8 +436,10 @@ define([
                                     '</div>',
                                 '</td>',
                             '</tr>',
+                        '</table>',
+                        '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td style="padding-bottom: 16px;">',
+                                '<td style="padding-bottom: 16px;padding-top: 16px;">',
                                     '<label class="input-label">' + this.textRecent + '</label>',
                                     '<div id="symbol-table-recent" tabindex="0" oo_editor_input="true" style="width: 100%;"></div>',
                                 '</td>',
@@ -465,13 +467,13 @@ define([
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
                                 '<td>',
-                                    '<label>' + this.textCharacter + '</label>',
+                                    '<label id="symbol-table-lbl-char">' + this.textCharacter + '</label>',
                                     '<label id="symbol-table-lbl-shortcut" style="width: 112px;" class="float-right">' + this.textShortcut + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
                                 '<td>',
-                                    '<div id="symbol-table-special-list" class="no-borders" style="width:100%; height: '+ (this.options.height-157 + 38*(this.special ? 0 : 1)) + 'px;"></div>',
+                                    '<div id="symbol-table-special-list" class="no-borders" style="width:100%; height: '+ (this.options.height-157) + 'px;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -637,6 +639,8 @@ define([
             });
             this.btnSpecial.on('click', _.bind(this.onModeClick, this, true));
 
+            Common.UI.GroupedButtons([this.btnSymbols, this.btnSpecial]);
+
             // symbols
 
             this.cmbFonts = new Common.UI.ComboBox({
@@ -765,6 +769,18 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.symbolsPanel = $window.find('#symbol-table-pnl-symbols');
             this.specialPanel = $window.find('#symbol-table-pnl-special');
+        },
+
+        calcControlsHeight: function() {
+            var $window = this.$window,
+                tables = this.symbolsPanel.find('> table'),
+                switcher = $window.find('#symbol-table-switcher'),
+                bodyEl = $window.find('.body');
+            this.hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
+                            parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
+            this.switcherHeight = this.special ? switcher.height()+parseInt(switcher.css('margin-bottom')) : 0;
+            this.controlsSpecialHeight = this.special && this.btnSpecial.isActive() ? $window.find('#symbol-table-lbl-char').height() + switcher.height()+parseInt(switcher.css('margin-bottom')) : 0;
+            this.controlsSymbolsHeight = this.special && this.btnSpecial.isActive() ? 0 : tables.eq(0).height() + tables.eq(2).height() + tables.eq(3).height() + (this.special ? switcher.height()+parseInt(switcher.css('margin-bottom')) : 0);
         },
 
         show: function() {
@@ -1092,12 +1108,12 @@ define([
         },
 
         getColsCount: function(){
-            var nMaxWidth = this.boxPanel.innerWidth()-13;
+            var nMaxWidth = this.boxPanel.width()-13;
             return ((nMaxWidth/CELL_WIDTH) >> 0);
         },
 
         getMaxHeight: function(){
-            return this.symbolTablePanel.innerHeight()-2;
+            return this.symbolTablePanel.height()-2;
         },
 
         getRowsCount: function() {
@@ -1429,20 +1445,11 @@ define([
                 this.curSize = {resize: false, width: size[0], height: size[1]};
             } else if (this.curSize.resize) {
                 this._preventUpdateScroll = false;
-                this.curSize.height = size[1] - 304 + 38*(this.special ? 0 : 1);
-                var rows = Math.max(1, (((this.curSize.height-2)/CELL_HEIGHT) >> 0)),
-                    height = rows*CELL_HEIGHT;
-
-                this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
-                this.previewPanel.css({'height': height + 'px'});
-                this.previewScrolled.css({'height': height + 'px'});
                 this.scrollerY = null;
-
-                this.updateView(undefined, undefined, undefined, true);
-
-                this.specialList.cmpEl.height(size[1] - 157 + 38*(this.special ? 0 : 1));
-
-                !this.special && (size[1] += 38);
+                this.curSize.height = size[1];
+                this.curSize.width = size[0];
+                this.applyInnerSize(size[1]);
+                this.special && (size[1] -= this.switcherHeight);
                 var valJson = JSON.stringify(size);
                 Common.localStorage.setItem(this.appPrefix + 'settings-size-symbol-table', valJson);
                 Common.Utils.InternalSettings.set(this.appPrefix + 'settings-size-symbol-table', valJson);
@@ -1458,19 +1465,24 @@ define([
                     this.curSize.resize = true;
 
                 this.curSize.width = size[0];
-                this.curSize.height = size[1] - 304 + 38*(this.special ? 0 : 1);
-
-                var rows = Math.max(1, (((this.curSize.height-2)/CELL_HEIGHT) >> 0)),
-                    height = rows*CELL_HEIGHT;
-
-                this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
-                this.previewPanel.css({'height': height  + 'px'});
-                this.previewScrolled.css({'height': height + 'px'});
-
-                this.specialList.cmpEl.height(size[1] - 157 + 38*(this.special ? 0 : 1));
-
-                this.updateView(undefined, undefined, undefined, true);
+                this.curSize.height = size[1];
+                this.applyInnerSize(size[1]);
             }
+        },
+
+        applyInnerSize: function(windowHeight) {
+            var height = windowHeight - this.hfHeight;
+            if (this.controlsSymbolsHeight) {
+                height -= this.controlsSymbolsHeight;
+                this.symbolTablePanel.css({'height': height + 'px'});
+
+                var rows = Math.max(1, (((height-2)/CELL_HEIGHT) >> 0));
+                height = rows*CELL_HEIGHT;
+                this.previewPanel.css({'height': height + 'px'});
+                this.previewScrolled.css({'height': height + 'px'});
+                this.updateView(undefined, undefined, undefined, true);
+            } else
+                this.specialList.cmpEl.height(height - this.controlsSpecialHeight);
         },
 
         onModeClick: function(special, btn, event) {
@@ -1480,11 +1492,21 @@ define([
         ShowHideElem: function(special) {
             this.symbolsPanel.toggleClass('hidden', special);
             this.specialPanel.toggleClass('hidden', !special);
+            this.calcControlsHeight();
+            this.applyInnerSize(this.getSize()[1]);
             var me = this;
             _.delay(function(){
                 special ? me.specialList.focus() : me.previewPanel.focus();
             },50);
 
+        },
+
+        onThemeChanged: function() {
+            if (!this.$window || !this.isVisible()) return;
+
+            Common.UI.Window.prototype.onThemeChanged.call(this);
+            this.calcControlsHeight();
+            this.applyInnerSize(this.getSize()[1]);
         },
 
         textTitle: 'Symbol',

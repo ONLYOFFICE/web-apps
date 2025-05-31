@@ -13,11 +13,11 @@
             <div><label class="header padding-very-small"><%= scope.strIndent %></label></div>
             <div>
                 <div class="padding-large margin-right-3" style="display: inline-block;">
-                 <label class="input-label"><%= scope.strIndentsLeftText %></label>
+                 <label id="paragraphadv-lbl-indent-left" class="input-label"><%= scope.strIndentsLeftText %></label>
                     <div id="paragraphadv-spin-indent-left"></div>
                 </div><!--
              --><div class="padding-large margin-right-3" style="display: inline-block;">
-                    <label class="input-label"><%= scope.strIndentsRightText %></label>
+                    <label id="paragraphadv-lbl-indent-right" class="input-label"><%= scope.strIndentsRightText %></label>
                     <div id="paragraphadv-spin-indent-right"></div>
                 </div><!--
              --><div class="padding-large" style="display: inline-block;vertical-align: top">
@@ -168,7 +168,7 @@
         <div class="padding-very-small">
             <label class="header"><%= scope.textOpenType %></label>
         </div>
-        <div class="padding-large">
+        <div class="padding-small">
             <label class="input-label vertical-align-baseline"><%= scope.textLigatures %></label>
             <div id="paragraphadv-cmb-ligatures" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>

@@ -60,11 +60,12 @@ label {
         overflow: hidden;
 
         .tool-menu-btns {
-            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-right: @scaled-one-px-value solid @border-toolbar;
+            //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-right: @border-sidemenu;
 
             .rtl & {
-                border-left: @scaled-one-px-value solid @border-toolbar;
+                //border-left: @scaled-one-px-value solid @border-toolbar;
+                border-left: @border-sidemenu;
                 border-right: 0 none;
             }
 
@@ -80,10 +81,10 @@ label {
     &.right {
         .tool-menu-btns {
             //position: absolute;
-            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-            border-left: @scaled-one-px-value solid @border-toolbar;
-            background-color: @background-toolbar-ie;
-            background-color: @background-toolbar;
+            //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-left: @border-sidemenu;
+            background-color: @background-pane-ie;
+            background-color: @background-pane;
             right: 0;
             overflow: hidden;
 
@@ -91,7 +92,8 @@ label {
                 left: 0;
                 right: auto;
 
-                border-right: @scaled-one-px-value solid @border-toolbar;
+                //border-right: @scaled-one-px-value solid @border-toolbar;
+                border-right: @border-sidemenu;
                 border-left: 0 none;
             }
         }
@@ -104,9 +106,11 @@ label {
     display: inline-block;
     position: absolute;
     padding-top: 15px;
+    padding-right: @layout-padding-x-side-panel;
+    padding-left: @layout-padding-x-side-panel;
 
     button {
-        margin-bottom: 8px;
+        margin-bottom: @category-btn-y-margin-large;
     }
 }
 
@@ -116,32 +120,47 @@ label {
 
 .btn-category.plugin-buttons {
     img {
-        max-width: 20px;
-        max-height: 20px;
+        max-width: @x-small-btn-icon-size;
+        max-height: @x-small-btn-icon-size;
     }
 }
 
 .left-panel {
-    .padding-left-40();
     height: 100%;
-    border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
-    border-right: @scaled-one-px-value solid @border-toolbar;
+    padding: @layout-padding-left-panel;
+    //border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+    //border-right: @scaled-one-px-value solid @border-toolbar;
+    border-right: @border-sidemenu;
 
     .rtl & {
-        border-left: @scaled-one-px-value solid @border-toolbar;
+        padding: @layout-padding-left-panel-rtl;
+        //border-left: @scaled-one-px-value solid @border-toolbar;
+        border-left: @border-sidemenu;
         border-right: 0 none;
     }
 
-    #left-panel-chat {
-        height: 100%;
-    }
-
-    #left-panel-comments {
-        height: 100%;
-    }
-
+    #left-panel-chat,
+    #left-panel-comments,
     #left-panel-search {
         height: 100%;
+    }
+}
+
+#left-panel-history {
+    left: 40px;
+    width: 300px;
+    height: 100%;
+    display: none;
+
+    padding: @layout-padding-left-panel;
+    padding-left: 0;
+    border-right: @border-sidemenu;
+
+    .rtl & {
+        padding: @layout-padding-left-panel-rtl;
+        padding-right: 0;
+        border-left: @border-sidemenu;
+        border-right: 0 none;
     }
 }
 
@@ -149,37 +168,31 @@ label {
     width: 220px;
     height: 100%;
     display: none;
-    position: relative;
-    overflow: hidden;
-    border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
-    border-left: @scaled-one-px-value solid @border-toolbar;
+    padding: @layout-padding-right-panel;
+
+    //border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+    //border-left: @scaled-one-px-value solid @border-toolbar;
     //line-height: 15px;
+    border-left: @border-sidemenu;
 
     .rtl & {
-        border-right: @scaled-one-px-value solid @border-toolbar;
+    //    border-right: @scaled-one-px-value solid @border-toolbar;
+    //    border-left: 0 none;
+        padding: @layout-padding-right-panel-rtl;
+        border-right: @border-sidemenu;
         border-left: 0 none;
     }
 
-    .settings-panel {
+    .content-box {
+        height: 100%;
+        width: 100%;
         padding: 0 10px 0 15px;
+        padding: @layout-padding-right-panel-content;
 
         .rtl & {
             padding: 0 15px 0 10px;
+            padding: @layout-padding-right-panel-content-rtl;
         }
-    }
-}
-
-.statusbar {
-    height: 25px;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
-    .box-inner-shadow(0 @scaled-one-px-value-ie 0 @border-toolbar-ie);
-    .box-inner-shadow(0 @scaled-one-px-value 0 @border-toolbar);
-
-    .status-label {
-        color: @text-normal-ie;
-        color: @text-normal;
-        white-space: nowrap;
     }
 }
 
@@ -196,8 +209,8 @@ label {
         .float-left();
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
-        background-color: @background-toolbar-ie;
-        background-color: @background-toolbar;
+        background-color: @background-pane-ie;
+        background-color: @background-pane;
         display: flex;
         flex-direction: column;
         padding: 15px 0 24px;
@@ -248,7 +261,7 @@ label {
                     }
 
                     .menu-item-icon {
-                        background-position-x: -20px;
+                        background-position-x: -24px;
                         background-position-x: @button-small-active-icon-offset-x;
                     }
 
@@ -260,8 +273,8 @@ label {
 
                 &.disabled > a {
                     cursor: default;
-                    color: @border-regular-control-ie;
-                    color: @border-regular-control;
+                    opacity: @component-disabled-opacity-ie;
+                    opacity: @component-disabled-opacity;
                 }
             }
 
@@ -285,19 +298,13 @@ label {
             }
 
             .menu-item-icon {
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
+                width: @x-small-btn-icon-size;
+                height: @x-small-btn-icon-size;
+                line-height: @x-small-btn-icon-size;
                 position: relative;
                 &:not(:disabled) {
                     opacity: 0.8;
                     opacity: @component-normal-icon-opacity;
-                }
-            }
-
-            &.disabled {
-                .menu-item-icon {
-                    opacity: 0.4;
                 }
             }
 
@@ -367,7 +374,6 @@ label {
 .settings-panel {
     display: none;
     overflow: visible;
-    margin-top: 7px;
 
     & > table {
         width: 100%;
@@ -598,9 +604,77 @@ body {
     }
 }
 
+#special-paste-container,
+#autocorrect-paste-container,
+#equation-container,
+#text-bar-container,
+#annot-bar-container,
+#annot-sel-bar-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+    border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: @border-radius-form-control;
+    overflow: hidden;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+    .ie &,
+    .winxp & {
+        overflow: visible;
+    }
+    &.has-open-menu {
+        z-index: @zindex-navbar + 3;
+    }
+}
+
+#equation-container {
+    .separator {
+        height: 30px;
+    }
+    .btn-toolbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 0px;
+    }
+}
+
+#text-bar-container,
+#annot-bar-container,
+#annot-sel-bar-container {
+    padding: 4px 6px;
+    .btn-toolbar,
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .separator {
+        height: @x-small-btn-size;
+    }
+    & > div {
+        .display-inline-block-middle();
+    }
+}
+
 // only for test screen reader focus manager
 .focus-mode {
     :focus {
         outline: 1px solid red !important;
     }
+}
+
+// for colored svg icons
+.icon-blue-primary {
+    fill: transparent;
+    stroke: #446ECA;
+}
+
+.icon-gray-primary {
+    fill: transparent;
+    stroke: #383838;
 }

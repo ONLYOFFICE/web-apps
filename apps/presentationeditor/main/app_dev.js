@@ -221,6 +221,7 @@ require([
                 'common/main/lib/view/ListSettingsDialog',
                 'common/main/lib/view/DocumentPropertyDialog',
                 'common/main/lib/view/MacrosDialog',
+                'common/main/lib/view/MacrosAiDialog',
                 'common/main/lib/component/MonacoEditor',
 
                 'presentationeditor/main/app/controller/DocumentHolderExt',
