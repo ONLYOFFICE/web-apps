@@ -1222,7 +1222,8 @@ define([
                     right: right,
                     from: 0,
                     count: 100,
-                    total: undefined
+                    total: undefined,
+                    requestNext: undefined
                 };
                 var data = this._state.emailSearch;
                 Common.UI.ExternalUsers.get('mention', undefined, data.from, data.count, data.str);
