@@ -1223,7 +1223,7 @@ define([
                     from: 0,
                     count: 100,
                     total: undefined,
-                    scrollTop: 0
+                    requestNext: undefined
                 };
                 var data = this._state.emailSearch;
                 Common.UI.ExternalUsers.get('mention', undefined, data.from, data.count, data.str);
@@ -1277,10 +1277,8 @@ define([
                     }, 10);
                 });
                 !isClientSearch && menu.scroller.cmpEl.on('scroll', function (event) {
-                    let st = $(event.target).scrollTop();
-                    if (me._state.emailSearch && me._state.emailSearch.scrollTop < st)
+                    if (me._state.emailSearch && me._state.emailSearch.requestNext>0 && me._state.emailSearch.requestNext < $(event.target).scrollTop())
                         me.onEmailListMenuNext();
-                    me._state.emailSearch.scrollTop = st;
                 });
             }
 
@@ -1343,6 +1341,10 @@ define([
                 menu.cmpEl.css('display', '');
                 menu.alignPosition('bl-tl', -5);
                 menu.scroller.update({alwaysVisibleY: true});
+                if (!isClientSearch) {
+                    (from===0) && menu.scroller.scrollTop(0);
+                    me._state.emailSearch.requestNext = menu.items.length<me._state.emailSearch.total ? (1 - 10/menu.items.length) * menu.cmpEl.get(0).scrollHeight : -1;
+                }
             } else {
                 menu.rendered && menu.cmpEl.css('display', 'none');
             }
