@@ -229,7 +229,7 @@ define([
             }
 
             if (open) {
-                $('#id-slide-settings').parent().css("display", "inline-block" );
+                $('#id-slide-settings').closest('.right-panel').css("display", "inline-block" );
                 $('#id-slide-settings').addClass("active");
             }
             
