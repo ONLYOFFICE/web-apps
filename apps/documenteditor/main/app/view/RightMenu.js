@@ -263,7 +263,7 @@ define([
             }
 
             if (open) {
-                $markup.findById('#id-paragraph-settings').parent().css("display", "inline-block" );
+                $markup.findById('#id-paragraph-settings').closest('.right-panel').css("display", "inline-block" );
                 $markup.findById('#id-paragraph-settings').addClass("active");
             }
 

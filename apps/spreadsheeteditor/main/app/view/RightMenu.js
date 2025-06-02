@@ -261,7 +261,7 @@ define([
             }
 
             if (open) {
-                $('#id-cell-settings').parent().css("display", "inline-block" );
+                $('#id-cell-settings').closest('.right-panel').css("display", "inline-block" );
                 $('#id-cell-settings').addClass("active");
             }
 

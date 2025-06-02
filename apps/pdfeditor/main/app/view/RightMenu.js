@@ -230,11 +230,6 @@ define([
                 });
             }
 
-            if (open) {
-                $('#id-slide-settings').parent().css("display", "inline-block" );
-                $('#id-slide-settings').addClass("active");
-            }
-            
             this.trigger('render:after', this);
 
             return this;
