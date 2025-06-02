@@ -1203,7 +1203,7 @@ define([], function () {
 
             me.mnuDeletePage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
-                caption     : me.txtDeletePage
+                caption     : me.deleteText
             });
             me.mnuNewPageBefore = new Common.UI.MenuItem({
                 caption     : me.txtNewPageBefore,
@@ -1223,12 +1223,12 @@ define([], function () {
             });
             me.mnuCutPage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
-                caption     : me.txtCutPage,
+                caption     : me.textCut,
                 value : 'cut'
             });
             me.mnuCopyPage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
-                caption     : me.txtCopyPage,
+                caption     : me.textCopy,
                 value : 'copy'
             });
             me.mnuPastePageBefore = new Common.UI.MenuItem({
@@ -1290,16 +1290,17 @@ define([], function () {
                     me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
                 },
                 items: [
+                    me.mnuCutPage,
+                    me.mnuCopyPage,
+                    { caption     : '--' },
+                    me.mnuPastePageBefore,
+                    me.mnuPastePageAfter,
+                    { caption     : '--' },
                     me.mnuNewPageBefore,
                     me.mnuNewPageAfter,
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
-                    { caption     : '--' },
-                    me.mnuCutPage,
-                    me.mnuCopyPage,
-                    me.mnuPastePageBefore,
-                    me.mnuPastePageAfter,
                     menuPageDelSeparator,
                     me.mnuDeletePage
                 ]
