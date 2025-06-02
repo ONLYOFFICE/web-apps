@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "ແຈ້ງ",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "ຍົກເລີກ",
   "Common.UI.Window.closeButtonText": " ປິດ",
   "Common.UI.Window.noButtonText": "ບໍ່",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "ຂີ້ດກ້ອງ",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "ຊື່ຕົວອັກສອນ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "ຂະໜາດຕົວອັກສອນ"
 }

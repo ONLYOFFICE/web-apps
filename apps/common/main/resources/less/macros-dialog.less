@@ -16,6 +16,7 @@
 			.menu-header {
         display: flex;
 				align-items: center;
+        white-space: nowrap;
 
 				& > label {
 					line-height: 20px;
@@ -28,6 +29,7 @@
         flex-direction: column;
         height: 100%;
         width: 30%;
+        min-width: 230px;
         overflow: hidden;
 
 				.menu-header {
@@ -46,14 +48,19 @@
 						margin-left: 6px;
 						margin-right: auto;
           }
-          }
         }
+
+        #btn-function-add {
+          .margin-left(12px);
+        }
+      }
 			#macros-list, #functions-list {
 				height: calc(100% - 34px);
         padding: 2px 4px 4px 4px;
 
         .listview {
           border: none;
+          box-shadow: none;
           .item {
             display: flex;
             position: relative;
@@ -124,8 +131,9 @@
 			}
 			#macros-dialog-right {
 				display: flex;
-    			flex-direction: column;
+    		flex-direction: column;
 				flex: 1;
+        min-width: 0;
 
 				.menu-header {
 					padding: 7px 12px 7px 0px;

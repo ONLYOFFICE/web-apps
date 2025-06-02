@@ -43,47 +43,6 @@ if (Common === undefined)
 define([], function () {
     'use strict';
     Common.Views.MacrosDialog = Common.UI.Window.extend(_.extend({
-        template:
-            '<div id="macros-dialog-content">' +
-                '<div id="macros-dialog-left" class="noselect">' +
-                    '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
-                        '<div class="menu-header">' +
-                            '<label>Macros</label>' +
-                            '<div id="btn-ai-macros-add"></div>' +
-                            '<div id="btn-macros-add"></div>' +
-                        '</div>' +
-                        '<div class="separator horizontal" style="position: relative"></div>' +
-                        '<div id="macros-list"></div>' +
-                    '</div>' +
-                    '<div class="separator horizontal" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> ></div>' +
-                    '<div id="functions-menu" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
-                        '<div class="menu-header">' +
-                            '<label>Custom Functions</label>' +
-                            '<div id="btn-function-add"></div>' +
-                        '</div>' +
-                        '<div class="separator horizontal" style="position: relative"></div>' +
-                        '<div id="functions-list"></div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="separator vertical" style="position: relative"></div>' +
-                '<div id="macros-dialog-right">' + 
-                    '<div class="menu-header">' +
-                        '<div id="btn-macros-undo"></div>' +
-                        '<div id="btn-macros-redo"></div>' +
-                        '<div id="btn-macros-run" class="lock-for-function"></div>' +
-                        '<div id="btn-macros-debug" class="lock-for-function"></div>' +
-                        '<div id="btn-macros-copy"></div>' +
-                        '<div id="btn-macros-rename"></div>' +
-                        '<div id="btn-macros-delete"></div>' +
-                        '<div id="ch-macros-autostart" class="lock-for-function"></div>' +
-                    '</div>' +
-                    '<div class="separator horizontal" style="position: relative"></div>' +
-                    '<div id="macros-code-editor" class="invisible"></div>' +
-                '</div>' +
-            '</div>'+
-            '<div class="separator horizontal" style="position: relative"></div>',
-
-
         initialize : function(options) {
             var _options = {},
                 innerHeight = Math.max(Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top'), 350),
@@ -94,7 +53,7 @@ define([], function () {
                 title: this.textTitle,
                 header: true,
                 help: true,
-                width: Math.min(800, innerWidth),
+                width: Math.min(810, innerWidth),
                 height: Math.min(512, innerHeight),
                 minwidth: 750,
                 minheight: 350,
@@ -120,6 +79,47 @@ define([], function () {
                 currentValue: '',
                 currentPos: {row: 3, column: 0}
             };
+
+            this.template = [
+                '<div id="macros-dialog-content">' +
+                    '<div id="macros-dialog-left" class="noselect">' +
+                        '<div id="macros-menu" <% if(!isFunctionsSupport){%> style="height: 100%;" <% } %>>' +
+                            '<div class="menu-header">' +
+                                '<label>' + this.textMacros + '</label>' +
+                                '<div id="btn-ai-macros-add"></div>' +
+                                '<div id="btn-macros-add"></div>' +
+                            '</div>' +
+                            '<div class="separator horizontal" style="position: relative"></div>' +
+                            '<div id="macros-list"></div>' +
+                        '</div>' +
+                        '<div class="separator horizontal" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> ></div>' +
+                        '<div id="functions-menu" <% if(!isFunctionsSupport){%> style="display: none;" <% } %> >' +
+                            '<div class="menu-header">' +
+                                '<label id="macros-dialog-functions-label">' + this.textCustomFunctions + '</label>' +
+                                '<div id="btn-function-add"></div>' +
+                            '</div>' +
+                            '<div class="separator horizontal" style="position: relative"></div>' +
+                            '<div id="functions-list"></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="separator vertical" style="position: relative"></div>' +
+                    '<div id="macros-dialog-right">' + 
+                        '<div class="menu-header">' +
+                            '<div id="btn-macros-undo"></div>' +
+                            '<div id="btn-macros-redo"></div>' +
+                            '<div id="btn-macros-run" class="lock-for-function"></div>' +
+                            '<div id="btn-macros-debug" class="lock-for-function"></div>' +
+                            '<div id="btn-macros-copy"></div>' +
+                            '<div id="btn-macros-rename"></div>' +
+                            '<div id="btn-macros-delete"></div>' +
+                            '<div id="ch-macros-autostart" class="lock-for-function"></div>' +
+                        '</div>' +
+                        '<div class="separator horizontal" style="position: relative"></div>' +
+                        '<div id="macros-code-editor" class="invisible"></div>' +
+                    '</div>' +
+                '</div>'+
+                '<div class="separator horizontal" style="position: relative"></div>',
+            ].join('');
 
             _options.tpl = _.template(this.template)({
                 isFunctionsSupport: this._state.isFunctionsSupport,
@@ -153,6 +153,15 @@ define([], function () {
 
             me.createCodeEditor();
             me.renderAfterAceLoaded();
+            me.calcHeaderBreakpoints();
+            me.collapseHeaderItems();
+            me.updateCustomFunctionLabel();
+
+            var throttleResizing = _.throttle(_.bind(this.collapseHeaderItems, this), 100);
+
+            this.on('resizing', function(){
+                throttleResizing();
+            });
         },
 
         renderAfterAceLoaded: function() {
@@ -301,6 +310,89 @@ define([], function () {
                     me._state.selectedItem.record.set('currentPos', pos);
                 }
             });
+        },
+
+        calcHeaderBreakpoints: function() {
+            this.breakpoints = [];
+
+            var me = this;
+            var maxHeaderWidth = 10;    //10px - gap between chAutostart and btnDelete
+            var headerItems = [
+                { btn: this.btnUndo, collapsible: false },
+                { btn: this.btnRedo, collapsible: false },
+                { btn: this.btnRun, collapsible: true },
+                { btn: this.btnDebug, collapsible: true },
+                { btn: this.btnCopy, collapsible: true },
+                { btn: this.btnRename, collapsible: true },
+                { btn: this.btnDelete, collapsible: true },
+                { btn: this.chAutostart, collapsible: false, withoutMargin: true }
+            ];
+            this.collapsibleHeaderItems = headerItems.filter(function(item) { return item.collapsible });
+
+            headerItems.forEach(function(item) {
+                var $caption = item.btn.$el.find('.caption');
+                var hasCaptionHidden = $caption.hasClass('hide');
+                $caption.removeClass('hide');
+
+                item.expandedWidth = item.btn.$el.outerWidth(!item.withoutMargin);
+                item.collapsedWidth = item.collapsible ? (item.expandedWidth - $caption.outerWidth(true)) : item.expandedWidth;
+
+                maxHeaderWidth += item.expandedWidth;
+                hasCaptionHidden && $caption.addClass('hide');
+            });
+
+            this.collapsibleHeaderItems.forEach(function(item, index) {
+                if(index == 0) {
+                    me.breakpoints.push({
+                        width: maxHeaderWidth,
+                        collapseItems: [item]
+                    });
+                } else {
+                    var prevBreakpoint = me.breakpoints[index - 1];
+                    var prevItem = me.collapsibleHeaderItems[index - 1];
+
+                    me.breakpoints.push({
+                        width: prevBreakpoint.width - (prevItem.expandedWidth - prevItem.collapsedWidth),
+                        collapseItems: [item].concat(prevBreakpoint.collapseItems)
+                    });
+                }
+            });
+        },
+
+        collapseHeaderItems: function() {
+            var width = this.getChild().find('#macros-dialog-right .menu-header').width();
+            var currentBreakpoint = null;
+            
+            for (let i = this.breakpoints.length - 1; i >= 0; i--) {
+                if(width < this.breakpoints[i].width) {
+                    currentBreakpoint = this.breakpoints[i];
+                    break;
+                }
+            }
+
+            this.collapsibleHeaderItems.forEach(function(item) {
+                var shouldCollapse = currentBreakpoint && currentBreakpoint.collapseItems.indexOf(item) !== -1;
+                item.btn.$el.find('.caption').toggleClass('hide', !!shouldCollapse);
+            });
+        },
+
+        updateCustomFunctionLabel: function() {
+            var $window = this.getChild();
+
+            var $macrosDialogLeft = $window.find('#macros-dialog-left');
+            var $menuHeader = $window.find('#functions-menu .menu-header');
+            var $btnFunctionAdd = $window.find('#btn-function-add');
+            var $functionLabel = $window.find('#macros-dialog-functions-label');
+
+            var minWidth = parseFloat($macrosDialogLeft.css('min-width')) || 0;
+            var menuHeaderPadding = (parseFloat($menuHeader.css('padding-left')) || 0) + (parseFloat($menuHeader.css('padding-right')) || 0);
+            var btnWidth = $btnFunctionAdd.outerWidth(true) || 0;
+           
+            var allowedWidth = minWidth - menuHeaderPadding - btnWidth;
+
+            if ($functionLabel.width() > allowedWidth) {
+                $functionLabel.text(this.textFunctions);
+            }
         },
 
         setListMacros: function() {
@@ -498,6 +590,7 @@ define([], function () {
             this.btnUndo.setDisabled(value);
             this.btnRedo.setDisabled(value);
             this.btnRun.setDisabled(value);
+            this.btnDebug.setDisabled(value);
             this.btnCopy.setDisabled(value);
             this.btnRename.setDisabled(value);
             this.btnDelete.setDisabled(value);
@@ -625,8 +718,8 @@ define([], function () {
 
         onCreateMacros: function(value) {
             var indexMax = 0;
-            var macrosTextEn = 'Macros';
-            var macrosTextTranslate = this.textMacros;
+            var macrosTextEn = 'Macro';
+            var macrosTextTranslate = this.textMacro;
             this.listMacros.store.each(function(macros, index) {
                 var macrosName = macros.get('name');
                 if (0 == macrosName.indexOf(macrosTextEn))
@@ -678,10 +771,15 @@ define([], function () {
                 langName = null;
             }
 
+            var editorName = 'Document Editor';
+            if(window.PE) editorName = 'Presentation Editor';
+            if(window.SSE) editorName = 'Spreadsheet Editor';
+            
             if(item.value == 'create') {
                 title = this.textCreateMacrosFromDesc;
                 instruction = '' + 
                     'Create a macro for OnlyOffice. ' + 
+                    'The macro should be written specifically for the OnlyOffice ' + editorName + '. ' +
                     'Return only code with comments, as plain text without markdown. ' + 
                     'The format of the code is JavaScript. ' + 
                     'Write comments in the same language as the user prompt. ' + 
@@ -690,6 +788,7 @@ define([], function () {
                 title = this.textConvertMacrosFromVBA;
                 instruction = '' + 
                     'Convert macro for OnlyOffice from VBA. ' +
+                    'The macro should be written specifically for the OnlyOffice ' + editorName + '. ' +
                     'Return only code with comments, as plain text without markdown. ' +
                     'The code format is JavaScript. ' +
                     'Write comments in ' + langCode + (langName ? '(' + langName + ')' : '') + ' language. ' + 
@@ -774,6 +873,12 @@ define([], function () {
             this.selectItem(record, this.ItemTypes.CustomFunction);
         },
 
+        onThemeChanged: function() {
+            this.calcHeaderBreakpoints();
+            this.collapseHeaderItems();
+            Common.UI.Window.prototype.onThemeChanged.call(this);
+        },
+        
         onHelp: function() {
             window.open('https://api.onlyoffice.com/docs/plugin-and-macros/macros/getting-started/', '_blank')
         },
@@ -788,6 +893,7 @@ define([], function () {
 
         textTitle           : 'Macros',
         textSave            : 'Save',
+        textMacro           : 'Macro',
         textMacros          : 'Macros',
         textRun             : 'Run',
         textDebug           : 'Debug',
@@ -796,6 +902,8 @@ define([], function () {
         textDelete          : 'Delete',
         textCopy            : 'Copy',
         textCustomFunction  : 'Custom function',
+        textCustomFunctions : 'Custom functions',
+        textFunctions       : 'Functions',
         textLoading         : 'Loading...',
         textCreateFromDesc  : 'Create from description',
         textCreateMacrosFromDesc  : 'Create macros from description',

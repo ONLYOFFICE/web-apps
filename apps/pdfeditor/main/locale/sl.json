@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "None",
   "PDFE.Views.FormSettings.textNormal": "Up",
   "PDFE.Views.FormSettings.textNumber": "Number",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -2221,6 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prilagodi stran",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi širino",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
-  "PDFE.Views.FormSettings.textOrientation": "Orientation"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
 }

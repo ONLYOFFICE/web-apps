@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Szary",
   "Common.UI.Themes.txtThemeLight": "Jasny",
   "Common.UI.Themes.txtThemeSystem": "Taki sam jak systemu",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Anuluj",
   "Common.UI.Window.closeButtonText": "Zamknij",
   "Common.UI.Window.noButtonText": "Nie",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
 }

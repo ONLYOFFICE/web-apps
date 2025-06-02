@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Cinzento",
   "Common.UI.Themes.txtThemeLight": "Claro",
   "Common.UI.Themes.txtThemeSystem": "O mesmo do sistema",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Cancelar",
   "Common.UI.Window.closeButtonText": "Fechar",
   "Common.UI.Window.noButtonText": "Não",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra"
 }

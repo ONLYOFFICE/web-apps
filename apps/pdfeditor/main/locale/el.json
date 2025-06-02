@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Κανένα",
   "PDFE.Views.FormSettings.textNormal": "Επάνω",
   "PDFE.Views.FormSettings.textNumber": "Αριθμός",
+  "PDFE.Views.FormSettings.textOrientation": "Προσανατολισμός",
   "PDFE.Views.FormSettings.textOutline": "Περίγραμμα",
   "PDFE.Views.FormSettings.textOverlay": "Ετικέτα επάνω από εικονίδιο",
   "PDFE.Views.FormSettings.textPercent": "Ποσοστό",
@@ -2221,6 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
-  "PDFE.Views.FormSettings.textOrientation": "Orientation"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
 }

@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Світла",
   "Common.UI.Themes.txtThemeSystem": "Системна",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Скасувати",
   "Common.UI.Window.closeButtonText": "Закрити",
   "Common.UI.Window.noButtonText": "Немає",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Напівпрозорий",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Підкреслений",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Шрифт",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Розмір шрифту"
 }

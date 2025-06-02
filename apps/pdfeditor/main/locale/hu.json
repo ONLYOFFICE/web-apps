@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "None",
   "PDFE.Views.FormSettings.textNormal": "Up",
   "PDFE.Views.FormSettings.textNumber": "Number",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -2221,6 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
-  "PDFE.Views.FormSettings.textOrientation": "Orientation"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
 }

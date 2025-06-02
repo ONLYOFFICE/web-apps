@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Grå",
   "Common.UI.Themes.txtThemeLight": "Ljus",
   "Common.UI.Themes.txtThemeSystem": "Samma som systemet",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Avbryt",
   "Common.UI.Window.closeButtonText": "Stäng",
   "Common.UI.Window.noButtonText": "Inga",
@@ -556,7 +557,7 @@
   "Common.Views.Header.textAddFavorite": "Markera som favorit",
   "Common.Views.Header.textAdvSettings": "Avancerade inställningar",
   "Common.Views.Header.textBack": "Öppna filens plats",
-  "Common.Views.Header.textClose": "Stäng fil",
+  "Common.Views.Header.textClose": "Stäng dokument",
   "Common.Views.Header.textCompactView": "Dölj verktygsfältet",
   "Common.Views.Header.textDocEditDesc": "Gör ändringar",
   "Common.Views.Header.textDocViewDesc": "Visa filen, men gör inga ändringar",
@@ -645,7 +646,7 @@
   "Common.Views.MacrosDialog.tipMacrosRun": "Run",
   "Common.Views.MacrosDialog.tipRedo": "Redo",
   "Common.Views.MacrosDialog.tipUndo": "Undo",
-  "Common.Views.OpenDialog.closeButtonText": "Stäng fil",
+  "Common.Views.OpenDialog.closeButtonText": "Stäng dokument",
   "Common.Views.OpenDialog.txtEncoding": "Teckentabell",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Felaktigt lösenord",
   "Common.Views.OpenDialog.txtOpenFile": "Skriv in lösenord för att öppna filen",
@@ -2187,7 +2188,7 @@
   "DE.Views.EditListItemDialog.textValueError": "Det finns redan ett objekt med samma värde.",
   "DE.Views.FileMenu.ariaFileMenu": "File menu",
   "DE.Views.FileMenu.btnBackCaption": "Öppna filens plats",
-  "DE.Views.FileMenu.btnCloseEditor": "Stäng fil",
+  "DE.Views.FileMenu.btnCloseEditor": "Stäng dokument",
   "DE.Views.FileMenu.btnCloseMenuCaption": "Stäng meny",
   "DE.Views.FileMenu.btnCreateNewCaption": "Skapa ny",
   "DE.Views.FileMenu.btnDownloadCaption": "Ladda ner som",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "halvgenomskinlig",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Understrykning",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontnamn",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fontstorlek"
 }

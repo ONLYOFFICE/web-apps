@@ -1203,7 +1203,7 @@ define([], function () {
 
             me.mnuDeletePage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
-                caption     : me.txtDeletePage
+                caption     : me.deleteText
             });
             me.mnuNewPageBefore = new Common.UI.MenuItem({
                 caption     : me.txtNewPageBefore,
@@ -1221,14 +1221,22 @@ define([], function () {
                 iconCls: 'menu__icon btn-rotate-270',
                 caption     : me.txtRotateLeft
             });
+            me.mnuCutPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption     : me.textCut,
+                value : 'cut'
+            });
             me.mnuCopyPage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
-                caption     : me.txtCopyPage,
+                caption     : me.textCopy,
                 value : 'copy'
             });
-            me.mnuPastePage = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-paste',
-                caption     : me.txtPastePage,
+            me.mnuPastePageBefore = new Common.UI.MenuItem({
+                caption     : me.txtPastePageBefore,
+                value : 'paste-before'
+            });
+            me.mnuPastePageAfter = new Common.UI.MenuItem({
+                caption     : me.txtPastePageAfter,
                 value : 'paste'
             });
 
@@ -1269,6 +1277,7 @@ define([], function () {
                         me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
                         me.mnuDeletePage.setVisible(value.isPageSelect===true);
                         me.mnuCopyPage.setVisible(value.isPageSelect===true);
+                        me.mnuCutPage.setVisible(value.isPageSelect===true);
                         menuPageNewSeparator.setVisible(value.isPageSelect===true);
                         menuPageDelSeparator.setVisible(value.isPageSelect===true);
                     }
@@ -1276,17 +1285,22 @@ define([], function () {
                     var canRotate = me.api.asc_CanRotatePages();
                     me.mnuRotatePageRight.setDisabled(page_rotate_lock || page_deleted || !canRotate);
                     me.mnuRotatePageLeft.setDisabled(page_rotate_lock || page_deleted || !canRotate);
-                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !me.api.asc_CanRemovePages());
+                    var canRemove = me.api.asc_CanRemovePages();
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
                 },
                 items: [
+                    me.mnuCutPage,
+                    me.mnuCopyPage,
+                    { caption     : '--' },
+                    me.mnuPastePageBefore,
+                    me.mnuPastePageAfter,
+                    { caption     : '--' },
                     me.mnuNewPageBefore,
                     me.mnuNewPageAfter,
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
-                    { caption     : '--' },
-                    me.mnuCopyPage,
-                    me.mnuPastePage,
                     menuPageDelSeparator,
                     me.mnuDeletePage
                 ]

@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Grisa",
   "Common.UI.Themes.txtThemeLight": "Argia",
   "Common.UI.Themes.txtThemeSystem": "Sistemako berdina",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Utzi",
   "Common.UI.Window.closeButtonText": "Itxi",
   "Common.UI.Window.noButtonText": "Ez",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
 }

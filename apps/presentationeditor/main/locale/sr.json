@@ -745,7 +745,7 @@
   "Common.Views.MacrosDialog.tipMacrosCopy": "Kopiraj makroe",
   "Common.Views.MacrosDialog.tipMacrosDebug": "Otkloni greške u makroima",
   "Common.Views.MacrosDialog.tipMacrosRename": "Preimenuj makroe",
-  "Common.Views.MacrosDialog.tipMacrosRun": "Pokreni",
+  "Common.Views.MacrosDialog.tipMacrosRun": "Pokreni makroe",
   "Common.Views.MacrosDialog.tipRedo": "Ponovi",
   "Common.Views.MacrosDialog.tipUndo": "Poništi ",
   "Common.Views.OpenDialog.closeButtonText": "Zatvori fajl",
@@ -2314,6 +2314,7 @@
   "PE.Views.ParagraphSettings.txtAutoText": "Auto",
   "PE.Views.ParagraphSettingsAdvanced.noTabs": "Navedene kartice će se pojaviti u ovom polju",
   "PE.Views.ParagraphSettingsAdvanced.strAllCaps": "Samo velika slova",
+  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Pravac",
   "PE.Views.ParagraphSettingsAdvanced.strDoubleStrike": "Duplo precrtavanje",
   "PE.Views.ParagraphSettingsAdvanced.strIndent": "Uvlačenja",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsLeftText": "Levo",
@@ -2933,6 +2934,7 @@
   "PE.Views.Toolbar.tipSlideNum": "Ubaci broj slajda",
   "PE.Views.Toolbar.tipSlideSize": "Odaberi veličinu slajda",
   "PE.Views.Toolbar.tipSlideTheme": "Slajd tema",
+  "PE.Views.Toolbar.tipTextDir": "Pravac teksta",
   "PE.Views.Toolbar.tipUndo": "Poništi ",
   "PE.Views.Toolbar.tipVAligh": "Vertikalno poravnaj",
   "PE.Views.Toolbar.tipViewSettings": "Pregledaj podešavanja",
@@ -2983,7 +2985,7 @@
   "PE.Views.Transitions.textZoomOut": "Zumiraj Spolja",
   "PE.Views.Transitions.textZoomRotate": "Zumiraj i Rotiraj",
   "PE.Views.Transitions.txtApplyToAll": "Primeni na sve slajdove",
-  "PE.Views.Transitions.txtParameters": "Parametri ",
+  "PE.Views.Transitions.txtParameters": "Opcije",
   "PE.Views.Transitions.txtPreview": "Pregled",
   "PE.Views.Transitions.txtSec": "s",
   "PE.Views.ViewTab.capBtnHand": "Ruka",
@@ -3024,7 +3026,5 @@
   "PE.Views.ViewTab.tipMacros": "Makroi",
   "PE.Views.ViewTab.tipNormal": "Normalno",
   "PE.Views.ViewTab.tipSelectTool": "Odaberi alatku",
-  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova",
-  "PE.Views.ParagraphSettingsAdvanced.strDirection": "Direction",
-  "PE.Views.Toolbar.tipTextDir": "Text direction"
+  "PE.Views.ViewTab.tipSlideMaster": "Glavni upravljaš slajdova"
 }

@@ -1338,7 +1338,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strTheme": "Tema de interfață",
   "PDFE.Views.FileMenuPanels.Settings.strUnit": "Unitate de măsură ",
   "PDFE.Views.FileMenuPanels.Settings.strZoom": "Valori implicite Zoom",
-  "PDFE.Views.FileMenuPanels.Settings.textAutoRecover": "Recuperare automată",
+  "PDFE.Views.FileMenuPanels.Settings.textAutoRecover": "Salvare informații de recuperare automată",
   "PDFE.Views.FileMenuPanels.Settings.textAutoSave": "Salvare automată",
   "PDFE.Views.FileMenuPanels.Settings.textDisabled": "Dezactivat",
   "PDFE.Views.FileMenuPanels.Settings.textFill": "Umplere",

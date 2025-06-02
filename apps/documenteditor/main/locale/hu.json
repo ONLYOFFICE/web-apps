@@ -379,6 +379,7 @@
   "Common.UI.Themes.txtThemeGray": "Szürke",
   "Common.UI.Themes.txtThemeLight": "Világos",
   "Common.UI.Themes.txtThemeSystem": "A rendszerrel megegyező",
+  "Common.UI.Themes.txtThemeWhite": "White",
   "Common.UI.Window.cancelButtonText": "Mégsem",
   "Common.UI.Window.closeButtonText": "Bezár",
   "Common.UI.Window.noButtonText": "Nem",
@@ -3752,6 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Féligáttetsző",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Aláhúzott",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Betűtípus neve",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret",
-  "Common.UI.Themes.txtThemeWhite": "White"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Betűméret"
 }

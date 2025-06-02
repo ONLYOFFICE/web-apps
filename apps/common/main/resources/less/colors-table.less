@@ -260,6 +260,7 @@
     --celleditor-border-width: var(--scaled-one-pixel, 1px);
     --celleditor-input-border: 0 none;
     --celleditor-input-border-radius: 0;
+    --celleditor-cell-name-height: calc(var(--celleditor-height) - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
     --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
     --celleditor-func-label-margin-left: -3px;
 
@@ -520,6 +521,7 @@
 @celleditor-border-width: var(--celleditor-border-width);
 @celleditor-input-border: var(--celleditor-input-border);
 @celleditor-input-border-radius: var(--celleditor-input-border-radius);
+@celleditor-cell-name-height: var(--celleditor-cell-name-height);
 @celleditor-cell-name-border-right: var(--celleditor-cell-name-border-right); 
 @celleditor-func-label-margin-left: var(--celleditor-func-label-margin-left);
 
