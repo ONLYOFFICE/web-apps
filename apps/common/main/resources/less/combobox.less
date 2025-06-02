@@ -6,8 +6,11 @@
     &.input-group-lg .btn { .input-lg(); }
     &.input-group-nr > .form-control,
     &.input-group-nr > .btn {
+        height: @input-height-base-ie;
         height: @input-height-base;
+        padding:  @padding-base-vertical @dd-button-x-padding-ie;
         padding:  @padding-base-vertical @dd-button-x-padding;
+        line-height: @line-height-base-ie;
         line-height: @line-height-base;
 
         -o-transition: none;
@@ -15,11 +18,15 @@
         -moz-transition: none;
         transition: none;
 
+        border-top-right-radius: @border-radius-form-control-ie !important;
         border-top-right-radius: @border-radius-form-control !important;
+        border-bottom-right-radius: @border-radius-form-control-ie !important;
         border-bottom-right-radius: @border-radius-form-control !important;
 
         .rtl & {
+            border-top-left-radius: @border-radius-form-control-ie !important;
             border-top-left-radius: @border-radius-form-control !important;
+            border-bottom-left-radius: @border-radius-form-control-ie !important;
             border-bottom-left-radius: @border-radius-form-control !important;
         }
     }
@@ -32,6 +39,7 @@
     }
 
     &.input-group-nr > .form-control {
+        .padding-x(3px, @dd-button-size-ie);
         .padding-x(3px, @dd-button-size);
         .font-size-normal();
     }
@@ -54,15 +62,16 @@
         }
 
         .rtl & {
-            //border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-            //border: @scaled-one-px-value solid @border-regular-control;
+            border: @scaled-one-px-value-ie solid @border-fill-input-ie;
             border: @scaled-one-px-value solid @border-fill-input;
             border-left: 0;
         }
         &[readonly] {
+            background-color: @background-fill-input-ie;
             background-color: @background-fill-input;
         }
         &[disabled] {
+            background-color: @background-fill-input-disabled-ie;
             background-color: @background-fill-input-disabled;
         }
     }
@@ -71,11 +80,9 @@
         border-left: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        //border-color: @border-regular-control-ie;
-        //border-color: @border-regular-control;
+        border-color: @border-fill-input-ie;
         border-color: @border-fill-input;
         background-color: transparent;
-        //background-color: @background-fill-input;
         margin-left: -1px;
         position: absolute;
         top: 0;
@@ -96,30 +103,28 @@
 
     .btn-default:not(.disabled),
     &.open .dropdown-toggle.btn-default {
-        //background-color: @background-normal-ie;
-        //background-color: @background-normal;
+        background-color: @background-fill-input-ie;
         background-color: @background-fill-input;
-        //border-color: @border-regular-control-ie;
-        //border-color: @border-regular-control;
+        border-color: @border-fill-input-ie;
         border-color: @border-fill-input;
+        .padding-x(@dd-button-x-padding-ie, @dd-button-x-padding-ie);
         .padding-x(@dd-button-x-padding, @dd-button-x-padding);
     }
 
     .btn-default.disabled {
+        .padding-x(@dd-button-x-padding-ie, @dd-button-x-padding-ie);
         .padding-x(@dd-button-x-padding, @dd-button-x-padding);
         border-top-color: transparent;
         border-bottom-color: transparent;
 
         .rtl & {
-            //border-left-color: @border-regular-control-ie;
-            //border-left-color: @border-regular-control;
+            border-left-color: @border-fill-input-ie;
             border-left-color: @border-fill-input;
         }
 
         &:hover, &:focus {
             background-color: transparent;
-            //border-right-color: @border-regular-control-ie;
-            //border-right-color: @border-regular-control;
+            border-right-color: @border-fill-input-ie;
             border-right-color: @border-fill-input;
         }
     }
@@ -134,11 +139,11 @@
 
         &:not(.no-highlighted) > .form-control,
         &:not(.no-highlighted) > .btn {
-            //border-color: @border-control-focus-ie;
-            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused-ie;
             border-color: @border-fill-input-focused;
         }
         &:not(.no-highlighted) > .form-control {
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
         }
     }
@@ -146,19 +151,18 @@
     &.input-group-nr:not(.no-highlighted):not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
-            //border-color: @border-control-focus-ie;
-            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused-ie;
             border-color: @border-fill-input-focused;
         }
         &:focus {
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
         }
     }
     &.input-group-nr.no-highlighted:not(.disabled) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
-            //border-color: @border-regular-control-ie;
-            //border-color: @border-regular-control;
+            border-color: @border-fill-input-ie;
             border-color: @border-fill-input;
         }
     }
@@ -319,11 +323,11 @@
     &.input-group-nr:not(.no-highlighted) {
         & > .form-control,
         & > .btn {
-            //border-color: @border-control-focus-ie;
-            //border-color: @border-control-focus;
+            border-color: @border-fill-input-focused-ie;
             border-color: @border-fill-input-focused;
         }
         & > .form-control {
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
         }
     }

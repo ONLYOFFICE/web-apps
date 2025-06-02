@@ -96,7 +96,7 @@ define([
                     }, {
                         el: $container.find(' > .layout-item#statusbar'),
                         alias: 'statusbar',
-                        height: parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height'))
+                        height: parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25)
                     }
                 ]
             });

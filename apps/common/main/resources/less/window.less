@@ -72,6 +72,7 @@
     box-sizing: border-box;
     z-index: @zindex-modal-background;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: @border-radius-window-ie;
     border-radius: @border-radius-window;
     background-color: @background-normal-ie;
     background-color: @background-normal;
@@ -87,6 +88,7 @@
 
     > .header {
         height: 34px;
+        border-radius: @border-radius-window-ie @border-radius-window-ie 0 0;
         border-radius: @border-radius-window @border-radius-window 0 0;
         position: absolute;
         padding: 5px 6px 6px;
@@ -182,6 +184,7 @@
     }
 
     > .body {
+        border-radius: @border-radius-window-ie;
         border-radius: @border-radius-window;
         position: absolute;
         top: 34px;
@@ -365,9 +368,11 @@
         padding: 15px 0;
 
         .input-row {
+            height: @input-height-base-ie;
             height: @input-height-base;
 
             & > label:not(.checkbox-indeterminate)  {
+                line-height: @input-height-base-ie;
                 line-height: @input-height-base;
             }
 

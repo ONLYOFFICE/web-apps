@@ -263,7 +263,7 @@ define([
         },
 
         setThumbPosition: function (pos) {
-            if (typeof pos !== 'number' || Number.isNaN(pos)) {
+            if (typeof pos !== 'number' || isNaN(pos)) {
                 pos = 0;
             }
 

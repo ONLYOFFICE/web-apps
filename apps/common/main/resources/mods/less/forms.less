@@ -141,9 +141,11 @@ output {
 .form-control {
   display: block;
   width: 100%;
+  height: @input-height-base-ie; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
   height: @input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
   padding: @padding-base-vertical @padding-base-horizontal;
   font-size: @font-size-base;
+  line-height: @line-height-base-ie;
   line-height: @line-height-base;
   color: @input-color;
   background-color: @input-bg;
@@ -204,6 +206,7 @@ output {
   input[type="datetime-local"],
   input[type="month"] {
     &.form-control {
+      line-height: @input-height-base-ie;
       line-height: @input-height-base;
     }
 

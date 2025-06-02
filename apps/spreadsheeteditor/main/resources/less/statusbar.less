@@ -1,5 +1,6 @@
 @status-scroll-padding-left: 12px;
 @statusb-scroll-padding-right: 10px;
+@status-scroll-width: calc(2*@x-small-btn-size-ie + @status-scroll-padding-left + @statusb-scroll-padding-right);
 @status-scroll-width: calc(2*@x-small-btn-size + @status-scroll-padding-left + @statusb-scroll-padding-right);
 
 .statusbar {
@@ -48,6 +49,7 @@
     #status-tabs-scroll {
         width: @status-scroll-width;
         padding: 0 @status-scroll-padding-left 0 @statusb-scroll-padding-right;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
         float: left;
 
@@ -59,6 +61,7 @@
 
     #status-zoom-box {
         position: absolute;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
 
         #status-label-zoom {
@@ -159,6 +162,7 @@
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
         float: left;
         .rtl-sheet& {
@@ -169,6 +173,7 @@
     #status-math-box,
     #status-filtered-box {
         position: absolute;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
         .separator {
             position: relative;
@@ -178,9 +183,11 @@
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
         left: @status-scroll-width;
         right: 160px;
+        top: 0;
 
         .rtl-sheet& {
             left: 160px;
@@ -233,6 +240,7 @@
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
+                    line-height: @statusbar-height-ie;
                     line-height: @statusbar-height;
                     background-color: @background-pane-additional-ie;
                     background-color: @background-pane-additional;
@@ -320,6 +328,7 @@
                             position: absolute;
                             top: 0;
                             left: 0;
+                            margin: calc(@statusbar-height-ie - @x-small-btn-size-ie);
                             margin: calc(@statusbar-height - @x-small-btn-size);
                             .rtl-sheet& {
                                 left: auto;
@@ -416,6 +425,7 @@
 
     #status-number-of-sheet , #status-action {
         position: absolute;
+        height: @statusbar-height-ie;
         height: @statusbar-height;
         bottom: 0;
         display: flex;
@@ -442,6 +452,7 @@
 
     &.no-compact {
         #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
+            height: @statusbar-height-ie;
             height: @statusbar-height;
             border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
@@ -535,7 +546,9 @@
 
     .separator {
         &.short {
-            height: @statusbar-height
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
+            top: 0;
         }
     }
 }
@@ -578,6 +591,6 @@
     padding-right: 0;
 }
 #statusbar {
-    background-color: @background-pane-ie;
+    background-color: @background-statusbar-ie;
     background-color: @background-statusbar;
 }

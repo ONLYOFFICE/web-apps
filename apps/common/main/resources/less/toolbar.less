@@ -1,43 +1,54 @@
 @img-equition-filter: var(--image-border-types-filter);
 #toolbar {
+    padding: @layout-padding-toolbar-ie;
     padding: @layout-padding-toolbar;
 
     &:not(.style-off-tabs) {
+        background: @header-background-color-ie;
         background: @header-background-color;
         .toolbar {
+            background-color: @header-background-color-ie;
             background-color: @header-background-color;
         }
     }
 }
 .toolbar {
     .box-controls {
+        border-radius: @border-radius-toolbar-ie;
         border-radius: @border-radius-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         &:not(.z-clear *) {
             &:before {
-                //@flight-tb-shadow-color: @highlight-button-hover;
                 content: '';
                 position: absolute;
-                //box-shadow: 0 0 0 0 @flight-tb-shadow-color,
-                //                -3px 3px 5px -2px @flight-tb-shadow-color, 3px 3px 5px 0px @flight-tb-shadow-color;
+                box-shadow: @shadow-toolbar-ie;
                 box-shadow: @shadow-toolbar;
                 width: 100%;
+                height: @toolbar-height-controls-ie;
                 height: @toolbar-height-controls;
                 bottom: 0;
+                border-radius: @border-radius-toolbar-ie;
                 border-radius: @border-radius-toolbar;
             }
+        }
+        .ie & {
+            box-shadow: @shadow-toolbar-ie;
         }
     }
 
     .box-tabs {
+        padding-left: @border-radius-toolbar-ie;
         padding-left: @border-radius-toolbar;
+        padding-right: @border-radius-toolbar-ie;
         padding-right: @border-radius-toolbar;
     }
 
     .ribtab {
+        border-top-left-radius: @toolbar-tab-radius-ie;
         border-top-left-radius: @toolbar-tab-radius;
+        border-top-right-radius: @toolbar-tab-radius-ie;
         border-top-right-radius: @toolbar-tab-radius;
     }
 }
@@ -46,6 +57,7 @@
     position: relative;
 
     &:not(.folded) {
+        height: calc(@toolbar-height-tabs + @toolbar-height-controls-ie);
         height: calc(@toolbar-height-tabs + @toolbar-height-controls);
     }
 
@@ -55,6 +67,7 @@
         overflow: hidden;
 
         &.expanded {
+            height: calc(@toolbar-height-tabs + @toolbar-height-controls-ie);
             height: calc(@toolbar-height-tabs + @toolbar-height-controls);
             overflow: visible;
         }
@@ -123,6 +136,7 @@
 
         li {
             display: inline-flex;
+            align-items: center;
             align-items: end;
             height: 100%;
             position: relative;
@@ -147,6 +161,7 @@
             > a {
                 display: inline-block;
                 padding: 0 12px;
+                margin-bottom: @toolbar-tab-text-margin-ie;
                 margin-bottom: @toolbar-tab-text-margin;
                 text-decoration: none;
                 cursor: default;
@@ -333,7 +348,9 @@
     }
 
     .box-controls {
+        height: @toolbar-height-controls-ie;         // button has strange offset in IE when odd height
         height: @toolbar-height-controls;         // button has strange offset in IE when odd height
+        padding: @toolbar-v-paddings-ie 0;
         padding: @toolbar-v-paddings 0;
         display: flex;
         .panel {
@@ -404,6 +421,7 @@
             }
         }
         .group {
+            height: @toolbar-group-height-ie !important;
             height: @toolbar-group-height !important;
             &.flex {
                 vertical-align: bottom;
@@ -471,10 +489,12 @@
     }
 
     .elset {
+        height: @x-small-btn-size-ie;
         height: @x-small-btn-size;
         font-size: 0;
 
         &:not(:first-child) {
+            margin-top: @toolbar-small-btn-margin-top-ie;
             margin-top: @toolbar-small-btn-margin-top;
         }
 
@@ -499,28 +519,34 @@
         }
 
         &.long {
+            height: @toolbar-group-height-ie;
             height: @toolbar-group-height;
         }
 
         &.short {
+            height: @x-small-btn-size-ie;
             height: @x-small-btn-size;
         }
     }
 
     .btn-slot {
         display: inline-block;
+        width: @x-small-btn-size-ie;
         width: @x-small-btn-size;
         height: auto;
 
         &.split-large {
+            width: calc(@x-small-btn-size-ie + 17px);
             width: calc(@x-small-btn-size + 17px);
         }
 
         &.split {
+            width: calc(@x-small-btn-size-ie + @dd-button-size-ie);
             width: calc(@x-small-btn-size + @dd-button-size);
         }
 
         &.split-small {
+            width: calc(@x-small-btn-size-ie + 6px);
             width: calc(@x-small-btn-size + 6px);
         }
 
@@ -531,8 +557,11 @@
         &.border {
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
+            .border-radius(@border-radius-button-toolbar-ie);
             .border-radius(@border-radius-button-toolbar);
+            width: @form-control-size-ie;
             width: @form-control-size;
+            height: @form-control-size-ie;
             height: @form-control-size;
         }
 
@@ -561,6 +590,7 @@
 
     .top-title > & {
         &:not(.folded) {
+            height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls-ie);
             height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
         }
 
@@ -568,6 +598,7 @@
             height: @toolbar-height-tabs-top-title;
 
             &.expanded {
+                height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls-ie);
                 height: calc(@toolbar-height-tabs-top-title + @toolbar-height-controls);
             }
         }
@@ -669,6 +700,7 @@
             &:active, &.active {
                 &:not(.disabled) .icon.toolbar__icon {
                     &.icon--inverse {
+                        background-position-x: @button-small-active-icon-offset-x-ie !important;
                         background-position-x: @button-small-active-icon-offset-x !important;
                     }
                 }
@@ -772,17 +804,20 @@
 
                 &:after {
                     border-top-style: solid;
+                    border-top-width: @toolbar-tab-line-height-ie;
                     border-top-width: @toolbar-tab-line-height;
                     content: '';
                     position: absolute;
                     .margin-left-7();
                     width: calc(100% - 14px);
+                    bottom: calc(-1 * @toolbar-tab-line-height-ie);
                     bottom: calc(-1 * @toolbar-tab-line-height);
                     opacity: 0;
                     .tab-header-color();
                     .style-off-tabs& {
                         .tab-toolbar-color();
                     }
+                    border-radius: @toolbar-tab-line-radius-ie;
                     border-radius: @toolbar-tab-line-radius;
                     transition: margin-left .05s ease-in-out, width .05s ease-in-out, opacity .1s ease-in-out;
                 }
@@ -796,6 +831,7 @@
                 &.active {
                     &:after {
                         opacity: 1;
+                        bottom: @toolbar-tab-line-bottom-ie;
                         bottom: @toolbar-tab-line-bottom;
                     }
                 }
@@ -803,6 +839,7 @@
                 &:hover:not(.active) {
                     &:after {
                         opacity: 0.4;
+                        bottom: @toolbar-tab-line-bottom-ie;
                         bottom: @toolbar-tab-line-bottom;
                     }
                 }
@@ -828,6 +865,7 @@
                 &.short {
                     li {
                         &:after {
+                            bottom: @toolbar-tab-line-bottom-ie;
                             bottom: @toolbar-tab-line-bottom;
                         }
                     }
@@ -908,6 +946,7 @@
     }
 
     &.borders--small {
+        border-radius: @border-radius-button-normal-ie;
         border-radius: @border-radius-button-normal;
 
         &:not(:active) {
@@ -916,23 +955,31 @@
         }
 
         & {
+            width: calc(@x-small-btn-size-ie + 1px);
             width: calc(@x-small-btn-size + 1px);
+            height: calc(@x-small-btn-size-ie + 1px);
             height: calc(@x-small-btn-size + 1px);
 
             .pixel-ratio__2_5 & {
+                width: @x-small-btn-size-ie;
                 width: @x-small-btn-size;
+                height: @x-small-btn-size-ie;
                 height: @x-small-btn-size;
             }
         }
 
         .icon {
-            width: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
-            height: @x-small-btn-size; // calc(@x-small-btn-size + 2px)
+            width: @x-small-btn-size-ie;
+            width: @x-small-btn-size;
+            height: @x-small-btn-size-ie;
+            height: @x-small-btn-size;
 
             .pixel-ratio__1_25 &,
             .pixel-ratio__1_75 &,
             .pixel-ratio__2_5 & {
+                width: @x-small-btn-icon-size-ie;
                 width: @x-small-btn-icon-size;
+                height: @x-small-btn-icon-size-ie;
                 height: @x-small-btn-icon-size;
             }
         }
@@ -952,6 +999,7 @@
 }
 
 #slot-combo-insertshape, .slot-combo-insertshape {
+    @combo-dataview-button-width: 14px;
     @combo-dataview-button-width: calc(2*@scaled-one-px-value + @dd-button-size);
 
     width: 155px;
@@ -1024,6 +1072,7 @@
             -webkit-filter: @img-equition-filter;
             filter: @img-equition-filter;
         }
+        border-radius: @border-radius-dataview-item-ie;
         border-radius: @border-radius-dataview-item;
     }
 }
@@ -1120,7 +1169,7 @@
                 }
             }
             .menu-item-icon {
-                background-position-x: -24px;
+                background-position-x: @button-small-active-icon-offset-x-ie;
                 background-position-x: @button-small-active-icon-offset-x;
             }
 
@@ -1259,10 +1308,13 @@ section .field-styles {
             }
             .plugin-settings {
                 .btn-toolbar.dropdown-toggle {
+                    min-width: @x-small-btn-size-ie;
                     min-width: @x-small-btn-size;
                 }
                 .btn-group {
+                    width: @x-small-btn-size-ie;
                     width: @x-small-btn-size;
+                    height: @x-small-btn-size-ie;
                     height: @x-small-btn-size;
                     .margin-left-8();
                     &:active, &.active {

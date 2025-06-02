@@ -74,7 +74,7 @@ define([
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
-                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height'));
+                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25);
                         me.viewport.vlayout.getItem('statusbar').height = state ? height : height * 2;
                     }
                 },

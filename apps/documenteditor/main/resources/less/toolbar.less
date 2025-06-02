@@ -55,9 +55,11 @@
                 .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
             }
 
+            border-radius: @border-radius-dataview-item-ie;
             border-radius: @border-radius-dataview-item;
             canvas {
                 vertical-align: middle;
+                border-radius: @border-radius-dataview-item-ie;
                 border-radius: @border-radius-dataview-item;
             }
         }
@@ -112,6 +114,7 @@
 
 // menu zoom
 .dropdown-menu .menu-zoom {
+    line-height: @line-height-base-ie;
     line-height: @line-height-base;
     .title {
         padding: 5px 5px 5px 20px;

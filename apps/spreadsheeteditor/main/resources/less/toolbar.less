@@ -13,19 +13,23 @@
     .simple-bar {
         display: flex;
         align-items: center;
-        border-radius: var(--border-radius-toolbar, 0);
+        border-radius: @border-radius-toolbar-ie;
+        border-radius: @border-radius-toolbar;
         position: relative;
         height: 32px;
+        background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         &:before {
             content: '';
             position: absolute;
-            box-shadow: var(--toolbar-simple-shadow, none);
+            box-shadow: @toolbar-simple-shadow-ie;
+            box-shadow: @toolbar-simple-shadow;
             width: 100%;
             height: 32px;
             bottom: 0;
-            border-radius: var(--border-radius-toolbar, 0);
+            border-radius: @border-radius-toolbar-ie;
+            border-radius: @border-radius-toolbar;
         }
 
         .separator.short {
@@ -63,9 +67,12 @@
 
 #toolbar {
     .inner-simple-editor & {
-        padding-left: var(--layout-padding-hor-toolbar-simple);
-        padding-right: var(--layout-padding-hor-toolbar-simple);
-        border-bottom: var(--toolbar-simple-border-bottom);
+        padding-left: 0;
+        padding-left: @layout-padding-hor-toolbar-simple;
+        padding-right: 0;
+        padding-right: @layout-padding-hor-toolbar-simple;
+        border-bottom: @toolbar-simple-border-bottom-ie;
+        border-bottom: @toolbar-simple-border-bottom;
         overflow: hidden;
 
         .toolbar {
@@ -78,7 +85,7 @@
 
             //position: relative;
             //--toolbar-tabs-scroller-height: 38px;
-            background-color: #f1f1f1;
+            background-color: @background-pane-ie;
             background-color: @background-pane;
             //-webkit-box-shadow: inset 0 -1px #cbcbcb;
             //box-shadow: inset 0 -1px #cbcbcb;
@@ -92,19 +99,20 @@
     .inner-simple-editor & {
         padding-left: 0;
         padding-right: 0;
-        padding-left: var(--layout-padding-hor-toolbar-simple);
-        padding-right: var(--layout-padding-hor-toolbar-simple);
+        padding-left: @layout-padding-hor-toolbar-simple;
+        padding-right: @layout-padding-hor-toolbar-simple;
 
         .ce-group-expand {
             right: 3px;
-            right: var(--simple-editor-layout-collapse-button-rigth, 0px);
+            right: @simple-editor-layout-collapse-button-rigth;
         }
     }
 }
 
 .inner-simple-editor {
     .layout-item.middle {
-        padding-top: var(--toolbar-simple-content-padding-top, 0);
+        padding-top: 0;
+        padding-top: @toolbar-simple-content-padding-top;
     }
 }
 
