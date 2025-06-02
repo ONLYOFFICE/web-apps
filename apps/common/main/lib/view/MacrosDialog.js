@@ -330,12 +330,15 @@ define([], function () {
             this.collapsibleHeaderItems = headerItems.filter(function(item) { return item.collapsible });
 
             headerItems.forEach(function(item) {
+                var $caption = item.btn.$el.find('.caption');
+                var hasCaptionHidden = $caption.hasClass('hide');
+                $caption.removeClass('hide');
+
                 item.expandedWidth = item.btn.$el.outerWidth(!item.withoutMargin);
-                item.collapsedWidth = item.collapsible ? 
-                    item.expandedWidth - item.btn.$el.find('.caption').outerWidth(true) :
-                    item.expandedWidth;
-                item.caption = item.btn.options.caption;
+                item.collapsedWidth = item.collapsible ? (item.expandedWidth - $caption.outerWidth(true)) : item.expandedWidth;
+
                 maxHeaderWidth += item.expandedWidth;
+                hasCaptionHidden && $caption.addClass('hide');
             });
 
             this.collapsibleHeaderItems.forEach(function(item, index) {
@@ -369,7 +372,7 @@ define([], function () {
 
             this.collapsibleHeaderItems.forEach(function(item) {
                 var shouldCollapse = currentBreakpoint && currentBreakpoint.collapseItems.indexOf(item) !== -1;
-                item.btn.setCaption(shouldCollapse ? '' : item.caption);
+                item.btn.$el.find('.caption').toggleClass('hide', !!shouldCollapse);
             });
         },
 
@@ -870,6 +873,12 @@ define([], function () {
             this.selectItem(record, this.ItemTypes.CustomFunction);
         },
 
+        onThemeChanged: function() {
+            this.calcHeaderBreakpoints();
+            this.collapseHeaderItems();
+            Common.UI.Window.prototype.onThemeChanged.call(this);
+        },
+        
         onHelp: function() {
             window.open('https://api.onlyoffice.com/docs/plugin-and-macros/macros/getting-started/', '_blank')
         },
