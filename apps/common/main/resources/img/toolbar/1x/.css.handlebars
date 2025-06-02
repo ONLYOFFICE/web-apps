@@ -14,18 +14,18 @@
     }
 }
 .toolbar__icon, .menu__icon {
-    {{#if (iesupport)}}
+    {{!-- {{#if (iesupport)}} --}}
     background-image: url(resources/{{{escaped_image}}});
-    {{/if}}
+    {{!-- {{/if}} --}}
     background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
 }
 {{/spritesheet}}
 {{#sprites}}
 {{#extracls}}{{/extracls}}{{#parselang name}}.{{name}}{{/parselang}} {
-    {{#if (iesupport)}}
+    {{!-- {{#if (iesupport)}} --}}
     @btn-icon-offset: 0;
     background-position: @btn-icon-offset {{px.offset_y}};
-    {{/if}}
+    {{!-- {{/if}} --}}
 
     background-position: var(--button-small-normal-icon-offset-x, 0) {{px.offset_y}};
 }
