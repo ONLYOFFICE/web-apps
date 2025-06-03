@@ -875,6 +875,7 @@ class MainController extends Component {
                     this.onShowDateActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                case Asc.c_oAscContentControlSpecificType.Signature:
                     if (obj.pr && obj.pr.get_Lock) {
                         let lock = obj.pr.get_Lock();
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)

@@ -253,6 +253,7 @@ define([
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                     return this.textRemDropdown;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                case Asc.c_oAscContentControlSpecificType.Signature:
                     return this.textRemPicture;
                 default:
                     return this.textRemField;

@@ -1206,7 +1206,23 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature() && false) {
+                    if (!me.mode.canSaveToFile) { // select picture in viewer only from local file
+                        this.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    if (false) {
                         if (_.isUndefined(me.fontStore)) {
                             me.fontStore = new Common.Collections.Fonts();
                             var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
@@ -1231,15 +1247,12 @@ define([], function () {
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
+                    } else {
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    }
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
