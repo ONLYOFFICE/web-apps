@@ -44,8 +44,6 @@ module.exports = function (grunt, rootpathprefix) {
 
             return options.fn({name:name});
         },
-        half: num => {return num/2;},
-        scaled: (num, factor) => {return num / factor;},
         spritepostfix: () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`,
     };
 
@@ -59,6 +57,7 @@ module.exports = function (grunt, rootpathprefix) {
         let hbhelpers = {...helpers};
         hbhelpers.spritepostfix = () => `${opts.extpath ? opts.extpath : 'small'}-${scaling_table[opts.scale]}`;
         hbhelpers.extracls = () => opts.mod2 ? '.theme-icons-cls-mod2 ' : '';
+        hbhelpers.iesupport = () => !opts.mod2;
 
         return {
             src: [`${_editor_res_root}/img/toolbar/${_mod_path}${_scaled_path}/*.png`, `${_common_res_root}/img/toolbar/${_mod_path}${_scaled_path}/*.png`],

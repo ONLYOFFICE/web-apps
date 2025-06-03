@@ -4,9 +4,9 @@
             (min-resolution: 2dppx), (min-resolution: 192dpi)
     {
         .toolbar__icon, .menu__icon {
-            {{!-- {{#if (iesupport)}} --}}
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            {{!-- {{/if}} --}}
+            {{/if}}
             background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
             background-size: var(--sprite-button-small-width, 40px) auto;
         }

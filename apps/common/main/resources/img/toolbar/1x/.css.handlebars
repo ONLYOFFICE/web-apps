@@ -14,9 +14,9 @@
     }
 }
 .toolbar__icon, .menu__icon {
-    {{!-- {{#if (iesupport)}} --}}
+    {{#if (iesupport)}}
     background-image: url(resources/{{{escaped_image}}});
-    {{!-- {{/if}} --}}
+    {{/if}}
     background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
 }
 {{/spritesheet}}
