@@ -1027,6 +1027,7 @@ define([], function () {
 
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();

@@ -1249,6 +1249,7 @@ define([
 
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
