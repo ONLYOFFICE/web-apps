@@ -21,10 +21,10 @@
 {{/spritesheet}}
 {{#sprites}}
 {{#extracls}}{{/extracls}}{{#parselang name}}.{{name}}{{/parselang}} {
-    {{!-- {{#if (iesupport)}} --}}
+    {{#if (iesupport)}}
     @btn-icon-offset: 0;
     background-position: @btn-icon-offset {{px.offset_y}};
-    {{!-- {{/if}} --}}
+    {{/if}}
 
     background-position: var(--button-small-normal-icon-offset-x, 0) {{px.offset_y}};
 }
