@@ -4,10 +4,8 @@
         &:not(:disabled):not(.disabled) {
             .toolbar__icon {
                 {{#if (iesupport)}}
-                @btn-active-icon-offset: -24px;
-                background-position-x: @btn-active-icon-offset;
+                background-position-x: -20px;
                 {{/if}}
-
                 background-position-x: var(--button-small-active-icon-offset-x, 0);
             }
         }
@@ -18,6 +16,7 @@
     background-image: url(resources/{{{escaped_image}}});
     {{/if}}
     background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+    background-size: var(--sprite-button-small-width, 40px) auto;
 }
 {{/spritesheet}}
 {{#sprites}}
