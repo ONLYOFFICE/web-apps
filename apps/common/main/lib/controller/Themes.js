@@ -653,7 +653,11 @@ define([
                 if ( !document.body.classList.contains('theme-type-' + obj.type) )
                     document.body.classList.add('theme-type-' + obj.type);
 
-                if (themes_map[theme_id].icons) {
+                if ( !themes_map[theme_id] && window.uitheme && window.uitheme.id == theme_id ) {
+                    themes_map[theme_id] = window.uitheme;
+                }
+
+                if (themes_map[theme_id] && themes_map[theme_id].icons) {
                     if ( !document.querySelector('style#' + theme_id) ) {
                         const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
                                 getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
