@@ -1223,15 +1223,20 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
-                        me.api.asc_addImage(obj.pr);
-                        setTimeout(function(){
-                            me.api.asc_UncheckContentControlButtons();
-                        }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    setTimeout(function() {
+                        me.onShowImageActions(obj, x, y);
+                    }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    me.api.asc_addImage(obj.pr);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1244,6 +1249,7 @@ define([
 
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();

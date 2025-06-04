@@ -168,7 +168,7 @@ define([
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
                         disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup();
                         disable.wrapping    = props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) ||
-                                            (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture && !control_props.get_FormPr());
+                                            (!!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture || control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Signature) && !control_props.get_FormPr());
                         disable.group   = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
                         canGroupUngroup = me.api.CanGroup() || me.api.CanUnGroup();
                         if (!disable.group && canGroupUngroup) {
