@@ -57,7 +57,7 @@ define([
             '<div class="separator long" data-layout-name="toolbar-view-navigation"></div>' +
             '<div class="group small">' +
                 '<div class="elset" style="display: flex;">' +
-                    '<span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>' +
+                    '<span id="slot-field-zoom" class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>' +
                 '</div>' +
                 '<div class="elset" style="text-align: center;">' +
                     '<span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
