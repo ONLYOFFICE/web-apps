@@ -237,7 +237,7 @@ define([
             if (this._currLang.id===null || this._currLang.id===undefined) {
                 menu.clearAll();
             } else {
-                var index = _.findLastIndex(menu.items, {langid: this._currLang.id});
+                var index = _.findIndex(menu.items, {langid: this._currLang.id});
                 (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
             }
         },

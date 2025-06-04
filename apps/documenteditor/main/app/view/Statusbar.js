@@ -408,7 +408,6 @@ define([
                         value       : item['value'],
                         code        : item['code'],
                         checkable   : true,
-                        checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
                     });
                 });
@@ -420,6 +419,8 @@ define([
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
+                    var index = _.findIndex(this.langMenu.items, {caption: saved});
+                    (index>-1) && this.langMenu.setChecked(index, true);
                     var isProtected = this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly;
                     this.btnLanguage.setDisabled(this._isDisabled || !!this.mode.isDisconnected || isProtected);
                 }
@@ -430,7 +431,7 @@ define([
                     this.btnLanguage.setCaption(info.displayValue);
                     this.langMenu.prevTip = info.value;
 
-                    var index = _.findLastIndex(this.langMenu.items, {caption: info.displayValue});
+                    var index = _.findIndex(this.langMenu.items, {caption: info.displayValue});
                     if (index>-1) {
                         this.langMenu.setChecked(index, true);
                     } else {
