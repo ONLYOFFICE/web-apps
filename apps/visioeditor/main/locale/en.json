@@ -40,6 +40,8 @@
   "Common.UI.Themes.txtThemeGray": "Gray",
   "Common.UI.Themes.txtThemeLight": "Light",
   "Common.UI.Themes.txtThemeSystem": "Same as system",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
   "Common.UI.Window.cancelButtonText": "Cancel",
   "Common.UI.Window.closeButtonText": "Close",
   "Common.UI.Window.noButtonText": "No",
