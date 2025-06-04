@@ -96,7 +96,7 @@ define([
             if (me._currLang.id===null || me._currLang.id===undefined) {
                 menu.clearAll();
             } else {
-                var index = _.findLastIndex(menu.items, {langid: me._currLang.id});
+                var index = _.findIndex(menu.items, {langid: me._currLang.id});
                 (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
             }
         },
