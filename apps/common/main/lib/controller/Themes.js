@@ -789,7 +789,7 @@ define([
                         };
                     }
                 } else if (prop==='tab-style') {
-                    return Common.Utils.isIE ? 'fill' : window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
+                    return (Common.Utils.isIE || Common.Controllers.Desktop && Common.Controllers.Desktop.isWinXp()) ? 'fill' : window.getComputedStyle(document.body).getPropertyValue("--toolbar-preferred-tab-style") || 'line';
                 }
                 return theme_props[prop];
             }
