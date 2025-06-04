@@ -48,6 +48,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/FirefoxClickManager',
     'common/main/lib/controller/LaunchController',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
@@ -106,6 +107,7 @@ define([
 
             onLaunch: function() {
                 var me = this;
+                var isFirefox = Common.Utils.firefoxVersion>0
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
@@ -138,6 +140,7 @@ define([
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 Common.Controllers.LaunchController.init(this.api);
+                if (isFirefox) Common.UI.FirefoxClickManager.init();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);

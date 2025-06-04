@@ -53,6 +53,7 @@ define([
     'presentationeditor/main/app/collection/SlideLayouts',
     'presentationeditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/FirefoxClickManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
@@ -159,6 +160,7 @@ define([
 
             onLaunch: function() {
                 var me = this;
+                var isFirefox = Common.Utils.firefoxVersion>0
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false, requireUserAction: true};
                 this.languages = null;
@@ -190,6 +192,7 @@ define([
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 Common.Controllers.LaunchController.init(this.api);
+                if (isFirefox) Common.UI.FirefoxClickManager.init();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);

@@ -619,12 +619,6 @@ define([
 
                         (me.options.width>0) && $('button:first', el).css('width', me.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
                     }
-                    if (isFirefox) {
-                        $('[type="menuitem"]').on('mousedown', setMouseDownTarget);
-                        $('[type="menuitem"]').on('click', preventMismatchedClickInFirefox);
-                        $('.ribtab').on('mousedown', setMouseDownTarget);
-                        $('.ribtab').on('click', preventMismatchedClickInFirefox);
-                    }
 
                     el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
                     el.on('show.bs.dropdown', _.bind(doSplitSelect, me, true, 'arrow'));
@@ -638,23 +632,6 @@ define([
                     el.on('click', buttonHandler);
                     if (isFirefox) {
                         el.on('mousedown', setMouseDownTarget);
-
-                        var slotSelectors = [
-                            '#slot-field-styles', '#transit-field-effects', '#animation-field-effects',
-                            '#tlbtn-insertshape-1', '#slot-field-zoom', '#slot-field-fontsize',
-                            '#slot-field-fontname', '#tlbtn-insertshape-0', '#slot-btn-format',
-                            '#animation-label-start', '#animation-spin-duration', '#animation-spin-repeat'
-                        ];
-                        slotSelectors.forEach(function (selector) {
-                            var $el = $(selector);
-                            if ($el[0]) {
-                                $el[0].addEventListener('click', function (e) {
-                                    if (!mouseDownTarget) preventMismatchedClickInFirefox(e);
-                                    mouseDownTarget = null;
-                                }, true);
-                                $el.on('mousedown', setMouseDownTarget);
-                            }
-                        });
                     }
                 }
 

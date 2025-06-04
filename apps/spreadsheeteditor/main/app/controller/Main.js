@@ -57,6 +57,7 @@ define([
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
+    'common/main/lib/controller/FirefoxClickManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
     'common/main/lib/view/OpenDialog',
@@ -182,6 +183,7 @@ define([
             onLaunch: function() {
 //                $(document.body).css('position', 'absolute');
                 var me = this;
+                var isFirefox = Common.Utils.firefoxVersion>0
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false, requireUserAction: true};
 
@@ -201,6 +203,8 @@ define([
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 Common.Controllers.LaunchController.init(this.api);
+                if (isFirefox) Common.UI.FirefoxClickManager.init();
+
 
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
                 Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
