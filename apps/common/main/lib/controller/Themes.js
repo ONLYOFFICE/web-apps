@@ -169,7 +169,7 @@ define([
                 },
             },
             'theme-white': {
-                text: locale.txtThemeWhite || 'White',
+                text: locale.txtThemeModerLight || 'White',
                 type: 'light',
                 source: 'static',
                 icons: {
@@ -177,7 +177,7 @@ define([
                 }
             },
             'theme-night': {
-                text: locale.txtThemeWhiteDark || 'Night',
+                text: locale.txtThemeModerDark || 'Night',
                 type: 'dark',
                 source: 'static',
                 icons: {
