@@ -326,6 +326,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-hide-right-settings", true);
             }
 
+            !isPlugin && $('.right-panel .plugin-panel').toggleClass('active', false);
             btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 

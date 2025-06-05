@@ -156,8 +156,16 @@
 
                 &.custom {
                     opacity: 0.6;
-                    margin-top: 2px;
-                    .margin-right-2();
+                    margin-top: calc(2px - (@x-small-btn-icon-size-ie - 20px) / 2);
+                    margin-top: calc(2px - (@x-small-btn-icon-size - 20px) / 2);
+                    margin-right: calc(2px + (@x-small-btn-icon-size-ie - 20px) / 2);
+                    margin-right: calc(2px + (@x-small-btn-icon-size - 20px) / 2);
+
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: calc(2px - (@x-small-btn-icon-size-ie - 20px) / 2);
+                        margin-left: calc(2px - (@x-small-btn-icon-size - 20px) / 2);
+                    }
 
                     &:hover {
                         opacity: 0.8;
