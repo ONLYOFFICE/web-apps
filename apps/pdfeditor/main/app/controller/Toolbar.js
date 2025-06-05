@@ -337,6 +337,8 @@ define([
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+            toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
@@ -430,6 +432,7 @@ define([
             this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
             this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
             this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
+            this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
             // this.api.asc_registerCallback('asc_onCanGroup',             _.bind(this.onApiCanGroup, this));
             // this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
         },
@@ -2553,6 +2556,38 @@ define([
 
         onTextHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
+        },
+
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onApiTextDirection: function (isRtl){
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnDecLeftOffset.cmpEl && toolbar.btnDecLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnIncLeftOffset.cmpEl && toolbar.btnIncLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
+            }
         },
 
         changePDFMode: function(data) {
