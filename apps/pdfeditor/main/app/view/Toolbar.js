@@ -798,7 +798,7 @@ define([
                 this.btnDelPage = new Common.UI.Button({
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-rem-comment',
+                    iconCls: 'toolbar__icon btn-rem-page',
                     lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage, _set.cantDelPage],
                     caption: this.capBtnDelPage,
                     dataHint: '1',
