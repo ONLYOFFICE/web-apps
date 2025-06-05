@@ -77,10 +77,10 @@ define([
                 me.chTitle && me.chTitle.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('title:hide', [me.chTitle, state === 'checked']);
                 }, me));
-                me.chFooters.on('change', _.bind(function (checkbox, state) {
+                me.chFooters && me.chFooters.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('footers:hide', [me.chFooters, state === 'checked']);
                 }, me));
-                me.btnInsertPlaceholder.on('click', function (btn, e) {
+                me.btnInsertPlaceholder && me.btnInsertPlaceholder.on('click', function (btn, e) {
                     me.fireEvent('insert:placeholder-btn', [btn, e]);
                 });
 

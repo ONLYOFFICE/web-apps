@@ -55,12 +55,20 @@ define([
         initialize: function () {
             var me = this;
 
-            this.checkInsertAutoshape = function(e) {
+             this.checkInsertAutoshape = function(e) {
                 var cmp = $(e.target),
-                cmp_sdk = cmp.closest('#editor_sdk');
-                if (cmp.attr('id') !== 'editor_sdk' && cmp_sdk.length <= 0) {
-                    if (me.view.btnInsertPlaceholder && me.view.btnInsertPlaceholder.pressed) {
+                    cmp_sdk = cmp.closest('#editor_sdk'),
+                    btn_id = cmp.closest('button').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
+
+                if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
+                    if (me.view.btnInsertPlaceholder.pressed && me.view.btnInsertPlaceholder.id !== btn_id)
+                    {
                         me._isAddingShape = false;
+
                         me.view.btnInsertPlaceholder.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
@@ -129,7 +137,7 @@ define([
         },
 
         onApiEndAddShape: function() {
-            if (this.view.btnInsertPlaceholder.pressed)
+            if (this.view.btnInsertPlaceholder && this.view.btnInsertPlaceholder.pressed)
                 this.view.btnInsertPlaceholder.toggle(false, true);
         },
 
