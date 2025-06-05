@@ -1463,7 +1463,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 2);
                         me.toolbar.setVisible('forms', true);
-                        me.api.SetEditFieldsMode(true);
+
                         Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                     }
                 }
@@ -1511,7 +1511,6 @@ define([
 
                 this._state.initEditing = false;
             }
-            this.api.SetEditFieldsMode(this.mode.isPDFEdit && this.mode.canFeatureForms);
             if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
