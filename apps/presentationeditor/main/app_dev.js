@@ -223,6 +223,7 @@ require([
                 'common/main/lib/view/MacrosDialog',
                 'common/main/lib/view/MacrosAiDialog',
                 'common/main/lib/component/MonacoEditor',
+                'common/main/lib/component/TextareaField',
 
                 'presentationeditor/main/app/controller/DocumentHolderExt',
                 'presentationeditor/main/app/view/FileMenuPanels',

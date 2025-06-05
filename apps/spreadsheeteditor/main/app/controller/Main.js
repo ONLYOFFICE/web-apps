@@ -2930,11 +2930,31 @@ define([
 
             setLanguages: function() {
                 let sLangs = Common.Controllers.Desktop.systemLangs() || {},
-                    arr = [];
+                    arr = [],
+                    me = this;
                 for (let name in sLangs) {
                     sLangs.hasOwnProperty(name) && arr.push(name);
                 }
                 sLangs = arr;
+
+                arr = []; // system languages can be 'en'... (MacOs)
+                sLangs.forEach(function(lang) {
+                    let rec = Common.util.LanguageInfo.getLocalLanguageCode(lang);
+                    rec && (rec = me.languages.indexOf(rec.toString())<0 ? null : lang);
+                    if (!rec) {
+                        rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
+                        rec = rec && me.languages.indexOf(rec.toString())>-1 ? rec : null;
+                        rec && (rec = Common.util.LanguageInfo.getLocalLanguageName(parseInt(rec))[0]);
+                    }
+                    if (!rec) {
+                        rec = _.find(me.languages, function(code) {
+                            return (Common.util.LanguageInfo.getLocalLanguageName(parseInt(code))[0].indexOf(lang.toLowerCase())===0);
+                        });
+                        rec && (rec = Common.util.LanguageInfo.getLocalLanguageName(parseInt(rec))[0]);
+                    }
+                    rec && arr.push(rec);
+                });
+                sLangs = _.uniq(arr);
 
                 let recentKey = 'app-settings-recent-langs',
                     recentCount = Math.max(5, sLangs.length + 3);
@@ -2965,6 +2985,9 @@ define([
                             this.loadMask && this.loadMask.isVisible() && this.loadMask.updatePosition();
                         }
                         this.isAppDisabled = data.data;
+                        break;
+                    case 'reshow': 
+                        Common.NotificationCenter.trigger('external:reshow');
                         break;
                     case 'queryClose':
                         if (!Common.Utils.ModalWindow.isVisible()) {

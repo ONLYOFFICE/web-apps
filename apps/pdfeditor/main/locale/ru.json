@@ -1465,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Нет",
   "PDFE.Views.FormSettings.textNormal": "Вверх",
   "PDFE.Views.FormSettings.textNumber": "Числовой",
+  "PDFE.Views.FormSettings.textOrientation": "Ориентация",
   "PDFE.Views.FormSettings.textOutline": "Обрамление",
   "PDFE.Views.FormSettings.textOverlay": "Надпись поверх значка",
   "PDFE.Views.FormSettings.textPercent": "Процентный",

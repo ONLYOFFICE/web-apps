@@ -201,6 +201,7 @@ define([
                 this.onCoauthOptions();
             }
 
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },

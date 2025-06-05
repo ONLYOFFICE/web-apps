@@ -226,7 +226,7 @@ define([
 
             var onKeyUp = function (e) {
                 if ( me.disabled ) return;
-x
+
                 if (e.keyCode==Common.UI.Keys.UP || e.keyCode==Common.UI.Keys.DOWN || Common.UI.Keys.LEFT || Common.UI.Keys.RIGHT) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -242,6 +242,7 @@ x
                 el.on('mousedown', '.thumb', onMouseDown);
                 el.on('mousedown', '.track', onTrackMouseDown);
                 if (this.options.enableKeyEvents) {
+                    me.input = el.find('input');
                     el.on('keydown', 'input', onKeyDown);
                     el.on('keyup',   'input', onKeyUp);
                 }
@@ -262,13 +263,14 @@ x
         },
 
         setThumbPosition: function (pos) {
-            const isVertical = this.direction === 'vertical';
+            if (typeof pos !== 'number' || isNaN(pos)) {
+                pos = 0;
+            }
 
-            const trackSize = isVertical ? this.track.height() : this.track.width();
-            const offset = pos / 100 * trackSize + this.thumbRange[pos];
+            const offset = pos / 100 * this.width + this.thumbRange[pos];
 
             this.track.css('--slider-unfill-percent', 100 - pos + '%');
-            this.thumb.css(isVertical ? 'top' : 'left', offset + 'px');
+            this.thumb.css(this.direction === 'vertical' ? 'top' : 'left', offset + 'px');
         },
 
         setValue: function(value) {

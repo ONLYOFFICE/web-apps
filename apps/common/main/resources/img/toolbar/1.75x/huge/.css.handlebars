@@ -1,10 +1,10 @@
 {{#spritesheet}}
 .pixel-ratio__1_75 {
     .options__icon.options__icon-huge {
+        {{#if (iesupport)}}
         background-image: url(resources/{{{escaped_image}}});
+        {{/if}}
         background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
-        background-size: 80px auto;
-        background-size: var(--huge-icon-background-image-width) auto;
     }
 }
 {{/spritesheet}}

@@ -100,6 +100,7 @@ define([], function () {
                 view = me.documentHolder;
 
             if (type==='pdf') {
+                view.menuViewCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuAddComment.on('click', _.bind(me.addComment, me));
                 view.menuRemoveComment.on('click', _.bind(me.removeComment, me));
@@ -221,7 +222,9 @@ define([], function () {
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
                 view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, -90));
                 view.mnuCopyPage.on('click', _.bind(me.onCutCopyPaste, me));
-                view.mnuPastePage.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuCutPage.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuPastePageBefore.on('click', _.bind(me.onCutCopyPaste, me));
+                view.mnuPastePageAfter.on('click', _.bind(me.onCutCopyPaste, me));
 
                 view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             }
@@ -1311,7 +1314,7 @@ define([], function () {
         dh.onCutCopyPaste = function(item, e) {
             var me = this;
             if (me.api) {
-                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
+                var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste(item.value == 'paste-before'));
                 if (!res) {
                     if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
                         (new Common.Views.CopyWarningDialog({

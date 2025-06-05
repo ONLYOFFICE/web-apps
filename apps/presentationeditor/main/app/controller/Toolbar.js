@@ -142,6 +142,7 @@ define([
                     'title:hide'         : this.onTitleHide.bind(this),
                     'footers:hide'       : this.onFootersHide.bind(this),
                     'tab:active'         : this.onActiveTab.bind(this),
+                    'tab:active:before'  : this.onBeforeActiveTab.bind(this),
                     'tab:collapse'       : this.onTabCollapse.bind(this)
                 },
                 'DocumentHolder': {
@@ -424,6 +425,7 @@ define([
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         setApi: function(api) {
@@ -3172,6 +3174,9 @@ define([
                 setTimeout(function() {
                     Common.UI.TooltipManager.showTip('mergeShapes');
                 }, 10);
+        },
+
+        onBeforeActiveTab: function(tab) {
             this._state.activeTab = tab;
             this.showStaticElements();
         },

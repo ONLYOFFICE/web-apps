@@ -1227,34 +1227,38 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature()) { // select signature picture only from local file
-                        var win = (new Common.Views.PdfSignDialog({
-                            props: obj,
-                            api: me.api,
-                            disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
-                            storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
-                            fontStore: this.getCollection('Common.Collections.Fonts'),
-                            iconType: 'svg',
-                            handler: function(result, value) {
-                                if (result == 'ok') {
-                                    me.api.asc_SetSignatureProps(value);
-                                }
+                    setTimeout(function() {
+                        me.onShowImageActions(obj, x, y);
+                    }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    var win = (new Common.Views.PdfSignDialog({
+                        props: obj,
+                        api: me.api,
+                        disableNetworkFunctionality: me.appOptions.disableNetworkFunctionality,
+                        storage: me.appOptions.canRequestInsertImage || me.appOptions.fileChoiceUrl && me.appOptions.fileChoiceUrl.indexOf("{documentType}")>-1,
+                        fontStore: this.getCollection('Common.Collections.Fonts'),
+                        iconType: 'svg',
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetSignatureProps(value);
                             }
+                        }
                         })).on('close', function(obj){
                             setTimeout(function(){
                                 me.api.asc_UncheckContentControlButtons();
                             }, 100);
                         });
-                        win.show();
-
-                        // me.api.asc_addImage(obj.pr);
-                        // setTimeout(function(){
-                        //     me.api.asc_UncheckContentControlButtons();
-                        // }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    win.show();
+                    // me.api.asc_addImage(obj.pr);
+                    // setTimeout(function(){
+                    //     me.api.asc_UncheckContentControlButtons();
+                    // }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1267,6 +1271,7 @@ define([
 
         onHideContentControlsActions: function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.boxSdk.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();

@@ -1306,6 +1306,8 @@ define([
                 if (!this.recentArr) {
                     this.recentArr = [];
                 }
+                var checkedItem = _.findWhere(this.items, {checked: true});
+
                 this.clearRecent();
 
                 var me = this,
@@ -1319,6 +1321,12 @@ define([
                     mnu && me.addItemToRecent(mnu, true, 0);
                 });
                 this.recentArr = arr;
+
+                if (checkedItem) {
+                    let obj,
+                        index = _.findIndex(me.items, (obj={}, obj[me.recent.valueField]=checkedItem[me.recent.valueField], obj));
+                    (index>-1) && me.setChecked(index, true, true);
+                }
             }
         },
 
@@ -1377,11 +1385,12 @@ define([
 
         onInsertRecentItem: function(item, index) {
             if (!this.cmpEl) return;
-            var el = this.cmpEl.find('> li').eq(index || 0);
-            el.before(_.template('<li><%= itemTemplate(item) %></li>')({
+            var el = $(_.template('<li><%= itemTemplate(item) %></li>')({
                 itemTemplate: this.itemTemplate,
                 item: item
             }));
+            this.cmpEl.find('> li').eq(index || 0).before(el);
+            el && (item.el = el.find('> a'));
         },
 
         onRemoveRecentItem: function(item) {

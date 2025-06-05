@@ -121,16 +121,6 @@
             opacity: 0.4;
         }
 
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            /* margin: 0 10px; */
-            background: rgba(0,0,0,.15);
-            background: var(--sk-background-toolbar-tab);
-        }
-
         .loadmask > .sktoolbar {
             background: #f1f1f1;
             /*height: 66px;*/
@@ -155,7 +145,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            row-gap: 5px;
         }
 
         .loadmask > .sktoolbar ul {
@@ -164,6 +153,10 @@
             white-space: nowrap;
             position: relative;
             height: 20px;
+        }
+
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
         }
 
         .loadmask > .sktoolbar li {
@@ -369,7 +362,6 @@
             <div>
                 <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div>
                 <div class="spacer"></div>
-                <div class="circle"></div>
             </div>
             <div>
                 <span class="rect"></span>

@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Label top, icon bottom",
   "PDFE.Views.FormSettings.textLayout": "Макет",
   "PDFE.Views.FormSettings.textListBox": "List box",
+  "PDFE.Views.FormSettings.textLock": "Lock",
   "PDFE.Views.FormSettings.textMask": "Адвольная маска",
   "PDFE.Views.FormSettings.textMaxChars": "Ліміт знакаў",
   "PDFE.Views.FormSettings.textMedium": "Сярэднія",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Няма",
   "PDFE.Views.FormSettings.textNormal": "Уверх",
   "PDFE.Views.FormSettings.textNumber": "Лічбавы",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Структура",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Выява занадта малая",
   "PDFE.Views.FormSettings.textUnderline": "Падкрэслены",
   "PDFE.Views.FormSettings.textUnison": "Buttons with the same name and choice are selected in unison",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock",
   "PDFE.Views.FormSettings.textValue": "Параметры значэнняў",
   "PDFE.Views.FormSettings.textZipCode": "Індэкс",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
 }

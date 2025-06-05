@@ -40,6 +40,7 @@
   "VE.ApplicationController.titleLicenseNotActive": "الترخيص غير نشط",
   "VE.ApplicationController.txtClose": "إغلاق",
   "VE.ApplicationController.txtPage": "الصفحة",
+  "VE.ApplicationController.txtPressLink": "انقروا على الرابط لفتحه",
   "VE.ApplicationController.unknownErrorText": "خطأ غير معروف.",
   "VE.ApplicationController.unsupportedBrowserErrorText": "المتصفح المستخدم غير مدعوم",
   "VE.ApplicationController.waitText": "الرجاء الانتظار...",

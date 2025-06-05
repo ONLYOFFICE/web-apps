@@ -343,7 +343,8 @@ define([
                 const computed_style = window.getComputedStyle(document.body);
                 _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
                 _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
-                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) +
+                                     (this.appConfig.twoLevelHeader && !this.appConfig.compactHeader ? _intvars.get('document-title-height') : 0));
 
                 this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
                     _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');

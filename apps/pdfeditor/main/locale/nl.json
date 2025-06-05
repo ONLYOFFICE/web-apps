@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Label top, icon bottom",
   "PDFE.Views.FormSettings.textLayout": "Layout",
   "PDFE.Views.FormSettings.textListBox": "List box",
+  "PDFE.Views.FormSettings.textLock": "Lock",
   "PDFE.Views.FormSettings.textMask": "Willekeurig masker",
   "PDFE.Views.FormSettings.textMaxChars": "Teken limiet",
   "PDFE.Views.FormSettings.textMedium": "Gemiddeld",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Geen",
   "PDFE.Views.FormSettings.textNormal": "Up",
   "PDFE.Views.FormSettings.textNumber": "Number",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Afbeelding is Te Klein",
   "PDFE.Views.FormSettings.textUnderline": "Underline",
   "PDFE.Views.FormSettings.textUnison": "Buttons with the same name and choice are selected in unison",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock",
   "PDFE.Views.FormSettings.textValue": "Value options",
   "PDFE.Views.FormSettings.textZipCode": "Postcode",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Aan pagina aanpassen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Aan breedte aanpassen",
   "PDFE.Views.ViewTab.tipHeadings": "Koppen",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfacethema"
 }

@@ -45,7 +45,7 @@
         --highlight-fill-button-pressed: #dfb500;
 
         --border-toolbar: #cbcbcb;
-        --border-toolbar-active-panel-top: var(--background-toolbar);
+        --border-toolbar-active-panel-top: #f3f3f3;
         --border-toolbar-active-tab: var(--background-toolbar-tab);
         --border-divider: #EAEAEA;
         --border-regular-control: #E1E1E1;
@@ -166,21 +166,27 @@
         --image-border-types-filter-selected: none;
         --component-normal-icon-filter: none;
 
-        --component-normal-icon-opacity: .8;
-        --component-hover-icon-opacity: .8;
+        --component-normal-icon-opacity: 1;
+        --component-hover-icon-opacity: 1;
         --component-active-icon-opacity: 1;
         --component-active-hover-icon-opacity: 1;
         --component-disabled-opacity: .4;
 
-        --header-component-normal-icon-opacity: .8;
-        --header-component-hover-icon-opacity: .8;
+        --header-component-normal-icon-opacity: 1;
+        --header-component-hover-icon-opacity: 1;
         --header-component-active-icon-opacity: 1;
         --header-component-active-hover-icon-opacity: 1;
 
         //--menu-icon-item-checked-offset-x: -20px;
         --border-sidemenu: 0 none;
         --border-radius-toolbar: 8px;
+        --toolbar-tab-radius: 5px;
+        --toolbar-tab-line-radius: 2px;
+        --toolbar-tab-line-height: 3px;
+        --toolbar-tab-line-bottom: 4px;
+        --toolbar-tab-text-margin: 7px;
         --background-statusbar: var(--background-toolbar);
+        --border-toolbar-z-clear: transparent;
         --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
         --shadow-side-panel: 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
         --layout-padding-toolbar: 0 10px;
@@ -196,6 +202,11 @@
         --celleditor-height: 24px;
         --celleditor-line-height: 20px;
         --celleditor-border-width: 0px;
+        --celleditor-input-border: var(--scaled-one-pixel, 1px) solid var(--border-fill-input);
+        --celleditor-input-border-radius: var(--border-radius-form-control);
+        --celleditor-cell-name-height: calc(var(--celleditor-height) + (1px - 1px/var(--pixel-ratio-factor,1)));
+        --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-fill-input);
+        --celleditor-func-label-margin-left: 1px;
 
         --x-small-btn-size: 24px;
         --x-small-btn-icon-size: 24px;
@@ -316,6 +327,20 @@
         --header-component-margin: 0 6px;
         --header-component-align: center;
 
+        --toolbar-simple-border-bottom: 0 none;
+        --toolbar-simple-shadow: var(--shadow-toolbar, none);
+        --toolbar-simple-content-padding-top: 3px;
+        --layout-padding-hor-toolbar-simple: 5px;
+        --simple-editor-layout-collapse-button-rigth: 8px;
+        --toolbar-preferred-tab-style: line;
+
         --content-padding-top: 8px;
+
+        --icon-gray-primary: #383838;
+        --icon-blue-primary: #446eca;
+        --icon-gray-secondary: #969696;
+        --icon-blue-secondary: #dce7fa;
+        --icon-red: #ef4444;
+        --icon-success: #2e8b57;
     }
 }

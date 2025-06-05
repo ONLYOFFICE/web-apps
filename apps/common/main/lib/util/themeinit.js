@@ -46,6 +46,9 @@
 
     !window.uitheme && (window.uitheme = {});
 
+    window.uitheme.DEFAULT_LIGHT_THEME_ID = !window.isIEBrowser ? 'theme-white' : 'theme-classic-light';
+    window.uitheme.DEFAULT_DARK_THEME_ID = !window.isIEBrowser ? 'theme-night' : 'theme-dark';
+
     window.uitheme.set_id = function (id) {
         if ( id == 'theme-system' )
             this.adapt_to_system_theme();
@@ -63,7 +66,7 @@
 
     window.uitheme.relevant_theme_id = function () {
         if ( this.is_theme_system() )
-            return this.is_system_theme_dark() ? 'theme-dark' : 'theme-classic-light';
+            return this.is_system_theme_dark() ? window.uitheme.DEFAULT_DARK_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
         return this.id;
     }
 
@@ -88,14 +91,15 @@
     }
 
     window.uitheme.apply_icons_from_url = function (themeid, url) {
-        // if ( !url ) return;
+        if ( !url ) return;
 
         let base_url = !url.endsWith('/') ? url + '/' : url;
         const sp_names = ['small', 'big', 'huge'];
         const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
         let icons = [];
         sp_names.forEach(function (n) {
-            for (const [key, value] of Object.entries(sp_scale)) {
+            for (let key in sp_scale) {
+                const value = sp_scale[key];
                 icons.push('--sprite-button-'+n+'-'+key+':url('+ base_url +'icons' + n + value + '.png)');
             }
         });

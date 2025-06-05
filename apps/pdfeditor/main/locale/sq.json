@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Etiketa sipër, ikona në fund",
   "PDFE.Views.FormSettings.textLayout": "Strukturë",
   "PDFE.Views.FormSettings.textListBox": "Kutia e listës",
+  "PDFE.Views.FormSettings.textLock": "Kyçni",
   "PDFE.Views.FormSettings.textMask": "Maska arbitrare",
   "PDFE.Views.FormSettings.textMaxChars": "Limiti i karaktereve",
   "PDFE.Views.FormSettings.textMedium": "E mesme",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Asnjë",
   "PDFE.Views.FormSettings.textNormal": "Sipër",
   "PDFE.Views.FormSettings.textNumber": "Numër",
+  "PDFE.Views.FormSettings.textOrientation": "Orientim",
   "PDFE.Views.FormSettings.textOutline": "Kontur",
   "PDFE.Views.FormSettings.textOverlay": "Etiketoni mbi ikonën",
   "PDFE.Views.FormSettings.textPercent": "Përqindje",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Fotoja është shumë e vogël",
   "PDFE.Views.FormSettings.textUnderline": "Nënvizim",
   "PDFE.Views.FormSettings.textUnison": "Butonat me të njëjtin emër dhe zgjedhje zgjidhen në unison",
+  "PDFE.Views.FormSettings.textUnlock": "Zbërtheni",
   "PDFE.Views.FormSettings.textValue": "Opsionet e vlerës",
   "PDFE.Views.FormSettings.textZipCode": "Kodi postal",
   "PDFE.Views.FormSettings.textZipCode4": "Kodi postar + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Përshtatet me faqen",
   "PDFE.Views.ViewTab.tipFitToWidth": "Përshtatet me gjerësinë",
   "PDFE.Views.ViewTab.tipHeadings": "Tituj",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Temë e ndërfaqes"
 }

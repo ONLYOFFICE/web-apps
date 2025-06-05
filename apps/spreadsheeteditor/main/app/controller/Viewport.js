@@ -73,7 +73,7 @@ define([
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
-                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height'));
+                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25);
                         me.viewport.vlayout.getItem('statusbar').height = state ? height : height * 2;
                     }
                 },
@@ -88,7 +88,7 @@ define([
 
                         if ( me.appConfig && me.appConfig.isEdit && !config.compactHeader && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
-
+                        me.toolbar = toolbar;
                         /*var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -147,9 +147,9 @@ define([
                         config.customization && config.customization.compactToolbar ))
             {
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
-            } else
-            if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+            } else if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
                 me.viewport.vlayout.getItem('toolbar').height = 41;
+                document.body.classList.add('inner-simple-editor');
             }
 
             if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {
@@ -359,16 +359,20 @@ define([
 
         onThemeChanged: function () {
             if (Common.UI.Themes.available()) {
-                var _intvars = Common.Utils.InternalSettings;
-                var $filemenu = $('.toolbar-fullview-panel');
+                var _intvars = Common.Utils.InternalSettings,
+                    config = this.appConfig;
 
                 const computed_style = window.getComputedStyle(document.body);
-                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
-                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
-                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs-top-title') : 0) + _intvars.get('document-title-height'));
 
-                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
-                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+                if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {
+                    var $filemenu = $('.toolbar-fullview-panel');
+                    _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                    _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                    $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) + _intvars.get('document-title-height'));
+
+                    this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                        _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+                }
 
                 var height = parseInt(computed_style.getPropertyValue('--statusbar-height'));
                 var NoCompact = $('.statusbar').hasClass('no-compact');

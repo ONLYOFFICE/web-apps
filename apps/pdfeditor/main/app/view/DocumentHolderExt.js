@@ -83,6 +83,35 @@ define([], function () {
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuViewCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            this.viewPageMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
+                    value && me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                },
+                items: [
+                    me.menuViewCopyPage
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
             this.fireEvent('createdelayedelements', [this, 'pdf']);
         };
 
@@ -1174,7 +1203,7 @@ define([], function () {
 
             me.mnuDeletePage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
-                caption     : me.txtDeletePage
+                caption     : me.deleteText
             });
             me.mnuNewPageBefore = new Common.UI.MenuItem({
                 caption     : me.txtNewPageBefore,
@@ -1192,14 +1221,22 @@ define([], function () {
                 iconCls: 'menu__icon btn-rotate-270',
                 caption     : me.txtRotateLeft
             });
+            me.mnuCutPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption     : me.textCut,
+                value : 'cut'
+            });
             me.mnuCopyPage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
-                caption     : me.txtCopyPage,
+                caption     : me.textCopy,
                 value : 'copy'
             });
-            me.mnuPastePage = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-paste',
-                caption     : me.txtPastePage,
+            me.mnuPastePageBefore = new Common.UI.MenuItem({
+                caption     : me.txtPastePageBefore,
+                value : 'paste-before'
+            });
+            me.mnuPastePageAfter = new Common.UI.MenuItem({
+                caption     : me.txtPastePageAfter,
                 value : 'paste'
             });
 
@@ -1216,40 +1253,54 @@ define([], function () {
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
+
                     if (me.api) {
                         var i = -1,
                             page_deleted = false,
-                            page_rotate = false,
+                            page_rotate_lock = false,
                             selectedElements = me.api.getSelectedElements();
                         while (++i < selectedElements.length) {
                             if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.PdfPage) {
                                 page_deleted = selectedElements[i].get_ObjectValue().asc_getDeleteLock();
-                                page_rotate = selectedElements[i].get_ObjectValue().asc_getRotateLock();
+                                page_rotate_lock = selectedElements[i].get_ObjectValue().asc_getRotateLock();
                             }
                         }
                     }
 
-                    me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
-                    me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
-                    me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
-                    me.mnuDeletePage.setVisible(value.isPageSelect===true);
-                    me.mnuCopyPage.setVisible(value.isPageSelect===true);
-                    menuPageNewSeparator.setVisible(value.isPageSelect===true);
-                    menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    if (value) {
+                        me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
+                        me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
+                        me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
+                        me.mnuDeletePage.setVisible(value.isPageSelect===true);
+                        me.mnuCopyPage.setVisible(value.isPageSelect===true);
+                        me.mnuCutPage.setVisible(value.isPageSelect===true);
+                        menuPageNewSeparator.setVisible(value.isPageSelect===true);
+                        menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    }
 
-                    me.mnuRotatePageRight.setDisabled(page_rotate || page_deleted);
-                    me.mnuRotatePageLeft.setDisabled(page_rotate || page_deleted);
-                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted);
+                    var canRotate = me.api.asc_CanRotatePages();
+                    me.mnuRotatePageRight.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    me.mnuRotatePageLeft.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    var canRemove = me.api.asc_CanRemovePages();
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
                 },
                 items: [
+                    me.mnuCutPage,
+                    me.mnuCopyPage,
+                    { caption     : '--' },
+                    me.mnuPastePageBefore,
+                    me.mnuPastePageAfter,
+                    { caption     : '--' },
                     me.mnuNewPageBefore,
                     me.mnuNewPageAfter,
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
-                    { caption     : '--' },
-                    me.mnuCopyPage,
-                    me.mnuPastePage,
                     menuPageDelSeparator,
                     me.mnuDeletePage
                 ]

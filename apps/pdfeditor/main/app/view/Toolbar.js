@@ -96,13 +96,15 @@ define([
         inAnnotation: 'in-annotation',
         singlePage: 'single-page',
         cantMergeShape: 'merge-shape-lock',
-        pageRotate: 'page-rotate',
+        pageRotateLock: 'page-rotate-lock',
         pageDeleted: 'page-deleted',
         pageEditText: 'page-edit-text',
         inForm: 'in-form',
         inCheckForm: 'in-check-form',
         cantAlign: 'cant-align',
-        cantSave: 'cant-save'
+        cantSave: 'cant-save',
+        cantRotatePage: 'cant-rotate-page',
+        cantDelPage: 'cant-del-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -796,8 +798,8 @@ define([
                 this.btnDelPage = new Common.UI.Button({
                     id: 'id-toolbar-btn-delpage',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-rem-comment',
-                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    iconCls: 'toolbar__icon btn-rem-page',
+                    lock: [_set.pageDeleted, _set.lostConnect, _set.disableOnStart, _set.singlePage, _set.cantDelPage],
                     caption: this.capBtnDelPage,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -811,7 +813,7 @@ define([
                     caption: this.capBtnRotatePage,
                     split: true,
                     iconCls: 'toolbar__icon btn-update',
-                    lock: [_set.pageDeleted, _set.pageRotate, _set.lostConnect, _set.disableOnStart],
+                    lock: [_set.pageDeleted, _set.pageRotateLock, _set.cantRotatePage, _set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',

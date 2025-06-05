@@ -237,7 +237,7 @@ define([
             if (this._currLang.id===null || this._currLang.id===undefined) {
                 menu.clearAll();
             } else {
-                var index = _.findLastIndex(menu.items, {langid: this._currLang.id});
+                var index = _.findIndex(menu.items, {langid: this._currLang.id});
                 (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
             }
         },
@@ -253,6 +253,7 @@ define([
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                     return this.textRemDropdown;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                case Asc.c_oAscContentControlSpecificType.Signature:
                     return this.textRemPicture;
                 default:
                     return this.textRemField;

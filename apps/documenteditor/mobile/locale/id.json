@@ -27,6 +27,7 @@
     "textCurrentPosition": "Posisi Saat Ini",
     "textDisplay": "Tampilan",
     "textDone": "Selesai",
+    "textDrawing": "Menggambar",
     "textEmptyImgUrl": "Anda harus menentukan URL gambar.",
     "textEvenPage": "Halaman Genap",
     "textFootnote": "Footnote",
@@ -65,8 +66,7 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
   },
   "Common": {
     "Collaboration": {
@@ -233,7 +233,7 @@
     "textColor": "Warna",
     "textCustomColor": "Warna ubahan",
     "textLineSize": "Ukuran garis",
-    "textOpacity": "Opacity"
+    "textOpacity": "Opasitas"
   },
   "Edit": {
     "notcriticalErrorTitle": "Peringatan",

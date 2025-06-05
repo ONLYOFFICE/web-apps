@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Rótulo superior, ícone inferior",
   "PDFE.Views.FormSettings.textLayout": "Layout",
   "PDFE.Views.FormSettings.textListBox": "Caixa de listagem",
+  "PDFE.Views.FormSettings.textLock": "Bloquear",
   "PDFE.Views.FormSettings.textMask": "Máscara arbitrária",
   "PDFE.Views.FormSettings.textMaxChars": "Limite de caracteres",
   "PDFE.Views.FormSettings.textMedium": "Média",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "Nenhum",
   "PDFE.Views.FormSettings.textNormal": "Para cima",
   "PDFE.Views.FormSettings.textNumber": "Número",
+  "PDFE.Views.FormSettings.textOrientation": "Orientação",
   "PDFE.Views.FormSettings.textOutline": "Contorno",
   "PDFE.Views.FormSettings.textOverlay": "Rótulo sobre o ícone",
   "PDFE.Views.FormSettings.textPercent": "Porcentagem",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "A imagem é pequena demais",
   "PDFE.Views.FormSettings.textUnderline": "Sublinhado",
   "PDFE.Views.FormSettings.textUnison": "Os botões com o mesmo nome e opção são selecionados simultaneamente",
+  "PDFE.Views.FormSettings.textUnlock": "Desbloquear",
   "PDFE.Views.FormSettings.textValue": "Opções de valor",
   "PDFE.Views.FormSettings.textZipCode": "CEP",
   "PDFE.Views.FormSettings.textZipCode4": "Código Postal + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar à Largura",
   "PDFE.Views.ViewTab.tipHeadings": "Títulos",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
 }

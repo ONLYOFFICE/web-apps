@@ -2770,7 +2770,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Κάθε 30 Λεπτά",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "Κάθε 5 Λεπτά",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text60Minutes": "κάθε ώρα",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Αυτόματη ανάκτηση",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Αποθήκευση πληροφοριών αυτόματης ανάκτησης",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoSave": "Αυτόματη αποθήκευση",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textDisabled": "Απενεργοποιημένο",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Γέμισμα",

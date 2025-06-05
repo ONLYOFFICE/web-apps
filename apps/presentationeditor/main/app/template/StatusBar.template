@@ -14,7 +14,7 @@
     <div class="status-group" style="width:100%; text-align:center;">
         <label id="status-label-action" class="status-label" data-layout-name="statusBar-actionStatus"></label>
     </div>
-    <div class="status-group cnt-flex-center" style="">
+    <div class="status-group cnt-flex-center" style="flex-shrink:0;">
         <span id="btn-cnt-lang" class="el-edit" data-layout-name="statusBar-textLang"></span>
         <span id="btn-doc-lang" class="el-edit" data-layout-name="statusBar-docLang"></span>
         <div class="separator short el-edit space"></div>

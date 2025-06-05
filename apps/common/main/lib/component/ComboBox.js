@@ -931,12 +931,10 @@ define([
             this.loadRecent();
             Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
 
-            if (this._selectedItem && this._selectedItem.get('isRecent')) {
+            if (this._selectedItem) {// reselect item as the recent can be changed
                 let obj,
-                    record = this.store.where((obj={}, obj[this.valueField]=this._selectedItem.get(this.valueField), obj));
-                if (record && record.length) {
-                    this.selectRecord(record[record.length - 1]);
-                }
+                    record = this.store.findWhere((obj={}, obj[this.valueField]=this._selectedItem.get(this.valueField), obj));
+                record && this.selectRecord(record);
             }
         },
 

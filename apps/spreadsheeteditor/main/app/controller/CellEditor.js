@@ -73,6 +73,7 @@ define([
                     }.bind(this)
                 }
             });
+            Common.NotificationCenter.on('external:reshow', this.onExternalReshow.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
@@ -261,7 +262,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
         },
 
+        onExternalReshow: function () {
+            this.changeCellEditorHeight();
+        },
+
         onThemeChanged: function () {
+            this.changeCellEditorHeight();
+        },
+
+        changeCellEditorHeight: function() {
             if (!Common.localStorage.getBool('sse-celleditor-expand')) {
                 var editorMinHeight = parseFloat(this.editor.$el.css('min-height')) || 20;
                 editorMinHeight -= (parseFloat(this.editor.$el.css('border-bottom-width')) || 0);

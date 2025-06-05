@@ -357,7 +357,6 @@ define([
                         value       : item['value'],
                         code        : item['code'],
                         checkable   : true,
-                        checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
                     });
                 });
@@ -369,6 +368,8 @@ define([
                 });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
+                    var index = _.findIndex(this.langMenu.items, {caption: saved});
+                    (index>-1) && this.langMenu.setChecked(index, true);
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
                 }
             },
@@ -377,7 +378,7 @@ define([
                 if (this.langMenu.prevTip != info.value && info.code !== undefined) {
                     this.btnLanguage.setCaption(info.displayValue);
                     this.langMenu.prevTip = info.value;
-                    var index = _.findLastIndex(this.langMenu.items, {caption: info.displayValue});
+                    var index = _.findIndex(this.langMenu.items, {caption: info.displayValue});
                     if (index>-1) {
                         this.langMenu.setChecked(index, true);
                     } else {

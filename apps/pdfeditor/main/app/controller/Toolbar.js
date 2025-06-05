@@ -260,7 +260,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
             Common.NotificationCenter.on('draw:stop', _.bind(this.onDrawStop, this));
-
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         onCreateAnnotBar: function(btnStrikeout, btnUnderline, btnHighlight) {
@@ -570,7 +570,7 @@ define([
                 in_annot = false,
                 annot_lock = false,
                 page_deleted = false,
-                page_rotate = false,
+                page_rotate_lock = false,
                 page_edit_text = false,
                 in_form = false,
                 in_check_form = false,
@@ -620,7 +620,7 @@ define([
                         no_text = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
-                    page_rotate = pr.asc_getRotateLock();
+                    page_rotate_lock = pr.asc_getRotateLock();
                     page_edit_text = pr.asc_getEditLock();
                 } else if (type == Asc.c_oAscTypeSelectElement.Field) {
                     let ft = pr.asc_getType();
@@ -717,8 +717,10 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
-            toolbar.lockToolbar(Common.enumLock.pageRotate, page_rotate, {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages(), {array: [toolbar.btnRotatePage]});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
+            toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages(), {array: [toolbar.btnDelPage]});
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -1461,7 +1463,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 2);
                         me.toolbar.setVisible('forms', true);
-                        me.api.SetEditFieldsMode(true);
+
                         Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                     }
                 }
@@ -1509,7 +1511,6 @@ define([
 
                 this._state.initEditing = false;
             }
-            this.api.SetEditFieldsMode(this.mode.isPDFEdit && this.mode.canFeatureForms);
             if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
@@ -2451,6 +2452,7 @@ define([
 
         onEditTextClick: function() {
             this.api && this.api.asc_EditPage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onApiTextColor: function(color) {

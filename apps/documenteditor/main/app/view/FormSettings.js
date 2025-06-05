@@ -1380,7 +1380,9 @@ define([
                     this._originalFormProps = formPr;
 
                     if (type == Asc.c_oAscContentControlSpecificType.Picture)
-                        this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
+                        this.labelFormName.text(this.textImage);
+                    if (type == Asc.c_oAscContentControlSpecificType.Signature)
+                        this.labelFormName.text(this.textSignature);
 
                     var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
@@ -1467,7 +1469,7 @@ define([
                         }
                     }
 
-                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture && type !== Asc.c_oAscContentControlSpecificType.Signature) {
                         val = formPr.get_Fixed();
                         if ( this._state.Fixed!==val ) {
                             this.chFixed.setValue(!!val, true);
@@ -1532,10 +1534,9 @@ define([
                 }
 
                 var pictPr = props.get_PictureFormPr(),
-                    isSignature = false;
+                    isSignature = type === Asc.c_oAscContentControlSpecificType.Signature;
                 if (pictPr) {
                     this._originalPictProps = pictPr;
-                    isSignature = props.is_Signature();
                     val = pictPr.get_ConstantProportions();
                     if ( this._state.Aspect!==val ) {
                         this.chAspect.setValue(!!val, true);
@@ -1814,7 +1815,7 @@ define([
                     checkboxOnly = (typeof specProps.get_GroupKey() !== 'string');
                     radioboxOnly = !checkboxOnly;
                 }
-            } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.Picture || type == Asc.c_oAscContentControlSpecificType.Signature) {
                 imageOnly = true;
             }  else if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
                 dateOnly = true;

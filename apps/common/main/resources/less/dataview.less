@@ -54,6 +54,7 @@
         &,
         canvas,
         img {
+            border-radius: @border-radius-dataview-item-ie;
             border-radius: @border-radius-dataview-item;
         }
     }
@@ -113,6 +114,7 @@
 
                 .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
                 .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+                border-radius: @border-radius-dataview-item-ie;
                 border-radius: @border-radius-dataview-item;
 
                 &:hover:not(.disabled) {
@@ -128,6 +130,7 @@
                 &,
                 canvas,
                 img {
+                    border-radius: @border-radius-dataview-item-ie;
                     border-radius: @border-radius-dataview-item;
                 }
             }
@@ -154,6 +157,7 @@
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
         &.bordered {
+            .box-shadow(@shadow-fill-input-ie);
             .box-shadow(@shadow-fill-input);
         }
     }

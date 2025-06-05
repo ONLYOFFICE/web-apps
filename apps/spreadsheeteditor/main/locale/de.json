@@ -2770,7 +2770,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text30Minutes": "Alle 30 Minuten",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text5Minutes": "Alle 5 Minuten",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.text60Minutes": "Jede Stunde",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "Autowiederherstellen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoRecover": "AutoWiederherstellen-Informationen speichern",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textAutoSave": "Automatisch speichern",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textDisabled": "Deaktiviert",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Füllung",

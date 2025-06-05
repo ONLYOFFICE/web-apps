@@ -1452,6 +1452,7 @@
   "PDFE.Views.FormSettings.textLabelTop": "Label top, icon bottom",
   "PDFE.Views.FormSettings.textLayout": "Układ",
   "PDFE.Views.FormSettings.textListBox": "List box",
+  "PDFE.Views.FormSettings.textLock": "Lock",
   "PDFE.Views.FormSettings.textMask": "Dowolna maska",
   "PDFE.Views.FormSettings.textMaxChars": "Limit znaków",
   "PDFE.Views.FormSettings.textMedium": "Medium",
@@ -1464,6 +1465,7 @@
   "PDFE.Views.FormSettings.textNone": "None",
   "PDFE.Views.FormSettings.textNormal": "Up",
   "PDFE.Views.FormSettings.textNumber": "Number",
+  "PDFE.Views.FormSettings.textOrientation": "Orientation",
   "PDFE.Views.FormSettings.textOutline": "Outline",
   "PDFE.Views.FormSettings.textOverlay": "Label over icon",
   "PDFE.Views.FormSettings.textPercent": "Percentage",
@@ -1502,6 +1504,7 @@
   "PDFE.Views.FormSettings.textTooSmall": "Obraz jest za mały",
   "PDFE.Views.FormSettings.textUnderline": "Underline",
   "PDFE.Views.FormSettings.textUnison": "Buttons with the same name and choice are selected in unison",
+  "PDFE.Views.FormSettings.textUnlock": "Unlock",
   "PDFE.Views.FormSettings.textValue": "Opcje wartości",
   "PDFE.Views.FormSettings.textZipCode": "Kod pocztowy",
   "PDFE.Views.FormSettings.textZipCode4": "ZIP Code + 4",
@@ -2219,7 +2222,5 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Dopasuj do strony",
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "PDFE.Views.FormSettings.textLock": "Lock",
-  "PDFE.Views.FormSettings.textUnlock": "Unlock"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu"
 }

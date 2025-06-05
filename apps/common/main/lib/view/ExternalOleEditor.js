@@ -48,9 +48,9 @@ define([
                 title: this.textTitle,
                 storageName: 'ole-editor',
                 sdkplaceholder: 'id-ole-editor-placeholder',
-                initwidth: 900,
+                initwidth: 970,
                 initheight: 700,
-                minwidth: 875,
+                minwidth: 970,
                 minheight: 275
             }, options);
 

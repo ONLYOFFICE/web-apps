@@ -1364,7 +1364,7 @@ define([
                     fixed_size = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
                                 spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
-                                spectype==Asc.c_oAscContentControlSpecificType.DateTime) &&
+                                spectype==Asc.c_oAscContentControlSpecificType.DateTime || spectype==Asc.c_oAscContentControlSpecificType.Signature) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
                 }
 

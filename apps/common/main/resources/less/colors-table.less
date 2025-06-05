@@ -235,8 +235,14 @@
     --sprite-button-huge-200: url(../../resources/img/iconshuge@2x.png);
 
     --border-radius-toolbar: 0;
+    --toolbar-tab-radius: 0;
+    --toolbar-tab-line-radius: 2px;
+    --toolbar-tab-line-height: 2px;
+    --toolbar-tab-line-bottom: 4px;
+    --toolbar-tab-text-margin: 5px;
     --border-sidemenu: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
     --background-statusbar: var(--background-pane);
+    --border-toolbar-z-clear: var(--border-toolbar);
     --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
     --shadow-side-panel: none;
     --layout-padding-toolbar: 0;
@@ -252,6 +258,11 @@
     --celleditor-height: 20px;
     --celleditor-line-height: 18px;
     --celleditor-border-width: var(--scaled-one-pixel, 1px);
+    --celleditor-input-border: 0 none;
+    --celleditor-input-border-radius: 0;
+    --celleditor-cell-name-height: calc(var(--celleditor-height) - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
+    --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --celleditor-func-label-margin-left: -3px;
 
     --x-small-btn-size: 20px;
     --x-small-btn-icon-size: 20px;
@@ -367,6 +378,14 @@
     --rb-border-checked-focus: var(--border-control-focus);
     --rb-check-mark-size: 4px;
     --rb-check-mark-background: var(--text-normal);
+
+    //
+    --toolbar-simple-border-bottom: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --toolbar-simple-shadow: 0 none;
+    --toolbar-simple-content-padding-top: 0;
+    --layout-padding-hor-toolbar-simple: 0;
+    --simple-editor-layout-collapse-button-rigth: 3px;
+    --toolbar-preferred-tab-style: fill;
 }
 
 // Background
@@ -477,9 +496,15 @@
 // new
 @border-sidemenu: var(--border-sidemenu);
 @background-statusbar: var(--background-statusbar);
+@border-toolbar-z-clear: var(--border-toolbar-z-clear);
 @shadow-toolbar: var(--shadow-toolbar, none);
 @shadow-side-panel: var(--shadow-side-panel, none);
 @border-radius-toolbar: var(--border-radius-toolbar,0);
+@toolbar-tab-radius: var(--toolbar-tab-radius, 0);
+@toolbar-tab-line-radius: var(--toolbar-tab-line-radius, 2px);
+@toolbar-tab-line-height: var(--toolbar-tab-line-height, 2px);
+@toolbar-tab-line-bottom: var(--toolbar-tab-line-bottom, 4px);
+@toolbar-tab-text-margin: var(--toolbar-tab-text-margin, 5px);
 @layout-padding-toolbar: var(--layout-padding-toolbar, 0);
 @layout-padding-x-side-panel: var(--layout-padding-x-side-panel, 0);
 @layout-padding-y-side-panel: var(--layout-padding-y-side-panel, 2px);
@@ -494,6 +519,11 @@
 @celleditor-height: var(--celleditor-height);
 @celleditor-line-height: var(--celleditor-line-height);
 @celleditor-border-width: var(--celleditor-border-width);
+@celleditor-input-border: var(--celleditor-input-border);
+@celleditor-input-border-radius: var(--celleditor-input-border-radius);
+@celleditor-cell-name-height: var(--celleditor-cell-name-height);
+@celleditor-cell-name-border-right: var(--celleditor-cell-name-border-right); 
+@celleditor-func-label-margin-left: var(--celleditor-func-label-margin-left);
 
 @x-small-btn-size: var(--x-small-btn-size, 20px);
 @x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
@@ -602,6 +632,12 @@
 @header-component-padding: var(--header-component-padding);
 @header-component-margin: var(--header-component-margin);
 @header-component-align: var(--header-component-align);
+
+@toolbar-simple-border-bottom: var(--toolbar-simple-border-bottom);
+@toolbar-simple-shadow: var(--toolbar-simple-shadow);
+@toolbar-simple-content-padding-top: var(--toolbar-simple-content-padding-top);
+@layout-padding-hor-toolbar-simple: var(--layout-padding-hor-toolbar-simple);
+@simple-editor-layout-collapse-button-rigth: var(--simple-editor-layout-collapse-button-rigth);
 
 // Canvas
 // ---------------------------

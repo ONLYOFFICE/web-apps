@@ -149,6 +149,7 @@ require([
                 app.postLaunchScripts = [
                     'common/main/lib/component/ComboBoxFonts',
                     'common/main/lib/component/ColorButton',
+                    'common/main/lib/component/TextareaField',
                     'common/main/lib/view/PluginDlg',
                     'common/main/lib/view/CopyWarningDialog',
                     'common/main/lib/view/TextInputDialog',

@@ -81,15 +81,6 @@
             opacity: 0.4;
         }
 
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            background: rgba(0,0,0,.15);
-            background: var(--sk-background-toolbar-tab);
-        }
-
         .loadmask > .sktoolbar {
             background: #f1f1f1;
             padding: 0;
@@ -109,7 +100,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            row-gap: 5px;
         }
 
         .loadmask > .sktoolbar ul {
@@ -118,6 +108,10 @@
             white-space: nowrap;
             position: relative;
             height: 20px;
+        }
+
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
         }
 
         .loadmask > .sktoolbar li {
@@ -311,7 +305,7 @@
     <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
-            <div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div><div class="spacer"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
             <section class="box-controls">

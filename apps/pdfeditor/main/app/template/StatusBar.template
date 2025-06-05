@@ -15,7 +15,7 @@
     <div class="status-group" style="width:100%; text-align:center;">
         <label id="label-action" class="status-label" data-layout-name="statusBar-actionStatus"></label>
     </div>
-    <div class="status-group cnt-flex-center" style="">
+    <div class="status-group cnt-flex-center" style="flex-shrink:0;">
         <div class="separator short hide-select-tools"></div>
         <button id="status-btn-select-tool" type="button" class="btn small btn-toolbar hide-select-tools" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-select-tool">&nbsp;</i></button>
         <button id="status-btn-hand-tool" type="button" class="btn small btn-toolbar hide-select-tools" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-hand-tool">&nbsp;</i></button>
