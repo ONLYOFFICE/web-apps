@@ -32,6 +32,17 @@
             z-index: 1001;
         }
 
+        .theme-night .loadmask {
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            --sk-height-formula: 38px;
+            --sk-padding-formula: 10px 10px 4px 10px;
+            --sk-border-style-formula: none;
+            --sk-gap-formula-field: 28px;
+            --sk-border-radius-formula-field: 3px;
+        }
+
         .loadmask ul {
             margin: 0;
             padding: 0;
