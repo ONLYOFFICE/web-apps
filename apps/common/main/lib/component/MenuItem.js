@@ -494,7 +494,7 @@ define([
         },
 
         updateIcon: function() {
-            this.cmpEl && this.cmpEl.find('> a img').attr('src', this.iconImg);
+            this.cmpEl && this.cmpEl.find('> a img').attr('src', this.iconImg).addClass('custom-icon');
         },
 
         applyScaling: function (ratio) {
