@@ -68,7 +68,7 @@ define([
                     if (me.view.btnInsertPlaceholder.pressed && me.view.btnInsertPlaceholder.id !== btn_id)
                     {
                         me._isAddingShape = false;
-
+                        me._addAutoshape(false);
                         me.view.btnInsertPlaceholder.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.view);
                     }
@@ -115,6 +115,18 @@ define([
                     'insert:placeholder-menu': _.bind(this.onMenuInsertPlaceholder, this),
                 },
             });
+        },
+
+        _addAutoshape:  function(isstart, type) {
+            if (this.api) {
+                if (isstart) {
+                    this.api.StartAddShape(type, true);
+                    $(document.body).on('mouseup', this.checkInsertAutoshape);
+                } else {
+                    this.api.StartAddShape('', false);
+                    $(document.body).off('mouseup', this.checkInsertAutoshape);
+                }
+            }
         },
 
         onApiFocusObject: function(selectedObjects) {
