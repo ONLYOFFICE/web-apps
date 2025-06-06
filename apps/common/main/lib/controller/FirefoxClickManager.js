@@ -63,13 +63,13 @@ Common.UI.FirefoxClickManager = new(function() {
         };
 
         document.body.addEventListener('mousedown', function(e) {
-            if (e.target.closest('.ribtab, [type="menuitem"]')) {
+            if (e.target.closest('.ribtab, [role="checkbox"], [type="menuitem"]')) {
                 setMouseDownTarget(e);
             }
         }, true);
 
         document.body.addEventListener('click', function(e) {
-            if (e.target.closest('.ribtab, [type="menuitem"]')) {
+            if (e.target.closest('.ribtab, [role="checkbox"], [type="menuitem"]')) {
                 preventMismatchedClickInFirefox(e);
             }
         }, true);
@@ -77,7 +77,7 @@ Common.UI.FirefoxClickManager = new(function() {
             '#slot-field-styles', '#transit-field-effects', '#animation-field-effects',
             '#tlbtn-insertshape-1', '#slot-field-zoom', '#slot-field-fontsize',
             '#slot-field-fontname', '#tlbtn-insertshape-0', '#slot-btn-format',
-            '#animation-label-start', '#animation-spin-duration', '#animation-spin-repeat'
+            '#animation-label-start', '#animation-spin-duration', '#animation-spin-repeat', '[id^="chb-"][id$="-description"]'
         ].join(',');
 
         document.body.addEventListener('mousedown', function (e) {
