@@ -366,10 +366,24 @@ define([
                 config.title = this.criticalErrorTitle;
                 config.iconCls = 'error';
                 config.closable = false;
-                config.callback = _.bind(function(btn){
-                    window.location.reload();
-                }, this);
-
+                if (this.appOptions.canRequestClose) {
+                    config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            Common.Gateway.requestClose();
+                            Common.Controllers.Desktop.requestClose();
+                        }
+                    }
+                } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
+                    var me = this;
+                    config.msg += '<br><br>' + this.criticalErrorExtText;
+                    config.callback = function(btn) {
+                        if (btn == 'ok') {
+                            if ( !Common.Controllers.Desktop.process('goback') )
+                                parent.location.href = me.appOptions.customization.goback.url;
+                        }
+                    }
+                }
                 if (id == Asc.c_oAscError.ID.DataEncrypted) {
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');

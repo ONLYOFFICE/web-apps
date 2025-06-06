@@ -968,6 +968,7 @@
   "PE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
   "PE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
   "PE.Controllers.Main.criticalErrorExtText": "Press \"OK\" to return to document list.",
+  "PE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
   "PE.Controllers.Main.criticalErrorTitle": "Error",
   "PE.Controllers.Main.downloadErrorText": "Download failed.",
   "PE.Controllers.Main.downloadTextText": "Downloading presentation...",

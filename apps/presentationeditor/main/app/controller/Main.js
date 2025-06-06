@@ -1848,7 +1848,15 @@ define([
                     config.iconCls = 'error';
                     config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
+                    if (this.appOptions.canRequestClose) {
+                        config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                        config.callback = function(btn) {
+                            if (btn == 'ok') {
+                                Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
+                        }
+                    } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
                         config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
