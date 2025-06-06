@@ -1040,9 +1040,16 @@ define([
         },
 
         onThemeChanged: function() {
-            if (this.options.width>0 && this.rendered) {
-                var el = this.cmpEl;
+            if (!this.rendered) return;
+
+            var el = this.cmpEl;
+            if (this.options.width>0) {
                 el && el.hasClass('btn-group') && el.hasClass('split') && $('button:first', el).css('width', this.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
+            } else if (el && this.caption && /icon-top/.test(this.options.cls) && /huge/.test(this.options.cls)) { // recalc captions of huge button
+                var captionNode = el.find('.caption');
+                if (captionNode.length > 0) {
+                    captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
+                }
             }
         }
     });
