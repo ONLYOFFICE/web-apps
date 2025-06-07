@@ -121,6 +121,8 @@ window.Common = {
                     return template.content.firstChild;
                 }
 
+                const sprite_uid = getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-uid');
+
                 !svg_icons_array && (svg_icons_array = svg_icons);
                 svg_icons_array.map(function (url) {
                             console.log('map url', url)
@@ -133,11 +135,20 @@ window.Common = {
                                     let el_id;
                                     if ( type ) {
                                         const el = document.getElementById((el_id = 'idx-sprite-btns-' + type));
-                                        if (el) el.remove();
+                                        if ( el ) {
+                                            const idx = el.getAttribute('data-sprite-uid');
+                                            if ( idx != sprite_uid )
+                                                console.log('remove sprite'),
+                                                el.remove()
+                                            else return;
+                                        };
                                     }
 
-                                    const el = document.querySelector('div.inlined-svg')
-                                    el.appendChild(htmlToElements(text, el_id));
+                                    const el = document.querySelector('div.inlined-svg');
+                                    const child = htmlToElements(text, el_id);
+                                    if ( sprite_uid.length )
+                                        child.setAttribute('data-sprite-uid', sprite_uid);
+                                    el.appendChild(child);
 
                                     const i = svg_icons_array.findIndex(function (item) {return item == url});
                                     if ( !(i < 0) ) svg_icons_array.splice(i, 1)

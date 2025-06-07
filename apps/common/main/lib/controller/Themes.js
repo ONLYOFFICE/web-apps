@@ -342,6 +342,7 @@ define([
             "canvas-anim-pane-timeline-scroller-opacity-active",
 
             "toolbar-height-controls",
+            "sprite-button-icons-uid",
         ];
         var theme_props = {};
 
@@ -636,10 +637,11 @@ define([
                     themes_map[theme_id] = window.uitheme;
                 }
 
+                const comp_style = getComputedStyle(document.body);
                 if (themes_map[theme_id] && themes_map[theme_id].icons) {
                     if ( !document.querySelector('style#' + theme_id) ) {
                         const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
-                                getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
+                                comp_style.getPropertyValue('--sprite-button-icons-base-url');
 
                         if ( icons_base_url )
                             window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
