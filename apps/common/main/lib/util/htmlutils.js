@@ -125,7 +125,6 @@ window.Common = {
 
                 !svg_icons_array && (svg_icons_array = svg_icons);
                 svg_icons_array.map(function (url) {
-                            console.log('map url', url)
                             fetch(url)
                                 .then(function (r) {
                                     if (r.ok) return r.text();

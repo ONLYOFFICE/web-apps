@@ -155,7 +155,6 @@
                     }
 
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
-                    console.log('inject_style_tag', objtheme.id);
                 }
 
                 if ( objtheme.icons ) {
