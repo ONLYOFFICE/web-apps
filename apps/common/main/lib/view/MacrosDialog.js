@@ -739,9 +739,9 @@ define([], function () {
             this.listMacros.store.add({
                 guid: this.createGuid(),
                 name : (macrosTextTranslate + " " + indexMax),
-                value : value || "(function()\n{\n\n})();",
+                value : value || "(function()\n{\n    \n})();",
                 autostart: false,
-                currentPos: {row: 3, column: 0}
+                currentPos: {row: 3, column: 5}
             });
             this.listMacros.selectRecord(this.listMacros.store.at(-1));
         },
@@ -864,7 +864,7 @@ define([], function () {
                 guid: this.createGuid(),
                 name : (macrosTextTranslate + " " + indexMax),
                 value : "(function()\n{\n\t/**\n\t * Function that returns the argument\n\t * @customfunction\n\t * @param {any} arg Any data.\n     * @returns {any} The argumet of the function.\n\t*/\n\tfunction myFunction(arg) {\n\t\t\n\t    return arg;\n\t}\n\tApi.AddCustomFunction(myFunction);\n})();",
-                currentPos: {row: 10, column: 2}
+                currentPos: {row: 10, column: 3}
             });
             this.listFunctions.selectRecord(this.listFunctions.store.at(-1));
         },
