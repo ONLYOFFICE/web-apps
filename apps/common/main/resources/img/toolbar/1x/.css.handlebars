@@ -18,6 +18,13 @@
     background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
     background-size: var(--sprite-button-small-width, 40px) auto;
 }
+{{#if (xpsupport)}}
+.winxp {
+    .toolbar__icon, .menu__icon {
+        background-image: url(resources/{{{escaped_image}}});
+    }
+}
+{{/if}}
 {{/spritesheet}}
 {{#sprites}}
 {{#extracls}}{{/extracls}}{{#parselang name}}.{{name}}{{/parselang}} {
