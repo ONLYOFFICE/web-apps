@@ -100,7 +100,7 @@ define([], function () {
             this.buttonNext = new Common.UI.Button({
                 parentEl: $('#spellcheck-next'),
                 cls: 'btn-toolbar bg-white',
-                iconCls: 'toolbar__icon btn-nextitem',
+                iconCls: 'toolbar__icon btn-nextitem icon-rtl',
                 hint: this.txtNextTip,
                 dataHint: '1',
                 dataHintDirection: 'bottom'
