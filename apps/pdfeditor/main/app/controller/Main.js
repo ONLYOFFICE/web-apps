@@ -1939,6 +1939,8 @@ define([
             },
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
+                const isMacOS = AscCommon.AscBrowser.isMacOs;
+
                 var id = 'pdf-link',
                     config = {
                         closable: true,
@@ -1947,7 +1949,7 @@ define([
                         buttons: ['ok', 'cancel'],
                         msg: Common.Utils.String.format(this.txtSecurityWarningLink, sURI || ''),
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && window.event.ctrlKey == true) {
+                            if (btn == 'ok' && window.event && (!isMacOS && window.event.ctrlKey == true || isMacOS && window.event.metaKey)) {
                                 onAllow();
                             }
                             else
