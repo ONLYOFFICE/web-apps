@@ -137,7 +137,6 @@ window.Common = {
                                         if ( el ) {
                                             const idx = el.getAttribute('data-sprite-uid');
                                             if ( idx != sprite_uid )
-                                                console.log('remove sprite'),
                                                 el.remove()
                                             else return;
                                         };
