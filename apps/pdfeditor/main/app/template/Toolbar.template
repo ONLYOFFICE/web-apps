@@ -124,6 +124,7 @@
                         <span class="btn-slot split" id="slot-btn-valign"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                         <span class="btn-slot split" id="slot-btn-columns"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                 </div>
                 <div class="separator long pdfedit"></div>
