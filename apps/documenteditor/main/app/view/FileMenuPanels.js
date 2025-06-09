@@ -382,6 +382,14 @@ define([], function () {
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
+                '<tr>',
+                    '<td class="group-name" colspan="2"><label><%= scope.strDocContent %></label></td>',
+                '</tr>',
+                '<tr class="">',
+                    '<td><label><%= scope.strNumeral %></label></td>',
+                    '<td><div id="fms-cmb-numeral"></div></td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
                 '<tr class="appearance">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
                 '</tr>',
@@ -856,6 +864,23 @@ define([], function () {
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
             });*/
 
+            this.cmbNumeral = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-numeral'),
+                style       : 'width: 160px;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
+                data        : [
+                    { value: Asc.c_oNumeralType.arabic, displayValue: this.txtArabic },
+                    { value: Asc.c_oNumeralType.hindi, displayValue: this.txtHindi },
+                    { value: Asc.c_oNumeralType.context, displayValue: this.txtContext }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -902,6 +927,7 @@ define([], function () {
                 this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbNumeral.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -1038,6 +1064,10 @@ define([], function () {
 
             if (Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined)
                 this.cmbFontSizeType.setValue(Common.Utils.InternalSettings.get("de-settings-western-font-size"));
+
+            value = Common.Utils.InternalSettings.get("de-settings-numeral");
+            item = this.cmbNumeral.store.findWhere({value: value});
+            this.cmbNumeral.setValue(item ? item.get('value') : Asc.c_oNumeralType.arabic);
         },
 
         applySettings: function() {
@@ -1106,6 +1136,8 @@ define([], function () {
                 Common.localStorage.setBool("de-settings-western-font-size", val);
                 Common.Utils.InternalSettings.set("de-settings-western-font-size", val);
             }
+
+            Common.localStorage.setItem("de-settings-numeral", this.cmbNumeral.getValue());
 
             Common.localStorage.save();
 
