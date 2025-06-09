@@ -1939,17 +1939,17 @@ define([
             },
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
-                const isMacOS = AscCommon.AscBrowser.isMacOs;
-
                 var id = 'pdf-link',
+                    re = new RegExp('ctrl|' + Common.Utils.String.textCtrl, 'i'),
+                    msg = Common.Utils.isMac ? this.txtSecurityWarningLink.replace(re, '⌘') : this.txtSecurityWarningLink,
                     config = {
                         closable: true,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
-                        msg: Common.Utils.String.format(this.txtSecurityWarningLink, sURI || ''),
+                        msg: Common.Utils.String.format(msg, sURI || ''),
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && (!isMacOS && window.event.ctrlKey == true || isMacOS && window.event.metaKey)) {
+                            if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
                                 onAllow();
                             }
                             else

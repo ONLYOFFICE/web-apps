@@ -1000,7 +1000,7 @@
   "PDFE.Controllers.Main.txtInvalidValue": "Ivalid value for field \"{0}\"",
   "PDFE.Controllers.Main.txtNeedSynchronize": "Имате ажурирања",
   "PDFE.Controllers.Main.txtSaveCopyAsComplete": "Копија датотеке је успешно сачуванадатотеку, молимо сачекајте...",
-  "PDFE.Controllers.Main.txtSecurityWarningLink": "Овај документ покушава да се конектује на {0}.<br>Ако верујете овом сајту, притисните \"ОК\" док држите цтрл тастер.",
+  "PDFE.Controllers.Main.txtSecurityWarningLink": "Овај документ покушава да се конектује на {0}.<br>Ако верујете овом сајту, притисните \"ОК\" док држите Ctrl тастер.",
   "PDFE.Controllers.Main.txtSecurityWarningOpenFile": "Овај документ покушава да отвори дијалог фајла, притисните \"ОК\" да отворите.",
   "PDFE.Controllers.Main.txtValidPdfFormat": "Вредност поља треба да се поклапа са форматом \"{0}\".",
   "PDFE.Controllers.Main.unknownErrorText": "Непозната грешка.",
