@@ -136,7 +136,7 @@ define([
                 var showxy = Common.Utils.getOffset(target),
                     offset = this.offset || {x: 0, y: 0};
                 if (this.placement=='target' && !this.position) {
-                    this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
+                    this.cmpEl.css({top : showxy.top + 5  + offset.y + 'px', left: showxy.left + 5  + offset.x + 'px'});
                     return;
                 }
 

@@ -312,12 +312,15 @@ define([
             this.mode = mode;
             this.toolbar.applyLayout(mode);
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
-                                callback: function() {
-                                    if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
-                                        Common.UI.TooltipManager.showTip('mergeShapes');
-                                }},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-btn-shapes-merge', closable: false, prev: 'tabDesign'}
+                'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true, isNewFeature: true},
+                'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
+                              target: '#animation-field-effects', isNewFeature: true, maxwidth: 300},
+                // 'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
+                //                 callback: function() {
+                //                     if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
+                //                         Common.UI.TooltipManager.showTip('mergeShapes');
+                //                 }},
+                // 'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-btn-shapes-merge', closable: false, prev: 'tabDesign'}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -1009,8 +1012,8 @@ define([
                 this._state.in_slide_master = in_slide_master;
             }
 
-            if (!this.toolbar.btnShapesMerge.isDisabled() && this.toolbar.isTabActive('home'))
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            if (!this.toolbar.btnTextDir.isDisabled() && this.toolbar.isTabActive('home'))
+                Common.UI.TooltipManager.showTip('rtlDirection');
         },
 
         onApiStyleChange: function(v) {
@@ -1812,7 +1815,7 @@ define([
         },
 
         onBeforeShapesMerge: function() {
-            Common.UI.TooltipManager.closeTip('mergeShapes', true);
+            // Common.UI.TooltipManager.closeTip('mergeShapes', true);
             this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
@@ -2905,7 +2908,9 @@ define([
             }
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
-                    Common.UI.TooltipManager.showTip('tabDesign');
+                    if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
+                        Common.UI.TooltipManager.showTip('rtlDirection');
+                    // Common.UI.TooltipManager.showTip('tabDesign');
                 }
             });
         },
@@ -3167,13 +3172,20 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab !== 'home') {
-                Common.UI.TooltipManager.closeTip('tabDesign');
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            } else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+            if (tab !== 'home')
+                Common.UI.TooltipManager.closeTip('rtlDirection');
+            else if (this.toolbar && this.toolbar.btnTextDir && !this.toolbar.btnTextDir.isDisabled())
                 setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('mergeShapes');
+                    Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
+
+            // if (tab !== 'home') {
+                // Common.UI.TooltipManager.closeTip('tabDesign');
+                // Common.UI.TooltipManager.closeTip('mergeShapes');
+            // } else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+            //     setTimeout(function() {
+            //         Common.UI.TooltipManager.showTip('mergeShapes');
+            //     }, 10);
         },
 
         onBeforeActiveTab: function(tab) {
@@ -3182,7 +3194,8 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('mergeShapes');
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+            // Common.UI.TooltipManager.closeTip('mergeShapes');
         },
 
         showStaticElements: function() {
