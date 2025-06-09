@@ -2,6 +2,9 @@
 #toolbar {
     padding: @layout-padding-toolbar-ie;
     padding: @layout-padding-toolbar;
+    &.style-off-tabs {
+        padding: 0;
+    }
 
     &:not(.style-off-tabs) {
         background: @header-background-color-ie;
@@ -31,6 +34,12 @@
                 bottom: 0;
                 border-radius: @border-radius-toolbar-ie;
                 border-radius: @border-radius-toolbar;
+
+                .style-off-tabs & {
+                    box-shadow: @shadow-toolbar-style-off-ie;
+                    box-shadow: @shadow-toolbar-style-off;
+                    border-radius: 0;
+                }
             }
         }
         .ie & {
