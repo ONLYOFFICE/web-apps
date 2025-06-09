@@ -80,7 +80,8 @@ define([
                 can_decrease: undefined,
                 fontsize: undefined,
                 textclrhighlight: undefined,
-                initEditing: true
+                initEditing: true,
+                rtlDir: undefined
             };
             this.editMode = true;
             this.binding = {};
@@ -1807,16 +1808,23 @@ define([
 
         onApiParagraphAlign: function(v) {
             if (!this.mode.isPDFEdit || !this.mode.isEdit) return;
-            if (this._state.pralign !== v) {
+            if (this._state.pralign !== v || this.api.asc_isRtlTextDirection() !== this._state.rtlDir) {
                 this._state.pralign = v;
+                this._state.rtlDir = this.api.asc_isRtlTextDirection();
 
                 var index = -1,
                     align,
                     btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
                 switch (v) {
-                    case 0: index = 2; align = 'btn-align-right'; break;
-                    case 1: index = 0; align = 'btn-align-left'; break;
+                    case 0:
+                        index = this._state.rtlDir ? 0 : 2;
+                        align = this._state.rtlDir ? 'btn-align-left' : 'btn-align-right';
+                        break;
+                    case 1:
+                        index = this._state.rtlDir ? 2 : 0;
+                        align = this._state.rtlDir ? 'btn-align-right' : 'btn-align-left';
+                        break;
                     case 2: index = 1; align = 'btn-align-center'; break;
                     case 3: index = 3; align = 'btn-align-just'; break;
                     default:  index = -255; align = 'btn-align-left'; break;
