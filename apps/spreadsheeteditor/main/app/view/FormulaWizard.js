@@ -73,7 +73,7 @@ define([
                                 '</td></tr>',
                                 '<tr><td style="padding-bottom: 8px;padding-top: 8px;">',
                                     '<div id="formula-wizard-panel-args-desc" style="padding: 8px;">',
-                                        '<div id="formula-wizard-arg-desc" style="height:30px;overflow: hidden;"></div>',
+                                        '<label id="formula-wizard-arg-desc" style="height:30px;overflow: hidden;"></label>',
                                     '</div>',
                                 '</td></tr>',
                                 '<tr><td>',
