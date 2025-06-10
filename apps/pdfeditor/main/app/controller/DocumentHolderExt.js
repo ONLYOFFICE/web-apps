@@ -2362,7 +2362,7 @@ define([], function () {
         };
 
         dh.onNewPage = function(item) {
-            this.api && this.api.asc_AddPage(item.value);
+            this.api && this.api.asc_AddPage(item.value ? Math.min.apply(null, this.api.getSelectedPages()) : Math.max.apply(null, this.api.getSelectedPages())+1);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         };
