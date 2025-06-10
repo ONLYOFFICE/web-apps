@@ -1365,6 +1365,11 @@ define([
 
                 Common.Utils.InternalSettings.set("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
+                value = Common.localStorage.getItem("de-settings-numeral");
+                value = value === null ? Asc.c_oNumeralType.arabic : parseInt(value);
+                Common.Utils.InternalSettings.set("de-settings-numeral", value);
+                this.api.asc_setNumeralType(value);
+
                 function checkWarns() {
                     if (!Common.Controllers.Desktop.isActive()) {
                         var tips = [];
