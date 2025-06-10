@@ -2411,17 +2411,17 @@ define([
         },
 
         onDelPage: function() {
-            this.api && this.api.asc_RemovePage();
+            this.api && this.api.asc_RemovePage([this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePage: function() {
-            this.api && this.api.asc_RotatePage(90);
+            this.api && this.api.asc_RotatePage(90, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePageMenu: function(menu, item) {
-            this.api && this.api.asc_RotatePage(item.value);
+            this.api && this.api.asc_RotatePage(item.value, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
