@@ -603,10 +603,12 @@ define([
 
                         if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
-                                Common.UI.TooltipManager.closeTip('modernTheme');
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);
                             }, me));
+                            me.btnInterfaceTheme.menu.on('show:after', function () {
+                                Common.UI.TooltipManager.closeTip('modernTheme');
+                            });
                         }
                     }
 
