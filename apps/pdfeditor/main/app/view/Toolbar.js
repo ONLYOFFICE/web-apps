@@ -70,6 +70,7 @@ define([
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
+        pasteLock:      'can-paste',
         cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
@@ -1186,7 +1187,7 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pasteLock, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
