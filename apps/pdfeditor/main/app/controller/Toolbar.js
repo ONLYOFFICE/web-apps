@@ -178,10 +178,25 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                    'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                    'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                    'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                    'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                    'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                    'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
+                url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
+
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
-                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
-                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom-right', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'formEditor' : {name: 'help-tip-form-editor', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpFormEditor, header: this.helpFormEditorHeader, target: 'li.ribtab #forms',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'copyPages' : {name: 'help-tip-copy-pages', placement: 'right-bottom', offset: {x: -30, y: 110}, text: Common.Utils.String.format(this.helpCopyPages, Common.Utils.String.platformKey('Ctrl+C', '{0}'), Common.Utils.String.platformKey('Ctrl+V', '{0}')),
+                               header: this.helpCopyPagesHeader, target: '#thumbnails-btn-close', closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -515,11 +530,6 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
                     this._state.can_undo = can;
-
-                    if (can) {
-                        var _main = this.getApplication().getController('Main');
-                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
-                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -885,8 +895,6 @@ define([
         },
 
         onUndo: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('fastUndo');
-
             if (this.api)
                 this.api.Undo();
 
@@ -1226,7 +1234,6 @@ define([
         },
 
         onBtnStampClick: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('addStamp');
             this.onInsertStamp(btn.options.stampType, btn, e);
         },
 
@@ -1248,7 +1255,6 @@ define([
         },
 
         onStampShowAfter: function(menu) {
-            Common.UI.TooltipManager.closeTip('addStamp');
             if (menu.getItemsLength(true)<1 && this.api) {
                 var arr = this.api.asc_getPropertyEditorStamps(),
                     template = _.template([
@@ -1528,6 +1534,8 @@ define([
             toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
+
+            this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('formEditor') : Common.UI.TooltipManager.closeTip('formEditor');
         },
         
         onAppReady: function (config) {
@@ -1590,15 +1598,17 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            (tab === 'comment') ? Common.UI.TooltipManager.showTip('addStamp') : Common.UI.TooltipManager.closeTip('addStamp');
-            if (tab === 'file') {
-                Common.UI.TooltipManager.closeTip('selectPages');
-                Common.UI.TooltipManager.closeTip('fastUndo');
-            }
+            (tab === 'file') && Common.UI.TooltipManager.closeTip('copyPages');
+            (tab === 'forms') && Common.UI.TooltipManager.closeTip('formEditor');
+            if (tab === 'view') {
+                Common.UI.TooltipManager.getNeedShow('modernTheme') && Common.UI.TooltipManager.closeTip('formEditor');
+                Common.UI.TooltipManager.showTip('modernTheme')
+            } else
+                Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('addStamp');
+            Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         applySettings: function() {

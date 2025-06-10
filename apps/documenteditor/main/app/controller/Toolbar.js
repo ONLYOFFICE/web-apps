@@ -261,9 +261,19 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                            'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                            'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                            'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                            'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                            'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                            'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'};
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released'}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -387,7 +397,6 @@ define([
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
-            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -1801,10 +1810,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onTextDirShowAfter: function(menu, item) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -4012,12 +4017,12 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
 
-                    !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
+                Common.UI.TooltipManager.showTip('modernTheme');
 
                 config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
@@ -4264,17 +4269,10 @@ define([
         },
 
         onActiveTab: function(tab) {
-            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
-            if (tab !== 'layout')
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            (tab === 'view') && Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
 
     }, DE.Controllers.Toolbar || {}));

@@ -274,10 +274,23 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                    'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                    'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                    'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                    'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                    'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                    'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
+                url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
+
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'fastUndo' : {name: 'sse-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false},
-                'calcItems' : {name: 'help-tip-calc-items', placement: 'bottom-left', text: this.helpCalcItems, header: this.helpCalcItemsHeader, target: '#slot-btn-calculated-items', automove: true, closable: false},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader,
+                                 target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'asyncFunction' : {name: 'help-tip-async-func', placement: 'bottom-left', text: this.helpAsyncFunc, header: this.helpAsyncFuncHeader, target: '#slot-btn-macros', automove: true,
+                                   maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -618,8 +631,6 @@ define([
         },
 
         onUndo: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('fastUndo');
-
             if (this.api)
                 this.api.asc_Undo();
 
@@ -2571,10 +2582,6 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.btnUndo.setDisabled(!can);
                     this._state.can_undo = can;
-                    if (can) {
-                        var _main = this.getApplication().getController('Main');
-                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
-                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -2997,8 +3004,6 @@ define([
                 { array: this.btnsComment });
 
             toolbar.lockToolbar(Common.enumLock.pageBreakLock, this.api.asc_GetPageBreaksDisableType(this.api.asc_getActiveWorksheetIndex())===Asc.c_oAscPageBreaksDisableType.all, {array: [toolbar.btnPageBreak]});
-            if (!toolbar.btnShapesMerge.isDisabled() && toolbar.isTabActive('layout'))
-                Common.UI.TooltipManager.showTip('mergeShapes');
 
             if (editOptionsDisabled) return;
 
@@ -4683,6 +4688,7 @@ define([
                     Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
+            Common.UI.TooltipManager.showTip('modernTheme');
         },
 
         onFileMenu: function (opts) {
@@ -4796,7 +4802,6 @@ define([
         },
 
         onBeforeShapesMerge: function() {
-            Common.UI.TooltipManager.closeTip('mergeShapes');
             this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
@@ -5261,11 +5266,11 @@ define([
         },
 
         onActiveTab: function(tab) {
-            (tab === 'file') && Common.UI.TooltipManager.closeTip('fastUndo');
-            if (tab !== 'layout')
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            if (tab === 'view') {
+                Common.UI.TooltipManager.closeTip('modernTheme');
+                Common.UI.TooltipManager.showTip('asyncFunction');
+            } else
+                Common.UI.TooltipManager.closeTip('asyncFunction');
         },
 
         onClickTab: function(tab) {
@@ -5273,8 +5278,7 @@ define([
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('calcItems');
-            Common.UI.TooltipManager.closeTip('mergeShapes');
+            Common.UI.TooltipManager.closeTip('asyncFunction');
         }
     }, SSE.Controllers.Toolbar || {}));
 });

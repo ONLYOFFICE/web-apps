@@ -34,6 +34,7 @@
   "Common.UI.SynchronizeTip.textDontShow": "Don't show this message again",
   "Common.UI.SynchronizeTip.textGotIt": "Got it",
   "Common.UI.SynchronizeTip.textSynchronize": "The document has been changed by another user.<br>Please click to save your changes and reload the updates.",
+  "Common.UI.SynchronizeTip.textNew": "New",
   "Common.UI.Themes.txtThemeClassicLight": "Classic light",
   "Common.UI.Themes.txtThemeContrastDark": "Contrast Dark",
   "Common.UI.Themes.txtThemeDark": "Dark",

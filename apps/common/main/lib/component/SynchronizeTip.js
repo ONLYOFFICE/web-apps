@@ -136,7 +136,7 @@ define([
                 var showxy = Common.Utils.getOffset(target),
                     offset = this.offset || {x: 0, y: 0};
                 if (this.placement=='target' && !this.position) {
-                    this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
+                    this.cmpEl.css({top : showxy.top + 5  + offset.y + 'px', left: showxy.left + 5  + offset.x + 'px'});
                     return;
                 }
 
@@ -227,7 +227,7 @@ define([
             //     text: '',
             //     header: '',
             //     target: '#id', // string or $el
-            //     link: {text: 'link text', src: 'UsageInstructions\/....htm'}, // (or false) Open help page
+            //     link: {text: 'link text', src: 'UsageInstructions\/....htm', url: 'www.example.com' }, // (or false) Open help page
             //     showButton: true, // true by default
             //     closable: true, // true by default
             //     callback: function() {} // call when close tip,
@@ -237,7 +237,8 @@ define([
             //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     extCls: '' //
             //     noHighlight: false // false by default,
-            //     multiple: false // false by default, show tip multiple times
+            //     multiple: false // false by default, show tip multiple times,
+            //     isNewFeature: false // false by default, show "New" tip in the header
             // }
         },
         _targetStack = {
@@ -316,6 +317,11 @@ define([
                     placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
                 }
                 !props.noHighlight && targetEl.addClass('highlight-tip');
+
+                if (props.isNewFeature) {
+                    props.header = '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>' + props.header;
+                }
+
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noHighlight ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
@@ -341,7 +347,10 @@ define([
                         props.tip = undefined;
                     },
                     'dontshowclick': function() {
-                        Common.NotificationCenter.trigger('file:help', props.link.src);
+                        if (props.link.url)
+                            window.open(props.link.url, '_blank');
+                        else
+                            Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
                         targetEl.removeClass('highlight-tip');
