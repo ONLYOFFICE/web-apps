@@ -406,6 +406,7 @@ define([
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
             this.api.asc_registerCallback('asc_onStampsReady', _.bind(this.onApiStampsReady, this));
             this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
+            this.api.asc_registerCallback('asc_onCanPastePage',           _.bind(this.onApiCanPastePage, this));
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
@@ -537,6 +538,13 @@ define([
             if (this._state.can_cut !== cancut) {
                 this.toolbar.lockToolbar(Common.enumLock.cutLock, !cancut, {array: [this.toolbar.btnCut]});
                 this._state.can_cut = cancut;
+            }
+        },
+
+        onApiCanPastePage: function(canpaste) {
+            if (this._state.can_paste !== canpaste) {
+                this.toolbar.lockToolbar(Common.enumLock.pasteLock, !canpaste, {array: [this.toolbar.btnPaste]});
+                this._state.can_paste = canpaste;
             }
         },
 
@@ -2403,17 +2411,17 @@ define([
         },
 
         onDelPage: function() {
-            this.api && this.api.asc_RemovePage();
+            this.api && this.api.asc_RemovePage([this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePage: function() {
-            this.api && this.api.asc_RotatePage(90);
+            this.api && this.api.asc_RotatePage(90, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePageMenu: function(menu, item) {
-            this.api && this.api.asc_RotatePage(item.value);
+            this.api && this.api.asc_RotatePage(item.value, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

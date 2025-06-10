@@ -1293,6 +1293,9 @@ define([], function () {
                     var canRemove = me.api.asc_CanRemovePages();
                     me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
                     me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    var canPaste = me.api.asc_CanPastePage();
+                    me.mnuPastePageBefore.setDisabled(!canPaste);
+                    me.mnuPastePageAfter.setDisabled(!canPaste);
                 },
                 items: [
                     me.mnuCutPage,
