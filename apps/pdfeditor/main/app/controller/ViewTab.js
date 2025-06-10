@@ -229,6 +229,7 @@ define([
                         if (me.view.btnInterfaceTheme.menu.getItemsLength(true)) {
                             // me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
                             me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
+                                Common.UI.TooltipManager.closeTip('modernTheme');
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);
                                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});

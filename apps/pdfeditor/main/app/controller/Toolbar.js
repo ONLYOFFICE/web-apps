@@ -178,10 +178,14 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
+
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
-                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
-                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 270, closable: false, isNewFeature: true},
+                // 'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
+                // 'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
+                // 'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -1579,15 +1583,17 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            (tab === 'comment') ? Common.UI.TooltipManager.showTip('addStamp') : Common.UI.TooltipManager.closeTip('addStamp');
-            if (tab === 'file') {
-                Common.UI.TooltipManager.closeTip('selectPages');
-                Common.UI.TooltipManager.closeTip('fastUndo');
-            }
+            // (tab === 'comment') ? Common.UI.TooltipManager.showTip('addStamp') : Common.UI.TooltipManager.closeTip('addStamp');
+            // if (tab === 'file') {
+            //     Common.UI.TooltipManager.closeTip('selectPages');
+            //     Common.UI.TooltipManager.closeTip('fastUndo');
+            // }
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('addStamp');
+            // Common.UI.TooltipManager.closeTip('addStamp');
+            Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         applySettings: function() {

@@ -311,10 +311,14 @@ define([
                 me = this;
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
+
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true, isNewFeature: true},
+                'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true, closable: false, isNewFeature: true},
                 'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
-                              target: '#animation-field-effects', isNewFeature: true, maxwidth: 300},
+                              target: '#animation-field-effects', isNewFeature: true, maxwidth: 300, closable: false},
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 270, closable: false, isNewFeature: true},
                 // 'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
                 //                 callback: function() {
                 //                     if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
@@ -3179,6 +3183,8 @@ define([
                     Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
 
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
+
             // if (tab !== 'home') {
                 // Common.UI.TooltipManager.closeTip('tabDesign');
                 // Common.UI.TooltipManager.closeTip('mergeShapes');
@@ -3195,6 +3201,7 @@ define([
 
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
+            Common.UI.TooltipManager.closeTip('modernTheme');
             // Common.UI.TooltipManager.closeTip('mergeShapes');
         },
 

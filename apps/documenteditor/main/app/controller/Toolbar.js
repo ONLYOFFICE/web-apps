@@ -264,7 +264,7 @@ define([
             var themeid = Common.UI.Themes.currentThemeId(),
                 isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view', automove: true, maxwidth: 320, isNewFeature: true},
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true},
                 // 'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
                 //                   link: {text: 'Learn more', url: 'http://www.onlyoffice.com'}, isNewFeature: true},
                 // 'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
@@ -4281,7 +4281,7 @@ define([
         onTabCollapse: function(tab) {
             // Common.UI.TooltipManager.closeTip('rtlDirection');
             // Common.UI.TooltipManager.closeTip('mergeShapes');
-            Common.UI.TooltipManager.closeTip('modernTheme');
+            // Common.UI.TooltipManager.closeTip('modernTheme');
         }
 
     }, DE.Controllers.Toolbar || {}));
