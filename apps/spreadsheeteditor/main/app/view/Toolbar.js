@@ -1492,7 +1492,6 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 135px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
