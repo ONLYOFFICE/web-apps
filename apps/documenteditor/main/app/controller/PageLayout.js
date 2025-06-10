@@ -194,8 +194,6 @@ define([
                 me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight,
                                                                                                me.toolbar.numSpacingAfter, me.toolbar.numSpacingBefore, me.toolbar.lblSpacingAfter, me.toolbar.lblSpacingBefore ]});
                 me.ChangeSettingsPara(paraProps);
-                if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('layout'))
-                    Common.UI.TooltipManager.showTip('mergeShapes');
             },
 
             onApiCoAuthoringDisconnect: function() {
@@ -229,7 +227,6 @@ define([
             },
 
             onBeforeShapesMerge: function() {
-                Common.UI.TooltipManager.closeTip('mergeShapes');
                 this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                     item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
                 }, this);

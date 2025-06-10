@@ -318,13 +318,7 @@ define([
                 'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true, closable: false, isNewFeature: true},
                 'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
                               target: '#animation-field-effects', isNewFeature: true, maxwidth: 300, closable: false},
-                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 270, closable: false, isNewFeature: true},
-                // 'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
-                //                 callback: function() {
-                //                     if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
-                //                         Common.UI.TooltipManager.showTip('mergeShapes');
-                //                 }},
-                // 'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-btn-shapes-merge', closable: false, prev: 'tabDesign'}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme', automove: true, maxwidth: 270, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -1819,7 +1813,6 @@ define([
         },
 
         onBeforeShapesMerge: function() {
-            // Common.UI.TooltipManager.closeTip('mergeShapes', true);
             this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
@@ -2914,7 +2907,6 @@ define([
                 if ( config.isEdit ) {
                     if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
                         Common.UI.TooltipManager.showTip('rtlDirection');
-                    // Common.UI.TooltipManager.showTip('tabDesign');
                 }
             });
         },
@@ -3184,14 +3176,6 @@ define([
                 }, 10);
 
             (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
-
-            // if (tab !== 'home') {
-                // Common.UI.TooltipManager.closeTip('tabDesign');
-                // Common.UI.TooltipManager.closeTip('mergeShapes');
-            // } else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-            //     setTimeout(function() {
-            //         Common.UI.TooltipManager.showTip('mergeShapes');
-            //     }, 10);
         },
 
         onBeforeActiveTab: function(tab) {
@@ -3202,7 +3186,6 @@ define([
         onTabCollapse: function(tab) {
             Common.UI.TooltipManager.closeTip('rtlDirection');
             Common.UI.TooltipManager.closeTip('modernTheme');
-            // Common.UI.TooltipManager.closeTip('mergeShapes');
         },
 
         showStaticElements: function() {

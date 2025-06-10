@@ -264,10 +264,7 @@ define([
             var themeid = Common.UI.Themes.currentThemeId(),
                 isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night';
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true},
-                // 'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
-                //                   link: {text: 'Learn more', url: 'http://www.onlyoffice.com'}, isNewFeature: true},
-                // 'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view', automove: true, maxwidth: 270, closable: false, isNewFeature: true}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -391,7 +388,6 @@ define([
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
-            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -1805,10 +1801,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onTextDirShowAfter: function(menu, item) {
-            // Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -4016,7 +4008,6 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
 
-                    // !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
@@ -4269,19 +4260,10 @@ define([
         },
 
         onActiveTab: function(tab) {
-            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
-            // (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
-            // if (tab !== 'layout')
-            //     Common.UI.TooltipManager.closeTip('mergeShapes');
-            // else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-            //     Common.UI.TooltipManager.showTip('mergeShapes');
             (tab === 'view') && Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            // Common.UI.TooltipManager.closeTip('rtlDirection');
-            // Common.UI.TooltipManager.closeTip('mergeShapes');
-            // Common.UI.TooltipManager.closeTip('modernTheme');
         }
 
     }, DE.Controllers.Toolbar || {}));
