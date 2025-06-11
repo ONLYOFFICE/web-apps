@@ -2806,12 +2806,12 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
-            tab = {caption: 'Slide Master', action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slide-master', dataHintTitle: 'W'};
+            tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
             var slideMasterTab = me.getApplication().getController('SlideMasterTab');
             slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = slideMasterTab.createToolbarPanel();
             if ($panel) {
-                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slide-master');
+                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
                 me.toolbar.addTab(tab, $panel, 6);
                 me.toolbar.setVisible('slideMaster', !visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
