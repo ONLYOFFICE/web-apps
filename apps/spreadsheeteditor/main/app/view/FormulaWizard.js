@@ -242,7 +242,6 @@ define([
         },
 
         recalcMaxArgDesc: function(isSaveContent) {
-            debugger;
             var me = this,
                 minHeight = parseInt(this.lblArgDesc.css('min-height')),
                 oldHeight = parseInt(this.lblArgDesc.css('height')),
