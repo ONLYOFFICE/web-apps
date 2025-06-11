@@ -171,7 +171,9 @@ define([
         },
 
         onDocumentReady: function() {
-            Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
+            this.view && this.view.lockedControls
+            ? Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls})
+            : null;
         },
 
         onInsertSlideMaster: function () {
