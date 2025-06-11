@@ -26,6 +26,12 @@
     {{/if}}
     background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
     background-size: var(--huge-icon-background-image-width) auto;
+
+    {{#if (xpsupport)}}
+    .winxp & {
+        background-image: url(resources/{{{escaped_image}}});
+    }
+    {{/if}}
 }
 {{/spritesheet}}
 {{#sprites}}
