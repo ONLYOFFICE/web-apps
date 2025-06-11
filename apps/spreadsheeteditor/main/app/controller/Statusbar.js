@@ -513,48 +513,127 @@ define([
             }
         },
 
-        renameWorksheet: function() {
-            var me = this;
-            var wc = me.api.asc_getWorksheetsCount(), items = null;
-            if (wc > 0) {
-                var sindex = me.api.asc_getActiveWorksheetIndex();
-                if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) {
-                    return;
-                }
+        isValidWorksheetChar(char) {
+            return !/^(\')|[:\\\/\*\?\[\]]|(\')$/.test(char);
+        },
 
-                var value = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
-                if (!value) {
-                    items = [];
-                    while (wc--) {
-                        if (sindex !== wc) {
-                            items.push(me.api.asc_getWorksheetName(wc).toLowerCase());
+        filterValidChars(str) {
+            return [...str].filter(this.isValidWorksheetChar).join('');
+        },
+
+        updateInputWidth($input, $tabEl) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = [
+                $input.css('font-style'),
+                $input.css('font-variant'),
+                $input.css('font-weight'),
+                $input.css('font-size'),
+                $input.css('font-family')
+            ].filter(Boolean).join(' ');
+
+            const width = ctx.measureText($input.val() || ' ').width;
+            $input.width(width);
+            $tabEl.width(width);
+        },
+
+        renameWorksheet() {
+            const me = this;
+            const sindex = me.api.asc_getActiveWorksheetIndex();
+            if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) return;
+
+            const wc = me.api.asc_getWorksheetsCount();
+            const tab = me.statusbar.tabbar.tabs[sindex];
+            if (!tab) return;
+
+            const $tabEl = tab.$el.find('span');
+            const currentName = me.api.asc_getWorksheetName(sindex);
+            if ($tabEl.find('input.inline-rename').length > 0) return;
+
+            const otherNames = Array.from({ length: wc }, (_, i) =>
+                i !== sindex ? me.api.asc_getWorksheetName(i).toLowerCase() : null
+            ).filter(Boolean);
+
+            $tabEl.contents().filter((_, node) => node.nodeType === 3).remove();
+
+            setTimeout(() => {
+                const $input = $('<input type="text" class="inline-rename" maxlength="31" />').val(currentName).css({
+                    color: 'inherit',
+                    backgroundColor: 'transparent',
+                    boxSizing: 'border-box',
+                    padding: 0,
+                    height: '80%',
+                    border: 'none',
+                    fontSize: 'inherit',
+                    fontFamily: 'inherit',
+                    outline: 'none',
+                    margin: 0,
+                    lineHeight: 'inherit',
+                    cursor: 'text'
+                });
+
+                const finishRename = (save) => {
+                    let newName = $input.val().trim();
+                    if (save) {
+                        if (!newName) {
+                            alert('Name cannot be empty');
+                            $input.focus();
+                            return false;
                         }
-                    }
-                }
-
-                var tab = me.statusbar.tabbar.tabs[me.statusbar.tabbar.getActive()];
-                var top = Common.Utils.getPosition(me.statusbar.$el).top - 115,
-                    left = Common.Utils.getOffset(tab.$el).left;
-
-                var current = me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex());
-                var win = (new SSE.Views.Statusbar.RenameDialog({
-                    current: current,
-                    names: items,
-                    api: me.api,
-                    handler: function (btn, s) {
-                        if (btn == 'ok' && s != current) {
-                            me.api.asc_renameWorksheet(s);
+                        if (otherNames.includes(newName.toLowerCase())) {
+                            alert('Name already exists');
+                            $input.focus();
+                            return false;
                         }
-                        me.api.asc_enableKeyEvents(true);
+                        if (!this.isValidWorksheetChar(newName)) {
+                            alert('Invalid characters in name');
+                            $input.focus();
+                            return false;
+                        }
+                        if (newName !== currentName) me.api.asc_renameWorksheet(newName);
+                    } else {
+                        newName = currentName;
                     }
-                }));
-                if (typeof win.options.width == "number") {
-                    var bodywidth = $('body').width();
-                    if (left+win.options.width > bodywidth)
-                        left = bodywidth - win.options.width - 5;
-                }
-                win.show(left, top);
-            }
+                    $input.remove();
+                    $tabEl.append(document.createTextNode(newName));
+                    $tabEl.attr('tabtitle', newName);
+                    tab.$el.attr('data-label', newName);
+                    return true;
+                };
+
+                $tabEl.append($input);
+                this.updateInputWidth($input, $tabEl);
+                $input.focus().select();
+
+                $input.on('keypress', e => {
+                    const char = String.fromCharCode(e.which || e.keyCode);
+                    if (!me.isValidWorksheetChar(char) && !e.ctrlKey && !e.metaKey) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                });
+
+                $input.on('input', () => {
+                    const filtered = me.filterValidChars($input.val());
+                    if ($input.val() !== filtered) $input.val(filtered);
+                    me.updateInputWidth($input, $tabEl);
+                    me.onWindowResize();
+                });
+
+                $input.on('blur', e => {
+                    finishRename(true);
+                    e.stopPropagation();
+                });
+
+                $input.on('keydown', e => {
+                    if (e.key === 'Enter') finishRename(true);
+                    else if (e.key === 'Escape') finishRename(false);
+                    e.stopPropagation();
+                });
+
+                $input.on('click', e => e.stopPropagation());
+
+            }, 10);
         },
 
         moveWorksheet: function(selectArr, cut, silent, indTo) {
