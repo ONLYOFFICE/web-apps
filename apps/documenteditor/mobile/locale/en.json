@@ -714,6 +714,7 @@
     "textDownloadAs": "Download As",
     "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?",
     "textDownloadTxt": "If you continue saving in this format all features except the text will be lost. Are you sure you want to continue?",
+    "textDrawing": "Drawing",
     "textEmptyHeading": "Empty Heading",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textEnableAll": "Enable All",
@@ -808,8 +809,7 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "textDrawing": "Drawing"
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
     "btnRestartNow": "Restart now",

@@ -321,6 +321,7 @@
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
     "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",

@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "文書の最大サイズ制限を超えています。",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "TXTをダウンロード",
     "txtIncorrectPwd": "パスワードが間違い",
     "txtOk": "OK",
-    "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。"
+    "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "今すぐ再起動",

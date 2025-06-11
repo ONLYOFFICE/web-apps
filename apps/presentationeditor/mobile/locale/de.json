@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Umwandlung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste der Dokumente zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",

@@ -352,6 +352,7 @@
     "uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
     "uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
     "uploadImageSizeMessage": "De afbeelding is te groot. De maximale grootte is 25MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCannotUseCommandProtectedSheet": "You cannot use this command on a protected sheet. To use this command, unprotect the sheet.<br>You might be requested to enter a password.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the sheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",

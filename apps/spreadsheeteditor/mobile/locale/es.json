@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
+    "criticalErrorExtTextClose": "Pulse 'OK' para cerrar el editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Error al descargar.",
     "errNoDuplicates": "No se han encontrado valores duplicados.",

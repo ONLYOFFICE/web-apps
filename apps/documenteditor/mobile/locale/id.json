@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "Batas ukuran maksimum dokumen terlampaui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password salah",
     "txtOk": "OK",
-    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset."
+    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "Restart sekarang",

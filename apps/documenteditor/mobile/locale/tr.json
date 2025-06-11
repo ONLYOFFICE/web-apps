@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "Maksimum belge boyutu sınırı aşıldı.",
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
-    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir."
+    "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Veri yükleniyor...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "TXT olarak indir",
     "txtIncorrectPwd": "Şifre yanlış",
     "txtOk": "Tamam",
-    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır."
+    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır.",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "Şimdi Yeniden Başlat",

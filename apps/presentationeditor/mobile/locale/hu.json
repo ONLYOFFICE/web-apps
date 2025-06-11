@@ -239,6 +239,7 @@
     "uploadImageExtMessage": "Ismeretlen képformátum.",
     "uploadImageFileCountMessage": "Nincs kép feltöltve.",
     "uploadImageSizeMessage": "A kép túl nagy. A maximális méret 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {

@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "تم تجاوز الحد الأقصى المسموح به لحجم الملف",
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت"
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "تحميل النص",
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
-    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
+    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "إعادة التشغيل الآن",

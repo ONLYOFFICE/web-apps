@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisni 'OK' da se vratiš na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo kontaktirajte vašeg admina.",
