@@ -46,6 +46,8 @@
                     <span class="btn-slot split" id="slot-preview"></span>
                 </div>
             </div>
+            <div class="group" style="display:none;"></div>
+            <div class="separator long" id="id-toolbar-separator-end-static"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
