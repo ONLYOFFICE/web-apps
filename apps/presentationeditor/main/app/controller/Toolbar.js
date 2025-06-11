@@ -2768,6 +2768,19 @@ define([
                 animationController.setApi(me.api).setConfig({toolbar: me,mode:config}).createToolbarPanel();
                 Array.prototype.push.apply(me.toolbar.slideOnlyControls,animationController.getView().getButtons());
 
+                tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
+                var slideMasterTab = me.getApplication().getController('SlideMasterTab');
+                slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                $panel = slideMasterTab.createToolbarPanel();
+                if ($panel) {
+                    var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
+                    me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('slideMaster', !visible);
+                    !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
+                    Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                    Array.prototype.push.apply(me.toolbar.slideOnlyControls, slideMasterTab.getView('SlideMasterTab').getButtons());
+                }
+
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 if (!config.compactHeader) {
@@ -2806,17 +2819,6 @@ define([
                 me.toolbar.setVisible('view', visible);
                 !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
             }
-            tab = {caption: me.toolbar.textTabSlideMaster, action: 'slideMaster', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-slidemaster', dataHintTitle: 'M'};
-            var slideMasterTab = me.getApplication().getController('SlideMasterTab');
-            slideMasterTab.setApi(me.api).setConfig({toolbar: me, mode: config});
-            $panel = slideMasterTab.createToolbarPanel();
-            if ($panel) {
-                var visible = Common.UI.LayoutManager.isElementVisible('toolbar-slidemaster');
-                me.toolbar.addTab(tab, $panel, 6);
-                me.toolbar.setVisible('slideMaster', !visible);
-                !editmode && !compactview && visible && Common.Utils.InternalSettings.set('toolbar-active-tab', 'view'); // need to activate later
-            }
-            config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, slideMasterTab.getView('SlideMasterTab').getButtons());
         },
 
         onAppReady: function (config) {

@@ -90,7 +90,6 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.appConfig = options.mode;
                 var _set = Common.enumLock;
-                this.slideOnlyControls = [];
                 this.lockedControls = [];
 
                 var me = this;
@@ -108,7 +107,6 @@ define([
                     }).on('click', function (btn, e) {
                         this.fireEvent('insert:layout', [btn, e]);
                     }.bind(this));
-                    this.slideOnlyControls.push(this.btnAddLayout);
                     this.lockedControls.push(this.btnAddLayout);
 
                     me.btnAddSlideMaster = new Common.UI.Button({
@@ -123,7 +121,6 @@ define([
                     }).on('click', function (btn, e) {
                         this.fireEvent('insert:slide-master', [btn, e]);
                     }.bind(this));
-                    this.slideOnlyControls.push(this.btnAddSlideMaster);
                     this.lockedControls.push(this.btnAddSlideMaster);
 
                     me.btnInsertPlaceholder = new Common.UI.Button({
@@ -141,7 +138,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.slideOnlyControls.push(this.btnInsertPlaceholder);
                     this.lockedControls.push(this.btnInsertPlaceholder);
 
                     me.btnInsertPlaceholder.setMenu(
@@ -219,7 +215,6 @@ define([
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
-                    this.slideOnlyControls.push(this.chTitle);
                     this.lockedControls.push(this.chTitle);
 
                     this.chFooters = new Common.UI.CheckBox({
@@ -230,7 +225,6 @@ define([
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
                     });
-                    this.slideOnlyControls.push(this.chFooters);
                     this.lockedControls.push(this.chFooters);
 
                     this.btnCloseSlideMaster = new Common.UI.Button({
@@ -243,7 +237,6 @@ define([
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.slideOnlyControls.push(this.btnCloseSlideMaster);
                     this.lockedControls.push(this.btnCloseSlideMaster);
                 }
 
@@ -302,15 +295,6 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
-            },
-
-            onComboOpen: function (needfocus, combo, e, params) {
-                if (params && params.fromKeyDown) return;
-                _.delay(function() {
-                    var input = $('input', combo.cmpEl).select();
-                    if (needfocus) input.focus();
-                    else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
-                }, 10);
             },
 
             capAddSlideMaster: 'Add Slide Master',
