@@ -98,6 +98,7 @@
     "openErrorText": "Ocorreu um erro ao abrir o ficheiro",
     "saveErrorText": "Ocorreu um erro ao guardar o ficheiro",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorDataRange": "Incorrect data range.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",

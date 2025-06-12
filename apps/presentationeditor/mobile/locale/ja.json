@@ -239,7 +239,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",

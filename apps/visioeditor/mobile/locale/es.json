@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Se ha superado el tiempo de conversión.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
+    "criticalErrorExtTextClose": "Pulse 'OK' para cerrar el editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Error al descargar.",
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Póngase en contacto con su administrador.",

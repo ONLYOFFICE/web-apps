@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
+    "criticalErrorExtTextClose": "Cliquez « OK » pour fermer l'éditeur.",
     "criticalErrorTitle": "Erreur",
     "downloadErrorText": "Téléchargement echoué.",
     "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
@@ -713,6 +714,7 @@
     "textDownloadAs": "Télécharger comme",
     "textDownloadRtf": "Si vous continuer à sauvegarder dans ce format une partie de la mise en forme peut être supprimée. Êtes-vous sûr de vouloir continuer?",
     "textDownloadTxt": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues. Êtes-vous sûr de vouloir continuer?",
+    "textDrawing": "Dessins",
     "textEmptyHeading": "Titre vide",
     "textEmptyScreens": "Il n'y a pas de titres dans le document. Appliquez un style de titres au texte pour qu'il apparaisse dans la table des matières.",
     "textEnableAll": "Activer tout",

@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",

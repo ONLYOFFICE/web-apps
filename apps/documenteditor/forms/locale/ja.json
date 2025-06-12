@@ -43,6 +43,8 @@
   "Common.UI.Themes.txtThemeDark": "ダーク",
   "Common.UI.Themes.txtThemeGray": "灰色",
   "Common.UI.Themes.txtThemeLight": "ライト",
+  "Common.UI.Themes.txtThemeModernDark": "モダンダーク",
+  "Common.UI.Themes.txtThemeModernLight": "モダンライト",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
   "Common.UI.Window.closeButtonText": "閉じる",

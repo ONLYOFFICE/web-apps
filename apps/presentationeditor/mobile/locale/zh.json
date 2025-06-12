@@ -192,6 +192,7 @@
   "Error": {
     "convertationTimeoutText": "转换超时",
     "criticalErrorExtText": "按“确定”返回文档列表。",
+    "criticalErrorExtTextClose": "点击“确定”关闭编辑器。",
     "criticalErrorTitle": "错误",
     "downloadErrorText": "下载失败",
     "errorAccessDeny": "你正要执行一个你没有权限的操作。<br>请联系你的管理员。",

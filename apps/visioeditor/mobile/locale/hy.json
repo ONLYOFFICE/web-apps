@@ -119,7 +119,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",

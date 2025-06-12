@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Pobieranie prezentacji...",
   "PE.ApplicationController.errorAccessDeny": "Próbujesz wykonać działanie, na które nie masz uprawnień.<br>Proszę skontaktować się z administratorem serwera dokumentów.",
   "PE.ApplicationController.errorDefaultMessage": "Kod błędu: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Wystąpił błąd podczas pracy z dokumentem.<br>Użyj opcji \"Pobierz jako\", aby zapisać kopię zapasową pliku na dysku twardym komputera.",
   "PE.ApplicationController.errorFilePassProtect": "Dokument jest chroniony hasłem i nie może być otwarty.",
   "PE.ApplicationController.errorFileSizeExceed": "Rozmiar pliku przekracza dopuszczone limit dla twojego serwera.<br>Prosimy o kontakt z administratorem twojego serwera w celu uzyskania szczegółowych informacji.",
   "PE.ApplicationController.errorForceSave": "Wystąpił błąd podczas zapisywania pliku. Użyj opcji \"Pobierz jako\", aby zapisać plik na dysku twardym komputera lub spróbuj poźniej zapisać plik ponownie.",

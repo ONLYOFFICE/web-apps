@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "Překročena maximální velikost dokumentu.",
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Nenahrány žádné obrázky.",
-    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB."
+    "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
-    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno"
+    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "Restartovat nyní",

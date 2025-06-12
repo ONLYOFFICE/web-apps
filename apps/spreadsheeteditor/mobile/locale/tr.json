@@ -321,6 +321,7 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",

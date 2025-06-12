@@ -421,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "Nagyítás",
   "VE.Views.ViewTab.tipFitPage": "Igazítás az oldalhoz",
   "VE.Views.ViewTab.tipFitWidth": "Szélességhez igazítás",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

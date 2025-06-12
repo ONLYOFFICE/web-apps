@@ -119,7 +119,8 @@
     "unknownErrorText": "Errore sconosciuto.",
     "uploadImageExtMessage": "Formato dell'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessun immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento dati in corso...",

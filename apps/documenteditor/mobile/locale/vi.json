@@ -477,7 +477,8 @@
     "textOk": "OK",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
-    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -835,7 +836,8 @@
     "textExportAs": "Export As",
     "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textRtlInterface": "RTL Interface",
-    "textClose": "Close"
+    "textClose": "Close",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

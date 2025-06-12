@@ -119,7 +119,8 @@
     "unknownErrorText": "خطأ غير معروف.",
     "uploadImageExtMessage": "تنسيق الصورة غير معروف.",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
-    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت."
+    "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",

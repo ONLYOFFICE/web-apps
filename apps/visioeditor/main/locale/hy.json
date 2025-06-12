@@ -421,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

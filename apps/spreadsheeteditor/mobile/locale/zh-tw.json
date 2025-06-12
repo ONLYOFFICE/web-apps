@@ -331,6 +331,7 @@
     "uploadImageExtMessage": "未知圖片格式。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
     "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",

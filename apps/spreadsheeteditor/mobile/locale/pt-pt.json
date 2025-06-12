@@ -365,6 +365,7 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
