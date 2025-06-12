@@ -5,6 +5,12 @@
         background-image: url(resources/{{{escaped_image}}});
         {{/if}}
         background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+
+        {{#if (xpsupport)}}
+        .winxp & {
+            background-image: url(resources/{{{escaped_image}}});
+        }
+        {{/if}}
     }
 }
 {{/spritesheet}}
