@@ -1277,8 +1277,10 @@ define([
                     }, 10);
                 });
                 !isClientSearch && menu.scroller.cmpEl.on('scroll', function (event) {
-                    if (me._state.emailSearch && me._state.emailSearch.requestNext>0 && me._state.emailSearch.requestNext < $(event.target).scrollTop())
+                    if (me._state.emailSearch && me._state.emailSearch.requestNext>0 && me._state.emailSearch.requestNext < $(event.target).scrollTop()) {
+                        me._state.emailSearch.requestNext = -1; // wait for response
                         me.onEmailListMenuNext();
+                    }
                 });
             }
 
