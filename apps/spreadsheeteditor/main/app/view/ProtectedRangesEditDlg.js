@@ -443,6 +443,7 @@ define([], function () {
                 !isClientSearch && this.cmbUser.cmpEl.find('ul').on('scroll', function (event) {
                     if (me.userSearch && me.userSearch.requestNext>0 && me.userSearch.requestNext < $(event.target).scrollTop()) {
                         me.userSearch.scrollTop = $(event.target).scrollTop();
+                        me.userSearch.requestNext = -1; // wait for response
                         me.onUserMenuNext();
                     }
                 });
