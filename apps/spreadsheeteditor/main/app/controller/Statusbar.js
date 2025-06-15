@@ -524,13 +524,7 @@ define([
         updateInputWidth($input, $tabEl) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            ctx.font = [
-                $input.css('font-style'),
-                $input.css('font-variant'),
-                $input.css('font-weight'),
-                $input.css('font-size'),
-                $input.css('font-family')
-            ].filter(Boolean).join(' ');
+            ctx.font = [$tabEl.css('font-weight'), $tabEl.css('font-size'), $tabEl.css('font-family')].filter(Boolean).join(' ');
 
             const width = ctx.measureText($input.val() || ' ').width;
             $input.width(width);
@@ -539,6 +533,7 @@ define([
 
         renameWorksheet() {
             const me = this;
+            let isRenameErrorShown = false;
             const sindex = me.api.asc_getActiveWorksheetIndex();
             if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) return;
 
@@ -576,18 +571,37 @@ define([
                     let newName = $input.val().trim();
                     if (save) {
                         if (!newName) {
-                            alert('Name cannot be empty');
-                            $input.focus();
+                            if (isRenameErrorShown) return false;
+                            isRenameErrorShown = true;
+
+                            _.defer(function () {
+                                Common.UI.error({
+                                    msg: (new Common.Views.RenameDialog).txtEmptySheetName,
+                                    callback: function () {
+                                        _.delay(function () {
+                                            isRenameErrorShown = false;
+                                            $input.focus().select();
+                                        }, 50);
+                                    }
+                                });
+                            });
                             return false;
                         }
                         if (otherNames.includes(newName.toLowerCase())) {
-                            alert('Name already exists');
-                            $input.focus();
-                            return false;
-                        }
-                        if (!this.isValidWorksheetChar(newName)) {
-                            alert('Invalid characters in name');
-                            $input.focus();
+                            if (isRenameErrorShown) return false;
+                            isRenameErrorShown = true;
+
+                            _.defer(function () {
+                                Common.UI.error({
+                                    msg: (new Common.Views.RenameDialog).txtExistedSheetName,
+                                    callback: function () {
+                                        _.delay(function () {
+                                            isRenameErrorShown = false;
+                                            $input.focus().select();
+                                        }, 50);
+                                    }
+                                });
+                            });
                             return false;
                         }
                         if (newName !== currentName) me.api.asc_renameWorksheet(newName);
@@ -621,7 +635,9 @@ define([
                 });
 
                 $input.on('blur', e => {
-                    finishRename(true);
+                    if (!isRenameErrorShown) {
+                        finishRename(true);
+                    }
                     e.stopPropagation();
                 });
 

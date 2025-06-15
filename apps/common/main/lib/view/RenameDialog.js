@@ -130,6 +130,8 @@ define([], function () { 'use strict';
         },
 
         textName        : 'File name',
-        txtInvalidName  : 'The file name cannot contain any of the following characters: '
+        txtInvalidName  : 'The file name cannot contain any of the following characters: ',
+        txtEmptySheetName : 'The sheet name cannot be empty',
+        txtExistedSheetName : 'The sheet name already exists'
     }, Common.Views.RenameDialog || {}));
 });
