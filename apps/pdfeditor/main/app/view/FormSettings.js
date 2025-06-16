@@ -1513,10 +1513,13 @@ define([
                         var options = specProps.asc_getOptions();
                         var arr = [];
                         for (var i=0; i<options.length; i++) {
-                            (options[i]!=='') && arr.push({
-                                value: options[i],
-                                name: options[i]
-                            });
+                            if (options[i]!=='') {
+                                val = _.isArray(options[i]) && options[i].length ? options[i][0] : options[i];
+                                arr.push({
+                                    value: val,
+                                    name: val
+                                });
+                            }
                         }
                         this.list.store.reset(arr);
                         var rec = null;
