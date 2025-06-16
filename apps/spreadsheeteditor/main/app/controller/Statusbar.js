@@ -522,11 +522,25 @@ define([
         },
 
         updateInputWidth($input, $tabEl) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.font = [$tabEl.css('font-weight'), $tabEl.css('font-size'), $tabEl.css('font-family')].filter(Boolean).join(' ');
+            const $measureSpan = $('<span>')
+                .text($input.val() || ' ')
+                .css({
+                    position: 'absolute',
+                    visibility: 'hidden',
+                    whiteSpace: 'pre',
+                    fontWeight: $input.css('font-weight'),
+                    fontSize: $input.css('font-size'),
+                    fontFamily: $input.css('font-family'),
+                    letterSpacing: $input.css('letter-spacing'),
+                    lineHeight: $input.css('line-height'),
+                    fontStyle: $input.css('font-style'),
+                    fontVariant: $input.css('font-variant'),
+                })
+                .appendTo(document.body);
 
-            const width = ctx.measureText($input.val() || ' ').width;
+            const width = $measureSpan.width();
+            $measureSpan.remove();
+
             $input.width(width);
             $tabEl.width(width);
         },
@@ -559,6 +573,7 @@ define([
                     padding: 0,
                     height: '80%',
                     border: 'none',
+                    letterSpacing: '0.01em',
                     fontSize: 'inherit',
                     fontFamily: 'inherit',
                     outline: 'none',
