@@ -86,6 +86,16 @@ define([
             this.statusbar.labelZoom.css('min-width', 80);
             this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
+            this.$measureSpan = $('<span>').css({
+                position: 'absolute',
+                visibility: 'hidden',
+                whiteSpace: 'pre',
+                top: 0,
+                left: 0,
+                margin: 0,
+                padding: 0,
+                border: 'none'
+            }).appendTo(document.body);
 
             this.bindViewEvents(this.statusbar, this.events);
 
@@ -518,36 +528,41 @@ define([
         },
 
         filterValidChars(str) {
-            return [...str].filter(this.isValidWorksheetChar).join('');
+            return str.split('').filter(this.isValidWorksheetChar).join('');
         },
 
         updateInputWidth($input, $tabEl) {
-            const $measureSpan = $('<span>')
-                .text($input.val() || ' ')
-                .css({
-                    position: 'absolute',
-                    visibility: 'hidden',
-                    whiteSpace: 'pre',
-                    fontWeight: $input.css('font-weight'),
-                    fontSize: $input.css('font-size'),
-                    fontFamily: $input.css('font-family'),
-                    letterSpacing: $input.css('letter-spacing'),
-                    lineHeight: $input.css('line-height'),
-                    fontStyle: $input.css('font-style'),
-                    fontVariant: $input.css('font-variant'),
-                })
-                .appendTo(document.body);
-
-            const width = $measureSpan.width();
-            $measureSpan.remove();
-
+            this.$measureSpan.text($input.val() || ' ').css({
+                fontWeight: $input.css('font-weight'),
+                fontSize: $input.css('font-size'),
+                fontFamily: $input.css('font-family'),
+                letterSpacing: $input.css('letter-spacing'),
+                lineHeight: $input.css('line-height'),
+                fontStyle: $input.css('font-style'),
+                fontVariant: $input.css('font-variant')
+            });
+            const width = this.$measureSpan.width();
             $input.width(width);
             $tabEl.width(width);
         },
 
+        showRenameError(message, $input) {
+            _.defer(() => {
+                Common.UI.error({
+                    msg: message,
+                    callback: () => {
+                        _.delay(() => {
+                            this.isRenameErrorShown = false;
+                            $input.focus().select();
+                        }, 50);
+                    }
+                });
+            });
+        },
+
         renameWorksheet() {
             const me = this;
-            let isRenameErrorShown = false;
+            me.isRenameErrorShown = false;
             const sindex = me.api.asc_getActiveWorksheetIndex();
             if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) return;
 
@@ -559,13 +574,17 @@ define([
             const currentName = me.api.asc_getWorksheetName(sindex);
             if ($tabEl.find('input.inline-rename').length > 0) return;
 
-            const otherNames = Array.from({ length: wc }, (_, i) =>
-                i !== sindex ? me.api.asc_getWorksheetName(i).toLowerCase() : null
+            const otherNames = Array.from({ length: wc }, function(_, i) {
+                return i !== sindex ? me.api.asc_getWorksheetName(i).toLowerCase() : null;
+            }
             ).filter(Boolean);
 
-            $tabEl.contents().filter((_, node) => node.nodeType === 3).remove();
+            $tabEl.contents().filter(function(_, node) {
+                return node.nodeType === 3;
+            }).remove();
 
             setTimeout(() => {
+                const originalWidth = $tabEl.width();
                 const $input = $('<input type="text" class="inline-rename" maxlength="31" />').val(currentName).css({
                     color: 'inherit',
                     backgroundColor: 'transparent',
@@ -586,37 +605,15 @@ define([
                     let newName = $input.val().trim();
                     if (save) {
                         if (!newName) {
-                            if (isRenameErrorShown) return false;
-                            isRenameErrorShown = true;
-
-                            _.defer(function () {
-                                Common.UI.error({
-                                    msg: (new Common.Views.RenameDialog).txtEmptySheetName,
-                                    callback: function () {
-                                        _.delay(function () {
-                                            isRenameErrorShown = false;
-                                            $input.focus().select();
-                                        }, 50);
-                                    }
-                                });
-                            });
+                            if (me.isRenameErrorShown) return false;
+                            me.isRenameErrorShown = true;
+                            me.showRenameError((new Common.Views.RenameDialog).txtEmptySheetName, $input);
                             return false;
                         }
                         if (otherNames.includes(newName.toLowerCase())) {
-                            if (isRenameErrorShown) return false;
-                            isRenameErrorShown = true;
-
-                            _.defer(function () {
-                                Common.UI.error({
-                                    msg: (new Common.Views.RenameDialog).txtExistedSheetName,
-                                    callback: function () {
-                                        _.delay(function () {
-                                            isRenameErrorShown = false;
-                                            $input.focus().select();
-                                        }, 50);
-                                    }
-                                });
-                            });
+                            if (me.isRenameErrorShown) return false;
+                            me.isRenameErrorShown = true;
+                            me.showRenameError((new Common.Views.RenameDialog).txtExistedSheetName, $input);
                             return false;
                         }
                         if (newName !== currentName) me.api.asc_renameWorksheet(newName);
@@ -650,7 +647,7 @@ define([
                 });
 
                 $input.on('blur', e => {
-                    if (!isRenameErrorShown) {
+                    if (!me.isRenameErrorShown) {
                         finishRename(true);
                     }
                     e.stopPropagation();
@@ -658,7 +655,12 @@ define([
 
                 $input.on('keydown', e => {
                     if (e.key === 'Enter') finishRename(true);
-                    else if (e.key === 'Escape') finishRename(false);
+                    else if (e.key === 'Escape') {
+                        finishRename(false);
+                        $tabEl.width(originalWidth);
+                        $input.remove();
+                        me.onWindowResize();
+                    };
                     e.stopPropagation();
                 });
 
