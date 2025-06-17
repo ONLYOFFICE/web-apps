@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste von Dokumenten zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errNoDuplicates": "Keine doppelten Werte gefunden.",

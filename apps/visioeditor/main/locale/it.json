@@ -114,12 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "Una volta inserita la password e aperto il file, la password attuale del file verrà resettata.",
   "Common.Views.OpenDialog.txtTitle": "Seleziona %1 opzioni",
   "Common.Views.OpenDialog.txtTitleProtected": "File protetto",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
+  "Common.Views.PluginDlg.textDock": "Appunta il plugin",
   "Common.Views.PluginDlg.textLoading": "Caricamento",
   "Common.Views.PluginPanel.textClosePanel": "Chiudi il componente",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
+  "Common.Views.PluginPanel.textHidePanel": "Plugin Collapse",
   "Common.Views.PluginPanel.textLoading": "Caricamento",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
+  "Common.Views.PluginPanel.textUndock": "Spunta il plugin",
   "Common.Views.Plugins.groupCaption": "Componenti",
   "Common.Views.Plugins.strPlugins": "Componenti",
   "Common.Views.Plugins.textBackgroundPlugins": "Componenti in sottofondo",
@@ -422,7 +422,8 @@
   "VE.Views.ViewTab.tipFitPage": "Adatta alla pagina",
   "VE.Views.ViewTab.tipFitWidth": "Adatta alla larghezza",
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

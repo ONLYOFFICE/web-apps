@@ -11,6 +11,71 @@
 
     <!-- splash -->
     <style type="text/css">
+         .loadmask {
+            --sk-height-toolbar-controls:84px;
+            --sk-layout-padding-toolbar:0 10px;
+            --sk-layout-padding-header: 0 10px;
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+            --sk-border-radius-toolbar: 8px;
+            --sk-background-toolbar: #f3f3f3;
+            --sk-background-toolbar-controls: #fff;
+            --sk-canvas-background: #f3f3f3;
+            --sk-background-toolbar-header-cell: #f3f3f3;
+            --sk-background-toolbar-tab: #eaeaea;
+            --sk-background-toolbar-button: #f9f9f9;
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-canvas-content-background: #fff;
+            --sk-canvas-page-border: #dde0e5;
+            --sk-canvas-line: rgba(0,0,0,.05);
+            --sk-height-formula: 38px;
+            --sk-padding-formula: 10px 10px 4px 10px;
+            --sk-border-style-formula: none;
+            --sk-gap-formula-field: 28px;
+            --sk-border-radius-formula-field: 3px;
+        }
+
+        .theme-night .loadmask {
+            --sk-height-toolbar-controls: 84px; 
+            --sk-layout-padding-toolbar: 0 10px;
+            --sk-border-radius-toolbar: 8px;
+
+            /* --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06) */
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar-header-cell: #222222;
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            /* --background-toolbar: #404040; */
+            --sk-background-toolbar-controls: #404040;
+
+            /* --highlight-header-button-hover: #585858; */
+            --sk-background-toolbar-tab: #585858;
+
+            /* --highlight-button-hover: #585858 */
+            --sk-background-toolbar-button: #585858;
+
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-layout-padding-header: 0 10px;
+
+            /* --canvas-background: #222222; */
+            --sk-canvas-background: #222222;
+
+            /* --canvas-content-background: #fff; */
+            --sk-canvas-content-background: #fff;
+            
+            --sk-canvas-page-border: #555;
+            --sk-canvas-line: rgba(0,0,0,.05);
+
+            --sk-height-formula: 38px;
+            --sk-padding-formula: 10px 10px 4px 10px;
+            --sk-border-style-formula: none;
+            --sk-gap-formula-field: 28px;
+            --sk-border-radius-formula-field: 3px;
+        }
+
         .loadmask {
             left: 0;
             top: 0;
@@ -20,7 +85,7 @@
             overflow: hidden;
             border: none;
             background: #e2e2e2;
-            background: var(--canvas-background, #e2e2e2);
+            background: var(--sk-canvas-background, #eee);
             z-index: 1002;
         }
 
@@ -28,12 +93,13 @@
             width: 100%;
             min-height: 28px;
             background: #40865c;
-            background: var(--toolbar-header-spreadsheet, #40865c);
+            background: var(--sk-background-toolbar-header-cell);
+            padding: var(--sk-layout-padding-header);
         }
 
         .loadmask > .brendpanel .underline {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
+            background: var(--sk-background-toolbar-header-cell);
         }
 
         .loadmask > .brendpanel > div {
@@ -43,7 +109,7 @@
         }
 
         .loadmask > .brendpanel .spacer {
-            margin-left: auto;
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .rect {
@@ -53,31 +119,34 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
+            background: var(--sk-background-toolbar-tab);
         }
 
         .loadmask > .brendpanel .underline .rect {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-tab);
             opacity: 0.4;
-        }
-
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            margin: 0 10px;
-            background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
-            height: 46px;
-            padding: 10px 6px;
+            padding: 0;
+            padding: var(--sk-layout-padding-toolbar, 0);
             box-sizing: content-box;
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+        }
+
+        .loadmask > .sktoolbar > .box-controls {
+            background: var(--sk-background-toolbar-controls, #f7f7f7);
+            border-radius: var(--sk-border-radius-toolbar, 0);
+            padding: var(--sk-layout-padding-toolbar-controls);
+            box-shadow: var(--sk-shadow-toolbar);
+            height: 66px;
+            height: var(--sk-height-toolbar-controls);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .loadmask ul {
@@ -87,13 +156,17 @@
             position: relative;
         }
 
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
+        }
+
         .loadmask > .sktoolbar ul {
-            height: 25px;
+            height: 20px;
         }
 
         .loadmask > .sktoolbar li {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-button, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -112,7 +185,8 @@
             top: 0;
             bottom: 0;
             left: 875px;
-            width: 690px;
+            width: inherit;
+            max-width: 690px;
             height: 45px;
         }
         .rtl .loadmask > .sktoolbar li.fat {
@@ -121,9 +195,13 @@
         }
 
         .loadmask>.skformula {
+            padding: 0 0 4px 0;
+            padding: var(--sk-padding-formula);
             height: 24px;
-            background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
+            height: var(--sk-height-formula);
+            background: #f7f7f7;
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+            box-sizing: border-box;
         }
 
         .loadmask>.skformula ul {
@@ -131,40 +209,61 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
+            border-style: var(--sk-border-style-formula);
             border-width: 1px;
             border-width: var(--scaled-one-px-value, 1px);
             border-color: #cbcbcb transparent;
             border-color: var(--border-toolbar, #cbcbcb) transparent;
+            border-top: 0 none;
+            display: flex;
+            height: 100%;
         }
 
         .loadmask>.skformula li {
             display: inline-block;
             box-sizing: border-box;
-            height: 19px;
-            width: 100%;
-            margin-left: 20px;
             background: #fff;
-            background: var(--background-normal, #fff);
-            border-style: solid;
-            border-width: 1px;
-            border-width: var(--scaled-one-px-value, 1px);
-            border-color: #cbcbcb;
-            border-color: transparent var(--border-toolbar, #cbcbcb);
+            background: var(--sk-background-toolbar-controls, #fff);
+            border-left: 1px solid #cbcbcb; 
+            border-left: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+            border-radius: 0px;
+            border-radius: var(--sk-border-radius-formula-field, 0px);
+            flex-grow: 1;
         }
 
         .loadmask>.skformula li:first-child {
             width: 100px;
-            margin-left: 0;
+            flex-grow: 0;
+            margin-right: 20px;
+            margin-right: var(--sk-gap-formula-field);
+            border-left: 0 none; 
+            border-right: 1px solid #cbcbcb; 
+            border-right: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+        }
+
+        .rtl .loadmask > .skformula li {
+            border-left: 0 none; 
+            border-right: 1px solid #cbcbcb; 
+            border-right: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+        }
+
+        .rtl .loadmask > .skformula li:first-child {
+            margin-right: 0;
+            margin-left: 20px;
+            margin-left: var(--sk-gap-formula-field);
+            border-right: 0 none; 
+            border-left: 1px solid #cbcbcb; 
+            border-left: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
         }
 
         .loadmask > .placeholder {
             background: #fff;
-            background: var(--canvas-content-background, #fff);
+            background: var(--sk-canvas-content-background, #fff);
             width: 100%;
             height: 100%;
             font-size: 0;
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #bbbec2);
+            border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, #bbbec2);
             white-space: nowrap;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
@@ -289,11 +388,13 @@
     <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;"><div>
-            <div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div class="spacer"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 85px;"/><li class="fat"/></ul>
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 85px;"/></ul>
+            <section class="box-controls">
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 85px;"/><li class="fat"/></ul>
+                <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 85px;"/></ul>
+            </section>
         </div>
         <div class="skformula" style="display: none;">
             <ul><li/><li/></ul>

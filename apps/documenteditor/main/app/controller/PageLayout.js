@@ -168,7 +168,7 @@ define([
                         content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
                         disable.arrange     = (wrapping == Asc.c_oAscWrapStyle2.Inline) && !props.get_FromGroup();
                         disable.wrapping    = props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) ||
-                                            (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture && !control_props.get_FormPr());
+                                            (!!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture || control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Signature) && !control_props.get_FormPr());
                         disable.group   = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
                         canGroupUngroup = me.api.CanGroup() || me.api.CanUnGroup();
                         if (!disable.group && canGroupUngroup) {
@@ -194,8 +194,6 @@ define([
                 me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight,
                                                                                                me.toolbar.numSpacingAfter, me.toolbar.numSpacingBefore, me.toolbar.lblSpacingAfter, me.toolbar.lblSpacingBefore ]});
                 me.ChangeSettingsPara(paraProps);
-                if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('layout'))
-                    Common.UI.TooltipManager.showTip('mergeShapes');
             },
 
             onApiCoAuthoringDisconnect: function() {
@@ -229,7 +227,6 @@ define([
             },
 
             onBeforeShapesMerge: function() {
-                Common.UI.TooltipManager.closeTip('mergeShapes');
                 this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                     item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
                 }, this);

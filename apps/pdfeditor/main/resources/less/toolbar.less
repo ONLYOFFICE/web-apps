@@ -1,25 +1,3 @@
-
-.toolbar {
-    &.masked {
-        button.disabled .icon:not(.no-mask) {
-            //background-position-x: 0px !important;
-        }
-        .group:not(.no-mask) {
-            opacity: 0.4;
-        }
-    }
-
-    .font-attr {
-        > .btn-slot:not(:last-child):not(.split) {
-            .margin-right-4();
-        }
-
-        > .btn-slot:not(:last-child).split {
-            .margin-right-2();
-        }
-    }
-}
-
 .toolbar-group-mask {
     position: absolute;
     top: 0;
@@ -31,6 +9,7 @@
 
 // menu zoom
 .dropdown-menu .menu-zoom {
+    line-height: @line-height-base-ie;
     line-height: @line-height-base;
     .title {
         padding: 5px 5px 5px 20px;
@@ -72,10 +51,6 @@
     text-overflow: ellipsis;
 }
 
-#slot-field-fontname {
-    width: 111px;
-}
-
 #slot-field-fontsize {
     width: 40px;
 }
@@ -99,12 +74,7 @@
     width: 158px;
     .padding-left(3px);
     .item {
-        .box-shadow(none);
         .margin-x(6px, 4px);
-        &:hover, &.selected{
-            .box-shadow( 0 0 0 2px @border-preview-select-ie);
-            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
-        }
     }
     .item-symbol {
         font-family: @font-family-base;
@@ -116,58 +86,5 @@
         line-height: 20px;
         vertical-align: middle;
 
-    }
-}
-
-#equation-container,
-#text-bar-container,
-#annot-bar-container,
-#annot-sel-bar-container {
-    position: absolute;
-    z-index: @zindex-dropdown - 20;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
-    .ie &,
-    .winxp & {
-        overflow: visible;
-    }
-
-    &.has-open-menu {
-        z-index: @zindex-navbar + 3;
-    }
-}
-
-#equation-container {
-    .separator {
-        height: 30px;
-    }
-    .btn-toolbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 0px;
-    }
-}
-
-#text-bar-container,
-#annot-bar-container,
-#annot-sel-bar-container {
-    padding: 4px 6px;
-    .btn-toolbar,
-    .btn-group {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .separator {
-        height: 20px;
     }
 }

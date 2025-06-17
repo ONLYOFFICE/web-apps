@@ -421,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "විශාල කරන්න",
   "VE.Views.ViewTab.tipFitPage": "පිටුවට ගළපන්න",
   "VE.Views.ViewTab.tipFitWidth": "පළලට ගළපන්න",
-  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව"
+  "VE.Views.ViewTab.tipInterfaceTheme": "අතුරුමුහුණතේ තේමාව",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

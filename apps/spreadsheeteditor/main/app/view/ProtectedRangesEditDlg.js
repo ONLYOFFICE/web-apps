@@ -97,7 +97,13 @@ define([], function () {
 
             _options.tpl        =   _.template(this.template)(_options);
 
-            this._userStr = '';
+            this._userSearch = {
+                str: '',
+                from: 0,
+                count: 100,
+                total: undefined,
+                requestNext: undefined
+            };
             this._initSettings = true;
 
             Common.UI.Window.prototype.initialize.call(this, _options);
@@ -148,7 +154,7 @@ define([], function () {
                 takeFocusOnClose: true,
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
                     '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= Common.Utils.String.htmlEncode(item.value) %></label></a></li>',
                     '<% }); %>'
                 ].join(''))
@@ -290,11 +296,12 @@ define([], function () {
                             avatar: Common.UI.ExternalUsers.getImage(item.asc_getId()),
                             usercolor: Common.UI.ExternalUsers.getColor(item.asc_getId()),
                             email: '',
-                            type: item.asc_getType()
+                            type: item.asc_getType(),
+                            initSettings: true
                         });
                     });
                 }
-                this.onUserMenu(true);
+                this.onUserMenu('', true);
             }
         },
 
@@ -369,7 +376,7 @@ define([], function () {
                     });
                 }
             }
-            this.cmbUser.setRawValue(this._userStr);
+            this.cmbUser.setRawValue(this._userSearch.str);
         },
 
         onCmbUserAfterHide: function(combo, e, params) {
@@ -377,47 +384,83 @@ define([], function () {
         },
 
         onUserChanging: function(combo, newValue) {
-            if (Common.Utils.isIE && newValue==='' && this._userStr === newValue) return;
-            this._userStr = newValue;
-            this.onUserMenu();
+            clearTimeout(this.timerUserList);
+            if (Common.Utils.isIE && newValue==='' && this._userSearch.str === newValue) return;
+            this._userSearch.str = newValue;
+            var me = this;
+            this.timerUserList = setTimeout(function () {
+                me.onUserMenu(newValue);
+            }, 300);
         },
 
         onCmbUserBeforeOpen: function(combo, e, params) {
             if (combo.store.length<1) {
                 e.preventDefault();
-                this.onUserMenu();
+                this.onUserMenu(this.cmbUser.getRawValue());
             }
         },
 
         onCmbUserOpen: function(combo, e, params) {
-            this.onUserMenu();
+            this.onUserMenu(this.cmbUser.getRawValue());
         },
 
-        onUserMenu: function(preventOpen) {
+        onUserMenu: function(str, preventOpen) {
             this._forceOpen = !preventOpen;
-            Common.UI.ExternalUsers.get('protect');
+            clearTimeout(this.timerUserList);
+            if (typeof str == 'string') {
+                this.userSearch = {
+                    str: str,
+                    from: 0,
+                    count: 100,
+                    total: undefined,
+                    requestNext: undefined,
+                    scrollTop: 0
+                };
+                Common.UI.ExternalUsers.get('protect', undefined, this.userSearch.from, this.userSearch.count, this.userSearch.str);
+            }
         },
 
-        onUserMenuCallback: function(type, users) {
+        onUserMenuNext: function() {
+            var data = this.userSearch;
+            if (data && data.total!==undefined && data.from + data.count < data.total) {
+                data.from += data.count;
+                Common.UI.ExternalUsers.get('protect', undefined, data.from, data.count, data.str);
+            }
+        },
+
+        onUserMenuCallback: function(type, users, total) {
             if (type!=='protect') return;
 
+            var me = this,
+                from = this.userSearch.from,
+                isClientSearch = total===undefined;
+
             if (this._initSettings) {
-                var me = this;
                 if (users && _.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // has id in user info
                     me.cmbUser.setDisabled(false);
                     me.cmbUser._input && me.cmbUser._input.attr('placeholder', me.userPlaceholder);
                 }
+                !isClientSearch && this.cmbUser.cmpEl.find('ul').on('scroll', function (event) {
+                    if (me.userSearch && me.userSearch.requestNext>0 && me.userSearch.requestNext < $(event.target).scrollTop()) {
+                        me.userSearch.scrollTop = $(event.target).scrollTop();
+                        me.userSearch.requestNext = -1; // wait for response
+                        me.onUserMenuNext();
+                    }
+                });
+                this._initSettings = false;
+            }
+            if (this.listUser.store.findWhere({initSettings: true})) {
                 users && users.length>0 && this.listUser.store.each(function(item){
-                    if (item.get('value')===me.currentUser.id) return;
+                    if (item.get('value')===me.currentUser.id || !item.get('initSettings')) return;
                     var rec = _.findWhere(users, {id: item.get('value')});
                     if (rec) {
                         rec.name && item.set('name', rec.name);
                         rec.name && item.set('displayName', rec.name);
                         rec.email && item.set('email', rec.email);
                         rec.image && item.set('avatar', rec.image);
+                        item.set('initSettings', false);
                     }
                 });
-                this._initSettings = false;
             }
 
             if (!this._forceOpen && !this.cmbUser.isMenuOpen()) return;
@@ -425,22 +468,27 @@ define([], function () {
             var arr = [],
                 str = this.cmbUser.getRawValue();
 
-            if (users && users.length>0) {
-                var strlc = str.toLowerCase();
-                users = _.filter(users, function(item) {
-                    if ((item.id !== undefined && item.id !== null) &&
-                        (!strlc || item.email && 0 === item.email.toLowerCase().indexOf(strlc))) return true;
+            this.userSearch.total = total;
+            isClientSearch && (this.userSearch = null);
 
-                    let arr = item.name ? item.name.toLowerCase().split(' ') : [],
-                        inName = false;
-                    for (let i=0; i<arr.length; i++) {
-                        if (0 === arr[i].indexOf(strlc)) {
-                            inName = true;
-                            break;
+            if (users && users.length>0) {
+                if (isClientSearch) {
+                    var strlc = str.toLowerCase();
+                    users = _.filter(users, function (item) {
+                        if ((item.id !== undefined && item.id !== null) &&
+                            (!strlc || item.email && 0 === item.email.toLowerCase().indexOf(strlc))) return true;
+
+                        let arr = item.name ? item.name.toLowerCase().split(' ') : [],
+                            inName = false;
+                        for (let i = 0; i < arr.length; i++) {
+                            if (0 === arr[i].indexOf(strlc)) {
+                                inName = true;
+                                break;
+                            }
                         }
-                    }
-                    return (item.id !== undefined && item.id !== null) && inName;
-                });
+                        return (item.id !== undefined && item.id !== null) && inName;
+                    });
+                }
                 var divider = false;
                 _.each(users, function(item, index) {
                     arr.push({
@@ -457,12 +505,22 @@ define([], function () {
                         divider = true;
                 });
             }
-            this.cmbUser.setData(arr);
+            if (isClientSearch || from===0) {
+                this.cmbUser.setData(arr);
+            } else {
+                this.cmbUser.store.add(arr);
+                this.cmbUser.onResetItems();
+                this.cmbUser.scroller.scrollTop(this.userSearch.scrollTop);
+            }
             this.cmbUser.setRawValue(str);
 
-            if (arr.length>0)
-                this.cmbUser.openMenu();
-            else {
+            if (arr.length>0) {
+                this.cmbUser.openMenu(0, function() {
+                    if (!isClientSearch) {
+                        me.userSearch.requestNext = me.cmbUser.store.length<me.userSearch.total ? (1 - 10/me.cmbUser.store.length) * me.cmbUser.scroller.cmpEl.get(0).scrollHeight : -1;
+                    }
+                });
+            } else {
                 this.cmbUser.closeMenu();
                 this.cmbUser.focus();
             }

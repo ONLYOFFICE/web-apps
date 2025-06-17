@@ -1290,7 +1290,7 @@ define([], function () {
 
     Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
     Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
-    Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+    Common.Utils.InternalSettings.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || (Common.Utils.isIE ? 66 : 84)));
     Common.Utils.InternalSettings.set('document-title-height', 28);
     Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 

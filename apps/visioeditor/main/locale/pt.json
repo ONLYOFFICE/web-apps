@@ -39,6 +39,8 @@
   "Common.UI.Themes.txtThemeDark": "Escuro",
   "Common.UI.Themes.txtThemeGray": "Cinza",
   "Common.UI.Themes.txtThemeLight": "Claro",
+  "Common.UI.Themes.txtThemeModernDark": "Escuro moderno",
+  "Common.UI.Themes.txtThemeModernLight": "Claro moderno",
   "Common.UI.Themes.txtThemeSystem": "O mesmo que sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
   "Common.UI.Window.closeButtonText": "Fechar",
@@ -171,6 +173,7 @@
   "VE.Controllers.Main.applyChangesTitleText": "Carregando as alterações",
   "VE.Controllers.Main.convertationTimeoutText": "Tempo limite de conversão excedido.",
   "VE.Controllers.Main.criticalErrorExtText": "Pressione \"OK\" para voltar para a lista de documentos.",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Pressione \"OK\" para fechar o editor.",
   "VE.Controllers.Main.criticalErrorTitle": "Erro",
   "VE.Controllers.Main.downloadErrorText": "Erro ao baixar arquivo.",
   "VE.Controllers.Main.downloadMergeText": "Baixando...",
@@ -422,7 +425,5 @@
   "VE.Views.ViewTab.tipFitPage": "Ajustar a página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar à largura",
   "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
-  "Common.Views.PluginDlg.textDock": "Pin plugin",
-  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
-  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin"
+  "Common.UI.SynchronizeTip.textNew": "New"
 }

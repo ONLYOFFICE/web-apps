@@ -100,6 +100,7 @@
     "errorKeyEncrypt": "Neznámý klíč deskriptoru",
     "errorKeyExpire": "Klíč deskriptoru vypršel",
     "errorLoadingFont": "Písma nejsou načtená.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
+    "errorSaveWatermark": "Tento soubor obsahuje vodoznak nad obrázkem odkazující na jinou doménou.<br>Chcete-li, aby byl vodoznak nad obrázkem v PDF viditelný, aktualizujte odkaz tak, aby odkazoval na stejnou doménu jako váš dokument, nebo jej nahrajte ze svého počítače.",
     "errorSessionAbsolute": "Platnost relace upravování dokumentu skončila. Načtete stránku znovu.",
     "errorSessionIdle": "Poslední úprava dokumentu proběhla před dlouhou dobou. Prosím obnovte stránku.",
     "errorSessionToken": "Připojení k serveru bylo přerušeno. Načtěte prosím stránku znovu.",
@@ -119,7 +120,7 @@
     "uploadImageExtMessage": "Neznámý formát obrázku.",
     "uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
     "uploadImageSizeMessage": "Obrázek je příliš velký. Maximální velikost je 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Načítání dat...",
@@ -153,14 +154,14 @@
     "waitText": "Čekejte prosím ..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restartovat nyní",
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce' a počkejte dokud nedojde k automatickému uložení. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textEnterNewFileName": "Zadejte nový název souboru",
     "textRenameFile": "Přejmenovat soubor",
-    "btnRestartNow": "Restart now",
-    "textSwitchToDesktop": "Switch to Desktop"
+    "textSwitchToDesktop": "Přepnout na desktopový režim"
   },
   "View": {
     "Edit": {
@@ -198,6 +199,7 @@
       "textOwner": "Vlastník",
       "textPoweredBy": "Poháněno",
       "textPrint": "Tisk",
+      "textRestartApplication": "Pro provedení změn restartujete aplikaci",
       "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Najít",
       "textSettings": "Nastavení",
@@ -207,7 +209,6 @@
       "textTitle": "Název",
       "textUploaded": "Nahráno",
       "textVersion": "Verze",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textVisioInfo": "Diagram Viewer Info",
       "textVisioSettings": "Diagram Viewer Settings",
       "textVisioTitle": "Diagram Viewer Title"

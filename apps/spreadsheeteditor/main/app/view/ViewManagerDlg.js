@@ -59,7 +59,7 @@ define([
                     {value: 'ok', caption: this.textGoTo, primary: true},
                     'close'
                 ],
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 5px 0 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',

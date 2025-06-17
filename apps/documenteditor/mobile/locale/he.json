@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "חריגה ממגבלת הגודל המירבי של מסמך.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
-    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט."
+    "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "הורדת TXT",
     "txtIncorrectPwd": "הסיסמה שגויה",
     "txtOk": "אישור",
-    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס"
+    "txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית תאופס",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "הפעל מחדש עכשיו",

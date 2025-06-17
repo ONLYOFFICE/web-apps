@@ -37,11 +37,14 @@
     --background-contrast-popover: #fff;
     --shadow-contrast-popover: rgba(0, 0, 0, 0.3);
     --background-fill-button: #ffd112;
+    --background-pane: var(--background-toolbar);
+    --background-pane-additional: #efefef;
 
     --highlight-button-hover: #e0e0e0;
     --highlight-button-pressed: #cbcbcb;
     --highlight-button-pressed-hover: #bababa;
     --highlight-primary-dialog-button-hover: #1c1c1c;
+    --highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-hover);
     --highlight-accent-button-hover: #375478;
     --highlight-accent-button-pressed: #293f59;
     --highlight-header-button-hover: fade(#000, 15%);
@@ -189,8 +192,8 @@
     //--button-huge-active-icon-offset-x: 0;
     //--button-xhuge-normal-icon-offset-x: 0;
     //--button-xhuge-active-icon-offset-x: 0;
-    --button-header-normal-icon-offset-x: -20px;
-    --button-header-active-icon-offset-x: -20px;
+    --button-header-normal-icon-offset-x: var(--x-small-btn-icon-size);
+    --button-header-active-icon-offset-x: var(--x-small-btn-icon-size);
     //--menu-icon-item-checked-offset-x: 0;
 
     --modal-window-mask-opacity: 0.2;
@@ -209,6 +212,184 @@
     --header-component-active-icon-opacity: 1;
     --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
+
+    --sprite-button-small-width: 40px;
+    --sprite-button-small-100: url(../../resources/img/iconssmall.png);
+    --sprite-button-small-125: url(../../resources/img/iconssmall@1.25x.png);
+    --sprite-button-small-150: url(../../resources/img/iconssmall@1.5x.png);
+    --sprite-button-small-175: url(../../resources/img/iconssmall@1.75x.png);
+    --sprite-button-small-200: url(../../resources/img/iconssmall@2x.png);
+
+    --sprite-button-big-width: 56px;
+    --sprite-button-big-100: url(../../resources/img/iconsbig.png);
+    --sprite-button-big-125: url(../../resources/img/iconsbig@1.25x.png);
+    --sprite-button-big-150: url(../../resources/img/iconsbig@1.5x.png);
+    --sprite-button-big-175: url(../../resources/img/iconsbig@1.75x.png);
+    --sprite-button-big-200: url(../../resources/img/iconsbig@2x.png);
+
+    --sprite-button-huge-width: 80px;
+    --sprite-button-huge-100: url(../../resources/img/iconshuge.png);
+    --sprite-button-huge-125: url(../../resources/img/iconshuge@1.25x.png);
+    --sprite-button-huge-150: url(../../resources/img/iconshuge@1.5x.png);
+    --sprite-button-huge-175: url(../../resources/img/iconshuge@1.75x.png);
+    --sprite-button-huge-200: url(../../resources/img/iconshuge@2x.png);
+    --sprite-button-icons-base-url: ~"@{app-image-const-path}";
+    --sprite-button-icons-uid: antique;
+
+    --border-radius-toolbar: 0;
+    --toolbar-tab-radius: 0;
+    --toolbar-tab-line-radius: 2px;
+    --toolbar-tab-line-height: 2px;
+    --toolbar-tab-line-bottom: 4px;
+    --toolbar-tab-text-margin: 5px;
+    --border-sidemenu: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --background-statusbar: var(--background-pane);
+    --border-toolbar-z-clear: var(--border-toolbar);
+    --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
+    --shadow-toolbar-style-off: var(--shadow-toolbar);
+    --shadow-side-panel: none;
+    --layout-padding-toolbar: 0;
+    --layout-padding-right-panel-content: 7px 10px 0 15px;
+    --layout-padding-right-panel-content-rtl: 7px 15px 0 10px;
+    --layout-padding-right-panel: 0;
+    --layout-padding-right-panel-rtl: 0;
+    --layout-padding-left-panel: 0 0 0 40px;
+    --layout-padding-left-panel-rtl: 0 40px 0 0;
+    --layout-padding-x-side-panel: 0;
+    --layout-padding-y-side-panel: 2px;
+
+    --celleditor-height: 20px;
+    --celleditor-line-height: 18px;
+    --celleditor-border-width: var(--scaled-one-pixel, 1px);
+    --celleditor-input-border: 0 none;
+    --celleditor-input-border-radius: 0;
+    --celleditor-cell-name-height: calc(var(--celleditor-height) - var(--celleditor-border-width) + (1px - 1px/var(--pixel-ratio-factor,1)));
+    --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --celleditor-func-label-margin-left: -3px;
+
+    --x-small-btn-size: 20px;
+    --x-small-btn-icon-size: 20px;
+    --toolbar-small-btn-margin-top: 8px;
+    --x-huge-btn-height: 52px;
+    --x-huge-btn-icon-size: 28px;
+    --toolbar-height-controls: 66px;
+    --statusbar-height: 25px;
+    --toolbar-group-height: var(--x-huge-btn-height);
+    --form-control-size: 22px;
+    --x-category-btn-size: 30px;
+    --category-btn-y-margin-small: 0;
+    --category-btn-y-margin-large: 8px;
+    --large-btn-dataview-y-margin: 2px;
+
+    --border-radius-form-control: 2px;
+    --border-radius-checkbox: 2px;
+    --border-radius-button-base: 1px;
+    --border-radius-button-toolbar: 1px;
+    --border-radius-button-normal: 2px;
+    --border-radius-button-category: 0;
+    --border-radius-window: 5px;
+    --border-radius-dropdown-menu: 4px;
+    --border-radius-dataview-item: 0;
+
+    --input-height-base: 22px;
+    --line-height-base: 1.428571429;
+
+    --font-family-base: Arial, Helvetica, "Helvetica Neue", sans-serif;
+    --font-size-base: 11px;
+
+    --background-fill-input: var(--background-normal);
+    --background-fill-input-disabled: var(--background-normal);
+    --background-fill-input-readonly: var(--background-normal);
+
+    --highlight-category-button-hover: var(--highlight-button-hover);
+    --highlight-category-button-pressed: var(--highlight-button-pressed);
+    --highlight-header-input-hover: var(--highlight-header-button-hover);
+    --highlight-header-input-pressed: var(--highlight-header-button-pressed);
+
+    --border-fill-input: var(--border-regular-control);
+    --border-fill-input-focused: var(--border-control-focus);
+    --border-fill-input-disabled: var(--border-regular-control);
+    --border-fill-input-readonly: var(--border-regular-control);
+
+    --text-fill-input: var(--text-normal);
+    --text-fill-input-disabled: var(--text-normal);
+    --text-fill-input-readonly: var(--text-normal);
+
+    --shadow-fill-input: none;
+    --shadow-control-focus: inset 0 0 0 1px var(--border-control-focus);
+    --shadow-control-pressed-focus: inset 0 0 0 1px var(--background-normal), 0 0 0 1px var(--border-button-pressed-focus);
+    --shadow-control-primary-pressed-focus: inset 0 0 0 1px var(--background-normal);
+
+    // dropdown button
+    --dd-button-size: 12px;
+    --dd-button-x-padding: 4px;
+
+    // checkbox
+    --chb-size: 14px;
+    --chb-v-margin: 0px;
+    --chb-border-radius: var(--border-radius-checkbox);
+    --chb-check-mark-background: var(--text-normal);
+    --chb-background-normal: var(--background-normal);
+    --chb-background-normal-hover: var(--background-normal);
+    --chb-background-checked: var(--background-normal);
+    --chb-background-checked-hover: var(--background-normal);
+    --chb-border-normal: var(--border-regular-control);
+    --chb-border-normal-hover: var(--border-regular-control);
+    --chb-border-normal-focus: var(--border-control-focus);
+    --chb-border-checked: var(--border-regular-control);
+    --chb-border-checked-hover: var(--border-regular-control);
+    --chb-border-checked-focus: var(--border-control-focus);
+
+    // slider
+    --slider-height: 18px;
+    --slider-track-height: 4px;
+    --slider-border-radius: calc(var(--slider-track-height) / 2);
+    --slider-track-background-normal: var(--border-regular-control);
+    --slider-track-background-filled: var(--border-regular-control);
+    --slider-thumb-size: 12px;
+    --slider-thumb-border-size: 1px; // @scaled-one-pixel
+    --slider-thumb-border-radius: calc(var(--slider-thumb-size) / 2);
+    --slider-thumb-background-normal: var(--background-normal);
+    --slider-thumb-border-normal: var(--icon-normal);
+    --slider-thumb-background-hover: var(--background-normal);
+    --slider-thumb-background-active: var(--background-normal);
+    --slider-thumb-shadow: 0;
+
+    // header input
+    --header-input-height:  100%;
+    --header-input-line-height:  24px;
+    --border-header-input-focused: transparent;
+
+    // header button
+    --header-component-height:  100%;
+    --header-component-width:  40px;
+    --header-component-padding: 1px 3px;
+    --header-component-margin: 0;
+    --header-component-line-height: var(--line-height-base, 1.5);
+    --header-component-align: stretch;
+
+    // radio
+    --rb-background-normal: var(--background-normal);
+    --rb-background-normal-hover: var(--background-normal);
+    --rb-background-checked: var(--background-normal);
+    --rb-background-checked-hover: var(--background-normal);
+    --rb-border-normal: var(--border-regular-control);
+    --rb-border-normal-hover: var(--border-regular-control);
+    --rb-border-normal-focus: var(--border-control-focus);
+    --rb-border-checked: var(--border-regular-control);
+    --rb-border-checked-hover: var(--border-regular-control);
+    --rb-border-checked-focus: var(--border-control-focus);
+    --rb-check-mark-size: 4px;
+    --rb-check-mark-background: var(--text-normal);
+
+    //
+    --toolbar-simple-border-bottom: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
+    --toolbar-simple-shadow: 0 none;
+    --toolbar-simple-content-padding-top: 0;
+    --layout-padding-hor-toolbar-simple: 0;
+    --simple-editor-layout-collapse-button-rigth: 3px;
+    --toolbar-preferred-tab-style: fill;
+    --border-editor-sdk: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
 }
 
 // Background
@@ -227,6 +408,8 @@
 @background-contrast-popover: var(--background-contrast-popover);
 @shadow-contrast-popover: var(--shadow-contrast-popover);
 @background-fill-button: var(--background-fill-button);
+@background-pane: var(--background-pane);
+@background-pane-additional: var(--background-pane-additional);
 
 // Highlight
 // -------------------------
@@ -234,6 +417,7 @@
 @highlight-button-pressed: var(--highlight-button-pressed);
 @highlight-button-pressed-hover: var(--highlight-button-pressed-hover);
 @highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
+@highlight-primary-dialog-button-pressed: var(--highlight-primary-dialog-button-pressed);
 @highlight-header-button-hover: var(--highlight-header-button-hover);
 @highlight-header-button-pressed: var(--highlight-header-button-pressed);
 @highlight-text-select: var(--highlight-text-select);
@@ -312,6 +496,154 @@
 @menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
 @img-border-type-filter: var(--image-border-types-filter, none);
 @img-border-type-filter-selected: var(--image-border-types-filter-selected, none);
+
+// new
+@border-sidemenu: var(--border-sidemenu);
+@background-statusbar: var(--background-statusbar);
+@border-toolbar-z-clear: var(--border-toolbar-z-clear);
+@shadow-toolbar: var(--shadow-toolbar, none);
+@shadow-toolbar-style-off: var(--shadow-toolbar-style-off, none);
+@shadow-side-panel: var(--shadow-side-panel, none);
+@border-radius-toolbar: var(--border-radius-toolbar,0);
+@toolbar-tab-radius: var(--toolbar-tab-radius, 0);
+@toolbar-tab-line-radius: var(--toolbar-tab-line-radius, 2px);
+@toolbar-tab-line-height: var(--toolbar-tab-line-height, 2px);
+@toolbar-tab-line-bottom: var(--toolbar-tab-line-bottom, 4px);
+@toolbar-tab-text-margin: var(--toolbar-tab-text-margin, 5px);
+@layout-padding-toolbar: var(--layout-padding-toolbar, 0);
+@layout-padding-x-side-panel: var(--layout-padding-x-side-panel, 0);
+@layout-padding-y-side-panel: var(--layout-padding-y-side-panel, 2px);
+@layout-padding-right-panel-content: var(--layout-padding-right-panel-content);
+@layout-padding-right-panel-content-rtl: var(--layout-padding-right-panel-content-rtl);
+@layout-padding-right-panel: var(--layout-padding-right-panel);
+@layout-padding-right-panel-rtl: var(--layout-padding-right-panel-rtl);
+@layout-padding-left-panel: var(--layout-padding-left-panel);
+@layout-padding-left-panel-rtl: var(--layout-padding-left-panel-rtl);
+
+// cell editor SSE
+@celleditor-height: var(--celleditor-height);
+@celleditor-line-height: var(--celleditor-line-height);
+@celleditor-border-width: var(--celleditor-border-width);
+@celleditor-input-border: var(--celleditor-input-border);
+@celleditor-input-border-radius: var(--celleditor-input-border-radius);
+@celleditor-cell-name-height: var(--celleditor-cell-name-height);
+@celleditor-cell-name-border-right: var(--celleditor-cell-name-border-right); 
+@celleditor-func-label-margin-left: var(--celleditor-func-label-margin-left);
+
+@x-small-btn-size: var(--x-small-btn-size, 20px);
+@x-small-btn-icon-size: var(--x-small-btn-icon-size, 20px);
+@x-huge-btn-height: var(--x-huge-btn-height, 52px);
+@x-huge-btn-icon-size: var(--x-huge-btn-icon-size, 28px);
+@form-control-size: var(--form-control-size, 22px);
+@x-category-btn-size: var(--x-category-btn-size, 30px);
+@category-btn-y-margin-small: var(--category-btn-y-margin-small, 0);
+@category-btn-y-margin-large: var(--category-btn-y-margin-large, 8px);
+@large-btn-dataview-y-margin: var(--large-btn-dataview-y-margin, 2px);
+
+@toolbar-small-btn-margin-top: var(--toolbar-small-btn-margin-top, 8px);
+@toolbar-height-controls: var(--toolbar-height-controls, 66px);
+@statusbar-height: var(--statusbar-height, 25px);
+@toolbar-group-height: var(--toolbar-group-height, 52px);
+@toolbar-v-paddings: calc((@toolbar-height-controls - @toolbar-group-height)/2);
+
+@border-radius-form-control: var(--border-radius-form-control, 2px);
+@border-radius-checkbox: var(--border-radius-checkbox, 2px);
+@border-radius-button-base: var(--border-radius-button-base, 1px);
+@border-radius-button-toolbar: var(--border-radius-button-toolbar, 1px);
+@border-radius-button-normal: var(--border-radius-button-normal, 2px);
+@border-radius-button-category: var(--border-radius-button-category, 0);
+@border-radius-window: var(--border-radius-window, 5px);
+@border-radius-dropdown-menu: var(--border-radius-dropdown-menu, 4px);
+@border-radius-dataview-item: var(--border-radius-dataview-item, 0);
+
+@input-height-base: var(--input-height-base, 22px);
+@line-height-base: var(--line-height-base, 1.5);
+
+@background-fill-input: var(--background-fill-input);
+@background-fill-input-disabled: var(--background-fill-input-disabled);
+@background-fill-input-readonly: var(--background-fill-input-readonly);
+
+@highlight-category-button-hover: var(--highlight-category-button-hover);
+@highlight-category-button-pressed: var(--highlight-category-button-pressed);
+@highlight-header-input-hover: var(--highlight-header-input-hover);
+@highlight-header-input-pressed: var(--highlight-header-input-pressed);
+
+@border-fill-input: var(--border-fill-input);
+@border-fill-input-focused: var(--border-fill-input-focused);
+@border-fill-input-disabled: var(--border-fill-input-disabled);
+@border-fill-input-readonly: var(--border-fill-input-readonly);
+
+@text-fill-input: var(--text-fill-input);
+@text-fill-input-disabled: var(--text-fill-input-disabled);
+@text-fill-input-readonly: var(--text-fill-input-readonly);
+
+@shadow-fill-input: var(--shadow-fill-input);
+@shadow-control-focus: var(--shadow-control-focus);
+@shadow-control-pressed-focus: var(--shadow-control-pressed-focus);
+@shadow-control-primary-pressed-focus: var(--shadow-control-primary-pressed-focus);
+
+@dd-button-size: var(--dd-button-size, 12px);
+@dd-button-x-padding: var(--dd-button-x-padding, 4px);
+
+@chb-size: var(--chb-size);
+@chb-v-margin: var(--chb-v-margin);
+@chb-border-radius: var(--chb-border-radius);
+@chb-check-mark-background: var(--chb-check-mark-background);
+@chb-background-normal: var(--chb-background-normal);
+@chb-background-normal-hover: var(--chb-background-normal-hover);
+@chb-background-checked: var(--chb-background-checked);
+@chb-background-checked-hover: var(--chb-background-checked-hover);
+@chb-border-normal: var(--chb-border-normal);
+@chb-border-normal-hover: var(--chb-border-normal-hover);
+@chb-border-normal-focus: var(--chb-border-normal-focus);
+@chb-border-checked: var(--chb-border-checked);
+@chb-border-checked-hover: var(--chb-border-checked-hover);
+@chb-border-checked-focus: var(--chb-border-checked-focus);
+
+@rb-background-normal: var(--rb-background-normal);
+@rb-border-normal: var(--rb-border-normal);
+@rb-background-normal-hover: var(--rb-background-normal-hover);
+@rb-border-normal-hover: var(--rb-border-normal-hover);
+@rb-border-normal-focus: var(--rb-border-normal-focus);
+@rb-background-checked: var(--rb-background-checked);
+@rb-border-checked: var(--rb-border-checked);
+@rb-background-checked-hover: var(--rb-background-checked-hover);
+@rb-border-checked-hover: var(--rb-border-checked-hover);
+@rb-border-checked-focus: var(--rb-border-checked-focus);
+@rb-check-mark-size: var(--rb-check-mark-size);
+@rb-check-mark-background: var(--rb-check-mark-background);
+
+@slider-height: var(--slider-height);
+@slider-track-height: var(--slider-track-height);
+@slider-border-radius: var(--slider-border-radius);
+@slider-track-background-normal: var(--slider-track-background-normal);
+@slider-track-background-filled: var(--slider-track-background-filled);
+@slider-thumb-size: var(--slider-thumb-size);
+@slider-thumb-border-size: var(--slider-thumb-border-size);
+@slider-thumb-border-radius: var(--slider-thumb-border-radius);
+@slider-thumb-background-normal: var(--slider-thumb-background-normal);
+@slider-thumb-border-normal: var(--slider-thumb-border-normal);
+@slider-thumb-background-hover: var(--slider-thumb-background-hover);
+@slider-thumb-background-active: var(--slider-thumb-background-active);
+@slider-thumb-shadow: var(--slider-thumb-shadow);
+
+@header-input-height: var(--header-input-height);
+@header-input-line-height: var(--header-input-line-height);
+@border-header-input-focused: var(--border-header-input-focused);
+
+@header-component-height: var(--header-component-height);
+@header-component-width: var(--header-component-width);
+@header-component-line-height: var(--header-component-line-height);
+@header-component-padding: var(--header-component-padding);
+@header-component-margin: var(--header-component-margin);
+@header-component-align: var(--header-component-align);
+
+@toolbar-simple-border-bottom: var(--toolbar-simple-border-bottom);
+@toolbar-simple-shadow: var(--toolbar-simple-shadow);
+@toolbar-simple-content-padding-top: var(--toolbar-simple-content-padding-top);
+@layout-padding-hor-toolbar-simple: var(--layout-padding-hor-toolbar-simple);
+@simple-editor-layout-collapse-button-rigth: var(--simple-editor-layout-collapse-button-rigth);
+@border-editor-sdk: var(--border-editor-sdk);
 
 // Canvas
 // ---------------------------

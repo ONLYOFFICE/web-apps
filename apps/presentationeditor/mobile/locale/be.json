@@ -204,6 +204,7 @@
     "uploadImageExtMessage": "Невядомы фармат выявы.",
     "uploadImageFileCountMessage": "Выяў не запампавана.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",

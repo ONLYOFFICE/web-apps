@@ -1,4 +1,4 @@
-<div class="toolbar" style="height: 41px; padding: 10px 0;">
+<div class="toolbar">
     <% if ( isEditDiagram ) { %>
         <!----------------------->
         <!-- Edit diagram mode -->
@@ -86,11 +86,11 @@
             </div>
             <div class="separator short"></div>
             <div class="group small">
-                <div class="elset" style="width: 172px;">
-                    <span class="btn-slot float-left" id="slot-field-fontname" style="width: 80px;"></span>
-                    <span class="btn-slot float-left margin-left-2" id="slot-field-fontsize" style="width: 35px;"></span>
-                    <span class="btn-slot split float-left margin-left-2" id="slot-btn-fontcolor" style="margin-top: 1px;"></span>
-                    <span class="btn-slot float-left margin-left-2" id="slot-btn-formatting" style="margin-top: 1px;"></span>
+                <div class="elset display-flex-row-center" style="width: 172px;">
+                    <span class="btn-slot float-left" id="slot-field-fontname"></span>
+                    <span class="btn-slot float-left margin-left-2" id="slot-field-fontsize" style="width:40px;"></span>
+                    <span class="btn-slot split float-left margin-left-2" id="slot-btn-fontcolor"></span>
+                    <span class="btn-slot float-left margin-left-2" id="slot-btn-formatting"></span>
                 </div>
             </div>
             <div class="separator short"></div>

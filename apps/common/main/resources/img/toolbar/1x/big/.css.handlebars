@@ -4,7 +4,9 @@
         &.active, &:active {
             &:not(:disabled):not(.disabled) {
                 .toolbar__icon {
+                    {{#if (iesupport)}}
                     background-position-x: -28px;
+                    {{/if}}
                     background-position-x: var(--button-xhuge-active-icon-offset-x,0);
                 }
             }
@@ -14,21 +16,35 @@
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .toolbar__icon.toolbar__icon-big {
+                {{#if (iesupport)}}
                 background-position-x: -28px;
+                {{/if}}
                 background-position-x: var(--button-xhuge-active-icon-offset-x,0);
             }
         }
     }
 }
 .x-huge .toolbar__icon, .toolbar__icon.toolbar__icon-big {
+    {{#if (iesupport)}}
     background-image: url(resources/{{{escaped_image}}});
+    {{/if}}
+    background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+    background-size: var(--sprite-button-big-width, 56px) auto;
+
+    {{#if (xpsupport)}}
+    .winxp & {
+        background-image: url(resources/{{{escaped_image}}});
+    }
+    {{/if}}
 }
 {{/spritesheet}}
 {{#sprites}}
 {{#parselang name}}.x-huge .{{name}}{{/parselang}}:not(.menu__icon),
     .toolbar__icon-big.{{name}}
 {
+    {{#if (iesupport)}}
     background-position: 0 {{px.offset_y}};
+    {{/if}}
     background-position: var(--button-xhuge-normal-icon-offset-x,0) {{px.offset_y}};
 }
 {{/sprites}}

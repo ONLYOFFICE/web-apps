@@ -102,6 +102,9 @@ define([
                 Common.NotificationCenter.on('app:ready', function(mode) {
                     promise.then( _onAppReady.bind(this, mode) );
                 }.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.setMode();
+                }, this));
             },
 
             render: function(config) {
@@ -156,8 +159,9 @@ define([
                     hintAnchor: 'top'
                 });
 
+                var cnttablist = $('.cnt-tabslist', this.el);
                 this.cntSheetList = new Common.UI.Button({
-                    el: $('.cnt-tabslist', this.el),
+                    el: cnttablist,
                     hintAnchor: 'top'
                 });
                 this.btnSheetList = $('#status-btn-tabslist',this.$el);
@@ -181,8 +185,11 @@ define([
                         }, 100);
                     }
                 });
-                this.sheetListMenu.render($('.cnt-tabslist',this.el));
+                this.sheetListMenu.render(cnttablist);
                 this.sheetListMenu.cmpEl.attr({tabindex: -1});
+                cnttablist.on('app:scaling', function () {
+                    me.setMode();
+                });
 
                 this.cntZoom = new Common.UI.Button({
                     el: $('.cnt-zoom',this.el),
@@ -247,8 +254,9 @@ define([
 
             setMode: function(mode) {
                 this.mode = mode;
+                this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
+                this.tabBarDefPosition += parseFloat($('#status-addtabs-box').css('width'));
                 this.updateTabbarBorders();
-
             },
 
             setVisible: function(visible) {

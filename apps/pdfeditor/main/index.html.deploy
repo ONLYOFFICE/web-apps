@@ -11,10 +11,58 @@
     <!-- splash -->
 
     <style type="text/css">
-        .content-theme-dark {
-            --skeleton-canvas-content-background: #3a3a3a;
-            --skeleton-canvas-page-border: #2a2a2a;
-            --skeleton-canvas-line: rgba(255,255,255,.05);
+        .loadmask {
+            --sk-height-toolbar-controls:84px;
+            --sk-layout-padding-toolbar:0 10px;
+            --sk-layout-padding-header: 0 10px;
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+            --sk-border-radius-toolbar: 8px;
+            --sk-background-toolbar: #f3f3f3;
+            --sk-background-toolbar-controls: #fff;
+            --sk-canvas-background: #f3f3f3;
+            --sk-background-toolbar-header-pdf: #f3f3f3;
+            --sk-background-toolbar-tab: #eaeaea;
+            --sk-background-toolbar-button: #f9f9f9;
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-canvas-content-background: #fff;
+            --sk-canvas-page-border: #dde0e5;
+            --sk-canvas-line: rgba(0,0,0,.05);
+        }
+
+        .theme-night .loadmask {
+            --sk-height-toolbar-controls: 84px; 
+            --sk-layout-padding-toolbar: 0 10px;
+            --sk-border-radius-toolbar: 8px;
+
+            /* --shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06) */
+            --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar-header-pdf: #222222;
+
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            /* --background-toolbar: #404040; */
+            --sk-background-toolbar-controls: #404040;
+
+            /* --highlight-header-button-hover: #585858; */
+            --sk-background-toolbar-tab: #585858;
+
+            /* --highlight-button-hover: #585858 */
+            --sk-background-toolbar-button: #585858;
+
+            --sk-layout-padding-toolbar-controls: 0 8px;
+            --sk-layout-padding-header: 0 10px;
+
+            /* --canvas-background: #222222; */
+            --sk-canvas-background: #222222;
+
+            /* --canvas-content-background: #fff; */
+            --sk-canvas-content-background: #fff;
+
+            --sk-canvas-page-border: #555;
+            --sk-canvas-line: rgba(0,0,0,.05);
         }
 
         .loadmask {
@@ -26,20 +74,20 @@
             overflow: hidden;
             border: none;
             background: #e2e2e2;
-            background: var(--canvas-background, #e2e2e2);
+            background: var(--sk-canvas-background, #eee);
             z-index: 1002;
         }
 
         .loadmask > .brendpanel {
-            width: 100%;
             min-height: 28px;
             background: #AA5252;
-            background: var(--toolbar-header-pdf, #AA5252);
+            background: var(--sk-background-toolbar-header-pdf);
+            padding: var(--sk-layout-padding-header);
         }
 
         .loadmask > .brendpanel .underline {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
+            background: var(--sk-background-toolbar-header-pdf);
         }
 
         .loadmask > .brendpanel > div {
@@ -49,7 +97,7 @@
         }
 
         .loadmask > .brendpanel .spacer {
-            margin-left: auto;
+            flex-grow: 1;
         }
 
         .loadmask > .brendpanel .rect {
@@ -59,33 +107,33 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
+            background: var(--sk-background-toolbar-tab);
         }
 
         .loadmask > .brendpanel .underline .rect {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-tab);
             opacity: 0.4;
-        }
-
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 20px;
-            margin: 0 10px;
-            background: rgba(0,0,0,.15);
-            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            background: var(--background-toolbar, #f1f1f1);
-            border-bottom: 1px solid #cbcbcb;
-            border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
-            height: 46px;
-            padding: 10px 6px;
+            padding: 0;
+            padding: var(--sk-layout-padding-toolbar, 0);
             box-sizing: content-box;
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+        }
+
+        .loadmask > .sktoolbar > .box-controls {
+            background: var(--sk-background-toolbar-controls, #f7f7f7);
+            border-radius: var(--sk-border-radius-toolbar, 0);
+            padding: var(--sk-layout-padding-toolbar-controls);
+            box-shadow: var(--sk-shadow-toolbar);
+            height: 66px;
+            height: var(--sk-height-toolbar-controls);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .loadmask > .sktoolbar ul {
@@ -93,12 +141,16 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
-            height: 25px;
+            height: 20px;
+        }
+
+        .loadmask > .sktoolbar ul:first-child {
+            margin-bottom: 5px;
         }
 
         .loadmask > .sktoolbar li {
             background: #d8dadc;
-            background: var(--highlight-button-hover, #d8dadc);
+            background: var(--sk-background-toolbar-button, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -130,20 +182,19 @@
         .loadmask > .placeholder {
             box-sizing: border-box;
             background: #fff;
-            background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
+            background: var(--sk-canvas-content-background, #fff);
             width: 794px;
             margin: 19px auto 46px;
             height: 1123px;
             border: 1px solid #bbbec2;
-            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
+            border: var(--scaled-one-px-value, 1px) solid var(--sk-canvas-page-border, #bbbec2);
             padding-top: 50px;
         }
 
         .loadmask > .placeholder > .line {
             height: 15px;
             margin: 30px 80px;
-            background: rgba(0,0,0,.05);
-            background: var(--skeleton-canvas-line, rgba(0,0,0,.05));
+            background: var(--sk-canvas-line, rgba(0,0,0,.05));
             overflow: hidden;
             position: relative;
 
@@ -251,7 +302,7 @@
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
 
-    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 144px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="spacer"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><section class="box-controls"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 144px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul></section></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport" role="main"></div>
 
     <script>

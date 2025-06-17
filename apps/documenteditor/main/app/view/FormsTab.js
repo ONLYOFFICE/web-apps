@@ -303,7 +303,7 @@ define([
                         this.btnFirstPage = new Common.UI.Button({
                             id          : 'id-toolbar-btn-first-page',
                             cls         : 'btn-toolbar',
-                            iconCls     : 'toolbar__icon btn-firstitem',
+                            iconCls     : 'toolbar__icon btn-firstitem icon-rtl',
                             lock: [_set.disableOnStart, _set.firstPage],
                             dataHint    : '1',
                             dataHintDirection: 'bottom'
@@ -313,7 +313,7 @@ define([
                         this.btnLastPage = new Common.UI.Button({
                             id          : 'id-toolbar-btn-last-page',
                             cls         : 'btn-toolbar',
-                            iconCls     : 'toolbar__icon btn-lastitem',
+                            iconCls     : 'toolbar__icon btn-lastitem icon-rtl',
                             lock: [_set.disableOnStart, _set.lastPage],
                             dataHint    : '1',
                             dataHintDirection: 'bottom'
@@ -323,7 +323,7 @@ define([
                         this.btnPrevPage = new Common.UI.Button({
                             id          : 'id-toolbar-btn-prev-page',
                             cls         : 'btn-toolbar',
-                            iconCls     : 'toolbar__icon btn-previtem',
+                            iconCls     : 'toolbar__icon btn-previtem icon-rtl',
                             lock: [_set.disableOnStart, _set.firstPage],
                             dataHint    : '1',
                             dataHintDirection: 'bottom'
@@ -333,7 +333,7 @@ define([
                         this.btnNextPage = new Common.UI.Button({
                             id          : 'id-toolbar-btn-next-page',
                             cls         : 'btn-toolbar',
-                            iconCls     : 'toolbar__icon btn-nextitem',
+                            iconCls     : 'toolbar__icon btn-nextitem icon-rtl',
                             lock: [_set.disableOnStart, _set.lastPage],
                             dataHint    : '1',
                             dataHintDirection: 'bottom'
@@ -557,7 +557,7 @@ define([
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-previous-field',
+                    iconCls: 'toolbar__icon btn-previous-field icon-rtl',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnPrev,
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
@@ -570,7 +570,7 @@ define([
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-next-field',
+                    iconCls: 'toolbar__icon btn-next-field icon-rtl',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnNext,
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,

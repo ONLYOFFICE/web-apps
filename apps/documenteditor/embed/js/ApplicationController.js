@@ -315,6 +315,7 @@ DE.ApplicationController = new(function(){
     function onShowContentControlsActions(obj, x, y) {
         switch (obj.type) {
             case Asc.c_oAscContentControlSpecificType.Picture:
+            case Asc.c_oAscContentControlSpecificType.Signature:
                 if (obj.pr && obj.pr.get_Lock) {
                     var lock = obj.pr.get_Lock();
                     if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
@@ -341,7 +342,7 @@ DE.ApplicationController = new(function(){
         var type = obj.type,
             props = obj.pr,
             specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-            isForm = !!props.get_FormPr();
+            formProps = props.get_FormPr();
 
         var menuContainer = DE.ApplicationView.getMenuForm();
 
@@ -373,24 +374,26 @@ DE.ApplicationController = new(function(){
 
         if (specProps) {
             var k = 0;
-            if (isForm){ // for dropdown and combobox form control always add placeholder item
-                var text = props.get_PlaceholderText();
-                $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
-                                        ((text.trim()!=='') ? text : me.txtEmpty) +
-                                        '</a></li>');
-                listControlItems.push('');
-            }
             var count = specProps.get_ItemsCount();
+            if (formProps){
+                if (!formProps.get_Required() || count<1) { // for required or empty dropdown/combobox form control always add placeholder item
+                    var text = props.get_PlaceholderText();
+                    $listControlMenu.append('<li><a tabindex="-1" type="menuitem" style="opacity: 0.6" value="0">' +
+                                            ((text.trim()!=='') ? text : me.txtEmpty) +
+                                            '</a></li>');
+                    listControlItems.push('');
+                }
+            }
             k = listControlItems.length;
             for (var i=0; i<count; i++) {
-                if (specProps.get_ItemValue(i)!=='' || !isForm) {
+                if (specProps.get_ItemValue(i)!=='' || !formProps) {
                     $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="' + (i+k) + '">' +
                         common.utils.htmlEncode(specProps.get_ItemDisplayText(i)) +
                         '</a></li>');
                     listControlItems.push(specProps.get_ItemValue(i));
                 }
             }
-            if (!isForm && listControlItems.length<1) {
+            if (!formProps && listControlItems.length<1) {
                 $listControlMenu.append('<li><a tabindex="-1" type="menuitem" value="0">' +
                                         me.txtEmpty +
                                         '</a></li>');

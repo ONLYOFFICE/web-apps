@@ -9,7 +9,8 @@
         overflow: hidden;
         width: @combo-dataview-width;
         height: 100%;
-        .border-radius(@border-radius-small);
+        .border-radius(@border-radius-button-normal-ie);
+        .border-radius(@border-radius-button-normal);
         border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         background-color: @background-normal-ie;
@@ -25,34 +26,18 @@
         .float-right();
 
         button {
-            border-radius:0 @border-radius-small @border-radius-small 0;
+            border-radius:0 @border-radius-button-normal-ie @border-radius-button-normal-ie 0;
+            border-radius:0 @border-radius-button-normal @border-radius-button-normal 0;
             border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
             background-color: @background-normal-ie;
             background-color: @background-normal;
+            padding: 0;
+            width: 100%;
 
             .rtl & {
-                border-radius:@border-radius-small 0 0 @border-radius-small;
-            }
-
-            &.dropdown-toggle {
-                .inner-box-caret {
-                    &,
-                    .rtl & {
-                        padding: 0 1px 0 0;
-                    }
-                }
-                .caret {
-//                    width: 7px;
-//                    height: 7px;
-//                    border: 0;
-//                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
-                    margin-left: 1px;
-
-                    .ie & {
-                        margin-left: 0;
-                    }
-                }
+                border-radius:@border-radius-button-normal-ie 0 0 @border-radius-button-normal-ie;
+                border-radius:@border-radius-button-normal 0 0 @border-radius-button-normal;
             }
 
             &.active, &:active {
@@ -116,7 +101,8 @@
             margin: @minus-px 0 0 @minus-px;
         }
         .rtl & {
-            .border-radius(@border-radius-small);
+            .border-radius(@border-radius-button-normal-ie);
+            .border-radius(@border-radius-button-normal);
             .border-right-radius(0);
 
             .dataview {
@@ -247,7 +233,8 @@
 }
 
 .combo-template(@combo-dataview-height: 64px) {
-    @combo-dataview-button-width: 18px;
+    @combo-dataview-button-width: 14px;
+    @combo-dataview-button-width: calc(2*@scaled-one-px-value + @dd-button-size);
 
     height: @combo-dataview-height;
 
@@ -256,8 +243,10 @@
     }
 
     .view {
-        .margin-right(-@combo-dataview-button-width);
-        .padding-right(@combo-dataview-button-width);
+        .margin-right(-14px);
+        .margin-right(calc(-1 * (2 * @scaled-one-px-value + @dd-button-size)));
+        .padding-right(12px);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
 
         .dataview {
             padding: 2px;
@@ -290,13 +279,16 @@
 }
 
 .combo-textart(@combo-dataview-height: 62px, @combo-dataview-item-margins: 4px) {
-    @combo-dataview-button-width: 15px;
+    @combo-dataview-button-width: 14px;
+    @combo-dataview-button-width: calc(2*@scaled-one-px-value + @dd-button-size);
 
     height: @combo-dataview-height;
 
     .view {
-        .margin-right(-@combo-dataview-button-width);
-        .padding-right(@combo-dataview-button-width);
+        .margin-right(-14px);
+        .margin-right(calc(-1 * @combo-dataview-button-width));
+        .padding-right(12px);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
     }
 
     .button {
@@ -324,6 +316,13 @@
 
 .combo-pattern {
     .combo-textart(40px);
+
+    .button {
+        .btn-group, button {
+            width: 100%;
+            height: 100%;
+        }
+    }
 
     .item {
         &:hover {
@@ -394,20 +393,6 @@
         padding: 1px;
     }
 
-    .dataview {
-        .item {
-            &:hover {
-                .box-shadow(0 0 0 2px @border-preview-hover-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover) !important;
-            }
-      
-            &.selected {
-                .box-shadow(0 0 0 2px @border-preview-select-ie) !important;
-                .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select) !important;
-            }
-        }
-    }
-
     .dropdown-menu {
         padding: 5px 1px 5px 1px;
 
@@ -433,14 +418,17 @@
     @combo-dataview-height: 46px;
     @combo-dataview-height-calc: calc(40px + 2 * @scaled-two-px-value + 2 * @scaled-one-px-value);
     @combo-dataview-item-margins: @scaled-two-px-value;
-    @combo-dataview-button-width: 15px;
+    @combo-dataview-button-width: 14px;
+    @combo-dataview-button-width: calc(2*@scaled-one-px-value + @dd-button-size);
 
     height: @combo-dataview-height;
     height: @combo-dataview-height-calc;
 
     .view {
-        .margin-right(-@combo-dataview-button-width);
-        .padding-right(calc(@combo-dataview-button-width - @scaled-one-px-value));
+        .margin-right(-14px);
+        .margin-right(calc(-1 * @combo-dataview-button-width));
+        .padding-right(12px);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
     }
 
     .view .dataview, .dropdown-menu {
@@ -458,16 +446,6 @@
         margin: 2px;
         margin: @combo-dataview-item-margins;
         .box-shadow(none);
-
-        &:hover:not(.disabled) {
-            .box-shadow(0 0 0 2px @border-preview-hover-ie);
-            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
-        }
-
-        &.selected:not(.disabled) {
-            .box-shadow(0 0 0 2px @border-preview-select-ie);
-            .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
-        }
     }
 
     .menu-picker-container {
@@ -509,7 +487,9 @@
         align-items: center;
 
         .icon:not(svg) {
+            width: @x-huge-btn-icon-size-ie;
             width: @x-huge-btn-icon-size;
+            height: @x-huge-btn-icon-size-ie;
             height: @x-huge-btn-icon-size;
             min-width: 0;
             flex-shrink: 0;

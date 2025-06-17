@@ -75,9 +75,9 @@ define([
 
         function _clickLanguage(menu, item) {
             this.btnLanguage.setCaption(item.caption);
-            this.langMenu.prevTip = item.value.value;
+            this.langMenu.prevTip = item.value;
 
-            this.fireEvent('langchanged', [this, item.value.code, item.caption]);
+            this.fireEvent('langchanged', [this, item.code, item.caption]);
         }
 
         PE.Views.Statusbar = Backbone.View.extend(_.extend({
@@ -258,11 +258,11 @@ define([
                 });
 
                 this.langMenu = new Common.UI.MenuSimple({
-                    cls: 'lang-menu',
+                    cls: 'lang-menu shifted-right',
                     style: 'margin-top:-5px;',
                     restoreHeight: 285,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                             '<div>',
                                 '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
@@ -354,14 +354,22 @@ define([
                     arr.push({
                         caption     : item['displayValue'],
                         captionEn   : item['displayValueEn'],
-                        value       : {value: item['value'], code: item['code']},
+                        value       : item['value'],
+                        code        : item['code'],
                         checkable   : true,
-                        checked     : saved == item['displayValue'],
                         spellcheck  : item['spellcheck']
                     });
                 });
+                this.langMenu.setRecent({
+                    count: Common.Utils.InternalSettings.get("app-settings-recent-langs-count") || 5,
+                    offset: Common.Utils.InternalSettings.get("app-settings-recent-langs-offset") || 0,
+                    key: 'app-settings-recent-langs',
+                    valueField: 'value'
+                });
                 this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
+                    var index = _.findIndex(this.langMenu.items, {caption: saved});
+                    (index>-1) && this.langMenu.setChecked(index, true);
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
                 }
             },
@@ -370,9 +378,9 @@ define([
                 if (this.langMenu.prevTip != info.value && info.code !== undefined) {
                     this.btnLanguage.setCaption(info.displayValue);
                     this.langMenu.prevTip = info.value;
-                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
-                    if (lang) {
-                        this.langMenu.setChecked(this.langMenu.items.indexOf(lang), true);
+                    var index = _.findIndex(this.langMenu.items, {caption: info.displayValue});
+                    if (index>-1) {
+                        this.langMenu.setChecked(index, true);
                     } else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();

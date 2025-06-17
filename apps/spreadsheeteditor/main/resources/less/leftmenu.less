@@ -1,3 +1,15 @@
+.side-panel {
+    .content-box {
+        border-radius: @border-radius-toolbar-ie;
+        border-radius: @border-radius-toolbar;
+        box-shadow: @shadow-side-panel-ie;
+        box-shadow: @shadow-side-panel;
+        background: @background-toolbar-ie;
+        background: @background-toolbar;
+        position: relative;
+        overflow: hidden;
+    }
+}
 
 #left-menu {
     &+.layout-resizer {
@@ -14,12 +26,6 @@
     }
 }
 
-.left-panel {
-    #left-panel-history {
-        height: 100%;
-    }
-}
-
 .left-menu-full-ct {
     width: 100%;
     height: 100%;
@@ -28,8 +34,8 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
+    background-color: @background-pane-ie;
+    background-color: @background-pane;
     overflow: hidden;
 
     .rtl & {
@@ -363,8 +369,8 @@
 
                         &:hover,
                         &.over {
-                            background-color: @background-toolbar-ie;
-                            background-color: @background-toolbar;
+                            background-color: @background-pane-ie;
+                            background-color: @background-pane;
                         }
 
                         &.selected {
@@ -573,8 +579,8 @@
 
                 &:hover,
                 &.over {
-                    background-color: @background-toolbar-ie;
-                    background-color: @background-toolbar;
+                    background-color: @background-pane-ie;
+                    background-color: @background-pane;
                 }
 
                 .recent-icon {
@@ -705,8 +711,8 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
-                            background-color: @background-toolbar-ie;
-                            background-color: @background-toolbar;
+                            background-color: @background-pane-ie;
+                            background-color: @background-pane;
                         }
 
                         &.selected {
@@ -948,8 +954,22 @@
                     #print-combo-sides {
                         .dropdown-menu li > a {
                             .padding-x(20px, 5px);
-                }
+                        }
                     }
+                    #print-combo-printer,
+                    #print-combo-pages {
+                        .form-control {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            display: block;
+                        }
+                        .dropdown-menu li > a {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+
                     .print-titles-header {
                         cursor: pointer;
                         .print-titles-caret {
