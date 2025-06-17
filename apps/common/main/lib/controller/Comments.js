@@ -103,7 +103,8 @@ define([
 
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
                     'comment:sort':             _.bind(this.setComparator, this),
-                    'comment:filtergroups':     _.bind(this.setFilterGroups, this)
+                    'comment:filtergroups':     _.bind(this.setFilterGroups, this),
+                    'comment:filtercomments':     _.bind(this.setFilterComments, this)
                 },
 
                 'Common.Views.ReviewPopover': {
@@ -1773,6 +1774,36 @@ define([
                     }
                 }
             }
+            this.updateComments(true);
+        },
+
+        setFilterComments: function (type) {
+            console.log(this.collection)
+            console.log(type)
+            var i, end = true;
+
+            for (i = this.collection.length - 1; i >= 0; --i) {
+                var item = this.collection.at(i);
+
+                var isResolved = item.get('resolved') === true;
+                let shouldFilter = false;
+
+                if (type === 'open' && isResolved) {
+                    shouldFilter = true;
+                } else if (type === 'resolved' && !isResolved) {
+                    shouldFilter = true;
+                }
+
+                item.set('filtered', shouldFilter, { silent: true });
+
+                if (end && !item.get('filtered') && !item.get('hide')) {
+                    item.set('last', true, { silent: true });
+                    end = false;
+                } else if (item.get('last')) {
+                    item.set('last', false, { silent: true });
+                }
+            }
+
             this.updateComments(true);
         },
 

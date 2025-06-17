@@ -399,8 +399,38 @@ define([
                             },
                             {
                                 caption: '--',
-                                visible: false
+                                visible: true
                             },
+                            this.menuFilterComments = new Common.UI.MenuItem({
+                                caption: this.mniFilterComments,
+                                checkable: false,
+                                visible: true,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    style: 'min-width: auto;',
+                                    items: [
+                                        {
+                                            caption: 'Open',
+                                            checkable: true,
+                                            visible: true,
+                                            value: 'open'
+                                        },
+                                        {
+                                            caption: 'Resolved',
+                                            checkable: true,
+                                            visible: true,
+                                            value: 'resolved'
+                                        },
+                                        {
+                                            caption: 'All',
+                                            checkable: true,
+                                            visible: true,
+                                            value: 'all',
+                                            checked: true
+                                        }
+                                    ]
+                                })
+                            }),
                             this.menuFilterGroups = new Common.UI.MenuItem({
                                 caption: this.mniFilterGroups,
                                 checkable: false,
@@ -442,6 +472,7 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
+                this.menuFilterComments.menu.on('item:toggle', _.bind(this.onFilterCommentsClick, this));
                 this.mnuAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAddNew.on('click', _.bind(this.onClickAddNewComment, this));
 
@@ -907,6 +938,17 @@ define([
             state && this.fireEvent('comment:filtergroups', [item.value]);
         },
 
+        onFilterCommentsClick: function(menu, item, state) {
+            if (!state) return;
+
+            menu.items.forEach(function (it) {
+                if (it !== item) {
+                    it.setChecked(false);
+                }
+            });
+            state && this.fireEvent('comment:filtercomments', [item.value]);
+        },
+
         onClickClosePanel: function() {
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
@@ -937,6 +979,7 @@ define([
         textClosePanel: 'Close comments',
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
+        mniFilterComments: 'Show comments',
         textAll: 'All',
         txtEmpty: 'There are no comments in the document.',
         textSortFilter: 'Sort and filter comments',
