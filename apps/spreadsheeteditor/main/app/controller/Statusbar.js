@@ -547,16 +547,106 @@ define([
         },
 
         showRenameError(message, $input) {
-            _.defer(() => {
+            var me = this;
+            _.defer(function() {
                 Common.UI.error({
                     msg: message,
-                    callback: () => {
-                        _.delay(() => {
-                            this.isRenameErrorShown = false;
+                    callback: function() {
+                        _.delay(function() {
+                            me.isRenameErrorShown = false;
                             $input.focus().select();
                         }, 50);
                     }
                 });
+            });
+        },
+
+        finishRename({ save, $input, $tabEl, tab, currentName, otherNames }) {
+            const me = this;
+            let newName = $input.val().trim();
+            if (save) {
+                if (!newName) {
+                    if (me.isRenameErrorShown) return false;
+                    me.isRenameErrorShown = true;
+                    me.showRenameError((new Common.Views.RenameDialog).txtEmptySheetName, $input);
+                    return false;
+                }
+                if (otherNames.includes(newName.toLowerCase())) {
+                    if (me.isRenameErrorShown) return false;
+                    me.isRenameErrorShown = true;
+                    me.showRenameError((new Common.Views.RenameDialog).txtExistedSheetName, $input);
+                    return false;
+                }
+                if (newName !== currentName) {
+                    me.api.asc_renameWorksheet(newName);
+                }
+            } else {
+                newName = currentName;
+            }
+            $input.remove();
+            $tabEl.append(document.createTextNode(newName));
+            $tabEl.attr('tabtitle', newName);
+            tab.$el.attr('data-label', newName);
+            return true;
+        },
+
+        createRenameInput(currentName) {
+            return $('<input type="text" class="inline-rename" maxlength="31" />').val(currentName).css({
+                color: 'inherit',
+                backgroundColor: 'transparent',
+                boxSizing: 'border-box',
+                padding: 0,
+                height: '80%',
+                border: 'none',
+                letterSpacing: '0.01em',
+                fontSize: 'inherit',
+                fontFamily: 'inherit',
+                outline: 'none',
+                margin: 0,
+                lineHeight: 'inherit',
+                cursor: 'text'
+            });
+        },
+
+        bindRenameEvents($input, $tabEl, tab, currentName, otherNames, originalWidth) {
+            const me = this;
+
+            $input.on('keypress', function(e) {
+                const char = String.fromCharCode(e.which || e.keyCode);
+                if (!me.isValidWorksheetChar(char) && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+
+            $input.on('input', function() {
+                const filtered = me.filterValidChars($input.val());
+                if ($input.val() !== filtered) $input.val(filtered);
+                me.updateInputWidth($input, $tabEl);
+                me.onWindowResize();
+            });
+
+            $input.on('blur', function(e) {
+                if (!me.isRenameErrorShown) {
+                    me.finishRename({ save: true, $input, $tabEl, tab, currentName, otherNames });
+                }
+                e.stopPropagation();
+            });
+
+            $input.on('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    me.finishRename({ save: true, $input, $tabEl, tab, currentName, otherNames });
+                } else if (e.key === 'Escape') {
+                    me.finishRename({ save: false, $input, $tabEl, tab, currentName, otherNames });
+                    $tabEl.width(originalWidth);
+                    $input.remove();
+                    me.onWindowResize();
+                }
+                e.stopPropagation();
+            });
+
+            $input.on('click', function(e) {
+                e.stopPropagation()
             });
         },
 
@@ -583,89 +673,15 @@ define([
                 return node.nodeType === 3;
             }).remove();
 
-            setTimeout(() => {
+            setTimeout(function() {
                 const originalWidth = $tabEl.width();
-                const $input = $('<input type="text" class="inline-rename" maxlength="31" />').val(currentName).css({
-                    color: 'inherit',
-                    backgroundColor: 'transparent',
-                    boxSizing: 'border-box',
-                    padding: 0,
-                    height: '80%',
-                    border: 'none',
-                    letterSpacing: '0.01em',
-                    fontSize: 'inherit',
-                    fontFamily: 'inherit',
-                    outline: 'none',
-                    margin: 0,
-                    lineHeight: 'inherit',
-                    cursor: 'text'
-                });
-
-                const finishRename = (save) => {
-                    let newName = $input.val().trim();
-                    if (save) {
-                        if (!newName) {
-                            if (me.isRenameErrorShown) return false;
-                            me.isRenameErrorShown = true;
-                            me.showRenameError((new Common.Views.RenameDialog).txtEmptySheetName, $input);
-                            return false;
-                        }
-                        if (otherNames.includes(newName.toLowerCase())) {
-                            if (me.isRenameErrorShown) return false;
-                            me.isRenameErrorShown = true;
-                            me.showRenameError((new Common.Views.RenameDialog).txtExistedSheetName, $input);
-                            return false;
-                        }
-                        if (newName !== currentName) me.api.asc_renameWorksheet(newName);
-                    } else {
-                        newName = currentName;
-                    }
-                    $input.remove();
-                    $tabEl.append(document.createTextNode(newName));
-                    $tabEl.attr('tabtitle', newName);
-                    tab.$el.attr('data-label', newName);
-                    return true;
-                };
+                const $input = me.createRenameInput(currentName);
 
                 $tabEl.append($input);
-                this.updateInputWidth($input, $tabEl);
+                me.updateInputWidth($input, $tabEl);
                 $input.focus().select();
 
-                $input.on('keypress', e => {
-                    const char = String.fromCharCode(e.which || e.keyCode);
-                    if (!me.isValidWorksheetChar(char) && !e.ctrlKey && !e.metaKey) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                });
-
-                $input.on('input', () => {
-                    const filtered = me.filterValidChars($input.val());
-                    if ($input.val() !== filtered) $input.val(filtered);
-                    me.updateInputWidth($input, $tabEl);
-                    me.onWindowResize();
-                });
-
-                $input.on('blur', e => {
-                    if (!me.isRenameErrorShown) {
-                        finishRename(true);
-                    }
-                    e.stopPropagation();
-                });
-
-                $input.on('keydown', e => {
-                    if (e.key === 'Enter') finishRename(true);
-                    else if (e.key === 'Escape') {
-                        finishRename(false);
-                        $tabEl.width(originalWidth);
-                        $input.remove();
-                        me.onWindowResize();
-                    };
-                    e.stopPropagation();
-                });
-
-                $input.on('click', e => e.stopPropagation());
-
+                me.bindRenameEvents($input, $tabEl, tab, currentName, otherNames, originalWidth);
             }, 10);
         },
 
