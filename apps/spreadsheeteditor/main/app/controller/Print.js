@@ -112,7 +112,7 @@ define([
                 btn.on('click', _.bind(me.querySavePrintSettings, me, 'save', false));
             });
             this.printSettings.btnsPrint.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print', false));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print', Common.Utils.isMac));
             });
             if (this.mode.isDesktopApp) {
                 this.printSettings.btnsPrintPDF.forEach(function (btn) {

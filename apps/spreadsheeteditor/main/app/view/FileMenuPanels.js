@@ -2708,8 +2708,8 @@ define([], function () {
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr class="hidden-for-webapp"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
-                                    '<tr class="hidden-for-webapp"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="desktop-settings not-mac-settings"><td><label class="font-weight-bold"><%= scope.txtPrinter %></label></td></tr>',
+                                    '<tr class="desktop-settings not-mac-settings"><td class="padding-large"><div id="print-combo-printer" style="width: 248px;"></div></td></tr>',
                                     '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
@@ -2770,7 +2770,7 @@ define([], function () {
                                         '<label><%= scope.txtFirstPageNumber %></label>',
                                         '<div id="print-spin-first-page"></div>',
                                     '</td></tr>',
-                                    '<tr class="header-settings hidden-for-webapp"><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
+                                    '<tr class="desktop-settings not-mac-settings"><td class="padding-large"><label class="link" id="print-btn-system-dialog" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtPrintUsingSystemDialog %></label></td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2846,7 +2846,7 @@ define([], function () {
 
             var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
-            if(this.mode.isDesktopApp) {
+            if(this.mode.isDesktopApp && !Common.Utils.isMac) {
                 this.cmbPrinter = new Common.UI.ComboBox({
                     el: $markup.findById('#print-combo-printer'),
                     menuStyle: 'width: 248px; max-height: 280px;',
@@ -3234,11 +3234,9 @@ define([], function () {
                 }));
                 this.btnsPrint.push(new Common.UI.Button({
                     el: $markup.findById('#print-btn-print-'+i),
-                    disabled: this.mode.isDesktopApp
+                    disabled: this.mode.isDesktopApp && !Common.Utils.isMac
                 }));
             }
-
-            $markup.find('.hidden-for-webapp').toggleClass('hidden', !this.mode.isDesktopApp);
 
             this.btnPrevPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-prev-page'),
@@ -3341,6 +3339,8 @@ define([], function () {
         },
 
         updateCmbPrinter: function(currentPrinter, printers) {
+            if(!this.cmbPrinter) return;
+
             var cmbPrinterOptions = [];
 
             printers = printers || [];
@@ -3478,6 +3478,7 @@ define([], function () {
             if (!this.mode || !this.$el) return;
             this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
             !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
+            Common.Utils.isMac && this.$el.find('.not-mac-settings').hide();
         },
 
         setApi: function(api) {
