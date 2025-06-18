@@ -3155,6 +3155,7 @@ define([], function () {
                 value: this.cmbPaperSize.getValue()
             });
             var newSelectedOption = null;
+            var inNewEqualPrev = true;
 
             function findOptionBySize(list, width, height) {
                 return _.find(list, function(option) {
@@ -3190,6 +3191,7 @@ define([], function () {
                     if (!newSelectedOption && resultList[0]) {
                         newSelectedOption = resultList[0];
                     } 
+                    inNewEqualPrev = false;
                 }
             }
             
@@ -3201,6 +3203,10 @@ define([], function () {
                 this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
+            }
+
+            //If the new selected size differs from the prev selected size
+            if(newSelectedOption && !inNewEqualPrev) {
                 this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
             }
         },
