@@ -2791,6 +2791,7 @@ define([], function () {
             ];
 
             this._initSettings = true;
+            this._originalPageSize = undefined;
         },
 
         render: function(node) {
@@ -3155,7 +3156,6 @@ define([], function () {
                 value: this.cmbPaperSize.getValue()
             });
             var newSelectedOption = null;
-            var inNewEqualPrev = true;
 
             function findOptionBySize(list, width, height) {
                 return _.find(list, function(option) {
@@ -3184,14 +3184,28 @@ define([], function () {
                         ]
                     }
                 } else {
+                    const _w = this._originalPageSize ? this._originalPageSize.w : 210,
+                        _h = this._originalPageSize ? this._originalPageSize.h : 297;
                     // If no matching option is found, look for the default size 210x297 (A4)
                     if (!newSelectedOption) {
-                        newSelectedOption = findOptionBySize(resultList, 210, 297);
+                        newSelectedOption = findOptionBySize(resultList, _w, _h);
                     }
+
+                    if (!newSelectedOption) {
+                        newSelectedOption = {
+                            custom: true,
+                            value: [
+                                this.txtCustom,
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_w).toFixed(2)),
+                                parseFloat(Common.Utils.Metric.fnRecalcFromMM(_h).toFixed(2)),
+                                Common.Utils.Metric.getCurrentMetricName()
+                            ]
+                        };
+                    }
+
                     if (!newSelectedOption && resultList[0]) {
                         newSelectedOption = resultList[0];
                     } 
-                    inNewEqualPrev = false;
                 }
             }
             
@@ -3203,11 +3217,6 @@ define([], function () {
                 this.cmbPaperSize.setValue(undefined, newSelectedOption.value);
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
-            }
-
-            //If the new selected size differs from the prev selected size
-            if(newSelectedOption && !inNewEqualPrev) {
-                this.cmbPaperSize.trigger('selected', this, this.cmbPaperSize.getSelectedRecord());
             }
         },
 
@@ -3277,6 +3286,10 @@ define([], function () {
 
         updateCurrentPage: function (index) {
             this.txtNumberPage.setValue(index + 1);
+        },
+
+        setOriginalPageSize: function (w, h) {
+            this._originalPageSize = {w: w, h: h};
         },
 
         txtPrint: 'Print',
