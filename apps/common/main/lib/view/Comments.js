@@ -413,18 +413,21 @@ define([
                                             caption: this.textOpen,
                                             checkable: true,
                                             visible: true,
+                                            toggleGroup: 'filterstatus',
                                             value: 'open'
                                         },
                                         {
                                             caption: this.textResolved,
                                             checkable: true,
                                             visible: true,
+                                            toggleGroup: 'filterstatus',
                                             value: 'resolved'
                                         },
                                         {
                                             caption: this.textAll,
                                             checkable: true,
                                             visible: true,
+                                            toggleGroup: 'filterstatus',
                                             value: 'all',
                                             checked: true
                                         }
@@ -939,13 +942,6 @@ define([
         },
 
         onFilterCommentsClick: function(menu, item, state) {
-            if (!state) return;
-
-            menu.items.forEach(function (it) {
-                if (it !== item) {
-                    it.setChecked(false);
-                }
-            });
             state && this.fireEvent('comment:filtercomments', [item.value]);
         },
 
