@@ -410,19 +410,19 @@ define([
                                     style: 'min-width: auto;',
                                     items: [
                                         {
-                                            caption: 'Open',
+                                            caption: this.textOpen,
                                             checkable: true,
                                             visible: true,
                                             value: 'open'
                                         },
                                         {
-                                            caption: 'Resolved',
+                                            caption: this.textResolved,
                                             checkable: true,
                                             visible: true,
                                             value: 'resolved'
                                         },
                                         {
-                                            caption: 'All',
+                                            caption: this.textAll,
                                             checkable: true,
                                             visible: true,
                                             value: 'all',
@@ -963,6 +963,7 @@ define([
         textClose               : 'Close',
         textResolved            : 'Resolved',
         textResolve             : 'Resolve',
+        textOpen                : 'Open',
         textEnterCommentHint    : 'Enter your comment here',
         textEdit                : 'Edit',
         textAdd                 : "Add",
