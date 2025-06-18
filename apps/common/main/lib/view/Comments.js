@@ -351,7 +351,6 @@ define([
                     iconCls: 'toolbar__icon btn-more',
                     hint: this.textSort,
                     menu: new Common.UI.Menu({
-                        style: 'min-width: auto;',
                         items: [
                             {
                                 caption: this.mniDateDesc,
