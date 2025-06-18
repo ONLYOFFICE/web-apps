@@ -3218,8 +3218,6 @@ define([], function () {
             } else {
                 this.cmbPaperSize.setValue(newSelectedOption.value);
             }
-
-            //If the new selected size differs from the prev selected size
         },
 
         updateScroller: function() {
