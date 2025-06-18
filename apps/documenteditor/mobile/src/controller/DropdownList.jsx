@@ -33,7 +33,7 @@ class DropdownListController extends Component {
         this.internalId = this.propsObj.get_InternalId();
         this.isComboBox = this.type === Asc.c_oAscContentControlSpecificType.ComboBox;
         this.specProps = this.isComboBox ? this.propsObj.get_ComboBoxPr() : this.propsObj.get_DropDownListPr();
-        this.isForm = !!this.propsObj.get_FormPr();
+        this.formProps = this.propsObj.get_FormPr();
         this.listItems = [];
         this.curValue = api.asc_GetContentControlListCurrentValue(this.internalId);
 
@@ -65,17 +65,19 @@ class DropdownListController extends Component {
         const { t } = this.props;
         const count = this.specProps.get_ItemsCount();
 
-        if(this.isForm) {
-            let text = this.propsObj.get_PlaceholderText();
+        if(this.formProps) {
+            if (!this.formProps.get_Required() || count<1) {// for required or empty dropdown/combobox form control always add placeholder item
+                let text = this.propsObj.get_PlaceholderText();
 
-            this.listItems.push({
-                caption: text.trim() !== '' ? text : t('Edit.textEmpty'),
-                value: ''
-            });
+                this.listItems.push({
+                    caption: text.trim() !== '' ? text : t('Edit.textEmpty'),
+                    value: ''
+                });
+            }
         }
 
         for (let i = 0; i < count; i++) {
-            if(this.specProps.get_ItemValue(i) || !this.isForm) {
+            if(this.specProps.get_ItemValue(i) || !this.formProps) {
                 this.listItems.push({
                     caption: this.specProps.get_ItemDisplayText(i), 
                     value: this.specProps.get_ItemValue(i)
@@ -83,7 +85,7 @@ class DropdownListController extends Component {
             }
         }
 
-        if (!this.isForm && this.listItems.length < 1) {
+        if (!this.formProps && this.listItems.length < 1) {
             this.listItems.push({
                 caption: t('Edit.textEmpty'),
                 value: -1

@@ -3,6 +3,9 @@ import {observer, inject} from "mobx-react";
 import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button, Icon, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const PageSpreadsheetColorSchemes = props => {
     const { t } = useTranslation();
@@ -128,11 +131,15 @@ const PageSpreadsheetMargins = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('top', true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('top', false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -142,11 +149,15 @@ const PageSpreadsheetMargins = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('bottom', true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('bottom', false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -156,11 +167,15 @@ const PageSpreadsheetMargins = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('left', true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('left', false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -170,11 +185,15 @@ const PageSpreadsheetMargins = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('right', true)}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className='icon icon-svg' />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('right', false)}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className='icon icon-svg' />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>

@@ -3,6 +3,12 @@ import {observer, inject} from "mobx-react";
 import {List, ListItem, Page, Navbar, Icon, ListInput, Segmented, Button, Link, NavLeft, NavRight, NavTitle, f7} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconClose from '@common-android-icons/icon-close.svg';
+import IconDone from '@common-android-icons/icon-done.svg';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
 
 const PageTypeLink = props => {
     const { t } = useTranslation();
@@ -71,11 +77,15 @@ const PageLinkTo = props => {
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {changeNumber(stateNumberTo, true);}}>
-                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                {isAndroid ?
+                                    <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                : ' - '}
                             </Button>
                             {isAndroid && <label>{stateNumberTo}</label>}
                             <Button outline className='increment item-link' onClick={() => {changeNumber(stateNumberTo, false);}}>
-                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                {isAndroid ? 
+                                    <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                : ' + '}
                             </Button>
                         </Segmented>
                     </div>
@@ -126,7 +136,9 @@ const PageLink = props => {
                     <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
                         isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
-                        {Device.android && <Icon icon='icon-close' />}
+                        {Device.android && 
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
+                        }
                     </Link>
                 </NavLeft>
                 <NavTitle>{t('View.Add.textLinkSettings')}</NavTitle>
@@ -136,7 +148,11 @@ const PageLink = props => {
                             {url: link, display: stateDisplay, displayDisabled, tip: screenTip } :
                             {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, displayDisabled, tip: screenTip}));
                     }} text={Device.ios ? t('View.Add.textDone') : ''}>
-                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                        {Device.android && (
+                            link.length < 1 ? 
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>

@@ -229,6 +229,12 @@
     "textRows": "Linhas",
     "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?"
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Cor personalizada",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
     "textActualSize": "Tamanho real",
@@ -471,6 +477,7 @@
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
@@ -532,6 +539,7 @@
       "Blue Green": "Verde azulado",
       "Blue II": "Azul II",
       "Blue Warm": "Azul quente",
+      "Book Title": "Título do livro",
       "Caption": "Legenda",
       "Choose an item": "Escolha um item",
       "Click to load image": "Clique para carregar a imagem",
@@ -606,7 +614,6 @@
       "Yellow Orange": "Amarelo alaranjado",
       "Your text here": "O seu texto aqui",
       "Zero Divide": "Divisão por zero",
-      "Book Title": "Book title",
       "Default Paragraph Font": "Default paragraph font",
       "Emphasis": "Emphasis",
       "endnote reference": "Endnote reference",
@@ -801,7 +808,8 @@
     "txtDownloadTxt": "Descarregar TXT",
     "txtIncorrectPwd": "A palavra-passe está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta"
+    "txtProtected": "Assim que introduzir uma palavra-passe e abrir o ficheiro, a palavra-passe atual será reposta",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnSend": "Enviar",
@@ -818,11 +826,5 @@
     "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário.",
     "btnRestartNow": "Restart now",
     "textSwitchToDesktop": "Switch to Desktop"
-  },
-  "Draw": {
-    "textColor": "Color",
-    "textCustomColor": "Custom color",
-    "textLineSize": "Line size",
-    "textOpacity": "Opacity"
   }
 }

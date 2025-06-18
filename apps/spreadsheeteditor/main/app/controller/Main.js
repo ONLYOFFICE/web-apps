@@ -2286,7 +2286,15 @@ define([
                     config.iconCls = 'error';
                     config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
+                    if (this.appOptions.canRequestClose) {
+                        config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                        config.callback = function(btn) {
+                            if (btn == 'ok') {
+                                Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
+                        }
+                    } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
                         config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
@@ -2422,22 +2430,20 @@ define([
                     this._isDocReady && Common.Gateway.setDocumentModified(change);
                 }
                 
-                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        cansave = this.api.asc_isDocumentCanSave(),
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                        this.toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.api && this.disableSaveButton(this.api.asc_isDocumentCanSave());
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    this.toolbarView.btnSave.setDisabled(isDisabled);
-                }
+                this.disableSaveButton(isCanSave)
+            },
+
+            disableSaveButton: function (isCanSave) {
+                if (!this.toolbarView || !this.toolbarView.btnCollabChanges) return;
+
+                var forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
+                    isSyncButton = (this.toolbarView.btnCollabChanges.rendered) ? this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                    isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                this.toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled, {array: [this.toolbarView.btnSave]});
             },
 
             onBeforeUnload: function() {
@@ -2931,6 +2937,43 @@ define([
             },
 
             setLanguages: function() {
+                let sLangs = Common.Controllers.Desktop.systemLangs() || {},
+                    arr = [],
+                    me = this;
+                for (let name in sLangs) {
+                    sLangs.hasOwnProperty(name) && arr.push(name);
+                }
+                sLangs = arr;
+
+                arr = []; // system languages can be 'en'... (MacOs)
+                sLangs.forEach(function(lang) {
+                    let rec = Common.util.LanguageInfo.getLocalLanguageCode(lang);
+                    rec && (rec = me.languages.indexOf(rec.toString())<0 ? null : lang);
+                    if (!rec) {
+                        rec = Common.util.LanguageInfo.getDefaultLanguageCode(lang);
+                        rec = rec && me.languages.indexOf(rec.toString())>-1 ? rec : null;
+                        rec && (rec = Common.util.LanguageInfo.getLocalLanguageName(parseInt(rec))[0]);
+                    }
+                    if (!rec) {
+                        rec = _.find(me.languages, function(code) {
+                            return (Common.util.LanguageInfo.getLocalLanguageName(parseInt(code))[0].indexOf(lang.toLowerCase())===0);
+                        });
+                        rec && (rec = Common.util.LanguageInfo.getLocalLanguageName(parseInt(rec))[0]);
+                    }
+                    rec && arr.push(rec);
+                });
+                sLangs = _.uniq(arr);
+
+                let recentKey = 'app-settings-recent-langs',
+                    recentCount = Math.max(5, sLangs.length + 3);
+                Common.Utils.InternalSettings.set(recentKey + "-count", recentCount);
+                Common.Utils.InternalSettings.set(recentKey + "-offset", sLangs.length);
+
+                arr = Common.localStorage.getItem(recentKey);
+                arr = arr ? arr.split(';') : [];
+                arr = _.union(sLangs, arr);
+                arr.splice(recentCount);
+                Common.localStorage.setItem(recentKey, arr.join(';'));
                 this.getApplication().getController('Spellcheck').setLanguages(this.languages);
             },
 
@@ -2950,6 +2993,9 @@ define([
                             this.loadMask && this.loadMask.isVisible() && this.loadMask.updatePosition();
                         }
                         this.isAppDisabled = data.data;
+                        break;
+                    case 'reshow': 
+                        Common.NotificationCenter.trigger('external:reshow');
                         break;
                     case 'queryClose':
                         if (!Common.Utils.ModalWindow.isVisible()) {
@@ -3405,6 +3451,9 @@ define([
                     check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
+                    },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
                     },
                     handler: function(result, settings) {
                         if (result == 'ok') {

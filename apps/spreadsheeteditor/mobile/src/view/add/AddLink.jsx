@@ -2,6 +2,11 @@ import React, {Fragment, useState} from 'react';
 import {Page, Navbar, BlockTitle, List, ListItem, ListInput, ListButton, Icon, Link, NavLeft, NavRight, NavTitle, f7} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconClose from '@common-android-icons/icon-close.svg';
+import IconDone from '@common-android-icons/icon-done.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
+
 
 const PageTypeLink = ({curType, changeType, isNavigate}) => {
     const { t } = useTranslation();
@@ -96,7 +101,9 @@ const AddLink = props => {
                     <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
                         isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
-                        {Device.android && <Icon icon='icon-close' />}
+                        {Device.android && 
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg close'} />
+                        }
                     </Link>
                 </NavLeft>
                 <NavTitle>{t('View.Add.textLinkSettings')}</NavTitle>
@@ -106,7 +113,11 @@ const AddLink = props => {
                             {type: 'ext', url: link, text: stateDisplayText} :
                             {type: 'int', url: range, sheet: curSheet.caption, text: stateDisplayText});
                         }} text={Device.ios ? t('View.Add.textDone') : ''}>
-                        {Device.android && <Icon icon={link.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                        {Device.android && ( 
+                            link.length < 1 ? 
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>

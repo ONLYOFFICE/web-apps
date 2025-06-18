@@ -5,6 +5,13 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconMoveForeground from '@common-icons/icon-move-foreground.svg';
+import IconMoveBackground from '@common-icons/icon-move-background.svg';
+import IconMoveForward from '@common-icons/icon-move-forward.svg';
+import IconMoveBackward from '@common-icons/icon-move-backward.svg';
 
 const PageCustomFillColor = props => {
     const { t } = useTranslation();
@@ -27,7 +34,12 @@ const PageCustomFillColor = props => {
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -93,7 +105,12 @@ const PageCustomBorderColor = props => {
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -131,7 +148,12 @@ const PageBorderColor = props => {
             <Navbar title={_t.textColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -319,7 +341,12 @@ const PageDesign = props => {
             <Navbar backLink={t('View.Edit.textBack')} title={t('View.Edit.textDesign')}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -350,22 +377,27 @@ const PageReorder = props => {
             <Navbar title={t('View.Edit.textArrange')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} onClick={() => {props.onReorder('all-up')}} link='#' className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForeground.id} className={'icon icon-svg'} /> 
                 </ListItem>
                 <ListItem title={_t.textSendToBackground} onClick={() => {props.onReorder('all-down')}} link='#' className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-background"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveForward} onClick={() => {props.onReorder('move-up')}} link='#' className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForward.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveBackward} onClick={() => {props.onReorder('move-down')}} link='#' className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackward.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -500,7 +532,12 @@ const PageLayout = props => {
             <Navbar title={_t.textLayout} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -584,7 +621,12 @@ const PageChartTitle = props => {
             <Navbar title={_t.textChartTitle} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -615,7 +657,12 @@ const PageLegend = props => {
             <Navbar title={_t.textLegend} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -646,7 +693,12 @@ const PageHorizontalAxisTitle = props => {
             <Navbar title={_t.textHorizontal} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -677,7 +729,12 @@ const PageVerticalAxisTitle = props => {
             <Navbar title={_t.textVertical} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -708,7 +765,12 @@ const PageHorizontalGridlines = props => {
             <Navbar title={_t.textHorizontal} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -739,7 +801,12 @@ const PageVerticalGridlines = props => {
             <Navbar title={_t.textVertical} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -770,7 +837,12 @@ const PageDataLabels = props => {
             <Navbar title={_t.textDataLabels} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -868,7 +940,12 @@ const PageVerticalAxis = props => {
             <Navbar title={_t.textAxisOptions} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -968,7 +1045,12 @@ const PageVertAxisCrosses = props => {
             <Navbar title={_t.textAxisCrosses} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1002,7 +1084,12 @@ const PageDisplayUnits = props => {
             <Navbar title={_t.textDisplayUnits} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                       <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1036,7 +1123,12 @@ const PageVertMajorType = props => {
             <Navbar title={_t.textMajorType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1070,7 +1162,12 @@ const PageVertMinorType = props => {
             <Navbar title={_t.textMinorType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1104,7 +1201,12 @@ const PageVertLabelPosition = props => {
             <Navbar title={_t.textLabelPosition} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1196,7 +1298,12 @@ const PageHorizontalAxis = props => {
             <Navbar title={_t.textAxisOptions} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1277,7 +1384,12 @@ const PageHorAxisCrosses = props => {
             <Navbar title={_t.textAxisCrosses} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1311,7 +1423,12 @@ const PageHorAxisPosition = props => {
             <Navbar title={_t.textAxisPosition} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1345,7 +1462,12 @@ const PageHorMajorType = props => {
             <Navbar title={_t.textMajorType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1379,7 +1501,12 @@ const PageHorMinorType = props => {
             <Navbar title={_t.textMinorType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -1413,7 +1540,12 @@ const PageHorLabelPosition = props => {
             <Navbar title={_t.textLabelPosition} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>

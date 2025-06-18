@@ -1027,6 +1027,7 @@ define([], function () {
 
         dh.onHideContentControlsActions = function() {
             this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            this.imageControlMenu && this.imageControlMenu.isVisible() && this.imageControlMenu.hide();
             var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
@@ -1108,7 +1109,7 @@ define([], function () {
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
-                isForm = !!props.get_FormPr(),
+                formProps = props.get_FormPr(),
                 cmpEl = this.documentHolder.cmpEl,
                 menu = this.listControlMenu,
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
@@ -1146,21 +1147,23 @@ define([], function () {
                 });
             }
             if (specProps) {
-                if (isForm){ // for dropdown and combobox form control always add placeholder item
-                    var text = props.get_PlaceholderText();
-                    menu.addItem(new Common.UI.MenuItem({
-                        caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
-                        value       : '',
-                        template    : _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= Common.Utils.String.htmlEncode(caption) %>',
-                            '</a>'
-                        ].join(''))
-                    }));
-                }
                 var count = specProps.get_ItemsCount();
+                if (formProps){
+                    if (!formProps.get_Required() || count<1) {// for required or empty dropdown/combobox form control always add placeholder item
+                        var text = props.get_PlaceholderText();
+                        menu.addItem(new Common.UI.MenuItem({
+                            caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
+                            value       : '',
+                            template    : _.template([
+                                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                                '<%= Common.Utils.String.htmlEncode(caption) %>',
+                                '</a>'
+                            ].join(''))
+                        }));
+                    }
+                }
                 for (var i=0; i<count; i++) {
-                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !formProps) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i),
                         template    : _.template([
@@ -1170,7 +1173,7 @@ define([], function () {
                         ].join(''))
                     }));
                 }
-                if (!isForm && menu.items.length<1) {
+                if (!formProps && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.documentHolder.txtEmpty,
                         value       : -1
@@ -1204,7 +1207,23 @@ define([], function () {
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    if (obj.pr && obj.pr.is_Signature() && false) {
+                    if (!me.mode.canSaveToFile) { // select picture in viewer only from local file
+                        this.api.asc_addImage(obj.pr);
+                        setTimeout(function(){
+                            me.api.asc_UncheckContentControlButtons();
+                        }, 500);
+                    } else
+                        setTimeout(function() {
+                            me.onShowImageActions(obj, x, y);
+                        }, 1);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Signature:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    if (false) {
                         if (_.isUndefined(me.fontStore)) {
                             me.fontStore = new Common.Collections.Fonts();
                             var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
@@ -1229,15 +1248,12 @@ define([], function () {
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         })).show();
-                    } else if (obj.pr && obj.pr.is_Signature() || !me.mode.canSaveToFile) { // select picture for signature or in viewer only from local file
+                    } else {
                         this.api.asc_addImage(obj.pr);
                         setTimeout(function(){
                             me.api.asc_UncheckContentControlButtons();
                         }, 500);
-                    } else
-                        setTimeout(function() {
-                            me.onShowImageActions(obj, x, y);
-                        }, 1);
+                    }
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
@@ -1919,7 +1935,7 @@ define([], function () {
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if ( !elValue.get_ChartProperties() && !elValue.get_ShapeProperties() && !me.documentHolder.menuOriginalSize.isDisabled() && me.documentHolder.menuOriginalSize.isVisible()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
@@ -1950,12 +1966,11 @@ define([], function () {
         dh.onImgOriginalSize = function(item, e) {
             var me = this;
             if (me.api){
-                var originalImageSize = me.api.get_OriginalSizeImage();
+                var originalImageSize = me.api.asc_getCropOriginalImageSize();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(originalImageSize.get_ImageWidth());
                 properties.put_Height(originalImageSize.get_ImageHeight());
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 me.api.ImgApply(properties);
 
@@ -2186,7 +2201,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +

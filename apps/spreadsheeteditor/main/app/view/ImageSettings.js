@@ -571,14 +571,13 @@ define([
 
         setOriginalSize:  function() {
             if (this.api) {
-                var imgsize = this.api.asc_getOriginalImageSize();
+                var imgsize = this.api.asc_getCropOriginalImageSize();
                 var w = imgsize.asc_getImageWidth();
                 var h = imgsize.asc_getImageHeight();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 this.api.asc_setGraphicObjectProps(properties);
                 Common.NotificationCenter.trigger('edit:complete', this);

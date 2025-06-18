@@ -2,6 +2,19 @@ import React from 'react';
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Icon } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import SvgPdf from '@common-icons/formats/pdf.svg';
+import SvgPdfa from '@common-icons/formats/pdfa.svg';
+import SvgDocx from '@icons/formats/docx.svg';
+import SvgDotx from '@icons/formats/dotx.svg';
+import SvgEpub from '@icons/formats/epub.svg';
+import SvgFb2 from '@icons/formats/fb2.svg';
+import SvgHtml from '@icons/formats/html.svg';
+import SvgOdt from '@icons/formats/odt.svg';
+import SvgOtt from '@icons/formats/ott.svg';
+import SvgRtf from '@icons/formats/rtf.svg';
+import SvgTxt from '@icons/formats/txt.svg';
+import SvgDjvu from '@icons/formats/djvu.svg';
 
 const Download = props => {
     const { t } = useTranslation();
@@ -20,44 +33,44 @@ const Download = props => {
             <List>
                 {!isDjvuFormat &&
                     <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
-                        <Icon slot="media" icon="icon-format-docx"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgDocx.id} className={'icon icon-svg '} />
                     </ListItem>
                 }
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                    <Icon slot="media" icon="icon-format-pdf"></Icon>
+                    <SvgIcon slot="media" symbolId={SvgPdf.id} className={'icon icon-svg '} />
                 </ListItem>
                 {isDjvuFormat &&
                     <ListItem title="DJVU" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DJVU)}>
-                        <Icon slot="media" icon="icon-format-djvu"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgDjvu.id} className={'icon icon-svg '} />
                     </ListItem>
                 }
                 {!isEditableForms && !isDjvuFormat ? [
                     <ListItem title="PDF/A" key="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
-                        <Icon slot="media" icon="icon-format-pdfa"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgPdfa.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="TXT" key="TXT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.TXT)}>
-                        <Icon slot="media" icon="icon-format-txt"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgTxt.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="RTF" key="RTF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.RTF)}>
-                        <Icon slot="media" icon="icon-format-rtf"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgRtf.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="ODT" key="ODT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODT)}>
-                        <Icon slot="media" icon="icon-format-odt"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgOdt.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="HTML" key="HTML" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.HTML)}>
-                        <Icon slot="media" icon="icon-format-html"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgHtml.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="DOTX" key="DOTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOTX)}>
-                        <Icon slot="media" icon="icon-format-dotx"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgDotx.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="OTT" key="OTT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTT)}>
-                        <Icon slot="media" icon="icon-format-ott"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgOtt.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="FB2" key="FB2" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.FB2)}>
-                        <Icon slot="media" icon="icon-format-fb2"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgFb2.id} className={'icon icon-svg '} />
                     </ListItem>,
                     <ListItem title="EPUB" key="EPUB" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.EPUB)}>
-                        <Icon slot="media" icon="icon-format-epub"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgEpub.id} className={'icon icon-svg '} />
                     </ListItem>,
                     ]
                 : null}

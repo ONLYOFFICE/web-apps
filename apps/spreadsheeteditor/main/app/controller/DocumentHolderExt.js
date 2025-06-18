@@ -226,8 +226,11 @@ define([], function () {
                             if (e.target.localName == 'canvas' && (!me.isEditFormula || me.rangeSelectionMode)) {
                                 if (me._preventClick)
                                     me._preventClick = false;
-                                else
+                                else {
+                                    if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                        return;
                                     documentHolderEl.focus();
+                                }
                             }
                         }
                     },
@@ -2159,7 +2162,8 @@ define([], function () {
                 this.currentMenu && this.currentMenu.isVisible()){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(info, true) : this.fillViewMenuProps(info, true);
             }
-
+            if (this.dlgFilter && this.dlgFilter.isVisible())
+                this.dlgFilter.close();
             if (!this.mouse.isLeftButtonDown) return;
 
             if (this.permissions && this.permissions.isEdit) {
@@ -3308,12 +3312,12 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 0];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
@@ -3345,37 +3349,48 @@ define([], function () {
                     groups[i] = [];
                 }
 
-                var importText;
+                var importText, pasteItem;
+            
                 _.each(pasteItems, function(menuItem, index) {
-                    if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
-                        importText = new Common.UI.MenuItem({
-                            caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
-                            value: menuItem,
-                            checkable: true,
-                            toggleGroup : 'specialPasteGroup'
-                        }).on('click', _.bind(me.onSpecialPasteItemClick, me));
-                        me._arrSpecialPaste[menuItem][2] = importText;
-                    } else if (me._arrSpecialPaste[menuItem]) {
+                    if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0] + (me.hkSpecPaste[menuItem] ? ' (' + me.hkSpecPaste[menuItem] + ')' : ''),
                             value: menuItem,
                             checkable: true,
-                            toggleGroup : 'specialPasteGroup'
+                            toggleGroup: 'specialPasteGroup'
                         }).on('click', _.bind(me.onSpecialPasteItemClick, me));
-                        groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                
+                        if (menuItem == Asc.c_oSpecialPasteProps.paste) {
+                            pasteItem = mnu;
+                        } else if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                            importText = mnu;
+                        } else {
+                            groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                        }
+                
                         me._arrSpecialPaste[menuItem][2] = mnu;
                     }
                 });
-                var newgroup = false;
+                var groupTitles = [me.txtFormula, me.txtValue, me.txtOther];
+                
+                if (pasteItem) {
+                    menu.addItem(pasteItem);
+                }
+
                 for (var i = 0; i < 3; i++) {
-                    if (newgroup && groups[i].length>0) {
-                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                        newgroup = false;
+                    if (groups[i].length > 0) {
+                        if (menu.items.length > 0) {
+                            menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        }
+                        menu.addItem(new Common.UI.MenuItem({
+                            header: groupTitles[i],
+                            disabled: true,
+                            cls: 'menu-header'
+                        }));
+                        _.each(groups[i], function (menuItem, index) {
+                            menu.addItem(menuItem);
+                        });
                     }
-                    _.each(groups[i], function(menuItem, index) {
-                        menu.addItem(menuItem);
-                        newgroup = true;
-                    });
                 }
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
                 me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
@@ -3564,8 +3579,8 @@ define([], function () {
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrAutoCorrectPaste = [];
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = {caption: me.txtUndoExpansion, icon: 'menu__icon btn-undo'};
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = {caption: me.txtRedoExpansion, icon: 'menu__icon btn-redo'};
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = {caption: me.txtUndoExpansion, icon: 'menu__icon btn-undo icon-rtl'};
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = {caption: me.txtRedoExpansion, icon: 'menu__icon btn-redo icon-rtl'};
 
                 pasteContainer = $('<div id="autocorrect-paste-container" style="position: absolute;"><div id="id-document-holder-btn-autocorrect-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -3726,14 +3741,13 @@ define([], function () {
 
         dh.onOriginalSizeClick = function(item) {
             if (this.api){
-                var imgsize = this.api.asc_getOriginalImageSize();
+                var imgsize = this.api.asc_getCropOriginalImageSize();
                 var w = imgsize.asc_getImageWidth();
                 var h = imgsize.asc_getImageHeight();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 this.api.asc_setGraphicObjectProps(properties);
 
@@ -3989,7 +4003,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +

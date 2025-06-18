@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "Када унесете лозинку и отворите фајл, тренутна лозинка која води до фајла ће бити ресетована.",
   "Common.Views.OpenDialog.txtTitle": "Изабери %1 опције",
   "Common.Views.OpenDialog.txtTitleProtected": "Заштићен фајл",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginDlg.textLoading": "Учитавање",
   "Common.Views.PluginPanel.textClosePanel": "Затвори додатак",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
   "Common.Views.PluginPanel.textLoading": "Учитавање",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
   "Common.Views.Plugins.groupCaption": "Додаци",
   "Common.Views.Plugins.strPlugins": "Додаци",
   "Common.Views.Plugins.textBackgroundPlugins": "Додаци за позадину",
@@ -270,7 +273,7 @@
   "VE.Controllers.Main.titleServerVersion": "Уређивач ажуриран",
   "VE.Controllers.Main.titleUpdateVersion": "Верзија промењена",
   "VE.Controllers.Main.txtSaveCopyAsComplete": "Копија датотеке је успешно сачуванадатотеку, молимо сачекајте...",
-  "VE.Controllers.Main.txtSecurityWarningLink": "Овај документ покушава да се конектује на {0}.<br>Ако верујете овом сајту, притисните \"ОК\" док држите цтрл тастер.",
+  "VE.Controllers.Main.txtSecurityWarningLink": "Овај документ покушава да се конектује на {0}.<br>Ако верујете овом сајту, притисните \"ОК\" док држите Ctrl тастер.",
   "VE.Controllers.Main.txtSecurityWarningOpenFile": "Овај документ покушава да отвори дијалог фајла, притисните \"ОК\" да отворите.",
   "VE.Controllers.Main.unknownErrorText": "Непозната грешка.",
   "VE.Controllers.Main.unsupportedBrowserErrorText": "Ваш прегледач није подржан.",
@@ -418,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "Зумирај",
   "VE.Views.ViewTab.tipFitPage": "Прилагоди страници",
   "VE.Views.ViewTab.tipFitWidth": "Прилагоди ширини",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

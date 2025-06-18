@@ -178,10 +178,27 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                    'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                    'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                    'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                    'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                    'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                    'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
+                url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
+
+            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom-right', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+            });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'addStamp' : {name: 'help-tip-add-stamp', placement: 'bottom-left', text: this.helpAddStamp, header: this.helpAddStampHeader, target: '#slot-btn-stamp', closable: false},
-                'selectPages' : {name: 'help-tip-select-pages', placement: 'right-bottom', offset: {x: -30, y: 60}, text: this.helpSelectPages, header: this.helpSelectPagesHeader, target: '#thumbnails-btn-close', closable: false},
-                'fastUndo' : {name: 'pdfe-help-tip-fast-undo', placement: 'bottom-right', text: this.helpFastUndo, header: this.helpFastUndoHeader, target: mode.compactHeader ? '#slot-btn-undo' : '#slot-btn-dt-undo', extCls: 'inc-index', closable: false}
+                'formEditor' : {name: 'help-tip-form-editor', placement: 'bottom-right', offset: {x: 10, y: 0}, text: this.helpFormEditor, header: this.helpFormEditorHeader, target: 'li.ribtab #forms',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'copyPages' : {name: 'help-tip-copy-pages', placement: 'right-bottom', offset: {x: -30, y: 110}, text: Common.Utils.String.format(this.helpCopyPages, Common.Utils.String.platformKey('Ctrl+C', '{0}'), Common.Utils.String.platformKey('Ctrl+V', '{0}')),
+                               header: this.helpCopyPagesHeader, target: '#thumbnails-btn-close', closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -260,7 +277,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
             Common.NotificationCenter.on('draw:stop', _.bind(this.onDrawStop, this));
-
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         onCreateAnnotBar: function(btnStrikeout, btnUnderline, btnHighlight) {
@@ -337,6 +354,8 @@ define([
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+            toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
@@ -367,6 +386,7 @@ define([
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
@@ -401,7 +421,9 @@ define([
 
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+            this.api.asc_registerCallback('asc_onStampsReady', _.bind(this.onApiStampsReady, this));
             this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
+            this.api.asc_registerCallback('asc_onCanPastePage',           _.bind(this.onApiCanPastePage, this));
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
@@ -428,6 +450,7 @@ define([
             this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
             this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
             this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
+            this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
             // this.api.asc_registerCallback('asc_onCanGroup',             _.bind(this.onApiCanGroup, this));
             // this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
         },
@@ -509,11 +532,6 @@ define([
                 if (this._state.can_undo !== can) {
                     this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
                     this._state.can_undo = can;
-
-                    if (can) {
-                        var _main = this.getApplication().getController('Main');
-                        _main._state.fastCoauth && _main._state.usersCount>1 && Common.UI.TooltipManager.showTip('fastUndo');
-                    }
                 }
             } else {
                 if (this._state.can_redo !== can) {
@@ -532,6 +550,13 @@ define([
             if (this._state.can_cut !== cancut) {
                 this.toolbar.lockToolbar(Common.enumLock.cutLock, !cancut, {array: [this.toolbar.btnCut]});
                 this._state.can_cut = cancut;
+            }
+        },
+
+        onApiCanPastePage: function(canpaste) {
+            if (this._state.can_paste !== canpaste) {
+                this.toolbar.lockToolbar(Common.enumLock.pasteLock, !canpaste, {array: [this.toolbar.btnPaste]});
+                this._state.can_paste = canpaste;
             }
         },
 
@@ -568,8 +593,11 @@ define([
                 in_annot = false,
                 annot_lock = false,
                 page_deleted = false,
-                page_rotate = false,
-                page_edit_text = false;
+                page_rotate_lock = false,
+                page_edit_text = false,
+                in_form = false,
+                in_check_form = false,
+                in_text_form = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -615,8 +643,14 @@ define([
                         no_text = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.PdfPage) {
                     page_deleted = pr.asc_getDeleteLock();
-                    page_rotate = pr.asc_getRotateLock();
+                    page_rotate_lock = pr.asc_getRotateLock();
                     page_edit_text = pr.asc_getEditLock();
+                } else if (type == Asc.c_oAscTypeSelectElement.Field) {
+                    let ft = pr.asc_getType();
+                    in_form = true;
+                    no_text = false;
+                    in_text_form = ft===AscPDF.FIELD_TYPES.text || ft===AscPDF.FIELD_TYPES.combobox || ft===AscPDF.FIELD_TYPES.listbox;
+                    in_check_form = ft===AscPDF.FIELD_TYPES.checkbox || ft===AscPDF.FIELD_TYPES.radiobutton;
                 }
             }
 
@@ -641,6 +675,20 @@ define([
                 if (this._state.activated) this._state.in_annot = in_annot;
                 toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
             }
+
+            if (this._state.in_form !== in_form) {
+                if (this._state.activated) this._state.in_form = in_form;
+                toolbar.lockToolbar(Common.enumLock.inForm, in_form, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.in_check_form !== in_check_form) {
+                if (this._state.activated) this._state.in_check_form = in_check_form;
+                toolbar.lockToolbar(Common.enumLock.inCheckForm, in_check_form, {array: toolbar.paragraphControls});
+            }
+
+            let cant_align = no_paragraph && !in_text_form;
+            toolbar.lockToolbar(Common.enumLock.cantAlign, cant_align, {array: [toolbar.btnHorizontalAlign]});
+            !cant_align && toolbar.btnHorizontalAlign.menu.items[3].setDisabled(in_text_form);
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
@@ -692,8 +740,10 @@ define([
                 if (this._state.activated) this._state.pagecontrolsdisable = page_deleted;
                 toolbar.lockToolbar(Common.enumLock.pageDeleted, page_deleted);
             }
-            toolbar.lockToolbar(Common.enumLock.pageRotate, page_rotate, {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.pageRotateLock, page_rotate_lock, {array: [toolbar.btnRotatePage]});
+            toolbar.lockToolbar(Common.enumLock.cantRotatePage, !this.api.asc_CanRotatePages(), {array: [toolbar.btnRotatePage]});
             toolbar.lockToolbar(Common.enumLock.pageEditText, page_edit_text, {array: [toolbar.btnEditText]});
+            toolbar.lockToolbar(Common.enumLock.cantDelPage, !this.api.asc_CanRemovePages(), {array: [toolbar.btnDelPage]});
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -800,7 +850,8 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton);
+                toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary || !toolbar.mode.showSaveButton,
+                                                        {array: [toolbar.btnSave]});
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
                 Common.NotificationCenter.trigger('edit:complete', toolbar);
@@ -846,8 +897,6 @@ define([
         },
 
         onUndo: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('fastUndo');
-
             if (this.api)
                 this.api.Undo();
 
@@ -1187,7 +1236,6 @@ define([
         },
 
         onBtnStampClick: function(btn, e) {
-            Common.UI.TooltipManager.closeTip('addStamp');
             this.onInsertStamp(btn.options.stampType, btn, e);
         },
 
@@ -1209,9 +1257,6 @@ define([
         },
 
         onStampShowAfter: function(menu) {
-            Common.UI.TooltipManager.closeTip('addStamp');
-
-            var me      = this;
             if (menu.getItemsLength(true)<1 && this.api) {
                 var arr = this.api.asc_getPropertyEditorStamps(),
                     template = _.template([
@@ -1219,7 +1264,7 @@ define([
                             '<div style="width:<%= options.itemWidth %>px; height:<%= options.itemHeight %>px;"></div>',
                         '</a>'
                     ].join(''));
-                if (arr.length>0) {
+                if (arr && arr.length>0) {
                     arr.forEach(function(item){
                         var menuItem = new Common.UI.MenuItem({
                             value: item.Type,
@@ -1234,9 +1279,14 @@ define([
                         }
 
                     });
+                    menu.updateScroller();
                     this.toolbar.btnStamp.options.stampType = arr[0].Type;
                 }
             }
+        },
+
+        onApiStampsReady: function() {
+            this.toolbar.btnStamp.menu.isVisible() && this.onStampShowAfter(this.toolbar.btnStamp.menu);
         },
 
         onFillRequiredFields: function(isFilled) {
@@ -1311,7 +1361,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton);
+            this.api && this.toolbar.btnSave && this.toolbar.lockToolbar(Common.enumLock.cantSave, this.mode.canSaveToFile && !this.api.isDocumentModified() || !this.mode.showSaveButton, {array: [this.toolbar.btnSave]});
             this._state.activated = true;
         },
 
@@ -1423,6 +1473,19 @@ define([
                     me.toolbar.addTab(tab, $panel, 1);
                     me.toolbar.setVisible('ins', true);
                 }
+
+                if (config.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                    $panel = forms.createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 2);
+                        me.toolbar.setVisible('forms', true);
+
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                    }
+                }
             }
         },
 
@@ -1440,6 +1503,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.getApplication().getController('Main').disableSaveButton(me.api.asc_isDocumentCanSave());
                     me.onCountPages(me._state.pageCount);
                     me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
@@ -1454,13 +1518,26 @@ define([
                     instab.onDocumentReady();
                 }, 50);
 
+                if (this.mode.canFeatureForms) {
+                    tab = {caption: me.textTabForms, action: 'forms', layoutname: 'toolbar-forms', dataHintTitle: 'M'};
+                    var forms = this.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me, config: this.mode});
+                    toolbar.addTab(tab, forms.createToolbarPanel(), 2);
+                    Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                    forms.onAppReady(this.mode);
+                    forms.getView('FormsTab').onAppReady(this.mode);
+                }
+
                 this._state.initEditing = false;
             }
-            if (this.mode.isPDFEdit || toolbar.isTabActive('ins'))
+            if (this.mode.isPDFEdit || toolbar.isTabActive('ins') || toolbar.isTabActive('forms'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
+            toolbar.setVisible('forms', this.mode.isPDFEdit && this.mode.canFeatureForms);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
+
+            this.mode.isPDFEdit ? Common.UI.TooltipManager.showTip('formEditor') : Common.UI.TooltipManager.closeTip('formEditor');
         },
         
         onAppReady: function (config) {
@@ -1523,15 +1600,17 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
-            (tab === 'comment') ? Common.UI.TooltipManager.showTip('addStamp') : Common.UI.TooltipManager.closeTip('addStamp');
-            if (tab === 'file') {
-                Common.UI.TooltipManager.closeTip('selectPages');
-                Common.UI.TooltipManager.closeTip('fastUndo');
-            }
+            (tab === 'file') && Common.UI.TooltipManager.closeTip('copyPages');
+            (tab === 'forms') && Common.UI.TooltipManager.closeTip('formEditor');
+            if (tab === 'view') {
+                Common.UI.TooltipManager.getNeedShow('modernTheme') && Common.UI.TooltipManager.closeTip('formEditor');
+                Common.UI.TooltipManager.showTip('modernTheme')
+            } else
+                Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('addStamp');
+            Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         applySettings: function() {
@@ -2344,17 +2423,17 @@ define([
         },
 
         onDelPage: function() {
-            this.api && this.api.asc_RemovePage();
+            this.api && this.api.asc_RemovePage([this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePage: function() {
-            this.api && this.api.asc_RotatePage(90);
+            this.api && this.api.asc_RotatePage(90, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onRotatePageMenu: function(menu, item) {
-            this.api && this.api.asc_RotatePage(item.value);
+            this.api && this.api.asc_RotatePage(item.value, [this.api.getCurrentPage()]);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -2396,6 +2475,7 @@ define([
 
         onEditTextClick: function() {
             this.api && this.api.asc_EditPage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onApiTextColor: function(color) {
@@ -2498,6 +2578,38 @@ define([
             this._setMarkerColor('transparent', 'menu');
         },
 
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onApiTextDirection: function (isRtl){
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnDecLeftOffset.cmpEl && toolbar.btnDecLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnIncLeftOffset.cmpEl && toolbar.btnIncLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
+            }
+        },
+
         changePDFMode: function(data) {
             this.toolbar && this.toolbar.btnEditMode && this.toolbar.btnEditMode.toggle(!!this.mode.isPDFEdit, true);
         },
@@ -2518,6 +2630,13 @@ define([
             this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
+        },
+
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
         },
 
         onDocumentReady: function() {

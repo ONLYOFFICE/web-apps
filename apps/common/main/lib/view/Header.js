@@ -125,7 +125,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-search"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot">' +
+                                    '<div class="btn-slot" data-layout-name="header-user">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
@@ -159,7 +159,7 @@ define([
                                     '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot">' +
+                                    '<div class="btn-slot" data-layout-name="header-user">' +
                                         '<button type="button" class="btn btn-header slot-btn-user-name hidden">' +
                                             '<div class="color-user-name"></div>' +
                                         '</button>' +
@@ -836,11 +836,10 @@ define([
                     'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
-                Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
                 Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
-
             },
 
             render: function (el, role) {
@@ -1072,10 +1071,10 @@ define([
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse ' + save_icon, $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                         !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
                     }
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo icon-rtl', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo icon-rtl', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened, Common.enumLock.lostConnect]);
                     !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
                     if (isPEEditor) {
@@ -1262,6 +1261,7 @@ define([
             },
 
             setDocTitle: function(name){
+                if (!$labelDocName) return;
                 var width = this.getTextWidth(name || $labelDocName.val());
                 (width>=0) && $labelDocName.width(width);
                 name && (width>=0) && $labelDocName.val(name);
@@ -1315,7 +1315,10 @@ define([
 
             updateAvatarEl: function(){
                 if(this.options.userAvatar){
-                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.css({
+                        'background-image': 'url('+ this.options.userAvatar +')',
+                        'background-color': 'transparent'
+                    });
                     $btnUserName.text('');
                 } else {
                     $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
@@ -1378,6 +1381,13 @@ define([
             onStartFilling: function() {
                 this.btnStartFill && this.btnStartFill.setVisible(false);
                 updateDocNamePosition();
+            },
+
+            onThemeChanged: function() {
+                this.changeLogo();
+                if (this._testCanvas)
+                    this._testCanvas = undefined;
+                this.setDocTitle();
             },
 
             textBack: 'Go to Documents',

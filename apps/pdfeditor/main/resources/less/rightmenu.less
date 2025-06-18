@@ -11,6 +11,13 @@
         }
     }
 
+    .texture-img {
+        padding: 14px 20px;
+        border: 1px solid #AFAFAF;
+        border-radius: 2px;
+        background: #ffffff;
+    }
+
     &#id-shape-settings {
         #shape-spin-transparency, #shape-line-spin-transparency {
             display: inline-block;
@@ -32,13 +39,6 @@
         .angle-label {
             .margin-right-5();
             margin-bottom: 3px;
-        }
-
-        .texture-img {
-            padding: 14px 20px;
-            border: 1px solid #AFAFAF;
-            border-radius: 2px;
-            background: #ffffff;
         }
 
         #shape-foreground-color-btn, #shape-background-color-btn {
@@ -102,15 +102,52 @@
             margin-bottom: 3px;
         }
 
-        .texture-img {
-            padding: 14px 20px;
-            border: 1px solid #AFAFAF;
-            border-radius: 2px;
-            background: #ffffff;
-        }
-
         #textart-foreground-color-btn, #textart-background-color-btn {
             display: inline-block;
+        }
+    }
+
+    #form-list-list {
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
+    }
+
+    #form-cnt-position {
+        position: relative;
+        .row {
+            display: flex;
+            justify-content: flex-start;
+        }
+        #form-img-position-preview {
+            position: relative;
+            height: 130px;
+            width: 130px;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            #form-img-example {
+                position: absolute;
+                top: 24px;
+                left: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 80px;
+                width: 80px;
+                border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+                border: @scaled-one-px-value solid @border-regular-control;
+            }
+        }
+        #form-img-slider-position-x {
+            margin-top: 4px;
+            .margin-left-7();
+        }
+        #form-img-slider-position-y {
+            margin-top: 7px;
+            .margin-left-4();
+        }
+        #form-img-slider-value {
+            margin-top: 4px;
+            .margin-left-10();
         }
     }
 }
@@ -158,7 +195,8 @@
     div {
         width: 32px;
         height: 32px;
-        background: white;
+        background: @background-normal-ie;
+        background: @background-normal;
         border-radius: 1px;
         border: 1px @icon-normal-ie solid;
         border: 1px @icon-normal solid;

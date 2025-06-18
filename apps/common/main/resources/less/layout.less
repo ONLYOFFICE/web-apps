@@ -16,8 +16,8 @@
 
     .layout-resizer {
         z-index: @zindex-dropdown - 10;
-        background: @background-toolbar-ie;
-        background: @background-toolbar;
+        background: @background-pane-ie;
+        background: @background-pane;
         border: 0 none;
 
         &.move {
@@ -62,4 +62,13 @@
             }
         }
     }
+}
+
+#viewport-hbox-layout {
+    position: relative;
+}
+
+.layout-item.middle {
+    padding-top:0;
+    padding-top:var(--content-padding-top,0);
 }

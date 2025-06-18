@@ -56,15 +56,19 @@ define([
                 title: this.textTitle,
                 keydowncallback: function(event) {
                     if (me.appOptions && me.appOptions.canMakeActionLink && (event.keyCode === Common.UI.Keys.ESC)) {
-                        var box = me.$window.find('#id-clip-copy-box').parent();
-                        if (box.hasClass('open')) {
-                            box.removeClass('open')
-                            me.btnGetLink.focus();
-                            return true;
-                        }
+                        var isExit = false;
+                        [me.copyDropdownUpper, me.copyDropdownLower].forEach(function(dropdown) {
+                            var parent = dropdown.box.parent();
+                            if (parent.hasClass('open')) {
+                                parent.removeClass('open')
+                                dropdown.parentBtn.focus();
+                                isExit = true;
+                            }
+                        })
+                        return isExit;
                     }
                 },
-                contentStyle: 'padding: 0 5px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',
@@ -75,9 +79,13 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-large">',
-                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;"></div>',
-                                            '<button type="button" result="add" class="btn btn-text-default" id="bookmarks-btn-add" style="vertical-align: top;">', me.textAdd,'</button>',
+                                        '<td class="padding-large" style="display: flex;">',
+                                            '<div id="bookmarks-txt-name" class="margin-right-10" style="display:inline-block;vertical-align: top;flex-grow:1;"></div>',
+                                            '<div id="bookmarks-btn-add" style="display: inline-block; position: relative;"></div>',
+                                            '<div id="bookmarks-btn-add-copy-dropdown" class="form-control-size" style="display: inline-block; position: relative; vertical-align: top; width: 0px">',
+                                                //Invisible button, needed for boostrap dropdown logic to work    
+                                                '<button type="button" class="dropdown-toggle" data-toggle="dropdown" style="display: none"></button>',
+                                            '</div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -97,10 +105,6 @@ define([
                                             '<button type="button" class="btn btn-text-default margin-right-5" id="bookmarks-btn-goto">', me.textGoto,'</button>',
                                             '<div style="display: inline-block; position: relative;">',
                                                 '<button type="button" class="btn btn-text-default auto dropdown-toggle move-focus" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
-                                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
-                                                    '<div id="id-dlg-clip-copy"></div>',
-                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5" style="width: 86px;">' + me.textCopy + '</button>',
-                                                '</div>',
                                             '</div>',
                                             '<button type="button" class="btn btn-text-default float-right" id="bookmarks-btn-delete">', me.textDelete,'</button>',
                                         '</td>',
@@ -132,7 +136,6 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : 'width: 215px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
@@ -184,10 +187,32 @@ define([
             this.bookmarksList.on('item:select', _.bind(this.onSelectBookmark, this));
 
             this.btnAdd = new Common.UI.Button({
-                el: $('#bookmarks-btn-add'),
-                disabled: true
+                parentEl: $('#bookmarks-btn-add'),
+                disabled: true,
+                caption: this.textAdd,
+                cls: this.appOptions.canMakeActionLink ? 'btn-text-split-default' : 'btn-text-default',
+                split: this.appOptions.canMakeActionLink,
+                menu: this.appOptions.canMakeActionLink,
+                takeFocusOnClose: true
             });
-            this.btnAdd.on('click', _.bind(this.addBookmark, this));
+            this.btnAdd.on('click', _.bind(this.addBookmark, this, true));
+            if(this.appOptions.canMakeActionLink) {
+                this.btnAdd.setMenu(new Common.UI.Menu({
+                    menuAlign: 'tr-br',
+                    style: 'min-width: 150px;',
+                    items: [
+                        {
+                            caption: this.textAdd,
+                            value: 1
+                        },
+                        {
+                            caption: this.textAddAndGetLink,
+                            value: 2
+                        }
+                    ]
+                }));
+                this.btnAdd.menu.on('item:click', _.bind(this.onAddMenu, this));
+            }
 
             this.btnGoto = new Common.UI.Button({
                 el: $('#bookmarks-btn-goto'),
@@ -215,44 +240,20 @@ define([
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
             if (this.appOptions.canMakeActionLink) {
-                this.inputCopy = new Common.UI.InputField({
-                    el          : $('#id-dlg-clip-copy'),
-                    editable    : false,
-                    style       : 'width: 176px;'
-                });
-
-                var copyBox = this.$window.find('#id-clip-copy-box');
-                copyBox.on('click', _.bind(function() {
-                    return false;
-                }, this));
-                copyBox.parent().on({
-                    'shown.bs.dropdown': function () {
-                        _.delay(function(){
-                            me.inputCopy._input.select().focus();
-                        },100);
-                    },
-                    'hide.bs.dropdown': function () {
-                        me.txtName._input.select().focus();
-                    }
-                });
-                this.btnCopy = new Common.UI.Button({
-                    el: copyBox.find('button')
-                });
-                this.btnCopy.on('click', function() {
-                    me.inputCopy._input.select();
-                    document.execCommand("copy");
-                });
-
-                Common.Gateway.on('setactionlink', function (url) {
-                    me.inputCopy.setValue(url);
-                });
+                this.copyDropdownUpper = this.createCopyDropdown(this.btnAdd, $('#bookmarks-btn-add-copy-dropdown'), {right: 0});
+                this.copyDropdownLower = this.createCopyDropdown(this.btnGetLink, this.btnGetLink.$el.parent(), {left: -80});
             }
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden, this.inputCopy, this.btnCopy].concat(this.getFooterButtons());
+            var arr = [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd];
+            this.copyDropdownUpper && (arr = arr.concat([this.copyDropdownUpper.input, this.copyDropdownUpper.button]));
+            arr = arr.concat([this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden]);
+            this.copyDropdownLower && (arr = arr.concat([this.copyDropdownLower.input, this.copyDropdownLower.button]));
+            
+            return arr.concat(this.getFooterButtons());
         },
 
         afterRender: function() {
@@ -313,6 +314,61 @@ define([
             return true;
         },
 
+        createCopyDropdown: function(parentBtn, parentEl, xOffset) {
+            var me = this;
+            var cssOffset = '';
+            if(xOffset) {
+                cssOffset += 'right: ' + (xOffset.right != undefined ? xOffset.right + 'px;' : 'auto;');
+                cssOffset += 'left: ' + (xOffset.left != undefined ? xOffset.left + 'px;' : 'auto;');
+            }
+
+            var copyBox = $(
+                '<div class="bookmark-copy-dropdown dropdown-menu" style="width: 291px; ' + cssOffset + ' padding: 10px;">' +
+                    '<div class="bookmark-copy-dropdown-input display-inline-block-middle"></div>' +
+                    '<button class="bookmark-copy-dropdown-btn btn btn-text-default margin-left-5 display-inline-block-middle" style="width: 86px;">' + me.textCopy + '</button>' +
+                '</div>'
+            );
+            parentEl.append(copyBox);
+            copyBox.on('click', _.bind(function() {
+                return false;
+            }, this));
+            parentEl.on({
+                'shown.bs.dropdown': function () {
+                    _.delay(function(){
+                        input._input.select().focus();
+                    },100);
+                },
+                'hide.bs.dropdown': function () {
+                    me.txtName._input.select().focus();
+                }
+            });
+
+            var input = new Common.UI.InputField({
+                el          : parentEl.find('.bookmark-copy-dropdown-input'),
+                editable    : false,
+                style       : 'width: 176px;'
+            });
+
+            var button = new Common.UI.Button({
+                el: copyBox.find('button')
+            });
+            button.on('click', function() {
+                input._input.select();
+                document.execCommand("copy");
+            });
+
+            Common.Gateway.on('setactionlink', function (url) {
+                input.setValue(url);
+            });
+
+            return {
+                parentBtn: parentBtn,
+                box: copyBox,
+                input: input,
+                button: button
+            };
+        },
+
         refreshBookmarks: function() {
             if (this.props) {
                 var store = this.bookmarksList.store,
@@ -353,15 +409,32 @@ define([
                 this.props.asc_SelectBookmark(this.txtName.getValue());
         },
 
-        addBookmark: function(btn, eOpts){
+        addBookmark: function(isCloseModal){
             this.props.asc_AddBookmark(this.txtName.getValue());
             this.refreshBookmarks();
             var rec = this.bookmarksList.store.findWhere({value: this.txtName.getValue()});
             this.bookmarksList.selectRecord(rec);
             this.bookmarksList.scrollToRecord(rec);
             this.txtName.focus();
+            if(isCloseModal) {
+                this.close();
+            }
         },
 
+        onAddMenu: function(menu, item) {
+            if(item.value == 1) {
+                this.addBookmark(true);
+            } else if(item.value == 2) {
+                this.addBookmark();
+                this.getBookmarkLink(this.btnAdd);
+                
+                //Trigger "click" for invisible button, to open dropdown 
+                setTimeout(function() {
+                    $('#bookmarks-btn-add-copy-dropdown button').click();
+                }, 5);
+            }
+        },
+        
         onDblClickBookmark: function(listView, itemView, record) {
             this.props.asc_SelectBookmark(record.get('value'));
         },
@@ -386,10 +459,10 @@ define([
 
             var rec = this.bookmarksList.getSelectedRec();
             rec && Common.Gateway.requestMakeActionLink({
-                                                            action: {
-                                                                type: "bookmark", data: rec.get('value')
-                                                            }
-                                                        });
+                action: {
+                    type: "bookmark", data: rec.get('value')
+                }
+            });
         },
 
         onRadioSort: function(field, newValue, eOpts) {
@@ -409,6 +482,7 @@ define([
         textSort: 'Sort by',
         textName: 'Name',
         textAdd: 'Add',
+        textAddAndGetLink: 'Add & Get Link',
         textGoto: 'Go to',
         textDelete: 'Delete',
         textClose: 'Close',

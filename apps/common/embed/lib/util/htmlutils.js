@@ -17,7 +17,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    return lang && (/^(ar|he|ur)$/i.test(lang));
 }
 
 var ui_rtl = false;

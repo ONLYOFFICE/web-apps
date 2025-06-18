@@ -67,6 +67,9 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.setMode();
+                }, this));
             },
 
             render: function () {
@@ -84,7 +87,7 @@ define([
                 this.editMode = false;
                 this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
                 this.isRtlSheet = false;
-                this.tabBarDefPosition = 129;
+                this.tabBarDefPosition = 141;
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
@@ -119,8 +122,9 @@ define([
                     hintAnchor: 'top'
                 });
 
+                var cnttablist = $('.cnt-tabslist', this.el);
                 this.cntSheetList = new Common.UI.Button({
-                    el: $('.cnt-tabslist', this.el),
+                    el: cnttablist,
                     hint: this.tipListOfSheets,
                     hintAnchor: 'top'
                 });
@@ -128,6 +132,7 @@ define([
                 this.sheetListMenu = new Common.UI.Menu({
                     style: 'margin-top:-3px;',
                     menuAlign: 'bl-tl',
+                    search: true,
                     maxHeight: 300
                 });
                 this.sheetListMenu.on('item:click', function(obj,item) {
@@ -145,8 +150,11 @@ define([
                         }, 100);
                     }
                 });
-                this.sheetListMenu.render($('.cnt-tabslist',this.el));
+                this.sheetListMenu.render(cnttablist);
                 this.sheetListMenu.cmpEl.attr({tabindex: -1});
+                cnttablist.on('app:scaling', function () {
+                    me.setMode();
+                });
 
                 this.cntZoom = new Common.UI.Button({
                     el: $('.cnt-zoom',this.el),
@@ -412,7 +420,8 @@ define([
 //                this.$el.find('.el-edit')[mode.isEdit?'show':'hide']();
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
-                this.tabBarDefPosition = this.mode.isEdit ? 129 : 66;
+                this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
+                this.tabBarDefPosition += this.mode.isEdit ? parseFloat($('#status-addtabs-box').css('width')) : 0;
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');

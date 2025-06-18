@@ -83,18 +83,6 @@
           </div>
       </div>
 
-      <div class="error modal hide" id="id-critical-error-dialog" tabindex="-1" role="dialog">
-          <div class="modal-header">
-              <h3 id="id-critical-error-title"></h3>
-          </div>
-          <div class="modal-body">
-              <p id="id-critical-error-message"></p>
-          </div>
-          <div class="modal-footer">
-              <button id="id-critical-error-close" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
-          </div>
-      </div>
-
       <div id="id-loadmask" class="hide modal cmd-loader-body">
           <div class="cmd-loader-image"></div>
           <div class="cmd-loader-title">Please wait...</div>

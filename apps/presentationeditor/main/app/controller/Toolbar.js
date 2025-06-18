@@ -142,6 +142,7 @@ define([
                     'title:hide'         : this.onTitleHide.bind(this),
                     'footers:hide'       : this.onFootersHide.bind(this),
                     'tab:active'         : this.onActiveTab.bind(this),
+                    'tab:active:before'  : this.onBeforeActiveTab.bind(this),
                     'tab:collapse'       : this.onTabCollapse.bind(this)
                 },
                 'DocumentHolder': {
@@ -310,13 +311,27 @@ define([
                 me = this;
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                    'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                    'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                    'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                    'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                    'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                    'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'},
+                url = langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released';
+
+            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: '#slot-btn-interface-theme',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}}
+            });
             Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'tabDesign' : {name: 'pe-help-tip-tab-design', placement: 'bottom-right', text: this.helpTabDesign, header: this.helpTabDesignHeader, target: 'li.ribtab #design', automove: true, closable: false,
-                                callback: function() {
-                                    if (!me.toolbar.btnShapesMerge.isDisabled() && me.toolbar.isTabActive('home'))
-                                        Common.UI.TooltipManager.showTip('mergeShapes');
-                                }},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-btn-shapes-merge', closable: false, prev: 'tabDesign'}
+                'rtlDirection' : {name: 'pe-help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true,
+                                  closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: url}},
+                'animText' : {name: 'pe-help-tip-anim-text', placement: 'target', offset: {x: 5, y: 60}, text: this.helpAnimText, header: this.helpAnimTextHeader,
+                              target: '#animation-field-effects', isNewFeature: true, maxwidth: 300, closable: false, link: {text: _main.textLearnMore, url: url}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -395,6 +410,8 @@ define([
             toolbar.btnLineSpace.menu.on('item:click',                  _.bind(this.onLineSpaceClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+            toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
+            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
@@ -422,6 +439,7 @@ define([
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         setApi: function(api) {
@@ -484,11 +502,13 @@ define([
 
                 this.api.asc_registerCallback('asc_onLayoutTitle',          _.bind(this.onApiLayoutTitle, this));
                 this.api.asc_registerCallback('asc_onLayoutFooter',         _.bind(this.onApiLayoutFooter, this));
+                this.api.asc_registerCallback('asc_onTextDirection',        _.bind(this.onApiTextDirection, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
@@ -1003,8 +1023,8 @@ define([
                 this._state.in_slide_master = in_slide_master;
             }
 
-            if (!this.toolbar.btnShapesMerge.isDisabled() && this.toolbar.isTabActive('home'))
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            if (!this.toolbar.btnTextDir.isDisabled() && this.toolbar.isTabActive('home'))
+                Common.UI.TooltipManager.showTip('rtlDirection');
         },
 
         onApiStyleChange: function(v) {
@@ -1128,24 +1148,24 @@ define([
             }
         },
 
-        onPreview: function(slidenum, presenter) {
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+        onPreview: function(slidenum, presenter, isCurrent) {
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter, false, isCurrent);
         },
 
         onPreviewBtnClick: function(btn, e) {
-            this.onPreview(this.api.getCurrentPage());
+            this.onPreview(this.api.getCurrentPage(), false, true);
         },
 
         onPreviewItemClick: function(menu, item) {
             switch (item.value) {
                 case 0:
-                    this.onPreview(0);
+                    this.onPreview(0, false, false);
                 break;
                 case 1:
-                    this.onPreview(this.api.getCurrentPage());
+                    this.onPreview(this.api.getCurrentPage(), false, true);
                 break;
                 case 2:
-                    this.onPreview(0, true);
+                    this.onPreview(0, true, false);
                 break;
                 case 3:
                     var win,
@@ -1225,7 +1245,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary);
+            toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary, {array: [toolbar.btnSave]});
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');
@@ -1714,6 +1734,38 @@ define([
             this._state.columns = index;
         },
 
+        onTextDirClick: function(menu, item) {
+            this.api && this.api.asc_setRtlTextDirection(!!item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTextDirShowAfter: function(menu, item) {
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+        },
+
+        onApiTextDirection: function (isRtl){
+            var toolbar = this.toolbar,
+                oldRtl = toolbar.btnTextDir.options.dirRtl,
+                newRtl = !!isRtl;
+            if (oldRtl !== newRtl) {
+                toolbar.btnTextDir.changeIcon({
+                    next: newRtl ? 'btn-rtl' : 'btn-ltr',
+                    curr: oldRtl ? 'btn-rtl' : 'btn-ltr'
+                });
+                toolbar.btnMarkers.changeIcon({
+                    next: newRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers',
+                    curr: oldRtl ? 'btn-setmarkers-rtl' : 'btn-setmarkers'
+                });
+                toolbar.btnNumbers.changeIcon({
+                    next: newRtl ? 'btn-numbering-rtl' : 'btn-numbering',
+                    curr: oldRtl ? 'btn-numbering-rtl' : 'btn-numbering'
+                });
+                toolbar.btnDecLeftOffset.cmpEl && toolbar.btnDecLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnIncLeftOffset.cmpEl && toolbar.btnIncLeftOffset.cmpEl[newRtl ? 'addClass' : 'removeClass']('icon-mirrored')
+                toolbar.btnTextDir.options.dirRtl = !!isRtl;
+            }
+        },
+
         onBeforeShapeAlign: function() {
             var value = this.api.asc_getSelectedDrawingObjectsCount(),
                 slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
@@ -1774,7 +1826,6 @@ define([
         },
 
         onBeforeShapesMerge: function() {
-            Common.UI.TooltipManager.closeTip('mergeShapes', true);
             this.toolbar.btnShapesMerge.menu.getItems(true).forEach(function (item) {
                 item.setDisabled(!this.api.asc_canMergeSelectedShapes(item.value)); 
             }, this);
@@ -2821,6 +2872,8 @@ define([
                             me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
+            } else {
+                me.getApplication().getController('Common.Controllers.Draw').setApi(me.api).setMode(config);
             }
 
             tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
@@ -2865,7 +2918,8 @@ define([
             }
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
-                    Common.UI.TooltipManager.showTip('tabDesign');
+                    if (me.toolbar.btnTextDir && !me.toolbar.btnTextDir.isDisabled() && me.toolbar.isTabActive('home'))
+                        Common.UI.TooltipManager.showTip('rtlDirection');
                 }
             });
         },
@@ -3005,6 +3059,13 @@ define([
             });
         },
 
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
+        },
+
         onDocumentReady: function() {
             this._isDocReady = true;
             var me = this;
@@ -3120,19 +3181,24 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab !== 'home') {
-                Common.UI.TooltipManager.closeTip('tabDesign');
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            } else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
+            if (tab !== 'home')
+                Common.UI.TooltipManager.closeTip('rtlDirection');
+            else if (this.toolbar && this.toolbar.btnTextDir && !this.toolbar.btnTextDir.isDisabled())
                 setTimeout(function() {
-                    Common.UI.TooltipManager.showTip('mergeShapes');
+                    Common.UI.TooltipManager.showTip('rtlDirection');
                 }, 10);
+
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('modernTheme') : Common.UI.TooltipManager.closeTip('modernTheme');
+        },
+
+        onBeforeActiveTab: function(tab) {
             this._state.activeTab = tab;
             this.showStaticElements();
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('mergeShapes');
+            Common.UI.TooltipManager.closeTip('rtlDirection');
+            Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         showStaticElements: function() {

@@ -38,6 +38,7 @@
 
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
+var MENU_BASE_WIDTH = 220;
 
 define([
     'text!documenteditor/main/app/template/RightMenu.template',
@@ -160,11 +161,21 @@ define([
             this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("de-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("de-hide-right-settings", !open);
-            this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
-            this.$el.show();
+
+            Common.NotificationCenter.on('app:repaint', _.bind(function() {
+                this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
+            }, this));
+
+            Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                this.updateWidth();
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            }, this));
 
             var $markup = $(this.template({scope: this}));
             this.$el.html($markup);
+
+            this.updateWidth();
+            this.$el.show();
 
             this.btnMoreContainer = $markup.find('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -245,14 +256,14 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.right-panel'),
+                    el: $(this.el).find('.right-panel > .content-box'),
                     suppressScrollX: true,
                     useKeyboard: false
                 });
             }
 
             if (open) {
-                $markup.findById('#id-paragraph-settings').parent().css("display", "inline-block" );
+                $markup.findById('#id-paragraph-settings').closest('.right-panel').css("display", "inline-block" );
                 $markup.findById('#id-paragraph-settings').addClass("active");
             }
 
@@ -305,7 +316,7 @@ define([
                     Common.localStorage.setItem("de-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("de-hide-right-settings", false);
                 }
-                target_pane_parent.find('> .active').removeClass('active');
+                target_pane_parent.find('.settings-panel.active').removeClass('active');
                 target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
@@ -319,6 +330,7 @@ define([
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
 
+            !isPlugin && $('.right-panel .plugin-panel').toggleClass('active', false);
             btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
@@ -331,7 +343,7 @@ define([
             } else {
                 var target_pane = this.$el.find("#" + this._settings[type].panel );
                 if ( !target_pane.hasClass('active') ) {
-                    target_pane.parent().find('> .active').removeClass('active');
+                    target_pane.parent().find('.settings-panel.active').removeClass('active');
                     target_pane.addClass("active");
                     if (this.scroller) {
                         this.scroller.update();
@@ -353,7 +365,7 @@ define([
                 this.mergeSettings.disablePreviewMode();
 
             var target_pane = $(".right-panel");
-            target_pane.find('> .active').removeClass('active');
+            target_pane.find('.settings-panel.active').removeClass('active');
             this._settings.forEach(function(item){
                 if (item.btn.isActive())
                     item.btn.toggle(false, true);
@@ -375,6 +387,14 @@ define([
             var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnHeaderFooter, this.btnShape, this.btnChart, this.btnTextArt,
                     this.btnMailMerge, this.btnSignature, this.btnForm];
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
+        },
+
+        updateWidth: function() {
+            var pane = $(this.el).find('.right-panel'),
+                paddings = parseInt(pane.css('padding-left')) + parseInt(pane.css('padding-right'));
+            pane.css('width', MENU_BASE_WIDTH + paddings + 'px');
+            MENU_SCALE_PART = SCALE_MIN + MENU_BASE_WIDTH + paddings;
+            this.$el.css('width', (!Common.Utils.InternalSettings.get("de-hide-right-settings") ? MENU_SCALE_PART : SCALE_MIN) + 'px');
         },
 
         txtParagraphSettings:       'Paragraph Settings',

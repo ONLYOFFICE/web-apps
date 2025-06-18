@@ -45,7 +45,7 @@ define([
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            contentHeight: 320,
+            contentHeight: 325,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },

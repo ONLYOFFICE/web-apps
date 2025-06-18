@@ -3,6 +3,9 @@ import { observer, inject } from "mobx-react";
 import { List, ListItem, Navbar, NavRight, Page, Icon, Link } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from "../../utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
 
 const UsersPage = inject("users")(observer(props => {
     const { t } = useTranslation();
@@ -15,7 +18,10 @@ const UsersPage = inject("users")(observer(props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose=".coauth__sheet">
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg down'} />
+                            }
                         </Link>
                     </NavRight>
                 }

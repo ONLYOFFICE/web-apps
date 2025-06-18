@@ -79,6 +79,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
+                        me.toolbar = toolbar;
                         /*var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -134,7 +135,8 @@ define([
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable,
-                'isRtlInterface': Common.UI.isRTL()
+                'isRtlInterface': Common.UI.isRTL(),
+                'thumbnails-position': Common.UI.isRTL() ? 'right' : 'left'
             });
 
             this.header   = this.createView('Common.Views.Header', {
@@ -159,6 +161,7 @@ define([
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -249,7 +252,7 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum, presenter, fromApiEvent) {
+        onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
@@ -281,7 +284,7 @@ define([
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', _onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, reporterObject);
+                    isCurrent ? me.api.StartDemonstrationFromCurrentSlide('presentation-preview', reporterObject) : me.api.StartDemonstrationFromBeginning('presentation-preview', reporterObject);
                     Common.component.Analytics.trackEvent('Viewport', 'Preview');
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
@@ -384,6 +387,26 @@ define([
 
         setDisabledPreview: function(disable) {
             this._isDisabledPreview = disable;
+        },
+
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) +
+                                     (this.appConfig.twoLevelHeader && !this.appConfig.compactHeader ? _intvars.get('document-title-height') : 0));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
         },
 
         textFitPage: 'Fit to Page',

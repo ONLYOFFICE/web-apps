@@ -73,7 +73,8 @@ define([
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
-                        me.viewport.vlayout.getItem('statusbar').height = state ? 25 : 50;
+                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25);
+                        me.viewport.vlayout.getItem('statusbar').height = state ? height : height * 2;
                     }
                 },
                 'Toolbar': {
@@ -87,7 +88,7 @@ define([
 
                         if ( me.appConfig && me.appConfig.isEdit && !config.compactHeader && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
-
+                        me.toolbar = toolbar;
                         /*var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -120,6 +121,7 @@ define([
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
             Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function(api) {
@@ -145,9 +147,9 @@ define([
                         config.customization && config.customization.compactToolbar ))
             {
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
-            } else
-            if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+            } else if ( config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
                 me.viewport.vlayout.getItem('toolbar').height = 41;
+                document.body.classList.add('inner-simple-editor');
             }
 
             if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {
@@ -173,6 +175,10 @@ define([
                 me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
+
+            $('#toolbar, #app-title').on('mousewheel', function (e) {
+                e.preventDefault();
+            });
         },
 
         onAppReady: function (config) {
@@ -349,6 +355,38 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
+        },
+
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings,
+                    config = this.appConfig;
+
+                const computed_style = window.getComputedStyle(document.body);
+
+                if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {
+                    var $filemenu = $('.toolbar-fullview-panel');
+                    _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                    _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                    $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) + _intvars.get('document-title-height'));
+
+                    this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                        _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+                }
+
+                var height = parseInt(computed_style.getPropertyValue('--statusbar-height'));
+                var NoCompact = $('.statusbar').hasClass('no-compact');
+                this.viewport.vlayout.getItem('statusbar').height = NoCompact ? height * 2 : height;
+            
+            
+                var celleditor = this.viewport.celayout.getItem('celleditor');
+                var celleditorResizeOptions = this.viewport.getCelleditorResizeOptions();
+                celleditor.resize.min = celleditorResizeOptions.min;
+                celleditor.resize.multiply.koeff = celleditorResizeOptions.multiply.koeff;
+                celleditor.resize.multiply.offset = celleditorResizeOptions.multiply.offset;
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
         },
 
         textHideFBar: 'Hide Formula Bar',

@@ -233,9 +233,10 @@ define([
         '</div>';
 
     var getWidthOfCaption = function (txt) {
+        var props = Common.UI.Themes.getThemeProps('font');
         var el = document.createElement('span');
-        el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
-        el.style.fontFamily = 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+        el.style.fontSize = props && props.size ? props.size : '11px';
+        el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
         el.style.position = "absolute";
         el.style.top = '-1000px';
         el.style.left = '-1000px';
@@ -642,6 +643,8 @@ define([
                     var ariaLabel = me.options.ariaLabel ? me.options.ariaLabel : ((typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
                     $btn.attr('aria-label', ariaLabel);
                 }
+
+                Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             }
 
             me.rendered = true;
@@ -811,6 +814,12 @@ define([
         setVisible: function(visible) {
             if (this.cmpEl) this.cmpEl.toggleClass('hidden', !visible);
             this.visible = visible;
+
+            if ( !!this.options.signals ) {
+                if ( !(this.options.signals.indexOf('visible') < 0) ) {
+                    this.trigger('visible', this, visible);
+                }
+            }
         },
 
         isVisible: function() {
@@ -1028,6 +1037,20 @@ define([
             if (!this.disabled) {
                 this.split ? this.cmpEl.attr('tabindex', this.tabindex) : this.$el && this.$el.find('button').addBack().filter('button').attr('tabindex', this.tabindex);
             }
+        },
+
+        onThemeChanged: function() {
+            if (!this.rendered) return;
+
+            var el = this.cmpEl;
+            if (this.options.width>0) {
+                el && el.hasClass('btn-group') && el.hasClass('split') && $('button:first', el).css('width', this.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
+            } else if (el && this.caption && /icon-top/.test(this.options.cls) && /huge/.test(this.options.cls)) { // recalc captions of huge button
+                var captionNode = el.find('.caption');
+                if (captionNode.length > 0) {
+                    captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
+                }
+            }
         }
     });
 
@@ -1094,5 +1117,46 @@ define([
             }
         }
     }, Common.UI.ButtonCustom || {}));
+
+    Common.UI.GroupedButtons = function (buttons, opts) {
+        let _buttons = buttons,
+            _parent = buttons && buttons.length>0 && buttons[0].cmpEl ? buttons[0].cmpEl.parent() : null;
+
+        _parent.addClass('grouped-buttons');
+
+        if (opts) {
+            opts.underline && _parent.addClass('underline');
+            opts.flat && _parent.addClass('flat');
+        }
+
+        let _update = function() {
+            let first, last;
+            _buttons && _buttons.forEach(function(item) {
+                if (!first && item.isVisible()) {
+                    first = true;
+                    item.cmpEl.addClass('first');
+                } else
+                    item.cmpEl.removeClass('first');
+                item.cmpEl.removeClass('last');
+                item.isVisible() && (last = item);
+            });
+            last && last.cmpEl.addClass('last');
+        };
+
+        let _init = function() {
+            _buttons && _buttons.forEach(function(item) {
+                item.options.signals = item.options.signals || [];
+                item.options.signals.push('visible');
+                item.on('visible', _update);
+            });
+        };
+
+        _init();
+        _update();
+
+        return {
+            update: _update
+        }
+    };
 });
 

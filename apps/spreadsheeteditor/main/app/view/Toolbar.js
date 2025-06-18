@@ -115,7 +115,8 @@ define([
         userProtected: 'cell-user-protected',
         pageBreakLock: 'page-break-lock',
         fileMenuOpened: 'file-menu-opened',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -230,7 +231,7 @@ define([
             me.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-undo',
+                iconCls     : 'toolbar__icon btn-undo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],
@@ -242,7 +243,7 @@ define([
             me.btnRedo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-redo',
+                iconCls     : 'toolbar__icon btn-redo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],
@@ -252,6 +253,7 @@ define([
             });
 
             if (config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+                me.$el.addClass('type-simple');
                 me.$layout = $(_.template(simple)(config));
                 if ( config.isEditDiagram || config.isEditOle ) {
                     me.btnInsertFormula = new Common.UI.Button({
@@ -295,6 +297,7 @@ define([
                     me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
+                        menuCls     : 'menu-absolute',
                         hint        : me.tipNumFormat,
                         lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea],
                         itemsTemplate: formatTemplate,
@@ -414,6 +417,7 @@ define([
                     me.cmbFontSize = new Common.UI.ComboBox({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 55px;',
+                        menuCls: 'menu-absolute',
                         hint        : me.tipFontSize,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],
                         data        : [
@@ -441,7 +445,7 @@ define([
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls         : 'input-group-nr',
-                        menuCls     : 'scrollable-menu',
+                        menuCls     : 'scrollable-menu menu-absolute',
                         menuStyle   : 'min-width: 325px;',
                         hint        : me.tipFontName,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],
@@ -858,7 +862,7 @@ define([
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
-                    lock        : [_set.lostConnect],
+                    lock        : [_set.cantSave, _set.lostConnect],
                     signals     : ['disabled'],
                     dataHint    : '1',
                     dataHintDirection: 'top',
@@ -1357,7 +1361,7 @@ define([
                     caption     : me.capInsertEquation,
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu(),
                     action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -1488,7 +1492,6 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 135px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
@@ -2967,6 +2970,7 @@ define([
             if(!!this.btnInsertSymbol) {
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index: 0},
                     restoreHeight: 290,
@@ -3287,8 +3291,7 @@ define([
             } else {
                 this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
             }
-
-            this.btnSave.setDisabled(false);
+            this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
             Common.Gateway.collaborativeChanges();
         },
 
@@ -3319,8 +3322,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
-
+                    this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary, {array: [this.btnSave]});
                     this._state.hasCollaborativeChanges = false;
                 }
             }

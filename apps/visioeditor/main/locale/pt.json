@@ -39,6 +39,8 @@
   "Common.UI.Themes.txtThemeDark": "Escuro",
   "Common.UI.Themes.txtThemeGray": "Cinza",
   "Common.UI.Themes.txtThemeLight": "Claro",
+  "Common.UI.Themes.txtThemeModernDark": "Escuro moderno",
+  "Common.UI.Themes.txtThemeModernLight": "Claro moderno",
   "Common.UI.Themes.txtThemeSystem": "O mesmo que sistema",
   "Common.UI.Window.cancelButtonText": "Cancelar",
   "Common.UI.Window.closeButtonText": "Fechar",
@@ -114,9 +116,12 @@
   "Common.Views.OpenDialog.txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual do arquivo será redefinida.",
   "Common.Views.OpenDialog.txtTitle": "Escolher opções %1",
   "Common.Views.OpenDialog.txtTitleProtected": "Arquivo protegido",
+  "Common.Views.PluginDlg.textDock": "Plug-in de fixação",
   "Common.Views.PluginDlg.textLoading": "Carregamento",
   "Common.Views.PluginPanel.textClosePanel": "Fechar plug-in",
+  "Common.Views.PluginPanel.textHidePanel": "Recolher plugin",
   "Common.Views.PluginPanel.textLoading": "Carregamento",
+  "Common.Views.PluginPanel.textUndock": "Desafixar plugin",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
   "Common.Views.Plugins.textBackgroundPlugins": "Plug-ins em segundo plano",
@@ -168,6 +173,7 @@
   "VE.Controllers.Main.applyChangesTitleText": "Carregando as alterações",
   "VE.Controllers.Main.convertationTimeoutText": "Tempo limite de conversão excedido.",
   "VE.Controllers.Main.criticalErrorExtText": "Pressione \"OK\" para voltar para a lista de documentos.",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Pressione \"OK\" para fechar o editor.",
   "VE.Controllers.Main.criticalErrorTitle": "Erro",
   "VE.Controllers.Main.downloadErrorText": "Erro ao baixar arquivo.",
   "VE.Controllers.Main.downloadMergeText": "Baixando...",
@@ -418,5 +424,6 @@
   "VE.Views.ViewTab.textZoom": "Zoom",
   "VE.Views.ViewTab.tipFitPage": "Ajustar a página",
   "VE.Views.ViewTab.tipFitWidth": "Ajustar à largura",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Tema de interface",
+  "Common.UI.SynchronizeTip.textNew": "New"
 }

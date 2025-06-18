@@ -148,10 +148,6 @@ define([
                 ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#image-combo-wrap'));
-            this.cmbWrapType.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
             this.cmbWrapType.openButton.menu.on('show:after', function () {
                 me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -544,7 +540,7 @@ define([
 
         setOriginalSize:  function() {
             if (this.api) {
-                var imgsize = this.api.get_OriginalSizeImage();
+                var imgsize = this.api.asc_getCropOriginalImageSize();
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
 
@@ -554,7 +550,6 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
                 properties.put_Height(h);
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 this.api.ImgApply(properties);
                 this.fireEvent('editcomplete', this);
@@ -703,7 +698,7 @@ define([
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if (!me.btnOriginalSize.isDisabled()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }

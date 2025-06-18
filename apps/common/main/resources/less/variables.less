@@ -11,6 +11,7 @@
 @app-image-path:            "../../resources/img";                    // use for data-uri(...)
 @common-image-path:         "../../../../common/main/resources/img";  // use for data-uri(...)
 @app-image-const-path:      "resources/img";                    // use for url(...)
+@app-sprite-base-path:      "./resources/img";
 @common-image-const-path:   "../../common/main/resources/img";        // use for url(...)
 
 // Grays
@@ -66,7 +67,7 @@
 // -------------------------
 
 .rtl-font {
-    &[applang=ar] {
+    &[applang=ar], &[applang=ur] {
         --font-family-base-custom: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
     }
 }
@@ -75,10 +76,9 @@
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-tahoma:      tahoma, arial, verdana, sans-serif;
-@font-family-base:        var(--font-family-base-custom, @font-family-sans-serif), @font-family-sans-serif;
+@font-family-base:        var(--font-family-base-custom, var(--font-family-base)), @font-family-sans-serif;
 
-@font-size-base-app:      11px;
-@font-size-base-app:      var(--font-size-base-app-custom, 11px);
+@font-size-base-app:      var(--font-size-base-app-custom, var(--font-size-base, 11px));
 
 @font-size-small:         9px;
 @font-size-base:          11px;
@@ -93,14 +93,17 @@
 @font-size-h5:            @font-size-base;
 @font-size-h6:            ceil(@font-size-base * 0.85);
 
-@line-height-base:        1.428571429; // 20/14
-@line-height-computed:    floor(@font-size-base * @line-height-base);
+@line-height-base:        var(--line-height-base, 1.428571429);
+@line-height-computed:    calc(@font-size-base * @line-height-base);
 
 @headings-font-family:    @font-family-base;
 @headings-font-weight:    500;
 @headings-line-height:    1.1;
 @headings-color:          inherit;
 
+@toolbar-height-tabs-top-title: 28px;
+@toolbar-height-tabs: 32px;
+@document-title-height: 28px;
 
 // Iconography
 // -------------------------
@@ -216,7 +219,8 @@
 
 @input-color-placeholder:        @text-tertiary; //#cfcfcf; // @gray;
 
-@input-height-base:              (floor(@font-size-base * @line-height-base) + (@padding-base-vertical * 2) + 5);
+@input-height-base:              calc(@font-size-base * @line-height-base + (@padding-base-vertical * 2) + 5);
+@input-height-base:              var(--input-height-base); // get from theme
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 @input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
 
@@ -325,7 +329,7 @@
 @navbar-margin-bottom:             @line-height-computed;
 @navbar-border-radius:             @border-radius-base;
 @navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
-@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+@navbar-padding-vertical:          calc((@navbar-height - @line-height-computed) / 2);
 @navbar-collapse-max-height:       340px;
 
 @navbar-default-color:             #777;

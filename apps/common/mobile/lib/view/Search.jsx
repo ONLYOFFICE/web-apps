@@ -4,6 +4,13 @@ import { Popover, Popup, View, f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconSettingsIos from '@common-ios-icons/icon-settings.svg?ios';
+import IconSettingsAndroid from '@common-android-icons/icon-settings.svg';
+import IconPrevIos from '@common-ios-icons/icon-prev.svg?ios';
+import IconPrevAndroid from '@common-android-icons/icon-prev.svg';
+import IconNextIos from '@common-ios-icons/icon-next.svg?ios';
+import IconNextAndroid from '@common-android-icons/icon-next.svg';
 
 const searchOptions = observable({
     usereplace: false,
@@ -292,7 +299,10 @@ class SearchView extends Component {
                 <div className="searchbar-inner">
                     <div className="buttons-row searchbar-inner__left">
                         <a id="idx-btn-search-settings" className="link icon-only no-fastclick" onClick={this.onSettingsClick}>
-                            <i className="icon icon-settings" />
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconSettingsIos.id} className='icon icon-svg' /> :
+                                <SvgIcon symbolId={IconSettingsAndroid.id} className='icon icon-svg' />
+                            }
                         </a>
                     </div>
                     <div className="searchbar-inner__center">
@@ -326,10 +336,16 @@ class SearchView extends Component {
                         }
                         <div className="buttons-row">
                             <a className={"link icon-only prev no-fastclick " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>
-                                <i className="icon icon-prev" />
+                                {Device.ios ? 
+                                    <SvgIcon symbolId={IconPrevIos.id} className='icon icon-svg' /> :
+                                    <SvgIcon symbolId={IconPrevAndroid.id} className='icon icon-svg' />
+                                }
                             </a>
                             <a className={"link icon-only next no-fastclick " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_FORWARD)}>
-                                <i className="icon icon-next" />
+                                {Device.ios ?
+                                    <SvgIcon symbolId={IconNextIos.id} className='icon icon-svg' /> :
+                                    <SvgIcon symbolId={IconNextAndroid.id} className='icon icon-svg' />
+                                }
                             </a>
                         </div>
                     </div>

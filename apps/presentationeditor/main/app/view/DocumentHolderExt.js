@@ -48,7 +48,7 @@ define([], function () {
             });
 
             me.menuViewUndo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-undo',
+                iconCls: 'menu__icon btn-undo icon-rtl',
                 caption: me.textUndo
             });
 
@@ -476,6 +476,12 @@ define([], function () {
                 value : 'duplicate-master'
             });
 
+            me.mnuPreserveMaster = new Common.UI.MenuItem({
+                caption : me.textPreserveSlideMaster,
+                value : 'preserve-master',
+                checkable: true,
+            });
+
             me.mnuDeleteMaster = new Common.UI.MenuItem({
                 caption : me.textDeleteMaster,
                 value : 'delete-master'
@@ -523,6 +529,8 @@ define([], function () {
                     me.mnuRenameLayout.setDisabled(currentName === undefined);
 
                     me.mnuDuplicateMaster.setVisible(isMaster);
+                    me.mnuPreserveMaster.setVisible(isMaster);
+                    me.mnuPreserveMaster.setChecked(value.isPreserve, true);
                     me.mnuDeleteMaster.setVisible(isMaster);
                     me.mnuRenameMaster.setVisible(isMaster);
                     me.mnuDuplicateLayout.setVisible(!isMaster);
@@ -536,6 +544,7 @@ define([], function () {
                     me.mnuInsertMaster,
                     me.mnuInsertLayout,
                     me.mnuDuplicateMaster,
+                    me.mnuPreserveMaster,
                     me.mnuDuplicateLayout,
                     {caption: '--'},
                     me.mnuDeleteMaster,

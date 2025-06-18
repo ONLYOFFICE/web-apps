@@ -110,7 +110,8 @@ define([
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
-                    'menu:show': this.onFileMenu.bind(this, 'show')
+                    'menu:show': this.onFileMenu.bind(this, 'show'),
+                    'settings:apply': _.bind(this.applySettings, this)
                 },
                 'Common.Views.Header': {
                     'print': function (opts) {
@@ -260,9 +261,19 @@ define([
             var _main = this.getApplication().getController('Main');
             this.mode = mode;
             this.toolbar.applyLayout(mode);
-            Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
-                'rtlDirection' : {name: 'help-tip-rtl-dir', placement: 'bottom-left', text: this.helpRtlDir, header: this.helpRtlDirHeader, target: '#slot-btn-direction', automove: true},
-                'mergeShapes' : {name: 'help-tip-merge-shapes', placement: 'bottom-left', text: this.helpMergeShapes, header: this.helpMergeShapesHeader, target: '#slot-shapes-merge', closable: false}
+            var themeid = Common.UI.Themes.currentThemeId(),
+                isNew = themeid==='theme-system' || themeid==='theme-white' || themeid==='theme-night',
+                lang = (mode.lang || 'en').toLowerCase().split(/[\-_]/)[0],
+                langmap = { 'es': 'https://www.onlyoffice.com/blog/es/2025/06/disponible-onlyoffice-docs-9-0',
+                            'pt': 'https://www.onlyoffice.com/blog/pt-br/2025/06/disponivel-onlyoffice-docs-9-0',
+                            'zh': 'https://www.onlyoffice.com/blog/zh-hans/2025/06/onlyoffice-docs-9-0-released',
+                            'fr': 'https://www.onlyoffice.com/blog/fr/2025/06/onlyoffice-docs-9-0-disponible',
+                            'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
+                            'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
+                            'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'};
+            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+                'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view',
+                                 automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released'}}
             });
             Common.UI.TooltipManager.addTips({
                 'refreshFile' : {text: _main.textUpdateVersion, header: _main.textUpdating, target: '#toolbar', maxwidth: 'none', showButton: false, automove: true, noHighlight: true, multiple: true},
@@ -293,6 +304,7 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
             Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
         },
 
@@ -370,6 +382,14 @@ define([
             toolbar.btnParagraphColor.on('color:select',                _.bind(this.onParagraphColorPickerSelect, this));
             toolbar.btnParagraphColor.on('eyedropper:start',            _.bind(this.onEyedropperStart, this));
             toolbar.btnParagraphColor.on('eyedropper:end',              _.bind(this.onEyedropperEnd, this));
+            toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
+                if (toolbar.btnBorders.rendered) {
+                    toolbar.btnBorders.menu.on('item:click',            _.bind(this.onBordersMenu, this));
+                    toolbar.mnuBorderWidth.on('item:toggle',            _.bind(this.onBordersWidth, this));
+                    toolbar.mnuBorderColorPicker.on('select',           _.bind(this.onBordersColor, this));
+                    $('#id-toolbar-menu-auto-bordercolor').on('click',  _.bind(this.onAutoBorderColor, this));
+                }
+            $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));    
             this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
@@ -377,7 +397,6 @@ define([
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
             toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.btnTextDir.menu.on('item:click',                    _.bind(this.onTextDirClick, this));
-            toolbar.btnTextDir.menu.on('show:after',                    _.bind(this.onTextDirShowAfter, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -433,7 +452,8 @@ define([
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
-            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+            this.onBtnChangeState('save:disabled', toolbar.btnSave, toolbar.btnSave.isDisabled());
         },
 
         setApi: function(api) {
@@ -505,6 +525,7 @@ define([
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+            this.api.asc_registerCallback('onPluginUpdateToolbarMenu', _.bind(this.onPluginUpdateToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -750,7 +771,7 @@ define([
                 if (this.api.asc_IsContentControl()) {
                     var control_props = this.api.asc_GetContentControlProperties(),
                         spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
-                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Signature ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,   {array: this.btnsComment});
                 } else
                     this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, false, {array: this.btnsComment});
@@ -883,7 +904,7 @@ define([
                 toolbar.btnAlignLeft, toolbar.btnAlignCenter, toolbar.btnAlignRight, toolbar.btnAlignJust,
                 toolbar.btnMarkers, toolbar.btnNumbers, toolbar.btnMultilevels,
                 toolbar.btnDecLeftOffset, toolbar.btnIncLeftOffset,
-                toolbar.btnLineSpace
+                toolbar.btnLineSpace, toolbar.btnBorders
             ]});  
             this.toolbar.lockToolbar(Common.enumLock.controlPlain, control_plain, {array: [toolbar.btnInsertTable, toolbar.btnInsertImage,  toolbar.btnInsertChart,  toolbar.btnInsertText, toolbar.btnInsertTextArt,
                                                                                 toolbar.btnInsertShape, toolbar.btnInsertSmartArt, toolbar.btnInsertEquation, toolbar.btnDropCap, toolbar.btnColumns, toolbar.mnuInsertPageNum ]});
@@ -925,7 +946,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField, toolbar.btnBorders]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -939,7 +960,7 @@ define([
                 this.mode.compatibleFeatures && this.toolbar.lockToolbar(Common.enumLock.inImage, in_image,      {array: this.btnsComment});
                 if (control_props) {
                     var spectype = control_props.get_SpecificType();
-                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    this.toolbar.lockToolbar(Common.enumLock.inSpecificForm, spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Signature ||
                         spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime,
                         {array: this.btnsComment});
                 } else
@@ -1205,7 +1226,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
+            toolbar.btnSave && toolbar.lockToolbar(Common.enumLock.cantSave, !mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton, {array: [toolbar.btnSave]});
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -1789,10 +1810,6 @@ define([
         onTextDirClick: function(menu, item) {
             this.api && this.api.asc_setRtlTextDirection(!!item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onTextDirShowAfter: function(menu, item) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
         },
 
         onApiTextDirection: function (isRtl){
@@ -2945,6 +2962,200 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
         },
 
+        onNewBorderColor: function(picker, color) {
+            this.toolbar.btnBorders.menu.hide();
+            this.toolbar.btnBorders.toggle(false, true);
+            this.toolbar.mnuBorderColorPicker.addNewColor();
+        },
+
+        onBorders: function(btn) {
+            var menuItem;
+
+            _.each(btn.menu.getItems(true), function(item) {
+                if (btn.options.borderId == item.options.borderId) {
+                    menuItem = item;
+                    return false;
+                }
+            });
+
+            if (menuItem) {
+                this.onBordersMenu(btn.menu, menuItem);
+            }
+        },
+
+        onBordersMenu: function(menu, item) {
+            var me = this;
+            if (me.api && !_.isUndefined(item.options.borderId)) {
+                var btnBorders = me.toolbar.btnBorders,
+                    bordersWidth = btnBorders.options.borderswidth || 0.5,
+                    bordersColor = btnBorders.options.borderscolor;
+
+                if ( btnBorders.rendered ) {
+                    btnBorders.$icon.removeClass(btnBorders.options.icls).addClass(item.options.icls);
+                    btnBorders.options.icls = item.options.icls;
+                }
+
+                btnBorders.options.borderId = item.options.borderId;
+
+                var props;
+                if (me.api){
+                    var selectedElements = me.api.getSelectedElements(),
+                        selectedElementsLenght = selectedElements.length;
+    
+                    if (selectedElements && _.isArray(selectedElements)){
+                        for (var i = 0; i < selectedElementsLenght; i++) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                                props = selectedElements[i].get_ObjectValue();
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                var paragraphProps = new Asc.asc_CParagraphProperty();
+                var borders = new Asc.asc_CParagraphBorders(props.get_Borders());
+                var borderStyle = new Asc.asc_CTextBorder();        
+                var currentBorder = {};
+
+                borderStyle.asc_putColor(bordersColor);
+                borderStyle.asc_putSize(bordersWidth * 25.4 / 72);
+
+                ['Left', 'Top', 'Right', 'Bottom', 'Between'].forEach(side => {
+                    var border = borders[`get_${side}`]();
+                    if (border) {
+                        var currentSize = (border.asc_getValue() === -1) ? 0 : border.asc_getSize();
+                        var sizePts = currentSize * 72 / 25.4;
+                        currentBorder[side] = {
+                            width: sizePts, 
+                            color: border.asc_getColor(),
+                            value: border.asc_getValue()
+                        };
+                    } else {
+                        currentBorder[side] = { width: 0, color: new Asc.asc_CColor(), value: 0 };
+                    }
+                });
+        
+                var borderSide = {
+                    left: ['Left'],
+                    top: ['Top'],
+                    right: ['Right'],
+                    bottom: ['Bottom'],
+                    all: ['Left', 'Top', 'Right', 'Bottom', 'Between'],
+                    outer: ['Left', 'Top', 'Right', 'Bottom'],
+                    inner: ['Between'],
+                    none: ['Left', 'Top', 'Right', 'Bottom', 'Between']
+                };
+
+                function toleranceError(a, b, t) {
+                    t = 0.01;
+                    return Math.abs(a - b) < t;
+                }
+
+                function compareColors(colorA, colorB) {
+                    if (!colorA || !colorB) return false;
+                    return colorA.get_r() === colorB.get_r() &&
+                           colorA.get_g() === colorB.get_g() &&
+                           colorA.get_b() === colorB.get_b();
+                }
+        
+                var targetBorder = borderSide[item.options.borderId],
+                    brd = new Asc.asc_CTextBorder();
+
+                if (item.options.borderId === 'none') {
+                    targetBorder.forEach(side => {
+                        brd.put_Color(new Asc.asc_CColor());
+                        brd.put_Value(0); 
+                        borders[`put_${side}`](brd);
+                    });
+                } else if (item.options.borderId === 'all') {
+                    targetBorder.forEach(side => {
+                        brd.put_Color(bordersColor);
+                        brd.put_Size(bordersWidth * 25.4 / 72);
+                        brd.put_Value(1); 
+                        borders[`put_${side}`](brd);
+                    });
+                } else if (item.options.borderId === 'outer') {
+                    var outerSame = targetBorder.every(side => 
+                        toleranceError(currentBorder[side].width, bordersWidth) &&
+                        compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue());
+                    if (outerSame) {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);  
+                        });
+                    } else {
+                        targetBorder.forEach(side => {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);
+                        });
+                    }
+                } else {
+                    targetBorder.forEach(side => {
+                        var same = toleranceError(currentBorder[side].width, bordersWidth) &&
+                                   compareColors(currentBorder[side].color, bordersColor) && currentBorder[side].value === borderStyle.asc_getValue()                                 
+                        if (same) {
+                            brd.put_Color(new Asc.asc_CColor());
+                            brd.put_Value(0); 
+                            borders[`put_${side}`](brd);               
+                        } else {
+                            brd.put_Color(bordersColor);
+                            brd.put_Size(bordersWidth * 25.4 / 72);
+                            brd.put_Value(1); 
+                            borders[`put_${side}`](brd);        
+                        }
+                    });
+                }
+                   
+                paragraphProps.put_Borders(borders);
+               
+                if (me.api) {
+                    me.api.paraApply(paragraphProps);
+                }
+
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Borders');
+            } 
+        },
+
+        onBordersWidth: function(menu, item, state) {
+            if (state) {
+                this.toolbar.btnBorders.options.borderswidth = item.value;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Border Width');
+            }
+        },
+
+        onBordersColor: function(picker, color) {
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
+            this.toolbar.mnuBorderColor.onUnHoverItem();
+            this.toolbar.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+            this.toolbar.mnuBorderColorPicker.currentColor = color;
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
+        onAutoBorderColor: function(e) {
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#000');
+            this.toolbar.mnuBorderColor.onUnHoverItem();
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+            this.toolbar.btnBorders.options.borderscolor = color;
+            this.toolbar.mnuBorderColorPicker.clearSelection();
+            this.toolbar.mnuBorderColorPicker.currentColor = {color: color, isAuto: true};
+            var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Border Color');
+        },
+
         eyedropperStart: function () {
             if (this.toolbar.btnCopyStyle.pressed) {
                 this.toolbar.btnCopyStyle.toggle(false, true);
@@ -3375,6 +3586,17 @@ define([
             this._state.clrshd_asccolor = undefined;
 
             updateColors(this.toolbar.mnuPageColorPicker, 1);
+
+            if (this.toolbar.mnuBorderColorPicker) {
+                updateColors(this.toolbar.mnuBorderColorPicker, { color: Common.Utils.ThemeColor.getRgbColor('#000000'), isAuto: true });
+                var currentColor = { color: Common.Utils.ThemeColor.getRgbColor('#000000'), isAuto: true };
+                if (currentColor.isAuto) {
+                    var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
+                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                }
+                this.toolbar.btnBorders.options.borderscolor = currentColor.color;
+                $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#' + this.toolbar.btnBorders.options.borderscolor);
+            }
         },
 
         _onInitEditorStyles: function(styles) {
@@ -3516,8 +3738,6 @@ define([
 
             toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
             if (reviewmode || viewDocMode) {
-                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
-
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
                     toolbar.onCollaborativeChanges();
@@ -3752,7 +3972,7 @@ define([
             var lang = config.lang ? config.lang.toLowerCase() : 'en',
                 langPrefix = lang.split(/[\-_]/)[0];
             if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
-                me._state.type_fontsize = 'string';
+                me._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
             }
 
             this.btnsComment = [];
@@ -3797,12 +4017,12 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
 
-                    !config.isPDFForm && Common.UI.TooltipManager.showTip('rtlDirection');
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
+                Common.UI.TooltipManager.showTip('modernTheme');
 
                 config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
@@ -4002,6 +4222,18 @@ define([
             }
         },
 
+        applySettings: function() {
+            if (this.toolbar.cmbFontSize && Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined) {
+                this.toolbar.cmbFontSize.setData(Common.Utils.InternalSettings.get("de-settings-western-font-size") ? this.toolbar._fontSizeWestern.concat(this.toolbar._fontSizeChinese) :
+                                                                                                                      this.toolbar._fontSizeChinese.concat(this.toolbar._fontSizeWestern));
+                this._state.type_fontsize = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? 'number' : 'string';
+                if (this._state.fontsize!==undefined) {
+                    var oldval = this._state.fontsize;
+                    this._state.fontsize = undefined;
+                    this.onApiFontSize(parseFloat(oldval));
+                }
+            }
+        },
         onPluginToolbarMenu: function(data) {
             var api = this.api;
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
@@ -4020,6 +4252,13 @@ define([
             });
         },
 
+        onPluginUpdateToolbarMenu: function(data) {
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }, true));
+        },
+
         onDocumentReady: function() {
             this._isDocReady = true;
             var me = this;
@@ -4030,17 +4269,10 @@ define([
         },
 
         onActiveTab: function(tab) {
-            this.mode && this.mode.isPDFForm && (tab === 'home') && Common.UI.TooltipManager.showTip('rtlDirection');
-            (tab !== 'home') && Common.UI.TooltipManager.closeTip('rtlDirection');
-            if (tab !== 'layout')
-                Common.UI.TooltipManager.closeTip('mergeShapes');
-            else if (this.toolbar && this.toolbar.btnShapesMerge && !this.toolbar.btnShapesMerge.isDisabled())
-                Common.UI.TooltipManager.showTip('mergeShapes');
+            (tab === 'view') && Common.UI.TooltipManager.closeTip('modernTheme');
         },
 
         onTabCollapse: function(tab) {
-            Common.UI.TooltipManager.closeTip('rtlDirection');
-            Common.UI.TooltipManager.closeTip('mergeShapes');
         }
 
     }, DE.Controllers.Toolbar || {}));

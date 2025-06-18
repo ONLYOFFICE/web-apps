@@ -144,10 +144,37 @@
               document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
           }
       </script>
+      <script>
+          function getUrlParams() {
+              var e,
+                  a = /\+/g,  // Regex for replacing addition symbol with a space
+                  r = /([^&=]+)=?([^&]*)/g,
+                  d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                  q = window.location.search.substring(1),
+                  urlParams = {};
+
+              while (e = r.exec(q))
+                  urlParams[d(e[1])] = d(e[2]);
+
+              return urlParams;
+          }
+
+          function encodeUrlParam(str) {
+              return str.replace(/"/g, '&quot;')
+                  .replace(/'/g, '&#39;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;');
+          }
+
+          var params = getUrlParams(),
+              lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+
+          window.frameEditorId = params["frameEditorId"];
+          window.parentOrigin = params["parentOrigin"];
+      </script>
   </head>
 
   <body class="embed-body">
-      <script>var params = {}</script>
       <script src="../../common/main/lib/util/themeinit.js"></script>
       <script src="../../common/main/lib/util/htmlutils.js"></script>
 
@@ -187,36 +214,6 @@
                }
            }
            
-            function getUrlParams() {
-                var e,
-                    a = /\+/g,  // Regex for replacing addition symbol with a space
-                    r = /([^&=]+)=?([^&]*)/g,
-                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                    q = window.location.search.substring(1),
-                    urlParams = {};
-
-                while (e = r.exec(q))
-                    urlParams[d(e[1])] = d(e[2]);
-
-                return urlParams;
-            }
-
-            function encodeUrlParam(str) {
-                return str.replace(/"/g, '&quot;')
-                        .replace(/'/g, '&#39;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;');
-            }
-
-           var params = getUrlParams(),
-               lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
-
-           window.frameEditorId = params["frameEditorId"];
-           window.parentOrigin = params["parentOrigin"];
-
-           // if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
-           //     document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
-
            if (stopLoading) {
                document.body.removeChild(document.getElementById('loading-mask'));
            }     

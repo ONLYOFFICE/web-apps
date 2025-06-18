@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide' | 'pdf' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' | 'diagram' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -191,6 +191,7 @@
                             users: false/true // users list button
                             save: false/true // save button
                             editMode: false/true // change mode button
+                            user: false/true // icon of current user
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -256,7 +257,7 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
-                    pointerMode: 'select'/'hand' // set cursor mode in presentation editor, select by default
+                    pointerMode: 'select'/'hand' // set cursor mode in presentation/document viewer, select by default
                     mobile: {
                         forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                         standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
@@ -266,13 +267,14 @@
                         visible: true/false (default: true)
                         resultMessage: 'text'/''/null/undefined // if '' - don't show a message after submitting form, null/undefined - show the default message
                     },
-                    startFillingForm: {
-                        text: 'Share & collect' // caption of the start filling button, used for pdf-forms
-                    },
+                    forceWesternFontSize: false/true, // used only in the document editor with lang=zh, Chinese by default
                     slidePlayerBackground: '#000000', // background color for slide show in presentation editor
                     wordHeadingsColor: '#00ff00' // set color for default heading styles in document editor
                     showVerticalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
-                    showHorizontalScroll: true/false //  show/hide scroll in the spreadsheet editor by default
+                    showHorizontalScroll: true/false, //  show/hide scroll in the spreadsheet editor by default
+                    startFillingForm: {
+                        text: 'Share & collect' // caption of the start filling button, used for pdf-forms
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -402,8 +404,8 @@
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.editorConfig.canRequestRefreshFile = _config.events && !!_config.events.onRequestRefreshFile;
-        _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
         _config.editorConfig.canUpdateVersion = _config.events && !!_config.events.onOutdatedVersion;
+        _config.editorConfig.canRequestFillingStatus = _config.events && !!_config.events.onRequestFillingStatus;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -491,11 +493,12 @@
                         'word': 'docx',
                         'cell': 'xlsx',
                         'slide': 'pptx',
-                        'pdf': 'pdf'
+                        'pdf': 'pdf',
+                        'diagram': 'vsdx'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf/diagram.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -509,7 +512,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key|odg)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx|md)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -518,7 +521,8 @@
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
                         if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
-                        if (typeof type[4] === 'string') _config.documentType = 'word';
+                        if (typeof type[4] === 'string') _config.documentType = 'word'; else
+                        if (typeof type[5] === 'string') _config.documentType = 'diagram';
                     }
                 }
 
@@ -951,6 +955,22 @@
         return '{{PRODUCT_VERSION}}';
     };
 
+    DocsAPI.DocEditor.warmUp = function(id) {
+        var target = document.getElementById(id);
+        if ( target ) {
+            var path = extendAppPath({}, getBasePath());
+            path += 'api/documents/preload.html';
+
+            var iframe = document.createElement("iframe");
+            iframe.width = 0;
+            iframe.height = 0;
+            iframe.style = 'border:0 none;';
+            iframe.src = path;
+
+            target.parentNode && target.parentNode.replaceChild(iframe, target);
+        }
+    }
+
     MessageDispatcher = function(fn, scope) {
         var _fn     = fn,
             _scope  = scope || window,
@@ -1088,6 +1108,7 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
+                'diagram': 'visioeditor',
                 'common': 'common'
             },
             appType = 'word',
@@ -1096,7 +1117,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key)|(oform|docxf))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|numbers)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|key|odg)|(oform|docxf)|(vsdx|vssx|vstx|vsdm|vssm|vstm))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1119,7 +1140,8 @@
                 appType = config.documentType.toLowerCase();
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
-                if (type && typeof type[4] === 'string') appType = 'slide';
+                if (type && typeof type[4] === 'string') appType = 'slide'; else
+                if (type && typeof type[6] === 'string') appType = 'diagram';
             }
         }
         if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
@@ -1294,6 +1316,16 @@
         }
         return path;
     }
+
+    (function() {
+        if (document.currentScript) {
+            var scriptDirectory = document.currentScript.src;
+            var cacheWarmupId = /[?&]placeholder=([^&#]*)?/.exec(scriptDirectory);
+            if (cacheWarmupId && cacheWarmupId.length ) {
+                DocsAPI.DocEditor.warmUp.call(this, decodeURIComponent(cacheWarmupId[1]));
+            }
+        }
+    })();
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);
 

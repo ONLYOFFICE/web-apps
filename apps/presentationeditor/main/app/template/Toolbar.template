@@ -55,7 +55,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset" style="width:230px;">
+                    <div class="elset font-attr display-flex-row-center">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -87,6 +87,7 @@
                         <span class="btn-slot split" id="slot-btn-valign"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                         <span class="btn-slot split" id="slot-btn-columns"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -131,6 +132,7 @@
                 <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>
                 </div>
+                <div class="master-slide-mode separator long" style="display:none;"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-inserttable"></span>
                 </div>
@@ -177,7 +179,7 @@
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">
-                <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 120px;" data-group-width="854px"></div>
+                <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 127px;" data-group-width="854px"></div>
 
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="transit-button-parameters"></span>
@@ -213,7 +215,7 @@
                 </div>
             </section>
             <section id="animation-panel" class="panel" data-tab="animate" role="tabpanel" aria-labelledby="animate">
-                <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 220px;" data-group-width="670px"></div>
+                <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 230px;" data-group-width="670px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
                 </div>

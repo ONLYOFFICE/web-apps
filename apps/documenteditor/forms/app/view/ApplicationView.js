@@ -132,7 +132,7 @@ define([
 
             this.btnUndo = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon undo',
+                iconCls: 'svg-icon undo icon-rtl',
                 hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'),
                 scaling: false
             });
@@ -140,7 +140,7 @@ define([
 
             this.btnRedo = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon redo',
+                iconCls: 'svg-icon redo icon-rtl',
                 hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'),
                 scaling: false
             });

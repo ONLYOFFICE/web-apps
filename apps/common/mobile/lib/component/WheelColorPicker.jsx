@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { f7, Icon } from 'framework7-react';
+import { Device } from '../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon'
+import IconPlusIos from '@common-ios-icons/icon-plus.svg?ios';
+import IconPlusAndroid from '@common-android-icons/icon-plus.svg?android';
 
 export const WheelColorPicker = ({ initialColor = '#ffffff', onSelectColor }) => {
   const [color, setColor] = useState(initialColor);
@@ -23,7 +27,10 @@ export const WheelColorPicker = ({ initialColor = '#ffffff', onSelectColor }) =>
           <div className='current-color-hsb-preview' style={{ backgroundColor: initialColor }}/>
         </div>
         <a href='#' id='add-new-color' className='button button-round' onClick={() => onSelectColor(color)}>
-          <Icon icon='icon-plus' slot="media"/>
+        {Device.ios ? 
+          <SvgIcon slot="media" symbolId={IconPlusIos.id} className='icon icon-svg' /> :
+          <SvgIcon slot="media" symbolId={IconPlusAndroid.id} className='icon icon-svg white' />
+        } 
         </a>
       </div>
     </div>

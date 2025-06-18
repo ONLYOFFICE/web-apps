@@ -233,7 +233,8 @@
     "unknownErrorText": "Непозната грешка.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
-    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ."
+    "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",

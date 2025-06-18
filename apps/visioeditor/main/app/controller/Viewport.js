@@ -74,7 +74,8 @@ define([
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
-                        me.viewport.vlayout.getItem('statusbar').height = state ? 25 : 50;
+                        var height = parseInt(window.getComputedStyle(document.body).getPropertyValue('--statusbar-height') || 25);
+                        me.viewport.vlayout.getItem('statusbar').height = state ? height : height * 2;
                     }
                 },
                 'Toolbar': {
@@ -83,6 +84,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
+                        me.toolbar = toolbar;
                         me.header.btnSearch.hide();
                         /*var value = Common.localStorage.getBool("ve-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("ve-settings-quick-print-button", value);
@@ -110,6 +112,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         getApi: function() {
@@ -325,6 +328,26 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
-        }
+        },
+        
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) +
+                                     (this.appConfig.twoLevelHeader && !this.appConfig.compactHeader ? _intvars.get('document-title-height') : 0));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
+        },
     }, VE.Controllers.Viewport));
 });

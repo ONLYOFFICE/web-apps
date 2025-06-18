@@ -38,7 +38,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset" style="width:230px;">
+                    <div class="elset font-attr display-flex-row-center">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -75,6 +75,7 @@
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>
+                        <span class="btn-slot split" id="slot-btn-borders"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>

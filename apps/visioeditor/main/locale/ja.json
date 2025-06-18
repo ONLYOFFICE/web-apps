@@ -39,6 +39,8 @@
   "Common.UI.Themes.txtThemeDark": "暗い",
   "Common.UI.Themes.txtThemeGray": "灰色",
   "Common.UI.Themes.txtThemeLight": "明るい",
+  "Common.UI.Themes.txtThemeModernDark": "モダンダーク",
+  "Common.UI.Themes.txtThemeModernLight": "モダンライト",
   "Common.UI.Themes.txtThemeSystem": "システム設定と同じ",
   "Common.UI.Window.cancelButtonText": "キャンセル",
   "Common.UI.Window.closeButtonText": "閉じる",
@@ -114,9 +116,12 @@
   "Common.Views.OpenDialog.txtProtected": "パスワードを入力してファイルを開くと、既存のパスワードがリセットされます。",
   "Common.Views.OpenDialog.txtTitle": "%1オプションの選択",
   "Common.Views.OpenDialog.txtTitleProtected": "保護されたファイル",
+  "Common.Views.PluginDlg.textDock": "プラグインのピン留め",
   "Common.Views.PluginDlg.textLoading": "読み込み中",
   "Common.Views.PluginPanel.textClosePanel": "プラグインを閉じる",
+  "Common.Views.PluginPanel.textHidePanel": "プラグインを折りたたむ",
   "Common.Views.PluginPanel.textLoading": "読み込み中",
+  "Common.Views.PluginPanel.textUndock": "プラグインのピン留めを解除",
   "Common.Views.Plugins.groupCaption": "プラグイン",
   "Common.Views.Plugins.strPlugins": "プラグイン",
   "Common.Views.Plugins.textBackgroundPlugins": "バックグラウンド・プラグイン",
@@ -418,5 +423,7 @@
   "VE.Views.ViewTab.textZoom": "拡大図",
   "VE.Views.ViewTab.tipFitPage": "ページに合わせる",
   "VE.Views.ViewTab.tipFitWidth": "幅に合わせる",
-  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

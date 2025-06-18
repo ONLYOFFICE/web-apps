@@ -239,6 +239,19 @@ define([
                     arrPara.push(item);
                     arrTable.push(_.clone(item));
                 });
+                var lckey = 'app-settings-recent-langs';
+                me.langParaMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
+                });
+                me.langTableMenu.menu.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'value'
+                });
                 me.langParaMenu.menu.resetItems(arrPara);
                 me.langTableMenu.menu.resetItems(arrTable);
             }

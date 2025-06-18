@@ -48,7 +48,7 @@ define([], function () {
             });
 
             me.menuViewUndo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-undo',
+                iconCls: 'menu__icon btn-undo icon-rtl',
                 caption: me.textUndo
             });
 

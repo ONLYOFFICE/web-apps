@@ -104,7 +104,8 @@ define([
         noParagraphObject:  'no-paragraph-obj',
         inSlideMaster: 'in-slide-master',
         slideMasterMode: 'slide-master-mode',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -187,7 +188,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + me.btnSaveCls,
-                        lock: [_set.lostConnect],
+                        lock: [_set.cantSave, _set.lostConnect],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -199,7 +200,7 @@ define([
                     me.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-undo',
+                        iconCls: 'toolbar__icon btn-undo icon-rtl',
                         lock: [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -212,7 +213,7 @@ define([
                     me.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-redo',
+                        iconCls: 'toolbar__icon btn-redo icon-rtl',
                         lock: [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -825,6 +826,26 @@ define([
                     me.paragraphControls.push(me.btnColumns);
                     me.lockControls.push(me.btnColumns);
 
+                    this.btnTextDir = new Common.UI.Button({
+                        id: 'id-toolbar-btn-direction',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-ltr',
+                        action: 'text-direction',
+                        dirRtl: false,
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noParagraphObject],
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: me.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
+                                {caption: me.textDirRtl, value: true, iconCls: 'menu__icon btn-rtl'},
+                            ]
+                        }),
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -6'
+                    });
+                    me.paragraphControls.push(me.btnTextDir);
+                    me.lockControls.push(me.btnLineSpace);
+
                     me.btnInsertPlaceholder = new Common.UI.Button({
                         id: 'tlbtn-insertplaceholder',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -935,7 +956,7 @@ define([
                         caption: me.capInsertEquation,
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu(),
                         action: 'insert-equation',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1490,6 +1511,7 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-shapes-merge', this.btnShapesMerge);
@@ -1520,7 +1542,7 @@ define([
                         itemHeight: 20,
                         menuMaxHeight: 652,
                         menuWidth: 362,
-                        style: 'width: 140px;',
+                        style: 'width: 145px;',
                         enableKeyEvents: true,
                         lock: [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart],
                         dataHint: '1',
@@ -1712,6 +1734,7 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnTextDir.updateHint(this.tipTextDir);
                 this.btnInsertPlaceholder.updateHint(this.tipInsertContentPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
@@ -1915,6 +1938,7 @@ define([
                 ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
                     restoreHeight: 290,
@@ -2241,8 +2265,7 @@ define([
                 } else {
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
-
-                this.btnSave.setDisabled(false);
+                this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -2273,8 +2296,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
-
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary, {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

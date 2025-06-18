@@ -3,6 +3,10 @@ import {observer, inject} from "mobx-react";
 import {f7, View, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link, ListButton, Toggle, Actions, ActionsButton, ActionsGroup} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandUp from '@common-android-icons/icon-expand-up.svg';
 
 const EditTableContents = props => {
     const { t } = useTranslation();
@@ -133,7 +137,10 @@ const PageEditStylesTableContents = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -169,7 +176,10 @@ const PageEditLeaderTableContents = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -215,7 +225,10 @@ const PageEditStructureTableContents = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -236,7 +249,9 @@ const PageEditStructureTableContents = props => {
                                         props.onLevelsChange(amountLevels - 1);
                                     }
                                 }}>
-                                    {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                    {isAndroid ? 
+                                        <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                    : ' - '}
                                 </Button>
                                 {isAndroid && <label>{amountLevels === -1 ? '-' : amountLevels}</label>}
                                 <Button outline className='increment item-link' onClick={() => {
@@ -250,7 +265,9 @@ const PageEditStructureTableContents = props => {
                                         }
                                     }
                                 }}>
-                                    {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                    {isAndroid ? 
+                                        <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                    : ' + '}
                                 </Button>
                             </Segmented>
                         </div>
@@ -271,7 +288,9 @@ const PageEditStructureTableContents = props => {
                                                 props.addStyles(chosenStyles, style.name, style.value - 1);
                                             }
                                         }}>
-                                            {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                                            {isAndroid ? 
+                                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                                            : ' - '}
                                         </Button>
                                         {isAndroid && <label>{style.value === 0 ? '' : style.value}</label>}
                                         <Button outline className='increment item-link' onClick={() => {
@@ -281,7 +300,9 @@ const PageEditStructureTableContents = props => {
                                                 props.addStyles(chosenStyles, style.name, style.value + 1);
                                             }
                                         }}>
-                                            {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                                            {isAndroid ? 
+                                                <SvgIcon symbolId={IconExpandUp.id} className={'icon icon-svg'} />
+                                            : ' + '}
                                         </Button>
                                     </Segmented>
                                 </div>

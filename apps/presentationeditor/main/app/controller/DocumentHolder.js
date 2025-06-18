@@ -242,8 +242,11 @@ define([
                     if (e.target.localName == 'canvas') {
                         if (me._preventClick)
                             me._preventClick = false;
-                        else
+                        else {
+                            if (e.target.getAttribute && e.target.getAttribute("oo_no_focused"))
+                                return;
                             meEl.focus();
+                        }
                     }
                 });
                 meEl.on('mousedown', function(e){
@@ -377,7 +380,7 @@ define([
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
                     me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Master) {
-                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true}, event);
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true, isPreserve: event.get_IsSlidePreserve() }, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Layout) {
                     me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: false}, event);
                 } else {
@@ -438,24 +441,34 @@ define([
 
         handleDocumentWheel: function(event){
             var me = this;
-            if (me.api) {
-                var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
-                if (_.isUndefined(delta)) {
-                    delta = event.deltaY;
+            if (!me.api) return;
+
+            if (!me._isScrolling) {
+                me._isScrolling = true;
+                me._ctrlPressedAtScrollStart = event.ctrlKey;
+            }
+
+            clearTimeout(me._scrollEndTimeout);
+            me._scrollEndTimeout = setTimeout(function () {
+                me._isScrolling = false;
+            }, 100);
+
+            var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
+            if (_.isUndefined(delta)) {
+                delta = event.deltaY;
+            }
+
+            if (me._ctrlPressedAtScrollStart && !event.altKey) {
+                if (delta < 0) {
+                    me.api.zoomOut();
+                    me._handleZoomWheel = true;
+                } else if (delta > 0) {
+                    me.api.zoomIn();
+                    me._handleZoomWheel = true;
                 }
 
-                if (event.ctrlKey && !event.altKey){
-                    if (delta < 0) {
-                        me.api.zoomOut();
-                        me._handleZoomWheel = true;
-                    } else if (delta > 0) {
-                        me.api.zoomIn();
-                        me._handleZoomWheel = true;
-                    }
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                event.preventDefault();
+                event.stopPropagation();
             }
         },
 

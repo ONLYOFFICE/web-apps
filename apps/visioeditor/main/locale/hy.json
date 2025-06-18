@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "Երբ գաղտնաբառը գրեք ու ֆայլը բացեք, ընթացիկ գաղտնաբառը կվերակայվի։",
   "Common.Views.OpenDialog.txtTitle": "Ընտրել %1 ընտրանքներ",
   "Common.Views.OpenDialog.txtTitleProtected": "Պաշտպանված ֆայլ",
+  "Common.Views.PluginDlg.textDock": "Pin plugin",
   "Common.Views.PluginDlg.textLoading": "Բեռնվում է",
   "Common.Views.PluginPanel.textClosePanel": "Փակել պլագինը",
+  "Common.Views.PluginPanel.textHidePanel": "Collapse plugin",
   "Common.Views.PluginPanel.textLoading": "Բեռնվում է",
+  "Common.Views.PluginPanel.textUndock": "Unpin plugin",
   "Common.Views.Plugins.groupCaption": "Պլագիններ",
   "Common.Views.Plugins.strPlugins": "Պլագիններ",
   "Common.Views.Plugins.textBackgroundPlugins": "Ֆոնային պլագիններ",
@@ -418,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "Խոշորացնել",
   "VE.Views.ViewTab.tipFitPage": "Հարմարեցնել էջին",
   "VE.Views.ViewTab.tipFitWidth": "Հարմարեցնել լայնությանը",
-  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ"
+  "VE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի ոճ",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

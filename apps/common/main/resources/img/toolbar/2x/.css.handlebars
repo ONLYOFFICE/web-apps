@@ -4,9 +4,19 @@
             (min-resolution: 2dppx), (min-resolution: 192dpi)
     {
         .toolbar__icon, .menu__icon {
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            background-size: {{half width}}px auto;
+            {{/if}}
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
         }
+
+        {{#if (xpsupport)}}
+        .winxp {
+            .toolbar__icon, .menu__icon {
+                background-image: url(resources/{{{escaped_image}}});
+            }
+        }
+        {{/if}}
     }
 }
 {{/spritesheet}}

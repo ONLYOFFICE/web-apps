@@ -129,6 +129,7 @@ define([], function () {
                 Data: 5
             },
             isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
+            needRepaint = undefined,
             me = this,
             checkSize = function () {
                 var scale = {};
@@ -196,6 +197,13 @@ define([], function () {
                 me.innerWidth = window.innerWidth * me.zoom;
                 me.innerHeight = window.innerHeight * me.zoom;
                 me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
+                if (me.innerWidth<1 && needRepaint===undefined)
+                    needRepaint = true;
+                else if (needRepaint && me.innerWidth>0) {
+                    needRepaint = false;
+                    jQuery.support && jQuery.support.forceStyleTests();
+                    Common.NotificationCenter.trigger('app:repaint');
+                }
             },
             checkSizeIE = function () {
                 me.innerWidth = window.innerWidth;
@@ -1282,7 +1290,7 @@ define([], function () {
 
     Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
     Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
-    Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+    Common.Utils.InternalSettings.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || (Common.Utils.isIE ? 66 : 84)));
     Common.Utils.InternalSettings.set('document-title-height', 28);
     Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 

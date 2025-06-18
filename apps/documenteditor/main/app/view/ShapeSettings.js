@@ -877,7 +877,7 @@ define([
                 control_props = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
                                  spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
                                 spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
-                                spectype==Asc.c_oAscContentControlSpecificType.DateTime) &&
+                                spectype==Asc.c_oAscContentControlSpecificType.DateTime || spectype==Asc.c_oAscContentControlSpecificType.Signature ) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
             } else
                 control_props = false;
@@ -1349,10 +1349,6 @@ define([
                 ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#shape-combo-pattern'));
-            this.cmbPattern.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.cmbPattern.openButton.menu.on('show:after', function () {
                 me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1757,10 +1753,6 @@ define([
                 ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#shape-combo-wrap'));
-            this.cmbWrapType.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
-            });
             this.cmbWrapType.on('click', _.bind(this.onSelectWrap, this));
             this.cmbWrapType.openButton.menu.on('show:after', function () {
                 me.cmbWrapType.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1893,17 +1885,17 @@ define([
                 allowScrollbar: false,
                 delayRenderTips: true,
                 store: new Common.UI.DataViewStore([
-                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0},
-                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0},
-                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0},
+                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottomRight },
+                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0, tip: this.txtOffsetBottom},
+                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0, tip: this.txtOffsetBottomLeft},
 
-                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0},
-                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3},
-                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0},
+                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0, tip: this.txtOffsetRight},
+                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3, tip: this.txtOffsetCenter},
+                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0, tip: this.txtOffsetLeft},
 
-                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0},
-                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0},
-                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0},
+                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0, tip: this.txtOffsetTopRight},
+                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0, tip: this.txtOffsetTop},
+                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0, tip: this.txtOffsetTopLeft}
                 ]),
                 itemTemplate: _.template(
                     '<div class="item-shadow">' +

@@ -2,6 +2,8 @@ import React from 'react';
 import { f7, ListItem, List, Icon, Page } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconCancellation from '@common-icons/icon-cancellation.svg';
 
 const HighlightColorPalette = ({changeColor, curColor}) => {
     const isAndroid = Device.android;
@@ -27,7 +29,9 @@ const HighlightColorPalette = ({changeColor, curColor}) => {
                 </div>
             </ListItem>
             <ListItem radio checked={(curColor && curColor === 'transparent')} onClick={() => changeColor('transparent')} title={t('Common.HighlightColorPalette.textNoFill')}>
-                {!isAndroid && <Icon slot="media" icon="icon-cancellation"></Icon>}
+                {!isAndroid && 
+                    <SvgIcon slot="media" symbolId={IconCancellation.id} className={'icon icon-svg'} />
+                }
             </ListItem>
         </List>
     )

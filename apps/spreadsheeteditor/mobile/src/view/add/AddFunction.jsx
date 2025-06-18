@@ -2,6 +2,8 @@ import React, { Fragment, useEffect, useMemo } from 'react';
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, Page, Navbar, Icon, BlockTitle, f7 } from 'framework7-react';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconInfo from '@common-icons/icon-info.svg';
 
 const PageInfo = props => {
     const { t } = useTranslation();
@@ -54,7 +56,7 @@ const PageGroup = ({ name, type, functions, onInsertFunction, f7router }) => {
                                      });
                                      event.stopPropagation();
                                  }}>
-                                <Icon icon='icon-info'/>
+                                <SvgIcon symbolId={IconInfo.id} className={'icon icon-svg'} />
                             </div>
                         </ListItem>
                     )
@@ -134,7 +136,7 @@ const AddFunction = props => {
                                     });
                                     e.stopPropagation();
                                 }}>
-                                <Icon icon='icon-info'/>
+                                <SvgIcon symbolId={IconInfo.id} className={'icon icon-svg'} />
                             </div>
                         </ListItem>
                     )

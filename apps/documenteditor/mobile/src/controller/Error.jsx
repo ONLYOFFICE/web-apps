@@ -274,12 +274,16 @@ const ErrorController = inject('storeAppOptions','storeDocumentInfo')(({storeApp
             Common.Gateway.reportError(id, config.msg);
 
             config.title = _t.criticalErrorTitle;
-
-            if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp) {
+            if (storeAppOptions.canRequestClose) {
+                config.msg += '<br><br>' + _t.criticalErrorExtTextClose;
+                config.callback = function(btn) {
+                    Common.Gateway.requestClose();
+                };
+            } else if (storeAppOptions.canBackToFolder && !storeAppOptions.isDesktopApp && typeof id !== 'string' && storeAppOptions.customization.goback.url && storeAppOptions.customization.goback.blank===false) {
                 config.msg += '</br></br>' + _t.criticalErrorExtText;
-                config.callback = function() {
+                config.callback = function(btn) {
                     Common.Notifications.trigger('goback', true);
-                }
+                };
             }
             if (id === Asc.c_oAscError.ID.DataEncrypted) {
                 api.asc_coAuthoringDisconnect();

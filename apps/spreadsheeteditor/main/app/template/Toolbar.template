@@ -38,8 +38,8 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset font-attr-top">
-                        <span class="btn-slot float-left" id="slot-field-fontname" style="width: 94px;"></span>
+                    <div class="elset font-attr-top display-flex-row-center">
+                        <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot float-left" id="slot-btn-incfont"></span>
                         <span class="btn-slot float-left" id="slot-btn-decfont"></span>
@@ -97,8 +97,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-format" style="width: 100%"></span>
+                    <div class="elset display-flex-row-center">
+                        <span class="btn-slot" id="slot-btn-format" style="min-width: 135px; flex-grow: 1;"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split-large" id="slot-btn-currency"></span>

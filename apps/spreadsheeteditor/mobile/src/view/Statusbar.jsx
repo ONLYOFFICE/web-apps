@@ -4,6 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconList from '@ios-icons/icon-list.svg';
+import IconListBold from '@android-icons/icon-list-bold.svg';
+import IconPlus from '@common-ios-icons/icon-plus.svg';
+import IconPlusBold from '@android-icons/icon-plus-bold.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+
 
 const viewStyle = {
     height: 30
@@ -97,7 +105,12 @@ const PageCustomTabColor = inject("storePalette")(observer (props => {
             <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-expand-down' sheetClose ></Link>
+                        <Link sheetClose>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                            }
+                        </Link>
                     </NavRight>
                 }
             </Navbar>
@@ -147,7 +160,10 @@ const PageTabColor = inject("storePalette")(observer(props =>  {
             {Device.phone &&
                 <NavRight>
                     <Link sheetClose>
-                        <Icon icon='icon-expand-down'/>
+                        {Device.ios ? 
+                            <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                            <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg'} />
+                        }
                     </Link>
                 </NavRight>
             }
@@ -222,10 +238,14 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
                 {isEdit &&
                     <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
-                            <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
+                            {isAndroid ? 
+                                <SvgIcon symbolId={IconPlusBold.id} className={'icon icon-svg'} /> : 
+                                <SvgIcon symbolId={IconPlus.id} className={'icon icon-svg'} />}
                         </Link>
-                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
-                            <Icon className={`icon icon-list ${isAndroid ? 'bold' : ''}`}/>
+                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target.closest('#idx-btn-all-list-tab'))}>
+                            {isAndroid ? 
+                                <SvgIcon symbolId={IconListBold.id} className={'icon icon-svg'} /> : 
+                                <SvgIcon symbolId={IconList.id} className={'icon icon-svg'} />}
                         </Link>
                     </div>
                 }

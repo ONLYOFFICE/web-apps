@@ -121,7 +121,8 @@ define([
         fileMenuOpened: 'file-menu-opened',
         changeModeLock: 'change-mode-lock',
         noStyles: 'no-styles',
-        cantMergeShape: 'merge-shape-lock'
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -203,7 +204,7 @@ define([
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.cantSave, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'top',
@@ -215,7 +216,7 @@ define([
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-undo',
+                        iconCls: 'toolbar__icon btn-undo icon-rtl',
                         lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -227,7 +228,7 @@ define([
                     this.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-redo',
+                        iconCls: 'toolbar__icon btn-redo icon-rtl',
                         lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                         signals: ['disabled'],
                         dataHint: '1',
@@ -435,6 +436,21 @@ define([
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
 
+                    this.btnBorders = new Common.UI.Button({
+                        id: 'id-toolbar-btn-borders',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-border-out',
+                        icls: 'btn-border-out',
+                        borderId: 'outer',
+                        lock: [_set.noParagraphSelected, _set.fixedForm, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        split: true,    
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16'
+                    })    
+                    this.paragraphControls.push(this.btnBorders);               
+                    
                     this.btnChangeCase = new Common.UI.Button({
                         id: 'id-toolbar-btn-case',
                         cls: 'btn-toolbar',
@@ -974,7 +990,7 @@ define([
                             _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockViewIns, _set.docLockForms, _set.docLockCommentsIns, _set.viewMode],
                         caption: me.capBtnInsEquation,
                         split: true,
-                        menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        menu: new Common.UI.Menu(),
                         action: 'insert-equation',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -1864,7 +1880,7 @@ define([
                             id: 'id-toolbar-btn-save',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                            lock: [_set.lostConnect, _set.disableOnStart],
+                            lock: [_set.cantSave, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
                             dataHintDirection: 'top',
@@ -1876,7 +1892,7 @@ define([
                         this.btnUndo = new Common.UI.Button({
                             id: 'id-toolbar-btn-undo',
                             cls: 'btn-toolbar',
-                            iconCls: 'toolbar__icon btn-undo',
+                            iconCls: 'toolbar__icon btn-undo icon-rtl',
                             lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
                             signals: ['disabled'],
                             dataHint: '1',
@@ -1886,7 +1902,7 @@ define([
                         this.toolbarControls.push(this.btnUndo);
 
                         this.btnRedo = new Common.UI.Button({
-                            id: 'id-toolbar-btn-redo',
+                            id: 'id-toolbar-btn-redo icon-rtl',
                             cls: 'btn-toolbar',
                             iconCls: 'toolbar__icon btn-redo',
                             lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.viewMode],
@@ -2144,6 +2160,7 @@ define([
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
+                _injectComponent('#slot-btn-borders', this.btnBorders);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup); 
@@ -2180,67 +2197,75 @@ define([
                 me._isDocReady = true;
                 if (me.cmbFontSize) {
                     var lang = config.lang ? config.lang.toLowerCase() : 'en',
-                        langPrefix = lang.split(/[\-_]/)[0];
-                    var fontSizeData = (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') ? [
-                        {value: '42_str', displayValue: "初号"},
-                        {value: '36_str', displayValue: "小初"},
-                        {value: '26_str', displayValue: "一号"},
-                        {value: '24_str', displayValue: "小一"},
-                        {value: '22_str', displayValue: "二号"},
-                        {value: '18_str', displayValue: "小二"},
-                        {value: '16_str', displayValue: "三号"},
-                        {value: '15_str', displayValue: "小三"},
-                        {value: '14_str', displayValue: "四号"},
-                        {value: '12_str', displayValue: "小四"},
-                        {value: '10.5_str', displayValue: "五号"},
-                        {value: '9_str', displayValue: "小五"},
-                        {value: '7.5_str', displayValue: "六号"},
-                        {value: '6.5_str', displayValue: "小六"},
-                        {value: '5.5_str', displayValue: "七号"},
-                        {value: '5_str', displayValue: "八号"},
-                        {value: 5, displayValue: "5"},
-                        {value: 5.5, displayValue: "5.5"},
-                        {value: 6.5, displayValue: "6.5"},
-                        {value: 7.5, displayValue: "7.5"},
-                        {value: 8, displayValue: "8"},
-                        {value: 9, displayValue: "9"},
-                        {value: 10, displayValue: "10"},
-                        {value: 10.5, displayValue: "10.5"},
-                        {value: 11, displayValue: "11"},
-                        {value: 12, displayValue: "12"},
-                        {value: 14, displayValue: "14"},
-                        {value: 15, displayValue: "15"},
-                        {value: 16, displayValue: "16"},
-                        {value: 18, displayValue: "18"},
-                        {value: 20, displayValue: "20"},
-                        {value: 22, displayValue: "22"},
-                        {value: 24, displayValue: "24"},
-                        {value: 26, displayValue: "26"},
-                        {value: 28, displayValue: "28"},
-                        {value: 36, displayValue: "36"},
-                        {value: 42, displayValue: "42"},
-                        {value: 48, displayValue: "48"},
-                        {value: 72, displayValue: "72"},
-                        {value: 96, displayValue: "96"}
-                    ] : [
-                        {value: 8, displayValue: "8"},
-                        {value: 9, displayValue: "9"},
-                        {value: 10, displayValue: "10"},
-                        {value: 11, displayValue: "11"},
-                        {value: 12, displayValue: "12"},
-                        {value: 14, displayValue: "14"},
-                        {value: 16, displayValue: "16"},
-                        {value: 18, displayValue: "18"},
-                        {value: 20, displayValue: "20"},
-                        {value: 22, displayValue: "22"},
-                        {value: 24, displayValue: "24"},
-                        {value: 26, displayValue: "26"},
-                        {value: 28, displayValue: "28"},
-                        {value: 36, displayValue: "36"},
-                        {value: 48, displayValue: "48"},
-                        {value: 72, displayValue: "72"},
-                        {value: 96, displayValue: "96"}
-                    ];
+                        langPrefix = lang.split(/[\-_]/)[0],
+                        fontSizeData = [
+                                           {value: 8, displayValue: "8"},
+                                           {value: 9, displayValue: "9"},
+                                           {value: 10, displayValue: "10"},
+                                           {value: 11, displayValue: "11"},
+                                           {value: 12, displayValue: "12"},
+                                           {value: 14, displayValue: "14"},
+                                           {value: 16, displayValue: "16"},
+                                           {value: 18, displayValue: "18"},
+                                           {value: 20, displayValue: "20"},
+                                           {value: 22, displayValue: "22"},
+                                           {value: 24, displayValue: "24"},
+                                           {value: 26, displayValue: "26"},
+                                           {value: 28, displayValue: "28"},
+                                           {value: 36, displayValue: "36"},
+                                           {value: 48, displayValue: "48"},
+                                           {value: 72, displayValue: "72"},
+                                           {value: 96, displayValue: "96"}
+                                       ];
+
+                    if (langPrefix === 'zh' && lang !== 'zh-tw' && lang !== 'zh_tw') {
+                        Common.Utils.InternalSettings.set("de-settings-western-font-size", Common.localStorage.getBool("de-settings-western-font-size", !!config.customization && !!config.customization.forceWesternFontSize));
+                        me._fontSizeChinese = [
+                            {value: '42_str', displayValue: "初号"},
+                            {value: '36_str', displayValue: "小初"},
+                            {value: '26_str', displayValue: "一号"},
+                            {value: '24_str', displayValue: "小一"},
+                            {value: '22_str', displayValue: "二号"},
+                            {value: '18_str', displayValue: "小二"},
+                            {value: '16_str', displayValue: "三号"},
+                            {value: '15_str', displayValue: "小三"},
+                            {value: '14_str', displayValue: "四号"},
+                            {value: '12_str', displayValue: "小四"},
+                            {value: '10.5_str', displayValue: "五号"},
+                            {value: '9_str', displayValue: "小五"},
+                            {value: '7.5_str', displayValue: "六号"},
+                            {value: '6.5_str', displayValue: "小六"},
+                            {value: '5.5_str', displayValue: "七号"},
+                            {value: '5_str', displayValue: "八号"}
+                        ];
+                        me._fontSizeWestern = [
+                            {value: 5, displayValue: "5"},
+                            {value: 5.5, displayValue: "5.5"},
+                            {value: 6.5, displayValue: "6.5"},
+                            {value: 7.5, displayValue: "7.5"},
+                            {value: 8, displayValue: "8"},
+                            {value: 9, displayValue: "9"},
+                            {value: 10, displayValue: "10"},
+                            {value: 10.5, displayValue: "10.5"},
+                            {value: 11, displayValue: "11"},
+                            {value: 12, displayValue: "12"},
+                            {value: 14, displayValue: "14"},
+                            {value: 15, displayValue: "15"},
+                            {value: 16, displayValue: "16"},
+                            {value: 18, displayValue: "18"},
+                            {value: 20, displayValue: "20"},
+                            {value: 22, displayValue: "22"},
+                            {value: 24, displayValue: "24"},
+                            {value: 26, displayValue: "26"},
+                            {value: 28, displayValue: "28"},
+                            {value: 36, displayValue: "36"},
+                            {value: 42, displayValue: "42"},
+                            {value: 48, displayValue: "48"},
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
+                        ];
+                        fontSizeData = Common.Utils.InternalSettings.get("de-settings-western-font-size") ? me._fontSizeWestern.concat(me._fontSizeChinese) : me._fontSizeChinese.concat(me._fontSizeWestern);
+                    }
                     me.cmbFontSize.setData(fontSizeData);
                 }
                 (new Promise( function(resolve, reject) {
@@ -2575,6 +2600,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnParagraphColor.updateHint(this.tipPrColor);
+                this.btnBorders.updateHint(this.tipBorders);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
@@ -2790,6 +2816,127 @@ define([
                     items: []
                 }));
 
+                if (this.btnBorders && this.btnBorders.rendered) {
+                    this.btnBorders.setMenu(new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items:[
+                            {
+                                caption: this.textBottomBorders,
+                                iconCls: 'menu__icon btn-border-bottom',
+                                icls: 'btn-border-bottom',
+                                borderId: 'bottom',
+                            },
+                            {
+                                caption: this.textTopBorders,
+                                iconCls: 'menu__icon btn-border-top',
+                                icls: 'btn-border-top',
+                                borderId: 'top',
+                            },
+                            {
+                                caption: this.textLeftBorders,
+                                iconCls: 'menu__icon btn-border-left',
+                                icls: 'btn-border-left',
+                                borderId: 'left',
+                            },
+                            {
+                                caption: this.textRightBorders,
+                                iconCls: 'menu__icon btn-border-right',
+                                icls: 'btn-border-right',
+                                borderId: 'right',
+                            },
+                            { caption: '--' },
+                            {
+                                caption: this.textNoBorders,
+                                iconCls: 'menu__icon btn-border-no',
+                                icls: 'btn-border-no',
+                                borderId: 'none',
+                            },
+                            {
+                                caption: this.textAllBorders,
+                                iconCls: 'menu__icon btn-border-all',
+                                icls: 'btn-border-all',
+                                borderId: 'all',
+                            },
+                            {
+                                caption: this.textOutBorders,
+                                iconCls: 'menu__icon btn-border-out',
+                                icls: 'btn-border-out',
+                                borderId: 'outer',
+                            },
+                            {
+                                caption: this.textInsideBorders,
+                                iconCls: 'menu__icon btn-border-inside',
+                                icls: 'btn-border-inside',
+                                borderId: 'inner',
+                            },
+                            { caption: '--' },
+                            {
+                                id: 'id-toolbar-menu-item-border-width',
+                                caption: this.textBordersStyle,
+                                iconCls: 'menu__icon btn-border-style',
+                                menu: (function () {
+                                    var txtPt = ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt); 
+                                    var itemTemplate = _.template(
+                                        '<a id="<%= id %>" tabindex="-1" type="menuitem">' +
+                                          '<div class="border-size-item">' +
+                                            '<span class="border-size-text"><%= options.displayValue %></span>' +
+                                            '<svg><use xlink:href="#<%= options.imgId %>"></use></svg>' + 
+                                          '</div>' +
+                                        '</a>'
+                                      );
+                                    me.mnuBorderWidth = new Common.UI.Menu({
+                                        style: 'min-width: 100px;',
+                                        cls: 'shifted-right',
+                                        menuAlign: 'tl-tr',
+                                        id: 'toolbar-menu-borders-width',
+                                        items: [
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '0.5' + txtPt,   value: 0.5,  pxValue: 0.5,  imgId: 'half-pt', checked:true},
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '1 ' + txtPt,    value: 1,    pxValue: 1,    imgId: 'one-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '1.5 ' + txtPt,  value: 1.5,  pxValue: 2,    imgId: 'one-and-half-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '2.25 ' + txtPt, value: 2.25, pxValue: 3,    imgId: 'two-and-quarter-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '3 ' + txtPt,    value: 3,    pxValue: 4,    imgId: 'three-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '4.5 ' + txtPt,  value: 4.5,  pxValue: 6,    imgId: 'four-and-half-pt' },
+                                            { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', displayValue: '6 ' + txtPt,    value: 6,    pxValue: 8,    imgId: 'six-pt' },
+                                        ]
+                                    });
+                                    return me.mnuBorderWidth;
+                                })()
+                            },
+                            this.mnuBorderColor = new Common.UI.MenuItem({
+                                id: 'id-toolbar-mnu-item-border-color',
+                                caption: this.textBordersColor,
+                                iconCls: 'mnu-icon-item mnu-border-color',
+                                template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon"></span><%= caption %></a>'),
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    cls: 'shifted-left',
+                                    items: [
+                                        {
+                                            id: 'id-toolbar-menu-auto-bordercolor',
+                                            caption: this.textAutoColor,
+                                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto"></span><%= caption %></a>'),
+                                            stopPropagation: true
+                                        },
+                                        { caption: '--' },
+                                        { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                                        { caption: '--' },
+                                        {
+                                            id: "id-toolbar-menu-new-bordercolor",
+                                            template: _.template('<a tabindex="-1" type="menuitem">' + this.textNewColor + '</a>'),
+                                            stopPropagation: true
+                                        }
+                                    ]
+                                })
+                            })
+                        ]
+                }))   
+                this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-toolbar-menu-bordercolor'),
+                    outerMenu: {menu: this.mnuBorderColor.menu, index: 2},
+                });
+                this.mnuBorderColor.menu.setInnerMenu([{menu: this.mnuBorderColorPicker, index: 2}]);
+            }    
+                    
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     var smartArtData = Common.define.smartArt.getSmartArtData();
                     smartArtData.forEach(function (item, index) {
@@ -2933,6 +3080,7 @@ define([
                 ];
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index:0},
                     restoreHeight: 290,
@@ -3375,7 +3523,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(false);
+                this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -3407,7 +3555,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton);
+                        this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton, {array: [this.btnSave]});
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

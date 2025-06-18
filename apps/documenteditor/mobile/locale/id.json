@@ -27,6 +27,7 @@
     "textCurrentPosition": "Posisi Saat Ini",
     "textDisplay": "Tampilan",
     "textDone": "Selesai",
+    "textDrawing": "Menggambar",
     "textEmptyImgUrl": "Anda harus menentukan URL gambar.",
     "textEvenPage": "Halaman Genap",
     "textFootnote": "Footnote",
@@ -65,8 +66,7 @@
     "textTableSize": "Ukuran Tabel",
     "textWithBlueLinks": "Dengan Tautan Warna Biru",
     "textWithPageNumbers": "Dengan Nomor Halaman",
-    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
-    "textDrawing": "Drawing"
+    "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”"
   },
   "Common": {
     "Collaboration": {
@@ -233,7 +233,7 @@
     "textColor": "Warna",
     "textCustomColor": "Warna ubahan",
     "textLineSize": "Ukuran garis",
-    "textOpacity": "Opacity"
+    "textOpacity": "Opasitas"
   },
   "Edit": {
     "notcriticalErrorTitle": "Peringatan",
@@ -479,7 +479,8 @@
     "uploadDocSizeMessage": "Batas ukuran maksimum dokumen terlampaui.",
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
-    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB."
+    "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Memuat data...",
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password salah",
     "txtOk": "OK",
-    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset."
+    "txtProtected": "Jika Anda memasukkan password dan membuka file, password file saat ini akan di reset.",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnRestartNow": "Restart sekarang",

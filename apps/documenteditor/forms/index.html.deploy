@@ -114,11 +114,39 @@
         }
     </style>
 
-    <script>window.features={uitype:'fillform'};var params = {}</script>
+    <script>window.features={uitype:'fillform'};</script>
 
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+    <script>
+        function getUrlParams() {
+            var e,
+                a = /\+/g,  // Regex for replacing addition symbol with a space
+                r = /([^&=]+)=?([^&]*)/g,
+                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                q = window.location.search.substring(1),
+                urlParams = {};
+
+            while (e = r.exec(q))
+                urlParams[d(e[1])] = d(e[2]);
+
+            return urlParams;
+        }
+
+        function encodeUrlParam(str) {
+            return str.replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+        }
+
+        var params = getUrlParams(),
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
+
+        window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
+    </script>
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
   </head>
 
@@ -131,6 +159,7 @@
 
       <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
       <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+      <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
 
       <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
@@ -167,33 +196,6 @@
                      },0);
                  }
              }
-
-            function getUrlParams() {
-                var e,
-                    a = /\+/g,  // Regex for replacing addition symbol with a space
-                    r = /([^&=]+)=?([^&]*)/g,
-                    d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                    q = window.location.search.substring(1),
-                    urlParams = {};
-
-                while (e = r.exec(q))
-                    urlParams[d(e[1])] = d(e[2]);
-
-                return urlParams;
-            }
-
-            function encodeUrlParam(str) {
-                return str.replace(/"/g, '&quot;')
-                        .replace(/'/g, '&#39;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;');
-            }
-
-            var params = getUrlParams(),
-                           lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
-
-            window.frameEditorId = params["frameEditorId"];
-            window.parentOrigin = params["parentOrigin"];
 
             if (stopLoading) {
                document.body.removeChild(document.getElementById('loading-mask'));

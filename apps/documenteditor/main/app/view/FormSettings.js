@@ -64,6 +64,7 @@ define([
 
         initialize: function () {
             this._initSettings = true;
+            this._themeChanged = false;
 
             this._state = {
                 DisabledControls: undefined,
@@ -640,7 +641,7 @@ define([
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
                 menuAlignEl: $(this.el).parent(),
                 restoreMenuHeightAndTop: 85,
-                style: 'width: 194px;',
+                style: 'width: ' + $markup.width() + 'px;',
                 editable: false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -831,6 +832,7 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
             }
+            Common.NotificationCenter.on('uitheme:changed', _.bind(this.onThemeChanged, this));
             return this;
         },
 
@@ -1285,6 +1287,9 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
+            if (this._themeChanged)
+                this.onThemeChanged();
+
             if (props) {
                 this._originalProps = props;
 
@@ -1375,7 +1380,9 @@ define([
                     this._originalFormProps = formPr;
 
                     if (type == Asc.c_oAscContentControlSpecificType.Picture)
-                        this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
+                        this.labelFormName.text(this.textImage);
+                    if (type == Asc.c_oAscContentControlSpecificType.Signature)
+                        this.labelFormName.text(this.textSignature);
 
                     var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
@@ -1462,7 +1469,7 @@ define([
                         }
                     }
 
-                    if (type !== Asc.c_oAscContentControlSpecificType.Picture) {
+                    if (type !== Asc.c_oAscContentControlSpecificType.Picture && type !== Asc.c_oAscContentControlSpecificType.Signature) {
                         val = formPr.get_Fixed();
                         if ( this._state.Fixed!==val ) {
                             this.chFixed.setValue(!!val, true);
@@ -1527,10 +1534,9 @@ define([
                 }
 
                 var pictPr = props.get_PictureFormPr(),
-                    isSignature = false;
+                    isSignature = type === Asc.c_oAscContentControlSpecificType.Signature;
                 if (pictPr) {
                     this._originalPictProps = pictPr;
-                    isSignature = props.is_Signature();
                     val = pictPr.get_ConstantProportions();
                     if ( this._state.Aspect!==val ) {
                         this.chAspect.setValue(!!val, true);
@@ -1809,7 +1815,7 @@ define([
                     checkboxOnly = (typeof specProps.get_GroupKey() !== 'string');
                     radioboxOnly = !checkboxOnly;
                 }
-            } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.Picture || type == Asc.c_oAscContentControlSpecificType.Signature) {
                 imageOnly = true;
             }  else if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
                 dateOnly = true;
@@ -1984,6 +1990,12 @@ define([
                 this.cmbDateFormat.setValue(this._state.DateFormat ? this._state.DateFormat : '');
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        onThemeChanged: function() {
+            var el = this.$el || $(this.el);
+            this._themeChanged = !el.is(':visible');
+            !this._themeChanged && this.cmbRoles && this.cmbRoles.setWidth(el.width());
         }
 
     }, DE.Views.FormSettings || {}));

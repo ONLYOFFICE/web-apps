@@ -52,14 +52,14 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0 10px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                     '<div class="inner-content">',
                         '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2" class="padding-small" style="white-space: nowrap;">',
-                                '<label class="header" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
+                                '<label class="header margin-right-2" class="margin-right-4" style="vertical-align: middle;">' + me.txtSourceName + '</label>',
                                 '<label id="value-field-settings-source" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;"></label>',
                             '</td>',
                         '</tr>',

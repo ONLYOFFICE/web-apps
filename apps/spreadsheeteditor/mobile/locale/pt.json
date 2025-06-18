@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
     "criticalErrorExtText": "Pressione 'OK' para voltar para a lista de documentos.",
+    "criticalErrorExtTextClose": "Pressione 'OK' para fechar o editor.",
     "criticalErrorTitle": "Erro",
     "downloadErrorText": "Erro ao baixar arquivo.",
     "errNoDuplicates": "Nenhum valor duplicado encontrado.",

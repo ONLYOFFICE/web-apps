@@ -114,9 +114,12 @@
   "Common.Views.OpenDialog.txtProtected": "לאחר הזנת הסיסמה ופתיחת הקובץ, הסיסמה הנוכחית לקובץ תאופס.",
   "Common.Views.OpenDialog.txtTitle": "בחירת %1 אפשרויות",
   "Common.Views.OpenDialog.txtTitleProtected": "קובץ מוגן",
+  "Common.Views.PluginDlg.textDock": "הצמדת התוסף",
   "Common.Views.PluginDlg.textLoading": "טוען",
   "Common.Views.PluginPanel.textClosePanel": "סגירת התוסף",
+  "Common.Views.PluginPanel.textHidePanel": "צמצם תוסף",
   "Common.Views.PluginPanel.textLoading": "טוען",
+  "Common.Views.PluginPanel.textUndock": "ביטול הצמדת התוסף",
   "Common.Views.Plugins.groupCaption": "תוספים",
   "Common.Views.Plugins.strPlugins": "תוספים",
   "Common.Views.Plugins.textBackgroundPlugins": "תוספי רקע",
@@ -418,5 +421,9 @@
   "VE.Views.ViewTab.textZoom": "תקריב",
   "VE.Views.ViewTab.tipFitPage": "התאמה לדף",
   "VE.Views.ViewTab.tipFitWidth": "התאמה לרוחב",
-  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק"
+  "VE.Views.ViewTab.tipInterfaceTheme": "ערכת נושא של הממשק",
+  "Common.UI.SynchronizeTip.textNew": "New",
+  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
+  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
+  "VE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor."
 }

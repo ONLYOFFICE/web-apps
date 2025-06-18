@@ -640,7 +640,7 @@ define([
                 type: 'plugin'
             });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel content-box" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + name,
@@ -879,7 +879,7 @@ define([
             this.closeBackPluginsTip();
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
-                isEdit = me.appOptions.isEdit && !me.isPDFEditor,
+                isEdit = me.appOptions.isEdit,
                 editor = me.editor,
                 apiVersion = me.api ? me.api.GetVersion() : undefined;
             if ( pluginsdata instanceof Array ) {
@@ -1181,7 +1181,7 @@ define([
             _.isArray(arrBtns) && _.each(arrBtns, function(b, index){
                 if (typeof b.textLocale == 'object')
                     b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                if (me.appOptions.isEdit && !me.isPDFEditor || b.isViewer !== false)
+                if (me.appOptions.isEdit || b.isViewer !== false)
                     newBtns[index] = {caption: b.text, value: index, primary: b.primary, frameId: frameId};
             });
 
@@ -1336,7 +1336,7 @@ define([
                     type: 'plugin'
                 });
             button.render($button);
-            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel" style="height: 100%;"></div>');
+            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel content-box" style="height: 100%;"></div>');
             this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + frameId,

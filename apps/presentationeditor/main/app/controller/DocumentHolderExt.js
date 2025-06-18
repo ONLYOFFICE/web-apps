@@ -91,6 +91,7 @@ define([], function () {
                     me.api.asc_registerCallback('asc_onUnLockViewProps',        _.bind(me.onLockViewProps, me, false));
                     me.api.asc_registerCallback('asc_onHideEyedropper',         _.bind(me.hideEyedropper, me));
                     me.api.asc_SetMathInputType(Common.localStorage.getBool("pe-equation-input-latex") ? Asc.c_oAscMathInputType.LaTeX : Asc.c_oAscMathInputType.Unicode);
+                    me.api.asc_registerCallback('asc_onRemoveUnpreserveMasters', _.bind(me.onRemoveUnpreserveMasters, me));
                 }
                 me.api.asc_registerCallback('asc_onShowForeignCursorLabel', _.bind(me.onShowForeignCursorLabel, me));
                 me.api.asc_registerCallback('asc_onHideForeignCursorLabel', _.bind(me.onHideForeignCursorLabel, me));
@@ -242,6 +243,7 @@ define([], function () {
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
             view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
+            view.mnuPreserveMaster.on('toggle', _.bind(me.onPreserveMaster, me));
             view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
             view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
             view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
@@ -1133,11 +1135,15 @@ define([], function () {
                     minRows: 8,
                     minColumns: 10,
                     maxRows: 8,
-                    maxColumns: 10
+                    maxColumns: 10,
+                    customClear: true,          // because bug 74394
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.editComplete();
+                });
+                menu.on('hide:before', function(menu, e){
+                    picker.setTableSize(0,0);
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {
@@ -1319,7 +1325,7 @@ define([], function () {
 
         dh.onPreview = function () {
             var current = this.api.getCurrentPage();
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0, false, false, true);
         };
 
         dh.onSelectAll = function () {
@@ -1530,7 +1536,7 @@ define([], function () {
                             var imgsizeOriginal;
 
                             if (!me.documentHolder.menuImgOriginalSize.isDisabled()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
@@ -1560,14 +1566,13 @@ define([], function () {
         dh.onImgOriginalSize = function(item){
             var me = this;
             if (me.api){
-                var originalImageSize = me.api.get_OriginalSizeImage();
+                var originalImageSize = me.api.asc_getCropOriginalImageSize();
 
                 if (originalImageSize) {
                     var properties = new Asc.asc_CImgProperty();
 
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
-                    properties.put_ResetCrop(true);
                     properties.put_Rot(0);
                     me.api.ImgApply(properties);
                 }
@@ -2030,7 +2035,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +
@@ -2194,6 +2198,22 @@ define([], function () {
 
         dh.onDuplicateMaster = function () {
             this.api.asc_DuplicateMaster();
+        };
+
+        dh.onPreserveMaster = function(item) {
+            this.api.asc_setPreserveSlideMaster(item.checked);
+        };
+
+        dh.onRemoveUnpreserveMasters = function(deleteMasterCallback) {
+            const me = this;
+            Common.UI.warning({
+                msg: me.documentHolder.textRemoveUnpreserveMasters,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: function(btn){
+                    deleteMasterCallback(btn === 'yes');
+                }
+            });
         };
 
         dh.onDuplicateLayout = function () {
