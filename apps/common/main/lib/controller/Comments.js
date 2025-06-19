@@ -783,8 +783,9 @@ define([
                     var usergroups = comment.get('parsedGroups');
                     t.fillUserGroups(usergroups);
                     var group = Common.Utils.InternalSettings.get(t.appPrefix + "comments-filtergroups");
-                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
-                    comment.set('filtered', filter);
+                    var groupFilter = !!group && (group !== -1) && (!usergroups || usergroups.length < 1 || usergroups.indexOf(group) < 0);
+                    var typeFilter = (t.currentTypeFilter === 'open' && comment.get('resolved')) || (t.currentTypeFilter === 'resolved' && !comment.get('resolved'));
+                    comment.set('filtered', groupFilter || typeFilter);
                 }
 
                 replies = _.clone(comment.get('replys'));
@@ -1337,9 +1338,11 @@ define([
                     var usergroups = comment.get('parsedGroups');
                     this.fillUserGroups(usergroups);
                     var group = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
-                    var filter = !!group && (group!==-1) && (!usergroups || usergroups.length<1 || usergroups.indexOf(group)<0);
-                    comment.set('filtered', filter);
+                    var groupFilter = !!group && (group !== -1) && (!usergroups || usergroups.length < 1 || usergroups.indexOf(group) < 0);
+                    var typeFilter = (this.currentTypeFilter === 'open' && comment.get('resolved')) || (this.currentTypeFilter === 'resolved' && !comment.get('resolved'));
+                    comment.set('filtered', groupFilter || typeFilter);
                 }
+
                 var replies = this.readSDKReplies(data, requestObj);
                 if (replies.length) {
                     comment.set('replys', replies);
@@ -1758,28 +1761,19 @@ define([
         },
 
         applyCombinedFilter: function () {
-            var group = this.currentGroupFilter;
-            var type = this.currentTypeFilter;
             var i, end = true;
 
             for (i = this.collection.length - 1; i >= 0; --i) {
                 var item = this.collection.at(i);
-                var isHidden = item.get('hide');
-                var isResolved = item.get('resolved') === true;
                 var usergroups = item.get('parsedGroups');
 
-                var groupFiltered = !!group && group !== -1 &&
-                    (!usergroups || usergroups.length < 1 || usergroups.indexOf(group) < 0);
-
-                var typeFiltered = false;
-                if (type === 'open' && isResolved) typeFiltered = true;
-                else if (type === 'resolved' && !isResolved) typeFiltered = true;
-
+                var groupFiltered = !!this.currentGroupFilter && this.currentGroupFilter !== -1 && (!usergroups || usergroups.length < 1 || usergroups.indexOf(this.currentGroupFilter) < 0);
+                var typeFiltered = (this.currentTypeFilter === 'open' && item.get('resolved')) || (this.currentTypeFilter === 'resolved' && !item.get('resolved'));
                 var shouldFilter = groupFiltered || typeFiltered;
 
                 item.set('filtered', shouldFilter, { silent: true });
 
-                if (end && !shouldFilter && !isHidden) {
+                if (end && !shouldFilter && !item.get('hide')) {
                     item.set('last', true, { silent: true });
                     end = false;
                 } else if (item.get('last')) {
