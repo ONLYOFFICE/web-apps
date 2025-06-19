@@ -591,7 +591,7 @@ define([
         },
 
         createRenameInput(currentName) {
-            return $('<input type="text" class="inline-rename" maxlength="31" />').val(currentName).css({
+            return $('<input type="text" class="inline-rename" maxlength="31" spellcheck="false"/>').val(currentName).css({
                 color: 'inherit',
                 backgroundColor: 'transparent',
                 boxSizing: 'border-box',

@@ -156,7 +156,7 @@ define([
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
-                                    '<input id="title-doc-name" autofill="off" autocomplete="off"/></input>' +
+                                    '<input id="title-doc-name" autofill="off" autocomplete="off" spellcheck="false"/></input>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" data-layout-name="header-user">' +
