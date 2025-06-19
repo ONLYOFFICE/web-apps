@@ -1537,6 +1537,8 @@
   "SSE.Controllers.Statusbar.textSheetViewTipFilters": "You are in Sheet View mode. Filters are visible only to you and those who are still in this view.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "The selected sheets might contain data. Are you sure you want to proceed?",
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
+  "SSE.Controllers.Statusbar.errNameExists": "Sheet with such a name already exists.",
+  "SSE.Controllers.Statusbar.errSheetNameRules": "<b>You typed an invalid sheet name:</b><br>- A sheet name cannot be empty.<br>- A sheet name cannot contain the following characters: \\ / * ? [ ] : or the character ' as first or last character.",
   "SSE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "SSE.Controllers.Toolbar.errorComboSeries": "To create a combination chart, select at least two series of data.",
   "SSE.Controllers.Toolbar.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
