@@ -524,7 +524,7 @@ define([
                         }), this.mode.isEditOle ? '1' : '0');
                     }
 
-                    $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
+                    this.labelZoom.text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     this.updateNumberOfSheet(sindex, wc);
 
@@ -546,6 +546,7 @@ define([
                 this.tabbar.setDirection(this.isRtlSheet);
                 var dir = (this.isCompact ? this.isRtlSheet : Common.UI.isRTL()) ? 'rtl' : 'ltr';
                 this.boxZoom.attr({dir: dir});
+                this.labelZoom.attr({dir: Common.UI.isRTL() ? 'rtl' : 'ltr'});
                 this.boxMath.attr({dir: dir});
                 this.boxFiltered.attr({dir: dir});
                 this.sheetListMenu.menuAlign = this.isRtlSheet ? 'br-tr' : 'bl-tl';
