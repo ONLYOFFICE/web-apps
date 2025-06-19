@@ -565,22 +565,16 @@ define([
             const me = this;
             let newName = $input.val();
             if (save) {
-                if (newName === '') {
+                if (newName === '' || !me.isValidWorksheetName(newName)) {
                     if (me.isRenameErrorShown) return false;
                     me.isRenameErrorShown = true;
-                    me.showRenameError((new Common.Views.RenameDialog).txtEmptySheetName, $input);
-                    return false;
-                }
-                if (!me.isValidWorksheetName(newName)) {
-                    if (me.isRenameErrorShown) return false;
-                    me.isRenameErrorShown = true;
-                    me.showRenameError("You typed an invalid sheet name: '" + newName + "'", $input);
+                    me.showRenameError(this.errSheetNameRules, $input);
                     return false;
                 }
                 if (otherNames.includes(newName.toLowerCase())) {
                     if (me.isRenameErrorShown) return false;
                     me.isRenameErrorShown = true;
-                    me.showRenameError((new Common.Views.RenameDialog).txtExistedSheetName, $input);
+                    me.showRenameError(this.errNameExists, $input);
                     return false;
                 }
                 if (newName !== currentName) {
@@ -1103,6 +1097,8 @@ define([
         strSheet        : 'Sheet',
         textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.',
         textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.',
-        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.'
+        textDisconnect: '<b>Connection is lost</b><br>Trying to connect. Please check connection settings.',
+        errSheetNameRules : "<b>You typed an invalid sheet name:</b><br>- A sheet name cannot be empty.<br>- A sheet name cannot contain the following characters: \ / * ? [ ] : or the character ' as first or last character.",
+        errNameExists   : 'Sheet with such a name already exists.'
     }, SSE.Controllers.Statusbar || {}));
 });
