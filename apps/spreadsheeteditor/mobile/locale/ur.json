@@ -256,7 +256,8 @@
   },
   "Error": {
     "convertationTimeoutText": "تبادلوں کا وقت ختم ہو گیا۔",
-    "criticalErrorExtText": "دستاویز کی فہرست پر واپس جانے کے لیے 'OK' کو دبائیں۔",
+    "criticalErrorExtText": "دستاویز کی فہرست پر واپس جانے کے لیے \"ٹھیک ہے\" کو دبائیں۔",
+    "criticalErrorExtTextClose": "ایڈیٹر کو بند کرنے کے لیے 'اوکے' کو دبائیں۔",
     "criticalErrorTitle": "خرابی",
     "downloadErrorText": "ڈاؤن لوڈ ناکام ہوگیا۔",
     "errNoDuplicates": "کوئی ڈپلیکیٹ قدر نہیں ملی۔",

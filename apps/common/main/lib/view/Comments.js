@@ -204,7 +204,7 @@ define([
                 commentId = record.get('uid');
                 replyId =  btn.attr('data-value');
 
-                if (btn.hasClass('btn-edit')) {
+                if (btn.hasClass('btn-edit-common')) {
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:closeEditing', [commentId]);
                         me.fireEvent('comment:editReply', [commentId, replyId]);

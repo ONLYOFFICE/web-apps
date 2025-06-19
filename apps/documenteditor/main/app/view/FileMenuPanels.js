@@ -383,6 +383,14 @@ define([], function () {
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
                 '<tr>',
+                    '<td class="group-name" colspan="2"><label><%= scope.strDocContent %></label></td>',
+                '</tr>',
+                '<tr class="">',
+                    '<td><label><%= scope.strNumeral %></label></td>',
+                    '<td><div id="fms-cmb-numeral"></div></td>',
+                '</tr>',
+                '<tr class ="divider-group"></tr>',
+                '<tr class="appearance">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
                 '</tr>',
                 '<tr class="themes">',
@@ -704,7 +712,7 @@ define([], function () {
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -856,6 +864,23 @@ define([], function () {
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
             });*/
 
+            this.cmbNumeral = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-numeral'),
+                style       : 'width: 160px;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                menuStyle   : 'min-width:100%;',
+                data        : [
+                    { value: Asc.c_oNumeralType.arabic, displayValue: this.txtArabic },
+                    { value: Asc.c_oNumeralType.hindi, displayValue: this.txtHindi }
+                    // { value: Asc.c_oNumeralType.context, displayValue: this.txtContext }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -902,6 +927,7 @@ define([], function () {
                 this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbNumeral.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -934,7 +960,8 @@ define([], function () {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
-            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[!Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
+            $('tr.appearance', this.el)[!Common.Utils.isIE ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -1037,6 +1064,10 @@ define([], function () {
 
             if (Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined)
                 this.cmbFontSizeType.setValue(Common.Utils.InternalSettings.get("de-settings-western-font-size"));
+
+            value = Common.Utils.InternalSettings.get("de-settings-numeral");
+            item = this.cmbNumeral.store.findWhere({value: value});
+            this.cmbNumeral.setValue(item ? item.get('value') : Asc.c_oNumeralType.arabic);
         },
 
         applySettings: function() {
@@ -1096,7 +1127,7 @@ define([], function () {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
 
-            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true)) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
             }
 
@@ -1105,6 +1136,8 @@ define([], function () {
                 Common.localStorage.setBool("de-settings-western-font-size", val);
                 Common.Utils.InternalSettings.set("de-settings-western-font-size", val);
             }
+
+            Common.localStorage.setItem("de-settings-numeral", this.cmbNumeral.getValue());
 
             Common.localStorage.save();
 
@@ -2767,7 +2800,7 @@ define([], function () {
 
             this.cmbPrinter = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-printer'),
-                menuStyle: 'min-width: 248px;max-height: 280px;',
+                menuStyle: 'width: 248px; max-height: 280px;',
                 editable: false,
                 takeFocusOnClose: true,
                 cls: 'input-group-nr',
@@ -2896,7 +2929,7 @@ define([], function () {
 
             this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
-                menuStyle: 'max-height: 280px; min-width: 248px;',
+                menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,

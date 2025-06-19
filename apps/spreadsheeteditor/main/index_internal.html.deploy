@@ -12,6 +12,14 @@
     <!-- splash -->
     <style type="text/css">
         .loadmask {
+            --sk-height-formula: 32px;
+            --sk-padding-formula: 4px 10px;
+            --sk-border-style-formula: none;
+            --sk-gap-formula-field: 28px;
+            --sk-border-radius-formula-field: 3px;
+        }
+
+        .loadmask {
             left: 0;
             top: 0;
             position: absolute;
@@ -24,6 +32,17 @@
             z-index: 1001;
         }
 
+        .theme-night .loadmask {
+            /* --toolbar-header-document: #222222 */
+            --sk-background-toolbar: #222222;
+
+            --sk-height-formula: 38px;
+            --sk-padding-formula: 10px 10px 4px 10px;
+            --sk-border-style-formula: none;
+            --sk-gap-formula-field: 28px;
+            --sk-border-radius-formula-field: 3px;
+        }
+
         .loadmask ul {
             margin: 0;
             padding: 0;
@@ -32,9 +51,13 @@
         }
 
         .loadmask>.skformula {
+            padding: 0 0 4px 0;
+            padding: var(--sk-padding-formula);
             height: 24px;
+            height: var(--sk-height-formula);
             background: #f7f7f7;
-            background: var(--background-toolbar, #f7f7f7);
+            background-color: var(--sk-background-toolbar, #f7f7f7);
+            box-sizing: border-box;
         }
 
         .loadmask>.skformula ul {
@@ -42,30 +65,51 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
+            border-style: var(--sk-border-style-formula);
             border-width: 1px;
             border-width: var(--scaled-one-px-value, 1px);
             border-color: #cbcbcb transparent;
             border-color: var(--border-toolbar, #cbcbcb) transparent;
+            border-top: 0 none;
+            display: flex;
+            height: 100%;
         }
 
         .loadmask>.skformula li {
             display: inline-block;
             box-sizing: border-box;
-            height: 19px;
-            width: 100%;
-            margin-left: 20px;
             background: #fff;
             background: var(--background-normal, #fff);
-            border-style: solid;
-            border-width: 1px;
-            border-width: var(--scaled-one-px-value, 1px);
-            border-color: #cbcbcb;
-            border-color: transparent var(--border-toolbar, #cbcbcb);
+            border-left: 1px solid #cbcbcb; 
+            border-left: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+            border-radius: 0px;
+            border-radius: var(--sk-border-radius-formula-field, 0px);
+            flex-grow: 1;
         }
 
-        .loadmask>.skformula li:first-child {
+        .loadmask > .skformula li:first-child {
             width: 100px;
-            margin-left: 0;
+            flex-grow: 0;
+            margin-right: 20px;
+            margin-right: var(--sk-gap-formula-field);
+            border-left: 0 none; 
+            border-right: 1px solid #cbcbcb; 
+            border-right: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+        }
+
+        .rtl .loadmask > .skformula li {
+            border-left: 0 none; 
+            border-right: 1px solid #cbcbcb; 
+            border-right: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
+        }
+
+        .rtl .loadmask > .skformula li:first-child {
+            margin-right: 0;
+            margin-left: 20px;
+            margin-left: var(--sk-gap-formula-field);
+            border-right: 0 none; 
+            border-left: 1px solid #cbcbcb; 
+            border-left: var(--scaled-one-px-value, 1px) var(--sk-border-style-formula) var(--border-toolbar, #cbcbcb); 
         }
 
         .loadmask > .placeholder {
@@ -176,10 +220,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
         window.uitype = "cell";
-
-        if ( !!params.uitheme ) {
-            document.documentElement.classList.add(params.uitheme);
-        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>

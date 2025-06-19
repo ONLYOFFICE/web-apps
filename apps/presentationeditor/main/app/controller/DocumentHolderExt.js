@@ -1136,11 +1136,15 @@ define([], function () {
                     minRows: 8,
                     minColumns: 10,
                     maxRows: 8,
-                    maxColumns: 10
+                    maxColumns: 10,
+                    customClear: true,          // because bug 74394
                 });
                 picker.on('select', function(picker, columns, rows){
                     me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.editComplete();
+                });
+                menu.on('hide:before', function(menu, e){
+                    picker.setTableSize(0,0);
                 });
                 menu.on('item:click', function(menu, item, e){
                     if (item.value === 'custom') {
@@ -2041,7 +2045,6 @@ define([], function () {
                         iconCls     : 'svgicon ' + equationGroup.get('groupIcon'),
                         hint        : equationGroup.get('groupName'),
                         menu        : new Common.UI.Menu({
-                            cls: 'menu-shapes',
                             value: i,
                             items: [
                                 { template: _.template('<div id="id-document-holder-btn-equation-menu-' + i +

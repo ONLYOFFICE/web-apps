@@ -296,7 +296,7 @@ define([], function () {
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
-                '<tr>',
+                '<tr class="appearance">',
                     '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
                 '</tr>',
                 '<tr class="themes">',
@@ -594,7 +594,7 @@ define([], function () {
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> class="border-top" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
                     '<% }); %>'
                 ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
@@ -856,27 +856,32 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
-            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+            var lckey = "app-settings-recent-langs";
+            this.cmbDictionaryLanguage = new Common.UI.ComboBoxRecent({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
                 style: 'width: 200px;',
                 editable: false,
                 restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
-                itemsTemplate: _.template([
-                    '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                itemTemplate: _.template([
+                        '<li id="<%= id %>" data-value="<%= value %>">',
                             '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
                                 '<div>',
-                                    '<%= item.displayValue %>',
+                                    '<%= displayValue %>',
                                 '</div>',
-                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                                '<label style="opacity: 0.6"><%= displayValueEn %></label>',
                             '</a>',
                         '</li>',
-                    '<% }); %>',
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
+                recent: {
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'shortName'
+                },
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -1065,10 +1070,11 @@ define([], function () {
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
-            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[!Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.appearance', this.el)[!Common.Utils.isIE ? 'show' : 'hide']();
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
@@ -1314,7 +1320,7 @@ define([], function () {
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true)) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
             }
             Common.localStorage.save();
@@ -2843,7 +2849,7 @@ define([], function () {
             if(this.mode.isDesktopApp) {
                 this.cmbPrinter = new Common.UI.ComboBox({
                     el: $markup.findById('#print-combo-printer'),
-                    menuStyle: 'min-width: 248px;max-height: 280px;',
+                    menuStyle: 'width: 248px; max-height: 280px;',
                     editable: false,
                     takeFocusOnClose: true,
                     cls: 'input-group-nr',
@@ -3006,7 +3012,7 @@ define([], function () {
 
             this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
-                menuStyle: 'max-height: 280px; min-width: 248px;',
+                menuStyle: 'max-height: 280px; width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
                 template: paperSizeTemplate,
@@ -3054,7 +3060,7 @@ define([], function () {
             var itemsTemplate =
                 _.template([
                     '<% _.each(items, function(item) { %>',
-                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" style="margin-top: 5px;padding-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> class="border-top" <% } %> ><a tabindex="-1" type="menuitem">',
                     '<%= scope.getDisplayValue(item) %>',
                     '</a></li>',
                     '<% }); %>'

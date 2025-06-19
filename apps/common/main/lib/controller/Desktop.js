@@ -772,6 +772,9 @@ define([
             uiRtlSupported: function () {
                 return nativevars && nativevars.rtl != undefined;
             },
+            systemLangs: function () {
+                return nativevars && nativevars.keyboard ? nativevars.keyboard.langs : undefined;
+            },
         };
     };
 

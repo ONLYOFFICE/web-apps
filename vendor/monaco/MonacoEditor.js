@@ -1,7 +1,8 @@
 (function(window, document) {
     /*
     * config = {
-    *   editorType: 'cell'/'slide'/'word'
+    *   editorType: 'cell'/'slide'/'word',
+    *   language: 'javascript'/'vba'
     *   events: {
     *       onChangeValue // text in editor is changed
     *       onEditorReady // editor is ready for use
@@ -13,13 +14,13 @@
     window.MonacoEditorWrapper = function(placeholderId, config) {
         var _self = this,
             _config = config || {},
+            _id = Math.random().toString(16).slice(2),
             parentEl = document.getElementById(placeholderId),
             iframe;
 
         var _setValue = function(value, currentPos, readonly) {
-            _postMessage(iframe.contentWindow, {
+            _postMessage(iframe.contentWindow, _id, {
                 command: 'setValue',
-                referer: 'monaco-editor',
                 data: {
                     value: value,
                     currentPos: currentPos
@@ -28,9 +29,8 @@
         };
 
         var _updateTheme = function(type) {
-            _postMessage(iframe.contentWindow, {
+            _postMessage(iframe.contentWindow, _id, {
                 command: 'setTheme',
-                referer: 'monaco-editor',
                 data: {
                     type: type
                 }
@@ -38,9 +38,8 @@
         };
 
         var _disableDrop = function(disable) {
-            _postMessage(iframe.contentWindow, {
+            _postMessage(iframe.contentWindow, _id, {
                 command: 'disableDrop',
-                referer: 'monaco-editor',
                 data: disable
             });
         };
@@ -65,7 +64,7 @@
                 cmd = '';
             }
 
-            if (cmd && cmd.referer == "monaco-editor") {
+            if (cmd && cmd.referer == "monaco-editor-" + _id) {
                 var events = _config.events || {},
                     handler;
                 data = {};
@@ -96,7 +95,7 @@
         };
 
         if (parentEl) {
-            iframe = createIframe(_config);
+            iframe = createIframe(_id, _config);
             iframe.onload = _onLoad;
             var _msgDispatcher = new MessageDispatcher(_onMessage, this);
             parentEl.appendChild(iframe);
@@ -124,21 +123,27 @@
         return "";
     }
 
-    function createIframe(config) {
+    function createIframe(id, config) {
+        var params = [];
+        config.editorType && params.push('editorType=' + config.editorType);
+        config.theme && params.push('editorTheme=' + config.theme);
+        config.language && params.push('language=' + config.language);
+        id && params.push('id=' + id);
+
         iframe = document.createElement("iframe");
         iframe.width        = '100%';
         iframe.height       = '100%';
         iframe.align        = "top";
         iframe.frameBorder  = 0;
         iframe.scrolling    = "no";
-        iframe.src = getBasePath() + 'MonacoEditor.html' + (config.editorType ? '?editorType=' + config.editorType : '')
-                                                         + (config.theme ? '&editorTheme=' + config.theme : '');
+        iframe.src = getBasePath() + 'MonacoEditor.html' + (params.length ? '?' + params.join('&') : '');
 
         return iframe;
     }
 
-    function _postMessage(wnd, msg) {
+    function _postMessage(wnd, id, msg) {
         if (wnd && wnd.postMessage && window.JSON) {
+            msg.referer = 'monaco-editor-' + id;
             wnd.postMessage(window.JSON.stringify(msg), "*");
         }
     }

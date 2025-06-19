@@ -81,7 +81,7 @@
     "menuUnfreezePanes": "Снять закрепление областей",
     "menuUnmerge": "Разбить",
     "menuUnwrap": "Убрать перенос",
-    "menuViewComment": "Просмотреть комментарий",
+    "menuViewComment": "Посмотреть комментарий",
     "menuWrap": "Перенос текста",
     "notcriticalErrorTitle": "Внимание",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
     "criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
+    "criticalErrorExtTextClose": "Нажмите 'OK', чтобы закрыть редактор.",
     "criticalErrorTitle": "Ошибка",
     "downloadErrorText": "Загрузка не удалась.",
     "errNoDuplicates": "Повторяющиеся значения не найдены.",

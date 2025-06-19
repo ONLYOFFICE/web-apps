@@ -57,7 +57,7 @@ define([
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 10px 0 0;',
                 contentTemplate: _.template([
                         '<div class="settings-panel active">',
                             '<div class="inner-content">',
@@ -384,7 +384,10 @@ define([
             }
 
             var el = document.createElement('span');
-            el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
+            var props = Common.UI.Themes.getThemeProps('font');
+            el.style.fontSize = props && props.size ? props.size : '11px';
+            el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+
             el.style.fontFamily = document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif';
             el.style.position = "absolute";
             el.style.top = '-1000px';

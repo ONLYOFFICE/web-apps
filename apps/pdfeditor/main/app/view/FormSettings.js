@@ -68,7 +68,7 @@ define([
             this._originalSpecProps = null;
             this._originalProps = null;
             this.defFormat = {FormatType: AscPDF.FormatType.NONE, decimal: 2, separator: AscPDF.SeparatorStyle.COMMA_DOT, negative: AscPDF.NegativeStyle.BLACK_MINUS,
-                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 'HH:MM', special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
+                              symbol: '', location: true, dateformat: 'm/d/yy', timeformat: 0, special: AscPDF.SpecialFormatType.PHONE, regexp: '.'};
             this.render();
         },
 
@@ -127,6 +127,26 @@ define([
             this.cmbName.on('changed:after', this.onNameChanged.bind(this));
             this.cmbName.on('hide:after', this.onHideMenus.bind(this));
 
+            this.cmbOrient = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-orient'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                style: 'width: 48px;',
+                editable: false,
+                data: [
+                    {displayValue: '0°',   value: 0},
+                    {displayValue: '90°', value: 90},
+                    {displayValue: '180°', value: 180},
+                    {displayValue: '270°',  value: 270}
+                ],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbOrient.setValue(0);
+            this.cmbOrient.on('selected', this.onOrientChanged.bind(this));
+            this.lockedControls.push(this.cmbOrient);
+
             this.chRequired = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-required'),
                 labelText: this.textRequired,
@@ -184,6 +204,22 @@ define([
             this.cmbLineStyle.setValue(AscPDF.BORDER_TYPES.solid);
             this.cmbLineStyle.on('selected', this.onLineStyleChanged.bind(this));
             this.lockedControls.push(this.cmbLineStyle);
+
+            this.btnLockForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-lock'),
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-lock',
+                caption     : this.textLock,
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.btnLockForm.on('click', _.bind(function(btn){
+                if (this.api && !this._noApply) {
+                    this.api.SetFieldLocked(!this._state.LockDelete);
+                    this.fireEvent('editcomplete', this);
+                }
+            }, this));
 
             //Spec props
             // combobox & text field
@@ -300,12 +336,15 @@ define([
             this.cmbDateFormat.on('hide:after', this.onHideMenus.bind(this));
 
             arr = [];
-            this.api.asc_getFieldTimeFormatOptions().forEach(function(item){
-                arr.push({
-                    value: item,
-                    displayValue: item
-                });
-            });
+            var timearr = this.api.asc_getFieldTimeFormatOptions();
+            for (let str in timearr) {
+                if(timearr.hasOwnProperty(str)) {
+                    arr.push({
+                        value: timearr[str],
+                        displayValue: str
+                    });
+                }
+            }
             this.cmbTimeFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-cmb-time-format'),
                 cls: 'input-group-nr',
@@ -738,6 +777,7 @@ define([
             });
             this.sldrPreviewPositionX.on('change', _.bind(this.onImagePositionChange, this, 'x'));
             this.sldrPreviewPositionX.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'x'));
+            this.lockedControls.push(this.sldrPreviewPositionX);
 
             this.sldrPreviewPositionY = new Common.UI.SingleSlider({
                 el: $markup.findById('#form-img-slider-position-y'),
@@ -749,6 +789,7 @@ define([
             });
             this.sldrPreviewPositionY.on('change', _.bind(this.onImagePositionChange, this, 'y'));
             this.sldrPreviewPositionY.on('changecomplete', _.bind(this.onImagePositionChangeComplete, this, 'y'));
+            this.lockedControls.push(this.sldrPreviewPositionY);
 
             var xValue = this.sldrPreviewPositionX.getValue(),
                 yValue = this.sldrPreviewPositionY.getValue();
@@ -851,6 +892,14 @@ define([
             if (this.api && !this._noApply) {
                 this._state.StrokeWidth = undefined;
                 this.api.SetFieldStrokeWidth(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onOrientChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                this._state.Orient = undefined;
+                this.api.SetFieldRotate(record.value);
                 this.fireEvent('editcomplete', this);
             }
         },
@@ -1234,6 +1283,12 @@ define([
                 this._originalProps = props;
                 this._noApply = true;
 
+                var val = props.asc_getPropLocked();
+                if (this._state.LockDelete !== val) {
+                    this._state.LockDelete = val;
+                    this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
+                }
+
                 this.disableControls(this._locked);
 
                 var forceShowHide = false,
@@ -1253,7 +1308,7 @@ define([
                     this._state.Name = undefined;
                 }
 
-                var val = props.asc_getName();
+                val = props.asc_getName();
                 if (this._state.Name!==val) {
                     this.cmbName.setValue(val ? val : '');
                     this._state.Name=val;
@@ -1269,6 +1324,12 @@ define([
                 if ( this._state.Readonly!==val ) {
                     this.chReadonly.setValue(!!val, true);
                     this._state.Readonly=val;
+                }
+
+                val = props.asc_getRot();
+                if ( this._state.Orient!==val ) {
+                    this.cmbOrient.setValue(val!==undefined ? val : 0);
+                    this._state.Orient=val;
                 }
 
                 var color = props.asc_getStroke();
@@ -1452,10 +1513,13 @@ define([
                         var options = specProps.asc_getOptions();
                         var arr = [];
                         for (var i=0; i<options.length; i++) {
-                            (options[i]!=='') && arr.push({
-                                value: options[i],
-                                name: options[i]
-                            });
+                            if (options[i]!=='') {
+                                val = _.isArray(options[i]) && options[i].length ? options[i][0] : options[i];
+                                arr.push({
+                                    value: val,
+                                    name: val
+                                });
+                            }
                         }
                         this.list.store.reset(arr);
                         var rec = null;
@@ -1724,6 +1788,7 @@ define([
             this.cmbHowScale.setDisabled(this._state.Scale === AscPDF.Api.Types.scaleWhen.never || this._state.DisabledControls);
             this.cmbState.setDisabled(this._state.Behavior!==AscPDF.BUTTON_HIGHLIGHT_TYPES.push || this._state.DisabledControls);
             this.linkAdvanced.toggleClass('disabled', disable);
+            this.btnLockForm.setDisabled(disable);
         },
 
         showHideControls: function(type, specProps) {

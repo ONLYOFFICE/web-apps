@@ -59,6 +59,7 @@ define([
             var me = this;
             if (me.listEffects) {
                 me.listEffects.on('click', _.bind(function (combo, record) {
+                    Common.UI.TooltipManager.closeTip('animText');
                     me.fireEvent('animation:selecteffect', [combo, record]);
                 }, me));
                 me.listEffectsMore.on('click', _.bind(function () {
@@ -204,7 +205,7 @@ define([
                     cls: 'combo-transitions combo-animation',
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
-                    style: 'min-width:200px;',
+                    style: 'min-width:210px;',
                     autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
@@ -241,6 +242,8 @@ define([
                             });
                         }
                         cmp.removeTips();
+
+                        Common.UI.TooltipManager.closeTip('animText');
                     }
                 });
                 this.lockedControls.push(this.listEffects);
@@ -509,6 +512,7 @@ define([
                     var onShowBefore = function(menu) {
                         var picker = new Common.UI.DataView({
                             el: $('#id-toolbar-menu-addanimation'),
+                            cls: 'no-borders-item',
                             parentMenu: menu,
                             outerMenu:  {menu: me.btnAddAnimation.menu, index: 0},
                             showLast: false,

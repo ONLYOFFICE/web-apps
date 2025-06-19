@@ -546,6 +546,8 @@ define([
                 item.set('disabled', !!me._state.lockEmphasis);
             });
             this.setLocked();
+            if (this.view && this.view.listEffects && !this.view.listEffects.isDisabled() && this._state.onactivetab)
+                Common.UI.TooltipManager.showTip('animText');
         },
 
         setTriggerList: function (){
@@ -591,8 +593,14 @@ define([
             if (tab == 'animate') {
                 this._state.onactivetab = true;
                 this.setSettings();
+                if (this.view && this.view.listEffects && !this.view.listEffects.isDisabled())
+                    setTimeout(function() {
+                        Common.UI.TooltipManager.showTip('animText');
+                    }, 10);
+            } else {
+                this._state.onactivetab = false;
+                Common.UI.TooltipManager.closeTip('animText');
             }
-            else this._state.onactivetab = false;
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },
 

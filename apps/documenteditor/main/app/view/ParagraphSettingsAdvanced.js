@@ -46,7 +46,7 @@ define([
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            contentHeight: 330,
+            contentHeight: 340,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
         },
@@ -185,6 +185,9 @@ define([
                 }
             }, this));
             this.spinners.push(this.numIndentsRight);
+
+            this.lblIndentsLeft = $('#paragraphadv-lbl-indent-left');
+            this.lblIndentsRight = $('#paragraphadv-lbl-indent-right');
 
             this.numSpacingBefore = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-spacing-before'),
@@ -896,6 +899,8 @@ define([
                     this.rbDirRtl.setValue(value, true);
                     this.rbDirLtr.setValue(!value, true);
                 }
+                this.lblIndentsLeft.text(value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
 
                 this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : '');
 
@@ -1506,6 +1511,8 @@ define([
         onTextDirChange: function(field, newValue, eOpts) {
             if (newValue && this._changedProps) {
                 this._changedProps.asc_putRtlDirection(field.options.value);
+                this.lblIndentsLeft.text(field.options.value ? this.strIndentsSpacingBefore : this.strIndentsLeftText);
+                this.lblIndentsRight.text(field.options.value ? this.strIndentsSpacingAfter : this.strIndentsRightText);
             }
         },
 

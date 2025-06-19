@@ -82,7 +82,7 @@ define([
             this.printSettings.menu.on('menu:hide', _.bind(this.onHidePrintMenu, this));
             this.printSettings.btnPrintSystemDialog.on('click', _.bind(this.onBtnPrint, this, true, true));
             this.printSettings.btnPrint.on('click', _.bind(this.onBtnPrint, this, true, false));
-            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false));
+            this.printSettings.btnPrintPdf.on('click', _.bind(this.onBtnPrint, this, false, false));
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.txtNumberPage.on({

@@ -46,6 +46,9 @@
 
     !window.uitheme && (window.uitheme = {});
 
+    window.uitheme.DEFAULT_LIGHT_THEME_ID = !window.isIEBrowser ? 'theme-white' : 'theme-classic-light';
+    window.uitheme.DEFAULT_DARK_THEME_ID = !window.isIEBrowser ? 'theme-night' : 'theme-dark';
+
     window.uitheme.set_id = function (id) {
         if ( id == 'theme-system' )
             this.adapt_to_system_theme();
@@ -63,7 +66,7 @@
 
     window.uitheme.relevant_theme_id = function () {
         if ( this.is_theme_system() )
-            return this.is_system_theme_dark() ? 'theme-dark' : 'theme-classic-light';
+            return this.is_system_theme_dark() ? window.uitheme.DEFAULT_DARK_THEME_ID : window.uitheme.DEFAULT_LIGHT_THEME_ID;
         return this.id;
     }
 
@@ -72,14 +75,47 @@
             return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
+    // localstorage.setItem('ui-theme-id', 'theme-white');
     !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
-    function inject_style_tag(content) {
+    function inject_style_tag(content, id) {
+        if ( id && !!document.getElementById(id) )
+            return;
+
         const style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = content;
+        if (id) style.id = id;
         document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    window.uitheme.apply_icons_from_url = function (themeid, url) {
+        if ( !url ) return;
+
+        let base_url = !url.endsWith('/') ? url + '/' : url;
+        const sp_names = ['small', 'big', 'huge'];
+        const sp_scale = {'100':'', '125':'@1.25x','150':'@1.5x','175':'@1.75x','200':'@2x'};
+        let icons = [];
+        sp_names.forEach(function (n) {
+            for (let key in sp_scale) {
+                const value = sp_scale[key];
+                icons.push('--sprite-button-'+n+'-'+key+':url('+ base_url +'icons' + n + value + '.png)');
+            }
+        });
+
+        inject_style_tag('.' + themeid + '{' + icons.join(';') + ';}', themeid);
+
+        // workaroud for svg sptites relative path that different from png sprites
+        if ( base_url.lastIndexOf('../img/', 0) === 0 )
+            base_url = base_url.replace('..','./resources');
+
+        const svg_icons_array = [base_url+'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
+        if ( window.Common && window.Common.Utils )
+            window.Common.Utils.injectSvgIcons(svg_icons_array, true);
+        else {
+            window.uitheme.svg_icons = [base_url+'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
+        }
     }
 
     inject_style_tag(':root .theme-dark {' +
@@ -120,12 +156,29 @@
 
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
+
+                if ( objtheme.icons ) {
+                    window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons.basepath);
+                }
+
+                if ( objtheme.skeleton ) {
+                    if ( objtheme.skeleton.css )
+                        inject_style_tag(objtheme.skeleton.css);
+
+                    if ( objtheme.skeleton.html ) {
+                        window.skhtml = objtheme.skeleton.html;
+                    }
+                }
             }
         }
     } else {
         if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-gray", 0) === 0 ) {
             header_tokens.forEach(function (i) {
                 !!document.documentElement.style.setProperty('--' + i, "#f7f7f7");
+            });
+        } else if ( window.uitheme.id && window.uitheme.id.lastIndexOf("theme-white", 0) === 0 ) {
+            header_tokens.forEach(function (i) {
+                !!document.documentElement.style.setProperty('--' + i, "#ffffff");
             });
         }
     }

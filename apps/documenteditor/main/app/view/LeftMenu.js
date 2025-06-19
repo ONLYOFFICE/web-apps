@@ -208,6 +208,7 @@ define([
             this.supressEvents = false;
 
             this.onCoauthOptions();
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

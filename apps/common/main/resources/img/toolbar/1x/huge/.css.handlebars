@@ -1,14 +1,18 @@
 {{#spritesheet}}
 .btn {
     .options__icon.options__icon-huge {
+        {{#if (iesupport)}}
         background-position-x: 0;
+        {{/if}}
         background-position-x: var(--button-huge-normal-icon-offset-x,0);
     }
 
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .options__icon.options__icon-huge {
+                {{#if (iesupport)}}
                 background-position-x: 0;
+                {{/if}}
                 background-position-x: var(--button-huge-active-icon-offset-x,0);
             }
         }
@@ -16,7 +20,18 @@
 }
 
 .options__icon.options__icon-huge {
+    {{#if (iesupport)}}
     background-image: url(resources/{{{escaped_image}}});
+    background-size: 80px auto;
+    {{/if}}
+    background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}}, url(resources/{{{escaped_image}}}));
+    background-size: var(--huge-icon-background-image-width) auto;
+
+    {{#if (xpsupport)}}
+    .winxp & {
+        background-image: url(resources/{{{escaped_image}}});
+    }
+    {{/if}}
 }
 {{/spritesheet}}
 {{#sprites}}

@@ -5,14 +5,22 @@
                 (min-resolution: 120dpi) and (max-resolution: 143dpi)
     {
         .x-huge .toolbar__icon, .toolbar__icon.toolbar__icon-big {
+            {{#if (iesupport)}}
             background-image: url(resources/{{{escaped_image}}});
-            background-size: {{scaled width 1.25}}px auto;
+            {{/if}}
+            background-image: var(--sprite-button-{{#spritepostfix}}{{/spritepostfix}});
+
+            {{#if (xpsupport)}}
+            .winxp & {
+                background-image: url(resources/{{{escaped_image}}});
+            }
+            {{/if}}
         }
     }
 }
 
 .toolbar__icon.toolbar__icon-big {
-    background-size: 56px auto;
-    background-size: var(--big-icon-background-image-width) auto;
+    {{!-- background-size: 56px auto; --}}
+    {{!-- background-size: var(--big-icon-background-image-width) auto; --}}
 }
 {{/spritesheet}}

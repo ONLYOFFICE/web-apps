@@ -6,6 +6,16 @@
         .font-size-medium();
         .font-weight-bold();
         margin-bottom: 4px;
+
+        span {
+            .font-size-large();
+            background: #4A87E7;
+            color: #fff;
+            padding: calc(@scaled-one-px-value-ie * 2) 6px calc(@scaled-one-px-value-ie * 4);
+            padding: calc(@scaled-one-px-value * 2) 6px calc(@scaled-one-px-value * 4);
+            margin-right: 6px;
+            border-radius: 12px;
+        }
     }
 
     &:not(.simple) {
@@ -109,9 +119,10 @@
             display: inline-block;
             border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
-            border-radius: 2px;
+            border-radius: @border-radius-button-normal-ie;
+            border-radius: @border-radius-button-normal;
             padding: 3px 12px;
-            margin-top: 10px;
+            margin-top: 12px;
             &:hover {
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
@@ -480,7 +491,7 @@
 }
 
 .asc-synchronizetip .show-link {
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 .show-link label {

@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisni 'OK' da se vratiš na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo, kontaktirajte vašeg admina.",
@@ -713,6 +714,7 @@
     "textDownloadAs": "Preuzmi kao",
     "textDownloadRtf": "Ako nastavite da čuvate u ovom formatu nešto od formatiranja može biti izgubljeno. Da li ste sigurni da želite da nastavite?",
     "textDownloadTxt": "Ako nastavite da čuvate u ovom formatu sve funkcije osim teksta će biti izgubljene. Da li ste sigurni da želite da nastavite?",
+    "textDrawing": "Crtanje",
     "textEmptyHeading": "Prazan Naslov",
     "textEmptyScreens": "Nema naslova u dokumentu. Primeni stil naslova tekstu tako da se pojavi u tabeli sadržaja.",
     "textEnableAll": "Omogući Sve",

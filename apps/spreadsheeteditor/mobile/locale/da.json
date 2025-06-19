@@ -286,6 +286,7 @@
     "saveErrorText": "Der skete en fejl da filen blev forsøgt gemt",
     "unknownErrorText": "Ukendt fejl.",
     "uploadImageFileCountMessage": "Ingen billeder uploadet",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
     "errorAutoFilterChange": "The operation is not allowed as it is attempting to shift cells in a table on your sheet.",

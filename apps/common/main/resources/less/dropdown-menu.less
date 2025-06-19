@@ -6,6 +6,9 @@
     border-color: @border-regular-control;
     border-width: @scaled-one-px-value-ie;
     border-width: @scaled-one-px-value;
+    .border-radius(@border-radius-dropdown-menu-ie);
+    .border-radius(@border-radius-dropdown-menu);
+    .font-size-normal();
 
     &.scrollable-menu {
         height: auto;
@@ -98,14 +101,30 @@
         .menu-item-icon {
             display: inline-block;
             .float-left();
-            width: 20px;
-            height: 20px;
-            margin: -2px 4px 0 -16px;
+            width: @x-small-btn-icon-size-ie;
+            width: @x-small-btn-icon-size;
+            height: @x-small-btn-icon-size-ie;
+            height: @x-small-btn-icon-size;
+            margin: calc((16px - @x-small-btn-icon-size-ie) / 2) 4px 0 -16px;
+            margin: calc((16px - @x-small-btn-icon-size) / 2) 4px 0 -16px;      //16px line-height 
             background-repeat: no-repeat;
             opacity: @component-normal-icon-opacity;
 
             .rtl & {
-                margin: -2px -16px 0 4px;
+                margin: calc((16px - @x-small-btn-icon-size-ie) / 2) -16px 0 4px;
+                margin: calc((16px - @x-small-btn-icon-size) / 2) -16px 0 4px;      //16px line-height  
+            }
+
+            &.custom-icon {
+                width: 20px;
+                height: 20px;
+
+                margin: calc((16px - 20px) / 2) calc((@x-small-btn-icon-size-ie + 8px - 20px) / 2) 0 calc((@x-small-btn-icon-size-ie + 8px - 20px) / 2 - 20px);
+                margin: calc((16px - 20px) / 2) calc((@x-small-btn-icon-size + 8px - 20px) / 2) 0 calc((@x-small-btn-icon-size + 8px - 20px) / 2 - 20px);      //16px line-height, 8px offset for padding-x
+                .rtl & {
+                    margin: calc((16px - 20px) / 2) calc((@x-small-btn-icon-size-ie + 8px - 20px) / 2 - 20px) 0 calc((@x-small-btn-icon-size-ie + 8px - 20px) / 2);
+                    margin: calc((16px - 20px) / 2) calc((@x-small-btn-icon-size + 8px - 20px) / 2 - 20px) 0 calc((@x-small-btn-icon-size + 8px - 20px) / 2);      //16px line-height, 8px offset for padding-x
+                }
             }
         }
 
@@ -118,9 +137,11 @@
             }
         }
 
-        &.border-top {
+        &:not(:first-child).border-top {
             border-top: @scaled-one-px-value-ie solid @border-divider-ie;
             border-top: @scaled-one-px-value solid @border-divider;
+            margin-top: 5px;
+            padding-top: 5px;
         }
     }
 
@@ -148,16 +169,29 @@
     &.shifted-right > li,
     li.shifted-right {
             & > a {
-                .padding-x(28px, 20px);
+                .padding-x(calc(@x-small-btn-icon-size-ie + 8px), 20px);
+                .padding-x(calc(@x-small-btn-icon-size + 8px), 20px);
             }
             .menu-item-icon {
-                margin: -2px 0 0 -24px;
+                margin: calc((16px - @x-small-btn-icon-size-ie) / 2) 0 0 calc(-1*@x-small-btn-icon-size-ie - 4px);
+                margin: calc((16px - @x-small-btn-icon-size) / 2) 0 0 calc(-1*@x-small-btn-icon-size - 4px);    //16px line-height 
                 .rtl & {
-                    margin: -2px -24px 0 0;
+                    margin: calc((16px - @x-small-btn-icon-size-ie) / 2) calc(-1*@x-small-btn-icon-size-ie - 4px) 0 0;
+                    margin: calc((16px - @x-small-btn-icon-size) / 2) calc(-1*@x-small-btn-icon-size - 4px) 0 0;
+                }
+
+                &.custom-icon {
+                    margin: calc((16px - 20px) / 2) 0 0 calc(-1*(@x-small-btn-icon-size-ie + 8px + 20px) / 2);
+                    margin: calc((16px - 20px) / 2) 0 0 calc(-1*(@x-small-btn-icon-size + 8px + 20px) / 2);     //16px line-height, 8px offset for padding-x
+                    .rtl & {
+                        margin: calc((16px - 20px) / 2) calc(-1*(@x-small-btn-icon-size-ie + 8px + 20px) / 2) 0 0;
+                        margin: calc((16px - 20px) / 2) calc(-1*(@x-small-btn-icon-size + 8px + 20px) / 2) 0 0;     //16px line-height, 8px offset for padding-x
+                    }
                 }
             }
             .checked:not(.no-checkmark):before  {
-                margin-left: -22px;
+                margin-left: calc(-1*@x-small-btn-icon-size-ie - 2px);
+                margin-left: calc(-1*@x-small-btn-icon-size - 2px);
             }
     }
     &.shifted-left {

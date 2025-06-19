@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Koha e konvertimit u tejkalua.",
     "criticalErrorExtText": "Shtypni 'OK' për të shkuar mbrapa në listën e dokumenteve.",
+    "criticalErrorExtTextClose": "Shtypni 'OK' për të mbyllur redaktin.",
     "criticalErrorTitle": "Gabim",
     "downloadErrorText": "Sharkimi dështoi.",
     "errorAccessDeny": "Ju po mundoheni të kryeni një veprim për të cilin nuk keni të drejta.<br>Ju lutem, kontaktoni administratorin tuaj.",
@@ -713,6 +714,7 @@
     "textDownloadAs": "Shkarko si",
     "textDownloadRtf": "Në qoftë se vazhdoni të ruani në këtë format, një pjesë e formatimit mund të humbasë. A jeni i sigurit që dëshironi të vazhdoni?",
     "textDownloadTxt": "Në qoftë se vazhdoni ta ruani në këtë format të gjitha funksionet përvec tekstit do të humbin. A jeni i sigurt që dëshironi të vazhdoni?",
+    "textDrawing": "Vizatim",
     "textEmptyHeading": "Titull bosh",
     "textEmptyScreens": "Nuk ka tituj në dokument. Aplikoni një stil tutujsh në mënyrë që të shfaqet në tabelën e përmbajtjes.",
     "textEnableAll": "Aktivizo të gjitha",

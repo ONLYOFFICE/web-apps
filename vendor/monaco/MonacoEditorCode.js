@@ -34,21 +34,26 @@ var codeEditor = new window.MonacoEditor();
 codeEditor.create("editor", window.editorTheme === "dark" ? "vs-dark" : "vs-light", "", {
     minimap: {
         enabled: false
-    }
+    },
+    language: window.language
 }, function() {
     _postMessage({
         command: 'monacoEditorReady',
-        referer: 'monaco-editor'
     });
 });
 
-codeEditor.addLibrary({
-    url: "./libs/" + window.editorType + "/api.js",
-    name : "onlyoffice"
-});
+if(window.language == 'javascript') {
+    codeEditor.addLibrary({
+        url: "./libs/" + window.editorType + "/api.js",
+        name : "onlyoffice"
+    });
+}
 
 var _postMessage = function(msg) {
-    window.parent && window.JSON && window.parent.postMessage(window.JSON.stringify(msg), "*");
+    if(window.parent && window.JSON) {
+        msg.referer = 'monaco-editor-' + window.id;
+        window.parent.postMessage(window.JSON.stringify(msg), "*");
+    }
 };
 
 (function (window, undefined) {
@@ -60,7 +65,6 @@ var _postMessage = function(msg) {
         _postMessage({
             command: 'changeValue',
             data: { value: codeEditor.getValue(), pos: {row: pos.lineNumber, column: pos.column} },
-            referer: 'monaco-editor'
         });
     });
 
@@ -123,7 +127,7 @@ var _postMessage = function(msg) {
             cmd = '';
         }
 
-        if (cmd && cmd.referer == "monaco-editor") {
+        if (cmd && cmd.referer == "monaco-editor-" + window.id) {
             if (cmd.command==='setValue') {
                 editorSetValue(cmd.data);
             } else if (cmd.command==='setTheme') {

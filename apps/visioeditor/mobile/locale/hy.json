@@ -119,7 +119,8 @@
     "unknownErrorText": "Անհայտ սխալ։",
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
-    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:"
+    "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Տվյալների բեռնում...",
@@ -198,6 +199,7 @@
       "textOwner": "Սեփականատեր",
       "textPoweredBy": "Մշակող՝",
       "textPrint": "Տպել",
+      "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Գտնել",
       "textSettings": "Կարգավորումներ",
@@ -209,8 +211,7 @@
       "textVersion": "Տարբերակ",
       "textVisioInfo": "Դիագրամի Դիտողի Ինֆո․",
       "textVisioSettings": "Դիագրամի Դիտողի Կարգավորումներ",
-      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textVisioTitle": "Դիագրամի Դիտողի Վերնագիր"
     }
   }
 }

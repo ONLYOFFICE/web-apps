@@ -191,7 +191,8 @@
   },
   "Error": {
     "convertationTimeoutText": "تبادلوں کا وقت ختم ہو گیا۔",
-    "criticalErrorExtText": "دستاویز کی فہرست پر واپس جانے کے لیے 'OK' کو دبائیں۔",
+    "criticalErrorExtText": "دستاویز کی فہرست پر واپس جانے کے لیے \"ٹھیک ہے\" کو دبائیں۔",
+    "criticalErrorExtTextClose": "ایڈیٹر کو بند کرنے کے لیے 'اوکے' کو دبائیں۔",
     "criticalErrorTitle": "خرابی",
     "downloadErrorText": "ڈاوّنلوڈ ناکام",
     "errorAccessDeny": "آپ ایک ایسی کارروائی کرنے کی کوشش کر رہے ہیں جس کے آپ کو حقوق نہیں ہیں۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",

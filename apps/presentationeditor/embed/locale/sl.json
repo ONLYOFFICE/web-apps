@@ -25,6 +25,7 @@
   "PE.ApplicationController.errorInconsistentExtPptx": "Med odpiranjem datoteke je prišlo do napake.<br>Vsebina datoteke ustreza predstavitvam (npr. pptx), vendar ima datoteka nedosledno končnico: %1.",
   "PE.ApplicationController.errorInconsistentExtXlsx": "Med odpiranjem datoteke je prišlo do napake.<br>Vsebina datoteke ustreza preglednicam (npr. xlsx), vendar ima datoteka nedosledno končnico: %1.",
   "PE.ApplicationController.errorLoadingFont": "Pisave niso naložene.<br>Prosimo kontaktirajte administratorja.",
+  "PE.ApplicationController.errorToken": "Varnostni žeton dokumenta ni pravilno oblikovan.<br>Obrnite se na skrbnika dokumentnega strežnika.",
   "PE.ApplicationController.errorTokenExpire": "Varnostni žeton dokumenta je potekel.<br>Obrnite se na skrbnika dokumentnega strežnika.",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Povezava s spletom je bila obnovljena in spremenjena je različica datoteke. <br> Preden nadaljujete z delom, morate datoteko prenesti ali kopirati njeno vsebino, da se prepričate, da se nič ne izgubi, in nato znova naložite to stran.",
   "PE.ApplicationController.errorUserDrop": "Do datoteke v tem trenutku ni možno dostopati.",

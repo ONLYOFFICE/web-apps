@@ -88,7 +88,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item requested">',
-                        '<div class="caret img-commonctrl nomargin"></div>',
+                        '<div class="caret-button nomargin"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '</div>'
                 ].join(''))
@@ -99,7 +99,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl img-colored <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -111,7 +111,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="signature-item">',
-                        '<div class="caret img-commonctrl <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"></div>',
+                        '<div class="caret-button <% if (name == "" || date == "") { %>' + 'nomargin' + '<% } %>"><div class="caret"></div></div>',
                         '<div class="name"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="date"><%= Common.Utils.String.htmlEncode(date) %></div>',
                     '</div>'
@@ -229,8 +229,7 @@ define([
         onSelectSignature: function(picker, item, record, e){
             if (!record) return;
 
-            var btn = $(e.target);
-            if (btn && btn.hasClass('caret')) {
+            if ($(e.target).closest('.caret-button').length) {
                 var menu = this.signatureMenu;
                 if (menu.isVisible()) {
                     menu.hide();
