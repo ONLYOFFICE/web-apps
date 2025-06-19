@@ -523,12 +523,12 @@ define([
             }
         },
 
-        isValidWorksheetChar(char) {
-            return !/^(\')|[:\\\/\*\?\[\]]|(\')$/.test(char);
+        isAllowedChar(char) {
+            return !/[:\\/*?\[\]]/.test(char);
         },
 
-        filterValidChars(str) {
-            return str.split('').filter(this.isValidWorksheetChar).join('');
+        isValidWorksheetName(name) {
+            return !/^'|'$/.test(name) && !/[:\\/*?\[\]]/.test(name);
         },
 
         updateInputWidth($input, $tabEl) {
@@ -563,12 +563,18 @@ define([
 
         finishRename({ save, $input, $tabEl, tab, currentName, otherNames }) {
             const me = this;
-            let newName = $input.val().trim();
+            let newName = $input.val();
             if (save) {
-                if (!newName) {
+                if (newName === '') {
                     if (me.isRenameErrorShown) return false;
                     me.isRenameErrorShown = true;
                     me.showRenameError((new Common.Views.RenameDialog).txtEmptySheetName, $input);
+                    return false;
+                }
+                if (!me.isValidWorksheetName(newName)) {
+                    if (me.isRenameErrorShown) return false;
+                    me.isRenameErrorShown = true;
+                    me.showRenameError("You typed an invalid sheet name: '" + newName + "'", $input);
                     return false;
                 }
                 if (otherNames.includes(newName.toLowerCase())) {
@@ -613,15 +619,13 @@ define([
 
             $input.on('keypress', function(e) {
                 const char = String.fromCharCode(e.which || e.keyCode);
-                if (!me.isValidWorksheetChar(char) && !e.ctrlKey && !e.metaKey) {
+                if (!me.isAllowedChar(char) && !e.ctrlKey && !e.metaKey) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
             });
 
             $input.on('input', function() {
-                const filtered = me.filterValidChars($input.val());
-                if ($input.val() !== filtered) $input.val(filtered);
                 me.updateInputWidth($input, $tabEl);
                 me.onWindowResize();
             });
