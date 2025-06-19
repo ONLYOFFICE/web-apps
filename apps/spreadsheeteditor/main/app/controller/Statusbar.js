@@ -551,6 +551,7 @@ define([
             _.defer(function() {
                 Common.UI.error({
                     msg: message,
+                    maxwidth: 600,
                     callback: function() {
                         _.delay(function() {
                             me.isRenameErrorShown = false;
