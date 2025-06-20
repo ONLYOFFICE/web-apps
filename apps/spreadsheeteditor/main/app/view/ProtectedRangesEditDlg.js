@@ -101,7 +101,7 @@ define([], function () {
                 str: '',
                 from: 0,
                 count: 100,
-                total: undefined,
+                isPaginated: undefined,
                 requestNext: undefined
             };
             this._initSettings = true;
@@ -412,7 +412,7 @@ define([], function () {
                     str: str,
                     from: 0,
                     count: 100,
-                    total: undefined,
+                    isPaginated: undefined,
                     requestNext: undefined,
                     scrollTop: 0
                 };
@@ -422,18 +422,18 @@ define([], function () {
 
         onUserMenuNext: function() {
             var data = this.userSearch;
-            if (data && data.total!==undefined && data.from + data.count < data.total) {
+            if (data && data.isPaginated!==undefined) {
                 data.from += data.count;
                 Common.UI.ExternalUsers.get('protect', undefined, data.from, data.count, data.str);
             }
         },
 
-        onUserMenuCallback: function(type, users, total) {
+        onUserMenuCallback: function(type, users, isPaginated) {
             if (type!=='protect') return;
 
             var me = this,
                 from = this.userSearch.from,
-                isClientSearch = total===undefined;
+                isClientSearch = isPaginated===undefined;
 
             if (this._initSettings) {
                 if (users && _.find(users, function(item) { return item.id!==undefined && item.id!==null; })) { // has id in user info
@@ -468,7 +468,7 @@ define([], function () {
             var arr = [],
                 str = this.cmbUser.getRawValue();
 
-            this.userSearch.total = total;
+            this.userSearch.isPaginated = isPaginated;
             isClientSearch && (this.userSearch = null);
 
             if (users && users.length>0) {
@@ -514,10 +514,10 @@ define([], function () {
             }
             this.cmbUser.setRawValue(str);
 
-            if (arr.length>0) {
+            if (me.cmbUser.store.length>0) {
                 this.cmbUser.openMenu(0, function() {
                     if (!isClientSearch) {
-                        me.userSearch.requestNext = me.cmbUser.store.length<me.userSearch.total ? (1 - 10/me.cmbUser.store.length) * me.cmbUser.scroller.cmpEl.get(0).scrollHeight : -1;
+                        me.userSearch.requestNext = users && users.length>0 ? (1 - 10/me.cmbUser.store.length) * me.cmbUser.scroller.cmpEl.get(0).scrollHeight : -1;
                     }
                 });
             } else {
