@@ -96,8 +96,10 @@
 
         display: flex;
         align-items: stretch;
-        position: relative;
-        z-index: 1;
+        &:not(.z-clear *) {
+            position: relative;
+            z-index: 1;
+        }
 
         .extra {
             .header-background-color();
