@@ -271,7 +271,7 @@ define([
                             'de': 'https://www.onlyoffice.com/blog/de/2025/06/onlyoffice-docs-9-0-veroeffentlicht',
                             'it': 'https://www.onlyoffice.com/blog/it/2025/06/disponibile-onlyoffice-docs-9-0',
                             'ja': 'https://www.onlyoffice.com/blog/ja/2025/06/onlyoffice-docs-9-0-released'};
-            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
+            !Common.Utils.isIE && !Common.Controllers.Desktop.isWinXp() && !this.mode.isPDFForm && Common.UI.FeaturesManager.isFeatureEnabled('featuresTips', true) && Common.UI.TooltipManager.addTips({
                 'modernTheme' : {name: 'help-tip-modern-theme', placement: 'bottom', offset: {x: 10, y: 0}, text: isNew ? this.helpOldTheme : this.helpModernTheme, header: this.helpModernThemeHeader, target: 'li.ribtab #view',
                                  automove: true, maxwidth: 270, closable: false, isNewFeature: true, link: {text: _main.textLearnMore, url: langmap[lang] || 'https://www.onlyoffice.com/blog/2025/06/onlyoffice-docs-9-0-released'}}
             });
