@@ -81,11 +81,12 @@ define([
         },
 
         onLaunch: function() {
-            this.statusbar = this.createView('Statusbar').render();
+            this.statusbar = this.createView('Statusbar', { controller: this }).render();
             this.statusbar.$el.css('z-index', 10);
             this.statusbar.labelZoom.css('min-width', 80);
             this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
+            // this._lastActiveSheetId = this.api.asc_getActiveWorksheetId();
             this.$measureSpan = $('<span>').css({
                 position: 'absolute',
                 visibility: 'hidden',
@@ -203,7 +204,9 @@ define([
             this.api.asc_registerCallback('asc_generateNewSheetNames', _.bind(function (arrNames, callback) {
                 callback(this.generateSheetNames(false, undefined, arrNames));
             }, this));
-
+            if (this.api && typeof this.api.asc_getActiveWorksheetId === 'function') {
+                this._lastActiveSheetId = this.api.asc_getActiveWorksheetId();
+            }
             this.statusbar.setApi(api);
         },
 
@@ -963,6 +966,8 @@ define([
         },
 
         onApiActiveSheetChanged: function (index) {
+            this._lastActiveSheetId = this.api.asc_getWorksheetId(index)
+            console.log(this._lastActiveSheetId, '- последний активный в onApiActiveSheetChanged', this.api.asc_getWorksheetId(index), 'текущий в onApiActiveSheetChanged')
             this.statusbar.tabMenu.hide();
             this.statusbar.sheetListMenu.hide();
             if (this.statusbar.sheetListMenu.items[index]) {

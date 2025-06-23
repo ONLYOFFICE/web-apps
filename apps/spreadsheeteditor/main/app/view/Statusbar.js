@@ -444,26 +444,29 @@ define([
 
             update: function() {
                 var me = this;
-
+                var lastActiveSheetId = this.controller && this.controller._lastActiveSheetId;
+                console.log(lastActiveSheetId, 'в апдейте')
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
                 this.tabMenu.items[5].hide();
                 this.btnAddWorksheet.setDisabled(true);
                 this.sheetListMenu.removeAll();
-
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
                     var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
+                    var sid = this.api.asc_getActiveWorksheetId();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
                         name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
+                        var sheetid = me.api.asc_getWorksheetId(i)
                         tab = {
                             sheetindex    : i,
+                            sheetid       : sheetid,
                             index         : items.length,
-                            active        : sindex == i,
+                            active        : lastActiveSheetId === sheetid,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
@@ -475,7 +478,7 @@ define([
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
                         allItems.push(tab);
                     }
-
+                    console.log(allItems)
                     if (hidentems.length) {
                         hidentems.forEach(function(item){
                             me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
@@ -495,6 +498,7 @@ define([
                             style: 'white-space: pre',
                             caption: Common.Utils.String.htmlEncode(item.label),
                             value: item.sheetindex,
+                            sheetid: item.sheetid,
                             checkable: true,
                             checked: item.active,
                             hidden: hidden,
