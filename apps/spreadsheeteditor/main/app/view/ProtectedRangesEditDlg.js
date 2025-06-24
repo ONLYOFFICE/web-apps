@@ -146,12 +146,14 @@ define([], function () {
             this.cmbUser = new Common.UI.ComboBox({
                 el: this.$window.find('#id-protected-range-cmb-user'),
                 cls: 'input-group-nr',
+                menuCls: 'no-cyclic',
                 menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable: true,
                 data: [],
                 placeHolder: this.txtYouCanEdit,
                 disabled: true,
                 takeFocusOnClose: true,
+                scrollAlwaysVisible: true,
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>" <% if (item.hasDivider) { %> class="border-top" <% } %>><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
@@ -508,9 +510,15 @@ define([], function () {
             if (isClientSearch || from===0) {
                 this.cmbUser.setData(arr);
             } else {
+                var $items = this.cmbUser.cmpEl.find('ul > li').find('> a'),
+                    index = $items.index($items.filter(':focus'));
                 this.cmbUser.store.add(arr);
                 this.cmbUser.onResetItems();
                 this.cmbUser.scroller.scrollTop(this.userSearch.scrollTop);
+                if (index>-1) {
+                    $items = this.cmbUser.cmpEl.find('ul > li').find('> a');
+                    $items.length && setTimeout(function(){$items[index].focus();}, 1);
+                }
             }
             this.cmbUser.setRawValue(str);
 
