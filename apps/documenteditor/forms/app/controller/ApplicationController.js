@@ -890,6 +890,12 @@ define([
                     return;
                 }
 
+                if (value.logo.image || value.logo.imageDark || value.logo.imageLight) { // TODO: remove
+                    let str = "static/images/logo/docseditor.svg";
+                    if (value.logo.image && value.logo.image.indexOf(str)>-1 || value.logo.imageDark && value.logo.imageDark.indexOf(str)>-1 || value.logo.imageLight && value.logo.imageLight.indexOf(str)>-1)
+                        value.logo.image = value.logo.imageDark = value.logo.imageLight = undefined;
+                }
+
                 if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
                     _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
                                                                  (value.logo.imageLight || value.logo.image || value.logo.imageDark);
