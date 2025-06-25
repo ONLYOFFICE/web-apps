@@ -441,6 +441,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             canFillForms={appOptions.canFillForms}
             canSubmitForms={appOptions.canSubmitForms}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));
