@@ -1104,12 +1104,6 @@ define([
             setBranding: function (value, config) {
                 this.branding = value;
                 var element = $('#header-logo');
-                if (value && value.logo && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) { // TODO: remove
-                    let str = "static/images/logo/docseditor.svg";
-                    if (value.logo.image && value.logo.image.indexOf(str)>-1 || value.logo.imageDark && value.logo.imageDark.indexOf(str)>-1 || value.logo.imageLight && value.logo.imageLight.indexOf(str)>-1)
-                        value.logo.image = value.logo.imageDark = value.logo.imageLight = undefined;
-                }
-
                 var logo = this.getSuitableLogo(value, config);
                 element.toggleClass('logo-light', logo.isLight);
                 if ( value && value.logo && element) {
