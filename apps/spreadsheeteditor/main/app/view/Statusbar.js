@@ -445,7 +445,7 @@ define([
             update: function() {
                 var me = this;
                 var lastActiveSheetId = this.controller && this.controller._lastActiveSheetId;
-                console.log(lastActiveSheetId, 'в апдейте')
+                var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
                 this.tabMenu.items[5].hide();
@@ -466,7 +466,7 @@ define([
                             sheetindex    : i,
                             sheetid       : sheetid,
                             index         : items.length,
-                            active        : lastActiveSheetId === sheetid,
+                            active        : renamingWorksheet ? renamingWorksheet === sheetid : lastActiveSheetId === sheetid,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
@@ -478,7 +478,6 @@ define([
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
                         allItems.push(tab);
                     }
-                    console.log(allItems)
                     if (hidentems.length) {
                         hidentems.forEach(function(item){
                             me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
@@ -491,6 +490,12 @@ define([
                     }
 
                     this.tabbar.add(items);
+
+                    if (renamingWorksheet) {
+                        setTimeout(() => {
+                            this.controller.renameWorksheet(renamingWorksheet, true)
+                        }, 50)
+                    }
 
                     allItems.forEach(function(item){
                         var hidden = me.api.asc_isWorksheetHidden(item.sheetindex);

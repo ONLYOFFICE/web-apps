@@ -583,6 +583,8 @@ define([
                 }
                 if (newName !== currentName) {
                     me.api.asc_renameWorksheet(newName);
+                    me.renameInputVal = null;
+                    me.renamingWorksheet = null;
                 }
             } else {
                 newName = currentName;
@@ -624,6 +626,7 @@ define([
             });
 
             $input.on('input', function() {
+                me.renameInputVal = $input.val()
                 me.updateInputWidth($input, $tabEl);
                 me.onWindowResize();
             });
@@ -652,18 +655,23 @@ define([
             });
         },
 
-        renameWorksheet() {
+        renameWorksheet(sheetFromUpdate, fromUpdate) {
             const me = this;
             me.isRenameErrorShown = false;
+            me.renamingWorksheet = this.api.asc_getActiveWorksheetId();
             const sindex = me.api.asc_getActiveWorksheetIndex();
             if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) return;
 
             const wc = me.api.asc_getWorksheetsCount();
-            const tab = me.statusbar.tabbar.tabs[sindex];
+            if (sheetFromUpdate) {
+                var tab = _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate });
+                var currentName = me.renameInputVal
+            } else {
+                var tab = me.statusbar.tabbar.tabs[sindex];
+                var currentName = me.api.asc_getWorksheetName(sindex);
+            }
             if (!tab) return;
-
             const $tabEl = tab.$el.find('span');
-            const currentName = me.api.asc_getWorksheetName(sindex);
             if ($tabEl.find('input.inline-rename').length > 0) return;
 
             const otherNames = Array.from({ length: wc }, function(_, i) {
@@ -967,7 +975,6 @@ define([
 
         onApiActiveSheetChanged: function (index) {
             this._lastActiveSheetId = this.api.asc_getWorksheetId(index)
-            console.log(this._lastActiveSheetId, '- последний активный в onApiActiveSheetChanged', this.api.asc_getWorksheetId(index), 'текущий в onApiActiveSheetChanged')
             this.statusbar.tabMenu.hide();
             this.statusbar.sheetListMenu.hide();
             if (this.statusbar.sheetListMenu.items[index]) {
