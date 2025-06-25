@@ -11,7 +11,7 @@
   },
   "Add": {
     "notcriticalErrorTitle": "Warnung",
-    "textAddLink": "Link hinzufügen",
+    "textAddLink": "Verknüpfung hinzufügen",
     "textAddress": "Adresse",
     "textBack": "Zurück",
     "textBelowText": "Unterhalb des Textes",
@@ -27,6 +27,7 @@
     "textCurrentPosition": "Aktuelle Position",
     "textDisplay": "Anzeigen",
     "textDone": "Fertig",
+    "textDrawing": "Zeichnen",
     "textEmptyImgUrl": "URL des Bildes erforderlich",
     "textEvenPage": "Gerade Seite",
     "textFootnote": "Fußnote",
@@ -71,7 +72,7 @@
     "Collaboration": {
       "notcriticalErrorTitle": "Warnung",
       "textAccept": "Annehmen",
-      "textAcceptAllChanges": "Alle Änderungen annehmen",
+      "textAcceptAllChanges": "Änderungen übernehmen",
       "textAddComment": "Kommentar hinzufügen",
       "textAddReply": "Antwort hinzufügen",
       "textAllChangesAcceptedPreview": "Alle Änderungen werden übernommen (Vorschau)",
@@ -113,7 +114,7 @@
       "textIndentRight": "Einzug rechts",
       "textInserted": "Eingefügt:",
       "textItalic": "Kursiv",
-      "textJustify": "Zielgruppengerecht ausrichten",
+      "textJustify": "Gleichmäßig ausrichten",
       "textKeepLines": "Absatz zusammenhalten",
       "textKeepNext": "Vom nächsten Absatz nicht trennen",
       "textLeft": "Linksbündig ausrichten",
@@ -228,6 +229,12 @@
     "textRows": "Zeilen",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?"
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Warnung",
     "textActualSize": "Tatsächliche Größe",
@@ -239,7 +246,7 @@
     "textAdvancedSettings": "Erweiterte Einstellungen",
     "textAfter": "nach",
     "textAlign": "Ausrichtung",
-    "textAllCaps": "Alle Großbuchstaben",
+    "textAllCaps": "Alles in Großbuchstaben",
     "textAllowOverlap": "Überlappung zulassen",
     "textAmountOfLevels": "Anzahl der Ebenen",
     "textApril": "April",
@@ -413,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste von Dokumenten zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
@@ -426,6 +434,7 @@
     "errorDefaultMessage": "Fehlercode: %1",
     "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zu der Datei zum Herunterladen sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Laden Sie die Datei herunter, um sie lokal zu speichern.",
+    "errorEditProtectedRange": "Sie dürfen diese Auswahl nicht bearbeiten, da sie geschützt ist.",
     "errorEmptyTOC": "Beginnen Sie die Erstellung eines Inhaltsverzeichnisses, indem Sie eine Überschriftenvorlage aus der Galerie von Stilen auf den ausgewählten Text anwenden.",
     "errorFilePassProtect": "Die Datei ist mit Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße ist zu hoch für Ihren Server.<br>Bitte wenden Sie sich an Administratoren.",
@@ -442,6 +451,7 @@
     "errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
     "errorNoTOC": "Es gibt kein Inhaltsverzeichnis. Sie können es auf der Registerkarte \"Verweise\" einfügen.",
     "errorPasswordIsNotCorrect": "Das von Ihnen eingegebene Passwort ist nicht korrekt. Vergewissern Sie sich, dass die CAPS LOCK-Taste ausgeschaltet ist, und achten Sie auf die richtige Großschreibung.",
+    "errorPDFFormsLocked": "Die Aktion kann nicht ausgeführt werden, da sie Änderungen in gesperrten Formularen verursacht.",
     "errorSaveWatermark": "Diese Datei enthält ein Wasserzeichen, das mit einer anderen Domain verknüpft ist.<br>Um es in PDF sichtbar zu machen, aktualisieren Sie das Wasserzeichen, so dass es von derselben Domain wie Ihr Dokument verlinkt wird, oder laden Sie es von Ihrem Computer hoch.",
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon für lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
@@ -522,7 +532,7 @@
     "notcriticalErrorTitle": "Warnung",
     "SDK": {
       " -Section ": "-Abschnitt",
-      "above": "Oben",
+      "above": "Oberhalb",
       "Aspect": "Aspekt",
       "below": "Unten",
       "Blue": "Blau",
@@ -704,6 +714,7 @@
     "textDownloadAs": "Herunterladen als",
     "textDownloadRtf": "Beim Speichern in diesem Format kann Formatierung teilweise verloren gehen. Möchten Sie fortsetzen?",
     "textDownloadTxt": "Beim Speichern in diesem Format werden nur Textfunktionen aktiv. Möchten Sie fortsetzen?",
+    "textDrawing": "Zeichnen",
     "textEmptyHeading": "Leere Überschrift",
     "textEmptyScreens": "Im Dokument gibt es keine Überschriften. Wenden Sie einen Überschriftenstil auf den Text an, damit er im Inhaltsverzeichnis angezeigt wird.",
     "textEnableAll": "Alle aktivieren",
@@ -786,7 +797,7 @@
     "textTop": "Oben",
     "textTrackedChanges": "Überarbeitungen",
     "textTypeEditing": "Art der Bearbeitung",
-    "textTypeEditingWarning": "Nur diese Art der Bearbeitung im Dokument zulassen.",
+    "textTypeEditingWarning": "Nur diese Art der Bearbeitung zulassen.",
     "textUnitOfMeasurement": "Maßeinheit",
     "textUnprotect": "Entschützen",
     "textUploaded": "Hochgeladen",
@@ -801,6 +812,7 @@
     "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "btnSend": "Senden",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
@@ -812,6 +824,7 @@
     "textRenameFile": "Datei umbenennen",
     "textSwitchedMobileView": "Mobile Ansicht aktiviert",
     "textSwitchedStandardView": "Standard-Ansicht aktiviert",
+    "textSwitchToDesktop": "In den Desktopmodus wechseln",
     "warnEmptyRequiredField": "Füllen Sie alle erforderlichen Felder aus, um das Formular zu senden."
   }
 }

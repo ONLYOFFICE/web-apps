@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Popover, List, ListItem, ListButton, Link, Icon } from 'framework7-react';
 import { f7 } from 'framework7-react';
+import SvgIcon from '@common/lib/component/SvgIcon';
 
 class ContextMenuView extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class ContextMenuView extends Component {
                         !!b.text ?
                             <ListButton className="asd" title={b.text} key={index} onClick={e => this.props.onMenuItemClick(b.action)} /> :
                             <ListButton className="asd" title={b.text} key={index}>
-                                <Icon slot="media" icon={`icon_mask ${b.icon}`} />
+                                <SvgIcon slot="media" symbolId={b.icon} className={'icon icon-svg icon-svg__mask'} />
                             </ListButton>
                     )}
                 </List>

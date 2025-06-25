@@ -192,8 +192,9 @@
     <script>
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
             stopLoading = false;
-        if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
+        if (isIEBrowser) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
             if (m && parseFloat(m[1]) < 10.0) {
                 document.write('<div class="app-error-panel">' +
@@ -290,6 +291,7 @@
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+    <script src="../../../../../apps/common/main/lib/util/docserviceworker.js?__inline=true"></script>
 
     <script>
         window.requireTimeourError = function(){
@@ -331,9 +333,20 @@
     <script>
         function startApp() {
             var script = document.createElement("script");
-            script.setAttribute("data-main", "app");
             script.src = "../../../vendor/requirejs/require.js";
-            document.body.appendChild(script);
+
+            if (isIEBrowser === true) {
+                (document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>'),
+                document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>'));
+
+                setTimeout(function(){
+                    script.setAttribute("data-main", "ie/app");
+                    document.body.appendChild(script);
+                },0);
+            } else {
+                script.setAttribute("data-main", "app");
+                document.body.appendChild(script);
+            }
         }
         if (isForm===undefined) {
             listenApiMsg(function (isform) {

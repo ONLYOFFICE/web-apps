@@ -65,7 +65,8 @@
     "textTableSize": "표 크기",
     "textWithBlueLinks": "파란 링크로",
     "textWithPageNumbers": "페이지 번호와 함께",
-    "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다."
+    "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -469,6 +470,9 @@
     "uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
     "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "textOk": "OK"
   },
@@ -517,7 +521,7 @@
     "errorOpensource": "무료 커뮤니티 버전을 사용하는 경우 열린 파일만 볼 수 있습니다. 모바일 온라인 에디터 기능을 사용하기 위해서는 유료 라이선스가 필요합니다.",
     "errorProcessSaveResult": "저장하지 못했습니다.",
     "errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
-    "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+    "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
     "leavePageText": "저장하지 않은 변경 사항이 있습니다. 자동 저장이 완료될 때까지 기다리려면 \"이 페이지에 머물기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 변경 사항이 삭제됩니다.",
     "notcriticalErrorTitle": "경고",
     "SDK": {
@@ -797,6 +801,7 @@
     "txtOk": "확인",
     "txtProtected": "암호를 입력하고 파일을 열면 현재 암호가 재설정됩니다.",
     "textClose": "Close",
+    "textDrawing": "Drawing",
     "textExportAs": "Export As",
     "textRemoveFromFavorites": "Remove from Favorites"
   },
@@ -812,6 +817,14 @@
     "textSwitchedMobileView": "모바일 보기로 전환되었습니다.",
     "textSwitchedStandardView": "표준 보기로 전환되었습니다.",
     "warnEmptyRequiredField": "양식을 보내려면 모든 필수 필드를 채우십시오.",
-    "btnSend": "Send"
+    "btnRestartNow": "Restart now",
+    "btnSend": "Send",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

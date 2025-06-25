@@ -171,7 +171,7 @@
       "titleUpdateVersion": "版本已更改",
       "txtIncorrectPwd": "密码有误",
       "txtProtected": "在您输入密码和打开文件后，该文件的当前密码将被重置",
-      "warnLicenseAnonymous": "匿名用户的访问被拒绝<br>此文档将仅打开以供查看。",
+      "warnLicenseAnonymous": "匿名用户的访问被拒绝。<br>此文档将以只读模式打开。",
       "warnLicenseBefore": "许可证未激活<br>请与管理员联系。",
       "warnLicenseExceeded": "您已达到同时连接到%1编辑器的限制。此文档将仅打开以供查看。请与管理员联系以了解更多信息。",
       "warnLicenseExp": "您的许可证已过期。请更新您的许可证并刷新页面。",
@@ -183,9 +183,16 @@
       "warnProcessRightsChange": "您没有编辑文件的权限。"
     }
   },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
+  },
   "Error": {
     "convertationTimeoutText": "转换超时",
     "criticalErrorExtText": "按“确定”返回文档列表。",
+    "criticalErrorExtTextClose": "点击“确定”关闭编辑器。",
     "criticalErrorTitle": "错误",
     "downloadErrorText": "下载失败",
     "errorAccessDeny": "你正要执行一个你没有权限的操作。<br>请联系你的管理员。",
@@ -270,13 +277,16 @@
     "waitText": "请稍候..."
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textOk": "确定",
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "所选文字",
       "textDisplay": "显示",
       "textDone": "完成",
+      "textDrawing": "绘图",
       "textEmptyImgUrl": "您需要指定图像的URL。",
       "textExternalLink": "外部链接",
       "textFirstSlide": "第一张幻灯片",

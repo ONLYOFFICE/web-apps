@@ -138,6 +138,13 @@ define([
             var me = this;
             if (this._initSettings) {
                 Common.Utils.InternalSettings.set("sse-spellcheck-locale", Common.localStorage.getItem("sse-spellcheck-locale"));
+                var lckey = 'app-settings-recent-langs';
+                this.panelSpellcheck.cmbDictionaryLanguage && this.panelSpellcheck.cmbDictionaryLanguage.setRecent({
+                    count: Common.Utils.InternalSettings.get(lckey + "-count") || 5,
+                    offset: Common.Utils.InternalSettings.get(lckey + "-offset") || 0,
+                    key: lckey,
+                    valueField: 'shortName'
+                });
             }
 
             if (this.languages && this.languages.length>0) {
@@ -258,7 +265,7 @@ define([
         },
 
         onSpellCheckVariantsFound: function (property) {
-            if (!this.panelSpellcheck || property===null && this._currentSpellObj === property && !this.panelSpellcheck.isVisible())
+            if (!this.panelSpellcheck || !this.panelSpellcheck.rendered || property===null && this._currentSpellObj === property && !this.panelSpellcheck.isVisible())
                 return;
 
             this._currentSpellObj = property;
@@ -289,6 +296,7 @@ define([
         },
 
         onApiEditCell: function(state) {
+            if (!this.panelSpellcheck || !this.panelSpellcheck.rendered) return;
             if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.panelSpellcheck.buttonNext.setDisabled(!this.panelSpellcheck.lblComplete.hasClass('hidden'));
                 this.panelSpellcheck.cmbDictionaryLanguage.setDisabled((this.languages && this.languages.length > 0) ? false : true);

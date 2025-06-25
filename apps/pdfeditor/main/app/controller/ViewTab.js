@@ -226,9 +226,6 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
-                        me.view.btnInterfaceTheme.menu && me.view.btnInterfaceTheme.menu.on('show:after', function() {
-                            Common.UI.TooltipManager.closeTip('grayTheme');
-                        });
                         if (me.view.btnInterfaceTheme.menu.getItemsLength(true)) {
                             // me.view.btnInterfaceTheme.setMenu(new Common.UI.Menu({items: menuItems}));
                             me.view.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
@@ -236,6 +233,9 @@ define([
                                 Common.UI.Themes.setTheme(value);
                                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [me.view.btnDarkDocument]});
                             }, me));
+                            me.view.btnInterfaceTheme.menu.on('show:after', function () {
+                                Common.UI.TooltipManager.closeTip('modernTheme');
+                            });
 
                             setTimeout(function () {
                                 me.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
@@ -243,6 +243,9 @@ define([
                             }, 0);
                         }
                     }
+
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
+                        Common.NotificationCenter.trigger('tab:set-active', 'view');
                 });
             }
         },
@@ -329,7 +332,7 @@ define([
         },
 
         onThemeChanged: function () {
-            if (this.view && Common.UI.Themes.available()) {
+            if (this.view && Common.UI.Themes.available() && this.view.btnInterfaceTheme.menu && (typeof (this.view.btnInterfaceTheme.menu) === 'object')) {
                 var current_theme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
                     menu_item = _.findWhere(this.view.btnInterfaceTheme.menu.getItems(true), {value: current_theme});
                 if ( menu_item ) {

@@ -129,6 +129,7 @@ define([], function () {
                 Data: 5
             },
             isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
+            needRepaint = undefined,
             me = this,
             checkSize = function () {
                 var scale = {};
@@ -148,7 +149,7 @@ define([], function () {
                         "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                     if (window.matchMedia(str_mq_125).matches) {
-                        scale.devicePixelRatio = 1.5;
+                        scale.devicePixelRatio = 1.25;
                     } else if (window.matchMedia(str_mq_150).matches) {
                         scale.devicePixelRatio = 1.5;
                     } else if (window.matchMedia(str_mq_175).matches) {
@@ -196,6 +197,13 @@ define([], function () {
                 me.innerWidth = window.innerWidth * me.zoom;
                 me.innerHeight = window.innerHeight * me.zoom;
                 me.applicationPixelRatio = scale.applicationPixelRatio || scale.devicePixelRatio;
+                if (me.innerWidth<1 && needRepaint===undefined)
+                    needRepaint = true;
+                else if (needRepaint && me.innerWidth>0) {
+                    needRepaint = false;
+                    jQuery.support && jQuery.support.forceStyleTests();
+                    Common.NotificationCenter.trigger('app:repaint');
+                }
             },
             checkSizeIE = function () {
                 me.innerWidth = window.innerWidth;
@@ -1282,7 +1290,7 @@ define([], function () {
 
     Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
     Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
-    Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+    Common.Utils.InternalSettings.set('toolbar-height-controls', parseInt(window.getComputedStyle(document.body).getPropertyValue("--toolbar-height-controls") || (Common.Utils.isIE ? 66 : 84)));
     Common.Utils.InternalSettings.set('document-title-height', 28);
     Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
@@ -1388,7 +1396,7 @@ define([], function () {
             scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
             extension - {string} use it after symbol "." (png|jpeg|svg)
 
-            Example: "resources/%theme-type%(light|dark)/%state%(normal)/icon%scale%(default).%extension%(png)"
+            Example: "resources/%theme-type%(light|dark)/icon%state%(normal|hover)%scale%(default).%extension%(png)"
         */
         let params_array = {
             "theme-name" : { origin : "", values : [""] },

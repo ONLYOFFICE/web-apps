@@ -15,7 +15,7 @@
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Insert field codes</h1>
-			<p>In the Document Editor, you can add fields with dynamic content that depends on your system info or other content. Please do not confuse fields with content controls as these are two different features.</p>
+			<p>In the Document Editor, you can add fields with dynamic content that depends on your system info or other content. Please do not confuse fields with content controls, as these are two different features.</p>
 			<p>To insert a field,</p>
 			<ol>
 				<li>Go to the <b>Insert</b> tab.</li>
@@ -182,14 +182,14 @@
 									<li>\c - inserts the closest preceding sequence number.</li>
 									<li>\h - hides the field result (used for cross-referencing).</li>
 									<li>\n - inserts the next sequence number.</li>
-									<li>\r - the numeration starts with the specified nymber.</li>
+									<li>\r - the numeration starts with the specified number.</li>
 									<li>\s - the numeration starts with the specified outline level.</li>
 								</ol>
 							</td>
 						</tr>
 						<tr>
 							<td>STYLEREF</td>
-							<td>The code ads adds text that has been formatted using a specific style. When placed in a header or footer, it displays the first or last instance of text formatted with that style from the main content of the current page, enabling the creation of dictionary-style headers or footers.</td>
+							<td>The code adds text that has been formatted using a specific style. When placed in a header or footer, it displays the first or last instance of text formatted with that style from the main content of the current page, enabling the creation of dictionary-style headers or footers.</td>
 							<td>{ STYLEREF StyleIdentifier [Switches ] }</td>
 							<td>
 								<ol>
@@ -217,6 +217,17 @@
 					</tbody>
 				</table>
 			</div>
+			<p>The field codes can be edited and updated on the go:</p>
+			<ol>
+				<li>Select the required field and click with the right mouse button to open the context menu.</li>
+				<li>
+					<ul>
+						<li><em>Update field</em> - update the information in the field.</li>
+						<li><em>Edit field</em> - open the window for editing the field.</li>
+						<li><em>Toggle field codes</em> - display the field code.</li>
+					</ul>
+				</li>
+			</ol>
 		</div>
 	</body>
 </html>

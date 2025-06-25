@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEditor": "Editor de foi de calcul",
@@ -242,15 +242,22 @@
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită.<br>Funcțiile de editare sunt cu acces limitat.<br>Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
+  },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errNoDuplicates": "Valorile dublate nu au fost găsite.",
@@ -291,6 +298,7 @@
     "errorFileVKey": "Eroare externă.<br>Cheia de securitate incorectă. Contactați Seviciul de Asistență Clienți.",
     "errorFillRange": "Completarea celulelor selectate nu este posibilă.<br>Configurați toate coloanele îmbinate la aceeași dimensiune.",
     "errorForceSave": "S-a produs o eroare în timpul salvării fișierului. Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca... sau încercați din nou mai târziu.",
+    "errorFormulaInPivotFieldName": "Imposibil de adăugat o formulă pentru un nume de element sau un nume de câmp în raportul PivotTable.",
     "errorFormulaName": "Eroare în formulă.<br>Numele formulei incorect.",
     "errorFormulaParsing": "Eroare internă de parsare cu formulă.",
     "errorFrmlMaxLength": "Nu puteți adăuga aceată formulă deaorece lungimea conținutului formulei depășește limita maximă de caractere.<br>Editați-o și încercați din nou.",
@@ -321,9 +329,11 @@
     "errorNoDataToParse": "Datele pentru parsare nu au fost selectate.",
     "errorOpenWarning": "Lungimea conținutului unei formule din foie a depășit<br>limita maximă de caractere și a fost eliminată. ",
     "errorOperandExpected": "Sintaxa funcției incorectă. Verificați încadrarea în paranteze - '(' sau ')'.",
+    "errorPasteInPivot": "Este imposibilă modificarea celulelor selectate deoarece va afecta tabelul pivot.<br>Folosiți lista de câmpuri pentru a modifica raportul.",
     "errorPasteMaxRange": "Zona de copiere nu corespunde zonei de lipire. Pentru lipirea celulelor copiate, selectați o zonă de aceeași demensiune sau faceți clic pe prima celula din rând.",
     "errorPasteMultiSelect": "Operaţia nu poate fi efectuată asupra zonelor selectate multiple.<br>Selectați o singură zonă și încercați încă o dată.",
     "errorPasteSlicerError": "Slicere din tabel nu pot fi copiate dintr-un registru de calcul în altul.",
+    "errorPivotFieldNameExists": "Nume de câmp în tabelul pivot deja existent.",
     "errorPivotGroup": "Obiectele selectate nu pot fi combinate într-un grup.",
     "errorPivotOverlap": "Un raport Pivot Table nu poate suprapune un tabel.",
     "errorPivotWithoutUnderlying": "Raportul Pivot Table a fost salvat fără datele subiacente.<br>Faceți clic pe butonul Actualizare ca raportul să fie actualizat.",
@@ -368,10 +378,7 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "Foaie de calcul poate conține datele. Sigur doriți să continuați?"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
-    "textRenameFile": "Redenumire fișier"
+    "textOk": "OK",
+    "textRenameFile": "Redenumire fișier",
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "EROARE! Număr maxim serii de date în diagramă este 225.",
       "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
       "notcriticalErrorTitle": "Avertisment",
+      "sCatDatabase": "Bază de date",
       "sCatDateAndTime": "Dată și oră",
       "sCatEngineering": "Inginerie",
       "sCatFinancial": "Financiar",
@@ -476,6 +487,7 @@
       "textDataTableHint": "Returnează celule de date dintr-un tabel sau colonele selectate într-un tabel",
       "textDisplay": "Afișare",
       "textDone": "Gata",
+      "textDrawing": "Desenare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFilter": "Filtrare",
@@ -717,7 +729,7 @@
       "notcriticalErrorTitle": "Avertisment",
       "strFuncLocale": "Limba formulă",
       "strFuncLocaleEx": "Exemplu: Sumă; Min; Max; Calcul",
-      "textAbout": "Despre",
+      "textAbout": "Informații",
       "textAddress": "Adresă",
       "textApplication": "Aplicația",
       "textApplicationSettings": "Setări Aplicație",

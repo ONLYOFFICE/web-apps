@@ -13,7 +13,7 @@
   "SSE.ApplicationController.criticalErrorTitle": "오류",
   "SSE.ApplicationController.downloadErrorText": "다운로드하지 못했습니다.",
   "SSE.ApplicationController.downloadTextText": "스프레드시트 다운로드 중...",
-  "SSE.ApplicationController.errorAccessDeny": "권한이없는 작업을 수행하려고합니다. \n문서 서버 관리자에게 보다 자세한 내용을 안내 받으시기 바랍니다.",
+  "SSE.ApplicationController.errorAccessDeny": "권한이 없는 작업을 수행하려고 합니다.<br>관리자에게 문의하십시오.",
   "SSE.ApplicationController.errorDefaultMessage": "오류 코드 : %1",
   "SSE.ApplicationController.errorFilePassProtect": "이 문서는 암호로 보호되어 있어 열 수 없습니다.",
   "SSE.ApplicationController.errorFileSizeExceed": "파일의 크기가 서버에서 정해진 범위를 초과 했습니다. 문서 서버 관리자에게 해당 내용에 대한 자세한 안내를 받아 보시기 바랍니다.",

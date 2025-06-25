@@ -50,8 +50,8 @@
     var aceEditor;
 
     var onChangeValue = function (event) {
-        document.getElementById('editorLog').innerText = event.data;
-        console.log("onChangeValue");
+        document.getElementById('editorLog').innerText = event.data ? event.data.value : '';
+        console.log("onChangeValue at position(" + event.data.pos.row + ", " + event.data.pos.column + ")");
     };
 
     var onEditorReady = function (event) {
@@ -65,14 +65,6 @@
                              );
     };
 
-    var onMouseUp = function (event) {
-        console.log("onMouseUp");
-    };
-
-    var onMouseMove = function (event) {
-        console.log("onMouseMove");
-    };
-
     var onLoad = function (event) {
         console.log("onLoad");
     };
@@ -82,8 +74,6 @@
         events: {
             onChangeValue: onChangeValue,
             onEditorReady: onEditorReady,
-            onMouseUp: onMouseUp,
-            onMouseMove: onMouseMove,
             onLoad: onLoad
         }
     };

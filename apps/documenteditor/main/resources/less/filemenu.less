@@ -150,6 +150,15 @@
     &jpg {
       background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
     }
+    &hwp {
+      background: ~"url('@{common-image-const-path}/doc-formats/hwp.svg') no-repeat center";
+    }
+    &hwpx {
+      background: ~"url('@{common-image-const-path}/doc-formats/hwpx.svg') no-repeat center";
+    }
+    &vsdx {
+      background: ~"url('@{common-image-const-path}/doc-formats/vsdx.svg') no-repeat center";
+    }
   }
 
   div {
@@ -499,8 +508,8 @@
 
     &:hover,
     &.over {
-      background-color: @background-toolbar-ie;
-      background-color: @background-toolbar;
+      background-color: @background-pane-ie;
+      background-color: @background-pane;
     }
 
     .recent-icon {
@@ -514,7 +523,7 @@
         height: 100%;
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 1032px 30px;
+          background-size: 1176px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -606,6 +615,18 @@
           &neutral {
             .format-from-index(42);
           }
+          &pages {
+            .format-from-index(43);
+          }
+          &vsdx {
+            .format-from-index(46);
+          }
+          &hwp {
+            .format-from-index(47);
+          }
+          &hwpx {
+            .format-from-index(48);
+          }
         }
         .svg-file-recent {
           background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
@@ -661,8 +682,8 @@
       &:not(.header-name) {
         &:hover,
         &.over {
-          background-color: @background-toolbar-ie;
-          background-color: @background-toolbar;
+          background-color: @background-pane-ie;
+          background-color: @background-pane;
         }
 
         &.selected {
@@ -894,6 +915,19 @@
         #print-combo-sides {
           .dropdown-menu li > a {
             .padding-x(20px, 5px);
+          }
+        }
+        #print-combo-printer,
+        #print-combo-pages {
+          .form-control {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+          }
+          .dropdown-menu li > a {
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }

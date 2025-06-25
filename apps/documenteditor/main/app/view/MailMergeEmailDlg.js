@@ -48,7 +48,7 @@ define([
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 5px 0 0;',
                 contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);

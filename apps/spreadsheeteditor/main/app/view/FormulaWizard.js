@@ -73,7 +73,7 @@ define([
                                 '</td></tr>',
                                 '<tr><td style="padding-bottom: 8px;padding-top: 8px;">',
                                     '<div id="formula-wizard-panel-args-desc" style="padding: 8px;">',
-                                        '<div id="formula-wizard-arg-desc" style="height:30px;overflow: hidden;"></div>',
+                                        '<label id="formula-wizard-arg-desc" style="min-height:30px; height:30px; overflow: hidden;"></label>',
                                     '</div>',
                                 '</td></tr>',
                                 '<tr><td>',
@@ -241,20 +241,25 @@ define([
                 this.scrollerY.update();
         },
 
-        recalcMaxArgDesc: function() {
+        recalcMaxArgDesc: function(isSaveContent) {
             var me = this,
+                minHeight = parseInt(this.lblArgDesc.css('min-height')),
                 oldHeight = parseInt(this.lblArgDesc.css('height')),
-                maxheight = oldHeight;
+                maxHeight = minHeight,
+                content = this.lblArgDesc.html();
             this.argsDesc && this.argsDesc.forEach(function(item, index) {
                 var name = me.args[index] ? me.args[index].argName || '' : '';
                 item && me.lblArgDesc.html('<b>' + name + ': </b><span>' + item + '</span>');
                 var height = parseInt(me.lblArgDesc.find('span').height());
-                if (height>maxheight)
-                    maxheight = height;
+                if (height>maxHeight)
+                    maxHeight = height;
             });
-            me.lblArgDesc.text('');
-            if (maxheight>oldHeight) {
-                this.lblArgDesc.css('height', maxheight+4);
+
+            me.lblArgDesc.html(isSaveContent ? content : '');
+            maxHeight > minHeight && (maxHeight += 4);
+
+            if (maxHeight != oldHeight) {
+                this.lblArgDesc.css('height', maxHeight);
                 this.setInnerHeight();
             }
         },
@@ -355,9 +360,11 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
+                if ($(e.target).parent().find(e.relatedTarget).length<1)
+                    me.onInputChanging(input, true, newValue, oldValue);
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
-                me.onInputChanging(input, newValue, oldValue);
+                me.onInputChanging(input, false, newValue, oldValue);
             }).on('button:click', _.bind(this.onSelectData, this));
             txt.setValue((argval!==undefined && argval!==null) ? argval : '');
             txt._input.on('focus', _.bind(this.onSelectArgument, this, txt));
@@ -381,11 +388,11 @@ define([
             Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
-        onInputChanging: function(input, newValue, oldValue, e) {
+        onInputChanging: function(input, endInsert, newValue, oldValue, e) {
             var me = this,
                 index = input.options.index,
                 arg = me.args[index];
-            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined),
+            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined, !!endInsert),
                 argres = res ? res.asc_getArgumentsResult() : undefined;
             argres = argres ? argres[index] : undefined;
             arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + arg.argTypeName + '</span>' ));
@@ -394,6 +401,10 @@ define([
             me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
             result = res ? res.asc_getFormulaResult() : undefined;
             me.lblFormulaResult.html(me.textValue + ':' + ((result!==undefined && result!==null)? result : ''));
+            if (endInsert && res) {
+                argres = res.asc_getArguments();
+                argres && arg.argInput.setValue(argres[index]);
+            }
         },
 
         getArgumentsValue: function() {
@@ -478,6 +489,11 @@ define([
                     argindex   : input.options.index
                 });
             }
+        },
+
+        onThemeChanged: function() {
+            this.recalcMaxArgDesc(true);
+            Common.Views.AdvancedSettingsWindow.prototype.onThemeChanged.call(this);
         },
 
         showHelp: function() {

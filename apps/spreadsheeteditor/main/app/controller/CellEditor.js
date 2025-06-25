@@ -73,6 +73,8 @@ define([
                     }.bind(this)
                 }
             });
+            Common.NotificationCenter.on('external:reshow', this.onExternalReshow.bind(this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         setApi: function(api) {
@@ -174,6 +176,8 @@ define([
         },
 
         onApiDisconnect: function() {
+            if (!this.mode) return;
+            
             this.mode.isEdit = false;
 
             var controller = this.getApplication().getController('FormulaDialog');
@@ -239,9 +243,11 @@ define([
         },
 
         expandEditorField: function() {
-            if ( Math.floor(this.editor.$el.height()) > 19) {
+            var editorMinHeight = parseFloat(this.editor.$el.css('min-height')) || 20;
+            editorMinHeight -= (parseFloat(this.editor.$el.css('border-bottom-width')) || 0);
+            if ( Math.floor(this.editor.$el.height()) > editorMinHeight) {
                 this.editor.keep_height = this.editor.$el.height();
-                this.editor.$el.height(19);
+                this.editor.$el.height(editorMinHeight);
                 this.editor.$el.removeClass('expanded');
                 this.editor.$btnexpand['removeClass']('btn-collapse');
                 Common.localStorage.setBool('sse-celleditor-expand', false);
@@ -254,6 +260,23 @@ define([
             this.onCellEditorTextChange();
             Common.NotificationCenter.trigger('layout:changed', 'celleditor');
             Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
+        },
+
+        onExternalReshow: function () {
+            this.changeCellEditorHeight();
+        },
+
+        onThemeChanged: function () {
+            this.changeCellEditorHeight();
+        },
+
+        changeCellEditorHeight: function() {
+            if (!Common.localStorage.getBool('sse-celleditor-expand')) {
+                var editorMinHeight = parseFloat(this.editor.$el.css('min-height')) || 20;
+                editorMinHeight -= (parseFloat(this.editor.$el.css('border-bottom-width')) || 0);
+                this.editor.$el.height(editorMinHeight);
+                Common.NotificationCenter.trigger('layout:changed', 'celleditor');
+            }
         },
 
         onInsertFunction: function() {
@@ -331,15 +354,15 @@ define([
         },
 
         SetDisabled: function(disabled) {
-            this.editor.$btnfunc[!disabled && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
-            this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
+            this.editor.$btnfunc[!disabled && this.mode && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
+            this.editor.btnNamedRanges.setVisible(!disabled && this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
-            this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
+            this.editor.$btnfunc[!mode && this.mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
+            this.editor.cellNameDisabled(mode && !(this.mode && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });
 });

@@ -15,7 +15,7 @@
             <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
         </div>
 		<h1>Unterstützte Formate elektronischer Präsentationen</h1>
-			<p>Eine Präsentation besteht aus einer Reihe von Folien, die verschiedene Arten von Inhalten enthalten können z. B. Bilder, Mediendateien, Text, Effekte usw. 
+			<p>Eine Präsentation besteht aus einer Reihe von Folien, die verschiedene Arten von Inhalten enthalten können, z. B. Bilder, Mediendateien, Text, Effekte usw. 
             Der <a target="_blank" href="https://www.onlyoffice.com/de/presentation-editor.aspx" onclick="onhyperlinkclick(this)"><b>Präsentationseditor</b></a> unterstützt die folgenden Formate:</p>
             <p class="note">Beim Hochladen oder Öffnen der Datei für die Bearbeitung wird sie ins Office-Open-XML-Format (PPTX) konvertiert. Dies wird gemacht, um die Dateibearbeitung zu beschleunigen und die Interfunktionsfähigkeit zu erhöhen.</p>
             <p>Die folgende Tabelle enthält die Formate, die zum Anzeigen und/oder zur Bearbeitung geöffnet werden können.</p>
@@ -29,8 +29,32 @@
                     <td>Bearbeitung ach Konvertierung in OOXML</td>
                 </tr>
                 <tr>
+                    <td>DPS</td>
+                    <td>WPS Office-Präsentationsdokument von Kingsoft<br>Ein im WPS Office-Paket enthaltenes Diashow-Präsentationsformat, das eine Sammlung von Folien enthält, die aus einer Titelfolie gefolgt von Inhaltsfolien bestehen kann, die Text, Bilder, Videos, Audio und Formen enthalten können.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>DPT</td>
+                    <td>Kingsoft-Präsentationsvorlage<br>Ein Dateiformat zum Speichern des Standardlayouts und der Standardstile einer Präsentation und zum Erstellen von Präsentationen (.DPS-Dateien) mit derselben Formatierung.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>FODP</td>
+                    <td>OpenDocument Flat XML-Präsentationsdateiformat<br>Ein Dateiformat zum Speichern von Präsentationen im OpenDocument-XML-Dateiformat ohne Komprimierung.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
                     <td>ODP</td>
-                    <td>OpenDocument Presentation<br />Dateiformat, das mit der Anwendung Impress erstellte Präsentationen darstellt; diese Anwendung ist ein Bestandteil des OpenOffice-Pakets</td>
+                    <td>OpenDocument Präsentation<br />Dateiformat, das mit der Impress-Anwendung erstellte Präsentationen darstellt; diese Anwendung ist ein Bestandteil des OpenOffice-Pakets.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -45,6 +69,22 @@
                     <td>+</td>
                 </tr>
                 <tr>
+                    <td>POT</td>
+                    <td>Portable Objektvorlage<br>Ein Dateiformat zum Erstellen von Diashow-Präsentationen, das das Standardlayout, die Formatierung und die Stile für eine Diashow enthält. POT-Dateien werden verwendet, um mehrere PPT-Dateien mit derselben Formatierung zu erstellen.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>POTM</td>
+                    <td>Eine makrofähige Präsentationsvorlage von Microsoft PowerPoint<br>Ein Dateiformat zum Erstellen von Diashow-Präsentationen, das Standardbilder, Folienvorlagen, Makros und Formatierungen enthält.</td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td>POTX</td>
                     <td>PowerPoint Office Open XML Dokumenten-Vorlage<br />Gezipptes, XML-basiertes, von Microsoft für Präsentationsvorlagen entwickeltes Dateiformat. Eine POTX-Vorlage enthält Formatierungseinstellungen, Stile usw. und kann zum Erstellen mehrerer Präsentationen mit derselben Formatierung verwendet werden.</td>
                     <td></td>
@@ -53,8 +93,24 @@
                     <td>+</td>
                 </tr>
                 <tr>
+                    <td>PPS</td>
+                    <td>PowerPoint-Diashow-Datei<br>Ein Dateiformat, das bei der Vorbereitung von Diashows und Präsentationen verwendet wird, um verschiedene Daten wie Video, Audio, Text, Animationen und Bilder zu speichern.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                </tr>
+                <tr>
+                    <td>PPSM</td>
+                    <td>Makrofähige Diashow von Microsoft PowerPoint<br>Ein Dateiformat, das zum Erstellen von Diashows und Präsentationen verwendet wird und eine oder mehrere Folien mit Makros enthält, die Text, Bilder und Übergänge enthalten können.</td>
+                    <td>+</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td>PPSX</td>
-                    <td>Microsoft PowerPoint Slide Show<br />Präsentationsdateiformat, das für die Wiedergabe von Slideshows verwendet wird</td>
+                    <td>Microsoft PowerPoint-Diashow<br />Präsentationsdateiformat, das für die Wiedergabe von Slideshows verwendet wird.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -62,7 +118,7 @@
                 </tr>
                 <tr>
                     <td>PPT</td>
-                    <td>Dateiformat, das in Microsoft PowerPoint verwendet wird</td>
+                    <td>Dateiformat, das in Microsoft PowerPoint verwendet wird.</td>
                     <td></td>
                     <td>+</td>
                     <td></td>
@@ -70,10 +126,18 @@
                 </tr>
                 <tr>
                     <td>PPTX</td>
-                    <td>Office Open XML Presentation<br />Gezipptes, XML-basiertes, von Microsoft entwickeltes Dateiformat zur Präsentation von Kalkulationstabellen, Diagrammen, Präsentationen und Textverarbeitungsdokumenten</td>
+                    <td>Office Open XML Präsentation<br />Gezipptes, XML-basiertes, von Microsoft entwickeltes Dateiformat zur Präsentation von Kalkulationstabellen, Diagrammen, Präsentationen und Textverarbeitungsdokumenten</td>
                     <td>+</td>
                     <td></td>
                     <td>+</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>SXI</td>
+                    <td>StarOffice Impress Präsentation<br>Ein Präsentationsformat zum Erstellen von Diashow-Präsentationen, die aus Titel- und Inhaltsfolien mit Text und digitalen Objekten bestehen können; unterstützt Audio-, Video- und Übergangseffekte.</td>
+                    <td></td>
+                    <td>+</td>
+                    <td></td>
                     <td></td>
                 </tr>
             </table>
@@ -84,31 +148,63 @@
                     <td><b>Kann heruntergeladen werden als</b></td>
                 </tr>
                 <tr>
+                    <td>DPS</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>DPT</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>FODP</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
                     <td>ODP</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
                 </tr>
                 <tr>
                     <td>OTP</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, ODP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>POT</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>POTM</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM, PPTX</td>
                 </tr>
                 <tr>
                     <td>POTX</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>PPS</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPSX, PPTM, PPTX</td>
+                </tr>
+                <tr>
+                    <td>PPSM</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSX, PPTM, PPTX</td>
                 </tr>
                 <tr>
                     <td>PPSX</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTM, POTX, PPSM, PPTM, PPTX</td>
                 </tr>
                 <tr>
                     <td>PPT</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM, PPTX</td>
                 </tr>
                 <tr>
                     <td>PPTX</td>
-                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSX, PPTX</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM</td>
+                </tr>
+                <tr>
+                    <td>SXI</td>
+                    <td>JPG, ODP, OTP, PDF, PDF/A, PNG, POTX, PPSM, PPSX, PPTM, PPTX</td>
                 </tr>
             </table>
-            <p>Sie können sich auch auf die Conversion-Matrix auf <a href="https://api.onlyoffice.com/editors/conversionapi#presentation-matrix" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> beziehen, um die Möglichkeiten zu sehen, Ihre Präsentationen in die bekanntesten Dateiformate zu konvertieren.</p>
+            <p>Sie können sich auch auf die Conversion-Matrix auf <a href="https://api.onlyoffice.com/docs/docs-api/additional-api/conversion-api/conversion-tables/#presentation-file-formats" target="_blank" onclick="onhyperlinkclick(this)"><b>api.onlyoffice.com</b></a> beziehen, um die Möglichkeiten zu sehen, Ihre Präsentationen in die bekanntesten Dateiformate zu konvertieren.</p>
 		</div>
 	</body>
 </html>

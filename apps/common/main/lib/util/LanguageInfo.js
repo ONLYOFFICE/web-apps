@@ -468,20 +468,30 @@ Common.util.LanguageInfo = new(function() {
         return null;
     };
 
+    var defLanguages = {
+        'ar': 0x0401, // ar-SA
+        'az': 0x042C, // az-Latn-AZ
+        'en': 0x0409, // en-US
+        'sr': 0x241A, // sr-Latn-RS
+        'zh': 0x0004, // zh-Hans
+    };
+
+    var _getLocalLanguageCode = function(name) {
+        if (name) {
+            for (var code in localLanguageName) {
+                if (localLanguageName[code][0].toLowerCase()===name.toLowerCase())
+                    return code;
+            }
+        }
+        return null;
+    };
+
     var regionalData;
 
     return {
         getLocalLanguageName: getLocalLanguageName,
 
-        getLocalLanguageCode: function(name) {
-            if (name) {
-                for (var code in localLanguageName) {
-                    if (localLanguageName[code][0].toLowerCase()===name.toLowerCase())
-                        return code;
-                }
-            }
-            return null;
-        },
+        getLocalLanguageCode: _getLocalLanguageCode,
 
         /**
          * @typedef {Object} LangDisplayName
@@ -495,6 +505,14 @@ Common.util.LanguageInfo = new(function() {
          * Returns `null` if no language code is found.
          */
         getLocalLanguageDisplayName: getLocalLanguageDisplayName,
+
+        getDefaultLanguageCode: function(name) {
+            name = name.toLowerCase();
+            if (defLanguages[name])
+                return defLanguages[name];
+            name += '-' + name.toUpperCase();
+            return _getLocalLanguageCode(name);
+        },
 
         getLanguages: function() {
             return localLanguageName;

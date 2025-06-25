@@ -229,6 +229,7 @@
     "uploadImageExtMessage": "未知圖片格式。",
     "uploadImageFileCountMessage": "沒有上傳圖片。",
     "uploadImageSizeMessage": "圖片超出最大大小限制。最大大小為25MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorEmailClient": "No email client could be found",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
@@ -274,9 +275,12 @@
     "dlgLeaveTitleText": "您已離開應用程式",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +323,8 @@
       "textSlideNumber": "投影片編號",
       "textTable": "表格",
       "textTableSize": "表格大小",
-      "txtNotUrl": "此欄位應該是符合「http://www.example.com」格式的網址。"
+      "txtNotUrl": "此欄位應該是符合「http://www.example.com」格式的網址。",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",
@@ -554,5 +559,11 @@
       "textSameAsSystem": "Same As System",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

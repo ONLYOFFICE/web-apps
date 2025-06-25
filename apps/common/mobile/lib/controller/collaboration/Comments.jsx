@@ -93,7 +93,7 @@ class CommentsController extends Component {
                 /** coauthoring end **/
             }
 
-            this.curUserId = this.props.users.currentUser.asc_getIdOriginal();
+            this.curUserId = this.props.users.currentUser ? this.props.users.currentUser.asc_getIdOriginal() : '';
         });
     }
     onApiActiveSheetChanged (index) {

@@ -209,6 +209,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
                 storeVisioInfo.changeTitle(newTitle);
             }
         }
+    }
+    
+    const forceDesktopMode = () => {
+        f7.dialog.create({
+            text: t('View.Settings.textRestartApplication'),
+            title: t('Toolbar.textSwitchToDesktop'),
+            buttons: [
+                {
+                    text: t('View.Edit.textCancel')
+                },
+                {
+                    text: t('Toolbar.btnRestartNow'),
+                    onClick: () => Common.Gateway.switchEditorType('desktop', true),
+                }
+            ]}
+        ).open();
     };
 
     return (
@@ -223,6 +239,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeToolbarSettin
             isDisconnected={isDisconnected}
             isOpenModal={props.isOpenModal}
             changeTitleHandler={changeTitleHandler}
+            forceDesktopMode={forceDesktopMode}
         />
     )
 }));

@@ -162,8 +162,7 @@ define([
                         }
                     }
                 }
-
-                usersStore[usersStore.size() > 0 ? 'add' : 'reset'](arrUsers);
+                usersStore.reset(arrUsers);
                 arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
             }
         },

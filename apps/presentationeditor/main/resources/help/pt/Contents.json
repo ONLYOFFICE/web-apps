@@ -43,7 +43,6 @@
     {"src": "UsageInstructions/Translator.htm", "name": "Traduzir texto"},
     {"src": "UsageInstructions/Thesaurus.htm", "name": "Substituir uma palavra por um sinônimo"},
     {"src": "UsageInstructions/CommunicationPlugins.htm", "name": "Comunique-se durante a edição"},
-	{"src": "UsageInstructions/Zoom.htm", "name": "Organize e agende reuniões do Zoom"},
 	{"src": "UsageInstructions/ChatGPT.htm", "name": "Use IA para escrever texto"},
     {"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "Veja as informações sobre sua apresentação", "headername": "Ferramentas e configurações"},
     {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Salve/imprima/baixe sua apresentação"},

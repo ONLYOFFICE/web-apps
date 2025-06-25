@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Popover, List, ListItem, ListButton, Link, Icon, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon';
 
 const idContextMenuElement = "idx-context-menu-popover";
 
@@ -30,7 +31,7 @@ class ContextMenuView extends Component {
                         !b.icon ?
                             <ListButton title={b.caption} key={index} onClick={e => this.props.onMenuItemClick(b.event)} /> :
                             <ListButton key={index} onClick={e => this.props.onMenuItemClick(b.event)}>
-                                <Icon slot="media" icon={`icon_mask ${b.icon}`} />
+                                <SvgIcon slot="media" symbolId={b.icon} className={'icon icon-svg icon-svg__mask'} />
                             </ListButton>
                     )}
                 </List>

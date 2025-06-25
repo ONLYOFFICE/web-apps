@@ -5,6 +5,31 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconWrapTableInline from '@ios-icons/icon-wrap-table-inline.svg';
+import IconWrapTableFlow from '@ios-icons/icon-wrap-table-flow.svg';
+import IconBlockAlignLeft from '@icons/icon-block-align-left.svg';
+import IconBlockAlignCenter from '@icons/icon-block-align-center.svg';
+import IconBlockAlignRight from '@icons/icon-block-align-right.svg';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconTableBordersAll from '@common-icons/icon-table-borders-all.svg';
+import IconTableBordersNone from '@common-icons/icon-table-borders-none.svg';
+import IconTableBordersInner from '@common-icons/icon-table-borders-inner.svg';
+import IconTableBordersOuter from '@common-icons/icon-table-borders-outer.svg';
+import IconTableBordersTop from '@common-icons/icon-table-borders-top.svg';
+import IconTableBordersBottom from '@common-icons/icon-table-borders-bottom.svg';
+import IconTableBordersLeft from '@common-icons/icon-table-borders-left.svg';
+import IconTableBordersRight from '@common-icons/icon-table-borders-right.svg';
+import IconTableBordersCenter from '@common-icons/icon-table-borders-center.svg';
+import IconTableBordersMiddle from '@common-icons/icon-table-borders-middle.svg';
+import IconTableAddColumnLeft from '@common-icons/icon-table-add-column-left.svg';
+import IconTableAddColumnRight from '@common-icons/icon-table-add-column-right.svg';
+import IconTableAddRowAbove from '@common-icons/icon-table-add-row-above.svg';
+import IconTableAddRowBelow from '@common-icons/icon-table-add-row-below.svg';
+import IconTableRemoveColumn from '@common-icons/icon-table-remove-column.svg';
+import IconTableRemoveRow from '@common-icons/icon-table-remove-row.svg';
+
 
 const PageTableOptions = props => {
     const { t } = useTranslation();
@@ -33,7 +58,10 @@ const PageTableOptions = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -100,17 +128,24 @@ const PageWrap = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onChange={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-table-inline"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapTableInline.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onChange={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-table-flow"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapTableFlow.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             </List>
             <List>
@@ -129,19 +164,19 @@ const PageWrap = props => {
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_LEFT)
                                    }}>
-                                    <Icon slot="media" icon="icon-block-align-left"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconBlockAlignLeft.id} className={'icon icon-svg'} />
                                 </a>
                                 <a className={'button' + (align === c_tableAlign.TABLE_ALIGN_CENTER ? ' active' : '')}
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_CENTER)
                                    }}>
-                                    <Icon slot="media" icon="icon-block-align-center"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconBlockAlignCenter.id} className={'icon icon-svg'} />
                                 </a>
                                 <a className={'button' + (align === c_tableAlign.TABLE_ALIGN_RIGHT ? ' active' : '')}
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_RIGHT)
                                    }}>
-                                    <Icon slot="media" icon="icon-block-align-right"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconBlockAlignRight.id} className={'icon icon-svg'} />
                                 </a>
                             </div>
                         </ListItem>
@@ -232,7 +267,10 @@ const PageStyleOptions = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -285,7 +323,10 @@ const PageCustomFillColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -345,7 +386,10 @@ const PageCustomBorderColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -380,7 +424,10 @@ const PageBorderColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -447,38 +494,38 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
             <ListItem className='buttons table-presets'>
                 <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("lrtbcm")}}>
-                        <Icon slot="media" icon="icon-table-borders-all"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersAll.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("")}}>
-                        <Icon slot="media" icon="icon-table-borders-none"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersNone.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("cm")}}>
-                        <Icon slot="media" icon="icon-table-borders-inner"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersInner.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("lrtb")}}>
-                        <Icon slot="media" icon="icon-table-borders-outer"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersOuter.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("l")}}>
-                        <Icon slot="media" icon="icon icon-table-borders-left"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersLeft.id} className={'icon icon-svg'} />
                     </a>
                 </div>
             </ListItem>
             <ListItem className='buttons table-presets'>
                 <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("c")}}>
-                        <Icon slot="media" icon="icon-table-borders-center"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersCenter.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("r")}}>
-                        <Icon slot="media" icon="icon-table-borders-right"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersRight.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("t")}}>
-                        <Icon slot="media" icon="icon-table-borders-top"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersTop.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("m")}}>
-                        <Icon slot="media" icon="icon-table-borders-middle"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersMiddle.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("b")}}>
-                        <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersBottom.id} className={'icon icon-svg'} />
                     </a>
                 </div>
             </ListItem>
@@ -511,7 +558,10 @@ const PageStyle = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -550,26 +600,27 @@ const EditTable = props => {
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onAddColumnLeft()}}>
-                            <Icon slot="media" icon="icon-table-add-column-left"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddColumnLeft.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddColumnRight()}}>
-                            <Icon slot="media" icon="icon-table-add-column-right"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddColumnRight.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddRowAbove()}}>
-                            <Icon slot="media" icon="icon-table-add-row-above"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddRowAbove.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddRowBelow()}}>
-                            <Icon slot="media" icon="icon-table-add-row-below"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddRowBelow.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onRemoveColumn()}}>
-                            <Icon slot="media" icon="icon-table-remove-column"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableRemoveColumn.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onRemoveRow()}}>
-                            <Icon slot="media" icon="icon icon-table-remove-row"></Icon>
+                             <SvgIcon slot="media" symbolId={IconTableRemoveRow.id} className={'icon icon-svg'} />
+
                         </a>
                     </div>
                 </ListItem>

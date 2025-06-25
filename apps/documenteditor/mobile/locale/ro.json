@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddress": "Adresă",
     "textBack": "Înapoi",
     "textEditor": "Editor de documente text",
@@ -27,6 +27,7 @@
     "textCurrentPosition": "Poziția curentă",
     "textDisplay": "Afișare",
     "textDone": "Gata",
+    "textDrawing": "Desenare",
     "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
     "textEvenPage": "Pagină pară",
     "textFootnote": "Notă de subsol",
@@ -34,7 +35,7 @@
     "textImage": "Imagine",
     "textImageURL": "URL-ul imaginii",
     "textInsert": "Inserare",
-    "textInsertFootnote": "Inserarea notei de subsol",
+    "textInsertFootnote": "Inserare notă de subsol",
     "textInsertImage": "Inserare imagine",
     "textLeftBottom": "Stânga jos",
     "textLeftTop": "Stânga sus",
@@ -228,6 +229,12 @@
     "textRows": "Rânduri",
     "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?"
   },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Avertisment",
     "textActualSize": "Dimensiunea reală",
@@ -412,7 +419,8 @@
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
-    "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtText": "Apăsați pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
@@ -426,6 +434,7 @@
     "errorDefaultMessage": "Codul de eroare: %1",
     "errorDirectUrl": "Verificați linkul la document.<br>Trebuie să fie un link direct spre fișierul de încărcat.",
     "errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Încărcați documentul pentru copierea de rezervă locală. ",
+    "errorEditProtectedRange": "Nu aveți permisiunea de a edita selecția deoarece acestă este protejată.",
     "errorEmptyTOC": "Începeți să creați un cuprins prin aplicarea stilurilor de titlu din Galeria de stiluri la textul selectat.",
     "errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",
     "errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dvs.",
@@ -442,6 +451,7 @@
     "errorMailMergeSaveFile": "Îmbinarea eșuată.",
     "errorNoTOC": "Nu există niciun cuprins de actualizat. Accesați fila Referințe ca să puteți insera un cuprins.",
     "errorPasswordIsNotCorrect": "Parola introdusă nu este corectă. Verificați dacă tasta CAPS LOCK este dezactivată și utilizați corect scrierea cu majuscule.",
+    "errorPDFFormsLocked": "Această acțiune nu poate fi efectuată deoarece provoacă modificarea formuarelor blocate.",
     "errorSaveWatermark": "Fișierul conține o inscripționare care este legată de un alt domeniu.<br>Pentru a o face vizibilă în fișierul PDF, actualizați imaginea cu inscripționare astfel încât să fie legată la același domeniu la care este legat documentul dvs, sau încărcați-o de pe calculatorul dvs.",
     "errorSessionAbsolute": "Sesiunea de editare a expirat. Încercați să reîmprospătați pagina.",
     "errorSessionIdle": "Acțiunile de editare a documentului nu s-au efectuat de ceva timp. Încercați să reîmprospătați pagina.",
@@ -619,7 +629,7 @@
     },
     "textAnonymous": "Anonim",
     "textBuyNow": "Vizitarea site-ul Web",
-    "textCancel": "Anulare",
+    "textCancel": "Revocare",
     "textClose": "Închide",
     "textContactUs": "Contactați Departamentul de Vânzări",
     "textConvertForm": "Descarcă fișierul în format PDF pentru a salva formularul în formatul gata sa fie completat.  ",
@@ -655,9 +665,9 @@
     "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
     "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
     "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
+    "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+    "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
     "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
   },
   "Settings": {
@@ -666,7 +676,7 @@
     "advTxtOptions": "Selectează opțiunile TXT",
     "closeButtonText": "Închide fișierul",
     "notcriticalErrorTitle": "Avertisment",
-    "textAbout": "Despre",
+    "textAbout": "Informații",
     "textAddToFavorites": "Adăugare la Preferințe",
     "textApplication": "Aplicația",
     "textApplicationSettings": "Setări Aplicație",
@@ -704,6 +714,7 @@
     "textDownloadAs": "Descărcare ca",
     "textDownloadRtf": "Dacă salvați în acest format de fișier, este posibil ca unele dintre formatări să se piardă. Sigur doriți să continuați?",
     "textDownloadTxt": "Dacă salvați în acest format de fișier, toate caracteristici vor fi pierdute, cu excepția textului. Sunteți sigur că doriți să continuați?",
+    "textDrawing": "Desenare",
     "textEmptyHeading": "Titlul necompletat",
     "textEmptyScreens": "Nu există nicun titlu. Aplicați un stil de titlu textului pentru ca acesta să apară în cuprinsul.",
     "textEnableAll": "Se activează toate",
@@ -801,6 +812,7 @@
     "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "btnSend": "Trimitere",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
@@ -812,6 +824,7 @@
     "textRenameFile": "Redenumire fișier",
     "textSwitchedMobileView": "Comutat la vizualizarea mobilă",
     "textSwitchedStandardView": "Comutat la vizualizarea standard",
+    "textSwitchToDesktop": "Comutare la modul Desktop",
     "warnEmptyRequiredField": "Toate câmpurile din formular trebuie completate înainte de a-l trimite."
   }
 }

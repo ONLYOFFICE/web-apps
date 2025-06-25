@@ -177,15 +177,22 @@
       "warnLicenseExp": "Licența dvs. a expirat. Licența urmează să fie reînnoită iar pagina reîmprospătată.",
       "warnLicenseLimitedNoAccess": "Licența dvs. a expirat. Nu aveți acces la funcții de editare a documentului.Contactați administratorul dvs. de rețeea.",
       "warnLicenseLimitedRenewed": "Licență urmează să fie reînnoită. Funcțiile de editare sunt cu acces limitat. Pentru a obține acces nelimitat, contactați administratorul dvs. de rețea.",
-      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
+      "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori care este prevăzut pentru editoare %1. Pentru detalii, contactați administratorul dvs.",
       "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
-      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
+      "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori pentru editoare %1. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
       "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
     }
+  },
+  "Draw": {
+    "textColor": "Culoare",
+    "textCustomColor": "Culoare particularizată",
+    "textLineSize": "Dimensiune linie",
+    "textOpacity": "Transparență"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
     "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
@@ -270,13 +277,16 @@
     "waitText": "Vă rugăm să așteptați..."
   },
   "Toolbar": {
+    "btnRestartNow": "Repornire acum",
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
     "textCloseHistory": "Închide istoricul",
     "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
-    "textRenameFile": "Redenumire fișier"
+    "textOk": "OK",
+    "textRenameFile": "Redenumire fișier",
+    "textSwitchToDesktop": "Comutare la modul Desktop"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "Textul selectat",
       "textDisplay": "Afișare",
       "textDone": "Gata",
+      "textDrawing": "Desenare",
       "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
       "textExternalLink": "Link extern",
       "textFirstSlide": "Primul diapozitiv",

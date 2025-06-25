@@ -220,6 +220,7 @@
     "uploadImageExtMessage": "Neznámy formát obrázka.",
     "uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
     "uploadImageSizeMessage": "Obrázok je príliš veľký. Maximálna veľkosť je 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmailClient": "No email client could be found",
@@ -274,9 +275,12 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -317,6 +321,7 @@
       "textTableSize": "Veľkosť tabuľky",
       "txtNotUrl": "Toto pole by malo byť vo formáte \"http://www.example.com\"",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -554,5 +559,11 @@
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

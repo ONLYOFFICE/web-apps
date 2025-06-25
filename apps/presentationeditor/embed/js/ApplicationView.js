@@ -43,7 +43,7 @@ PE.ApplicationView = new(function(){
 
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
-            '<ul class="dropdown-menu ' + window.dropdownClass + '">' +
+            '<ul class="dropdown-menu pull-right">' +
             '<li><a id="idt-download"><span class="mi-icon svg-icon download"></span>' + this.txtDownload + '</a></li>' +
             '<li><a id="idt-print"><span class="mi-icon svg-icon print"></span>' + this.txtPrint + '</a></li>' +
             '<li class="divider"></li>' +

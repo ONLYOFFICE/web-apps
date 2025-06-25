@@ -38,7 +38,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset" style="width:230px;">
+                    <div class="elset font-attr display-flex-row-center">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -66,6 +66,7 @@
                         <span class="btn-slot split" id="slot-btn-decoffset"></span>
                         <span class="btn-slot split" id="slot-btn-incoffset"></span>
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
+                        <span class="btn-slot split" id="slot-btn-direction"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="<% if (!isRTL) { %>slot-btn-align-left<% } else { %>slot-btn-align-right<% } %>"></span>
@@ -74,6 +75,7 @@
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>
+                        <span class="btn-slot split" id="slot-btn-borders"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
@@ -118,8 +120,8 @@
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-text-from-file"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insfield"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text-from-file" data-layout-name="toolbar-insert-file"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insfield" data-layout-name="toolbar-insert-field"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -169,11 +171,12 @@
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-align"></span>
                     <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-shapes-merge"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor" data-layout-name="toolbar-layout-pagecolor"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

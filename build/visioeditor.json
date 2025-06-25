@@ -137,7 +137,7 @@
                     "cwd": "../apps/visioeditor/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif,ico}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/visioeditor/main/resources/img/"
                 }
@@ -148,7 +148,7 @@
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
                         "**/*.{png,jpg,gif}",
-                        "!toolbar/*x/**/*"
+                        "!toolbar/**/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/visioeditor/main/resources/img/"
                 }
@@ -196,7 +196,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/visioeditor/main/resources/img",
-                    "src": "**/*.svg",
+                    "src": [
+                        "**/*.svg",
+                        "!toolbar/**/*x/**/*"
+                    ],
                     "dest": "../deploy/web-apps/apps/visioeditor/main/resources/img"
                 }
             ],
@@ -315,11 +318,76 @@
             ]
         }
     },
+    "embed": {
+        "clean": {
+            "prebuild": [
+                "../deploy/web-apps/apps/visioeditor/embed"
+            ],
+            "postbuild": [
+                "../deploy/web-apps/apps/visioeditor/embed/resources/img"
+            ]
+        },
+        "js": {
+            "src": [
+                "../apps/common/locale.js",
+                "../apps/common/Gateway.js",
+                "../apps/common/Analytics.js",
+                "../apps/common/main/lib/mods/dropdown.js",
+                "../apps/common/main/lib/mods/modal.js",
+                "../apps/common/main/lib/mods/tooltip.js",
+                "../apps/common/embed/lib/util/LocalStorage.js",
+                "../apps/common/embed/lib/util/utils.js",
+                "../apps/common/embed/lib/view/LoadMask.js",
+                "../apps/common/embed/lib/view/modals.js",
+                "../apps/common/embed/lib/controller/modals.js",
+                "../apps/visioeditor/embed/js/ApplicationView.js",
+                "../apps/visioeditor/embed/js/ApplicationController.js",
+                "../apps/visioeditor/embed/js/application.js"
+            ],
+            "dist": "../deploy/web-apps/apps/visioeditor/embed/app-all.js"
+        },
+        "less": {
+            "files": {
+                "src": "../apps/visioeditor/embed/resources/less/application.less",
+                "dist": "../deploy/web-apps/apps/visioeditor/embed/resources/css/app-all.css"
+            }
+        },
+        "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/visioeditor/embed/locale/"
+                }
+            ],
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/visioeditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/visioeditor/embed"
+                }
+            ],
+            "images-app": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/embed/resources/img/",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/visioeditor/embed/resources/img/"
+                }
+            ]
+        }
+    },
     "tasks": {
         "deploy": [
             "increment-build",
             "deploy-app-main",
-            "deploy-app-mobile"
+            "deploy-app-mobile",
+            "deploy-app-embed"
         ]
     }
 }

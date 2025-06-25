@@ -119,6 +119,7 @@
         "Image": "Imagem",
         "Loading": "A carregar",
         "Media": "Média",
+        "Median": "Mediana",
         "None": "Nenhum",
         "Office": "Office",
         "Office 2007 - 2010": "Office 2007 - 2010",
@@ -144,7 +145,6 @@
         "Yellow Orange": "Amarelo alaranjado",
         "Your text here": "O seu texto aqui",
         "Marquee": "Marquee",
-        "Median": "Median",
         "Slipstream": "Slipstream"
       },
       "textAnonymous": "Anónimo",
@@ -157,6 +157,7 @@
       "textNo": "Não",
       "textNoLicenseTitle": "Atingiu o limite da licença",
       "textNoMatches": "Nenhuma ocorrência",
+      "textOk": "Ok",
       "textOpenFile": "Introduza a palavra-passe para abrir o ficheiro",
       "textPaidFeature": "Funcionalidade paga",
       "textRemember": "Memorizar escolha",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Atingiu o limite de utilizadores para os editores %1. Contacte o seu administrador para obter detalhes.",
       "warnNoLicense": "Atingiu o limite de ligações simultâneas aos editores %1. Este documento será aberto no modo de leitura.<br>Contacte a equipa comercial %1 para saber mais sobre os termos de licenciamento.",
       "warnNoLicenseUsers": "Atingiu o limite de utilizadores para os editores %1. Contacte a equipa comercial %1 para obter mais informações.",
-      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Não tem permissões para editar este ficheiro."
     }
   },
   "Error": {
@@ -228,12 +228,13 @@
     "splitDividerErrorText": "O número de linhas tem que ser um divisor de %1",
     "splitMaxColsErrorText": "O número de colunas tem que ser inferior a %1",
     "splitMaxRowsErrorText": "O número de linhas tem que ser inferior a %1",
+    "textOk": "Ok",
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Nenhuma imagem foi carregada.",
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo permitido é de 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
+    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
     "applyChangesTextText": "A carregar dados...",
@@ -250,7 +251,7 @@
     "loadImageTextText": "A carregar imagem...",
     "loadImageTitleText": "A carregar imagem",
     "loadingDocumentTextText": "A carregar documento...",
-    "loadingDocumentTitleText": "A carregar documento",
+    "loadingDocumentTitleText": "A carregar",
     "loadThemeTextText": "A carregar tema...",
     "loadThemeTitleText": "A carregar tema",
     "openTextText": "A abrir documento...",
@@ -262,7 +263,7 @@
     "saveTextText": "A guardar documento...",
     "saveTitleText": "A guardar documento",
     "textContinue": "Continuar",
-    "textLoadingDocument": "A carregar documento",
+    "textLoadingDocument": "A carregar",
     "textUndo": "Desfazer",
     "txtEditingMode": "Definir modo de edição…",
     "uploadImageTextText": "A carregar imagem...",
@@ -276,7 +277,10 @@
     "stayButtonText": "Ficar na página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
-    "textRenameFile": "Renomear ficheiro"
+    "textRenameFile": "Renomear ficheiro",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +323,8 @@
       "textSlideNumber": "Número do diapositivo",
       "textTable": "Tabela",
       "textTableSize": "Tamanho da tabela",
-      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\""
+      "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",
@@ -448,7 +453,7 @@
       "textRotateTextDown": "Rodar texto para baixo",
       "textRotateTextUp": "Rodar texto para cima",
       "textScreenTip": "Dica no ecrã",
-      "textSearch": "Pesquisar",
+      "textSearch": "Pesquisa",
       "textSec": "s",
       "textSelectObjectToEdit": "Selecione o objeto a editar",
       "textSendToBackground": "Enviar para segundo plano",
@@ -554,5 +559,11 @@
       "textVersion": "Versão",
       "textVersionHistory": "Histórico de versões"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

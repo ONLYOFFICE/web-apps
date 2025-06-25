@@ -157,6 +157,7 @@
       "textNo": "Ne",
       "textNoLicenseTitle": "Limit licence dostignut",
       "textNoMatches": "Bez poklapanja",
+      "textOk": "OK",
       "textOpenFile": "Unesi lozinku da otvoriš fajl",
       "textPaidFeature": "Plaćena funkcija ",
       "textRemember": "Zapamti moj izbor",
@@ -179,13 +180,19 @@
       "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
       "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
       "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
+  },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisni 'OK' da se vratiš na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errorAccessDeny": "Pokušavate da izvedete akciju na koju nemate prava.<br>Molimo kontaktirajte vašeg admina.",
@@ -210,6 +217,7 @@
     "errorKeyEncrypt": "Nepoznati opisivač ključa ",
     "errorKeyExpire": "Ključni opis istekao",
     "errorLoadingFont": "Fontovi nisu učitani.<br>Molimo kontaktirajte vašeg Dokument Server administratora.",
+    "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
     "errorSessionToken": "Konekcija sa serverom je prekinuta. Molimo, ponovo učitajte stranicu.",
@@ -228,12 +236,11 @@
     "splitDividerErrorText": "Broj redova mora biti delilac %1",
     "splitMaxColsErrorText": "Broj koloni mora biti manji od %1",
     "splitMaxRowsErrorText": "Broj redova mora biti manji od %1",
+    "textOk": "OK",
     "unknownErrorText": "Nepoznata greška.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Učitavanje podataka...",
@@ -270,13 +277,16 @@
     "waitText": "Molimo, sačekajte..."
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napusti ovu stranicu",
     "stayButtonText": "Ostani na ovoj stranici",
     "textCloseHistory": "Zatvori Istoriju",
     "textEnterNewFileName": "Unesi novo ime fajla",
-    "textRenameFile": "Preimenuj fajl"
+    "textOk": "OK",
+    "textRenameFile": "Preimenuj fajl",
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "Odabrani tekst",
       "textDisplay": "Ekran",
       "textDone": "Gotovo",
+      "textDrawing": "Crtanje",
       "textEmptyImgUrl": "Morate da specifikujete URL slike.",
       "textExternalLink": "Spoljni link",
       "textFirstSlide": "Prvi slajd",

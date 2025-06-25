@@ -88,11 +88,13 @@ ace.config.loadModule('ace/ext/tern', function () {
     });
 });
 
+var firstLineNumber = 1;
 if (!window.isIE) {
     ace.config.loadModule('ace/ext/language_tools', function () {
         editor.setOptions({
             enableBasicAutocompletion: false,
-            enableLiveAutocompletion: true
+            enableLiveAutocompletion: true,
+            firstLineNumber: firstLineNumber
         });
     });
 }
@@ -116,7 +118,7 @@ var _postMessage = function(msg) {
         if (window.isDisable) return;
         _postMessage({
             command: 'changeValue',
-            data: editor.getValue(),
+            data: { value: editor.getValue(), pos: editor.getCursorPosition() },
             referer: 'ace-editor'
         });
     });
@@ -130,7 +132,8 @@ var _postMessage = function(msg) {
         if (!data.readonly) {
             editor.focus();
             editor.selection.clearSelection();
-            editor.scrollToRow(0);
+            editor.moveCursorToPosition(data.currentPos ? data.currentPos : {row: 0, column : 0});
+            editor.scrollToLine((data.currentPos ? data.currentPos.row : 0) + firstLineNumber, true);
         }
         window.isDisable = false;
     };
@@ -264,36 +267,9 @@ var _postMessage = function(msg) {
     };
 
     var fn = function(e) { _onMessage(e); };
-
-    var onMouseUp = function(e) {
-        _postMessage({
-            command: 'mouseUp',
-            data: {
-                x: (undefined === e.clientX) ? e.pageX : e.clientX,
-                y: (undefined === e.clientY) ? e.pageY : e.clientY
-            },
-            referer: 'ace-editor'
-        });
-    };
-
-    var onMouseMove = function(e) {
-        _postMessage({
-            command: 'mouseMove',
-            data: {
-                x: (undefined === e.clientX) ? e.pageX : e.clientX,
-                y: (undefined === e.clientY) ? e.pageY : e.clientY
-            },
-            referer: 'ace-editor'
-        });
-    };
-
     if (window.attachEvent) {
         window.attachEvent('onmessage', fn);
-        window.attachEvent("onmouseup", onMouseUp);
-        window.attachEvent("onmousemove", onMouseMove);
     } else {
         window.addEventListener('message', fn, false);
-        window.addEventListener("mouseup", onMouseUp, false);
-        window.addEventListener("mousemove", onMouseMove, false);
     }
 })(window, undefined);

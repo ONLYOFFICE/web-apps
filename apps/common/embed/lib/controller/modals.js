@@ -35,7 +35,7 @@
     !common.controller && (common.controller = {});
 
     common.controller.modals = new(function() {
-        var $dlgShare, $dlgEmbed, $dlgPassword;
+        var $dlgShare, $dlgEmbed, $dlgPassword, $dlgWarning;
         var appConfig;
         var embedCode = '<iframe allowtransparency="true" frameborder="0" scrolling="no" src="{embed-url}" width="{width}" height="{height}"></iframe>',
             minEmbedWidth = 400,
@@ -58,7 +58,7 @@
             $dlgShare.find('.share-buttons > span').on('click', function(e){
                 if ( window.config ) {
                     const key = $(e.target).attr('data-name');
-                    const btn = config.btnsShare[key];
+                    const btn = window.config.btnsShare[key];
                     if ( btn && btn.getUrl ) {
                         window.open(btn.getUrl(appConfig.shareUrl, appConfig.docTitle), btn.target || '',
                             btn.features || 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
@@ -138,6 +138,32 @@
             }, 500);
         };
 
+        var showWarning = function(config) {
+            $dlgWarning = common.view.modals.create('warning', 'body', {
+                title: config.title, 
+                message: config.message,
+                buttons: config.buttons || ['ok'],
+                primary: config.primary 
+            });
+            $dlgWarning.on('click', '[data-btn]', function() {
+                const btn = $(this).data('btn');
+                $dlgWarning.modal('hide');
+                 if (config.callback) {
+                    config.callback(btn);
+                }
+            });
+
+            $dlgWarning.on('hidden.bs.modal', function() {
+                $dlgWarning.remove();
+            });
+            
+            $dlgWarning.modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        };
+
         function updateEmbedCode(){
             var $txtwidth = $dlgEmbed.find('#txt-embed-width');
             var $txtheight = $dlgEmbed.find('#txt-embed-height');
@@ -181,7 +207,8 @@
         return {
             init: function(config) { appConfig = config; }, 
             attach: attachToView,
-            createDlgPassword: createDlgPassword
+            createDlgPassword: createDlgPassword,
+            showWarning: showWarning
         };
     });
 }();

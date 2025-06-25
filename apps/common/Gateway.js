@@ -165,6 +165,10 @@ if (window.Common === undefined) {
 
             'startFilling': function(data) {
                 $me.trigger('startfilling', data);
+            },
+
+            'requestRoles': function(data) {
+                $me.trigger('requestroles', data);
             }
         };
 
@@ -354,8 +358,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function (command, id) {
-                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
+            requestUsers:  function (command, id, from, count, search) { // from, count, search are used for mentions
+                _postMessage({event:'onRequestUsers', data: {c: command, id: id, from: from, count: count, search: search}});
             },
 
             requestSendNotify:  function (emails) {
@@ -402,8 +406,26 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceSource'});
             },
 
-            requestStartFilling:  function () {
-                _postMessage({event:'onRequestStartFilling'});
+            requestStartFilling:  function (roles) {
+                _postMessage({
+                    event:'onRequestStartFilling',
+                    data: roles
+                });
+            },
+
+            switchEditorType:  function (value, restart) {
+                _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
+            },
+
+            startFilling:  function () {
+                _postMessage({event:'onStartFilling'});
+            },
+
+            requestFillingStatus:  function (role) {
+                _postMessage({
+                    event:'onRequestFillingStatus',
+                    data: role
+                });
             },
 
             pluginsReady: function() {
@@ -412,6 +434,10 @@ if (window.Common === undefined) {
 
             requestRefreshFile: function() {
                 _postMessage({ event: 'onRequestRefreshFile' });
+            },
+
+            userActionRequired: function() {
+                _postMessage({ event: 'onUserActionRequired' });
             },
 
             saveDocument: function(data) {

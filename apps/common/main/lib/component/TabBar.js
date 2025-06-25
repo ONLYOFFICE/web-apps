@@ -212,6 +212,7 @@ define([
                     });
                 }
                 event.dataTransfer.effectAllowed = 'copyMove';
+                this.bar.preventCutTab = false;
                 this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
             }, this),
             dragenter: $.proxy(function (e) {
@@ -246,11 +247,7 @@ define([
                     this.bar.isDragDrop = true;
                 }
                 var event = e.originalEvent;
-                if (event.dataTransfer.dropEffect === 'move' && !event.dataTransfer.mozUserCancelled) {
-                    this.bar.trigger('tab:dragend', true);
-                } else {
-                    this.bar.trigger('tab:dragend', false);
-                }
+                this.bar.trigger('tab:dragend', !this.bar.preventCutTab && event.dataTransfer.dropEffect === 'move' && !event.dataTransfer.mozUserCancelled);
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
             }, this),
             drop: $.proxy(function (e) {
@@ -262,6 +259,7 @@ define([
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 this.bar.trigger('tab:drop', event.dataTransfer, index, (event.ctrlKey || Common.Utils.isMac && event.altKey));
                 this.bar.isDrop = true;
+                this.bar.preventCutTab = true;
             }, this)
         });
     };

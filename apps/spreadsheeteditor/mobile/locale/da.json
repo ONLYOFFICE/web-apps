@@ -286,6 +286,7 @@
     "saveErrorText": "Der skete en fejl da filen blev forsøgt gemt",
     "unknownErrorText": "Ukendt fejl.",
     "uploadImageFileCountMessage": "Ingen billeder uploadet",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
     "errorAutoFilterChange": "The operation is not allowed as it is attempting to shift cells in a table on your sheet.",
@@ -445,11 +446,14 @@
   "Toolbar": {
     "leaveButtonText": "Forlad denne side",
     "stayButtonText": "Bliv på siden",
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -502,9 +506,11 @@
       "txtSorting": "Sorterer",
       "txtSortSelected": "Sortèr valgte",
       "txtYes": "Ja",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textOk": "Ok",
@@ -862,5 +868,11 @@
       "textVersionHistory": "Version History",
       "txtSemicolon": "Semicolon"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

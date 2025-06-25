@@ -48,6 +48,14 @@ define([
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
             this.adjPrintParams.asc_setPrintType(value);
 
+            this._state = {
+                firstPrintPage: 0,
+                isPrintPreviewOpenedOnce: false,
+                isPrinterInfoLoad: false,
+                currentPrinter: null,
+                printersList: []
+            };
+
             this._changedProps = null;
             this._originalPageSettings = null;
 
@@ -99,15 +107,16 @@ define([
                     this.printSettings.printScroller && this.printSettings.printScroller.update();
                 }
             }, this));
+            this.printSettings.btnPrintSystemDialog.on('click', _.bind(this.querySavePrintSettings, this, 'print', true));
             this.printSettings.btnsSave.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, 'save'));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'save', false));
             });
             this.printSettings.btnsPrint.forEach(function (btn) {
-                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print'));
+                btn.on('click', _.bind(me.querySavePrintSettings, me, 'print', false));
             });
             if (this.mode.isDesktopApp) {
                 this.printSettings.btnsPrintPDF.forEach(function (btn) {
-                    btn.on('click', _.bind(me.querySavePrintSettings, me, 'print-pdf'));
+                    btn.on('click', _.bind(me.querySavePrintSettings, me, 'print-pdf', false));
                 });
             }
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
@@ -123,6 +132,7 @@ define([
 
             this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
+
 
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
@@ -214,9 +224,9 @@ define([
             item = null;
             for (var i=0; i<store.length; i++) {
                 var rec = store.at(i),
-                    value = rec.get('value'),
-                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
-                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                    size = rec.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
                 if (Math.abs(pagewidth - w) < 0.1 && Math.abs(pageheight - h) < 0.1) {
                     item = rec;
                     break;
@@ -224,9 +234,17 @@ define([
             }
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
-            else
-                panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+            else {
+                if (panel.$el.prop('id') === 'panel-print') {
+                    panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)),
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)),
+                        Common.Utils.Metric.getCurrentMetricName()]);
+                } else {
+                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                }
+            }
 
             this.fitWidth = opt.asc_getFitToWidth();
             this.fitHeight = opt.asc_getFitToHeight();
@@ -309,11 +327,12 @@ define([
             var opt = this._changedProps[sheet] ? this._changedProps[sheet].asc_getPageSetup() : new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
 
-            var pagew = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
-            var pageh = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
+            var size = panel.cmbPaperSize.getSelectedRecord().size;
+            var pagew = size[0];
+            var pageh = size[1];
 
-            opt.asc_setWidth(pagew ? parseFloat(pagew[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : undefined));
-            opt.asc_setHeight(pageh? parseFloat(pageh[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
+            opt.asc_setWidth(pagew ? pagew : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : undefined));
+            opt.asc_setHeight(pageh? pageh : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
 
             var value = panel.cmbLayout.getValue();
             if (value !== 4) {
@@ -400,6 +419,11 @@ define([
             }
             this._isPreviewVisible = true;
             !!pageCount && this.updatePreview();
+
+            if(this._state.isPrinterInfoLoad && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);      
+            }
         },
 
         openPrintSettings: function(type, cmp, format, asUrl, wopiPath) {
@@ -437,9 +461,9 @@ define([
                 item = null;
             for (var i=0; i<store.length-1; i++) {
                 var rec = store.at(i),
-                    value = rec.get('value'),
-                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
-                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                    size = rec.get('size'),
+                    pagewidth = size[0],
+                    pageheight = size[1];
                 if (Math.abs(pagewidth - width) < 0.1 && Math.abs(pageheight - height) < 0.1) {
                     item = rec;
                     break;
@@ -504,7 +528,7 @@ define([
             this.printSettingsDlg = null;
         },
 
-        querySavePrintSettings: function(print) {
+        querySavePrintSettings: function(print, useSystemDialog) {
             var view = SSE.getController('Toolbar').getView('Toolbar');
             this.savePageOptions(this.printSettings);
             this._isPrint = print === 'print';
@@ -530,8 +554,11 @@ define([
                 props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
                 pageSetup = props.asc_getPageSetup(),
                 size = [pageSetup.asc_getWidth(), pageSetup.asc_getHeight()],
-                orientation = pageSetup.asc_getOrientation();
+                orientation = pageSetup.asc_getOrientation(),
+                printerOption = (this.printSettings.cmbPrinter ? this.printSettings.cmbPrinter.getSelectedRecord() : null);
             this.adjPrintParams.asc_setNativeOptions({
+                usesystemdialog: useSystemDialog,
+                printer: printerOption ? printerOption.value : null,
                 paperSize: {
                     w: size[0],
                     h: size[1],
@@ -699,6 +726,16 @@ define([
                         panel.cmbPaperMargins.store.unshift({ value: -2, displayValue: panel.txtMarginsLast, size: [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)]});
                     panel.cmbPaperMargins.onResetItems();
                 }
+            }
+        },
+
+        setPrinterInfo: function(currentPrinter, list) {
+            this._state.isPrinterInfoLoad = true;
+            this._state.currentPrinter = currentPrinter;
+            this._state.printersList = list;
+            if(this.printSettings && this.printSettings.isVisible() && !this._state.isPrintPreviewOpenedOnce) {
+                this._state.isPrintPreviewOpenedOnce = true;
+                this.printSettings.updateCmbPrinter(this._state.currentPrinter, this._state.printersList);
             }
         },
 
@@ -955,7 +992,7 @@ define([
 
         onApiChangePreviewSheet: function (index) {
             var item = this.printSettings.cmbSheet.store.findWhere({value: index});
-            this.printSettings.updateActiveSheet(item.get('displayValue'));
+            item && this.printSettings.updateActiveSheet(item.get('displayValue'));
 
             if (this.notUpdateSheetSettings) {
                 this.notUpdateSheetSettings = false;

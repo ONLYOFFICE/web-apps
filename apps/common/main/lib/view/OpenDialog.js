@@ -146,6 +146,7 @@ define([
             this.settings       =   _options.settings;
             this.api            =   _options.api;
             this.validatePwd    =   _options.validatePwd || false;
+            this.detectedDelimiter = false;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -183,7 +184,7 @@ define([
                 } else {
                     this.initCodePages();
                     if (this.preview) {
-                        (this.previewData) ? this.previewCallback(this.previewData) : this.updatePreview();
+                        (this.previewData) ? this.textCallback(this.previewData) : this.updatePreview();
                     }
                 }
                 if (this.type == Common.Utils.importTextType.Data) {
@@ -365,14 +366,18 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
-                var delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                var delimiter = '',
+                    delimiterChar = '';
+                if (!this.preview) { // don't need to detect delimiter (save to csv)
+                    delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
                     delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
-                var value = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter" : "sse-settings-data-delimiter");
-                if (value) {
-                    value = parseInt(value);
-                    if (!isNaN(value)) {
-                        delimiter = value;
-                        (delimiter===-1) && (delimiterChar = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter-char" : "sse-settings-data-delimiter-char") || '');
+                    var value = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter" : "sse-settings-data-delimiter");
+                    if (value) {
+                        value = parseInt(value);
+                        if (!isNaN(value)) {
+                            delimiter = value;
+                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem(this.type == Common.Utils.importTextType.CSV ? "sse-settings-csv-delimiter-char" : "sse-settings-data-delimiter-char") || '');
+                        }
                     }
                 }
 
@@ -391,7 +396,7 @@ define([
                     editable: false,
                     takeFocusOnClose: true
                 });
-                this.cmbDelimiter.setValue( delimiter);
+                this.cmbDelimiter.setValue(delimiter);
                 this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
 
                 this.inputDelimiter = new Common.UI.InputField({
@@ -420,28 +425,45 @@ define([
 
             var encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
                 ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
-            var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
-                delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
-            (delimiter == -1) && (delimiter = null);
 
+            switch (this.type) {
+                case Common.Utils.importTextType.CSV:
+                case Common.Utils.importTextType.TXT:
+                case Common.Utils.importTextType.Data:
+                    this.api.asc_decodeBuffer(this.preview, encoding, _.bind(this.textCallback, this));
+                    break;
+                case Common.Utils.importTextType.Paste:
+                case Common.Utils.importTextType.Columns:
+                    this.api.asc_TextImport(encoding, _.bind(this.textCallback, this), this.type == Common.Utils.importTextType.Paste);
+                    break;
+            }
+        },
+
+        textCallback: function(text) {
+            var delimiter,
+                delimiterChar,
+                encoding = (this.cmbEncoding && !this.cmbEncoding.isDisabled()) ? this.cmbEncoding.getValue() :
+                           ((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : 0);
+            if (this.detectedDelimiter || this.type === Common.Utils.importTextType.TXT) {
+                delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null;
+                delimiterChar = delimiter == -1 ? this.inputDelimiter.getValue() : null;
+            } else {
+                var res = this.api.asc_getCSVDelimiter(text);
+                text = res.text;
+                delimiter = res.delimiter || -1;
+                delimiterChar = delimiter===-1 ? res.delimiterChar || '' : '';
+                this.cmbDelimiter.setValue(delimiter);
+                this.inputDelimiter.setVisible(delimiter===-1);
+                this.inputDelimiter.setValue(delimiterChar);
+                this.detectedDelimiter = true;
+            }
             var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
             if (this.separatorOptions) {
                 options.asc_setNumberDecimalSeparator(this.separatorOptions.decimal);
                 options.asc_setNumberGroupSeparator(this.separatorOptions.thousands);
                 options.asc_setTextQualifier(this.separatorOptions.qualifier);
             }
-
-            switch (this.type) {
-                case Common.Utils.importTextType.CSV:
-                case Common.Utils.importTextType.TXT:
-                case Common.Utils.importTextType.Data:
-                    this.api.asc_decodeBuffer(this.preview, options, _.bind(this.previewCallback, this));
-                    break;
-                case Common.Utils.importTextType.Paste:
-                case Common.Utils.importTextType.Columns:
-                    this.api.asc_TextImport(options, _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
-                    break;
-            }
+            this.previewCallback(this.api.asc_parseText(text, options));
         },
 
         previewCallback: function(data) {

@@ -119,7 +119,7 @@ define([
 
                 this.stackMacrosRequests = [];
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false, requireUserAction: true};
                 this.languages = null;
 
                 // Initialize viewport
@@ -404,9 +404,11 @@ define([
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+                this.appOptions.canFeatureForms = true;
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canCloseEditor = false;
+                this.appOptions.canSwitchToMobile = this.editorConfig.forceDesktop;
 
                 var _canback = false;
                 if (typeof this.appOptions.customization === 'object') {
@@ -683,6 +685,8 @@ define([
                         app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                     if (options.header.search)
                         appHeader && appHeader.lockHeaderBtns('search', disable);
+                    appHeader && appHeader.lockHeaderBtns('undo', options.viewMode, Common.enumLock.lostConnect);
+                    appHeader && appHeader.lockHeaderBtns('redo', options.viewMode, Common.enumLock.lostConnect);
                 }
 
                 if (options.shortcuts) {
@@ -805,14 +809,18 @@ define([
                 }
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
-                    var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
+                    this.disableSaveButton(this.api.asc_isDocumentCanSave());
                 }
 
                 Common.UI.HintManager.clearHints(true);
+            },
+
+            disableSaveButton: function (isCanSave) {
+                var toolbarView = this.getApplication().getController('Toolbar').getView(),
+                    forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
+                    isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                    isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
+                toolbarView.btnSave && toolbarView.lockToolbar(Common.enumLock.cantSave, isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton, {array: [toolbarView.btnSave]});
             },
 
             onLongActionBegin: function(type, id) {
@@ -951,12 +959,11 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'reconnect');
                         var me = this;
-                        statusCallback = function() {
-                            me._state.timerDisconnect = setTimeout(function(){
-                                Common.UI.TooltipManager.showTip('disconnect');
-                            }, me._state.unloadTimer || 0);
-                        };
-                        break;
+                        me._state.timerDisconnect = setTimeout(function(){
+                            Common.UI.TooltipManager.showTip('disconnect');
+                        }, me._state.unloadTimer || 0);
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
                         title    = this.textUpdating;
@@ -964,7 +971,8 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
                         Common.UI.TooltipManager.showTip('refreshFile');
-                        break;
+                        this.getApplication().getController('Statusbar').setStatusCaption(text);
+                        return;
 
                     default:
                         if (typeof action.id == 'string'){
@@ -1072,6 +1080,8 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
                 value = Common.localStorage.getBool("pdfe-settings-annot-bar", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-annot-bar", value);
+                value = Common.localStorage.getBool("pdfe-settings-annot-sel-bar", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-annot-sel-bar", value);
 
                 /** coauthoring begin **/
                 me.onPdfModeCoAuthApply();
@@ -1166,6 +1176,7 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+                this._state.requireUserAction = false;
 
                 $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
@@ -1347,7 +1358,7 @@ define([
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= false;//this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false) && !this.appOptions.isForm;
-                this.appOptions.isEditTextSupport = this.appOptions.isEdit && this.api.asc_isSupportFeature("ooxml");
+                this.appOptions.isEditTextSupport = this.appOptions.isEdit;
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
@@ -1480,8 +1491,8 @@ define([
                     autosave = fastCoauth ? 1 : (value !== null) ? parseInt(value) : (this.appOptions.canCoAuthoring ? autosave_def : 0);
                 }
 
-                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);
-                Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
+                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !!fastCoauth);
+                Common.Utils.InternalSettings.set("pdfe-settings-autosave", !!autosave);
             },
 
             loadDefaultMetricSettings: function() {
@@ -1858,6 +1869,10 @@ define([
                         config.msg = this.errorSaveWatermark;
                         break;
 
+                    case Asc.c_oAscError.ID.PDFFormsLocked:
+                        config.msg = this.errorPDFFormsLocked;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1872,7 +1887,15 @@ define([
                     config.iconCls = 'error';
                     config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
+                    if (this.appOptions.canRequestClose) {
+                        config.msg += '<br><br>' + this.criticalErrorExtTextClose;
+                        config.callback = function(btn) {
+                            if (btn == 'ok') {
+                                Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
+                        }
+                    } else if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string' && this.appOptions.customization.goback.url && this.appOptions.customization.goback.blank===false) {
                         config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
@@ -1917,14 +1940,16 @@ define([
 
             onOpenLinkPdfForm: function(sURI, onAllow, onCancel) {
                 var id = 'pdf-link',
+                    re = new RegExp('ctrl|' + Common.Utils.String.textCtrl, 'i'),
+                    msg = Common.Utils.isMac ? this.txtSecurityWarningLink.replace(re, '⌘') : this.txtSecurityWarningLink,
                     config = {
                         closable: true,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
                         buttons: ['ok', 'cancel'],
-                        msg: Common.Utils.String.format(this.txtSecurityWarningLink, sURI || ''),
+                        msg: Common.Utils.String.format(msg, sURI || ''),
                         callback: _.bind(function(btn){
-                            if (btn == 'ok' && window.event && window.event.ctrlKey == true) {
+                            if (btn == 'ok' && window.event && (!Common.Utils.isMac && window.event.ctrlKey == true || Common.Utils.isMac && window.event.metaKey)) {
                                 onAllow();
                             }
                             else
@@ -1974,6 +1999,9 @@ define([
                 }
                 else if (oInfo["less"] != null) {
                     config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
+                }
+                else {
+                    config.msg = Common.Utils.String.format(this.txtInvalidValue, oInfo["target"]["api"]["name"]);
                 }
 
                 // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
@@ -2081,14 +2109,7 @@ define([
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
                 if (toolbarView && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
-
-                    if (this.appOptions.canSaveToFile) {
-                        !isSyncButton && !isDisabled ? Common.UI.TooltipManager.showTip('pdfSave') : Common.UI.TooltipManager.closeTip('pdfSave');
-                    }
+                    this.disableSaveButton(isModified);
                 }
 
                 /** coauthoring begin **/
@@ -2100,15 +2121,8 @@ define([
 
             onDocumentCanSaveChanged: function (isCanSave) {
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
-
                 if (toolbarView && this.api && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
-                    var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile || !this.appOptions.showSaveButton);
-                    if (this.appOptions.canSaveToFile) {
-                        !isSyncButton && !isDisabled ? Common.UI.TooltipManager.showTip('pdfSave') : Common.UI.TooltipManager.closeTip('pdfSave');
-                    }
+                    this.disableSaveButton(isCanSave);
                 }
             },
 
@@ -2204,7 +2218,7 @@ define([
                         _.defer(function() {
                             Common.Gateway.updateVersion();
                             if (callback) callback.call(me);
-                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            me.editorConfig && me.editorConfig.canUpdateVersion && me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                     }
                 });
@@ -2330,6 +2344,10 @@ define([
                     this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                     me._state.openDlg.show();
                 }
+                if (me._state.requireUserAction) {
+                    Common.Gateway.userActionRequired();
+                    me._state.requireUserAction = false;
+                }
             },
 
             onTryUndoInFastCollaborative: function() {
@@ -2365,6 +2383,7 @@ define([
                         length++;
                 });
                 this._state.usersCount = length;
+                this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
             },
 
             onUserConnection: function(change){
@@ -2393,6 +2412,7 @@ define([
                         this._state.fastCoauth = Common.localStorage.getBool("pdfe-settings-coauthmode");
                         if (this._state.fastCoauth && !oldval)
                             this.synchronizeChanges();
+                        this._state.fastCoauth && this._state.usersCount>1 && this.api.asc_getCanUndo() && Common.UI.TooltipManager.showTip('fastUndo');
                     }
                     if (this.appOptions.canForcesave) {
                         this.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", this.appOptions.canForcesave);
@@ -2519,6 +2539,9 @@ define([
                     check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
+                    },
+                    repaintcallback: function() {
+                        this.setPosition(Common.Utils.innerWidth() - this.options.width - 15, 30);
                     },
                     handler: function(result, settings) {
                         if (result == 'ok') {

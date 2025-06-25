@@ -1,5 +1,5 @@
 +function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && !(window.location.origin.lastIndexOf('file://', 0) === 0)) {
         const serviceWorkerName = 'document_editor_service_worker.js';
         const serviceWorkerPath = '../../../../' + serviceWorkerName;
         let reg;
@@ -10,7 +10,9 @@
             })
             .then(function (registrations) {
                 //delete stale service workers
-                for (const registration of registrations) {
+                // for (const registration of registrations) {
+                for (let r in registrations) {
+                    const registration = registrations[r];
                     if (registration !== reg && registration.active && registration.active.scriptURL.endsWith(serviceWorkerName)) {
                         registration.unregister();
                     }

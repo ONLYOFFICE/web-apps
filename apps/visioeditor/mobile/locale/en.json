@@ -3,7 +3,7 @@
     "textAbout": "About",
     "textAddress": "Address",
     "textBack": "Back",
-    "textEditor": "Visio Editor",
+    "textEditor": "Diagram Viewer",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
     "textTel": "Tel",
@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Download failed.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
@@ -153,12 +154,14 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Edit": {
@@ -196,6 +199,7 @@
       "textOwner": "Owner",
       "textPoweredBy": "Powered By",
       "textPrint": "Print",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textSameAsSystem": "Same As System",
       "textSearch": "Find",
       "textSettings": "Settings",
@@ -205,9 +209,9 @@
       "textTitle": "Title",
       "textUploaded": "Uploaded",
       "textVersion": "Version",
-      "textVisioInfo": "Visio Info",
-      "textVisioSettings": "Visio Settings",
-      "textVisioTitle": "Visio Title"
+      "textVisioInfo": "Diagram Viewer Info",
+      "textVisioSettings": "Diagram Viewer Settings",
+      "textVisioTitle": "Diagram Viewer Title"
     }
   }
 }

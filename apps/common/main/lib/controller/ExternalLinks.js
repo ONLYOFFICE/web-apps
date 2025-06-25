@@ -190,15 +190,18 @@ define([
         },
 
         onNeedUpdateExternalReferenceOnOpen: function() {
+            var value = this.api.asc_getUpdateLinks();
             Common.UI.warning({
-                msg: !!window.SSE ? this.warnUpdateExternalData : !!window.PE ? this.warnUpdateExternalDataPE : this.warnUpdateExternalDataDE,
-                buttons: [{value: 'ok', caption: this.textUpdate, primary: true}, {value: 'cancel', caption: this.textDontUpdate}],
-                maxwidth: 600,
+                msg: value ? (!!window.SSE ? this.warnUpdateExternalAutoupdate : !!window.PE ? this.warnUpdateExternalAutoupdatePE : this.warnUpdateExternalAutoupdateDE) :
+                             (!!window.SSE ? this.warnUpdateExternalData : !!window.PE ? this.warnUpdateExternalDataPE : this.warnUpdateExternalDataDE),
+                buttons: [{value: 'ok', caption: value ? this.textContinue : this.textUpdate, primary: true}, {value: 'cancel', caption: value ? this.textTurnOff : this.textDontUpdate}],
+                maxwidth: 500,
                 callback: _.bind(function(btn) {
                     if (btn==='ok') {
                         var links = this.api.asc_getExternalReferences();
                         links && (links.length>0) && this.updateReferences(links);
                     }
+                    value && this.api.asc_setUpdateLinks(btn==='ok', true);
                 }, this)
             });
         },
@@ -254,7 +257,9 @@ define([
         warnUpdateExternalDataPE: 'This presentation contains links to one or more external sources that could be unsafe.<br>If you trust the links, update them to get the latest data.',
         textUpdate: 'Update',
         textDontUpdate: 'Don\'t Update',
-        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'
+        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.',
+        textTurnOff: 'Turn off auto update',
+        textContinue: 'Continue'
 
     }, Common.Controllers.ExternalLinks || {}));
 });

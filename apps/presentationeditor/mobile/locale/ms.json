@@ -220,6 +220,7 @@
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
     "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEmailClient": "No email client could be found",
@@ -274,9 +275,12 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -317,6 +321,7 @@
       "textTableSize": "Saiz Jadual",
       "txtNotUrl": "Medan ini perlu sebagai URL dalam “http://www.example.com” formatnya",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended",
       "textRequired": "Required"
@@ -554,5 +559,11 @@
       "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

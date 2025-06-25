@@ -60,14 +60,46 @@ define([], function () {
             this.viewPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
+                    var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuAddComment.setDisabled(disabled);
                     me.menuRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFViewCopy,
                     me.menuAddComment,
                     me.menuRemoveComment
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.menuViewCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            this.viewPageMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
+                    value && me.menuViewCopyPage.setDisabled(value.isPageSelect!==true);
+                },
+                items: [
+                    me.menuViewCopyPage
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -107,9 +139,12 @@ define([], function () {
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
+                    var disabled = (value.pageProps!==undefined && value.pageProps.locked);
                     me.menuPDFEditCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuEditAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuEditAddComment.setDisabled(disabled);
                     me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
+                    me.menuEditRemoveComment.setDisabled(disabled);
                 },
                 items: [
                     me.menuPDFEditCopy,
@@ -593,6 +628,43 @@ define([], function () {
                 })
             });
 
+            var _toolbar_view = PDFE.getController('Toolbar').getView('Toolbar');
+            me.menuShapesMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-combine-shapes',
+                caption     : me.textShapesMerge,
+                menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesUnion, 
+                            iconCls : 'menu__icon btn-union-shapes',
+                            value   : 'unite',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesCombine, 
+                            iconCls : 'menu__icon btn-combine-shapes',
+                            value   : 'exclude',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesFragment, 
+                            iconCls : 'menu__icon btn-fragment-shapes',
+                            value   : 'divide',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesIntersect, 
+                            iconCls : 'menu__icon btn-intersect-shapes',
+                            value   : 'intersect',
+                        }),
+                        new Common.UI.MenuItem({
+                            caption : _toolbar_view.textShapesSubstract, 
+                            iconCls : 'menu__icon btn-substract-shapes',
+                            value   : 'subtract',
+                        })
+                    ]
+                })
+            });
+
             var menuImgShapeSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -777,7 +849,7 @@ define([], function () {
                     me.menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     // me.menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     // me.menuChartAdvanced.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
-                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() || /*me.menuChartEdit.isVisible() || */me.menuChartAdvanced.isVisible());
+                    menuImgShapeSeparator.setVisible(me.menuImageAdvanced.isVisible() || me.menuShapeAdvanced.isVisible() /*|| me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/);
                     menuAdvancedSettingsSeparator.setVisible(
                         me.menuImgCrop.isVisible() || me.menuImgOriginalSize.isVisible() ||
                         me.menuImgReplace.isVisible() || me.menuImageAdvanced.isVisible() ||
@@ -797,6 +869,12 @@ define([], function () {
                         me.menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
                         me.menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
                     }
+                    me.menuShapesMerge.setDisabled(disabled || !me.api.asc_canMergeSelectedShapes());
+                    if (!me.menuShapesMerge.isDisabled()) {
+                        me.menuShapesMerge.menu.items.forEach(function (item) {
+                            item.setDisabled(!me.api.asc_canMergeSelectedShapes(item.value));
+                        });
+                    } 
                     me.menuImageAdvanced.setDisabled(disabled);
                     me.menuShapeAdvanced.setDisabled(disabled);
                     // me.menuChartAdvanced.setDisabled(disabled);
@@ -816,6 +894,7 @@ define([], function () {
                     { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
+                    me.menuShapesMerge,
                     me.menuImgShapeRotate,
                     menuImgShapeSeparator,          //Separator
                     me.menuImgSaveAsPicture,
@@ -993,7 +1072,6 @@ define([], function () {
                 initMenu: function(value){
                     var isInShape = (value.shapeProps && !_.isNull(value.shapeProps.value));
                     var isInChart = (value.chartProps && !_.isNull(value.chartProps.value));
-
                     var disabled = (value.paraProps!==undefined  && value.paraProps.locked) ||
                         (isInShape && value.shapeProps.locked);
                     var isEquation= (value.mathProps && value.mathProps.value);
@@ -1125,7 +1203,7 @@ define([], function () {
 
             me.mnuDeletePage = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cc-remove',
-                caption     : me.txtDeletePage
+                caption     : me.deleteText
             });
             me.mnuNewPageBefore = new Common.UI.MenuItem({
                 caption     : me.txtNewPageBefore,
@@ -1143,6 +1221,24 @@ define([], function () {
                 iconCls: 'menu__icon btn-rotate-270',
                 caption     : me.txtRotateLeft
             });
+            me.mnuCutPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption     : me.textCut,
+                value : 'cut'
+            });
+            me.mnuCopyPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption     : me.textCopy,
+                value : 'copy'
+            });
+            me.mnuPastePageBefore = new Common.UI.MenuItem({
+                caption     : me.txtPastePageBefore,
+                value : 'paste-before'
+            });
+            me.mnuPastePageAfter = new Common.UI.MenuItem({
+                caption     : me.txtPastePageAfter,
+                value : 'paste'
+            });
 
             var menuPageDelSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1152,21 +1248,62 @@ define([], function () {
                 caption     : '--'
             });
 
+            var menuPagePasteSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.pageMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
-                    me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
-                    me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
-                    me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
-                    me.mnuDeletePage.setVisible(value.isPageSelect===true);
-                    menuPageNewSeparator.setVisible(value.isPageSelect===true);
-                    menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    if (value)
+                        me.options.eventProps = value;
+                    else
+                        value = me.options.eventProps;
 
-                    me.mnuDeletePage.setDisabled(me._pagesCount<2);
+                    if (me.api) {
+                        var i = -1,
+                            page_deleted = false,
+                            page_rotate_lock = false,
+                            selectedElements = me.api.getSelectedElements();
+                        while (++i < selectedElements.length) {
+                            if (selectedElements[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.PdfPage) {
+                                page_deleted = selectedElements[i].get_ObjectValue().asc_getDeleteLock();
+                                page_rotate_lock = selectedElements[i].get_ObjectValue().asc_getRotateLock();
+                            }
+                        }
+                    }
+
+                    if (value) {
+                        me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
+                        me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
+                        me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
+                        me.mnuDeletePage.setVisible(value.isPageSelect===true);
+                        me.mnuCopyPage.setVisible(value.isPageSelect===true);
+                        me.mnuCutPage.setVisible(value.isPageSelect===true);
+                        menuPageNewSeparator.setVisible(value.isPageSelect===true);
+                        menuPagePasteSeparator.setVisible(value.isPageSelect===true);
+                        menuPageDelSeparator.setVisible(value.isPageSelect===true);
+                    }
+
+                    var canRotate = me.api.asc_CanRotatePages();
+                    me.mnuRotatePageRight.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    me.mnuRotatePageLeft.setDisabled(page_rotate_lock || page_deleted || !canRotate);
+                    var canRemove = me.api.asc_CanRemovePages();
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    var canPaste = me.api.asc_CanPastePage();
+                    me.mnuPastePageBefore.setDisabled(!canPaste);
+                    me.mnuPastePageAfter.setDisabled(!canPaste);
                 },
                 items: [
+                    me.mnuCutPage,
+                    me.mnuCopyPage,
+                    menuPagePasteSeparator,
+                    me.mnuPastePageBefore,
+                    me.mnuPastePageAfter,
+                    { caption     : '--' },
                     me.mnuNewPageBefore,
                     me.mnuNewPageAfter,
                     menuPageNewSeparator,
@@ -1213,12 +1350,12 @@ define([], function () {
             });
 
             me.menuPDFFormsUndo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-undo',
+                iconCls: 'menu__icon btn-undo icon-rtl',
                 caption: me.textUndo
             });
 
             me.menuPDFFormsRedo = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-redo',
+                iconCls: 'menu__icon btn-redo icon-rtl',
                 caption: me.textRedo
             });
 
@@ -1265,5 +1402,377 @@ define([], function () {
             this.fireEvent('createdelayedelements', [this, 'forms']);
         };
 
+        dh.createTextBar = function(textBarBtns) {
+            var container = $('<div id="text-bar-container" style="position: absolute;">' +
+                    '<div id="text-bar-fonts" style="display:inline-block;" class="margin-right-2"></div>' +
+                    '<div id="text-bar-font-size" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-bold" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-italic" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-underline" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-strikeout" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-super" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-sub" style="display:inline-block;" class="margin-right-4"></div>' +
+                    '<div id="text-bar-textcolor" style="display:inline-block;"></div>' +
+                    '</div>'),
+                toolbarController = PDFE.getController('Toolbar'),
+                toolbar = toolbarController.getView('Toolbar');
+
+            this.cmbFontName = new Common.UI.ComboBoxFonts({
+                el: $('#text-bar-fonts', container),
+                cls         : 'input-group-nr',
+                style       : 'width: 100px;',
+                menuCls     : 'scrollable-menu menu-absolute',
+                menuStyle   : 'min-width: 100%;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
+                store       : new Common.Collections.Fonts(),
+                hint        : toolbar.tipFontName
+            });
+            textBarBtns.push(this.cmbFontName);
+            toolbarController.fillFontsStore(this.cmbFontName);
+
+            this.cmbFontSize = new Common.UI.ComboBox({
+                el: $('#text-bar-font-size', container),
+                cls: 'input-group-nr',
+                style: 'width: 45px;',
+                menuCls     : 'scrollable-menu menu-absolute',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
+                hint: toolbar.tipFontSize,
+                data: [
+                    {value: 8, displayValue: "8"},
+                    {value: 9, displayValue: "9"},
+                    {value: 10, displayValue: "10"},
+                    {value: 11, displayValue: "11"},
+                    {value: 12, displayValue: "12"},
+                    {value: 14, displayValue: "14"},
+                    {value: 16, displayValue: "16"},
+                    {value: 18, displayValue: "18"},
+                    {value: 20, displayValue: "20"},
+                    {value: 22, displayValue: "22"},
+                    {value: 24, displayValue: "24"},
+                    {value: 26, displayValue: "26"},
+                    {value: 28, displayValue: "28"},
+                    {value: 36, displayValue: "36"},
+                    {value: 48, displayValue: "48"},
+                    {value: 72, displayValue: "72"},
+                    {value: 96, displayValue: "96"}
+                ]
+            });
+            this.cmbFontSize.setValue('');
+            textBarBtns.push(this.cmbFontSize);
+
+            this.btnBold = new Common.UI.Button({
+                parentEl: $('#text-bar-bold', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-bold',
+                enableToggle: true,
+                hint: toolbar.textBold
+            });
+            textBarBtns.push(this.btnBold);
+
+            this.btnItalic = new Common.UI.Button({
+                parentEl: $('#text-bar-italic', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-italic',
+                enableToggle: true,
+                hint: toolbar.textItalic
+            });
+            textBarBtns.push(this.btnItalic);
+
+            this.btnTextUnderline = new Common.UI.Button({
+                parentEl: $('#text-bar-underline', container),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-underline',
+                enableToggle: true,
+                hint: toolbar.textUnderline
+            });
+            textBarBtns.push(this.btnTextUnderline);
+
+            this.btnTextStrikeout = new Common.UI.Button({
+                parentEl: $('#text-bar-strikeout', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-strikeout',
+                enableToggle: true,
+                hint: toolbar.textStrikeout
+            });
+            textBarBtns.push(this.btnTextStrikeout);
+
+            this.btnSuperscript = new Common.UI.Button({
+                parentEl: $('#text-bar-super', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-superscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptGroup',
+                hint: toolbar.textSuperscript
+            });
+            textBarBtns.push(this.btnSuperscript);
+
+            this.btnSubscript = new Common.UI.Button({
+                parentEl: $('#text-bar-sub', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-subscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptGroup',
+                hint: toolbar.textSubscript
+            });
+            textBarBtns.push(this.btnSubscript);
+
+            var config = Common.UI.simpleColorsConfig;
+            this.btnFontColor = new Common.UI.ButtonColored({
+                parentEl: $('#text-bar-textcolor', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-fontcolor',
+                split: true,
+                menu: true,
+                colors: config.colors,
+                color: '000000',
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                hint: toolbar.tipFontColor
+            });
+            textBarBtns.push(this.btnFontColor);
+            this.btnFontColor.setMenu();
+            this.mnuFontColorPicker = this.btnFontColor.getPicker();
+            this.btnFontColor.currentColor = this.btnFontColor.color;
+
+            return container;
+        };
+
+        dh.createAnnotBar = function(annotBarBtns) {
+            var container = $('<div id="annot-bar-container" style="position: absolute;">' +
+                    '<div id="annot-bar-copy" style="display:inline-block;" class=""></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="annot-bar-add-comment" style="display:inline-block;" class="margin-left-13"></div>' +
+                    '<div id="annot-bar-highlight" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-underline" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-strikeout" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="annot-bar-edit-text" class="margin-left-13" style="display:inline-block;"></div>' +
+                    '</div>'),
+                toolbarController = PDFE.getController('Toolbar'),
+                toolbar = toolbarController.getView('Toolbar');
+
+            this.btnCopy = new Common.UI.Button({
+                parentEl: $('#annot-bar-copy', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-copy',
+                hint: toolbar.tipCopy
+            });
+            annotBarBtns.push(this.btnCopy);
+
+            this.btnAddComment = new Common.UI.Button({
+                parentEl: $('#annot-bar-add-comment', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-comment',
+                hint: toolbar.tipAddComment
+            });
+            annotBarBtns.push(this.btnAddComment);
+
+            var config = Common.UI.simpleColorsConfig;
+            this.btnUnderline = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-underline', container),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-underline',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                colorLine: false,
+                colors: config.colors,
+                color: '3D8A44',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hideColorsSeparator: true,
+                hint: toolbar.textUnderline,
+                type: AscPDF.ANNOTATIONS_TYPES.Underline
+            });
+            annotBarBtns.push(this.btnUnderline);
+
+            this.btnStrikeout = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-strikeout', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-strikeout',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                colorLine: false,
+                colors: config.colors,
+                color: 'D43230',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hideColorsSeparator: true,
+                hint: toolbar.textStrikeout,
+                type: AscPDF.ANNOTATIONS_TYPES.Strikeout
+            });
+            annotBarBtns.push(this.btnStrikeout);
+
+            this.btnHighlight = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-highlight', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-highlight',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
+                colors: [
+                    'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                    '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                ],
+                color: 'FFFC54',
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hideColorsSeparator: true,
+                hint: toolbar.textHighlight,
+                type: AscPDF.ANNOTATIONS_TYPES.Highlight
+            });
+            annotBarBtns.push(this.btnHighlight);
+
+            this.btnEditText = new Common.UI.Button({
+                parentEl: $('#annot-bar-edit-text', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-magic-wand',
+                caption: this.textRecognize,
+                hint: this.tipRecognize
+            });
+            annotBarBtns.push(this.btnEditText);
+            this.fireEvent('annotbar:create', [this.btnStrikeout, this.btnUnderline, this.btnHighlight]);
+
+            return container;
+        };
+
+        dh.createAnnotSelectBar = function(annotSelectBarBtns) {
+            var container = $('<div id="annot-sel-bar-container" style="position: absolute;">' +
+                    '<div id="annot-sel-bar-stroke"></div>' +
+                    '<div id="annot-sel-bar-highlight"></div>' +
+                    '<div id="annot-sel-bar-add-comment" class="margin-left-4"></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="annot-sel-bar-remove" class="margin-left-13"></div>' +
+                    '</div>'),
+                toolbarController = PDFE.getController('Toolbar'),
+                toolbar = toolbarController.getView('Toolbar');
+
+            this.btnRemAnnot = new Common.UI.Button({
+                parentEl: $('#annot-sel-bar-remove', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-cc-remove',
+                hint: this.removeCommentText
+            });
+            annotSelectBarBtns.push(this.btnRemAnnot);
+
+            this.btnAddAnnotComment = new Common.UI.Button({
+                parentEl: $('#annot-sel-bar-add-comment', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-comment',
+                hint: toolbar.tipAddComment
+            });
+            annotSelectBarBtns.push(this.btnAddAnnotComment);
+
+            var config = Common.UI.simpleColorsConfig;
+            this.btnStrokeHighlightColor = new Common.UI.ButtonColored({
+                parentEl: $('#annot-sel-bar-highlight', container),
+                cls: 'btn-toolbar no-caret no-icon',
+                iconCls: 'toolbar__icon',
+                menu: true,
+                colorLine: 'box',
+                colors: [
+                    'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                    '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                ],
+                color: 'FFFC54',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hideColorsSeparator: true,
+                hint: this.textColor
+            });
+            annotSelectBarBtns.push(this.btnStrokeHighlightColor);
+            this.btnStrokeHighlightColor.setMenu();
+            this.mnuStrokeHighlightColorPicker = this.btnStrokeHighlightColor.getPicker();
+            this.btnStrokeHighlightColor.currentColor = this.btnStrokeHighlightColor.color;
+
+            this.btnStrokeColor = new Common.UI.ButtonColored({
+                parentEl: $('#annot-sel-bar-stroke', container),
+                cls: 'btn-toolbar no-caret no-icon',
+                iconCls: 'toolbar__icon',
+                menu: true,
+                colorLine: 'box',
+                colors: config.colors,
+                color: '3D8A44',
+                additionalItemsAfter: [
+                    {caption: '--'},
+                    new Common.UI.MenuItem({
+                        template: _.template('<div class="custom-scale" data-stopPropagation="true"></div>'),
+                        stopPropagation: true
+                    })
+                ],
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hideColorsSeparator: true,
+                hint: this.textColor
+            });
+            annotSelectBarBtns.push(this.btnStrokeColor);
+            this.btnStrokeColor.setMenu();
+            this.mnuStrokeColorPicker = this.btnStrokeColor.getPicker();
+            this.btnStrokeColor.currentColor = this.btnStrokeColor.color;
+
+            return container;
+        };
     }
 });

@@ -183,9 +183,16 @@
       "warnProcessRightsChange": "Δεν έχετε δικαίωμα επεξεργασίας του αρχείου."
     }
   },
+  "Draw": {
+    "textColor": "Χρώμα",
+    "textCustomColor": "Προσαρμοσμένο χρώμα",
+    "textLineSize": "Μέγεθος γραμμής",
+    "textOpacity": "Αδιαφάνεια"
+  },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
     "criticalErrorExtText": "Πατήστε 'Εντάξει' για να επιστρέψετε στη λίστα εγγράφων.",
+    "criticalErrorExtTextClose": "Πατήστε 'Εντάξει' για να κλείσετε τον επεξεργαστή.",
     "criticalErrorTitle": "Σφάλμα",
     "downloadErrorText": "Αποτυχία λήψης.",
     "errorAccessDeny": "Επιχειρείτε μια ενέργεια για την οποία δεν έχετε τα δικαιώματα.<br>Παρακαλούμε, επικοινωνήστε με τον διαχειριστή σας.",
@@ -270,13 +277,16 @@
     "waitText": "Παρακαλούμε, περιμένετε..."
   },
   "Toolbar": {
+    "btnRestartNow": "Επανεκκίνηση τώρα",
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές στο έγγραφο. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
     "textCloseHistory": "Κλείσιμο ιστορικού",
     "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
-    "textRenameFile": "Μετονομασία αρχείου"
+    "textOk": "Εντάξει",
+    "textRenameFile": "Μετονομασία αρχείου",
+    "textSwitchToDesktop": "Μετάβαση στην επιφάνεια εργασίας"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "Επιλεγμένο κείμενο",
       "textDisplay": "Προβολή",
       "textDone": "Ολοκληρώθηκε",
+      "textDrawing": "Σχέδιο",
       "textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
       "textExternalLink": "Εξωτερικός Σύνδεσμος",
       "textFirstSlide": "Πρώτη διαφάνεια",

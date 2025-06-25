@@ -108,6 +108,8 @@
             &:focus {
                 border-color: @border-control-focus-ie;
                 border-color: @border-control-focus;
+                .box-shadow(@shadow-fill-input-ie);
+                .box-shadow(@shadow-fill-input);
             }
         }
     }
@@ -129,8 +131,8 @@
     line-height: normal;
     position: relative;
     overflow: hidden;
-    color: @border-preview-select-ie;
-    color: @border-preview-select;
+    color: @text-secondary-ie;
+    color: @text-secondary;
 
     textarea {
         width: 100%;
@@ -146,6 +148,8 @@
         &:focus {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
+            .box-shadow(@shadow-fill-input-ie);
+            .box-shadow(@shadow-fill-input);
         }
     }
 
@@ -349,7 +353,7 @@
         cursor: pointer;
     }
 
-    .btn-edit,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
+    .btn-edit-common,.btn-delete, .btn-resolve, .icon-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
         margin: 1px 0 0 5px;
@@ -364,7 +368,7 @@
         float: left;
     }
 
-    .btn-edit {
+    .btn-edit-common {
         background-position: 0px -4px;
     }
 
@@ -520,6 +524,7 @@
         top: 0;
         max-width: 150px;
         height: 20px;
+        line-height: @line-height-base-ie;
         line-height: @line-height-base;
         background-color: #EE3525;
         margin: 10px 18px;
@@ -586,8 +591,8 @@
         -webkit-transform: rotate(45deg);
         -o-transform: rotate(45deg);
         transform: rotate(45deg);
-        border: solid @scaled-one-px-value-ie @border-toolbar-ie;
-        border: solid @scaled-one-px-value @border-toolbar;
+        border: solid @scaled-one-px-value-ie @border-divider-ie;
+        border: solid @scaled-one-px-value @border-divider;
 
         .rtl & {
             left: auto;

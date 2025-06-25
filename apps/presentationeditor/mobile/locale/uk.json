@@ -190,6 +190,7 @@
     "saveErrorText": "Під час збереження файлу сталася помилка",
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Download failed.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
@@ -248,6 +249,7 @@
       "textDefault": "Selected text",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFirstSlide": "First Slide",
@@ -512,6 +514,12 @@
       "textVersionHistory": "Version History"
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
     "applyChangesTitleText": "Loading Data",
@@ -547,12 +555,15 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

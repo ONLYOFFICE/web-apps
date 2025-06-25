@@ -101,7 +101,9 @@
       "SDK": {
         "Aspect": "Аспект",
         "Blue": "Плаво",
+        "Blue Green": "Плаво зелено",
         "Blue II": "Плаво II",
+        "Blue Warm": "Топло плаво",
         "Chart": "Графикон",
         "Click to add first slide": "Кликни да додаш први слајд",
         "Click to add notes": "Кликни да додаш белешке",
@@ -112,9 +114,11 @@
         "Footer": "Подножје",
         "Grayscale": "Нијансе сиве боје",
         "Green": "Зелена",
+        "Green Yellow": "Зелено жута",
         "Header": "Заглавље",
         "Image": "Слика",
         "Loading": "Учитавање",
+        "Marquee": "Marquee",
         "Media": "Медији",
         "Median": "Средњи",
         "None": "Ниједно",
@@ -122,30 +126,26 @@
         "Office 2007 - 2010": "Офис 2007 - 2010",
         "Office 2013 - 2022": "Офис 2013 - 2022",
         "Orange": "Наранџасто",
+        "Orange Red": "Наранџасто црвена",
         "Paper": "Папир",
         "Picture": "Слика",
         "Red": "Црвено",
+        "Red Orange": "Црвено наранџаста",
+        "Red Violet": "Црвено љубичаста",
         "Series": "Серије",
         "Slide number": "Број слајда",
         "Slide subtitle": "Слајд титл",
         "Slide text": "Слајд текст",
         "Slide title": "Слајд наслов",
+        "Slipstream": "Slipstream",
         "Table": "Табела",
         "Violet": "Љубичаста",
         "Violet II": "Љубичаста II",
         "X Axis": "X-осовина XAS",
         "Y Axis": "Оса Y",
         "Yellow": "Жуто",
-        "Your text here": "Ваш текст овде",
-        "Blue Green": "Blue Green",
-        "Blue Warm": "Blue Warm",
-        "Green Yellow": "Green Yellow",
-        "Marquee": "Marquee",
-        "Orange Red": "Orange Red",
-        "Red Orange": "Red Orange",
-        "Red Violet": "Red Violet",
-        "Slipstream": "Slipstream",
-        "Yellow Orange": "Yellow Orange"
+        "Yellow Orange": "Жуто наранџаста",
+        "Your text here": "Ваш текст овде"
       },
       "textAnonymous": "Анонимно",
       "textBuyNow": "Посети веб сајт",
@@ -157,6 +157,7 @@
       "textNo": "Не",
       "textNoLicenseTitle": "Лимит лиценце достигнут",
       "textNoMatches": "Без поклапања",
+      "textOk": "OK",
       "textOpenFile": "Унеси лозинку да отвориш фајл",
       "textPaidFeature": "Плаћена функција",
       "textRemember": "Запамти мој избор",
@@ -179,8 +180,7 @@
       "warnLicenseUsersExceeded": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте свог администратора да сазнате више.",
       "warnNoLicense": "Достигли сте лимит за истовремене конекције за %1 уреднике. Овај документ ће бити отворен само за приказ. Контактирајте %1 тим за продају за личне услове надоградње.",
       "warnNoLicenseUsers": "Достигли сте кориснички лимит за %1 уреднике. Контактирајте %1 тим за продају за личне услове надоградње.",
-      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "Немате дозволу да уређујете овај фајл."
     }
   },
   "Error": {
@@ -210,6 +210,7 @@
     "errorKeyEncrypt": "Непознат описивач кључа",
     "errorKeyExpire": "Кључни опис истекао",
     "errorLoadingFont": "Фонтови нису учитани.<br>Молимо контактирајте свог Документ Сервер администратора.",
+    "errorSaveWatermark": "Овај фајл садржи слику воденог жига која је повезана са другим доменом.<br>Да би била видљива у PDF-у, ажурирајте слику воденог жига тако да буде повезана са истим доменом као и ваш документ или је отпремите са свог рачунара.",
     "errorSessionAbsolute": "Фаза уређивања документа је истекла. Молимо поново учитајте страницу.",
     "errorSessionIdle": "Документ се није уређивао већ дуже време. Молимо поново учитајте страницу.",
     "errorSessionToken": "Веза са сервером је прекинута. Молимо поново учитајте страницу.",
@@ -228,12 +229,12 @@
     "splitDividerErrorText": "Број редова мора бити делилац %1",
     "splitMaxColsErrorText": "Број колони мора бити мањи од %1",
     "splitMaxRowsErrorText": "Број редова мора бити мањи од %1",
+    "textOk": "OK",
     "unknownErrorText": "Непозната грешка.",
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "Учитавање података...",
@@ -250,7 +251,7 @@
     "loadImageTextText": "Учитавање слике...",
     "loadImageTitleText": "Учитавање слике",
     "loadingDocumentTextText": "Учитавање документа...",
-    "loadingDocumentTitleText": "Учитавање документа",
+    "loadingDocumentTitleText": "Учитавање",
     "loadThemeTextText": "Учитавање теме...",
     "loadThemeTitleText": "Учитавање теме",
     "openTextText": "Отварање документа...",
@@ -262,7 +263,7 @@
     "saveTextText": "Чување документа...",
     "saveTitleText": "Чување документа",
     "textContinue": "Настави",
-    "textLoadingDocument": "Учитавање документа",
+    "textLoadingDocument": "Учитавање",
     "textUndo": "Поништи",
     "txtEditingMode": "Подеси режим уређивања...",
     "uploadImageTextText": "Отпремљивање слике...",
@@ -276,7 +277,10 @@
     "stayButtonText": "Остани на овој страници",
     "textCloseHistory": "Затвори Историју",
     "textEnterNewFileName": "Унеси ново име фајла",
-    "textRenameFile": "Преименуј фајл"
+    "textRenameFile": "Преименуј фајл",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +323,8 @@
       "textSlideNumber": "Број слајда",
       "textTable": "Табела",
       "textTableSize": "Табела величина",
-      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату"
+      "txtNotUrl": "Ово поље би требало да буде URL у \"http://www.example.com\" формату",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Упозорење",
@@ -500,7 +505,7 @@
       "textCentimeter": "Центиметер",
       "textClose": "Затвори",
       "textCollaboration": "Колаборација",
-      "textColorSchemes": "Шеме боја",
+      "textColorSchemes": "Теме боја",
       "textComment": "Коментар",
       "textCreated": "Креирано",
       "textDark": "Тамно",
@@ -554,5 +559,11 @@
       "textVersion": "Верзија",
       "textVersionHistory": "Историја верзија"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

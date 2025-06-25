@@ -87,6 +87,7 @@ define([
                 this.textButton = this.options.textButton || this.textGotIt;
                 this.textHeader = this.options.textHeader || '';
                 this.position = this.options.position; // show in the position relative to target
+                this.offset = this.options.offset; // shift from target
                 this.style = this.options.style || '';
                 this.automove = this.options.automove;
                 this.binding = {};
@@ -132,9 +133,10 @@ define([
 
             applyPlacement: function () {
                 var target = this.target && this.target.length>0 ? this.target : $(document.body);
-                var showxy = Common.Utils.getOffset(target);
+                var showxy = Common.Utils.getOffset(target),
+                    offset = this.offset || {x: 0, y: 0};
                 if (this.placement=='target' && !this.position) {
-                    this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
+                    this.cmpEl.css({top : showxy.top + 5  + offset.y + 'px', left: showxy.left + 5  + offset.x + 'px'});
                     return;
                 }
 
@@ -158,31 +160,31 @@ define([
                     var top, left, bottom, right;
                     var pos = placement[0];
                     if (pos=='top') {
-                        bottom = Common.Utils.innerHeight() - showxy.top;
+                        bottom = Common.Utils.innerHeight() - showxy.top + offset.y;
                     } else if (pos == 'bottom') {
-                        top = showxy.top + target.height();
+                        top = showxy.top + target.height() + offset.y;
                     } else if (pos == 'left') {
-                        right = Common.Utils.innerWidth() - showxy.left;
+                        right = Common.Utils.innerWidth() - showxy.left + offset.x;
                     } else if (pos == 'right') {
-                        left = showxy.left + target.width();
+                        left = showxy.left + target.width() + offset.x;
                     }
                     pos = placement[1];
                     if (pos=='top') {
-                        bottom = Common.Utils.innerHeight() - showxy.top - target.height()/2;
+                        bottom = Common.Utils.innerHeight() - showxy.top - target.height()/2 + offset.y;
                     } else if (pos == 'bottom') {
-                        top = showxy.top + target.height()/2;
+                        top = showxy.top + target.height()/2 + offset.y;
                         var height = this.cmpEl.height();
                         if (top+height>Common.Utils.innerHeight())
                             top = Common.Utils.innerHeight() - height - 10;
                     } else if (pos == 'left') {
-                        right = Common.Utils.innerWidth() - showxy.left - target.width()/2;
+                        right = Common.Utils.innerWidth() - showxy.left - target.width()/2 + offset.x;
                     } else if (pos == 'right') {
-                        left = showxy.left + target.width()/2;
+                        left = showxy.left + target.width()/2 + offset.x;
                     } else {
                         if (bottom!==undefined || top!==undefined)
-                            left = showxy.left + (target.width() - this.cmpEl.width())/2;
+                            left = showxy.left + (target.width() - this.cmpEl.width())/2 + offset.x;
                         else
-                            top = showxy.top + (target.height() - this.cmpEl.height())/2;
+                            top = showxy.top + (target.height() - this.cmpEl.height())/2 + offset.y;
                     }
                     top = (top!==undefined) ? (top + 'px') : 'auto';
                     bottom = (bottom!==undefined) ? (bottom + 'px') : 'auto';
@@ -220,10 +222,12 @@ define([
             // 'step': {
             //     name: 'localstorage-id', // (or undefined when don't save option to localstorage) save 1 to localstorage to not show message again
             //     placement: 'bottom',
+            //     position: '',
+            //     offset: {x: 0, y: 0}
             //     text: '',
             //     header: '',
             //     target: '#id', // string or $el
-            //     link: {text: 'link text', src: 'UsageInstructions\/....htm'}, // (or false) Open help page
+            //     link: {text: 'link text', src: 'UsageInstructions\/....htm', url: 'www.example.com' }, // (or false) Open help page
             //     showButton: true, // true by default
             //     closable: true, // true by default
             //     callback: function() {} // call when close tip,
@@ -233,7 +237,8 @@ define([
             //     maxwidth: 250 // number or string '123px/none/...', 250 by default,
             //     extCls: '' //
             //     noHighlight: false // false by default,
-            //     multiple: false // false by default, show tip multiple times
+            //     multiple: false // false by default, show tip multiple times,
+            //     isNewFeature: false // false by default, show "New" tip in the header
             // }
         },
         _targetStack = {
@@ -312,10 +317,17 @@ define([
                     placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
                 }
                 !props.noHighlight && targetEl.addClass('highlight-tip');
+
+                if (props.isNewFeature) {
+                    props.header = '<span>' + (Common.UI.SynchronizeTip.prototype.textNew || 'New') + '</span>' + props.header;
+                }
+
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored' + (props.extCls ? ' ' + props.extCls : '') + (props.noHighlight ? ' no-arrow' : ''),
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth + (typeof props.maxwidth === 'number' ? 'px;' : ';') : '250px;'),
                     placement: placement,
+                    position: props.position,
+                    offset: props.offset,
                     target: targetEl,
                     text: props.text,
                     textHeader: props.header,
@@ -335,7 +347,10 @@ define([
                         props.tip = undefined;
                     },
                     'dontshowclick': function() {
-                        Common.NotificationCenter.trigger('file:help', props.link.src);
+                        if (props.link.url)
+                            window.open(props.link.url, '_blank');
+                        else
+                            Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
                         targetEl.removeClass('highlight-tip');

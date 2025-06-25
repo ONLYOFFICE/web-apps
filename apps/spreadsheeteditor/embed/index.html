@@ -41,23 +41,6 @@
             height: 100%;
         }
 
-        .loadmask > .brendpanel .loading-logo {
-            max-width: 200px;
-            height: 20px;
-            margin-left: 10px;
-            text-align: center;
-        }
-        .rtl .loadmask > .brendpanel .loading-logo {
-            margin-left: 0;
-            margin-right: 10px;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
-        }
         .loadmask > .brendpanel .doc-title {
             flex-grow: 1;
         }
@@ -146,9 +129,6 @@
         <div id="loading-mask" class="loadmask">
           <div class="brendpanel">
               <div>
-                  <div class="brand-logo loading-logo">
-                      <img src="">
-                  </div>
                   <div class="doc-title"></div>
                   <div class="circle"></div>
               </div>
@@ -203,26 +183,11 @@
           }
 
           var params = getUrlParams(),
-              lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-              hideLogo = params["headerlogo"]==='',
-              logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+              lang = (params["lang"] || 'en').split(/[\-\_]/)[0];
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
 
-          var elem = document.querySelector('.loading-logo');
-          if (elem) {
-              if (hideLogo) {
-                  elem.style.display = 'none';
-              } else if (logo) {
-                  elem.style.backgroundImage= 'none';
-                  elem.style.width = 'auto';
-                  elem.style.height = 'auto';
-                  var img = document.querySelector('.loading-logo img');
-                  img && img.setAttribute('src', logo);
-                  img.style.opacity = 1;
-              }
-          }
       </script>
 
       <div class="viewer">
@@ -257,22 +222,6 @@
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
               <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
-          </div>
-      </div>
-
-      <div class="modal fade error" id="id-critical-error-dialog" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h4 id="id-critical-error-title"></h4>
-                  </div>
-                  <div class="modal-body">
-                      <p id="id-critical-error-message"></p>
-                  </div>
-                  <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
-                  </div>
-              </div>
           </div>
       </div>
 

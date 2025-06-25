@@ -183,9 +183,16 @@
       "warnProcessRightsChange": "No tiene permiso para editar el archivo."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Color personalizado",
+    "textLineSize": "Tamaño de línea",
+    "textOpacity": "Opacidad "
+  },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
     "criticalErrorExtText": "Pulse \"OK\" para volver a la lista de documentos.",
+    "criticalErrorExtTextClose": "Pulse 'OK' para cerrar el editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Error al descargar.",
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Póngase en contacto con su administrador.",
@@ -270,13 +277,16 @@
     "waitText": "Por favor, espere..."
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar ahora",
     "dlgLeaveMsgText": "Tiene cambios no guardados en este documento. Haga clic en \"Quedarse en esta página\" para esperar hasta que se guarden automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
     "textCloseHistory": "Cerrar historial",
     "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
-    "textRenameFile": "Renombrar archivo"
+    "textOk": "OK",
+    "textRenameFile": "Renombrar archivo",
+    "textSwitchToDesktop": "Cambiar a escritorio"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "Texto seleccionado",
       "textDisplay": "Mostrar",
       "textDone": "Hecho",
+      "textDrawing": "Dibujar",
       "textEmptyImgUrl": "Necesita especificar la URL de la imagen.",
       "textExternalLink": "Enlace externo",
       "textFirstSlide": "Primera diapositiva",

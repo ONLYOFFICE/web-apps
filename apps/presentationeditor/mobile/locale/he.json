@@ -157,6 +157,7 @@
       "textNo": "לא",
       "textNoLicenseTitle": "הגעת למגבלת הרישיון",
       "textNoMatches": "אין התאמות",
+      "textOk": "אישור",
       "textOpenFile": "הזן סיסמה לפתיחת הקובץ",
       "textPaidFeature": "תכונה בתשלום",
       "textRemember": "זכור את הבחירה שלי",
@@ -179,9 +180,14 @@
       "warnLicenseUsersExceeded": "הגעת למגבלת המשתמש עבור עור. פנה למנהל המערכת שלך למידע נוסף.",
       "warnNoLicense": "הגעת למגבלה של חיבורים סימולטניים לעורכי %1. מסמך זה ייפתח לצפייה בלבד. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
       "warnNoLicenseUsers": "הגעת למגבלת המשתמש עבור עור. צור קשר עם צוות המכירות %1 לקבלת תנאי שדרוג אישיים.",
-      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ.",
-      "textOk": "Ok"
+      "warnProcessRightsChange": "אין לך הרשאה לערוך את הקובץ."
     }
+  },
+  "Draw": {
+    "textColor": "צבע",
+    "textCustomColor": "צבע מותאם אישית",
+    "textLineSize": "גודל קו",
+    "textOpacity": "שקיפות"
   },
   "Error": {
     "convertationTimeoutText": "זמן ההמרה חרג מהמגבלה.",
@@ -210,6 +216,7 @@
     "errorKeyEncrypt": "מתאר מפתח לא ידוע",
     "errorKeyExpire": "תיאור מפתח פג",
     "errorLoadingFont": "גופנים אינם נטענים.<br>אנא צור קשר עם מנהל שרת המסמכים שלך.",
+    "errorSaveWatermark": "קובץ זה מכיל תמונת חתימת-מים המקושרת לתחום אתר (דומיין) אחר.<br>כדי שסימן המים יהיה מוצג ב-PDF, יש לעדכן את תמונת סימן המים כך שתהיה מקושרת לתחום האתר בו מאוחסן המסמך שלך, או להעלות את התמונה מהמחשב שלך.",
     "errorSessionAbsolute": "פג תוקפו של הפעלת עריכת המסמכים. אנא, טען מחדש את הדף.",
     "errorSessionIdle": "המסמך לא נערך די הרבה זמן. אנא, טען מחדש את הדף.",
     "errorSessionToken": "החיבור לשרת שובש. אנא, טען מחדש את הדף.",
@@ -228,12 +235,12 @@
     "splitDividerErrorText": "מספר השורות חייב להיות מחלק של %1",
     "splitMaxColsErrorText": "מספר העמודות חייב להיות פחות מ - %1",
     "splitMaxRowsErrorText": "מספר השורות חייב להיות פחות מ - %1",
+    "textOk": "אישור",
     "unknownErrorText": "שגיאה לא ידועה.",
     "uploadImageExtMessage": "פורמט תמונה לא ידוע.",
     "uploadImageFileCountMessage": "לא הועלו תמונות.",
     "uploadImageSizeMessage": "התמונה גדולה מדי. הגודל המרבי הוא 25 מגה בייט.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
-    "textOk": "OK"
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "טעינת נתונים...",
@@ -270,13 +277,16 @@
     "waitText": "בבקשה, המתן..."
   },
   "Toolbar": {
+    "btnRestartNow": "הפעל מחדש עכשיו",
     "dlgLeaveMsgText": "יש לך שינויים שלא נשמרו במסמך זה. לחץ על 'הישאר בדף זה' כדי להמתין לשמירה אוטומטית. לחץ על 'צא מדף זה' כדי למחוק את כל השינויים שלא נשמרו.",
     "dlgLeaveTitleText": "וויתור על הבקשה",
     "leaveButtonText": "עזוב דף הזה",
     "stayButtonText": "הישאר בדף זה",
     "textCloseHistory": "סגור היסטוריה",
     "textEnterNewFileName": "הזן שם קובץ חדש",
-    "textRenameFile": "שינוי שם קובץ"
+    "textOk": "אוקיי",
+    "textRenameFile": "שינוי שם קובץ",
+    "textSwitchToDesktop": "עבור לשולחן העבודה"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "טקסט נבחר",
       "textDisplay": "תצוגה",
       "textDone": "בוצע",
+      "textDrawing": "ציור",
       "textEmptyImgUrl": "עליך לציין את כתובת ה-URL של התמונה.",
       "textExternalLink": "קישור חיצוני",
       "textFirstSlide": "שקופית ראשונה",

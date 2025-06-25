@@ -17,7 +17,7 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var isLangRtl = function (lang) {
-    return lang.lastIndexOf('ar', 0) === 0 || lang.lastIndexOf('he', 0) === 0;
+    return lang && (/^(ar|he|ur)$/i.test(lang));
 }
 
 var ui_rtl = false;
@@ -39,5 +39,4 @@ if ( isLangRtl(lang) ) {
 }
 document.body.setAttribute('applang', lang);
 
-window.isRtl = window.getComputedStyle(document.body).direction === 'rtl';
-window.dropdownClass = window.isRtl ? 'pull-left' : 'pull-right';
+window.isrtl = window.getComputedStyle(document.body).direction === 'rtl';

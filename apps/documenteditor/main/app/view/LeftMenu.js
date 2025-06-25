@@ -114,6 +114,7 @@ define([
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
                     window.open('{{SUPPORT_URL}}');
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             /** coauthoring begin **/
@@ -207,6 +208,7 @@ define([
             this.supressEvents = false;
 
             this.onCoauthOptions();
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -418,7 +420,6 @@ define([
             this._state.pluginIsRunning = false;
             this.panelHistory.show();
             this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
-            Common.UI.TooltipManager.showTip('textDeleted');
             Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 

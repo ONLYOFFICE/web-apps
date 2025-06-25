@@ -27,6 +27,7 @@
     "textCurrentPosition": "Posição Atual",
     "textDisplay": "Exibir",
     "textDone": "Concluído",
+    "textDrawing": "Desenho",
     "textEmptyImgUrl": "Você precisa especificar uma URL de imagem.",
     "textEvenPage": "Página par",
     "textFootnote": "Nota de rodapé",
@@ -228,6 +229,12 @@
     "textRows": "Linhas",
     "txtWarnUrl": "Clicar neste link pode ser prejudicial ao seu dispositivo e dados.<br>Você tem certeza de que quer continuar?"
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Cor personalizada",
+    "textLineSize": "Tamanho da linha",
+    "textOpacity": "Opacidade"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Aviso",
     "textActualSize": "Tamanho atual",
@@ -413,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
     "criticalErrorExtText": "Pressione 'OK' para voltar para a lista de documentos.",
+    "criticalErrorExtTextClose": "Pressione 'OK' para fechar o editor.",
     "criticalErrorTitle": "Erro",
     "downloadErrorText": "Download falhou.",
     "errorAccessDeny": "Você está tentando realizar uma ação para a qual não possui direitos. <br> Por favor, entre em contato com o seu administrador.",
@@ -426,6 +434,7 @@
     "errorDefaultMessage": "Código do erro: %1",
     "errorDirectUrl": "Por favor, verifique o link para o documento.<br>Este link deve ser o link direto para baixar o arquivo.",
     "errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento. <br> Baixe o documento para salvar a cópia de backup do arquivo localmente.",
+    "errorEditProtectedRange": "Você não tem permissão para editar essa seleção porque ela está protegida.",
     "errorEmptyTOC": "Comece a criar um sumário aplicando um estilo de título da galeria Estilos ao texto selecionado.",
     "errorFilePassProtect": "O arquivo é protegido por senha e não pôde ser aberto.",
     "errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor.<br>Por favor, contate seu administrador.",
@@ -442,6 +451,7 @@
     "errorMailMergeSaveFile": "Mesclagem falhou.",
     "errorNoTOC": "Não há índice para atualizar. Você pode inserir um na guia Referências.",
     "errorPasswordIsNotCorrect": "A senha que você forneceu não está correta. Verifique se a tecla CAPS LOCK está desativada e certifique-se de usar a capitalização correta.",
+    "errorPDFFormsLocked": "A ação não pode ser executada porque causa alterações em formulários bloqueados.",
     "errorSaveWatermark": "Este arquivo contém uma imagem de marca d'água vinculada a outro domínio.<br>Para torná-la visível no PDF, atualize a imagem da marca d'água para que ela seja vinculada ao mesmo domínio do documento ou carregue-a de seu computador.",
     "errorSessionAbsolute": "A sessão de edição do documento expirou. Por favor recarregue a página.",
     "errorSessionIdle": "O documento não é editado há muito tempo. Por favor recarregue a página.",
@@ -640,7 +650,7 @@
     "textRemember": "Lembrar minha escolha",
     "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
     "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
-    "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
+    "textRequestMacros": "Uma macro faz uma solicitação à URL. Deseja permitir a solicitação ao %1?",
     "textSaveAsPdf": "Salvar como PDF",
     "textYes": "Sim",
     "titleDialogProtectedDocument": "O documento está protegido",
@@ -704,6 +714,7 @@
     "textDownloadAs": "Baixar como",
     "textDownloadRtf": "Se você continuar a economizar neste formato, algumas das formatações podem ser perdidas. Você tem certeza de que quer continuar?",
     "textDownloadTxt": "Se você continuar salvando neste formato todas as características, exceto o texto, serão perdidas. Você tem certeza de que quer continuar?",
+    "textDrawing": "Desenho",
     "textEmptyHeading": "Título Vazio",
     "textEmptyScreens": "Não há títulos no documento. Aplique um estilo de cabeçalho ao texto para que ele apareça no sumário.",
     "textEnableAll": "Habilitar todos",
@@ -801,6 +812,7 @@
     "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "btnSend": "Enviar",
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
@@ -812,6 +824,7 @@
     "textRenameFile": "Renomear arquivo",
     "textSwitchedMobileView": "Alterado para a visualização móvel",
     "textSwitchedStandardView": "Alterado para a visualização padrão",
+    "textSwitchToDesktop": "Mudar para o desktop",
     "warnEmptyRequiredField": "Preencha todos os campos obrigatórios para enviar o formulário."
   }
 }

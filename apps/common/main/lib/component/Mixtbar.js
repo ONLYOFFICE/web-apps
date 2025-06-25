@@ -56,8 +56,8 @@ define([
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
-            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
-            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+            (Common.UI.isRTL() ? $scrollR : $scrollL).toggleClass('disabled', Math.abs(Math.floor(scrollLeft)) <= (Common.UI.isRTL() ? 1 : 0));
+            (Common.UI.isRTL() ? $scrollL : $scrollR).toggleClass('disabled', Math.abs(Math.ceil(scrollLeft)) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth - (Common.UI.isRTL() ? 1 : 0));
         }
 
         var onScrollTabs = function(opts, e) {
@@ -154,6 +154,13 @@ define([
                     this.setVisible(action, visible);
                 }, this));
                 Common.NotificationCenter.on('tab:resize', _.bind(this.onResizeTabs, this));
+                Common.NotificationCenter.on('app:repaint', _.bind(function() {
+                    this.repaintMoreBtns();
+                }, this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.clearActiveData();
+                    this.processPanelVisible();
+                }, this));
             },
 
             afterRender: function() {
@@ -330,6 +337,8 @@ define([
                 }
 
                 if ( tab ) {
+                    this.fireEvent('tab:active:before', [tab]);
+
                     me.$tabs.removeClass('active');
                     me.$panels.removeClass('active');
                     me.hideMoreBtns();
@@ -611,6 +620,15 @@ define([
                     btnsMore[tab].panel = moreContainer.find('div');
                 }
                 this.$moreBar = btnsMore[tab].panel;
+            },
+
+            repaintMoreBtns: function() {
+                for (var btn in btnsMore) {
+                    if (btnsMore[btn] && btnsMore[btn].cmpEl) {
+                        var box = btnsMore[btn].cmpEl.closest('.more-box');
+                        box.css('top', Common.Utils.getPosition(box.parent()).top);
+                    }
+                }
             },
 
             clearMoreButton: function(tab) {

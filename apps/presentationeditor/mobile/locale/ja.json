@@ -13,7 +13,7 @@
     "Collaboration": {
       "notcriticalErrorTitle": " 警告",
       "textAddComment": "コメントの追加",
-      "textAddReply": "返信する",
+      "textAddReply": "返信を追加",
       "textBack": "戻る",
       "textCancel": "キャンセル",
       "textCollaboration": "共同編集",
@@ -183,6 +183,12 @@
       "warnProcessRightsChange": "ファイルを編集する権限がありません！"
     }
   },
+  "Draw": {
+    "textColor": "色",
+    "textCustomColor": "ユーザー設定の色",
+    "textLineSize": "線のサイズ",
+    "textOpacity": "不透明度"
+  },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
     "criticalErrorExtText": "文書のリストに帰るために「OK」ボタンをクリックしてください。",
@@ -212,8 +218,8 @@
     "errorLoadingFont": "フォントがダウンロードしませんでした。<br>文書のサーバのアドミ二ストレータを連絡してください。",
     "errorSaveWatermark": "このファイルには、別のドメインにリンクされた透かし画像が含まれています。<br>PDFで見えるようにするには、文書と同じドメインからリンクされるように透かし画像を更新するか、コンピュータからアップロードしてください。",
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
-    "errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込みしてください。",
-    "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
+    "errorSessionIdle": "このドキュメントは長い間編集されていませんでした。このページを再度読み込んでください。",
+    "errorSessionToken": "サーバーへの接続が切断されました。ページを再読み込みしてください。",
     "errorSetPassword": "パスワードを設定できませんでした。",
     "errorStockChart": "行の順序が正しくありません。株価チャートを作るようにシートにこのようにデータを配置してください：<br>始値、最高価格、最小価格、終値。",
     "errorToken": "ドキュメントセキュリティトークンが正しく形成されていません。<br>ドキュメントサーバーの管理者にご連絡ください。",
@@ -233,7 +239,8 @@
     "unknownErrorText": "不明なエラー",
     "uploadImageExtMessage": "不明なイメージの形式",
     "uploadImageFileCountMessage": "アップロードしたイメージがない",
-    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。"
+    "uploadImageSizeMessage": "イメージのサイズの上限が超えさせました。サイズの上限が２５MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "データの読み込み中...",
@@ -270,13 +277,16 @@
     "waitText": "少々お待ちください..."
   },
   "Toolbar": {
+    "btnRestartNow": "今すぐ再起動",
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
     "dlgLeaveTitleText": "アプリケーションを終了する",
     "leaveButtonText": "このページから移動する",
     "stayButtonText": "このページから移動しない",
     "textCloseHistory": "履歴を閉じる",
     "textEnterNewFileName": "新しいファイル名を入力する",
-    "textRenameFile": "ファイル名の変更"
+    "textOk": "OK",
+    "textRenameFile": "ファイル名の変更",
+    "textSwitchToDesktop": "デスクトップ版に切り替える"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "選択したテキスト",
       "textDisplay": "表示する",
       "textDone": "完了",
+      "textDrawing": "描画",
       "textEmptyImgUrl": "イメージのURLを指定すべきです。",
       "textExternalLink": "外部リンク",
       "textFirstSlide": "最初のスライド",
@@ -313,7 +324,7 @@
       "textRequired": "必須",
       "textRows": "行",
       "textScreenTip": "ヒント",
-      "textShape": "形",
+      "textShape": "図形",
       "textSlide": "スライド",
       "textSlideInThisPresentation": "このプレゼンテーションのスライド",
       "textSlideNumber": "スライド番号",
@@ -329,7 +340,7 @@
       "textAdditionalFormatting": "追加の書式設定",
       "textAddress": "アドレス",
       "textAfter": "後に",
-      "textAlign": "並べる",
+      "textAlign": "図形の配置",
       "textAlignBottom": "下揃え",
       "textAlignCenter": "中央揃え",
       "textAlignLeft": "左揃え",
@@ -342,15 +353,15 @@
       "textAuto": "自動",
       "textAutomatic": "自動",
       "textBack": "戻る",
-      "textBandedColumn": "列を交代する",
-      "textBandedRow": "行を交代する",
+      "textBandedColumn": "列を切り替える",
+      "textBandedRow": "行を切り替える",
       "textBefore": "前",
       "textBlack": "黒いスクリーンから",
       "textBorder": "境界線",
       "textBottom": "最下部",
       "textBottomLeft": "左下",
       "textBottomRight": "右下",
-      "textBringToForeground": "最前面へ移動",
+      "textBringToForeground": "最前面ヘ移動",
       "textBullets": "箇条書き",
       "textBulletsAndNumbers": "箇条書きと段落番号",
       "textCancel": "キャンセル",
@@ -420,8 +431,8 @@
       "textMorphLetters": "文字",
       "textMorphObjects": "オブジェクト",
       "textMorphWords": "言葉",
-      "textMoveBackward": "背面へ移動",
-      "textMoveForward": "最背面へ移動",
+      "textMoveBackward": "背面ヘ移動",
+      "textMoveForward": "前面ヘ移動",
       "textNextSlide": "次のスライド",
       "textNoMatches": "一致する結果がありません",
       "textNone": "なし",
@@ -451,8 +462,8 @@
       "textSearch": "検索",
       "textSec": "秒",
       "textSelectObjectToEdit": "編集するためにオブジェクト​​を選んでください",
-      "textSendToBackground": "前面へ移動",
-      "textShape": "形",
+      "textSendToBackground": "最背面ヘ移動",
+      "textShape": "図形",
       "textSize": "サイズ",
       "textSlide": "スライド",
       "textSlideInThisPresentation": "このプレゼンテーションのスライド",
@@ -521,8 +532,8 @@
       "textHelp": "サービス",
       "textHighlight": "結果を強調表示する",
       "textInch": "インチ",
-      "textLastModified": "最後の変更",
-      "textLastModifiedBy": "最後の変更の作成者",
+      "textLastModified": "最終更新",
+      "textLastModifiedBy": "最終更新者",
       "textLight": "ライト",
       "textLoading": "読み込み中...",
       "textLocation": "場所",

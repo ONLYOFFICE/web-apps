@@ -150,6 +150,12 @@
 	height: 30px;
 }
 
+.big-leftpart {
+	background-position: -599px -545px;
+	width: 222px;
+	height: 23px;
+}
+
 .big-bordersize {
 	background-position: -722px -498px;
 	width: 93px;
@@ -163,15 +169,9 @@
 }
 
 .big-rightpart {
-	background-position: -599px -545px;
+	background-position: -599px -568px;
 	width: 176px;
 	height: 19px;
-}
-
-.big-leftpart {
-	background-position: -599px -564px;
-	width: 176px;
-	height: 17px;
 }
 
 .icon{

@@ -65,7 +65,8 @@
     "textTableSize": "表格大小",
     "textWithBlueLinks": "含有藍色連結",
     "textWithPageNumbers": "含有頁碼",
-    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。"
+    "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -461,9 +462,12 @@
     "uploadImageExtMessage": "圖片格式未知。",
     "uploadImageFileCountMessage": "無上傳圖片。",
     "uploadImageSizeMessage": "圖像超出最大大小限制。最大為25MB。",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
@@ -790,6 +794,7 @@
     "textClose": "Close",
     "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
+    "textDrawing": "Drawing",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textLight": "Light",
@@ -809,9 +814,17 @@
     "textSwitchedMobileView": "切換至行動版檢視",
     "textSwitchedStandardView": "切換至標準版檢視",
     "warnEmptyRequiredField": "填寫所有必填欄位以傳送表單。",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

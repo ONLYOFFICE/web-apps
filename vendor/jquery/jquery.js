@@ -6409,6 +6409,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				documentElement.removeChild( table );
 			}
 			return reliableTrDimensionsVal;
+		},
+		forceStyleTests: function() {
+			div = document.createElement( "div" );
+			computeStyleTests();
 		}
 	} );
 } )();

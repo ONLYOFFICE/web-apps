@@ -51,7 +51,7 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                contentStyle: 'padding: 0 10px;',
+                contentStyle: 'padding: 5px 5px 0;',
                 contentTemplate: _.template([
                     '<div class="settings-panel active">',
                         '<div class="inner-content">',
@@ -109,7 +109,8 @@ define([
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
                 allowBlank  : true,
-                validateOnChange: true
+                validateOnChange: true,
+                validateOnBlur: false
             });
             this.txtSourceRange.on('button:click', _.bind(this.onSelectData, this, 'source'));
 

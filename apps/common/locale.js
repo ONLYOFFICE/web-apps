@@ -167,6 +167,7 @@ Common.Locale = new(function() {
             document.body.classList.remove('rtl');
             document.body.classList.remove('rtl-font');
             document.body.setAttribute('applang', currentLang);
+            window.isrtl = false;
         }
     };
 
@@ -182,7 +183,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar|he)$/i.test(currentLang));
+        return currentLang && (/^(ar|he|ur)$/i.test(currentLang));
     };
 
     return {

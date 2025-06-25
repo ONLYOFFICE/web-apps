@@ -55,13 +55,13 @@ define([
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                contentStyle: 'padding: 0;',
+                contentStyle: 'padding: 10px 0 0;',
                 contentTemplate: _.template([
                         '<div class="settings-panel active">',
                             '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td class="padding-large">',
+                                        '<td class="padding-small">',
                                             '<div id="external-links-btn-update" class="float-left margin-right-5"></div>',
                                             '<div id="external-links-btn-change" class="float-left margin-right-5"></div>',
                                             '<div id="external-links-btn-open" class="float-left margin-right-5"></div>',
@@ -69,8 +69,13 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td>',
+                                        '<td class="padding-small">',
                                             '<div id="external-links-list" class="range-tableview" style="width:100%; height: 171px;"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr>',
+                                        '<td class="">',
+                                            '<div id="external-links-auto-update"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -179,6 +184,14 @@ define([
             });
             this.btnChange.on('click', _.bind(this.onChange, this));
 
+            this.chUpdate = new Common.UI.CheckBox({
+                el: $('#external-links-auto-update'),
+                labelText: this.textAutoUpdate
+            });
+            this.chUpdate.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                this.api && this.api.asc_setUpdateLinks(field.getValue()==='checked');
+            }, this));
+
             this.afterRender();
         },
 
@@ -189,7 +202,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList ].concat(this.getFooterButtons());
+            return [ this.btnUpdate, this.btnChange, this.btnOpen, this.btnDelete, this.linksList, this.chUpdate ].concat(this.getFooterButtons());
         },
 
         close: function () {
@@ -204,6 +217,7 @@ define([
 
         _setDefaults: function (props) {
             this.refreshList();
+            this.api && this.chUpdate.setValue(this.api.asc_getUpdateLinks(), true);
         },
 
         refreshList: function() {
@@ -368,8 +382,9 @@ define([
             }
 
             var el = document.createElement('span');
-            el.style.fontSize = document.documentElement.style.getPropertyValue("--font-size-base-app-custom") || '11px';
-            el.style.fontFamily = document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif';
+            var props = Common.UI.Themes.getThemeProps('font');
+            el.style.fontSize = props && props.size ? props.size : '11px';
+            el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
             el.style.position = "absolute";
             el.style.top = '-1000px';
             el.style.left = '-1000px';
@@ -413,7 +428,8 @@ define([
         textStatus: 'Status',
         textOk: 'OK',
         textUnknown: 'Unknown',
-        textUpdating: 'Updating...'
+        textUpdating: 'Updating...',
+        textAutoUpdate: 'Update automatically'
 
     }, Common.Views.ExternalLinksDlg || {}));
 });

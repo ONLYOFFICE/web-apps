@@ -248,9 +248,16 @@
       "warnProcessRightsChange": "Nemate dozvolu da uređujete ovaj fajl."
     }
   },
+  "Draw": {
+    "textColor": "Boja",
+    "textCustomColor": "Prilagođena boja",
+    "textLineSize": "Veličina linije",
+    "textOpacity": "Prozirnost"
+  },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
     "criticalErrorExtText": "Pritisnite 'OK' da se vratite na listu dokumenata.",
+    "criticalErrorExtTextClose": "Kliknite \"OK\" da zatvorite uređivač.",
     "criticalErrorTitle": "Greška",
     "downloadErrorText": "Preuzimanje neuspešno.",
     "errNoDuplicates": "Nijedna duplikat vrednost nije pronađena.",
@@ -291,6 +298,7 @@
     "errorFileVKey": "Eksterna greška.<br>Netačan bezbednosni ključ. Molim, kontaktirajte podršku.",
     "errorFillRange": "Nije mogao da se ispuni odabran opseg ćelija.<br>Sve spojene ćelije moraju biti iste veličine.",
     "errorForceSave": "Greška se pojavila u toku čuvanja fajla. Molimo koristite \"Preuzmi kao\" opciju da sačuvate fajl na hard drajv vašeg kompjutera ili pokušajte ponovo kasnije.",
+    "errorFormulaInPivotFieldName": "Nije moguće uneti formulu za stavku ili naziv polja u izveštaju okretne tabele (pivot table).",
     "errorFormulaName": "Greška u formuli.<br>Netačno ime formule.",
     "errorFormulaParsing": "Interna greška pri parsiranju formule.",
     "errorFrmlMaxLength": "Ne možete dodati ovu formulu zato što njena dužina prevzilazi dozvoljen broj karaktera.<br>Molim vas, uredite je i pokušajte ponovo.",
@@ -321,15 +329,18 @@
     "errorNoDataToParse": "Nisu izabrani podaci za parsiranje.",
     "errorOpenWarning": "Dužina jedne od formula je prekoračila<br>dozvoljeni broj karaktera i odstranjena je.",
     "errorOperandExpected": "Uneta funkcija sintakse nije tačna. Molim vas proverite da li ste promašili jednu od zagrada - '(' ili ')'.",
+    "errorPasteInPivot": "Ne možemo napraviti ovu promenu za odabrane ćelije jer će to uticati na okretnu tabelu (pivot table).<br>Koristite listu polja za izmene u izveštaju.  ",
     "errorPasteMaxRange": "Kopiraj i nalepi oblast se ne poklapaju. Molim, odaberite oblast iste veličine ili kliknite na prvu ćeliju u redu da nalepite kopirane ćelije.",
     "errorPasteMultiSelect": "Ova akcija ne može biti urađena na višestrukim selekcijama opsega.<br>Odaberite jedan opseg i pokušajte ponovo.",
     "errorPasteSlicerError": "Filteri tabele ne mogu biti kopirani iz jedne radne knjige u drugu.",
+    "errorPivotFieldNameExists": "Naziv polja okretne tabele već postoji.",
     "errorPivotGroup": "Ne može se grupisati ta selekcija.",
     "errorPivotOverlap": "Izveštaj pivot tabele ne može da preklopi tabelu.",
     "errorPivotWithoutUnderlying": "Izveštaj Pivot Tabele je sačuvan bez osnovnih podataka.<br>Koristite 'Osveži' dugme da ažurirate izveštaj.",
     "errorPrecedentsNoValidRef": "Naredba 'Prati prethodnike' zahteva da aktivna ćelija sadrži formulu koja uključuje ispravne reference.",
     "errorPrintMaxPagesCount": "Nažalost, nije moguće štampati više od 1500 stranica odjednom u trenutnoj verziji programa.<br>Ova restrikcija će biti eliminisana u nadolazećim izdanjima.",
     "errorProtectedRange": "Ovaj opseg nije dozvoljen za uređivanje.",
+    "errorSaveWatermark": "Ovaj fajl sadrži sliku vodenog žiga koja je povezana sa drugim domenom.<br>Da bi bila vidljiva u PDF-u, ažurirajte sliku vodenog žiga tako da bude povezana sa istim domenom kao i vaš dokument ili je otpremite sa svog računara.",
     "errorSessionAbsolute": "Sesija uređivanja dokumenta je istekla. Molimo, ponovo učitajte stranicu.",
     "errorSessionIdle": "Dokument nije uređivan već duže vreme. Molimo, ponovo učitajte stranicu.",
     "errorSessionToken": "Konekcija sa serverom je prekinuta. Molimo, ponovo učitajte stranicu.",
@@ -367,11 +378,7 @@
     "uploadDocSizeMessage": "Maksimum limit veličine dokumenta prekoračen.",
     "uploadImageExtMessage": "Nepoznati format slike.",
     "uploadImageFileCountMessage": "Nema otpremljenih slika.",
-    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "uploadImageSizeMessage": "Slika je prevelika. Maksimum veličina je 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Lozinka",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "Radni list možda ima podatke. Nastavi operaciju?"
   },
   "Toolbar": {
+    "btnRestartNow": "Ponovo pokreni sada",
     "dlgLeaveMsgText": "Imate nesačuvane promene u ovom dokumentu. Kliknite 'Ostani na ovoj Stranici' da sačekate na autočuvanje. Kliknite 'Napusti ovu Stranicu' da odbacite sve nesačuvane promene.",
     "dlgLeaveTitleText": "Napuštate aplikaciju",
     "leaveButtonText": "Napusti ovu Stranicu",
     "stayButtonText": "Ostani na ovoj Stranici",
     "textCloseHistory": "Zatvori Istoriju",
     "textEnterNewFileName": "Unesi novo ime fajla",
-    "textRenameFile": "Preimenuj Fajl"
+    "textOk": "OK",
+    "textRenameFile": "Preimenuj Fajl",
+    "textSwitchToDesktop": "Prebaci na Desktop verziju"
   },
   "View": {
     "Add": {
       "errorMaxRows": "GREŠKA! Maksimalan broj serije podataka po grafikonu je 255.",
       "errorStockChart": "Netačan red redova. Za izradu grafikona berzanske trgovine, postavite podatke na listu u sledećem redosledu:<br>otvarajuća cena, maks cena, min cena, zatvarajuća cena.",
       "notcriticalErrorTitle": "Upozorenje ",
+      "sCatDatabase": "Baza podataka",
       "sCatDateAndTime": "Datum i vreme",
       "sCatEngineering": "Inženjerstvo ",
       "sCatFinancial": "Finansijski ",
@@ -476,6 +487,7 @@
       "textDataTableHint": "Vraća ćelije podataka tabele ili određene kolone tabele",
       "textDisplay": "Ekran",
       "textDone": "Gotovo",
+      "textDrawing": "Crtanje",
       "textEmptyImgUrl": "Morate da specifikujete URL slike.",
       "textExternalLink": "Spoljni link",
       "textFilter": "Filter",

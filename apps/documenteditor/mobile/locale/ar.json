@@ -27,6 +27,7 @@
     "textCurrentPosition": "الموضع الحالي",
     "textDisplay": "عرض",
     "textDone": "تم",
+    "textDrawing": "الرسم",
     "textEmptyImgUrl": "تحتاج إلى تحديد عنوان\nللصورة URL\n ",
     "textEvenPage": "صفحة زوجية",
     "textFootnote": "حاشية",
@@ -228,6 +229,12 @@
     "textRows": "الصفوف",
     "txtWarnUrl": "النقر على هذا الرابط يمكن أن يكون ضارًا بجهازك وبياناتك.  هل أنت متأكد من أنك تريد المتابعة؟<br>"
   },
+  "Draw": {
+    "textColor": "اللون",
+    "textCustomColor": "لون مخصص",
+    "textLineSize": "حجم الخط",
+    "textOpacity": "معدل الشفافية"
+  },
   "Edit": {
     "notcriticalErrorTitle": "تحذير",
     "textActualSize": "الحجم الاصلي",
@@ -299,7 +306,7 @@
     "textFonts": "الخطوط",
     "textFooter": "التذييل",
     "textFormal": "رسمي",
-    "textFr": "الجمعة",
+    "textFr": "جم",
     "textHeader": "الرأس",
     "textHeaderRow": "الصف الرأسي",
     "textHighlightColor": "لون تمييز النص",
@@ -325,7 +332,7 @@
     "textLinkToPrevious": "اربط بالسابق",
     "textMarch": "أذار",
     "textMay": "ايار",
-    "textMo": "الاثنين",
+    "textMo": "اث",
     "textModern": "حديث",
     "textMoveBackward": "تحرك للخلف",
     "textMoveForward": "تحرك للأمام",
@@ -367,7 +374,7 @@
     "textRightAlign": "محاذاة لليمين",
     "textRotateTextDown": "تدوير النص للأسفل",
     "textRotateTextUp": "تدوير النص للأعلى",
-    "textSa": "السبت",
+    "textSa": "سب",
     "textSameCreatedNewStyle": "تماما كالنمط الجديد المنشأ",
     "textSave": "حفظ",
     "textScreenTip": "تلميح شاشة",
@@ -388,7 +395,7 @@
     "textStyle": "النمط",
     "textStyleOptions": "خيارات النمط",
     "textStyles": "الأنماط",
-    "textSu": "الأحد",
+    "textSu": "أح",
     "textSubscript": "نص منخفض",
     "textSuperscript": "نص مرتفع",
     "textTable": "جدول",
@@ -397,15 +404,15 @@
     "textText": "نص",
     "textTextOrientation": "اتجاه النص",
     "textTextWrapping": "التفاف النص",
-    "textTh": "الخميس",
+    "textTh": "خم",
     "textThrough": "خلال",
     "textTight": "ضيق",
     "textTitle": "العنوان",
     "textTopAndBottom": "الأعلى و الأسفل",
     "textTotalRow": "صف الإجمالي",
-    "textTu": "الثلاثاء",
+    "textTu": "ثل",
     "textType": "النوع",
-    "textWe": "الأربعاء",
+    "textWe": "أر",
     "textWrap": "التفاف",
     "textWrappingStyle": "نمط الالتفاف",
     "textYourOption": "خيارك"
@@ -426,6 +433,7 @@
     "errorDefaultMessage": "رمز الخطأ:%1",
     "errorDirectUrl": "     <br>  برجاء التحقق من الرابط إلى المستند.\n يجب أن يكون هذا الرابط مباشرا إلى الملف المراد تحميله",
     "errorEditingDownloadas": "حدث خطأ اثناء العمل على المستند.<br> قم بتحميل المستند لحفظ نسخة احتياطية على جهازك",
+    "errorEditProtectedRange": "لا يمكنكم تعديل هذا التحديد لأنه محمي",
     "errorEmptyTOC": "ابدأ بإنشاء جدول محتويات من خلال تطبيق نمط رأس من معرض الأنماط للنص المحدد",
     "errorFilePassProtect": "هذا المستند محمي بكلمة سر و لا يمكن فتحه",
     "errorFileSizeExceed": "يتجاوز حجم الملف الحد المحدد للخادم. <br> الرجاء الاتصال بمسؤولك",
@@ -442,6 +450,8 @@
     "errorMailMergeSaveFile": "فشل الدمج",
     "errorNoTOC": "لا يوجد جدول محتويات ليتم تحديثه. بإمكانك إدراج واحد من تبويب المراجع",
     "errorPasswordIsNotCorrect": "كلمة السر المدخلة غير صحيحة. تأكد أن زر القفل غير مفعل و استخدام الحروف الكبيرة و الصغيرة بشكل صحيح",
+    "errorPDFFormsLocked": "لا يمكن تنفيذ هذا الإجراء لأنه يتسبب في تغييرات في النماذج المغلقة.",
+    "errorSaveWatermark": "يحتوي هذا الملف على صورة علامة مائية مرتبطة بنطاق آخر.<br>لجعلها مرئية في ملف PDF، قم بتحديث صورة العلامة المائية بحيث ترتبط من نفس النطاق مثل المستند الخاص بك، أو قم بتحميلها من جهاز الكمبيوتر الخاص بك",
     "errorSessionAbsolute": "تم انتهاء صلاحية جلسة تعديل المستند. برجاء اعد تحميل الصفحة",
     "errorSessionIdle": "لم يتم تعديل المستند لفترة طويلة.برجاء اعادة تحميل الصفحة",
     "errorSessionToken": "تم اعتراض الاتصال للخادم .برجاء اعادة تحميل الصفحة",
@@ -470,7 +480,7 @@
     "uploadImageExtMessage": "امتداد صورة غير معروف",
     "uploadImageFileCountMessage": "لم يتم رفع أية صور.",
     "uploadImageSizeMessage": "حجم الصورة كبير للغاية. اقصى حجم هو 25 ميغابايت",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "applyChangesTextText": "جار تحميل البيانات...",
@@ -798,9 +808,11 @@
     "txtDownloadTxt": "تحميل النص",
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
-    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
+    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
+    "btnRestartNow": "إعادة التشغيل الآن",
     "btnSend": "إرسال",
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",
     "dlgLeaveTitleText": "انت تغادر التطبيق",
@@ -812,6 +824,7 @@
     "textRenameFile": "إعادة تسمية الملف",
     "textSwitchedMobileView": "تم التبديل إلى عرض المحمول",
     "textSwitchedStandardView": "تم التبديل إلى العرض القياسي",
+    "textSwitchToDesktop": "التحويل إلى وضع سطح المكتب",
     "warnEmptyRequiredField": "قم بملء كل الحقول المطلوبة لارسال  الاستمارة."
   }
 }

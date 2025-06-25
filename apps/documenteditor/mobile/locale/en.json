@@ -27,6 +27,7 @@
     "textCurrentPosition": "Current Position",
     "textDisplay": "Display",
     "textDone": "Done",
+    "textDrawing": "Drawing",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textEvenPage": "Even Page",
     "textFootnote": "Footnote",
@@ -228,6 +229,12 @@
     "textRows": "Rows",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Warning",
     "textActualSize": "Actual size",
@@ -413,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Download failed.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
@@ -426,6 +434,7 @@
     "errorDefaultMessage": "Error code: %1",
     "errorDirectUrl": "Please verify the link to the document.<br>This link must be a direct link to the file for downloading.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorEmptyTOC": "Start creating a table of contents by applying a heading style from the Styles gallery to the selected text.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
@@ -442,6 +451,7 @@
     "errorMailMergeSaveFile": "Merge failed.",
     "errorNoTOC": "There's no table of contents to update. You can insert one from the References tab.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
@@ -704,6 +714,7 @@
     "textDownloadAs": "Download As",
     "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?",
     "textDownloadTxt": "If you continue saving in this format all features except the text will be lost. Are you sure you want to continue?",
+    "textDrawing": "Drawing",
     "textEmptyHeading": "Empty Heading",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textEnableAll": "Enable All",
@@ -801,6 +812,7 @@
     "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
@@ -812,6 +824,7 @@
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
     "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop",
     "warnEmptyRequiredField": "Fill all required fields to send form."
   }
 }

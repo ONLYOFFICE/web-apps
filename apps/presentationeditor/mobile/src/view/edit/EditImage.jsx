@@ -4,6 +4,25 @@ import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, V
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconMoveForeground from '@common-icons/icon-move-foreground.svg';
+import IconMoveBackground from '@common-icons/icon-move-background.svg';
+import IconMoveForward from '@common-icons/icon-move-forward.svg';
+import IconMoveBackward from '@common-icons/icon-move-backward.svg';
+import IconAlignLeft from '@icons/icon-align-left.svg';
+import IconAlignCenter from '@icons/icon-align-center.svg';
+import IconAlignRight from '@icons/icon-align-right.svg';
+import IconAlignTop from '@icons/icon-align-top.svg';
+import IconAlignMiddle from '@icons/icon-align-middle.svg';
+import IconAlignBottom from '@icons/icon-align-bottom.svg';
+import IconAlignHorizontal from '@icons/icon-align-horizontal.svg';
+import IconAlignVertical from '@icons/icon-align-vertical.svg';
+import IconImageLibraryIos from '@common-ios-icons/icon-image-library.svg?ios';
+import IconImageLibraryAndroid from '@common-android-icons/icon-image-library.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
+import IconLinkAndroid from '@common-android-icons/icon-link.svg';
 
 const EditImage = props => {
     const { t } = useTranslation();
@@ -50,23 +69,26 @@ const PageReorder = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForeground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-background"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForward.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                     <SvgIcon slot="media" symbolId={IconMoveBackward.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -89,37 +111,40 @@ const PageAlign = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textAlignLeft} link='#' onClick={() => {props.onAlign('align-left')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-left"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignLeft.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignCenter} link='#' onClick={() => {props.onAlign('align-center')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-center"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignCenter.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignRight} link='#' onClick={() => {props.onAlign('align-right')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-right"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignRight.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignTop} link='#' onClick={() => {props.onAlign('align-top')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-top"></Icon>
+                     <SvgIcon slot="media" symbolId={IconAlignTop.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignMiddle} link='#' onClick={() => {props.onAlign('align-middle')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-middle"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignMiddle.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignBottom} link='#' onClick={() => {props.onAlign('align-bottom')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-bottom"></Icon>
+                     <SvgIcon slot="media" symbolId={IconAlignBottom.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textDistributeHorizontally} link='#' onClick={() => {props.onAlign('distrib-hor')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-horizontal"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignHorizontal.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textDistributeVertically} link='#' onClick={() => {props.onAlign('distrib-vert')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-vertical"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignVertical.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -142,19 +167,28 @@ const PageReplace = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
-                    <Icon slot="media" icon="icon-image-library"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconImageLibraryIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconImageLibraryAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textPictureFromURL} link='/edit-image-link/' routeProps={{
                     onReplaceByUrl: props.onReplaceByUrl
                 }}>
-                    <Icon slot="media" icon="icon-link"></Icon>
+                    {Device.ios ?
+                        <SvgIcon slot="media" symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             </List>
         </Page>
@@ -184,7 +218,10 @@ const PageLinkSettings = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }

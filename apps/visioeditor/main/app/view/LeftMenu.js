@@ -104,6 +104,7 @@ define([
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
                     window.open('{{SUPPORT_URL}}');
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             this.btnChat = new Common.UI.Button({
@@ -179,6 +180,7 @@ define([
                 this.onCoauthOptions();
             }
 
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
 

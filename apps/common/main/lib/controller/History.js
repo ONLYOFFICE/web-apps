@@ -291,7 +291,6 @@ define([
         onShowBeforeButtonMenu: function() {
             if(this.api && this.panelHistory.chHighlightDeleted) {
                 this.panelHistory.chHighlightDeleted.setChecked(this.api.asc_isShowedDeletedTextInVersionHistory(), true);
-                Common.UI.TooltipManager.closeTip('textDeleted');
             }
         },
 

@@ -248,6 +248,12 @@
       "warnProcessRightsChange": "Anda tidak memiliki izin edit file ini."
     }
   },
+  "Draw": {
+    "textColor": "Warna",
+    "textCustomColor": "Warna ubahan",
+    "textLineSize": "Ukuran garis",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Waktu konversi habis.",
     "criticalErrorExtText": "Tekan 'OK' untuk kembali ke list dokumen.",
@@ -291,6 +297,7 @@
     "errorFileVKey": "Error eksternal.<br>Kode keamanan salah. Silakan hubungi support.",
     "errorFillRange": "Tidak bisa mengisi rentang sel yang dipilih.<br>Semua sel yang di merge harus memiliki ukuran yang sama.",
     "errorForceSave": "Ada kesalahan saat menyimpan berkas. Silakan gunakan opsi 'Unduh sebagai' untuk menyimpan berkas ke komputer Anda dan coba lagi nanti.",
+    "errorFormulaInPivotFieldName": "Tidak bisa memasukkan suatu rumus bagi sebuah item nama ruas atau item dalam sebuah laporan tabel pivot.",
     "errorFormulaName": "Kesalahan dalam rumus.<br>Nama formula salah.",
     "errorFormulaParsing": "Kesalahan internal saat menguraikan formula.",
     "errorFrmlMaxLength": "Anda tidak bisa menambahkan formula ini karena panjangnya melebihi batas angka yang diizinkan.<br>Silakan edit dan coba lagi.",
@@ -321,15 +328,18 @@
     "errorNoDataToParse": "Tidak ada data yang dipilih untuk diuraikan.",
     "errorOpenWarning": "Panjang salah satu formula di file melewati<br>batas jumlah karakter yang diizinkan dan sudah dihapus.",
     "errorOperandExpected": "Syntax fungsi yang dimasukkan tidak tepat. Silakan periksa lagi apakah Anda terlewat tanda kurung - '(' atau ')'.",
+    "errorPasteInPivot": "Kami tidak bisa membuat perubahan bagi sel yang dipilih ini karena itu akan memengaruhi suatu tabel pivot.<br>Pakai daftar ruas untuk mengubah laporan.",
     "errorPasteMaxRange": "Area copy dan paste tidak cocok. Silakan pilih area dengan ukuran yang sama atau klik sel pertama di baris untuk paste sel yang di copy.",
     "errorPasteMultiSelect": "Tindakan ini tidak dapat dilakukan pada beberapa pilihan rentang.<br>Pilih satu rentang dan coba lagi.",
     "errorPasteSlicerError": "Pembelah tabel tidak bisa disalin dari satu buku kerja ke lainnya.",
+    "errorPivotFieldNameExists": "Nama ruas tabel pivot sudah ada.",
     "errorPivotGroup": "Tidak bisa mengelompokkan pilihan itu.",
     "errorPivotOverlap": "Laporan tabel pivot tidak bisa tumpang tindih dengan tabel.",
     "errorPivotWithoutUnderlying": "Laporan Tabel Pivot disimpan tanpa data penyusunnya.<br>Gunakan tombol 'Segarkan' untuk memperbarui laporan.",
     "errorPrecedentsNoValidRef": "Perintah Lacak Preseden mewajibkan sel aktif berisi rumus yang menyertakan referensi valid.",
     "errorPrintMaxPagesCount": "Mohon maaf karena tidak bisa print lebih dari 1500 halaman dalam sekali waktu dengan versi program sekarang.<br>Hal ini akan bisa dilakukan di versi selanjutnya.",
     "errorProtectedRange": "Rentang ini tidak diizinkan untuk disunting.",
+    "errorSaveWatermark": "Berkas ini mengandung suatu gambar bertanda air yang ditaut ke domain lain.<br>Untuk membuatnya tampak dalam PDF, perbarui gambar tanda air sehingga itu menaut ke domain yang sama dengan dokumen Anda, atau unggah itu dari komputer Anda.",
     "errorSessionAbsolute": "Waktu edit dokumen sudah selesai. Silakan muat ulang halaman.",
     "errorSessionIdle": "Dokumen sudah lama tidak diedit. Silakan muat ulang halaman.",
     "errorSessionToken": "Koneksi ke server terganggu. Silakan muat ulang halaman.",
@@ -368,10 +378,7 @@
     "uploadImageExtMessage": "Format gambar tidak dikenal.",
     "uploadImageFileCountMessage": "Tidak ada gambar yang diunggah.",
     "uploadImageSizeMessage": "Melebihi ukuran maksimal file. Ukuran maksimum adalah 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor."
   },
   "LongActions": {
     "advDRMPassword": "Kata Sandi",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "Lembar mungkin punya data. Lanjutkan operasi?"
   },
   "Toolbar": {
+    "btnRestartNow": "Restart sekarang",
     "dlgLeaveMsgText": "Ada perubahan yang belum disimpan dalam dokumen ini. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
     "textCloseHistory": "Tutup Riwayat",
     "textEnterNewFileName": "Masukkan nama berkas baru",
-    "textRenameFile": "Ganti Nama Berkas"
+    "textOk": "OK",
+    "textRenameFile": "Ganti Nama Berkas",
+    "textSwitchToDesktop": "Beralih ke Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "KESALAHAN! Jumlah seri data maksimum per grafik adalah 255.",
       "errorStockChart": "Urutan baris salah. Untuk membuat diagram garis, masukkan data pada lembar kerja dengan urutan berikut ini:<br>harga pembukaan, harga maksimal, harga minimal, harga penutupan.",
       "notcriticalErrorTitle": "Peringatan",
+      "sCatDatabase": "Basis data",
       "sCatDateAndTime": "Tanggal dan Jam",
       "sCatEngineering": "Insinyur",
       "sCatFinancial": "Finansial",
@@ -513,7 +524,8 @@
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",

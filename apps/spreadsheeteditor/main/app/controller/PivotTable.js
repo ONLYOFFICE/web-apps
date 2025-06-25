@@ -58,6 +58,7 @@ define([
                     'pivottable:create':        _.bind(this.onCreateClick, this),
                     'pivottable:refresh':       _.bind(this.onRefreshClick, this),
                     'pivottable:select':        _.bind(this.onSelectClick, this),
+                    'pivottable:calculated':    _.bind(this.onCalculatedClick, this),
                     'pivottable:expand':        _.bind(this.onExpandClick, this),
                     'pivottable:collapse':      _.bind(this.onCollapseClick, this),
                     'pivottable:style':         _.bind(this.onPivotStyleSelect, this),
@@ -69,6 +70,9 @@ define([
                 },
                 'TableSettings': {
                     'pivottable:create':        _.bind(this.onCreateClick, this)
+                },
+                'Toolbar': {
+                    'tab:active':               _.bind(this.onActiveTab, this)
                 }
             });
         },
@@ -193,6 +197,57 @@ define([
                 this._originalProps.asc_select(this.api);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onCalculatedClick: function(btn, opts){
+            var me = this;
+            var pivotInfo = this.api.asc_getCellInfo().asc_getPivotTableInfo();
+            var pivotFieldIndex = pivotInfo.asc_getFieldIndexByActiveCell();
+            var error = pivotInfo.asc_hasTablesErrorForCalculatedItems(pivotFieldIndex);
+            
+            function getWarningMessage(error) {
+                var message = '';
+                switch (error) {
+                    case Asc.c_oAscError.ID.PivotItemNameNotFound:
+                        message = me.txtPivotItemNameNotFound;
+                        break;
+                    case Asc.c_oAscError.ID.CalculatedItemInPageField:
+                        message = me.txtCalculatedItemInPageField;
+                        break;
+                    case Asc.c_oAscError.ID.NotUniqueFieldWithCalculated:
+                        message = me.txtNotUniqueFieldWithCalculated;
+                        break;
+                    case Asc.c_oAscError.ID.WrongDataFieldSubtotalForCalculatedItems:
+                        message = me.txtWrongDataFieldSubtotalForCalculatedItems;
+                        break;
+                    case Asc.c_oAscError.ID.PivotFieldCustomSubtotalsWithCalculatedItems:
+                        message = me.txtPivotFieldCustomSubtotalsWithCalculatedItems;
+                        break;
+                    default:
+                        message = me.txtCalculatedItemWarningDefault;
+                }
+                return message;
+            };
+
+            function showWarningDialog(error) {
+                Common.UI.warning({
+                    msg: getWarningMessage(error),
+                    maxwidth: 600
+                });
+            };
+
+            if(error) {
+               showWarningDialog(error);
+            } else {
+                var winList = new SSE.Views.PivotCalculatedItemsDialog({
+                    api: this.api,
+                    handlerWarning: function(error) {
+                        showWarningDialog(error);
+                    },
+                    getWarningMessage: getWarningMessage,
+                });
+                winList.show();
+            }
         },
 
         onExpandClick: function(){
@@ -481,6 +536,7 @@ define([
             Common.Utils.lockControls(Common.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
             Common.Utils.lockControls(Common.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
             Common.Utils.lockControls(Common.enumLock.pivotExpandLock, !(pivotInfo && pivotInfo.asc_canExpandCollapseByActiveCell(this.api)), {array: [this.view.btnExpandField, this.view.btnCollapseField]});
+            Common.Utils.lockControls(Common.enumLock.pivotCalcItemsLock, !(pivotInfo && pivotInfo.asc_canChangeCalculatedItemByActiveCell()), {array: [this.view.btnCalculatedItems]});
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);
@@ -518,7 +574,16 @@ define([
             }
         },
 
-        strSheet        : 'Sheet'
+        onActiveTab: function(tab) {
+        },
+
+        strSheet        : 'Sheet',
+        txtPivotItemNameNotFound: 'An item name cannot be found. Check that you\'ve typed name correctly and the item is present in the PivotTable report.',
+        txtCalculatedItemInPageField: 'The item cannot be added or modified. PivotTable report has this field in Filters.',
+        txtNotUniqueFieldWithCalculated: 'If one or more PivotTable have calculated items, no fields can be used in data area two or more times, or in the data area and another area at the same time.',
+        txtWrongDataFieldSubtotalForCalculatedItems: 'Averages, standard deviations, and variances are not supported when a PivotTable report has calculated items.',
+        txtPivotFieldCustomSubtotalsWithCalculatedItems: 'Calculated items do not work with custom subtotals.',
+        txtCalculatedItemWarningDefault: 'No actions with calculated items are allowed for this active cell.'
 
     }, SSE.Controllers.PivotTable || {}));
 });

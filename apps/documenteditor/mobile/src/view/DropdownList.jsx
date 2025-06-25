@@ -2,6 +2,8 @@ import React, { Component, useEffect, useState } from 'react';
 import { f7, Page, Navbar, List, ListItem, Popover, View, Link, Sheet, Icon, NavRight, BlockTitle, NavLeft, Popup } from "framework7-react";
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconDone from '@common-android-icons/icon-done.svg';
 
 const PageCustomOptionList = props => {
     const { t } = useTranslation();
@@ -93,7 +95,9 @@ const PageDropdownList = props => {
                 <Navbar title={t('Edit.textChooseAnOption')} className='navbar-dropdown-list'>
                     <NavRight>
                         <Link text={Device.ios ? t('Edit.textDone') : ''} onClick={props.closeModal}>
-                            {Device.android && <Icon icon='icon-done' />}
+                            {Device.android && 
+                                <SvgIcon slot="media" symbolId={IconDone.id} className={'icon icon-svg'} />
+                            }
                         </Link>
                     </NavRight>
                 </Navbar>

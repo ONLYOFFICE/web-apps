@@ -97,12 +97,14 @@
       "errorOpensource": "무료 커뮤니티 버전을 사용하는 경우 열린 파일만 볼 수 있습니다. 모바일 온라인 에디터 기능을 사용하기 위해서는 유료 라이선스가 필요합니다.",
       "errorProcessSaveResult": "저장이 실패했습니다.",
       "errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
-      "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
+      "errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시 로드됩니다.",
       "leavePageText": "이 문서에 저장되지 않은 변경 사항이 있습니다. 자동 저장을 활성화하려면 \"이 페이지에서 나가기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 편집 내용이 삭제됩니다.",
       "notcriticalErrorTitle": "경고",
       "SDK": {
         "Diagram Title": "차트 제목",
         "Print_Area": "인쇄 영역",
+        "Row": "행",
+        "Row Labels": "행 레이블",
         "Title": "제목",
         "%1 of %2": "%1 of %2",
         "%1 or %2": "%1 or %2",
@@ -191,8 +193,6 @@
         "Red": "Red",
         "Red Orange": "Red Orange",
         "Red Violet": "Red Violet",
-        "Row": "Row",
-        "Row Labels": "Row Labels",
         "Seconds": "Seconds",
         "Series": "Series",
         "Slipstream": "Slipstream",
@@ -367,6 +367,7 @@
     "uploadImageExtMessage": "알수 없는 이미지 형식입니다.",
     "uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
     "uploadImageSizeMessage": "이미지 크기 제한을 초과했습니다.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
@@ -448,14 +449,18 @@
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
     "textCloseHistory": "닫기 역사",
+    "btnRestartNow": "Restart now",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "오류! 차트 당 최대 데이터 시리즈 수는 255입니다.",
       "errorStockChart": "줄의 순서가 잘못되었습니다. 주식형 차트를 생성하려면 <br> 시가, 최고가, 최저가, 종가의 순서로 데이터를 테이블에 배치하십시오.",
       "notcriticalErrorTitle": "경고",
+      "sCatDatabase": "데이터베이스",
       "sCatDateAndTime": "날짜 및 시간",
       "sCatEngineering": "엔지니어링",
       "sCatFinancial": "재무",
@@ -513,7 +518,8 @@
       "txtSorting": "정렬",
       "txtSortSelected": "정렬 선택",
       "txtYes": "확인",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",
@@ -553,7 +559,7 @@
       "textChangeShape": "도형 변경",
       "textChart": "차트",
       "textChartTitle": "차트 제목",
-      "textClearFilter": "필터 지우기",
+      "textClearFilter": "필터선택 초기화",
       "textColor": "색상",
       "textCreateCustomFormat": "사용자 정의 형식 생성",
       "textCreateFormat": "형식 생성",
@@ -566,7 +572,7 @@
       "textDataLabels": "데이터 레이블",
       "textDate": "날짜",
       "textDefault": "선택한 범위",
-      "textDeleteFilter": "필터 지우기",
+      "textDeleteFilter": "필터기능 해제",
       "textDeleteImage": "이미지 삭제",
       "textDeleteLink": "링크 삭제",
       "textDesign": "디자인",
@@ -862,5 +868,11 @@
       "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

@@ -227,6 +227,37 @@ define([
             this.btnResetCrop.on('click', _.bind(this.onResetCrop, this));
             this.lockedControls.push(this.btnResetCrop);
 
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#image-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ this.fireEvent('editcomplete', this);});
+            this.lockedControls.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#image-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.lockedControls.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#image-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#image-lbl-transparency-end');
+
             this.btnRotate270 = new Common.UI.Button({
                 parentEl: $('#image-button-270', this.$el),
                 cls: 'btn-toolbar',
@@ -369,6 +400,8 @@ define([
                 this.btnRotate90.setDisabled(value || this._locked);
                 this.btnFlipV.setDisabled(value || this._locked);
                 this.btnFlipH.setDisabled(value || this._locked);
+                this.numTransparency.setDisabled(value || this._locked);
+                this.sldrTransparency.setDisabled(value || this._locked);
 
                 if (this._state.isOleObject) {
                     var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
@@ -376,12 +409,25 @@ define([
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
                 }
+
+                var transparency = props.asc_getTransparent();
+                if (Math.abs(this._state.Transparency - transparency) > 0.001 || 
+                    Math.abs(this.numTransparency.getNumberValue() - transparency) > 0.001 || 
+                    (this._state.Transparency === null || transparency === null) && 
+                    (this._state.Transparency !== transparency || this.numTransparency.getNumberValue() !== transparency)) {
+        
+                    if (transparency !== undefined) {
+                        this.sldrTransparency.setValue((transparency === null) ? 100 : transparency / 255 * 100, true);
+                        this.numTransparency.setValue(this.sldrTransparency.getValue(), true);
+                    }
+                    this._state.Transparency = transparency;
+                }
             }
         },
 
         setOriginalSize:  function() {
             if (this.api) {
-                var imgsize = this.api.get_OriginalSizeImage();
+                var imgsize = this.api.asc_getCropOriginalImageSize();
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
 
@@ -391,7 +437,6 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
                 properties.put_Height(h);
-                properties.put_ResetCrop(true);
                 properties.put_Rot(0);
                 this.api.ImgApply(properties);
                 this.fireEvent('editcomplete', this);
@@ -451,7 +496,7 @@ define([
                         if (Asc.c_oAscTypeSelectElement.Image == elType) {
                             var imgsizeOriginal;
                             if (!me.btnOriginalSize.isDisabled()) {
-                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                imgsizeOriginal = me.api.asc_getCropOriginalImageSize();
                                 if (imgsizeOriginal)
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
@@ -533,6 +578,46 @@ define([
                 properties.put_ResetCrop(true);
                 this.api.ImgApply(properties);
                 this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                var num = field.getNumberValue();
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putTransparent(num * 2.55); 
+                this.api.ImgApply(properties)
+            }
+        },
+
+        onTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChanged = newValue;
+            this.numTransparency.setValue(newValue, true);
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this._transparencyApplyFunc, this), 100);
+            }
+        },
+
+        onTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updateslider);
+            this._sliderChanged = newValue;
+            if (!this._sendUndoPoint) { 
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+         _transparencyApplyFunc: function() {
+            if (this._sliderChanged!==undefined) {
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putTransparent(this._sliderChanged * 2.55);
+                this.api.ImgApply(properties)
+                this._sliderChanged = undefined;
             }
         },
 

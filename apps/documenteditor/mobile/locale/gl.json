@@ -65,6 +65,7 @@
     "textWithBlueLinks": "Con ligazóns azuis",
     "textWithPageNumbers": "Con números de páxina",
     "txtNotUrl": "Este campo debe ser unha URL no formato \"http://www.example.com\"",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL"
   },
   "Common": {
@@ -459,7 +460,9 @@
     "uploadImageExtMessage": "Formato de imaxe descoñecido.",
     "uploadImageFileCountMessage": "Non hai imaxes subidas.",
     "uploadImageSizeMessage": "A imaxe é demasiado grande. O tamaño máximo é de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorInconsistentExtDocx": "An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.",
@@ -467,6 +470,7 @@
     "errorInconsistentExtPptx": "An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.",
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorTextFormWrongFormat": "The value entered does not match the format of the field.",
     "textOk": "OK",
@@ -782,6 +786,7 @@
     "textClose": "Close",
     "textDark": "Dark",
     "textDialogUnprotect": "Enter a password to unprotect document",
+    "textDrawing": "Drawing",
     "textEncryptFile": "Encrypt File",
     "textExport": "Export",
     "textExportAs": "Export As",
@@ -808,10 +813,18 @@
     "textCloseHistory": "Pechar historial",
     "textOk": "Aceptar",
     "warnEmptyRequiredField": "Encha todos os campos obrigatorios para poder enviar o formulario.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

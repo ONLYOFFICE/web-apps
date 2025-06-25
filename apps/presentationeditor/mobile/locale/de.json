@@ -183,9 +183,16 @@
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Umwandlung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste der Dokumente zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",
@@ -270,13 +277,16 @@
     "waitText": "Bitte warten..."
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
     "textCloseHistory": "Historie schließen",
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
-    "textRenameFile": "Datei umbenennen"
+    "textOk": "OK",
+    "textRenameFile": "Datei umbenennen",
+    "textSwitchToDesktop": "In den Desktopmodus wechseln"
   },
   "View": {
     "Add": {
@@ -290,6 +300,7 @@
       "textDefault": "Ausgewählter Text",
       "textDisplay": "Anzeigen",
       "textDone": "Fertig",
+      "textDrawing": "Zeichnen",
       "textEmptyImgUrl": "Sie müssen die URL des Bildes angeben.",
       "textExternalLink": "Externer Link",
       "textFirstSlide": "Erste Folie",

@@ -3,7 +3,7 @@
 	<head>
 		<title>Enregistrer/imprimer/télécharger votre classeur</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Enregistrer, imprimer et télécharger votre classeuryour aux formats différents" />
+		<meta name="description" content="Enregistrer/imprimer/télécharger votre classeur sous différents formats" />
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
@@ -15,7 +15,7 @@
                 <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
             </div>
             <h1>Enregistrer/imprimer/télécharger votre classeur</h1>
-            <h3>Enregistrement</h3>
+            <h3>Enregistrer</h3>
             <p class="onlineDocumentFeatures">Par défaut, <a href="https://www.onlyoffice.com/fr/spreadsheet-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>l'éditeur de classeurs</b></a> en ligne enregistre automatiquement votre fichier toutes les 2 secondes afin de prévenir la perte des données en cas de fermeture inattendue de l'éditeur. Si vous co-éditez le fichier en mode<b> Rapide</b>, le minuteur récupère les mises à jour 25 fois par seconde et enregistre les modifications si elles ont été effectuées. Lorsque le fichier est co-édité en mode <b>Strict</b>, les modifications sont automatiquement sauvegardées à des intervalles de 10 minutes. Si nécessaire, vous pouvez facilement changer la périodicité de <b>l'enregistrement automatique</b> ou même désactiver cette fonction sur la page <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Paramètres avancés</a> .</p>
             <p>Pour enregistrer manuellement votre feuille de calcul actuelle dans le format et l'emplacement actuels,</p>
             <ul>
@@ -33,7 +33,7 @@
                 </ol>
             </div>
             <div class="onlineDocumentFeatures">
-                <h3>Téléchargement en cours</h3>
+                <h3>Télécharger</h3>
                 <p>Dans la version <em>en ligne</em>, vous pouvez télécharger la feuille de calcul résultante sur le disque dur de votre ordinateur,</p>
                 <ol>
                     <li>cliquez sur l'onglet <b>Fichier</b> de la barre d'outils supérieure,</li>
@@ -52,7 +52,7 @@
                     <li>sélectionnez un emplacement pour le fichier sur le portail et appuyez sur <b>Enregistrer</b>.</li>
                 </ol>
             </div>
-            <h3 id="print">Impression</h3>
+            <h3 id="print">Imprimer</h3>
             <p>Pour imprimer la feuille de calcul active,</p>
             <ul>
                 <li>cliquez sur l'icône <b>Imprimer</b> <div class = "icon icon-print"></div> dans la partie gauche de l'en-tête de l'éditeur, ou</li>
@@ -64,8 +64,8 @@
             </div>
             <p>L'aperçu du classeur et les options d'impression s'afficheront.</p>
             <p class="note">Certains de ces paramètres (<b>Marges</b>, <b>Orientation</b>, <b>Taille</b>, <b>Zone d'impression</b> aussi que <a href="ScaleToFit.htm" onclick="onhyperlinkclick(this)">Mise à l'échelle</a>) sont également disponibles dans l'onglet <b>Mise en page</b> de la barre d'outils supérieure.</p>
-            <p><img alt="La fenêtre Paramètres d'impression" src="../images/printsettingswindow.png" /></p>
-            <p>Ici, vous pouvez régler les paramètres suivants:<span class="desktopDocumentFeatures">. Dans la version de bureau, vous pouvez également configurer<b> Impression sur les deux côtés</b> pour imprimer sur <b>un seul</b> ou sur <b>les deux</b> côtés en retournant la feuille sur le côté long ou sur le petit côté aussi que <b>Imprimer au format PDF</b> ou utiliser le bouton <b>Impression rapide</b> de la barre d'outils supérieure pour imprimer le fichier sur la dernière imprimante sélectionnée ou sur l'imprimante sélectionnée par défaut.</span></p>
+            <p><img class="floatleft" alt="La fenêtre Paramètres d'impression" src="../images/printsettingswindow.png" /></p>
+            <p>Ici, vous pouvez régler les paramètres suivants<span class="desktopDocumentFeatures">. Dans la version de bureau, vous pouvez également configurer<b> Impression sur les deux côtés</b> pour imprimer sur <b>un seul</b> ou sur <b>les deux</b> côtés en retournant la feuille sur le côté long ou sur le petit côté aussi que <b>Imprimer au format PDF</b> ou utiliser le bouton <b>Impression rapide</b> de la barre d'outils supérieure pour imprimer le fichier sur la dernière imprimante sélectionnée ou sur l'imprimante sélectionnée par défaut.</span></p>
             <ul id="printtitles">
                 <li>
                     <b>Zone d'impression</b> - spécifiez les éléments à imprimer: <b>Feuilles actives</b>, <b>Toutes les feuilles</b> ou <b>Sélection</b>,
@@ -91,7 +91,10 @@
                     </ul>
                 </li>
                 <li><b>Orientation de page</b> - choisissez l'option <b>Portrait</b> si vous souhaitez imprimer le contenu en orientation verticale, ou utilisez l'option <b>Paysage</b> pour l'imprimer en orientation horizontale.</li>
-                <li>Marges - sélectionnez l'une des options disponibles: <em>Normal</em>, <em>Étroit</em>, <em>Large</em> ou sélectionnez l'option Marges personnalisées et indiquez la distance entre les données sur la feuille de calcul et les bords de la page imprimée en modifiant les paramètres prédéfinis dans les champs<b> Haut</b>, <b>Bas</b>, <b>Gauche</b> et <b>Droite</b>.</li>
+                <li>Marges - sélectionnez l'une des options disponibles: <em>Normal</em>, <em>Étroit</em>, <em>Large</em> ou sélectionnez l'option Marges personnalisées et indiquez la distance entre les données sur la feuille de calcul et les bords de la page imprimée en modifiant les paramètres prédéfinis dans les champs<b> Haut</b>, <b>Bas</b>, <b>Gauche</b> et <b>Droite</b>.
+                <p>Pour centrer les données sur une page imprimée, sélectionnez l'option <b>Marges personnalisées</b>, activez l'option <b>Verticalement/Horizontalement</b> dans la section <b>Centrer sur page</b> et cliquez sur <b>OK</b>.</p>
+                    <p><img alt="Fenêtre Marges" src="../images/margins.png" /></p>
+                </li>
                 <li>
                     <b>Mise à l'échelle</b> - si vous ne souhaitez pas que certaines colonnes ou lignes soient imprimées sur une deuxième page, vous pouvez réduire le contenu de la feuille pour l'adapter à une page en sélectionnant l'option correspondante: <b>Ajuster la feuille à une page</b>, <b>Ajuster toutes les colonnes à une page</b> ou <b>Ajuster toutes les lignes à une page</b>. Laissez l'option <b>Taille réelle</b> pour imprimer la feuille sans l'ajuster.
                     <p>Lorsque vous choisissez <b>Options personnalisées</b> du menu, la fenêtre<b> Paramètres de mise à l'échelle</b> s'affiche:</p>
@@ -107,6 +110,7 @@
                     <a href="../UsageInstructions/InsertHeadersFooters.htm" onclick="onhyperlinkclick(this)"><b>Paramètres de l'en-tête/du pied de page</b></a> permettent d'ajouter des informations supplémentaires sur une feuille de calcul imprimée, telles que la date et l'heure, le numéro de page, le nom de la feuille, etc. Les en-têtes et les pieds de pages sont affichés dans la version imprimée de la feuille de calcul.
                 </li>
                 <li>Numéro de la première page - indiquez le numéro de la première page à imprimer.</li>
+                <li>Activez l'option <b>Ajuster à la page</b> dans le coin inférieur droit de l'écran pour afficher la taille actuelle des feuilles de calcul une fois désactivé, ou dézoomer une fois activé.</li>
             </ul>
             <p>Une fois les paramètres d'impression configurés, cliquez sur Imprimer pour enregistrer les modifications et imprimer la feuille de calcul pu le bouton Enregistrer pour enregistrer les modifications apportées aux paramètres d'impression.</p>
             <p class="note">Toutes les modifications apportées seront perdues si vous n'imprimer pas la feuille de calcule ou n'enregistrer pas les modifications.</p>
@@ -130,7 +134,7 @@
                 <li>passez à l'onglet <b>Mise en page</b> de la barre d'outils supérieure,</li>
                 <li>cliquez sur la flèche à côté du <div class = "icon icon-printareabutton"></div> bouton <b>Zone d'impression</b> et choisissez l'option <b>Ajouter à la zone d'impression</b>.</li>
             </ol>
-            <p><!--La plage de cellules sélectionnée adjacente à la zone d'impression existante sera ajoutée à cette zone d'impression. La plage de cellules sélectionnée non adjacente à la zone d'impression existante, --> Une nouvelle zone d'impression sera ajoutée. Chaque zone d'impression sera imprimée sur une page séparée.</p>
+            <p><!--If the selected cell range is adjacent to the existing print area, it will be added to this print area. If the selected cell range is not adjacent to the existing print area,--> Une nouvelle zone d'impression sera ajoutée. Chaque zone d'impression sera imprimée sur une page séparée.</p>
             <p>Pour supprimer une zone d'impression :</p>
             <ol>
                 <li>ouvrir la feuille de calcul voulue où la zone d'impression est ajoutée,</li>

@@ -1,33 +1,19 @@
-.toolbar {
-    &.masked {
-        button.disabled .icon:not(.no-mask) {
-        }
-        .group:not(.no-mask) {
-            opacity: 0.4;
-        }
-    }
-
-    .font-attr {
-        > .btn-slot:not(:last-child):not(.split) {
-            .margin-right-4();
-        }
-
-        > .btn-slot:not(:last-child).split {
-            .margin-right-2();
-        }
-    }
-}
-
 .menu-layouts {
     .dataview.inner {
         & > div:not(.grouped-data):not([class^=ps-scrollbar]) {
             .box-shadow(none);
 
-            &:hover,
+            &:hover {
+                .layout > div:first-child {
+                    .box-shadow(0 0 0 2px @border-preview-hover-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
+                }
+            }
+
             &.selected {
                 .layout > div:first-child {
-                    .box-shadow(0 0 0 2px @highlight-button-pressed-ie);
-                    .box-shadow(0 0 0 2px @highlight-button-pressed);
+                    .box-shadow(0 0 0 2px @border-preview-select-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
                 }
             }
         }
@@ -43,6 +29,8 @@
 
             & > div:first-child {
                 margin-bottom: 3px;
+                border-radius: @border-radius-dataview-item-ie;
+                border-radius: @border-radius-dataview-item;
             }
         }
     }
@@ -53,12 +41,7 @@
     width: 158px;
     .padding-left(3px);
     .item {
-        .box-shadow(none);
         .margin-x(6px, 4px);
-        &:hover, &.selected{
-            .box-shadow( 0 0 0 2px @border-preview-select-ie);
-            .box-shadow( 0 0 0 @scaled-two-px-value @border-preview-select);
-        }
     }
     .item-symbol {
         display: block;
@@ -102,50 +85,11 @@
     }
 }
 
-#special-paste-container,
-#equation-container {
-    position: absolute;
-    z-index: @zindex-dropdown - 20;
-    background-color: @background-toolbar-ie;
-    background-color: @background-toolbar;
-    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-    border: @scaled-one-px-value solid @border-regular-control;
-
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
-    .ie &,
-    .winxp & {
-        overflow: visible;
-    }
-}
-
-#equation-container {
-    .separator {
-        height: 30px;
-    }
-    &.has-open-menu {
-        z-index: @zindex-navbar + 3;
-    }
-    .btn-toolbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 0px;
-    }
-}
-
 .item-theme {
     width: 88px;
     height: 40px;
     .background-ximage-all-scale('../../../../../../sdkjs/common/Images/themes_thumbnail.png', 88px);
     background-size: cover
-}
-
-#slot-field-fontname {
-    width: 111px;
 }
 
 #slot-field-fontsize {

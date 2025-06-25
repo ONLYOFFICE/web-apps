@@ -1243,10 +1243,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
-                this.cmbChartStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbChartStyle.on('click', _.bind(this.onSelectStyle, this));
                 this.cmbChartStyle.openButton.menu.on('show:after', function () {
                     me.cmbChartStyle.menuPicker.scroller.update({alwaysVisibleY: true});
@@ -1288,10 +1284,6 @@ define([
                     fillOnChangeVisibility: true
                 });
                 this.cmbSparkStyle.render($('#spark-combo-style'));
-                this.cmbSparkStyle.openButton.menu.cmpEl.css({
-                    'min-width': 178,
-                    'max-width': 178
-                });
                 this.cmbSparkStyle.on('click', _.bind(this.onSelectSparkStyle, this));
                 this.cmbSparkStyle.openButton.menu.on('show:after', function () {
                     me.cmbSparkStyle.menuPicker.scroller.update({alwaysVisibleY: true});

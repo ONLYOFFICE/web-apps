@@ -204,7 +204,7 @@ define([
                 commentId = record.get('uid');
                 replyId =  btn.attr('data-value');
 
-                if (btn.hasClass('btn-edit')) {
+                if (btn.hasClass('btn-edit-common')) {
                     if (!_.isUndefined(replyId)) {
                         me.fireEvent('comment:closeEditing', [commentId]);
                         me.fireEvent('comment:editReply', [commentId, replyId]);
@@ -300,6 +300,7 @@ define([
                         }
                     }
                     me.fireEvent('comment:show', [commentId, false, isTextSelected]);
+                    Common.NotificationCenter.trigger('edit:complete', me);
                 }
             }
         },
@@ -350,7 +351,6 @@ define([
                     iconCls: 'toolbar__icon btn-more',
                     hint: this.textSort,
                     menu: new Common.UI.Menu({
-                        style: 'min-width: auto;',
                         items: [
                             {
                                 caption: this.mniDateDesc,
@@ -398,8 +398,41 @@ define([
                             },
                             {
                                 caption: '--',
-                                visible: false
+                                visible: true
                             },
+                            this.menuFilterComments = new Common.UI.MenuItem({
+                                caption: this.mniFilterComments,
+                                checkable: false,
+                                visible: true,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    style: 'min-width: auto;',
+                                    items: [
+                                        {
+                                            caption: this.textOpen,
+                                            checkable: true,
+                                            visible: true,
+                                            toggleGroup: 'filterstatus',
+                                            value: 'open'
+                                        },
+                                        {
+                                            caption: this.textResolved,
+                                            checkable: true,
+                                            visible: true,
+                                            toggleGroup: 'filterstatus',
+                                            value: 'resolved'
+                                        },
+                                        {
+                                            caption: this.textAll,
+                                            checkable: true,
+                                            visible: true,
+                                            toggleGroup: 'filterstatus',
+                                            value: 'all',
+                                            checked: true
+                                        }
+                                    ]
+                                })
+                            }),
                             this.menuFilterGroups = new Common.UI.MenuItem({
                                 caption: this.mniFilterGroups,
                                 checkable: false,
@@ -441,6 +474,7 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
+                this.menuFilterComments.menu.on('item:toggle', _.bind(this.onFilterCommentsClick, this));
                 this.mnuAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAddNew.on('click', _.bind(this.onClickAddNewComment, this));
 
@@ -906,6 +940,10 @@ define([
             state && this.fireEvent('comment:filtergroups', [item.value]);
         },
 
+        onFilterCommentsClick: function(menu, item, state) {
+            state && this.fireEvent('comment:filtercomments', [item.value]);
+        },
+
         onClickClosePanel: function() {
             Common.NotificationCenter.trigger('leftmenu:change', 'hide');
         },
@@ -920,6 +958,7 @@ define([
         textClose               : 'Close',
         textResolved            : 'Resolved',
         textResolve             : 'Resolve',
+        textOpen                : 'Open',
         textEnterCommentHint    : 'Enter your comment here',
         textEdit                : 'Edit',
         textAdd                 : "Add",
@@ -936,6 +975,7 @@ define([
         textClosePanel: 'Close comments',
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
+        mniFilterComments: 'Show comments',
         textAll: 'All',
         txtEmpty: 'There are no comments in the document.',
         textSortFilter: 'Sort and filter comments',

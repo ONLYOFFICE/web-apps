@@ -121,7 +121,8 @@ define([
                 };
 
                 var onMouseLeave = function(event){
-                    me.setTableSize(0, 0, event);
+                    if ( !options.customClear )
+                        me.setTableSize(0, 0, event);
                 };
 
                 var onHighLightedMouseClick = function(e){

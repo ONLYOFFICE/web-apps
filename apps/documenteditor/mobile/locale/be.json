@@ -63,6 +63,7 @@
     "textTableContents": "Змест",
     "textTableSize": "Памеры табліцы",
     "txtNotUrl": "Гэтае поле мусіць быць URL-адрасам фармату \"http://www.example.com\"",
+    "textDrawing": "Drawing",
     "textPasteImageUrl": "Paste an image URL",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers"
@@ -447,10 +448,12 @@
     "uploadImageFileCountMessage": "Выяў не запампавана.",
     "uploadImageSizeMessage": "Занадта вялікая выява. Максімальны памер - 25 МБ.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please, contact your admin.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact the admin.<br>When you click OK, you will be prompted to download the document.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Download document to save the file backup copy locally.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorFilePassProtect": "The file is password protected and could not be opened.",
     "errorFileSizeExceed": "The file size exceeds your server limit.<br>Please, contact your admin.",
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
@@ -460,6 +463,7 @@
     "errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
     "errorMailMergeLoadFile": "Loading failed",
     "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSessionAbsolute": "The document editing session has expired. Please, reload the page.",
     "errorSessionIdle": "The document has not been edited for quite a long time. Please, reload the page.",
@@ -778,6 +782,7 @@
     "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
     "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?",
     "textDownloadTxt": "If you continue saving in this format all features except the text will be lost. Are you sure you want to continue?",
+    "textDrawing": "Drawing",
     "textEmptyScreens": "There are no headings in the document. Apply a headings style to the text so that it appears in the table of contents.",
     "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
     "textEncryptFile": "Encrypt File",
@@ -807,11 +812,19 @@
     "textCloseHistory": "Закрыць гісторыю",
     "textOk": "Добра",
     "warnEmptyRequiredField": "Запоўніце ўсе абавязковыя палі, патрэбныя для адпраўлення формы. ",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "textEnterNewFileName": "Enter a new file name",
     "textRenameFile": "Rename File",
     "textSwitchedMobileView": "Switched to Mobile view",
-    "textSwitchedStandardView": "Switched to Standard view"
+    "textSwitchedStandardView": "Switched to Standard view",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

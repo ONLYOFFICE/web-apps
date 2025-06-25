@@ -170,7 +170,7 @@
         "Months": "月",
         "Multi-Select (Alt+S)": "多选 (Alt+S)",
         "Neutral": "中性",
-        "Normal": "正常",
+        "Normal": "正文",
         "Note": "备注",
         "Office": "Office",
         "Office 2007 - 2010": "Office 2007 - 2010",
@@ -248,9 +248,16 @@
       "warnProcessRightsChange": "你没有编辑文件的权限。"
     }
   },
+  "Draw": {
+    "textColor": "颜色",
+    "textCustomColor": "自定义颜色",
+    "textLineSize": "线条粗细",
+    "textOpacity": "透明度"
+  },
   "Error": {
     "convertationTimeoutText": "转换超时",
     "criticalErrorExtText": "按“确定”返回文档列表。",
+    "criticalErrorExtTextClose": "点击“确定”关闭编辑器。",
     "criticalErrorTitle": "错误",
     "downloadErrorText": "下载失败",
     "errNoDuplicates": "未找到重复的值。",
@@ -291,6 +298,7 @@
     "errorFileVKey": "外部错误<br>安全密钥不正确。请联系支持人员。",
     "errorFillRange": "无法填充所选范围的单元格。<br>所有合并的单元格的大小必须相同。",
     "errorForceSave": "保存文件时出错。请使用“下载为”选项将文件保存到计算机硬盘驱动器，或稍后再试。",
+    "errorFormulaInPivotFieldName": "无法在数据透视表报告中输入项目或字段名称的公式。",
     "errorFormulaName": "公式中有错误<br>公式名称不正确。",
     "errorFormulaParsing": "公式分析时出现内部错误。",
     "errorFrmlMaxLength": "无法添加此公式，因为它的长度超过了允许的字符数<br>请编辑它，然后重试。",
@@ -321,9 +329,11 @@
     "errorNoDataToParse": "没有选择要分析的数据。",
     "errorOpenWarning": "文件中的一个公式的长度超过了<br>允许的字符数，它已被删除。",
     "errorOperandExpected": "输入的函数语法不正确。请检查您是否遗漏了其中一个括号“（”或“）”。",
+    "errorPasteInPivot": "我们无法对选中的单元格进行此更改，因为这会影响数据透视表。<br>使用字段列表来更改报告。",
     "errorPasteMaxRange": "复制粘贴区域不匹配。请选择一个相同大小的区域，或单击行中的第一个单元格粘贴复制的单元格。",
     "errorPasteMultiSelect": "无法对多个范围的选择执行此操作<br>选择一个范围，然后重试。",
     "errorPasteSlicerError": "无法将表格切片器从一个工作簿复制到另一个工作簿。",
+    "errorPivotFieldNameExists": "数据透视表字段名称已存在。",
     "errorPivotGroup": "无法对所选内容进行分组。",
     "errorPivotOverlap": "透视表报表不能与表重叠。",
     "errorPivotWithoutUnderlying": "保存数据透视表报表时没有底层数据<br>使用“刷新”按钮更新报告。",
@@ -368,10 +378,7 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
   },
   "LongActions": {
     "advDRMPassword": "密码",
@@ -432,7 +439,7 @@
     "textMore": "更多",
     "textMove": "移动",
     "textMoveBefore": "在工作表之前移动",
-    "textMoveToEnd": "移动到末尾",
+    "textMoveToEnd": "（移至末尾）",
     "textOk": "确定",
     "textRename": "重命名",
     "textRenameSheet": "重命名工作表",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "工作表可能有数据。是否继续操作？"
   },
   "Toolbar": {
+    "btnRestartNow": "立即重启",
     "dlgLeaveMsgText": "你在该文档中有未保存的修改。点击“留在该页”来等待自动保存。点击“离开该页”将舍弃全部未保存的更改。",
     "dlgLeaveTitleText": "您退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
     "textCloseHistory": "关闭历史记录",
     "textEnterNewFileName": "输入新的文件名称",
-    "textRenameFile": "重命名文件"
+    "textOk": "确定",
+    "textRenameFile": "重命名文件",
+    "textSwitchToDesktop": "切换到桌面模式"
   },
   "View": {
     "Add": {
       "errorMaxRows": "错误！每个图表的最大数据系列数为255。",
       "errorStockChart": "行的顺序有误。要想建立股票图表，请将数据按照如下顺序安放到表格中：<br> 开盘价格，最高价格，最低价格，收盘价格。",
       "notcriticalErrorTitle": "警告",
+      "sCatDatabase": "数据库",
       "sCatDateAndTime": "日期和时间",
       "sCatEngineering": "工程",
       "sCatFinancial": "金融",
@@ -476,6 +487,7 @@
       "textDataTableHint": "返回表格或指定表格列的数据单元格",
       "textDisplay": "显示",
       "textDone": "完成",
+      "textDrawing": "绘图",
       "textEmptyImgUrl": "您需要指定图片的URL。",
       "textExternalLink": "外部链接",
       "textFilter": "筛选条件",
@@ -641,7 +653,7 @@
       "textMoveForward": "前移",
       "textNextToAxis": "在轴旁边",
       "textNoBorder": "没有边框",
-      "textNone": "没有",
+      "textNone": "无",
       "textNoOverlay": "没有叠加",
       "textNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "textNumber": "数",

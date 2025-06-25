@@ -233,6 +233,7 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer."
   },
   "LongActions": {
@@ -276,7 +277,10 @@
     "stayButtonText": "Bu Sayfada Kal",
     "textCloseHistory": "Geçmişi kapat",
     "textEnterNewFileName": "Bir dosya ismi girin",
-    "textRenameFile": "Dosyayı yeniden adlandır."
+    "textRenameFile": "Dosyayı yeniden adlandır.",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -319,7 +323,8 @@
       "textSlideNumber": "Slayt numarası",
       "textTable": "Tablo",
       "textTableSize": "Tablo Boyutu",
-      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır."
+      "txtNotUrl": "Bu alan, \"http://www.example.com\" biçiminde bir URL olmalıdır.",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",
@@ -554,5 +559,11 @@
       "textVersion": "Sürüm",
       "textVersionHistory": "Sürüm Geçmişi "
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

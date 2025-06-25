@@ -44,7 +44,7 @@ define([
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            contentHeight: 330,
+            contentHeight: 340,
             id: 'window-header-footer'
         },
 
@@ -118,6 +118,8 @@ define([
             });
             this.btnNotes.setDisabled(this.isLockedApplyToAll);
             this.btnNotes.on('click', _.bind(this.onHFTypeClick, this, 1));
+
+            Common.UI.GroupedButtons([this.btnSlide, this.btnNotes], {underline: true});
 
             this.chDateTime = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-datetime'),

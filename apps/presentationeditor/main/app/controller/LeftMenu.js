@@ -278,6 +278,7 @@ define([
                     break;
                 case 'external-help': close_menu = true; break;
                 case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+                case 'switch:mobile': Common.Gateway.switchEditorType('mobile', true); break;
                 default: close_menu = false;
             }
 

@@ -98,6 +98,11 @@ define([
                         'resize': _.bind(function(o, state){
                             externalEditor && externalEditor.serviceCommand('window:resize', state == 'start');
                         },this),
+                        'animate:before': _.bind(function(){
+                            if(!this.isAppFirstOpened) {
+                                externalEditor && externalEditor.serviceCommand('reshow');
+                            }
+                        },this),
                         'show': _.bind(function(cmp){
                             var h = this.mergeEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight();

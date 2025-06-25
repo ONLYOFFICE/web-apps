@@ -367,6 +367,7 @@
     "uploadImageExtMessage": "Format d'imatge desconegut.",
     "uploadImageFileCountMessage": "No s'ha carregat cap imatge.",
     "uploadImageSizeMessage": "La imatge és massa gran. La mida màxima és de 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
@@ -449,13 +450,17 @@
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
     "textEnterNewFileName": "Introduïu un nom de fitxer nou",
-    "textRenameFile": "Canvia el nom del fitxer"
+    "textRenameFile": "Canvia el nom del fitxer",
+    "btnRestartNow": "Restart now",
+    "textOk": "OK",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ERROR! El nombre màxim de sèries de dades per gràfic és de 255.",
       "errorStockChart": "L'ordre de la fila no és correcte. Per construir un gràfic de valors, posa les dades al full de càlcul en l'ordre següent: <br>preu d'obertura, preu màxim, preu mínim, preu de tancament.",
       "notcriticalErrorTitle": "Advertiment",
+      "sCatDatabase": "Base de dades",
       "sCatDateAndTime": "Data i hora",
       "sCatEngineering": "Enginyeria",
       "sCatFinancial": "Financer",
@@ -513,7 +518,8 @@
       "txtSorting": "Ordenació",
       "txtSortSelected": "Ordenar els objectes seleccionats",
       "txtYes": "Sí",
-      "sCustom": "Custom"
+      "sCustom": "Custom",
+      "textDrawing": "Drawing"
     },
     "Edit": {
       "notcriticalErrorTitle": "Advertiment",
@@ -862,5 +868,11 @@
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
       "textClose": "Close"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

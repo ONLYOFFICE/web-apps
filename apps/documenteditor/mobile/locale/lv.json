@@ -65,7 +65,8 @@
     "textTableSize": "Tabulas izmērs",
     "textWithBlueLinks": "Ar zilām saitēm",
     "textWithPageNumbers": "Ar lapu numuriem",
-    "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\""
+    "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
+    "textDrawing": "Drawing"
   },
   "Common": {
     "Collaboration": {
@@ -461,9 +462,12 @@
     "uploadImageExtMessage": "Nezināms attēla formāts.",
     "uploadImageFileCountMessage": "Nav augšupielādēto attēlu.",
     "uploadImageSizeMessage": "Attēls ir pārāk liels. Maksimālais izmērs ir 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorCompare": "The Compare documents feature is not available in the co-editing mode.",
+    "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected.",
     "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorPDFFormsLocked": "The action cannot be performed as it causes changes in locked forms.",
     "errorSaveWatermark": "This file contains a watermark image linked to another domain.<br>To make it visible in PDF, update the watermark image so it links from the same domain as your document, or upload it from your computer.",
     "errorSetPassword": "Password could not be set.",
     "errorSubmit": "Submit failed.",
@@ -787,6 +791,7 @@
     "textClose": "Close",
     "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
+    "textDrawing": "Drawing",
     "textEncryptFile": "Encrypt File",
     "textExport": "Export",
     "textExportAs": "Export As",
@@ -810,8 +815,16 @@
     "textSwitchedMobileView": "Pārslēgts uz mobilo skatu",
     "textSwitchedStandardView": "Pārslēgts uz standarta skatu",
     "warnEmptyRequiredField": "Aizpildiet visus obligātos laukus, lai nosūtītu veidlapu.",
+    "btnRestartNow": "Restart now",
     "btnSend": "Send",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

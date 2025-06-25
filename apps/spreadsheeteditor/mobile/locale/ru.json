@@ -81,7 +81,7 @@
     "menuUnfreezePanes": "Снять закрепление областей",
     "menuUnmerge": "Разбить",
     "menuUnwrap": "Убрать перенос",
-    "menuViewComment": "Просмотреть комментарий",
+    "menuViewComment": "Посмотреть комментарий",
     "menuWrap": "Перенос текста",
     "notcriticalErrorTitle": "Внимание",
     "textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
@@ -248,9 +248,16 @@
       "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
     }
   },
+  "Draw": {
+    "textColor": "Цвет",
+    "textCustomColor": "Пользовательский цвет",
+    "textLineSize": "Толщина линии",
+    "textOpacity": "Непрозрачность"
+  },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
     "criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
+    "criticalErrorExtTextClose": "Нажмите 'OK', чтобы закрыть редактор.",
     "criticalErrorTitle": "Ошибка",
     "downloadErrorText": "Загрузка не удалась.",
     "errNoDuplicates": "Повторяющиеся значения не найдены.",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "Лист может содержать данные. Продолжить операцию?"
   },
   "Toolbar": {
+    "btnRestartNow": "Перезапустить сейчас",
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
     "textCloseHistory": "Закрыть историю",
     "textEnterNewFileName": "Введите новое имя файла",
-    "textRenameFile": "Переименовать файл"
+    "textOk": "OK",
+    "textRenameFile": "Переименовать файл",
+    "textSwitchToDesktop": "Переключить в десктопный режим"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ОШИБКА! Максимальное число рядов данных для одной диаграммы - 255.",
       "errorStockChart": "Неверный порядок строк. Чтобы создать биржевую диаграмму, расположите данные на листе в следующем порядке:<br> цена открытия, максимальная цена, минимальная цена, цена закрытия.",
       "notcriticalErrorTitle": "Внимание",
+      "sCatDatabase": "Базы данных",
       "sCatDateAndTime": "Дата и время",
       "sCatEngineering": "Инженерные",
       "sCatFinancial": "Финансовые",
@@ -476,6 +487,7 @@
       "textDataTableHint": "Возвращает ячейки данных из таблицы или указанных столбцов таблицы",
       "textDisplay": "Отображать",
       "textDone": "Готово",
+      "textDrawing": "Рисование",
       "textEmptyImgUrl": "Необходимо указать URL рисунка.",
       "textExternalLink": "Внешняя ссылка",
       "textFilter": "Фильтр",

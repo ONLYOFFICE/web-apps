@@ -143,7 +143,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                            
                         };
 
-                        historyStore.addUser(user);
+                        version.user.id && historyStore.addUser(user);
                     }
 
                     arrVersions.push({
@@ -205,7 +205,7 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                         color: generateUserColor(color),
                                     };
 
-                                    historyStore.addUser(user);
+                                    change.user.id && historyStore.addUser(user);
                                 }
 
                                 arrVersions.push({

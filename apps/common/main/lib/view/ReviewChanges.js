@@ -629,8 +629,8 @@ define([
                                     {caption: me.mniFromFile, value: 'file'},
                                     {caption: me.mniFromUrl, value: 'url'},
                                     {caption: me.mniFromStorage, value: 'storage'}
-                                    // ,{caption: '--'},
-                                    // {caption: me.mniSettings, value: 'settings'}
+                                    ,{caption: '--'},
+                                    {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
                             me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
@@ -644,6 +644,8 @@ define([
                                     {caption: me.mniFromFile, value: 'file'},
                                     {caption: me.mniFromUrl, value: 'url'},
                                     {caption: me.mniFromStorage, value: 'storage'}
+                                    ,{caption: '--'},
+                                    {caption: me.mniSettings, value: 'settings'}
                                 ]
                             }));
                             me.btnCombine.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
@@ -779,7 +781,12 @@ define([
                     if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
+                    var visible = (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration');
+                    Common.NotificationCenter.trigger('tab:visible', 'review', visible);
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab') && visible) { // collaboration tab has hign priority in view mode
+                        Common.Utils.InternalSettings.set('toolbar-active-tab', null);
+                        Common.NotificationCenter.trigger('tab:set-active', 'review');
+                    }
                     setEvents.call(me);
                 });
             },

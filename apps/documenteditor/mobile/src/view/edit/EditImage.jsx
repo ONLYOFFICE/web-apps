@@ -4,6 +4,28 @@ import {List, ListItem, ListInput, ListButton, Icon, Page, Navbar, NavRight, Blo
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconTextAlignLeft from '@common-icons/icon-text-align-left.svg';
+import IconTextAlignCenter from '@common-icons/icon-text-align-center.svg';
+import IconTextAlignRight from '@common-icons/icon-text-align-right.svg';
+import IconWrapInline from '@ios-icons/icon-wrap-inline.svg';
+import IconWrapSquare from '@ios-icons/icon-wrap-square.svg';
+import IconWrapTight from '@ios-icons/icon-wrap-tight.svg';
+import IconWrapThrough from '@ios-icons/icon-wrap-through.svg';
+import IconWrapTopBottom from '@ios-icons/icon-wrap-top-bottom.svg';
+import IconWrapInfront from '@ios-icons/icon-wrap-infront.svg';
+import IconWrapBehind from '@ios-icons/icon-wrap-behind.svg';
+import IconImageLibraryIos from '@common-ios-icons/icon-image-library.svg?ios';
+import IconImageLibraryAndroid from '@common-android-icons/icon-image-library.svg';
+import IconLinkIos from '@common-ios-icons/icon-link.svg?ios';
+import IconLinkAndroid from '@common-android-icons/icon-link.svg';
+import IconMoveForeground from '@common-icons/icon-move-foreground.svg';
+import IconMoveBackground from '@common-icons/icon-move-background.svg';
+import IconMoveForward from '@common-icons/icon-move-forward.svg';
+import IconMoveBackward from '@common-icons/icon-move-backward.svg';
+
 
 const PageWrap = props => {
     const isAndroid = Device.android;
@@ -46,7 +68,10 @@ const PageWrap = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -86,19 +111,19 @@ const PageWrap = props => {
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Left)
                                    }}>
-                                    <Icon slot="media" icon="icon-text-align-left"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconTextAlignLeft.id} className={'icon icon-svg'} />
                                 </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Center ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Center)
                                    }}>
-                                    <Icon slot="media" icon="icon-text-align-center"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconTextAlignCenter.id} className={'icon icon-svg'} />
                                 </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Right)
                                    }}>
-                                    <Icon slot="media" icon="icon-text-align-right"></Icon>
+                                    <SvgIcon slot="media" symbolId={IconTextAlignRight.id} className={'icon icon-svg'} />
                                 </a>
                             </div>
                         </ListItem>
@@ -135,7 +160,10 @@ const PageWrappingStyle = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -146,49 +174,63 @@ const PageWrappingStyle = props => {
                     props.setWrappingStyle('inline');
                     props.onWrapType('inline');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapInline.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {
                     setWrapType('square');
                     props.setWrappingStyle('square');
                     props.onWrapType('square');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-square"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapSquare.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {
                     setWrapType('tight');
                     props.setWrappingStyle('tight');
                     props.onWrapType('tight');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-tight"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapTight.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {
                     setWrapType('through');
                     props.setWrappingStyle('through');
                     props.onWrapType('through');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-through"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapThrough.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {
                     setWrapType('top-bottom');
                     props.setWrappingStyle('top-bottom');
                     props.onWrapType('top-bottom');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapTopBottom.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {
                     setWrapType('infront');
                     props.setWrappingStyle('infront');
                     props.onWrapType('infront');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-infront"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapInfront.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {
                     setWrapType('behind');
                     props.setWrappingStyle('behind');
                     props.onWrapType('behind');
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-wrap-behind"></Icon>}
+                    {!isAndroid && 
+                        <SvgIcon slot="media" symbolId={IconWrapBehind.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             </List>
         </Page>
@@ -216,7 +258,10 @@ const PageLinkSettings = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -252,19 +297,28 @@ const PageReplace = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
-                    <Icon slot="media" icon="icon-image-library"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconImageLibraryIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconImageLibraryAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
                 <ListItem title={_t.textPictureFromURL} link='/edit-image-link/' routeProps={{
                     onReplaceByUrl: props.onReplaceByUrl
                 }}>
-                    <Icon slot="media" icon="icon-link"></Icon>
+                    {Device.ios ? 
+                        <SvgIcon slot="media" symbolId={IconLinkIos.id} className={'icon icon-svg'} /> :
+                        <SvgIcon slot="media" symbolId={IconLinkAndroid.id} className={'icon icon-svg'} />
+                    }
                 </ListItem>
             </List>
         </Page>
@@ -285,23 +339,26 @@ const PageReorder = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon slot="media" symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon slot="media" symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                     <SvgIcon slot="media" symbolId={IconMoveForeground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-background"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForward.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                     <SvgIcon slot="media" symbolId={IconMoveBackward.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>

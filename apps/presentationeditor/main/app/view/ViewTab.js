@@ -46,7 +46,7 @@ define([
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
-                '<div class="group small">' +
+                '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
@@ -601,14 +601,14 @@ define([
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
                         _fill_themes.call(me);
 
-                        me.btnInterfaceTheme.menu && me.btnInterfaceTheme.menu.on('show:after', function() {
-                            Common.UI.TooltipManager.closeTip('grayTheme');
-                        });
                         if (me.btnInterfaceTheme.menu.getItemsLength(true)) {
                             me.btnInterfaceTheme.menu.on('item:click', _.bind(function (menu, item) {
                                 var value = item.value;
                                 Common.UI.Themes.setTheme(value);
                             }, me));
+                            me.btnInterfaceTheme.menu.on('show:after', function () {
+                                Common.UI.TooltipManager.closeTip('modernTheme');
+                            });
                         }
                     }
 
@@ -621,6 +621,9 @@ define([
                     me.chRightMenu.setValue(!Common.localStorage.getBool("pe-hidden-rightmenu", value));
 
                     me.setEvents();
+
+                    if (Common.Utils.InternalSettings.get('toolbar-active-tab')==='view')
+                        Common.NotificationCenter.trigger('tab:set-active', 'view');
                 });
             },
 

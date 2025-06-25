@@ -72,11 +72,12 @@
     box-sizing: border-box;
     z-index: @zindex-modal-background;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
+    border-radius: @border-radius-window-ie;
+    border-radius: @border-radius-window;
     background-color: @background-normal-ie;
     background-color: @background-normal;
-    border: solid @scaled-one-px-value-ie @border-toolbar-ie;
-    border: solid @scaled-one-px-value @border-toolbar;
+    border: solid @scaled-one-px-value-ie @border-divider-ie;
+    border: solid @scaled-one-px-value @border-divider;
 
     left: 0;
     top: 0;
@@ -87,7 +88,8 @@
 
     > .header {
         height: 34px;
-        border-radius: 5px 5px 0 0;
+        border-radius: @border-radius-window-ie @border-radius-window-ie 0 0;
+        border-radius: @border-radius-window @border-radius-window 0 0;
         position: absolute;
         padding: 5px 6px 6px;
         left: 0;
@@ -105,8 +107,8 @@
 
         background: @background-toolbar-ie;
         background: @background-toolbar;
-        border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
-        border-bottom: solid @scaled-one-px-value @border-toolbar;
+        border-bottom: solid @scaled-one-px-value-ie @border-divider-ie;
+        border-bottom: solid @scaled-one-px-value @border-divider;
 
         cursor: move;
 
@@ -154,8 +156,16 @@
 
                 &.custom {
                     opacity: 0.6;
-                    margin-top: 2px;
-                    .margin-right-2();
+                    margin-top: calc(2px - (@x-small-btn-icon-size-ie - 20px) / 2);
+                    margin-top: calc(2px - (@x-small-btn-icon-size - 20px) / 2);
+                    margin-right: calc(2px + (@x-small-btn-icon-size-ie - 20px) / 2);
+                    margin-right: calc(2px + (@x-small-btn-icon-size - 20px) / 2);
+
+                    .rtl & {
+                        margin-right: 0;
+                        margin-left: calc(2px - (@x-small-btn-icon-size-ie - 20px) / 2);
+                        margin-left: calc(2px - (@x-small-btn-icon-size - 20px) / 2);
+                    }
 
                     &:hover {
                         opacity: 0.8;
@@ -182,7 +192,8 @@
     }
 
     > .body {
-        border-radius: 0 0 5px 5px;
+        border-radius: @border-radius-window-ie;
+        border-radius: @border-radius-window;
         position: absolute;
         top: 34px;
         width: 100%;
@@ -322,8 +333,8 @@
         z-index: 1;
         background: @background-toolbar-ie;
         background: @background-toolbar;
-        border: @scaled-one-px-value-ie none @border-toolbar-ie;
-        border: @scaled-one-px-value none @border-toolbar;
+        border: @scaled-one-px-value-ie none @border-divider-ie;
+        border: @scaled-one-px-value none @border-divider;
 
         &.left {
             left: 0;
@@ -365,9 +376,11 @@
         padding: 15px 0;
 
         .input-row {
+            height: @input-height-base-ie;
             height: @input-height-base;
 
             & > label:not(.checkbox-indeterminate)  {
+                line-height: @input-height-base-ie;
                 line-height: @input-height-base;
             }
 

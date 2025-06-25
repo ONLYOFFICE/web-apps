@@ -331,6 +331,7 @@ define([
                 break;
             case 'external-help': close_menu = true; break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+            case 'switch:mobile': Common.Gateway.switchEditorType('mobile', true); break;
             default: close_menu = false;
             }
 
@@ -548,6 +549,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
                 Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("sse-settings-def-sheet-rtl");
+                Common.Utils.InternalSettings.set("sse-settings-def-sheet-rtl", value);
+                this.api.asc_setDefaultDirection(value);
             }
 
             var reg = Common.localStorage.getItem("sse-settings-reg-settings"),

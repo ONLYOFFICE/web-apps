@@ -4,7 +4,37 @@ import {f7, Page, Navbar, List, ListItem, ListButton, BlockTitle,SkeletonBlock, 
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
-
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconExpandDownIos from '@common-ios-icons/icon-expand-down.svg?ios';
+import IconExpandDownAndroid from '@common-android-icons/icon-expand-down.svg';
+import IconTableBordersAll from '@common-icons/icon-table-borders-all.svg';
+import IconTableBordersNone from '@common-icons/icon-table-borders-none.svg';
+import IconTableBordersInner from '@common-icons/icon-table-borders-inner.svg';
+import IconTableBordersOuter from '@common-icons/icon-table-borders-outer.svg';
+import IconTableBordersTop from '@common-icons/icon-table-borders-top.svg';
+import IconTableBordersBottom from '@common-icons/icon-table-borders-bottom.svg';
+import IconTableBordersLeft from '@common-icons/icon-table-borders-left.svg';
+import IconTableBordersRight from '@common-icons/icon-table-borders-right.svg';
+import IconTableBordersCenter from '@common-icons/icon-table-borders-center.svg';
+import IconTableBordersMiddle from '@common-icons/icon-table-borders-middle.svg';
+import IconMoveForeground from '@common-icons/icon-move-foreground.svg';
+import IconMoveBackground from '@common-icons/icon-move-background.svg';
+import IconMoveForward from '@common-icons/icon-move-forward.svg';
+import IconMoveBackward from '@common-icons/icon-move-backward.svg';
+import IconAlignLeft from '@icons/icon-align-left.svg';
+import IconAlignCenter from '@icons/icon-align-center.svg';
+import IconAlignRight from '@icons/icon-align-right.svg';
+import IconAlignTop from '@icons/icon-align-top.svg';
+import IconAlignMiddle from '@icons/icon-align-middle.svg';
+import IconAlignBottom from '@icons/icon-align-bottom.svg';
+import IconAlignHorizontal from '@icons/icon-align-horizontal.svg';
+import IconAlignVertical from '@icons/icon-align-vertical.svg';
+import IconTableAddColumnLeft from '@common-icons/icon-table-add-column-left.svg';
+import IconTableAddColumnRight from '@common-icons/icon-table-add-column-right.svg';
+import IconTableAddRowAbove from '@common-icons/icon-table-add-row-above.svg';
+import IconTableAddRowBelow from '@common-icons/icon-table-add-row-below.svg';
+import IconTableRemoveColumn from '@common-icons/icon-table-remove-column.svg';
+import IconTableRemoveRow from '@common-icons/icon-table-remove-row.svg';
 // Style
 
 const StyleTemplates = inject("storeFocusObjects","storeTableSettings")(observer(({onStyleClick,storeTableSettings,storeFocusObjects,onGetTableStylesPreviews}) => {
@@ -73,7 +103,10 @@ const PageStyleOptions = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -126,7 +159,10 @@ const PageCustomFillColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -190,7 +226,10 @@ const PageCustomBorderColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -227,7 +266,10 @@ const PageBorderColor = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -294,38 +336,38 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
             <ListItem className='buttons table-presets'>
                 <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("lrtbcm")}}>
-                        <Icon slot="media" icon="icon-table-borders-all"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersAll.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("")}}>
-                        <Icon slot="media" icon="icon-table-borders-none"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersNone.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("cm")}}>
-                        <Icon slot="media" icon="icon-table-borders-inner"></Icon>
+                         <SvgIcon slot="media" symbolId={IconTableBordersInner.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("lrtb")}}>
-                        <Icon slot="media" icon="icon-table-borders-outer"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersOuter.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("l")}}>
-                        <Icon slot="media" icon="icon icon-table-borders-left"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersLeft.id} className={'icon icon-svg'} />
                     </a>
                 </div>
             </ListItem>
             <ListItem className='buttons table-presets'>
                 <div className="row">
                     <a className={'item-link button'} onClick={() => {onBorderType("c")}}>
-                        <Icon slot="media" icon="icon-table-borders-center"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersCenter.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("r")}}>
-                        <Icon slot="media" icon="icon-table-borders-right"></Icon>
+                         <SvgIcon slot="media" symbolId={IconTableBordersRight.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("t")}}>
-                        <Icon slot="media" icon="icon-table-borders-top"></Icon>
+                        <SvgIcon slot="media"symbolId={IconTableBordersTop.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("m")}}>
-                        <Icon slot="media" icon="icon-table-borders-middle"></Icon>
+                        <SvgIcon slot="media"symbolId={IconTableBordersMiddle.id} className={'icon icon-svg'} />
                     </a>
                     <a className={'item-link button'} onClick={() => {onBorderType("b")}}>
-                        <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
+                        <SvgIcon slot="media" symbolId={IconTableBordersBottom.id} className={'icon icon-svg'} />
                     </a>
                 </div>
             </ListItem>
@@ -352,7 +394,10 @@ const PageStyle = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
@@ -398,23 +443,26 @@ const PageReorder = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ? 
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForeground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-background"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackground.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveForward.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                    <SvgIcon slot="media" symbolId={IconMoveBackward.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -437,37 +485,40 @@ const PageAlign = props => {
                 {Device.phone &&
                     <NavRight>
                         <Link sheetClose='#edit-sheet'>
-                            <Icon icon='icon-expand-down'/>
+                            {Device.ios ?
+                                <SvgIcon symbolId={IconExpandDownIos.id} className={'icon icon-svg'} /> :
+                                <SvgIcon symbolId={IconExpandDownAndroid.id} className={'icon icon-svg white'} />
+                            }
                         </Link>
                     </NavRight>
                 }
             </Navbar>
             <List>
                 <ListItem title={_t.textAlignLeft} link='#' onClick={() => {props.onAlign('align-left')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-left"></Icon>
+                     <SvgIcon slot="media" symbolId={IconAlignLeft.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignCenter} link='#' onClick={() => {props.onAlign('align-center')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-center"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignCenter.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignRight} link='#' onClick={() => {props.onAlign('align-right')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-right"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignRight.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignTop} link='#' onClick={() => {props.onAlign('align-top')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-top"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignTop.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignMiddle} link='#' onClick={() => {props.onAlign('align-middle')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-middle"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignMiddle.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textAlignBottom} link='#' onClick={() => {props.onAlign('align-bottom')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-bottom"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignBottom.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textDistributeHorizontally} link='#' onClick={() => {props.onAlign('distrib-hor')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-horizontal"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignHorizontal.id} className={'icon icon-svg'} />
                 </ListItem>
                 <ListItem title={_t.textDistributeVertically} link='#' onClick={() => {props.onAlign('distrib-vert')}} className='no-indicator'>
-                    <Icon slot="media" icon="icon-align-vertical"></Icon>
+                    <SvgIcon slot="media" symbolId={IconAlignVertical.id} className={'icon icon-svg'} />
                 </ListItem>
             </List>
         </Page>
@@ -490,26 +541,26 @@ const EditTable = props => {
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onAddColumnLeft()}}>
-                            <Icon slot="media" icon="icon-table-add-column-left"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddColumnLeft.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddColumnRight()}}>
-                            <Icon slot="media" icon="icon-table-add-column-right"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddColumnRight.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddRowAbove()}}>
-                            <Icon slot="media" icon="icon-table-add-row-above"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddRowAbove.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onAddRowBelow()}}>
-                            <Icon slot="media" icon="icon-table-add-row-below"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableAddRowBelow.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>
                 <ListItem className='buttons'>
                     <div className="row">
                         <a className={'item-link button'} onClick={() => {props.onRemoveColumn()}}>
-                            <Icon slot="media" icon="icon-table-remove-column"></Icon>
+                            <SvgIcon slot="media"  symbolId={IconTableRemoveColumn.id} className={'icon icon-svg'} />
                         </a>
                         <a className={'item-link button'} onClick={() => {props.onRemoveRow()}}>
-                            <Icon slot="media" icon="icon icon-table-remove-row"></Icon>
+                            <SvgIcon slot="media" symbolId={IconTableRemoveRow.id} className={'icon icon-svg'} />
                         </a>
                     </div>
                 </ListItem>

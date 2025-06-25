@@ -128,7 +128,8 @@ class MainController extends Component {
             licenseType: false,
             isFromGatewayDownloadAs: false,
             isDocModified: false,
-            docProtection: false
+            docProtection: false,
+            requireUserAction: true
         };
 
         this.defaultTitleText = __APP_TITLE_TEXT__;
@@ -245,15 +246,12 @@ class MainController extends Component {
                     }
                 }
 
-                const fileType = data?.doc.fileType;
-                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
-                const isPDF = fileType === 'pdf';
 
-                if(isFormType) {
+                if(/^(pdf|docxf|oform|djvu|xps|oxps)$/.test(data.doc.fileType)) {
                     this.changeEditorBrandColorForPdf();
                 }
 
-                if(isPDF) {
+                if(data.doc.fileType === 'pdf') {
                     if(this.permissions.fillForms === undefined) {
                         this.permissions.fillForms = this.permissions.edit !== false;
                     }
@@ -359,6 +357,7 @@ class MainController extends Component {
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
                 const customization = appOptions.customization;
+                const _userOptions = this.props.storeAppOptions.user;
 
                 f7.emit('resize');
 
@@ -421,6 +420,7 @@ class MainController extends Component {
                 Common.Notifications.trigger('document:ready');
                 Common.Gateway.documentReady();
                 appOptions.changeDocReady(true);
+                this._state.requireUserAction = false;
 
                 if(isOForm) {
                     f7.dialog.create({
@@ -438,6 +438,21 @@ class MainController extends Component {
                             }
                         ]
                     }).open();
+                }
+
+                if (appOptions.isRestrictedEdit && appOptions.canFillForms && appOptions.isForm) { // check filling status
+                    let oform = this.api.asc_GetOForm();
+                    let role = new AscCommon.CRestrictionSettings();
+                    const _userOptions = this.props.storeAppOptions.user;
+                    if (oform && _userOptions && _userOptions.roles) {
+                        if (_userOptions.roles.length>0 && oform.asc_canFillRole(_userOptions.roles[0])) {
+                            role.put_OFormRole(_userOptions.roles[0]);
+                        } else {
+                            role.put_OFormNoRole(true);
+                            Common.Notifications.trigger('toolbar:deactivateeditcontrols');
+                        }
+                    }
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms, role);
                 }
             };
 
@@ -457,8 +472,11 @@ class MainController extends Component {
                     const config = {
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        'translate': _translate
+                        'translate': _translate,
+                        'isRtlInterface': Common.Locale.isCurrentLangRtl
                     };
+                    let hcolor = (/(?:&|^)headingsColor=([^&]+)&?/i).exec(window.location.search.substring(1));
+                    hcolor && (config['headings-color'] = '#' + hcolor[1]);
                     this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -857,6 +875,7 @@ class MainController extends Component {
                     this.onShowDateActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                case Asc.c_oAscContentControlSpecificType.Signature:
                     if (obj.pr && obj.pr.get_Lock) {
                         let lock = obj.pr.get_Lock();
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock == Asc.c_oAscSdtLockType.ContentLocked)
@@ -973,6 +992,10 @@ class MainController extends Component {
                 storeAppOptions.setEncryptionFile(true);
                 onAdvancedOptions(type, _t, this._isDocReady, this.props.storeAppOptions.canRequestClose, this.isDRM);
                 this.isDRM = true;
+            }
+            if (this._state.requireUserAction) {
+                Common.Gateway.userActionRequired();
+                this._state.requireUserAction = false;
             }
         });
 
@@ -1356,6 +1379,7 @@ class MainController extends Component {
 
         this.needToUpdateVersion = true;
         Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+        Common.Notifications.trigger('preloader:endAction', Asc.c_oAscAsyncActionType['BlockInteraction'], Asc.c_oAscAsyncAction['Open']);
 
         f7.dialog.alert(
             _t.errorUpdateVersion,
@@ -1365,8 +1389,9 @@ class MainController extends Component {
                 if (callback) {
                     callback.call(this);
                 }
-                Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
+                this.editorConfig && this.editorConfig.canUpdateVersion && Common.Notifications.trigger('preloader:beginAction', Asc.c_oAscAsyncActionType['BlockInteraction'], this.LoadingDocument);
             });
+        Common.Notifications.trigger('api:disconnect');
     }
 
     onDocumentName () {

@@ -77,7 +77,7 @@ define([
             template: _.template([
                 '<div id="<%= id %>" class="asc-loadmask-body <%= cls %>" role="presentation" tabindex="-1">',
                     '<i id="loadmask-spinner" class="asc-loadmask-image"></i>',
-                    '<div class="asc-loadmask-title"><%= title %></div>',
+                    '<div class="asc-loadmask-title"><%- title %></div>',
                 '</div>'
             ].join('')),
 
@@ -129,7 +129,7 @@ define([
                 var me = this;
                 if (me.title != me.options.title) {
                     me.options.title = me.title;
-                    $('.asc-loadmask-title', this.loaderEl).html(me.title);
+                    $('.asc-loadmask-title', this.loaderEl).html(Common.Utils.String.htmlEncode(me.title));
                 }
 
                 if (immediately) {
@@ -168,7 +168,7 @@ define([
 
                 if (this.ownerEl && this.ownerEl.hasloader && this.loaderEl){
                     var el = $('.asc-loadmask-title', this.loaderEl);
-                    el.html(title);
+                    el.html(Common.Utils.String.htmlEncode(title));
                     this.loaderEl.css('min-width', el.width() + 105);
                 }
             },

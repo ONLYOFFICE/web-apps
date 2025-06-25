@@ -132,7 +132,7 @@ define([
                 el          : $('#mmerge-field-num', me.$el),
                 allowBlank  : true,
                 validateOnChange: false,
-                style       : 'width: 80px; vertical-align: middle;',
+                style       : 'vertical-align: middle;',
                 maskExp     : /[0-9]/,
                 value       : 1,
                 validation  : function(value) {
@@ -192,7 +192,7 @@ define([
             this.btnFirst = new Common.UI.Button({
                 parentEl: $('#mmerge-button-first', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-firstitem' : 'btn-lastitem'),
+                iconCls: 'toolbar__icon btn-firstitem icon-rtl',
                 disabled: true,
                 value: 0,
                 hint: this.txtFirst,
@@ -206,7 +206,7 @@ define([
             this.btnPrev = new Common.UI.Button({
                 parentEl: $('#mmerge-button-prev', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-previtem' : 'btn-nextitem'),
+                iconCls: 'toolbar__icon btn-previtem icon-rtl',
                 disabled: true,
                 value: 1,
                 hint: this.txtPrev,
@@ -220,7 +220,7 @@ define([
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#mmerge-button-next', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-nextitem' : 'btn-previtem'),
+                iconCls: 'toolbar__icon btn-nextitem icon-rtl',
                 value: 2,
                 hint: this.txtNext,
                 lock: [_set.noRecipients, _set.lostConnect],
@@ -233,7 +233,7 @@ define([
             this.btnLast = new Common.UI.Button({
                 parentEl: $('#mmerge-button-last', me.$el),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-lastitem' : 'btn-firstitem'),
+                iconCls: 'toolbar__icon btn-lastitem icon-rtl',
                 value: 3,
                 hint: this.txtLast,
                 lock: [_set.noRecipients, _set.lostConnect],

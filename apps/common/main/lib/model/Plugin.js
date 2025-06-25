@@ -60,6 +60,7 @@ define([
                 isCustomWindow: false,
                 isModal: true,
                 isInsideMode: false,
+                isCanDocked: false,
                 initDataType: 0,
                 initData: "",
                 isUpdateOleOnResize: false,

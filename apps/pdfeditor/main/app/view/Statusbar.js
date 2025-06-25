@@ -245,7 +245,7 @@ define([
 
                 this.btnPagePrev = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-previtem',
+                    iconCls: 'toolbar__icon btn-previtem icon-rtl',
                     disabled: true,
                     hintAnchor  : 'top',
                     dataHint    : '0',
@@ -254,7 +254,7 @@ define([
 
                 this.btnPageNext = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-nextitem',
+                    iconCls: 'toolbar__icon btn-nextitem icon-rtl',
                     disabled: true,
                     hintAnchor  : 'top-left',
                     dataHint    : '0',

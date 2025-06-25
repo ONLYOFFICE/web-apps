@@ -1,6 +1,4 @@
 .statusbar {
-    display: table;
-    padding: 2px;
 
     .status-label {
         position: relative;
@@ -19,9 +17,7 @@
     }
 
     .status-group {
-        display: table-cell;
         white-space: nowrap;
-        vertical-align: top;
         &.dropup {
             position: static;
         }
@@ -33,7 +29,8 @@
         button.margin-top-small,
         .margin-top-small > button,
         .margin-top-small > .btn-group {
-            margin-top: 3px;
+            margin-top: calc(@statusbar-height-ie - @x-small-btn-size-ie);
+            margin-top: calc(@statusbar-height - @x-small-btn-size);
         }
 
         #btn-zoom-up {
@@ -45,7 +42,8 @@
         margin: 0 6px;
 
         &.short {
-            height: 25px;
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
         }
 
         &.space {
@@ -57,7 +55,6 @@
     .cnt-zoom {
         display: inline-block;
         vertical-align: middle;
-        margin-top: 4px;
         .dropdown-menu {
             min-width: 80px;
             .margin-left(-4px);
@@ -88,15 +85,5 @@
             width: 50px;
             display: inline-block;
         }
-    }
-    
-    .lang-menu {
-        li a {
-            .padding-x(28px, 20px);
-        }
-    }
-
-    #slot-status-btn-preview {
-        width: 32px;
     }
 }

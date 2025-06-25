@@ -195,7 +195,7 @@ define([
         },
 
         onTextToColumn: function() {
-            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
+            this.api.asc_TextImport(this._state.CSVOptions.asc_getCodePage(), _.bind(this.onTextToColumnCallback, this), false);
         },
 
         onTextToColumnCallback: function(data) {
@@ -557,7 +557,9 @@ define([
         textEmptyUrl: 'You need to specify URL.',
         txtImportWizard: 'Text Import Wizard',
         txtUrlTitle: 'Paste a data URL',
-        strSheet: 'Sheet'
+        txtErrorExternalLink: 'Error: updating is failed',
+        strSheet: 'Sheet',
+        textAddExternalData: 'The link to an external source has been added. You can update such links in the Data tab.'
 
     }, SSE.Controllers.DataTab || {}));
 });

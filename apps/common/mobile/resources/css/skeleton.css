@@ -16,6 +16,7 @@ body.theme-type-dark {
     --background-navbar-cell: #232323;
     --background-navbar-slide: #232323;
     --background-navbar-visio: #232323;
+    --background-navbar-pdf: #232323;
 
     background-color: var(--background-primary, #232323);
 }
@@ -54,6 +55,10 @@ body.theme-type-dark {
 
 .skl-navbar.skl-navbar--word.skl-navbar--md {
     background-color: var(--background-navbar-word, #446995);
+}
+
+.skl-navbar.skl-navbar--word.skl-navbar--md.pdf-view {
+    background-color: var(--background-navbar-pdf, #AA5252);
 }
 
 .skl-navbar.skl-navbar--cell.skl-navbar--md {

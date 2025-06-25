@@ -321,6 +321,7 @@
     "uploadImageExtMessage": "Bilinmeyen resim formatı.",
     "uploadImageFileCountMessage": "Resim yüklenmedi.",
     "uploadImageSizeMessage": "Görüntü çok büyük. Maksimum boyut 25 MB'dir.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
@@ -447,15 +448,19 @@
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
     "stayButtonText": "Bu Sayfada Kal",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "HATA! Veri serisi grafik başına en fazla 255 olabilir.",
       "errorStockChart": "Yanlış satır sırası. Bir hisse senedi grafiği oluşturmak için tablodaki verileri aşağıdaki sırayla yerleştirin:<br> açılış fiyatı, maksimum fiyat, minimum fiyat, kapanış fiyatı.",
       "notcriticalErrorTitle": "Uyarı",
+      "sCatDatabase": "Veri tabanı",
       "sCatDateAndTime": "Tarih ve saat",
       "sCatEngineering": "Mühendislik",
       "sCatFinancial": "Finansal",
@@ -511,6 +516,7 @@
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textPasteImageUrl": "Paste an image URL",
       "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
@@ -542,7 +548,7 @@
       "textBetweenTickMarks": "Tik İşaretleri Arasında",
       "textBillions": "Milyar",
       "textBorder": "Sınır",
-      "textBorderStyle": "Sınır Stili",
+      "textBorderStyle": "Kenarlık Stili",
       "textBottom": "Alt",
       "textBottomBorder": "Alt Sınır",
       "textBringToForeground": "Ön Plana Getir",
@@ -862,5 +868,11 @@
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

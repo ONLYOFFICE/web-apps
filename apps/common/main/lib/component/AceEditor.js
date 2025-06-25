@@ -111,17 +111,11 @@ define([], function () {
             if (cmd && cmd.referer == "ace-editor") {
                 switch (cmd.command) {
                     case 'changeValue':
-                        this.fireEvent('change', cmd.data);
+                        data = cmd.data || {};
+                        this.fireEvent('change', data.value, data.pos);
                         break;
                     case 'aceEditorReady':
                         this.fireEvent('ready', cmd.data);
-                        break;
-                    case 'mouseUp':
-                    case 'mouseMove':
-                        var offset = Common.Utils.getOffset(this.parentEl);
-                        var x = cmd.data.x * Common.Utils.zoom() + offset.left,
-                            y = cmd.data.y * Common.Utils.zoom() + offset.top;
-                        this.fireEvent(cmd.command.toLowerCase(), x, y);
                         break;
                 }
             }
@@ -133,13 +127,14 @@ define([], function () {
                 this.loadMask.hide();
         },
 
-        setValue: function(value, readonly) {
+        setValue: function(value, currentPos, readonly) {
             this._postMessage(this.iframe.contentWindow, {
                 command: 'setValue',
                 referer: 'ace-editor',
                 data: {
                     value: value,
-                    readonly: readonly
+                    readonly: readonly,
+                    currentPos: currentPos
                 }
             });
         },
@@ -158,6 +153,10 @@ define([], function () {
                 referer: 'ace-editor',
                 data: disable
             });
+        },
+
+        enablePointerEvents: function(enable) {
+            this.iframe && (this.iframe.style.pointerEvents = enable ? "" : "none");
         },
 
         destroyEditor: function() {

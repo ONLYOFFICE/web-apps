@@ -322,6 +322,7 @@
     "uploadImageExtMessage": "ບໍ່ຮູ້ສາເຫດຂໍ້ຜິພາດຮູບແບບຂອງຮູບ",
     "uploadImageFileCountMessage": "ບໍ່ມີຮູບພາບອັບໂຫລດ",
     "uploadImageSizeMessage": "ຮູບພາບໃຫຍ່ເກີນໄປ. ຂະຫນາດສູງສຸດແມ່ນ 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
@@ -447,15 +448,19 @@
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ຜິດພາດ!, ຈຳນວນຊູດຂໍ້ມູນສູງສຸດຕໍ່ຜັງແມ່ນ 255",
       "errorStockChart": "ລຳດັບແຖວບໍ່ຖືກຕ້ອງ. ເພື່ອສ້າງຕາຕະລາງເກັບຂໍ້ຮູບກ້າບ, ວາງຂໍ້ມູນໃສ່ແຜ່ນງານຕາມລໍາດັບຕໍ່ໄປນີ້:<br>ລາຄາເປີດ, ລາຄາສູງສຸດ, ລາຄາຕໍ່າສຸດ, ລາຄາປິດ.",
       "notcriticalErrorTitle": "ເຕືອນ",
+      "sCatDatabase": "ດາຕ້າເບສ",
       "sCatDateAndTime": "ວັນທີ ແລະ ເວລາ",
       "sCatEngineering": "ວິສະວະກຳ",
       "sCatFinancial": "ການເງິນ",
@@ -513,6 +518,7 @@
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
       "txtYes": "ແມ່ນແລ້ວ",
       "sCustom": "Custom",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL"
     },
     "Edit": {
@@ -862,5 +868,11 @@
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

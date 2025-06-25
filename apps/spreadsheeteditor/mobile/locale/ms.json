@@ -320,6 +320,7 @@
     "uploadImageExtMessage": "Format imej yang tidak diketahui.",
     "uploadImageFileCountMessage": "Tiada Imej dimuat naik.",
     "uploadImageSizeMessage": "Imej terlalu besar. Saiz maksimum adalah 25 MB.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your sheet.<br>To complete this task, please remove AutoFilters.",
@@ -447,9 +448,12 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
+    "btnRestartNow": "Restart now",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   },
   "View": {
     "Add": {
@@ -510,8 +514,10 @@
       "txtSorting": "Pengisihan",
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
+      "sCatDatabase": "Database",
       "sCustom": "Custom",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textPasteImageUrl": "Paste an image URL",
       "textRecommended": "Recommended"
     },
@@ -862,5 +868,11 @@
       "txtVi": "Vietnamese",
       "txtZh": "Chinese"
     }
+  },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
   }
 }

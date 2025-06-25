@@ -79,6 +79,7 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
+                        me.toolbar = toolbar;
                         /*var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
@@ -103,12 +104,17 @@ define([
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
+                    },
+                    'startover:disabled' : function (state) {
+                        if ( me.header.btnStartOver)
+                            me.header.btnStartOver.setDisabled(state);
                     }
                 }
             });
             Common.NotificationCenter.on('preview:start', this.onPreviewStart.bind(this));
             Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
             Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
+            this._isDisabledPreview = false;
         },
 
         setApi: function(api) {
@@ -128,7 +134,9 @@ define([
 
             this.api = new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
-                'translate': this.getApplication().getController('Main').translationTable
+                'translate': this.getApplication().getController('Main').translationTable,
+                'isRtlInterface': Common.UI.isRTL(),
+                'thumbnails-position': Common.UI.isRTL() ? 'right' : 'left'
             });
 
             this.header   = this.createView('Common.Views.Header', {
@@ -153,6 +161,7 @@ define([
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('search:show', _.bind(this.onSearchShow, this));
+            Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -243,7 +252,7 @@ define([
             Common.NotificationCenter.trigger('window:resize');
         },
 
-        onPreviewStart: function(slidenum, presenter, fromApiEvent) {
+        onPreviewStart: function(slidenum, presenter, fromApiEvent, isCurrent) {
             this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
@@ -254,7 +263,12 @@ define([
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
                     slideOf: me.previewPanel.slideIndexText,
-                    finalMessage: me.previewPanel.txtFinalMessage
+                    finalMessage: me.previewPanel.txtFinalMessage,
+                    pen: me.previewPanel.txtPen,
+                    highlighter: me.previewPanel.txtHighlighter,
+                    inkColor: me.previewPanel.txtInkColor,
+                    eraser: me.previewPanel.txtEraser,
+                    eraseScreen: me.previewPanel.txtEraseScreen,
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
                 reporterObject.customization = me.viewport.mode.customization;
@@ -265,11 +279,12 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                 }, 100);
                 this.previewPanel.show();
+                this.previewPanel.btnDraw && this.previewPanel.btnDraw.setDisabled(this._isDisabledPreview);
                 var _onWindowResize = function() {
                     if (isResized) return;
                     isResized = true;
                     Common.NotificationCenter.off('window:resize', _onWindowResize);
-                    me.api.StartDemonstration('presentation-preview', _.isNumber(slidenum) ? slidenum : 0, reporterObject);
+                    isCurrent ? me.api.StartDemonstrationFromCurrentSlide('presentation-preview', reporterObject) : me.api.StartDemonstrationFromBeginning('presentation-preview', reporterObject);
                     Common.component.Analytics.trackEvent('Viewport', 'Preview');
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
@@ -368,6 +383,30 @@ define([
         onTabBackgroundChange: function (background) {
             background = background || Common.Utils.InternalSettings.get("settings-tab-background");
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
+        },
+
+        setDisabledPreview: function(disable) {
+            this._isDisabledPreview = disable;
+        },
+
+        onThemeChanged: function () {
+            if (Common.UI.Themes.available()) {
+                var _intvars = Common.Utils.InternalSettings;
+                var $filemenu = $('.toolbar-fullview-panel');
+
+                const computed_style = window.getComputedStyle(document.body);
+                _intvars.set('toolbar-height-controls', parseInt(computed_style.getPropertyValue("--toolbar-height-controls") || 84));
+                _intvars.set('toolbar-height-normal', _intvars.get('toolbar-height-tabs') + _intvars.get('toolbar-height-controls'));
+                $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0) +
+                                     (this.appConfig.twoLevelHeader && !this.appConfig.compactHeader ? _intvars.get('document-title-height') : 0));
+
+                this.viewport.vlayout.getItem('toolbar').height = this.toolbar && this.toolbar.isCompact() ?
+                    _intvars.get('toolbar-height-compact') : _intvars.get('toolbar-height-normal');
+
+                this.viewport.vlayout.getItem('statusbar').height = parseInt(computed_style.getPropertyValue('--statusbar-height') || 25);
+
+                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+            }
         },
 
         textFitPage: 'Fit to Page',

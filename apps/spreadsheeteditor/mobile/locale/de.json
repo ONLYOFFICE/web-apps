@@ -248,9 +248,16 @@
       "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
     }
   },
+  "Draw": {
+    "textColor": "Farbe",
+    "textCustomColor": "Benutzerdefinierte Farbe",
+    "textLineSize": "Liniengröße",
+    "textOpacity": "Undurchsichtigkeit"
+  },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste von Dokumenten zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errNoDuplicates": "Keine doppelten Werte gefunden.",
@@ -291,6 +298,7 @@
     "errorFileVKey": "Externer Fehler.<br>Ungültiger Sicherheitsschlüssel. Bitte wenden Sie sich an den Support.",
     "errorFillRange": "Der gewählte Zellbereich kann nicht ausgefüllt werden.<br>Alle verbundenen Zellen müssen die gleiche Größe haben.",
     "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Bitte verwenden Sie die Option „Herunterladen als“, um die Datei auf der Festplatte Ihres Computers zu speichern, oder versuchen Sie es später erneut.",
+    "errorFormulaInPivotFieldName": "Es kann keine Formel für ein Element oder einen Feldnamen in einem Pivot-Tabellenbericht eingegeben werden.",
     "errorFormulaName": "Die Formel enthält einen Fehler.<br>Falscher Formelname.",
     "errorFormulaParsing": "Interner Fehler bei der Syntaxanalyse der Formel.",
     "errorFrmlMaxLength": "Sie können diese Formel nicht hinzufügen, weil ihre Länge die maximal zulässige Anzahl von Zeichen überschreitet.<br>Bearbeiten Sie die Formel und versuchen Sie neu.",
@@ -321,9 +329,11 @@
     "errorNoDataToParse": "Es wurden keine Daten zur Analyse markiert.",
     "errorOpenWarning": "Die Länge einer der Formeln in der Datei hat<br>die zugelassene Anzahl von Zeichen überschritten und sie wurde entfernt.",
     "errorOperandExpected": "Die Syntax der eingegeben Funktion ist nicht korrekt. Bitte überprüfen Sie, ob eine der Klammern - '(' oder ')' fehlt.",
+    "errorPasteInPivot": "Wir können diese Änderung nicht für die ausgewählten Zellen vornehmen, da sie sich auf eine Pivot-Tabelle auswirken würde.<br>Verwenden Sie die Feldliste, um den Bericht zu ändern.",
     "errorPasteMaxRange": "Zeilen Kopieren und Einfügen stimmen nicht überein. Bitte wählen Sie einen Bereich der gleichen Größe oder klicken auf die erste Zelle der Zeile, um die kopierten Zellen einzufügen.",
     "errorPasteMultiSelect": "Dies kann nicht mit einer Mehrfachauswahl ausgeführt werden.<br>Wählen Sie nur einen einzelnen Bereich aus und versuchen Sie es noch mal.",
     "errorPasteSlicerError": "Tabellenschnitte können aus einer Arbeitsmappe in die andere nicht verschoben werden.",
+    "errorPivotFieldNameExists": "Pivot-Tabellenfeldname existiert bereits.",
     "errorPivotGroup": "Diese Auswahl kann nicht gruppiert werden.",
     "errorPivotOverlap": "Ein Pivot-Tabellenbericht darf eine Tabelle nicht überlappen.",
     "errorPivotWithoutUnderlying": "Der Bericht einer Pivot-Tabelle wurde ohne die zugrunde liegenden Daten gespeichert.<br>Klicken Sie auf 'Aktualisieren', um den Bericht zu aktualisieren.",
@@ -368,10 +378,7 @@
     "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "Das Arbeitsblatt kann Daten enthalten. Möchten Sie fortsetzen?"
   },
   "Toolbar": {
+    "btnRestartNow": "Jetzt neu starten",
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
     "textCloseHistory": "Historie schließen",
     "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
-    "textRenameFile": "Datei umbenennen"
+    "textOk": "OK",
+    "textRenameFile": "Datei umbenennen",
+    "textSwitchToDesktop": "In den Desktopmodus wechseln"
   },
   "View": {
     "Add": {
       "errorMaxRows": "FEHLER! Maximale Anzahl an Datenreihen pro Diagramm ist 255.",
       "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Kursdiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in dieser Reihenfolge:<br> Eröffnungskurs, Maximaler Preis, Minimaler Preis, Schlusskurs.",
       "notcriticalErrorTitle": "Warnung",
+      "sCatDatabase": "Datenbank",
       "sCatDateAndTime": "Datum und Uhrzeit",
       "sCatEngineering": "Ingenieurwesen",
       "sCatFinancial": "Finanziell",
@@ -476,6 +487,7 @@
       "textDataTableHint": "Gibt die Datenzellen der Tabelle oder der angegebenen Tabellenspalten zurück",
       "textDisplay": "Anzeigen",
       "textDone": "Fertig",
+      "textDrawing": "Zeichnen",
       "textEmptyImgUrl": "Sie müssen die URL des Bildes angeben.",
       "textExternalLink": "Externer Link",
       "textFilter": "Filter",

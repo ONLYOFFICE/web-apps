@@ -69,20 +69,10 @@
     }
 
     .tab {
-        i.icon {
+        .icon-svg {
             width: 18px;
             height: 18px;
-            &.icon-plus.bold{
-                
-                // @source: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22"><g><path d="M22,12H12v10h-1V12H1v-1h10V1h1v10h10V12z"/></g></svg>';
-                // .encoded-svg-mask(@source, @fontColor);
-                // background-image: none;
-                .encoded-svg-mask('<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M16 9.98658H9.98658V16H8.01342V9.98658H2V8.01342H8.01342V2H9.98658V8.01342H16V9.98658Z" fill="black"/></svg>')
-            }
-
-            &.icon-list.bold {
-                .encoded-svg-mask('<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M2 4H16V6H2V4ZM2 8.01562H16V10.0312H2V8.01562ZM2 12H16V14H2V12Z" fill="black"/></svg>')
-            }
+            vertical-align: middle;
         }
     }
     

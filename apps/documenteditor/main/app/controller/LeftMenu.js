@@ -304,6 +304,9 @@ define([
                 close_menu = !!isopts;
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+            case 'switch:mobile':
+                Common.Gateway.switchEditorType('mobile', true);
+                break;
             default: close_menu = false;
             }
 
@@ -569,6 +572,10 @@ define([
             }
 
             Common.Utils.InternalSettings.set("de-settings-zoom", newZoomValue);
+
+            value = parseInt(Common.localStorage.getItem("de-settings-numeral"));
+            Common.Utils.InternalSettings.set("de-settings-numeral", value);
+            this.api.asc_setNumeralType(value);
 
             menu.hide();
         },

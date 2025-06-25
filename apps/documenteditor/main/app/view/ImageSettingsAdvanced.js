@@ -194,7 +194,6 @@ define([
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
-                    this._changedProps.put_ResetCrop(true);
                     this._changedProps.put_Rot(0);
                 }
             }, this));
@@ -1533,7 +1532,7 @@ define([
                     fixed_size = (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.ComboBox ||
                                 spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None ||
                                 spectype==Asc.c_oAscContentControlSpecificType.Picture || spectype==Asc.c_oAscContentControlSpecificType.Complex ||
-                                spectype==Asc.c_oAscContentControlSpecificType.DateTime) &&
+                                spectype==Asc.c_oAscContentControlSpecificType.DateTime || spectype==Asc.c_oAscContentControlSpecificType.Signature) &&
                                 control_props.get_FormPr() && control_props.get_FormPr().get_Fixed();
                 }
 

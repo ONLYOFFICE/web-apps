@@ -1,3 +1,8 @@
+@status-scroll-padding-left: 12px;
+@statusb-scroll-padding-right: 10px;
+@status-scroll-width: calc(2*@x-small-btn-size-ie + @status-scroll-padding-left + @statusb-scroll-padding-right);
+@status-scroll-width: calc(2*@x-small-btn-size + @status-scroll-padding-left + @statusb-scroll-padding-right);
+
 .statusbar {
     padding: 0 2px 0;
     z-index: 500;
@@ -41,28 +46,23 @@
         }
     }
 
-
     #status-tabs-scroll {
-        width: 66px;
-        padding: 3px 12px 0 10px;
-        height: 25px;
+        width: @status-scroll-width;
+        padding: 0 @status-scroll-padding-left 0 @statusb-scroll-padding-right;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         float: left;
 
         .rtl-sheet& {
-            padding: 3px 10px 0 12px;
+            padding: 0 @statusb-scroll-padding-right 0 @status-scroll-padding-left;
             float: right;
         }
     }
 
     #status-zoom-box {
-        padding-top: 3px;
-
         position: absolute;
-        height: 25px;
-
-        .separator {
-            margin-top: -3px;
-        }
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
 
         #status-label-zoom {
             cursor: pointer;
@@ -157,12 +157,13 @@
     }
 
     #status-addtabs-box {
-        padding: 3px 8px 0;
+        padding: 0 8px;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         float: left;
         .rtl-sheet& {
             float: right;
@@ -171,25 +172,26 @@
 
     #status-math-box,
     #status-filtered-box {
-        padding-top: 6px;
         position: absolute;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         .separator {
             position: relative;
-            margin-top: -6px;
         }
     }
 
     #status-sheets-bar-box {
         position: absolute;
         overflow: hidden;
-        height: 25px;
-        left: 66px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
+        left: @status-scroll-width;
         right: 160px;
+        top: 0;
 
         .rtl-sheet& {
             left: 160px;
-            right: 66px;
+            right: @status-scroll-width;
         }
     }
 
@@ -206,8 +208,8 @@
             display: flex;
 
             > li {
-                background-color: @background-toolbar-ie;
-                background-color: @background-toolbar;
+                background-color: @background-pane-ie;
+                background-color: @background-pane;
 
                 &:first-of-type {
                     span {
@@ -238,9 +240,10 @@
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
-                    line-height: 24px;
-                    background-color: @background-toolbar-additional-ie;
-                    background-color: @background-toolbar-additional;
+                    line-height: @statusbar-height-ie;
+                    line-height: @statusbar-height;
+                    background-color: @background-pane-additional-ie;
+                    background-color: @background-pane-additional;
                     outline: none;
                     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                     border-left: @scaled-one-px-value solid @border-toolbar;
@@ -261,10 +264,10 @@
 
                 &.active {
                     > span {
-                        border-bottom-color: @background-toolbar-ie;
-                        border-bottom-color: @background-toolbar;
-                        background-color: @background-toolbar-ie;
-                        background-color: @background-toolbar;
+                        border-bottom-color: @background-pane-ie;
+                        border-bottom-color: @background-pane;
+                        background-color: @background-pane-ie;
+                        background-color: @background-pane;
                         outline: none;
 
                         box-shadow: 0px 4px 0 #49795d inset;
@@ -325,7 +328,8 @@
                             position: absolute;
                             top: 0;
                             left: 0;
-                            margin: 3px;
+                            margin: calc(@statusbar-height-ie - @x-small-btn-size-ie);
+                            margin: calc(@statusbar-height - @x-small-btn-size);
                             .rtl-sheet& {
                                 left: auto;
                                 right: 0;
@@ -415,18 +419,19 @@
         .color-tab {
             .border-radius(4px);
           margin-top: -25px;
+          margin-top: calc(-1 * @statusbar-height);
         }
     }
 
     #status-number-of-sheet , #status-action {
         position: absolute;
-        height: 25px;
+        height: @statusbar-height-ie;
+        height: @statusbar-height;
         bottom: 0;
         display: flex;
         justify-content: flex-start;
         .status-label {
             color: @text-normal;
-            margin-top: 6px;
             width: 100%;
             text-align: center;
         }
@@ -447,7 +452,8 @@
 
     &.no-compact {
         #status-tabs-scroll, #status-sheets-bar-box, #status-addtabs-box {
-            height: 26px;
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
             border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
         }
@@ -517,7 +523,6 @@
     .cnt-zoom {
         display: inline-block;
         position: relative;
-        top: 1px;
 
         .dropdown-menu {
             min-width: 80px;
@@ -541,7 +546,9 @@
 
     .separator {
         &.short {
-            height: 25px;
+            height: @statusbar-height-ie;
+            height: @statusbar-height;
+            top: 0;
         }
     }
 }
@@ -582,4 +589,8 @@
 
 .rtl-sheet .nav {
     padding-right: 0;
+}
+#statusbar {
+    background-color: @background-statusbar-ie;
+    background-color: @background-statusbar;
 }

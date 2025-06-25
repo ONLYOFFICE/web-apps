@@ -41,6 +41,7 @@
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
       "errorStockChart": "Incorrect row order. To build a stock chart, place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
       "notcriticalErrorTitle": "Warning",
+      "sCatDatabase": "Database",
       "sCatDateAndTime": "Date and time",
       "sCatEngineering": "Engineering",
       "sCatFinancial": "Financial",
@@ -60,6 +61,7 @@
       "textDataTableHint": "Returns the data cells of the table or specified table columns",
       "textDisplay": "Display",
       "textDone": "Done",
+      "textDrawing": "Drawing",
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textExternalLink": "External Link",
       "textFilter": "Filter",
@@ -685,9 +687,16 @@
       "warnProcessRightsChange": "You don't have permission to edit the file."
     }
   },
+  "Draw": {
+    "textColor": "Color",
+    "textCustomColor": "Custom color",
+    "textLineSize": "Line size",
+    "textOpacity": "Opacity"
+  },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
     "criticalErrorExtText": "Press 'OK' to go back to the document list.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "criticalErrorTitle": "Error",
     "downloadErrorText": "Download failed.",
     "errNoDuplicates": "No duplicate values found.",
@@ -855,12 +864,15 @@
     "waitText": "Please, wait..."
   },
   "Toolbar": {
+    "btnRestartNow": "Restart now",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
     "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textOk": "OK",
+    "textRenameFile": "Rename File",
+    "textSwitchToDesktop": "Switch to Desktop"
   }
 }

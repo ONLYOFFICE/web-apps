@@ -248,9 +248,16 @@
       "warnProcessRightsChange": "Você não tem permissão para editar o arquivo."
     }
   },
+  "Draw": {
+    "textColor": "Cor",
+    "textCustomColor": "Personalizar cor",
+    "textLineSize": "Tamanho da linha",
+    "textOpacity": "Opacidade"
+  },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
     "criticalErrorExtText": "Pressione 'OK' para voltar para a lista de documentos.",
+    "criticalErrorExtTextClose": "Pressione 'OK' para fechar o editor.",
     "criticalErrorTitle": "Erro",
     "downloadErrorText": "Erro ao baixar arquivo.",
     "errNoDuplicates": "Nenhum valor duplicado encontrado.",
@@ -291,6 +298,7 @@
     "errorFileVKey": "Erro externo. <br> Chave de segurança incorreta. Por favor, contate o suporte.",
     "errorFillRange": "Não foi possível preencher o intervalo selecionado de células.<br>Todas as células mescladas precisam ser do mesmo tamanho.",
     "errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Transferir como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",
+    "errorFormulaInPivotFieldName": "Não é possível inserir uma fórmula para um item ou nome de campo em um relatório de tabela dinâmica.",
     "errorFormulaName": "Um erro na fórmula. <br> Nome da fórmula incorreto.",
     "errorFormulaParsing": "Erro interno enquanto a fórmula é analisada.",
     "errorFrmlMaxLength": "Você não pode adicionar esta fórmula, pois seu comprimento excede o número permitido de caracteres.<br>Por favor, edite-a e tente novamente.",
@@ -321,9 +329,11 @@
     "errorNoDataToParse": "Nenhum dado foi selecionado para analisar.",
     "errorOpenWarning": "O comprimento de uma das fórmulas do arquivo excedeu o número permitido de caracteres e foi removido.",
     "errorOperandExpected": "A sintaxe da função inserida não está correta. Por favor, verifique se você perdeu um dos parênteses - '(' ou ')'.",
+    "errorPasteInPivot": "Não podemos fazer essa alteração nas células selecionadas porque isso afetará uma tabela dinâmica.<br>Use a lista de campos para alterar o relatório.",
     "errorPasteMaxRange": "A área de cópia e cola não corresponde. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPasteMultiSelect": "Esta ação não pode ser feita em uma seleção de gama múltipla.<br>Selecionar uma única gama e tentar novamente.",
     "errorPasteSlicerError": "A Segmentação de Dados de tabela não podem ser copiados de uma pasta de trabalho para outra.",
+    "errorPivotFieldNameExists": "O nome do campo da tabela dinâmica já existe.",
     "errorPivotGroup": "Não é possível agrupar essa seleção.",
     "errorPivotOverlap": "Um relatório de tabela dinâmica não pode se sobrepor a uma tabela.",
     "errorPivotWithoutUnderlying": "O relatório da tabela dinâmica foi salvo sem os dados subjacentes.<br>Use o botão \"Atualizar\" para atualizar o relatório.",
@@ -368,10 +378,7 @@
     "uploadDocSizeMessage": "Tamanho máximo do documento excedido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
     "uploadImageFileCountMessage": "Sem imagens carregadas.",
-    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
-    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "uploadImageSizeMessage": "Tamanho limite máximo da imagem excedido. O tamanho máximo é de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Senha",
@@ -443,19 +450,23 @@
     "textWarnDeleteSheet": "A folha de trabalho talvez tenha dados. Proceder à operação?"
   },
   "Toolbar": {
+    "btnRestartNow": "Reiniciar agora",
     "dlgLeaveMsgText": "Você tem alterações não salvas neste documento. Clique em 'Permanecer nesta página' para aguardar o salvamento automático. Clique em 'Sair desta página' para descartar todas as alterações não salvas.",
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
     "textEnterNewFileName": "Digite um novo nome para o arquivo",
-    "textRenameFile": "Renomear arquivo"
+    "textOk": "OK",
+    "textRenameFile": "Renomear arquivo",
+    "textSwitchToDesktop": "Mudar para o desktop"
   },
   "View": {
     "Add": {
       "errorMaxRows": "ERRO! O número máximo de séries de dado por gráfico é 255.",
       "errorStockChart": "Ordem incorreta das linhas. Para construir um gráfico de ações, coloque os dados na folha na seguinte ordem: <br> preço de abertura, preço máximo, preço mínimo, preço de fechamento.",
       "notcriticalErrorTitle": "Aviso",
+      "sCatDatabase": "Base de dados",
       "sCatDateAndTime": "Data e hora",
       "sCatEngineering": "Engenharia",
       "sCatFinancial": "Financeiro",
@@ -476,6 +487,7 @@
       "textDataTableHint": "Retorna as células de dados da tabela ou colunas de tabela especificadas",
       "textDisplay": "Exibir",
       "textDone": "Concluído",
+      "textDrawing": "Desenho",
       "textEmptyImgUrl": "Você precisa especificar o URL da imagem.",
       "textExternalLink": "Link externo",
       "textFilter": "Filtro",

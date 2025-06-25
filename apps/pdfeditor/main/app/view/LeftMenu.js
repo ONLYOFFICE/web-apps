@@ -109,6 +109,7 @@ define([
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
                     window.open('{{SUPPORT_URL}}');
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             /** coauthoring begin **/
@@ -203,6 +204,7 @@ define([
 
             this.onCoauthOptions();
             btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
+            btn.options.type !== 'plugin' && $('.left-panel .plugin-panel').toggleClass('active', false);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

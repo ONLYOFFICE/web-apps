@@ -100,6 +100,7 @@ define([
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
         pivotExpandLock: 'pivot-expand-lock',
+        pivotCalcItemsLock: 'pivot-calculated-items-lock',
         tableHasSlicer: 'table-has-slicer',
         sheetView: 'sheet-view',
         wbLock: 'workbook-lock',
@@ -114,7 +115,9 @@ define([
         userProtected: 'cell-user-protected',
         pageBreakLock: 'page-break-lock',
         externalChartProtected: 'external-chart-protected',
-        fileMenuOpened: 'file-menu-opened'
+        fileMenuOpened: 'file-menu-opened',
+        cantMergeShape: 'merge-shape-lock',
+        cantSave: 'cant-save'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -229,7 +232,7 @@ define([
             me.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-undo',
+                iconCls     : 'toolbar__icon btn-undo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],
@@ -241,7 +244,7 @@ define([
             me.btnRedo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-redo',
+                iconCls     : 'toolbar__icon btn-redo icon-rtl',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled'],
@@ -251,6 +254,7 @@ define([
             });
 
             if (config.isEditDiagram || config.isEditMailMerge || config.isEditOle ) {
+                me.$el.addClass('type-simple');
                 me.$layout = $(_.template(simple)(config));
                 if ( config.isEditDiagram || config.isEditOle ) {
                     me.btnInsertFormula = new Common.UI.Button({
@@ -294,6 +298,7 @@ define([
                     me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 180px;',
+                        menuCls     : 'menu-absolute',
                         hint        : me.tipNumFormat,
                         lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.editVisibleArea, _set.externalChartProtected],
                         itemsTemplate: formatTemplate,
@@ -391,6 +396,7 @@ define([
                     me.cmbFontSize = new Common.UI.ComboBox({
                         cls         : 'input-group-nr',
                         menuStyle   : 'min-width: 55px;',
+                        menuCls: 'menu-absolute',
                         hint        : me.tipFontSize,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],
                         data        : [
@@ -418,7 +424,7 @@ define([
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls         : 'input-group-nr',
-                        menuCls     : 'scrollable-menu',
+                        menuCls     : 'scrollable-menu menu-absolute',
                         menuStyle   : 'min-width: 325px;',
                         hint        : me.tipFontName,
                         lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.editVisibleArea],
@@ -835,7 +841,7 @@ define([
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
-                    lock        : [_set.lostConnect],
+                    lock        : [_set.cantSave, _set.lostConnect],
                     signals     : ['disabled'],
                     dataHint    : '1',
                     dataHintDirection: 'top',
@@ -1334,7 +1340,7 @@ define([
                     caption     : me.capInsertEquation,
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
-                    menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    menu        : new Common.UI.Menu(),
                     action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
@@ -1465,7 +1471,6 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 135px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
@@ -2175,7 +2180,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-sheet-rtl',
                     lock: [_set.selRange, _set.selRangeEdit, _set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
-                    caption: this.textRtlSheet + ' (Beta)',
+                    caption: this.textRtlSheet,
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -2205,6 +2210,19 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
+
+                me.btnShapesMerge = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-merge-shapes',
+                    lock: [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText, _set.cantMergeShape, _set["Objects"]],
+                    caption: me.capShapesMerge,
+                    menu: true,
+                    action: 'shapes-merge',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnImgForward = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-frwd',
@@ -2254,7 +2272,7 @@ define([
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
-                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign
+                    me.chPrintGridlines, me.chPrintHeadings, me.btnRtlSheet, me.btnVisibleArea, me.btnVisibleAreaClose, me.btnTextFormatting, me.btnHorizontalAlign, me.btnVerticalAlign, me.btnShapesMerge
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -2461,6 +2479,7 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
+            _injectComponent('#slot-shapes-merge',      this.btnShapesMerge);
             _injectComponent('#slot-btn-scale',         this.btnScale);
             _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
             _injectComponent('#slot-btn-visible-area',  this.btnVisibleArea);
@@ -2560,7 +2579,7 @@ define([
             _updateHint(this.btnTextFormatting, this.tipTextFormatting);
             _updateHint(this.btnHorizontalAlign, this.tipHAlighOle);
             _updateHint(this.btnVerticalAlign, this.tipVAlighOle);
-            _updateHint(this.btnRtlSheet, this.tipRtlSheet + ' (Beta)');
+            _updateHint(this.btnRtlSheet, this.tipRtlSheet);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -2928,6 +2947,7 @@ define([
             if(!!this.btnInsertSymbol) {
                 this.mnuInsertSymbolsPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-symbols'),
+                    cls: 'no-borders-item',
                     parentMenu: this.btnInsertSymbol.menu,
                     outerMenu: {menu: this.btnInsertSymbol.menu, index: 0},
                     restoreHeight: 290,
@@ -3248,8 +3268,7 @@ define([
             } else {
                 this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
             }
-
-            this.btnSave.setDisabled(false);
+            this.lockToolbar(Common.enumLock.cantSave, false, {array: [this.btnSave]});
             Common.Gateway.collaborativeChanges();
         },
 
@@ -3280,8 +3299,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
-
+                    this.lockToolbar(Common.enumLock.cantSave, !me.mode.forcesave && !me.mode.canSaveDocumentToBinary, {array: [this.btnSave]});
                     this._state.hasCollaborativeChanges = false;
                 }
             }
@@ -3401,6 +3419,39 @@ define([
                     value: 7
                 }]
             }));
+
+            me.btnShapesMerge.updateHint(me.tipShapesMerge);
+            me.btnShapesMerge.setMenu(new Common.UI.Menu({
+                cls: 'shifted-right',
+                items: [
+                    {
+                        caption: me.textShapesUnion, 
+                        iconCls: 'menu__icon btn-union-shapes',
+                        value: 'unite',
+                    },
+                    {
+                        caption: me.textShapesCombine, 
+                        iconCls: 'menu__icon btn-combine-shapes',
+                        value: 'exclude',
+                    },
+                    {
+                        caption: me.textShapesFragment, 
+                        iconCls: 'menu__icon btn-fragment-shapes',
+                        value: 'divide',
+                    },
+                    {
+                        caption: me.textShapesIntersect, 
+                        iconCls: 'menu__icon btn-intersect-shapes',
+                        value: 'intersect',
+                    },
+                    {
+                        caption: me.textShapesSubstract, 
+                        iconCls: 'menu__icon btn-substract-shapes',
+                        value: 'subtract',
+                    },
+                ]
+            }));
+
 
             me.btnImgGroup.updateHint(me.tipImgGroup);
             me.btnImgGroup.setMenu(new Common.UI.Menu({

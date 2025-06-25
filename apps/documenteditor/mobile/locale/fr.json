@@ -27,6 +27,7 @@
     "textCurrentPosition": "Position actuelle",
     "textDisplay": "Affichage",
     "textDone": "Terminé",
+    "textDrawing": "Dessins",
     "textEmptyImgUrl": "Spécifiez l'URL de l'image",
     "textEvenPage": "Page paire",
     "textFootnote": "Note de bas de page",
@@ -228,6 +229,12 @@
     "textRows": "Lignes",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
   },
+  "Draw": {
+    "textColor": "Couleur",
+    "textCustomColor": "Couleur personnalisée",
+    "textLineSize": "Taille de ligne",
+    "textOpacity": "Opacité"
+  },
   "Edit": {
     "notcriticalErrorTitle": "Avertissement",
     "textActualSize": "Taille réelle",
@@ -275,7 +282,7 @@
     "textDecember": "décembre",
     "textDeleteImage": "Supprimer l’image",
     "textDeleteLink": "Supprimer le lien",
-    "textDesign": "Design",
+    "textDesign": "Conception",
     "textDifferentFirstPage": "Première page différente",
     "textDifferentOddAndEvenPages": "Pages paires et impaires différentes",
     "textDisplay": "Affichage",
@@ -406,13 +413,14 @@
     "textTu": "mar.",
     "textType": "Type",
     "textWe": "mer.",
-    "textWrap": "Renvoi à la ligne",
+    "textWrap": "Habillage",
     "textWrappingStyle": "Style d'habillage",
     "textYourOption": "Votre option"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents",
+    "criticalErrorExtTextClose": "Cliquez « OK » pour fermer l'éditeur.",
     "criticalErrorTitle": "Erreur",
     "downloadErrorText": "Téléchargement echoué.",
     "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",
@@ -426,6 +434,7 @@
     "errorDefaultMessage": "Code d'erreur: %1",
     "errorDirectUrl": "Veuillez vérifier le lien vers le document.<br>Ce lien doit être un lien direct vers le fichier à télécharger.",
     "errorEditingDownloadas": "Une erreure s'est produite lors du travail avec le document.<br>Téléchargez le document pour enregistrer une copie locale de sauvegarde du fichier.",
+    "errorEditProtectedRange": "Vous ne pouvez pas modifier cette sélection car elle est protégée.",
     "errorEmptyTOC": "Commencez à créer une table des matières en appliquant un style de titres de la galerie Styles au texte sélectionné.",
     "errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
     "errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur.  ",
@@ -442,6 +451,7 @@
     "errorMailMergeSaveFile": "Fusion a échoué.",
     "errorNoTOC": "Il n'y a pas de table des matières à mettre à jour. Vous pouvez en insérer une à partir de l'onglet Références.",
     "errorPasswordIsNotCorrect": "Le mot de passe que vous avez fourni n'est pas correct. Vérifiez que la touche CAPS LOCK n'est pas activée et assurez-vous d'utiliser les bonnes majuscules.",
+    "errorPDFFormsLocked": "L'action ne peut pas être exécutée car elle entraîne des modifications dans les formulaires verrouillés.",
     "errorSaveWatermark": "Ce fichier comporte une image en filigrane qui est associée à un autre domaine.<br>Pour la rendre visible dans le fichier PDF, veuillez mettre à jour l'image en filigrane, car l'image doit correspondre au même domaine que le document, ou veuillez télécharger l'image depuis votre ordinateur.",
     "errorSessionAbsolute": "Votre session a expiré. Veuillez recharger la page.",
     "errorSessionIdle": "Le document n'a pas été modifié depuis trop longtemps. Veuillez recharger la page.",
@@ -696,7 +706,7 @@
     "textDisableAll": "Désactiver tout",
     "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
     "textDisableAllMacrosWithoutNotification": "Désactiver toutes les macros sans notification",
-    "textDocumentInfo": "Descriptif du document",
+    "textDocumentInfo": "Infos sur le document",
     "textDocumentSettings": "Paramètres du document",
     "textDocumentTitle": "Titre du document",
     "textDone": "Terminé",
@@ -704,6 +714,7 @@
     "textDownloadAs": "Télécharger comme",
     "textDownloadRtf": "Si vous continuer à sauvegarder dans ce format une partie de la mise en forme peut être supprimée. Êtes-vous sûr de vouloir continuer?",
     "textDownloadTxt": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues. Êtes-vous sûr de vouloir continuer?",
+    "textDrawing": "Dessins",
     "textEmptyHeading": "Titre vide",
     "textEmptyScreens": "Il n'y a pas de titres dans le document. Appliquez un style de titres au texte pour qu'il apparaisse dans la table des matières.",
     "textEnableAll": "Activer tout",
@@ -801,6 +812,7 @@
     "txtProtected": "Une fois le mot de passe saisi et le fichier ouvert, le mot de passe actuel de fichier sera réinitialisé"
   },
   "Toolbar": {
+    "btnRestartNow": "Redémarrer maintenant",
     "btnSend": "Envoyer",
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
     "dlgLeaveTitleText": "Vous quittez l'application",
@@ -812,6 +824,7 @@
     "textRenameFile": "Renommer le fichier",
     "textSwitchedMobileView": "Passé à l'affichage mobile",
     "textSwitchedStandardView": "Passé à l'affichage standard",
+    "textSwitchToDesktop": "Passer en mode desktop",
     "warnEmptyRequiredField": "Veuillez remplir tous les champs obligatoires avant d'envoyer le formulaire."
   }
 }

@@ -3,6 +3,10 @@ import {observer, inject} from "mobx-react";
 import {List, ListInput, ListButton, Page, f7, Link, Navbar, NavLeft, NavTitle, NavRight, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
+import SvgIcon from '@common/lib/component/SvgIcon';
+import IconClose from '@common-android-icons/icon-close.svg';
+import IconDone from '@common-android-icons/icon-done.svg';
+import IconDoneDisabled from '@common-android-icons/icon-done-disabled.svg';
 
 const EditHyperlink = props => {
     const { t } = useTranslation();
@@ -27,7 +31,9 @@ const EditHyperlink = props => {
                     <Link text={Device.ios ? t('Add.textCancel') : ''} onClick={() => {
                         props.isNavigate ? f7.views.current.router.back() : props.closeModal();
                     }}>
-                        {Device.android && <Icon icon='icon-close' />}
+                        {Device.android && 
+                            <SvgIcon symbolId={IconClose.id} className={'icon icon-svg'} />
+                        }
                     </Link>
                 </NavLeft>
                 <NavTitle>{t('Add.textLinkSettings')}</NavTitle>
@@ -35,7 +41,11 @@ const EditHyperlink = props => {
                     <Link className={`${stateLink.length < 1 && 'disabled'}`} onClick={() => {
                         props.onEditLink(stateLink, stateDisplay, stateTip);
                     }} text={Device.ios ? t('Add.textDone') : ''}>
-                        {Device.android && <Icon icon={stateLink.length < 1 ? 'icon-done-disabled' : 'icon-done'} />}
+                        {Device.android && ( 
+                            stateLink.length < 1 ?
+                                <SvgIcon symbolId={IconDoneDisabled.id} className={'icon icon-svg inactive'} /> :
+                                <SvgIcon symbolId={IconDone.id} className={'icon icon-svg active'} />
+                        )}
                     </Link>
                 </NavRight>
             </Navbar>
