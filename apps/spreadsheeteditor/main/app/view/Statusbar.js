@@ -445,7 +445,6 @@ define([
             update: function() {
                 var me = this;
                 var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
-                var sid = this.api.asc_getActiveWorksheetId();
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
                 this.tabMenu.items[5].hide();
@@ -456,6 +455,7 @@ define([
                     var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
+                    var sid = me.api.asc_getActiveWorksheetId();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
