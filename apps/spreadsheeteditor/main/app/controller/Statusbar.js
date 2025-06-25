@@ -86,7 +86,6 @@ define([
             this.statusbar.labelZoom.css('min-width', 80);
             this.statusbar.labelZoom.text(Common.Utils.String.format(this.zoomText, 100));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
-            // this._lastActiveSheetId = this.api.asc_getActiveWorksheetId();
             this.$measureSpan = $('<span>').css({
                 position: 'absolute',
                 visibility: 'hidden',
@@ -204,9 +203,6 @@ define([
             this.api.asc_registerCallback('asc_generateNewSheetNames', _.bind(function (arrNames, callback) {
                 callback(this.generateSheetNames(false, undefined, arrNames));
             }, this));
-            if (this.api && typeof this.api.asc_getActiveWorksheetId === 'function') {
-                this._lastActiveSheetId = this.api.asc_getActiveWorksheetId();
-            }
             this.statusbar.setApi(api);
         },
 
@@ -565,10 +561,11 @@ define([
             });
         },
 
-        finishRename({ save, $input, $tabEl, tab, currentName, otherNames }) {
+        finishRename({ save, $input, $tabEl, tab, otherNames }) {
             const me = this;
             let newName = $input.val();
             if (save) {
+                const currentName = tab.label
                 if (newName === '' || !me.isValidWorksheetName(newName)) {
                     if (me.isRenameErrorShown) return false;
                     me.isRenameErrorShown = true;
@@ -593,6 +590,7 @@ define([
             $tabEl.append(document.createTextNode(newName));
             $tabEl.attr('tabtitle', newName);
             tab.$el.attr('data-label', newName);
+            me.renameInputCaret = null;
             return true;
         },
 
@@ -626,23 +624,24 @@ define([
             });
 
             $input.on('input', function() {
-                me.renameInputVal = $input.val()
+                me.renameInputVal = $input.val();
+                me.renameInputCaret = $input[0].selectionStart;
                 me.updateInputWidth($input, $tabEl);
                 me.onWindowResize();
             });
 
             $input.on('blur', function(e) {
                 if (!me.isRenameErrorShown) {
-                    me.finishRename({ save: true, $input, $tabEl, tab, currentName, otherNames });
+                    me.finishRename({ save: true, $input, $tabEl, tab, otherNames });
                 }
                 e.stopPropagation();
             });
 
             $input.on('keydown', function(e) {
                 if (e.key === 'Enter') {
-                    me.finishRename({ save: true, $input, $tabEl, tab, currentName, otherNames });
+                    me.finishRename({ save: true, $input, $tabEl, tab, otherNames });
                 } else if (e.key === 'Escape') {
-                    me.finishRename({ save: false, $input, $tabEl, tab, currentName, otherNames });
+                    me.finishRename({ save: false, $input, $tabEl, tab, otherNames });
                     $tabEl.width(originalWidth);
                     $input.remove();
                     me.onWindowResize();
@@ -663,13 +662,9 @@ define([
             if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) return;
 
             const wc = me.api.asc_getWorksheetsCount();
-            if (sheetFromUpdate) {
-                var tab = _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate });
-                var currentName = me.renameInputVal
-            } else {
-                var tab = me.statusbar.tabbar.tabs[sindex];
-                var currentName = me.api.asc_getWorksheetName(sindex);
-            }
+
+            var tab = sheetFromUpdate ? _.findWhere(me.statusbar.tabbar.tabs, { sheetid: sheetFromUpdate }) : me.statusbar.tabbar.tabs[sindex];
+            var currentName = sheetFromUpdate ? me.renameInputVal : me.api.asc_getWorksheetName(sindex);
             if (!tab) return;
             const $tabEl = tab.$el.find('span');
             if ($tabEl.find('input.inline-rename').length > 0) return;
@@ -689,8 +684,15 @@ define([
 
                 $tabEl.append($input);
                 me.updateInputWidth($input, $tabEl);
-                $input.focus().select();
-
+                if (fromUpdate) {
+                    $input[0].focus();
+                    $input[0].setSelectionRange(me.renameInputCaret, me.renameInputCaret);
+                } else {
+                    $input.focus().select();
+                }
+                if (!tab.isActive()) {
+                    me.api.asc_showWorksheet(tab.sheetindex);
+                }
                 me.bindRenameEvents($input, $tabEl, tab, currentName, otherNames, originalWidth);
             }, 10);
         },
@@ -974,7 +976,6 @@ define([
         },
 
         onApiActiveSheetChanged: function (index) {
-            this._lastActiveSheetId = this.api.asc_getWorksheetId(index)
             this.statusbar.tabMenu.hide();
             this.statusbar.sheetListMenu.hide();
             if (this.statusbar.sheetListMenu.items[index]) {

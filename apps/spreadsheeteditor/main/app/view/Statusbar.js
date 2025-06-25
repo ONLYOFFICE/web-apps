@@ -444,8 +444,8 @@ define([
 
             update: function() {
                 var me = this;
-                var lastActiveSheetId = this.controller && this.controller._lastActiveSheetId;
                 var renamingWorksheet = this.controller && this.controller.renamingWorksheet;
+                var sid = this.api.asc_getActiveWorksheetId();
                 this.tabbar.empty(true);
                 this.tabMenu.items[5].menu.removeAll();
                 this.tabMenu.items[5].hide();
@@ -455,7 +455,6 @@ define([
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
                     var hidentems = [], items = [], allItems = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
-                    var sid = this.api.asc_getActiveWorksheetId();
                     var wbprotected = this.api.asc_isProtectedWorkbook();
 
                     while (++i < wc) {
@@ -466,7 +465,7 @@ define([
                             sheetindex    : i,
                             sheetid       : sheetid,
                             index         : items.length,
-                            active        : renamingWorksheet ? renamingWorksheet === sheetid : lastActiveSheetId === sheetid,
+                            active        : renamingWorksheet ? renamingWorksheet === sheetid : sid === sheetid,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
@@ -492,9 +491,13 @@ define([
                     this.tabbar.add(items);
 
                     if (renamingWorksheet) {
-                        setTimeout(() => {
-                            this.controller.renameWorksheet(renamingWorksheet, true)
-                        }, 50)
+                        const tab = _.findWhere(this.tabbar.tabs, { sheetid: renamingWorksheet });
+                        if (tab) {
+                            setTimeout(() => {
+                                me.onSheetChanged(0, tab.sheetindex, tab);
+                                this.controller.renameWorksheet(renamingWorksheet, true);
+                            }, 50);
+                        }
                     }
 
                     allItems.forEach(function(item){
