@@ -32,8 +32,7 @@
 /**
  *  ExternalLinks.js
  *
- *  Created by Julia.Radzhabova on 23.11.23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 23.11.23
  *
  */
 
