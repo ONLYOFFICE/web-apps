@@ -67,7 +67,9 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
-                Common.NotificationCenter.on('uitheme:changed', this.setMode.bind(this));
+                Common.NotificationCenter.on('uitheme:changed', _.bind(function() {
+                    this.setMode();
+                }, this));
             },
 
             render: function () {
@@ -120,8 +122,9 @@ define([
                     hintAnchor: 'top'
                 });
 
+                var cnttablist = $('.cnt-tabslist', this.el);
                 this.cntSheetList = new Common.UI.Button({
-                    el: $('.cnt-tabslist', this.el),
+                    el: cnttablist,
                     hint: this.tipListOfSheets,
                     hintAnchor: 'top'
                 });
@@ -147,8 +150,11 @@ define([
                         }, 100);
                     }
                 });
-                this.sheetListMenu.render($('.cnt-tabslist',this.el));
+                this.sheetListMenu.render(cnttablist);
                 this.sheetListMenu.cmpEl.attr({tabindex: -1});
+                cnttablist.on('app:scaling', function () {
+                    me.setMode();
+                });
 
                 this.cntZoom = new Common.UI.Button({
                     el: $('.cnt-zoom',this.el),
@@ -415,7 +421,7 @@ define([
                 //this.btnAddWorksheet.setVisible(this.mode.isEdit);
                 $('#status-addtabs-box')[(this.mode.isEdit) ? 'show' : 'hide']();
                 this.tabBarDefPosition = parseInt($('#status-tabs-scroll').css('width')) + parseInt(this.cntStatusbar.css('padding-left'));
-                this.tabBarDefPosition += this.mode.isEdit ? parseInt($('#status-addtabs-box').css('width')) : 0;
+                this.tabBarDefPosition += this.mode.isEdit ? parseFloat($('#status-addtabs-box').css('width')) : 0;
                 this.btnAddWorksheet.setDisabled(this.mode.isDisconnected || this.api && (this.api.asc_isWorkbookLocked() || this.api.isCellEdited) || this.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
                 if (this.mode.isEditOle) { // change hints order
                     this.btnAddWorksheet.$el.find('button').addBack().filter('button').attr('data-hint', '1');
@@ -518,7 +524,7 @@ define([
                         }), this.mode.isEditOle ? '1' : '0');
                     }
 
-                    $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
+                    this.labelZoom.text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     this.updateNumberOfSheet(sindex, wc);
 
@@ -540,6 +546,7 @@ define([
                 this.tabbar.setDirection(this.isRtlSheet);
                 var dir = (this.isCompact ? this.isRtlSheet : Common.UI.isRTL()) ? 'rtl' : 'ltr';
                 this.boxZoom.attr({dir: dir});
+                this.labelZoom.attr({dir: Common.UI.isRTL() ? 'rtl' : 'ltr'});
                 this.boxMath.attr({dir: dir});
                 this.boxFiltered.attr({dir: dir});
                 this.sheetListMenu.menuAlign = this.isRtlSheet ? 'br-tr' : 'bl-tl';

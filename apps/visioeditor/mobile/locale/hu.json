@@ -96,6 +96,7 @@
     "scriptLoadError": "A kapcsolat túl lassú, egyes összetevőket nem sikerült betölteni. Töltse újra az oldalt.",
     "textOk": "OK",
     "unknownErrorText": "Ismeretlen hiba.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your admin.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download' option to save the file backup copy locally.",

@@ -182,27 +182,6 @@ define([
                 source: 'static',
                 icons: {
                     cls: 'mod2',
-                },
-                skeleton: {
-                    css: `.theme-night .loadmask, .theme-type-dark .loadmask {
-                                --sk-height-toolbar-controls: 84px; --sk-layout-padding-toolbar: 0 10px;
-                                --sk-shadow-toolbar: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06); --sk-border-radius-toolbar: 8px;
-                                --sk-background-toolbar-header-word: #222222; --sk-background-toolbar-header-pdf: #222222;
-                                --sk-background-toolbar-header-slide: #222222;--sk-background-toolbar-header-cell: #222222;
-                                --sk-background-toolbar-header-visio: #222222; 
-                                --sk-background-toolbar: #222222; --sk-background-toolbar-controls: #404040;
-                                --sk-background-toolbar-tab: #585858; --sk-background-toolbar-button: #555;
-                                --sk-layout-padding-toolbar-controls: 0 8px; --sk-layout-padding-header: 0 10px;
-                                --sk-canvas-background: #222222; --sk-canvas-content-background: #fff;
-                                --sk-canvas-page-border: #555; --sk-canvas-line: rgba(0,0,0,.05);
-                                --sk-height-formula: 38px; --sk-padding-formula: 10px 10px 4px 10px;
-                                --sk-border-style-formula: none; --sk-gap-formula-field: 28px;
-                                --sk-border-radius-formula-field: 3px;
-                            }
-                            .content-theme-dark {
-                                --sk-canvas-content-background: #3a3a3a;
-                                --sk-canvas-page-border: #616161; --sk-canvas-line: rgba(255,255,255,.05);
-                            }`
                 }
             },
         }
@@ -305,6 +284,7 @@ define([
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
+            "canvas-cell-title-text",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
@@ -363,6 +343,7 @@ define([
             "canvas-anim-pane-timeline-scroller-opacity-active",
 
             "toolbar-height-controls",
+            "sprite-button-icons-uid",
         ];
         var theme_props = {};
 
@@ -569,7 +550,7 @@ define([
                     document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
             }
 
-            if ( icons_base_url ) {
+            if ( icons_base_url && !(window.uitheme.embedicons === true) ) {
                 window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
             }
 
@@ -657,10 +638,11 @@ define([
                     themes_map[theme_id] = window.uitheme;
                 }
 
+                const comp_style = getComputedStyle(document.body);
                 if (themes_map[theme_id] && themes_map[theme_id].icons) {
-                    if ( !document.querySelector('style#' + theme_id) ) {
+                    if ( !document.querySelector('style#' + theme_id) && !(window.uitheme.embedicons === true) ) {
                         const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
-                                getComputedStyle(document.body).getPropertyValue('--sprite-button-icons-base-url');
+                                comp_style.getPropertyValue('--sprite-button-icons-base-url');
 
                         if ( icons_base_url )
                             window.uitheme.apply_icons_from_url(theme_id, icons_base_url);

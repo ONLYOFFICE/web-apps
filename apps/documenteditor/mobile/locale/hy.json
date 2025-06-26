@@ -479,6 +479,7 @@
     "uploadImageExtMessage": "Նկարի անհայտ ձևաչափ։",
     "uploadImageFileCountMessage": "Ոչ մի նկար չի բեռնվել։",
     "uploadImageSizeMessage": "Պատկերը չափազանց մեծ է:Առավելագույն չափը 25 ՄԲ է:",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
@@ -807,7 +808,8 @@
     "txtDownloadTxt": "Ներբեռնել TXT ձևաչափով",
     "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
     "txtOk": "Լավ",
-    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի"
+    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnSend": "ՈՒղարկել",

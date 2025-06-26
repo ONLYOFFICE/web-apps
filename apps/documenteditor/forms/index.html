@@ -171,6 +171,9 @@
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
+
+          !window.uitheme && (window.uitheme = {});
+          window.uitheme.embedicons = true;
       </script>
   </head>
 

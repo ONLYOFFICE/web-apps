@@ -78,17 +78,17 @@
         --icon-contrast-popover: #fff;
         --icon-success: #090;
 
-        --highlight-header-tab-underline-document: #446995;
-        --highlight-header-tab-underline-spreadsheet: #3A8056;
-        --highlight-header-tab-underline-presentation: #B75B44;
-        --highlight-header-tab-underline-pdf: #AA5252;
-        --highlight-header-tab-underline-visio: #444796;
+        --highlight-header-tab-underline-document: var(--text-toolbar-header);
+        --highlight-header-tab-underline-spreadsheet: var(--text-toolbar-header);
+        --highlight-header-tab-underline-presentation: var(--text-toolbar-header);
+        --highlight-header-tab-underline-pdf: var(--text-toolbar-header);
+        --highlight-header-tab-underline-visio: var(--text-toolbar-header);
 
-        --highlight-toolbar-tab-underline-document: #446995;
-        --highlight-toolbar-tab-underline-spreadsheet: #3A8056;
-        --highlight-toolbar-tab-underline-presentation: #B75B44;
-        --highlight-toolbar-tab-underline-pdf: #AA5252;
-        --highlight-toolbar-tab-underline-visio: #444796;
+        --highlight-toolbar-tab-underline-document: var(--text-toolbar-header);
+        --highlight-toolbar-tab-underline-spreadsheet: var(--text-toolbar-header);
+        --highlight-toolbar-tab-underline-presentation: var(--text-toolbar-header);
+        --highlight-toolbar-tab-underline-pdf: var(--text-toolbar-header);
+        --highlight-toolbar-tab-underline-visio: var(--text-toolbar-header);
 
         // Canvas
 
@@ -205,6 +205,7 @@
         --background-statusbar: var(--background-pane);
         --border-toolbar-z-clear: var(--border-toolbar);
         --shadow-toolbar: 0px 1px 0 0 var(--border-toolbar);
+        --shadow-toolbar-style-off: var(--shadow-toolbar);
 
         --celleditor-cell-name-border-right: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
 
@@ -233,18 +234,30 @@
 
         --toolbar-simple-border-bottom: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
         --toolbar-preferred-tab-style: fill;
+        --border-editor-sdk: var(--scaled-one-pixel, 1px) solid var(--border-toolbar);
 
-        //--rb-background-normal: var(--background-normal);
-        //--rb-background-normal-hover: var(--background-normal);
-        //--rb-background-checked: var(--background-normal);
-        //--rb-background-checked-hover: var(--background-normal);
-        //--rb-border-normal: var(--border-regular-control);
-        //--rb-border-normal-hover: var(--border-regular-control);
-        //--rb-border-normal-focus: var(--border-control-focus);
-        //--rb-border-checked: var(--border-regular-control);
-        //--rb-border-checked-hover: var(--border-regular-control);
-        //--rb-border-checked-focus: var(--border-control-focus);
-        //--rb-check-mark-size: 4px;
-        //--rb-check-mark-background: var(--text-normal);
+        --chb-check-mark-background: var(--text-normal);
+        --chb-background-normal: var(--background-normal);
+        --chb-background-normal-hover: var(--background-normal);
+        --chb-background-checked: var(--background-normal);
+        --chb-background-checked-hover: var(--background-normal);
+        --chb-border-normal: var(--border-regular-control);
+        --chb-border-normal-hover: var(--border-regular-control);
+        --chb-border-normal-focus: var(--border-control-focus);
+        --chb-border-checked: var(--border-regular-control);
+        --chb-border-checked-hover: var(--border-regular-control);
+        --chb-border-checked-focus: var(--border-control-focus);
+
+        --rb-background-normal: var(--background-normal);
+        --rb-background-normal-hover: var(--background-normal);
+        --rb-background-checked: var(--background-normal);
+        --rb-background-checked-hover: var(--background-normal);
+        --rb-border-normal: var(--border-regular-control);
+        --rb-border-normal-hover: var(--border-regular-control);
+        --rb-border-normal-focus: var(--border-control-focus);
+        --rb-border-checked: var(--border-regular-control);
+        --rb-border-checked-hover: var(--border-regular-control);
+        --rb-border-checked-focus: var(--border-control-focus);
+        --rb-check-mark-background: var(--text-normal);
     }
 }

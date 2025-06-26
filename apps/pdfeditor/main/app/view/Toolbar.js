@@ -70,6 +70,7 @@ define([
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
+        pasteLock:      'can-paste',
         cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
@@ -622,6 +623,26 @@ define([
                 this.paragraphControls.push(this.btnColumns);
                 arr.push(this.btnColumns);
 
+                this.btnTextDir = new Common.UI.Button({
+                    id: 'id-toolbar-btn-direction',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-ltr',
+                    action: 'text-direction',
+                    dirRtl: false,
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.textDirLtr, value: false, iconCls: 'menu__icon btn-ltr'},
+                            {caption: this.textDirRtl, value: true, iconCls: 'menu__icon btn-rtl'},
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnTextDir);
+                arr.push(this.btnTextDir);
+
                 this.mniAlignToSlide = new Common.UI.MenuItem({
                     caption: this.txtPageAlign,
                     checkable: true,
@@ -1166,7 +1187,7 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.pasteLock, _set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
@@ -1410,6 +1431,7 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-direction', this.btnTextDir);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-rotate', this.btnRotatePage);
@@ -1675,6 +1697,7 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnTextDir.updateHint(this.tipTextDir);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnShapesMerge.updateHint(this.tipShapeMerge);

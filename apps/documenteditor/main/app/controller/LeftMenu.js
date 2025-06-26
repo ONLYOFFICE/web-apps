@@ -573,6 +573,10 @@ define([
 
             Common.Utils.InternalSettings.set("de-settings-zoom", newZoomValue);
 
+            value = parseInt(Common.localStorage.getItem("de-settings-numeral"));
+            Common.Utils.InternalSettings.set("de-settings-numeral", value);
+            this.api.asc_setNumeralType(value);
+
             menu.hide();
         },
 

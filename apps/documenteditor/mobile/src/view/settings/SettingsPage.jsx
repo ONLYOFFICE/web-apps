@@ -26,6 +26,7 @@ import IconHelp from '@common-icons/icon-help.svg';
 import IconAbout from '@common-icons/icon-about.svg';
 import IconFeedbackForIos from '@common-ios-icons/icon-feedback.svg?ios';
 import IconFeedbackForAndroid from '@common-android-icons/icon-feedback.svg';
+import IconDraw from '../../../../../common/mobile/resources/icons/draw.svg'
 
 const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo")(observer(props => {
     const { t } = useTranslation();
@@ -58,6 +59,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const isFavorite = appOptions.isFavorite;
     const canFillForms = appOptions.canFillForms;
     const isEditableForms = isForm && canFillForms;
+    const canDrawInPDF = !appOptions.isDisconnected && docExt === 'pdf';
     const canSubmitForms = appOptions.canSubmitForms;
     const canCloseEditor = appOptions.canCloseEditor;
     const closeButtonText = canCloseEditor && appOptions.customization.close.text;
@@ -130,7 +132,12 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <SvgIcon slot="media" symbolId={IconVersionHistory.id} className={'icon icon-svg'} />
                     </ListItem>
                 }
-                {!isEditableForms ? 
+                {(canDrawInPDF) && (
+                    <ListItem key='drawing' title={_t.textDrawing} onClick={() => { settingsContext.closeModal(); Common.Notifications.trigger('draw:start');}}>
+                        <SvgIcon slot='media' symbolId={IconDraw.id} className='icon icon-svg'/>
+                    </ListItem>
+                )}
+                {!isEditableForms ?
                     <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('navigation');

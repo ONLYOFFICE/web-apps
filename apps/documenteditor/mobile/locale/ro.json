@@ -419,7 +419,8 @@
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
-    "criticalErrorExtText": "Faceți clic pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtText": "Apăsați pe OK pentru a reveni la lista de documente.",
+    "criticalErrorExtTextClose": "Apăsați pe OK pentru a închide editorul. ",
     "criticalErrorTitle": "Eroare",
     "downloadErrorText": "Descărcare eșuată.",
     "errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dvs.",
@@ -713,6 +714,7 @@
     "textDownloadAs": "Descărcare ca",
     "textDownloadRtf": "Dacă salvați în acest format de fișier, este posibil ca unele dintre formatări să se piardă. Sigur doriți să continuați?",
     "textDownloadTxt": "Dacă salvați în acest format de fișier, toate caracteristici vor fi pierdute, cu excepția textului. Sunteți sigur că doriți să continuați?",
+    "textDrawing": "Desenare",
     "textEmptyHeading": "Titlul necompletat",
     "textEmptyScreens": "Nu există nicun titlu. Aplicați un stil de titlu textului pentru ca acesta să apară în cuprinsul.",
     "textEnableAll": "Se activează toate",

@@ -473,6 +473,7 @@
     "uploadImageExtMessage": "Непознати формат слике.",
     "uploadImageFileCountMessage": "Нема отпремљених слика.",
     "uploadImageSizeMessage": "Слика је превелика. Максимум величина је 25 МБ.",
+    "criticalErrorExtTextClose": "Press 'OK' to close the editor.",
     "errorEditProtectedRange": "You are not allowed to edit this selection because it is protected."
   },
   "LongActions": {
@@ -801,7 +802,8 @@
     "txtDownloadTxt": "Преузмите TXT",
     "txtIncorrectPwd": "Лозинка је нетачна",
     "txtOk": "OK",
-    "txtProtected": "Када укуцате лозинку и отворите фајл, тренутна лозинка ће бити ресетована"
+    "txtProtected": "Када укуцате лозинку и отворите фајл, тренутна лозинка ће бити ресетована",
+    "textDrawing": "Drawing"
   },
   "Toolbar": {
     "btnSend": "Пошаљи",

@@ -307,9 +307,8 @@
 
         .inner-box-caption {
             line-height: 18px;
-            padding: 1px 4px 1px 3px;
+            padding: 1px 3px;
             display: flex;
-            //align-items: center;
             align-items: start;
             height: 24px;
             height: calc((@font-size-base-app + 2px) * 2);
@@ -324,11 +323,7 @@
                 padding: 0 2px;
 
                 .caret {
-                    margin: 0 1px 0 4px;
-
-                    .rtl & {
-                        margin: 0 4px 0 3px;
-                    }
+                    margin: 0 4px;
                 }
 
                 .emptycaption & { // used for buttons without caption, but with color div
@@ -346,10 +341,6 @@
             .pixel-ratio__2_5 & {
                 width: 100%;
                 justify-content: center;
-            }
-
-            .rtl & {
-                padding: 1px 3px 1px 4px;
             }
         }
 

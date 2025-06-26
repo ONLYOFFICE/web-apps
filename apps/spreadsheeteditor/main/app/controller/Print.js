@@ -219,6 +219,8 @@ define([
 
             var w = opt.asc_getWidth();
             var h = opt.asc_getHeight();
+            if ( panel.setOriginalPageSize )
+                panel.setOriginalPageSize(w, h);
 
             var store = panel.cmbPaperSize.store;
             item = null;

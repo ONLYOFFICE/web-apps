@@ -192,7 +192,9 @@ define([
                 var store = panel.cmbPaperSize.store,
                     cmbPaperSizeRecord = panel.cmbPaperSize.getSelectedRecord(),
                     item = null;
-                
+
+                panel.setOriginalPageSize(w, h);
+
                 if (cmbPaperSizeRecord && Math.abs(w - cmbPaperSizeRecord.size[0]) < 0.1 && Math.abs(h - cmbPaperSizeRecord.size[1]) < 0.1) {
                     return;
                 }

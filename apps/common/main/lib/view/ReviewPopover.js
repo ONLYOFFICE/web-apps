@@ -1222,7 +1222,7 @@ define([
                     right: right,
                     from: 0,
                     count: 100,
-                    total: undefined,
+                    isPaginated: undefined,
                     requestNext: undefined
                 };
                 var data = this._state.emailSearch;
@@ -1235,14 +1235,14 @@ define([
 
         onEmailListMenuNext: function() {
             var data = this._state.emailSearch;
-            if (data && data.total!==undefined && data.from + data.count < data.total) {
+            if (data && data.isPaginated!==undefined) {
                 data.from += data.count;
                 Common.UI.ExternalUsers.get('mention', undefined, data.from, data.count, data.str);
             }
         },
 
-        onEmailListMenuCallback: function(type, users, total) {
-            if (!this._state.emailSearch || users.length<1 || type && type!=='mention') return;
+        onEmailListMenuCallback: function(type, users, isPaginated) {
+            if (!this._state.emailSearch || type && type!=='mention') return;
 
             var me   = this,
                 menu = me.emailMenu,
@@ -1250,9 +1250,9 @@ define([
                 left = this._state.emailSearch.left,
                 right = this._state.emailSearch.right,
                 from = this._state.emailSearch.from,
-                isClientSearch = total===undefined;// || from===0 && !str && total<this._state.emailSearch.count; ???
+                isClientSearch = isPaginated===undefined;
 
-            this._state.emailSearch.total = total;
+            this._state.emailSearch.isPaginated = isPaginated;
             isClientSearch && (this._state.emailSearch = null);
 
             var menuContainer = me.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
@@ -1277,8 +1277,10 @@ define([
                     }, 10);
                 });
                 !isClientSearch && menu.scroller.cmpEl.on('scroll', function (event) {
-                    if (me._state.emailSearch && me._state.emailSearch.requestNext>0 && me._state.emailSearch.requestNext < $(event.target).scrollTop())
+                    if (me._state.emailSearch && me._state.emailSearch.requestNext>0 && me._state.emailSearch.requestNext < $(event.target).scrollTop()) {
+                        me._state.emailSearch.requestNext = -1; // wait for response
                         me.onEmailListMenuNext();
+                    }
                 });
             }
 
@@ -1289,7 +1291,7 @@ define([
                 }
             }
 
-            if (users.length>0) {
+            if (users && users.length>0) {
                 if (isClientSearch) {
                     str = str.toLowerCase();
                     if (str.length>0) {
@@ -1343,7 +1345,7 @@ define([
                 menu.scroller.update({alwaysVisibleY: true});
                 if (!isClientSearch) {
                     (from===0) && menu.scroller.scrollTop(0);
-                    me._state.emailSearch.requestNext = menu.items.length<me._state.emailSearch.total ? (1 - 10/menu.items.length) * menu.cmpEl.get(0).scrollHeight : -1;
+                    me._state.emailSearch.requestNext = users && users.length>0 ? (1 - 10/menu.items.length) * menu.cmpEl.get(0).scrollHeight : -1;
                 }
             } else {
                 menu.rendered && menu.cmpEl.css('display', 'none');

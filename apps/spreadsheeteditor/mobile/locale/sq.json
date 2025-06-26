@@ -257,6 +257,7 @@
   "Error": {
     "convertationTimeoutText": "Koha e konvertimit u tejkalua.",
     "criticalErrorExtText": "Shtypni 'OK' për të shkuar mbrapa në listën e dokumenteve.",
+    "criticalErrorExtTextClose": "Shtypni 'OK' për të mbyllur redaktin.",
     "criticalErrorTitle": "Gabim",
     "downloadErrorText": "Sharkimi dështoi.",
     "errNoDuplicates": "Nuk u gjetën vlera të dyfishta.",

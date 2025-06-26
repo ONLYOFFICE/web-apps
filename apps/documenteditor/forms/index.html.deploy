@@ -146,6 +146,9 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+
+        !window.uitheme && (window.uitheme = {});
+        window.uitheme.embedicons = true;
     </script>
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
   </head>

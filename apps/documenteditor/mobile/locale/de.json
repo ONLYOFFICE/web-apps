@@ -420,6 +420,7 @@
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
     "criticalErrorExtText": "Klicken Sie auf OK, um zur Liste von Dokumenten zurückzukehren.",
+    "criticalErrorExtTextClose": "Drücken Sie OK, um den Editor zu schließen.",
     "criticalErrorTitle": "Fehler",
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an Administratoren.",
@@ -713,6 +714,7 @@
     "textDownloadAs": "Herunterladen als",
     "textDownloadRtf": "Beim Speichern in diesem Format kann Formatierung teilweise verloren gehen. Möchten Sie fortsetzen?",
     "textDownloadTxt": "Beim Speichern in diesem Format werden nur Textfunktionen aktiv. Möchten Sie fortsetzen?",
+    "textDrawing": "Zeichnen",
     "textEmptyHeading": "Leere Überschrift",
     "textEmptyScreens": "Im Dokument gibt es keine Überschriften. Wenden Sie einen Überschriftenstil auf den Text an, damit er im Inhaltsverzeichnis angezeigt wird.",
     "textEnableAll": "Alle aktivieren",

@@ -77,6 +77,7 @@
   "Error": {
     "convertationTimeoutText": "Le délai de conversion a été dépassé.",
     "criticalErrorExtText": "Appuyez sur OK pour revenir à la liste de documents.",
+    "criticalErrorExtTextClose": "Cliquez « OK » pour fermer l'éditeur.",
     "criticalErrorTitle": "Erreur",
     "downloadErrorText": "Téléchargement echoué.",
     "errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter votre administrateur.",

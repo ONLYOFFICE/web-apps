@@ -107,8 +107,8 @@
         inject_style_tag('.' + themeid + '{' + icons.join(';') + ';}', themeid);
 
         // workaroud for svg sptites relative path that different from png sprites
-        if ( base_url.lastIndexOf('../img/v2', 0) === 0 )
-            base_url = base_url.replace('..','./resources/');
+        if ( base_url.lastIndexOf('../img/', 0) === 0 )
+            base_url = base_url.replace('..','./resources');
 
         const svg_icons_array = [base_url+'iconssmall@2.5x.svg', base_url + 'iconsbig@2.5x.svg', base_url + 'iconshuge@2.5x.svg'];
         if ( window.Common && window.Common.Utils )
@@ -155,10 +155,9 @@
                     }
 
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
-                    console.log('inject_style_tag', objtheme.id);
                 }
 
-                if ( objtheme.icons ) {
+                if ( objtheme.icons && !(window.uitheme.embedicons === true) ) {
                     window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons.basepath);
                 }
 

@@ -658,6 +658,11 @@ body {
         width: 30px;
         height: 30px;
         border-radius: 0px;
+
+        .icon:not(.toolbar__icon) {
+            width: 20px;
+            height: 20px;
+        }
     }
 }
 
@@ -688,31 +693,62 @@ body {
 }
 
 // for colored svg icons
-.icon-blue-primary {
+.icon-stroke-blue-primary {
     fill: transparent;
     stroke: var(--icon-blue-primary, #446eca);
 }
 
-.icon-gray-primary {
+.icon-fill-blue-primary {
+    fill: var(--icon-blue-primary, #446eca);
+    stroke: transparent;
+}
+
+.icon-stroke-gray-primary {
     fill: transparent;
     stroke: var(--icon-gray-primary, #383838);
 }
 
-.icon-gray-secondary {
+.icon-fill-gray-primary {
+    fill: var(--icon-gray-primary, #383838);
+    stroke: transparent;
+}
+
+.icon-stroke-gray-secondary {
     fill: transparent;
     stroke: var(--icon-gray-secondary, #f3f3f3);
 }
 
-.icon-blue-secondary {
+.icon-fill-gray-secondary {
+    fill: var(--icon-gray-secondary, #f3f3f3);
+    stroke: transparent;
+}
+
+.icon-stroke-blue-secondary {
     fill: transparent;
     stroke: var(--icon-blue-secondary, #b7cff5);
 }
 
-.icon-red {
+.icon-fill-blue-secondary {
+    fill: var(--icon-blue-secondary, #b7cff5);
+    stroke: transparent;
+}
+
+.icon-stroke-red {
     fill: transparent;
     stroke: var(--icon-red, #fca5a5);
 }
-.icon-success {
+
+.icon-fill-red {
+    fill: var(--icon-red, #fca5a5);
+    stroke: transparent;
+}
+
+.icon-stroke-success {
     fill: transparent;
     stroke: var(--icon-success, #78b588);
+}
+
+.icon-fill-success {
+    fill: var(--icon-success, #78b588);
+    stroke: transparent;
 }

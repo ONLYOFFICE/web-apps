@@ -1248,6 +1248,10 @@ define([], function () {
                 caption     : '--'
             });
 
+            var menuPagePasteSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             me.pageMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -1279,6 +1283,7 @@ define([], function () {
                         me.mnuCopyPage.setVisible(value.isPageSelect===true);
                         me.mnuCutPage.setVisible(value.isPageSelect===true);
                         menuPageNewSeparator.setVisible(value.isPageSelect===true);
+                        menuPagePasteSeparator.setVisible(value.isPageSelect===true);
                         menuPageDelSeparator.setVisible(value.isPageSelect===true);
                     }
 
@@ -1288,11 +1293,14 @@ define([], function () {
                     var canRemove = me.api.asc_CanRemovePages();
                     me.mnuDeletePage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
                     me.mnuCutPage.setDisabled(me._pagesCount<2 || page_deleted || !canRemove);
+                    var canPaste = me.api.asc_CanPastePage();
+                    me.mnuPastePageBefore.setDisabled(!canPaste);
+                    me.mnuPastePageAfter.setDisabled(!canPaste);
                 },
                 items: [
                     me.mnuCutPage,
                     me.mnuCopyPage,
-                    { caption     : '--' },
+                    menuPagePasteSeparator,
                     me.mnuPastePageBefore,
                     me.mnuPastePageAfter,
                     { caption     : '--' },
