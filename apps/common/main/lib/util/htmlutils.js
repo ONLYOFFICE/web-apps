@@ -161,17 +161,18 @@ window.Common = {
 
 if ( !window.uitheme.id && !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {
-        window.uitheme.id = 'theme-dark';
+        window.uitheme.id = window.uitheme.DEFAULT_DARK_THEME_ID;
         window.uitheme.type = 'dark';
     } else
     if ( params.uitheme == 'default-light' ) {
-        window.uitheme.id = 'theme-classic-light';
+        window.uitheme.id = window.uitheme.DEFAULT_LIGHT_THEME_ID;
         window.uitheme.type = 'light';
     } else
     if ( params.uitheme == 'theme-system' ) {
         window.uitheme.adapt_to_system_theme();
     } else {
         window.uitheme.id = params.uitheme;
+        window.uitheme.type = params.uithemetype;
     }
 }
 
