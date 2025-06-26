@@ -798,6 +798,10 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = documentHolder.txtKeepTextOnly;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = documentHolder.textNest;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = documentHolder.txtOverwriteCells;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.find('#id_main_view').append(pasteContainer);
@@ -882,6 +886,10 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = 'T';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = 'N';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.overwriteCells] = 'O';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
                     var keymap = {};
@@ -906,14 +914,9 @@ define([], function () {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
+                var oleobj = this.api.asc_canEditTableOleObject();
                 if (oleobj) {
-                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
+                    this.api.asc_editOleTableInFrameEditor();
                 } else {
                     this.api.asc_startEditCurrentOleObject();
                 }
@@ -929,21 +932,21 @@ define([], function () {
                 if (diagramEditor && chart) {
                     diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    diagramEditor.setChartData(chart);
                 }
             }
         };
 
-        dh.onDoubleClickOnTableOleObject = function(chart) {
+        dh.onDoubleClickOnTableOleObject = function(frameBinary) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && chart) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         };
@@ -1430,17 +1433,7 @@ define([], function () {
 
         dh.editChartClick = function(){
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-
-            var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.setEditMode(true);
-                diagramEditor.show();
-
-                var chart = this.api.asc_getChartObject();
-                if (chart) {
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                }
-            }
+            this.api.asc_editChartInFrameEditor();
         };
 
         dh.advancedParagraphClick = function(item, e, eOpt){

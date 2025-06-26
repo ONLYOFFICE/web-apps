@@ -190,6 +190,7 @@ define([
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
             this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', _.bind(this.onRefreshNamedSheetViewList, this));
+            this.api.asc_registerCallback('asc_onShowProtectedChartPopup',   _.bind(this.onShowProtectedChartPopup, this));
             this.api.asc_registerCallback('asc_generateNewSheetNames', _.bind(function (arrNames, callback) {
                 callback(this.generateSheetNames(false, undefined, arrNames));
             }, this));
@@ -245,7 +246,7 @@ define([
             this.statusbar.btnAddWorksheet.setDisabled(locked || this.api.isCellEdited || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
                                                                                           this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable||
                                                                                           this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles ||
-                                                       this.api.asc_isProtectedWorkbook());
+                                                       this.api.asc_isProtectedWorkbook() || !!this.statusbar.mode.isExternalChart);
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -279,7 +280,7 @@ define([
 
         onChangeProtectWorkbook: function() {
             var wbprotected = this.api.asc_isProtectedWorkbook();
-            this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || wbprotected || this.statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || wbprotected || this.statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!this.statusbar.mode.isExternalChart);
             var count = this.statusbar.tabbar.getCount(), tab;
             for (var i = count; i-- > 0; ) {
                 tab = this.statusbar.tabbar.getAt(i);
@@ -322,7 +323,7 @@ define([
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
-            statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+            statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None || !!statusbar.mode.isExternalChart);
 
             statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
         },
@@ -331,7 +332,7 @@ define([
             this.statusbar.$el.css('z-index', '');
             this.statusbar.tabMenu.on('item:click', _.bind(this.onTabMenu, this));
             this.statusbar.btnAddWorksheet.on('click', _.bind(this.onAddWorksheetClick, this));
-            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus') || this.statusbar.mode.isEditOle) {
+            if (!Common.UI.LayoutManager.isElementVisible('statusBar-actionStatus') || this.statusbar.mode.isEditOle|| this.statusbar.mode.isEditDiagram) {
                 this.statusbar.customizeStatusBarMenu.items[0].setVisible(false);
                 this.statusbar.customizeStatusBarMenu.items[1].setVisible(false);
                 this.statusbar.boxAction.addClass('hide');
@@ -350,7 +351,7 @@ define([
         onRangeDialogMode: function (mode) {
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
-            this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || this.api.asc_isProtectedWorkbook() || mode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || this.api.asc_isProtectedWorkbook() || mode!=Asc.c_oAscSelectionDialogType.None || !!this.statusbar.mode.isExternalChart);
             this.statusbar.btnSheetList[mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles ? 'addClass' : 'removeClass']('disabled');
 
             var item, i = this.statusbar.tabbar.getCount();
@@ -962,6 +963,14 @@ define([
                 tabIndArr.push(item.sheetindex);
             });
             return tabIndArr;
+        },
+
+        onShowProtectedChartPopup: function(value) {
+            if (this.statusbar && this.statusbar.mode && this.statusbar.mode.isEditDiagram) {
+                this.statusbar.mode.isExternalChart = !!value;
+                this.statusbar.btnAddWorksheet.setDisabled(this.api.isCellEdited || this.api.asc_isWorkbookLocked() || this.api.asc_isProtectedWorkbook() || this.statusbar.rangeSelectionMode!==Asc.c_oAscSelectionDialogType.None || this.statusbar.mode.isExternalChart);
+
+            }
         },
 
         zoomText        : 'Zoom {0}%',

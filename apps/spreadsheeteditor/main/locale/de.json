@@ -4615,5 +4615,6 @@
   "SSE.Views.WBProtection.txtProtectWB": "Arbeitsmappe schützen",
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
-  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben"
+  "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen"
 }

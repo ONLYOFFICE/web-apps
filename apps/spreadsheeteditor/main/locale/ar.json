@@ -4607,13 +4607,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "أدخل كلمة السر لفك تشفير الصفحة",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "فك حماية الورقة",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "أدخل كلمة سر لفك تشفير المصنف",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
-  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
-  "SSE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "You can now use asynchronous logic in your custom function.",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async function",
-  "SSE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "SSE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "فك حماية المصنف"
 }

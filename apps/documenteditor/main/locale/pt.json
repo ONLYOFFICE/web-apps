@@ -3759,9 +3759,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhar",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da Fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "DE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "DE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho da fonte"
 }

@@ -703,6 +703,7 @@ define([
             }
         },
         /** coauthoring end **/
+
         SetDisabled: function(state) {
             this._isDisabled = state;
             this.documentHolder.SetDisabled(state);

@@ -3753,15 +3753,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "半透明",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "アンダーライン",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "フォント名",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "DE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
-  "DE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "DE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings.",
-  "DE.Views.FileMenuPanels.Settings.strDocContent": "Document content",
-  "DE.Views.FileMenuPanels.Settings.strNumeral": "Numeral",
-  "DE.Views.FileMenuPanels.Settings.txtArabic": "Arabic",
-  "DE.Views.FileMenuPanels.Settings.txtContext": "Context",
-  "DE.Views.FileMenuPanels.Settings.txtHindi": "Hindi"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "フォントのサイズ"
 }

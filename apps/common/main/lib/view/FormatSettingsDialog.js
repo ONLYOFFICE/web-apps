@@ -41,10 +41,10 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
-    SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            contentHeight: 260
+            contentHeight: 265
         },
 
         initialize : function(options) {
@@ -84,7 +84,7 @@ define([
             this.props      = options.props;
             this.linked     = options.linked || false;
 
-            var height = this.linked ? 275 : 260;
+            var height = this.linked ? 275 : 265;
             _.extend(this.options, {
                 title: this.textTitle,
                 contentHeight: height,
@@ -132,10 +132,16 @@ define([
                                 '<div id="format-settings-combo-negative" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
+                        '<tr class="format-lang">',
+                            '<td class="padding-large">',
+                                '<label class="header">', me.textLocale,'</label>',
+                                '<div id="format-settings-combo-lang" class="input-group-nr" style="width:264px;"></div>',
+                            '</td>',
+                        '</tr>',
                         '<tr class="format-type">',
                             '<td class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
-                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-list-type" class="input-group-nr" style="width:264px; height: 93px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
@@ -220,16 +226,14 @@ define([
             });
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
-            this.cmbType = new Common.UI.ComboBox({
-                el: $('#format-settings-combo-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
-                editable: false,
-                data: [],
-                scrollAlwaysVisible: true,
-                takeFocusOnClose: true
+            this.listType = new Common.UI.ListView({
+                el: $('#format-settings-list-type'),
+                store: new Common.UI.DataViewStore(),
+                tabindex: 1,
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(displayValue) %></div>')
             });
-            this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
+            this.listType.on('item:select', _.bind(this.onListTypeSelect, this));
+            this.listType.on('entervalue', _.bind(this.onPrimary, this));
 
             this.codesList = new Common.UI.ListView({
                 el: $('#format-settings-list-code'),
@@ -270,6 +274,34 @@ define([
             });
             this.chLinked.setVisible(this.linked);
 
+            this.cmbLang = new Common.UI.ComboBox({
+                el          : $('#format-settings-combo-lang'),
+                menuStyle   : 'min-width: 100%; max-height: 185px;',
+                cls         : 'input-group-nr',
+                editable    : false,
+                takeFocusOnClose: true,
+                data        : Common.util.LanguageInfo.getRegionalData(),
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>'
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
+                scrollAlwaysVisible: true
+            });
+            this.cmbLang.setValue(0x0409);
+            this.cmbLang.on('selected', _.bind(function(combo, record) {
+                this.onSelectLang(record.value);
+            }, this));
+
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
             this._separatorPanel    = this.$window.find('.format-separator');
@@ -277,6 +309,7 @@ define([
             this._symbolsPanel      = this.$window.find('.format-symbols');
             this._codePanel         = this.$window.find('.format-code');
             this._nocodePanel       = this.$window.find('.format-no-code');
+            this._langPanel       = this.$window.find('.format-lang');
             this.$window.find('.format-sample').toggleClass('hidden', this.linked);
 
             this.lblExample         = this.$window.find('#format-settings-label-example');
@@ -285,7 +318,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
+            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbLang, this.listType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -302,12 +335,18 @@ define([
 
         _setDefaults: function (props) {
             if (props && props.formatInfo) {
-                if (this.langId)
+                if (props.langId)
                     this.langId = props.langId;
-                this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
+
+                var type = props.formatInfo.asc_getType(),
+                    item = this.cmbLang.store.findWhere({value: type == Asc.c_oAscNumFormatType.Date || type == Asc.c_oAscNumFormatType.Time ? props.formatInfo.asc_getSymbol() || this.langId : this.langId});
+                item = item ? item.get('value') : 0x0409;
+                this.cmbLang.setValue(item)
+
+                this.cmbFormat.setValue(type, this.txtCustom);
 
                 this.FormatInfo = props.formatInfo;
-                if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
+                if ((type == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
                 this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord(), null, props.formatInfo);
@@ -326,15 +365,21 @@ define([
                         else
                             this.cmbNegative.setValue(this.api.asc_getLocaleExample(props.format));
                     } else if (this._state.hasType) {
-                        var selectedItem = this.cmbType.store.findWhere({value: props.format});
-                        if (selectedItem)
-                            this.cmbType.selectRecord(selectedItem);
-                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
-                            this.cmbType.setValue(this.txtCustom);
-                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Time)
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
-                        else
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
+                        var selectedItem = this.listType.store.findWhere({value: props.format});
+                        if(selectedItem) {
+                            this.listType.selectRecord(selectedItem);
+                            this.listType.scrollToRecord(selectedItem);
+                        } else if(type == Asc.c_oAscNumFormatType.Time.Fraction) {
+                            this.listType.deselectAll();
+                        } else {
+                            var defaultNumber = (type == Asc.c_oAscNumFormatType.Time ? 1.534 : 38822);
+                            selectedItem = this.listType.store.unshift({
+                                value: props.format,
+                                displayValue: this.api.asc_getLocaleExample(props.format, defaultNumber)
+                            });
+                            this.listType.selectRecord(selectedItem);
+                            this.listType.scrollToRecord(selectedItem);
+                        }
                     }
                     this.Format = props.format;
                     this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
@@ -449,8 +494,8 @@ define([
             this.chLinked.setValue(false, true);
         },
 
-        onTypeSelect: function(combo, record){
-            this.Format = record.value;
+        onListTypeSelect: function(listView, itemView, record) {
+            this.Format = record.get('value');
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
         },
@@ -471,11 +516,12 @@ define([
 
             this.FormatType = record.value;
 
-            var hasDecimal = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Scientific || record.value == Asc.c_oAscNumFormatType.Accounting ||
+            var isDateTime = record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time,
+                hasDecimal = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Scientific || record.value == Asc.c_oAscNumFormatType.Accounting ||
                              record.value == Asc.c_oAscNumFormatType.Currency || record.value == Asc.c_oAscNumFormatType.Percent),
                 hasNegative = (record.value == Asc.c_oAscNumFormatType.Number || record.value == Asc.c_oAscNumFormatType.Currency || record.value == Asc.c_oAscNumFormatType.Accounting),
                 hasSeparator = (record.value == Asc.c_oAscNumFormatType.Number),
-                hasType = (record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time || record.value == Asc.c_oAscNumFormatType.Fraction),
+                hasType = (isDateTime || record.value == Asc.c_oAscNumFormatType.Fraction),
                 hasSymbols = (record.value == Asc.c_oAscNumFormatType.Accounting || record.value == Asc.c_oAscNumFormatType.Currency),
                 hasCode = (record.value == Asc.c_oAscNumFormatType.Custom),
                 me = this,
@@ -489,7 +535,7 @@ define([
                 info.asc_setDecimalPlaces(hasDecimal ? valDecimal : 0);
                 info.asc_setSeparator(hasSeparator ? valSeparator : false);
 
-                if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
+                if (hasNegative || isDateTime) {
                     if (hasSymbols) {
                         if (!me.CurrencySymbolsData) {
                             me.CurrencySymbolsData = [];
@@ -513,6 +559,8 @@ define([
                             this.cmbSymbols.setValue(valSymbol);
                         }
                         info.asc_setSymbol(this.cmbSymbols.getValue());
+                    } else if (isDateTime) {
+                        info.asc_setSymbol(this.cmbLang.getValue());
                     }
 
                     var formatsarr = this.api.asc_getFormatCells(info),
@@ -526,14 +574,20 @@ define([
                         this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
                         this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
                     } else {
-                        this.cmbType.setData(data);
-                        this.cmbType.selectRecord(this.cmbType.store.at(0));
+                        this.listType.store.reset(data);
+                        this.listType.selectRecord(this.listType.store.at(0));
+                        this.listType.scrollToRecord(this.listType.store.at(0));
+                        
+                        this.listType.$el[0].style.height = "93px";
                     }
                     this.Format = formatsarr[0];
                 } else if (record.value == Asc.c_oAscNumFormatType.Fraction) {
-                    this.cmbType.setData(this.FractionData);
-                    this.cmbType.selectRecord(this.cmbType.store.at(0));
-                    this.Format = this.cmbType.getValue();
+                    this.listType.store.reset(this.FractionData);
+                    this.listType.selectRecord(this.listType.store.at(0));
+                    this.listType.scrollToRecord(this.listType.store.at(0));   
+                    
+                    this.listType.$el[0].style.height = "139px";
+                    this.Format = this.listType.getSelectedRec().get('value');
                 } else {
                     this.Format = this.api.asc_getFormatCells(info)[0];
                 }
@@ -581,9 +635,33 @@ define([
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);
             this._codePanel.toggleClass('hidden', !hasCode);
             this._nocodePanel.toggleClass('hidden', hasCode);
+            this._langPanel.toggleClass('hidden', !isDateTime);
             this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
 
             !initFormatInfo && this.chLinked.setValue(false, true);
+        },
+
+        onSelectLang: function(lang) {
+            var info = new Asc.asc_CFormatCellsInfo();
+            info.asc_setType(this.FormatType);
+            info.asc_setDecimalPlaces(0);
+            info.asc_setSeparator(false);
+            info.asc_setSymbol(lang);
+
+            var me = this,
+                formatsarr = this.api.asc_getFormatCells(info),
+                data = [],
+                exampleVal = (this.FormatType == Asc.c_oAscNumFormatType.Date) ? 38822 : ((this.FormatType == Asc.c_oAscNumFormatType.Time) ? 1.534 : parseFloat("-1234.12345678901234567890"));
+            formatsarr.forEach(function(item) {
+                data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, exampleVal)});
+            });
+            this.listType.store.reset(data, {silent: false});
+            this.listType.selectRecord(this.listType.store.at(0));
+            this.listType.scrollToRecord(this.listType.store.at(0));   
+
+            this.Format = formatsarr[0];
+            this.FormatInfo = info;
+            this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
         textTitle: 'Number Format',
@@ -615,7 +693,8 @@ define([
         txtSample: 'Sample:',
         txtNone: 'None',
         textLinked: 'Linked to source',
-        txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.'
+        txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.',
+        textLocale: 'Locale'
 
-    }, SSE.Views.FormatSettingsDialog || {}))
+    }, Common.Views.FormatSettingsDialog || {}))
 });

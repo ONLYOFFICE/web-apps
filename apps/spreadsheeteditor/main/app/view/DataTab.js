@@ -104,7 +104,7 @@ define([
             });
 
             me.btnExternalLinks.on('click', function (b, e) {
-                me.fireEvent('data:externallinks');
+                Common.NotificationCenter.trigger('data:externallinks');
             });
 
             me.btnGoalSeek.on('click', function (b, e) {

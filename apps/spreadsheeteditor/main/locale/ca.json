@@ -4604,16 +4604,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introdueix una contrasenya per desprotegir el full",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
-  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
-  "Common.Views.MacrosDialog.textCustomFunctions": "Custom functions",
-  "Common.Views.MacrosDialog.textFunctions": "Functions",
-  "Common.Views.MacrosDialog.textMacro": "Macro",
-  "SSE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
-  "SSE.Controllers.Toolbar.helpAsyncFunc": "You can now use asynchronous logic in your custom function.",
-  "SSE.Controllers.Toolbar.helpAsyncFuncHeader": "Async function",
-  "SSE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "SSE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "SSE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings."
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball"
 }

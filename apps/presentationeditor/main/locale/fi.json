@@ -3022,19 +3022,5 @@
   "PE.Views.ViewTab.tipMacros": "Macros",
   "PE.Views.ViewTab.tipNormal": "Normaali",
   "PE.Views.ViewTab.tipSelectTool": "Valitse työkalu",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
-  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
-  "Common.Views.MacrosDialog.textCustomFunctions": "Custom functions",
-  "Common.Views.MacrosDialog.textFunctions": "Functions",
-  "Common.Views.MacrosDialog.textMacro": "Macro",
-  "PE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
-  "PE.Controllers.Toolbar.helpAnimText": "You can now view text animations directly in the presentation editor.",
-  "PE.Controllers.Toolbar.helpAnimTextHeader": "Animation preview with text",
-  "PE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "PE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "PE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings.",
-  "PE.Controllers.Toolbar.helpRtlDir": "Set paragraph direction in the presentation editor.",
-  "PE.Controllers.Toolbar.helpRtlDirHeader": "Paragraph direction"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

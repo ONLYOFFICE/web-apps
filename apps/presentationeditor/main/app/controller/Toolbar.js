@@ -118,6 +118,12 @@ define([
             this.flg = {};
             this.diagramEditor = null;
             this.editMode = true;
+            this.externalData = {
+                stackRequests: [],
+                stackResponse: [],
+                callback: undefined,
+                linkStatus: {}
+            };
 
             this.addListeners({
                 'Toolbar': {
@@ -2191,19 +2197,9 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
-                if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-
-                if (this.diagramEditor && me.api) {
-                    this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
-
-                    chart = me.api.asc_getChartObject(type);
-                    if (chart) {
-                        this.diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    }
-                    me.toolbar.fireEvent('insertchart', me.toolbar);
-                }
+                me.api.asc_addChartDrawingObject(type);
+                me.api.asc_editChartInFrameEditor();
+                me.toolbar.fireEvent('insertchart', me.toolbar);
             }
         },
 
@@ -2855,6 +2851,8 @@ define([
                             me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
+
+                me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
             } else {
                 me.getApplication().getController('Common.Controllers.Draw').setApi(me.api).setMode(config);
             }

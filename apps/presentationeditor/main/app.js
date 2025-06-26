@@ -149,6 +149,7 @@ require([
             ,'Common.Controllers.Comments'
             ,'Common.Controllers.Draw'
             /** coauthoring end **/
+            ,'Common.Controllers.ExternalLinks'
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalOleEditor'
@@ -193,6 +194,7 @@ require([
             ,'common/main/lib/controller/Comments',
             'common/main/lib/controller/Chat',
             /** coauthoring end **/
+            'common/main/lib/controller/ExternalLinks',
             'common/main/lib/controller/Plugins',
             'presentationeditor/main/app/view/ChartSettings',
             'common/main/lib/controller/ExternalDiagramEditor'

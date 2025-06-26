@@ -42,9 +42,7 @@ define([
 ], function () {
     'use strict';
 
-    SSE.Views = SSE.Views || {};
-
-    SSE.Views.ExternalLinksDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.ExternalLinksDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
 
         options: {
             alias: 'ExternalLinksDlg',
@@ -247,7 +245,7 @@ define([
             var rec = this.linksList.getSelectedRec();
             if (rec) {
                 this.isOffline && this.setLinkStatus(rec.get('linkid'), this.textOk);
-                this.api.asc_updateExternalReferences([rec.get('externalRef')]);
+                Common.NotificationCenter.trigger('data:updatereferences', [rec.get('externalRef')], true);
             }
         },
 
@@ -261,7 +259,7 @@ define([
                     arr.push(item.get('externalRef'));
                     me.isOffline && me.setLinkStatus(item.get('linkid'), me.textOk);
                 }, this);
-                (arr.length>0) && this.api.asc_updateExternalReferences(arr);
+                (arr.length>0) && Common.NotificationCenter.trigger('data:updatereferences', arr, true);
             } else
                 this.onUpdate();
         },
@@ -387,8 +385,6 @@ define([
             var props = Common.UI.Themes.getThemeProps('font');
             el.style.fontSize = props && props.size ? props.size : '11px';
             el.style.fontFamily = props && props.name ? props.name : 'Arial, Helvetica, "Helvetica Neue", sans-serif';
-
-            el.style.fontFamily = document.documentElement.style.getPropertyValue("--font-family-base-custom") || 'Arial, Helvetica, "Helvetica Neue", sans-serif';
             el.style.position = "absolute";
             el.style.top = '-1000px';
             el.style.left = '-1000px';
@@ -435,5 +431,5 @@ define([
         textUpdating: 'Updating...',
         textAutoUpdate: 'Update automatically'
 
-    }, SSE.Views.ExternalLinksDlg || {}));
+    }, Common.Views.ExternalLinksDlg || {}));
 });

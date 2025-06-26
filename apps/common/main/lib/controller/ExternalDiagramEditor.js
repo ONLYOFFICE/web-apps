@@ -48,8 +48,10 @@ define([
         var appLang         = '{{DEFAULT_LANG}}',
             customization   = undefined,
             targetApp       = '',
+            canRequestOpen = false,
             externalEditor  = null,
-            isAppFirstOpened = true;
+            isAppFirstOpened = true,
+            isChartUpdating = false;
 
 
         var createExternalEditor = function() {
@@ -80,6 +82,7 @@ define([
                     'onAppReady'            : function() {},
                     'onDocumentStateChange' : function() {},
                     'onError'               : function() {},
+                    'onRequestOpen'         : canRequestOpen ? this.onRequestOpen : undefined,
                     'onInternalMessage'     : _.bind(this.onInternalMessage, this)
                 }
             });
@@ -107,8 +110,8 @@ define([
                         'show': _.bind(function(cmp){
                             var h = this.diagramEditorView.getHeight(),
                                 innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
-                            if (innerHeight<h) {
-                                this.diagramEditorView.setHeight(innerHeight);
+                            if (innerHeight<h || isAppFirstOpened) {
+                                this.diagramEditorView.setHeight(innerHeight<h ? innerHeight : h);
                             }
 
                             if (externalEditor) {
@@ -153,7 +156,7 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onCloseChartEditor', _.bind(this.onDiagrammEditingDisabled, this));
-                this.api.asc_registerCallback('asc_sendFromGeneralToFrameEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
+                this.api.asc_registerCallback('asc_sendFromGeneralToChartEditor', _.bind(this.onSendFromGeneralToFrameEditor, this));
                 return this;
             },
 
@@ -180,6 +183,7 @@ define([
                     if (data.config.lang) appLang = data.config.lang;
                     if (data.config.customization) customization = data.config.customization;
                     if (data.config.targetApp) targetApp = data.config.targetApp;
+                    canRequestOpen = !!data.config.canRequestOpen;
                 }
             },
 
@@ -216,8 +220,13 @@ define([
                         if (this.needDisableEditing) {
                             this.onDiagrammEditingDisabled();
                         }
+                        if (isChartUpdating) {
+                            Common.NotificationCenter.trigger('data:updatereferences', [isChartUpdating]);
+                            Common.NotificationCenter.trigger('action:end', Asc.c_oAscAsyncActionType.BlockInteraction, Common.UI.blockOperations.UpdateChart);
+                            isChartUpdating = false;
+                        }
                     } else
-                    if (eventData.type == 'chartDataReady') {
+                    if (eventData.type == 'frameEditorReady') {
                         if (this.needDisableEditing===undefined)
                             this.diagramEditorView.setControlsDisabled(false);
                     } else
@@ -229,7 +238,7 @@ define([
                         if (eventData.data.answer === true) {
                             if (externalEditor) {
                                 externalEditor.serviceCommand('setAppDisabled',true);
-                                externalEditor.serviceCommand((eventData.data.mr == 'ok') ? 'getChartData' : 'clearChartData');
+                                externalEditor.serviceCommand('getChartData');
                             }
                             this.diagramEditorView.hide();
                         }
@@ -266,8 +275,27 @@ define([
                 }
             },
 
+            onRequestOpen: function(event) {
+                if (event && event.data)
+                    Common.Gateway.requestOpen(event.data);
+            },
+
             onSendFromGeneralToFrameEditor: function(data) {
                 externalEditor && externalEditor.serviceCommand('generalToFrameData', data);
+            },
+
+            updateChartSilent: function(externalRef) {
+                if (!this.api) return;
+
+                if (!externalEditor && !isChartUpdating) {
+                    isChartUpdating = externalRef;
+                    Common.NotificationCenter.trigger('action:start', Asc.c_oAscAsyncActionType.BlockInteraction, Common.UI.blockOperations.UpdateChart);
+                    this.diagramEditorView.options.animate = false;
+                    this.diagramEditorView.show(-10000, -10000);
+                    this.diagramEditorView.hide();
+                    this.diagramEditorView.options.animate = true;
+                } else
+                    Common.NotificationCenter.trigger('data:updatereferences', [externalRef]);
             },
 
             warningTitle: 'Warning',

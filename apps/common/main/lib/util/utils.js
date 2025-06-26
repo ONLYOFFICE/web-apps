@@ -1600,6 +1600,12 @@ define([], function () {
         paletteWidth: 174
     };
 
+    Common.UI.blockOperations = {
+        ApplyEditRights: -255,
+        LoadingDocument: -256,
+        UpdateChart: -257
+    };
+
     Common.UI.isValidNumber = function (val) {
         let regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
         if (typeof val === 'string') {

@@ -6,22 +6,22 @@
             </td>
         </tr>
         <tr>
-            <td class="padding-large">
+            <td class="padding-large" width="50%">
                 <label class="input-label"><%= scope.textAxisTitle %></label>
-                <div id="chart-dlg-combo-hor-title-<%=idx%>" class="input-group-nr"></div>
+                <div id="chart-dlg-combo-hor-title-<%=idx%>" class="input-group-nr margin-right-7"></div>
             </td>
-            <td class="padding-large">
-                <label class="input-label margin-left-15"><%= scope.textGridLines %></label>
-                <div id="chart-dlg-combo-hor-grid-<%=idx%>" class="input-group-nr margin-left-15"></div>
+            <td class="padding-large" width="50%">
+                <label class="input-label margin-left-7"><%= scope.textGridLines %></label>
+                <div id="chart-dlg-combo-hor-grid-<%=idx%>" class="input-group-nr margin-left-7"></div>
             </td>
         </tr>
     </table>
     <table cols="3" style="width: 100%" role="presentation">
         <tr>
-            <td class="padding-small" width="100">
+            <td class="padding-small" width="110">
                 <label class="input-label"><%= scope.textAxisCrosses %></label>
             </td>
-            <td class="padding-small padding-right-10" width="115">
+            <td class="padding-small padding-right-10" width="120">
                 <div id="chart-dlg-combo-h-crosstype-<%=idx%>"></div>
             </td>
             <td class="padding-small" width="90">
@@ -29,7 +29,7 @@
             </td>
         </tr>
         <tr>
-            <td class="padding-large" width="100">
+            <td class="padding-large" width="110">
                 <label class="input-label"><%= scope.textAxisPos %></label>
             </td>
             <td colspan=2 class="padding-large">
@@ -51,13 +51,13 @@
             </td>
         </tr>
         <tr>
-            <td class="padding-small" width="140">
+            <td class="padding-small" width="50%">
                 <label class="input-label"><%= scope.textMajorType %></label>
-                <div id="chart-dlg-combo-h-major-type-<%=idx%>" class="input-group-nr"></div>
+                <div id="chart-dlg-combo-h-major-type-<%=idx%>" class="input-group-nr margin-right-7"></div>
             </td>
-            <td class="padding-small">
-                <label class="input-label margin-left-15"><%= scope.textMinorType %></label>
-                <div id="chart-dlg-combo-h-minor-type-<%=idx%>" class="input-group-nr margin-left-15"></div>
+            <td class="padding-small" width="50%">
+                <label class="input-label margin-left-7"><%= scope.textMinorType %></label>
+                <div id="chart-dlg-combo-h-minor-type-<%=idx%>" class="input-group-nr margin-left-7"></div>
             </td>
         </tr>
         <tr>
@@ -66,10 +66,10 @@
             </td>
         </tr>
         <tr>
-            <td class="padding-large" width="140">
-                <div id="chart-dlg-input-marks-interval-<%=idx%>"></div>
+            <td class="padding-large" width="50%">
+                <div id="chart-dlg-input-marks-interval-<%=idx%>" class="margin-right-7"></div>
             </td>
-            <td class="padding-large">
+            <td class="padding-large" width="50%">
             </td>
         </tr>
     </table>
@@ -82,13 +82,13 @@
             </td>
         </tr>
         <tr>
-            <td class="padding-small" width="140">
+            <td class="padding-small" width="50%">
                 <label class="input-label"><%= scope.textLabelPos %></label>
-                <div id="chart-dlg-combo-h-label-pos-<%=idx%>" class="input-group-nr"></div>
+                <div id="chart-dlg-combo-h-label-pos-<%=idx%>" class="input-group-nr margin-right-7"></div>
             </td>
-            <td class="padding-small">
-                <label class="input-label margin-left-15"><%= scope.textLabelDist %></label>
-                <div id="chart-dlg-input-label-dist-<%=idx%>" class="margin-left-15"></div>
+            <td class="padding-small" width="50%">
+                <label class="input-label margin-left-7"><%= scope.textLabelDist %></label>
+                <div id="chart-dlg-input-label-dist-<%=idx%>" class="margin-left-7"></div>
             </td>
         </tr>
         <tr>

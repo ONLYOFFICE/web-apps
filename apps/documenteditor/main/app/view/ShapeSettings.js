@@ -846,6 +846,7 @@ define([
                                     imageProps: elValue,
                                     api: me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
+                                    chartSettings: null,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {

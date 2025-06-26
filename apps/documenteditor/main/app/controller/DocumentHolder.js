@@ -181,7 +181,7 @@ define([
                     me.hideTips();
                     me.hideEyedropper();
                     me.onDocumentHolderResize();
-                },
+                }
             });
             Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
             Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));

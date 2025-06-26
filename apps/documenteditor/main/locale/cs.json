@@ -3748,20 +3748,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poloprůhledné",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podtržené",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Název písma",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma",
-  "Common.UI.SynchronizeTip.textNew": "New",
-  "Common.UI.Themes.txtThemeModernDark": "Modern Dark",
-  "Common.UI.Themes.txtThemeModernLight": "Modern Light",
-  "Common.Views.MacrosDialog.textCustomFunctions": "Custom functions",
-  "Common.Views.MacrosDialog.textFunctions": "Functions",
-  "Common.Views.MacrosDialog.textMacro": "Macro",
-  "DE.Controllers.Main.criticalErrorExtTextClose": "Press \"OK\" to close the editor.",
-  "DE.Controllers.Toolbar.helpModernTheme": "A new visual theme has been added. You can enable it in the view settings to update the appearance of the interface.",
-  "DE.Controllers.Toolbar.helpModernThemeHeader": "Interface theme",
-  "DE.Controllers.Toolbar.helpOldTheme": "You can switch back to the previous theme at any time in the settings.",
-  "DE.Views.FileMenuPanels.Settings.strDocContent": "Document content",
-  "DE.Views.FileMenuPanels.Settings.strNumeral": "Numeral",
-  "DE.Views.FileMenuPanels.Settings.txtArabic": "Arabic",
-  "DE.Views.FileMenuPanels.Settings.txtContext": "Context",
-  "DE.Views.FileMenuPanels.Settings.txtHindi": "Hindi"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost písma"
 }

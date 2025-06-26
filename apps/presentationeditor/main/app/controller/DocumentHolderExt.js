@@ -70,7 +70,7 @@ define([], function () {
 
                 if (me.mode.isEdit===true) {
                     me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(me.onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.editChartClick, me));
+                    me.api.asc_registerCallback('asc_doubleClickOnChart', _.bind(me.onDoubleClickOnChart, me));
                     me.api.asc_registerCallback('asc_doubleClickOnTableOleObject', _.bind(me.onDoubleClickOnTableOleObject, me));
                     me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(me.onSpellCheckVariantsFound, me));
                     me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(me.onShowSpecialPasteOptions, me));
@@ -761,7 +761,10 @@ define([], function () {
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = documentHolder.txtPastePicture;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = documentHolder.txtPasteSourceFormat;
                 me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = documentHolder.txtPasteDestFormat;
-
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = documentHolder.txtSourceEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = documentHolder.txtDestEmbed;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = documentHolder.txtSourceLink;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = documentHolder.txtDestLink;
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolder.cmpEl.append(pasteContainer);
@@ -851,6 +854,11 @@ define([], function () {
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.picture] = 'U';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceformatting] = 'K';
             me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingEmbedding] = 'K';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingEmbedding] = 'H';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.sourceFormattingLink] = 'F';
+            me.hkSpecPaste[Asc.c_oSpecialPasteProps.destinationFormattingLink] = 'L';
+
             for(var key in me.hkSpecPaste){
                 if(me.hkSpecPaste.hasOwnProperty(key)){
                     var keymap = {};
@@ -875,14 +883,14 @@ define([], function () {
             this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         };
 
-        dh.onDoubleClickOnTableOleObject = function(chart) {
+        dh.onDoubleClickOnTableOleObject = function(frameBinary) {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                if (oleEditor && chart) {
+                if (oleEditor && frameBinary) {
                     oleEditor.setEditMode(true);
                     oleEditor.show();
-                    oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(chart));
+                    oleEditor.setOleData(frameBinary);
                 }
             }
         };
@@ -961,16 +969,18 @@ define([], function () {
 
         dh.editChartClick = function(chart, placeholder){
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-            if (this.mode.isEdit && !this._isDisabled) {
-                var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            this.api.asc_editChartInFrameEditor();
+        };
 
-                if (diagramEditor) {
-                    diagramEditor.setEditMode(chart===undefined || typeof chart == 'object'); //edit from doubleclick or context menu
+        dh.onDoubleClickOnChart = function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            if (this.mode.isEdit && !this._isDisabled) {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor && chart) {
+                    diagramEditor.setEditMode(true);
                     diagramEditor.show();
-                    if (typeof chart !== 'object')
-                        chart = this.api.asc_getChartObject(chart, placeholder);
-                    diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
-                    diagramEditor.setPlaceholder(placeholder);
+                    diagramEditor.setChartData(chart);
                 }
             }
         };
@@ -978,14 +988,9 @@ define([], function () {
         dh.onEditObject = function() {
             if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
+                var oleobj = this.api.asc_canEditTableOleObject();
                 if (oleobj) {
-                    var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
+                    this.api.asc_editOleTableInFrameEditor();
                 } else {
                     this.api.asc_startEditCurrentOleObject();
                 }
@@ -1086,7 +1091,7 @@ define([], function () {
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.editChartClick(record.get('type'), me._state.placeholderObj);
+                    me.api.asc_addChartDrawingObject(record.get('type'), me._state.placeholderObj);
                 });
             }
             menuContainer.css({left: x, top : y});
