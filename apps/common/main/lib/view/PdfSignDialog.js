@@ -57,9 +57,14 @@ define([], function () { 'use strict';
             this.fontStore = this.options.fontStore;
             this.mode = 0; // 0 - upload, 1 - draw, 2 - type
             this.storage    = !!this.options.storage;
-            this.fontName = 'Arial';
             this.isImageLoaded = false;
             this.iconType = this.options.iconType;
+            this.font = {
+                size: 11,
+                name: 'Arial',
+                bold: false,
+                italic: false
+            };
 
             this.template = [
                 '<div class="box">',
@@ -86,8 +91,11 @@ define([], function () { 'use strict';
                     '</div>',
                     '<div class="input-row display-flex-row-center" style="margin: 10px 0;">',
                         '<div id="pdf-sign-ch-back" class="img-upload"></div>',
-                        '<div id="pdf-sign-fonts" class="img-type hidden"></div>',
-                        '<div id="pdf-sign-line-size" class="img-draw margin-right-8 hidden"></div>',
+                        '<div id="pdf-sign-name" class="img-type hidden"></div>',
+                        '<div id="pdf-sign-fonts" class="img-type hidden margin-left-5"></div>',
+                        '<div id="pdf-sign-font-size" class="img-type hidden margin-left-5"></div>',
+                        '<div id="pdf-sign-bold" class="img-type hidden margin-left-5"></div>','<div id="pdf-sign-italic" class="img-type hidden margin-left-5" ></div>',
+                        '<div id="pdf-sign-line-size" class="img-draw margin-right-5 hidden"></div>',
                         '<div id="pdf-sign-line-color" class="img-draw hidden"></div>',
                         '<div style="flex-grow: 1;display: flex; justify-content: center;"><div id="btn-sign-undo" class="img-draw margin-right-5 hidden"></div><div id="btn-sign-redo" class="img-draw hidden"></div></div>',
                         '<button type="button" class="btn btn-text-default auto" id="pdf-sign-btn-clear">' + this.textClear + '</button>',
@@ -165,16 +173,80 @@ define([], function () { 'use strict';
             this.cmbFonts = new Common.UI.ComboBoxFonts({
                 el          : $window.find('#pdf-sign-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 100px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
                 takeFocusOnClose: true
             }).on('selected', function(combo, record) {
-                me.fontName = record.name;
+                me.font.name = record.name;
                 me.props && me.props.put_TypeFont(record.name);
             });
+
+            this.cmbFontSize = new Common.UI.ComboBox({
+                el: $window.find('#pdf-sign-font-size'),
+                cls: 'input-group-nr',
+                style: 'width: 50px;',
+                menuCls     : 'scrollable-menu',
+                menuStyle: 'min-width: 50px;max-height: 270px;',
+                data: [
+                    { value: 8, displayValue: "8" },
+                    { value: 9, displayValue: "9" },
+                    { value: 10, displayValue: "10" },
+                    { value: 11, displayValue: "11" },
+                    { value: 12, displayValue: "12" },
+                    { value: 14, displayValue: "14" },
+                    { value: 16, displayValue: "16" },
+                    { value: 18, displayValue: "18" },
+                    { value: 20, displayValue: "20" },
+                    { value: 22, displayValue: "22" },
+                    { value: 24, displayValue: "24" },
+                    { value: 26, displayValue: "26" },
+                    { value: 28, displayValue: "28" },
+                    { value: 36, displayValue: "36" },
+                    { value: 48, displayValue: "48" },
+                    { value: 72, displayValue: "72" },
+                    { value: 96, displayValue: "96" }
+                ],
+                takeFocusOnClose: true
+            }).on('selected', function(combo, record) {
+                me.font.size= record.value;
+                me.props && me.props.put_TypeFontSize(record.value);
+            });
+            this.cmbFontSize.setValue(this.font.size);
+            this.cmbFontSize.on('changed:before', _.bind(this.onFontSizeChanged, this, true));
+            this.cmbFontSize.on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
+
+            this.btnBold = new Common.UI.Button({
+                parentEl: $window.find('#pdf-sign-bold'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-bold',
+                enableToggle: true,
+                hint: this.textBold
+            });
+            this.btnBold.on('click', function(btn, e) {
+                me.font.bold = btn.pressed;
+                me.props && me.props.put_TypeBold(btn.pressed);
+            });
+
+            this.btnItalic = new Common.UI.Button({
+                parentEl: $window.find('#pdf-sign-italic'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-italic',
+                enableToggle: true,
+                hint: this.textItalic
+            });
+            this.btnItalic.on('click', function(btn, e) {
+                me.font.italic = btn.pressed;
+                me.props && me.props.put_TypeItalic(btn.pressed);
+            });
+
+            this.inputName = new Common.UI.InputField({
+                el: $window.find('#pdf-sign-name'),
+                style: 'width: 150px;',
+                validateOnChange: true
+            }).on ('changing', _.bind(this.onChangeName, this));
 
             this.btnLineColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#pdf-sign-line-color'),
@@ -230,7 +302,6 @@ define([], function () { 'use strict';
             this.uploadEmptyPnl = $window.find('#pdf-sign-img-upload');
             this.uploadPreviewPnl = $window.find('#pdf-sign-img-upload-preview');
 
-
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: this.$window.find('.primary') });
@@ -241,7 +312,7 @@ define([], function () { 'use strict';
 
         getFocusedComponents: function() {
             return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor,
-                    this.cmbFonts, this.btnUndo, this.btnRedo,this.btnClear].concat(this.getFooterButtons());
+                    this.inputName, this.cmbFonts, this.cmbFontSize, this.btnBold, this.btnItalic, this.btnUndo, this.btnRedo, this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -249,7 +320,7 @@ define([], function () { 'use strict';
 
         afterRender: function() {
             this.cmbFonts.fillFonts(this.fontStore);
-            this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.fontName}));
+            this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}));
 
             this.updateThemeColors();
             this._setDefaults(this.props);
@@ -292,7 +363,7 @@ define([], function () { 'use strict';
             this.btnOk.setDisabled(!mode && !this.isImageLoaded);
             var me = this;
             _.delay(function(){
-                mode===1 ? me.cmbLineSize.focus() : mode===2 ? me.cmbFonts.focus() : me.btnSelectImage.focus();
+                mode===1 ? me.cmbLineSize.focus() : mode===2 ? me.inputName.focus() : me.btnSelectImage.focus();
             },50);
         },
 
@@ -385,6 +456,40 @@ define([], function () { 'use strict';
             this.props.undo();
         },
 
+        onFontSizeChanged: function(before, combo, record, e) {
+            var value;
+
+            if (before) {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = combo.getValue();
+                        combo.setRawValue(value);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            } else {
+                var maxvalue = 300;
+                value = Common.Utils.String.parseFloat(record.value);
+                value = value > maxvalue ? maxvalue :
+                    value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
+
+                combo.setRawValue(value);
+                this.font.size = value;
+                this.props && this.props.put_TypeFontSize(value);
+            }
+        },
+
+        onChangeName: function (input, value) {
+            this.props && this.props.setText(value);
+        },
+
         txtTitle: 'Signature',
         txtUpload: 'Upload',
         txtDraw: 'Draw',
@@ -399,7 +504,9 @@ define([], function () { 'use strict';
         textFromFile: 'From File',
         textFromStorage: 'From Storage',
         tipUndo: 'Undo',
-        tipRedo: 'Redo'
+        tipRedo: 'Redo',
+        textBold: 'Bold',
+        textItalic: 'Italic'
 
     }, Common.Views.PdfSignDialog || {}))
 });
