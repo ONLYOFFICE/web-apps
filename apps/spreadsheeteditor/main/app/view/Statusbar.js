@@ -497,6 +497,10 @@ define([
                                 me.onSheetChanged(0, tab.sheetindex, tab);
                                 this.controller.renameWorksheet(renamingWorksheet, true);
                             }, 50);
+                        } else {
+                            setTimeout(() => {
+                                this.tabbar.setActive(sindex)
+                            }, 50)
                         }
                     }
 
