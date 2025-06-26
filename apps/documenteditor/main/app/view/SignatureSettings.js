@@ -161,6 +161,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            this.$el && this.$el.find('.invisible-sign').toggleClass('hidden', !this.mode.isSignatureSupport);
         },
 
         onApiUpdateSignatures: function(valid, requested){
@@ -283,10 +284,11 @@ define([
                 });
             }
             var requested = record.get('requested'),
-                signed = (this._state.hasValid || this._state.hasInvalid);
-            menu.items[0].setVisible(requested);
-            menu.items[1].setVisible(!requested);
-            menu.items[2].setVisible(requested || !record.get('invisible'));
+                signed = (this._state.hasValid || this._state.hasInvalid),
+                signSupport = this.mode.isSignatureSupport;
+            menu.items[0].setVisible(requested && signSupport);
+            menu.items[1].setVisible(!requested && signSupport);
+            menu.items[2].setVisible((requested || !record.get('invisible')) && signSupport);
             menu.items[3].setVisible(!requested);
 
             menu.items[0].setDisabled(this._locked);
