@@ -296,6 +296,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
             isOpenModal={props.isOpenModal}
             changeTitleHandler={changeTitleHandler}
             forceDesktopMode={forceDesktopMode}
+            isHiddenFileName={appOptions.config?.customization?.toolbarHideFileName ?? false}
         />
     )
 }));
