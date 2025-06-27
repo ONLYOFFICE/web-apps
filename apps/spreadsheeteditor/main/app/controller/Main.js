@@ -2987,6 +2987,10 @@ define([
                         this.isAppDisabled = data.data;
                         break;
                     case 'reshow': 
+                        if ( Common.Utils.firefoxVersion != 0 ) {
+                            Common.UI.Themes.refreshTheme(true);
+                        }
+
                         Common.NotificationCenter.trigger('external:reshow');
                         break;
                     case 'queryClose':
