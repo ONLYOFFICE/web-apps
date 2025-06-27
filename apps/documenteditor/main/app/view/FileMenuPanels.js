@@ -850,6 +850,8 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
+            }).on('selected', function(combo, record) {
+                me._isTabStyleChanged = true;
             });
 
             /*this.chQuickPrint = new Common.UI.CheckBox({
@@ -1127,8 +1129,10 @@ define([], function () {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
 
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabStyle', true) && this._isTabStyleChanged) {
                 Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+                Common.localStorage.setBool("settings-tab-style-newtheme", true); // use tab style from lc for all themes
+                this._isTabStyleChanged = false;
             }
 
             if (Common.Utils.InternalSettings.get("de-settings-western-font-size")!==undefined) {

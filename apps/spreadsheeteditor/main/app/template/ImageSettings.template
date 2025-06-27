@@ -57,20 +57,22 @@
             <div class="separator horizontal"></div>
         </td>
     </tr>
+</table>
+<table cols="2" role="presentation">
     <tr>
         <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textRotation %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-small" width="50%">
+        <td class="padding-small">
             <label class="input-label"><%= scope.textRotate90 %></label>
             <div>
                 <div id="image-button-270" class="margin-right-4"></div>
                 <div id="image-button-90"></div>
             </div>
         </td>
-        <td class="padding-small" width="50%">
+        <td class="padding-small padding-left-4">
             <label class="input-label"><%= scope.textFlip %></label>
             <div>
                 <div id="image-button-fliph" class="margin-right-4"></div>

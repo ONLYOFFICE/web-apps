@@ -157,7 +157,7 @@
                     inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
 
-                if ( objtheme.icons ) {
+                if ( objtheme.icons && !(window.uitheme.embedicons === true) ) {
                     window.uitheme.apply_icons_from_url(objtheme.id, objtheme.icons.basepath);
                 }
 

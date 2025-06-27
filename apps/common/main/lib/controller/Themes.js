@@ -550,7 +550,7 @@ define([
                     document.body.classList.add('theme-icons-cls-' + themes_map[theme_id].icons.cls);
             }
 
-            if ( icons_base_url ) {
+            if ( icons_base_url && !(window.uitheme.embedicons === true) ) {
                 window.uitheme.apply_icons_from_url(theme_id, icons_base_url);
             }
 
@@ -640,7 +640,7 @@ define([
 
                 const comp_style = getComputedStyle(document.body);
                 if (themes_map[theme_id] && themes_map[theme_id].icons) {
-                    if ( !document.querySelector('style#' + theme_id) ) {
+                    if ( !document.querySelector('style#' + theme_id) && !(window.uitheme.embedicons === true) ) {
                         const icons_base_url = !!themes_map[theme_id].icons.basepath ? themes_map[theme_id].icons.basepath :
                                 comp_style.getPropertyValue('--sprite-button-icons-base-url');
 

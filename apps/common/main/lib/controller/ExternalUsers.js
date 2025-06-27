@@ -130,10 +130,10 @@ Common.UI.ExternalUsers = new( function() {
             }
             var type = data.c || 'mention',
                 users = data.users || [];
-            if (data.total===undefined) // use old scheme
+            if (data.isPaginated===undefined) // use old scheme
                 externalUsers[type] = users;
             isUsersLoading = false;
-            Common.NotificationCenter.trigger('mentions:setusers', type, users, data.total);
+            Common.NotificationCenter.trigger('mentions:setusers', type, users, data.isPaginated);
         });
 
         Common.NotificationCenter.on('mentions:clearusers',   function(type) {
